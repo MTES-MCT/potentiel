@@ -1,8 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-
 import { sendEmail } from '../../../../sendEmail.js';
 
 export const handleProducteurModifié = async ({

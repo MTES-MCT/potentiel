@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { logMiddleware } from '@potentiel-applications/bootstrap';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { SetupSubscribersProps, setupSubscribers } from './setup/index.js';
+import { type SetupSubscribersProps, setupSubscribers } from './setup/index.js';
 
 export type StartSubscribersProps = SetupSubscribersProps;
 

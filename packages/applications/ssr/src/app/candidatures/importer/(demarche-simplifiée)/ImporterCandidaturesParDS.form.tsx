@@ -3,15 +3,14 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Table from '@codegouvfr/react-dsfr/Table';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  ImporterCandidaturesParDSFormKeys,
+  type ImporterCandidaturesParDSFormKeys,
   importerCandidaturesParDSAction,
 } from './importerCandidaturesParDS.action';
 

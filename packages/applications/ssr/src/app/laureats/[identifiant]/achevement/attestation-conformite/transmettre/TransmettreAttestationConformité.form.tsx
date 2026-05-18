@@ -4,16 +4,15 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   AttestationConformitéFormInput,
   DateAchèvementForm,
-  DateAchèvementFormProps,
+  type DateAchèvementFormProps,
   PreuveTransmissionAuCocontractantFormInput,
 } from '../../AttestationConformité.inputs';
 import {
-  TransmettreAttestationConformitéFormKeys,
+  type TransmettreAttestationConformitéFormKeys,
   transmettreAttestationConformitéAction,
 } from './transmettreAttestationConformité.action';
 

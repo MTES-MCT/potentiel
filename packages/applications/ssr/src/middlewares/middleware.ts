@@ -1,4 +1,4 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import type { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export type CustomMiddleware = (
   request: NextRequest,

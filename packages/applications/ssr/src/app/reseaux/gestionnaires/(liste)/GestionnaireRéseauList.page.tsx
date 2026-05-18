@@ -1,13 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
-
 import { GestionnaireRéseauListItem } from './GestionnaireRéseauListItem';
 
 export type GestionnaireAvecNombreDeRaccordement =

@@ -1,6 +1,6 @@
 import { Text } from '@react-pdf/renderer';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { formatNumber } from '../../helpers/formatNumber.js';
 
 type IntroductionProps = {

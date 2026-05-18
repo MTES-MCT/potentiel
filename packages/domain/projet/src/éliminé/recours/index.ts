@@ -1,25 +1,25 @@
-import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase.js';
-import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase.js';
-import {
+import type { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase.js';
+import type { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase.js';
+import type {
   ConsulterDemandeRecoursQuery,
   ConsulterDemandeRecoursReadModel,
 } from './consulter/consulterDemandeRecours.query.js';
-import {
+import type {
   ConsulterRecoursQuery,
   ConsulterRecoursReadModel,
 } from './consulter/consulterRecours.query.js';
-import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase.js';
-import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase.js';
-import {
+import type { DemanderRecoursUseCase } from './demander/demanderRecours.usecase.js';
+import type { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase.js';
+import type {
   ListerDemandeRecoursQuery,
   ListerDemandeRecoursReadModel,
 } from './lister/listerDemandeRecours.query.js';
-import {
+import type {
   HistoriqueRecoursProjetListItemReadModel,
   ListerHistoriqueRecoursProjetQuery,
   ListerHistoriqueRecoursProjetReadModel,
 } from './listerHistorique/listerHistoriqueRecoursProjet.query.js';
-import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase.js';
+import type { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase.js';
 
 // Query
 export type RecoursQuery =

@@ -1,12 +1,11 @@
 import { match, P } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
-import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import type { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { buildUrl, listerDgecEtValidateursRecipients } from '#helpers';
-import { EmailPayload, sendEmail } from '#sendEmail';
-
+import { type EmailPayload, sendEmail } from '#sendEmail';
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
 
 export async function handleUtilisateurInvité({

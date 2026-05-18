@@ -1,4 +1,4 @@
-import { Accès } from '@potentiel-domain/projet';
+import type { Accès } from '@potentiel-domain/projet';
 
 import { getProjet, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';

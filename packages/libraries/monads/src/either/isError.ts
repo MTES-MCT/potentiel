@@ -1,5 +1,5 @@
-import { Either } from './either.js';
-import { Left, left } from './left.js';
+import type { Either } from './either.js';
+import { type Left, left } from './left.js';
 
 export const isError = <TError extends Error, TValue>(
   either: Either<TError, TValue>,

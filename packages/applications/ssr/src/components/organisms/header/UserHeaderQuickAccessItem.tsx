@@ -4,8 +4,8 @@ import { mediator } from 'mediateur';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getSessionUser } from '@/auth/getSessionUser';
 

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
 import { makeCertificate } from './makeCertificate.js';
 
 const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;

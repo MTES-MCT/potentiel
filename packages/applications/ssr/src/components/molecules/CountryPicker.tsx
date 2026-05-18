@@ -1,8 +1,9 @@
 'use client';
-import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
+import Input, { type InputProps } from '@codegouvfr/react-dsfr/Input';
 import Autocomplete from '@mui/material/Autocomplete';
 import { debounce } from '@mui/material/utils';
-import React, { Ref, useState } from 'react';
+import type React from 'react';
+import { type Ref, useState } from 'react';
 import * as zod from 'zod';
 
 import { get } from '@potentiel-libraries/http-client';

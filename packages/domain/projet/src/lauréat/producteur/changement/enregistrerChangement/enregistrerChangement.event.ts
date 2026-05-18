@@ -1,8 +1,8 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../../../index.js';
-import { NuméroIdentification } from '../../index.js';
+import type { IdentifiantProjet } from '../../../../index.js';
+import type { NuméroIdentification } from '../../index.js';
 
 export type ChangementProducteurEnregistréEvent = DomainEvent<
   'ChangementProducteurEnregistré-V1',

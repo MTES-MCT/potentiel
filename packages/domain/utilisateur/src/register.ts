@@ -1,7 +1,7 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import type { LoadAggregate } from '@potentiel-domain/core';
 
 import {
-  ConsulterUtilisateurDependencies,
+  type ConsulterUtilisateurDependencies,
   registerConsulterUtilisateurQuery,
 } from './consulter/consulterUtilisateur.query.js';
 import { registerCréerPorteurCommand } from './créer/créerPorteur.command.js';
@@ -12,7 +12,7 @@ import { registerInviterPorteurUseCase } from './inviter/inviterPorteur.usecase.
 import { registerInviterCommand } from './inviter/inviterUtilisateur.command.js';
 import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase.js';
 import {
-  ListerUtilisateursDependencies,
+  type ListerUtilisateursDependencies,
   registerListerUtilisateursQuery,
 } from './lister/listerUtilisateurs.query.js';
 import { registerModifierRôleCommand } from './modifierRôle/modifierRôleUtilisateur.command.js';
@@ -21,7 +21,7 @@ import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.co
 import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase.js';
 import {
   registerTrouverUtilisateurQuery,
-  TrouverUtilisateurDependencies,
+  type TrouverUtilisateurDependencies,
 } from './trouver/trouverUtilisateur.query.js';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &

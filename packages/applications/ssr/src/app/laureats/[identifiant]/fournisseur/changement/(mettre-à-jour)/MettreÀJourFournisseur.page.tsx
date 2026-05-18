@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   MettreÀJourFournisseurForm,
-  MettreÀJourFournisseurFormProps,
+  type MettreÀJourFournisseurFormProps,
 } from './component/MettreÀJourFournisseur.form';
 
 export type MettreÀJourFournisseurPageProps = MettreÀJourFournisseurFormProps;

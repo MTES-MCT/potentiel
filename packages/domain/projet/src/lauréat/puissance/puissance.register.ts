@@ -1,10 +1,10 @@
-import { GetProjetAggregateRoot } from '../../index.js';
+import type { GetProjetAggregateRoot } from '../../index.js';
 import { registerAccorderChangementPuissanceCommand } from './changement/accorder/accorderChangementPuissance.command.js';
 import { registerAccorderChangementPuissanceUseCase } from './changement/accorder/accorderChangementPuissance.usecase.js';
 import { registerAnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command.js';
 import { registerAnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase.js';
 import {
-  ConsulterChangementPuissanceDependencies,
+  type ConsulterChangementPuissanceDependencies,
   registerConsulterChangementPuissanceQuery,
 } from './changement/consulter/consulterChangementPuissance.query.js';
 import { registerDemanderChangementPuissanceCommand } from './changement/demander/demanderChangementPuissance.command.js';
@@ -12,19 +12,19 @@ import { registerDemanderChangementPuissanceUseCase } from './changement/demande
 import { registerEnregistrerChangementPuissanceCommand } from './changement/enregistrerChangement/enregistrerChangementPuissance.command.js';
 import { registerEnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase.js';
 import {
-  ListerChangementPuissanceDependencies,
+  type ListerChangementPuissanceDependencies,
   registerListerChangementPuissanceQuery,
 } from './changement/lister/listerChangementPuissance.query.js';
 import { registerRejeterChangementPuissanceCommand } from './changement/rejeter/rejeterChangementPuissance.command.js';
 import { registerRejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase.js';
 import { registerSupprimerChangementPuissanceCommand } from './changement/supprimer/supprimerChangementPuissance.command.js';
 import {
-  ConsulterPuissanceDependencies,
+  type ConsulterPuissanceDependencies,
   registerConsulterPuissanceQuery,
 } from './consulter/consulterPuissance.query.js';
 import { registerConsulterVolumeRéservéQuery } from './consulter/consulterVolumeRéservé.query.js';
 import {
-  ListerHistoriquePuissanceProjetDependencies,
+  type ListerHistoriquePuissanceProjetDependencies,
   registerListerHistoriquePuissanceProjetQuery,
 } from './listerHistorique/listerHistoriquePuissanceProjet.query.js';
 import { registerModifierPuissanceCommand } from './modifier/modifierPuissance.command.js';

@@ -1,5 +1,5 @@
-import { Fixture } from '../../fixture.js';
-import { AbstractUtilisateur, Utilisateur } from './utilisateur.js';
+import type { Fixture } from '../../fixture.js';
+import { AbstractUtilisateur, type Utilisateur } from './utilisateur.js';
 
 interface GRD extends Utilisateur<'grd'> {}
 

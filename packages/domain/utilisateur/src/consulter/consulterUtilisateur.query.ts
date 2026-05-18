@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { Région, Zone } from '../index.js';
+import type { Région, Zone } from '../index.js';
 import * as Role from '../role.valueType.js';
-import { UtilisateurEntity } from '../utilisateur.entity.js';
+import type { UtilisateurEntity } from '../utilisateur.entity.js';
 
 export type ConsulterUtilisateurReadModel = {
   identifiantUtilisateur: Email.ValueType;

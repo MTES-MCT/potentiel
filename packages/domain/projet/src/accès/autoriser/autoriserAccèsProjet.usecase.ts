@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../index.js';
-import { AutoriserAccèsProjetCommand } from './autoriserAccèsProjet.command.js';
+import type { AutoriserAccèsProjetCommand } from './autoriserAccèsProjet.command.js';
 
 export type AutoriserAccèsProjetUseCase = Message<
   'Projet.Accès.UseCase.AutoriserAccèsProjet',

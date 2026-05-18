@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { PlainType } from '@potentiel-domain/core';
-import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
+import type { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.form';
 
 export type DemanderChangementPuissancePageProps = PlainType<

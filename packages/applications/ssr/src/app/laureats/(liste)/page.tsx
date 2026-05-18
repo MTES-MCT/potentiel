@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
@@ -13,12 +13,11 @@ import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getType
 import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { LauréatListPage } from './LauréatList.page';
 
 type PageProps = {

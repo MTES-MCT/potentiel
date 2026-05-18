@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];

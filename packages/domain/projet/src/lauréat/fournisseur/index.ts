@@ -1,22 +1,22 @@
-import {
+import type {
   ConsulterChangementFournisseurQuery,
   ConsulterChangementFournisseurReadModel,
 } from './changement/consulter/consulterChangementFournisseur.query.js';
-import {
+import type {
   ListerChangementFournisseurQuery,
   ListerChangementFournisseurReadModel,
 } from './changement/lister/listerChangementFournisseur.query.js';
-import { MettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase.js';
-import {
+import type { MettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase.js';
+import type {
   ConsulterFournisseurQuery,
   ConsulterFournisseurReadModel,
 } from './consulter/consulterFournisseur.query.js';
-import {
+import type {
   HistoriqueFournisseurProjetListItemReadModel,
   ListerHistoriqueFournisseurProjetQuery,
   ListerHistoriqueFournisseurProjetReadModel,
 } from './listerHistorique/listerHistoriqueFournisseurProjet.query.js';
-import { ModifierÉvaluationCarboneUseCase } from './modifier/modifierÉvaluationCarbone.usecase.js';
+import type { ModifierÉvaluationCarboneUseCase } from './modifier/modifierÉvaluationCarbone.usecase.js';
 
 // Query
 export type FournisseurQuery =

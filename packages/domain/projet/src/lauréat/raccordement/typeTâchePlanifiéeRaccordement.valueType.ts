@@ -1,4 +1,8 @@
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 export const types = ['demande-complète-raccordement.relance'] as const;
 

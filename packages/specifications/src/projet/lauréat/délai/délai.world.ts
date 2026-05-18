@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture.js';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture.js';

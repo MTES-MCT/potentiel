@@ -4,16 +4,15 @@ import { RedirectType, redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { optionalStringArray } from '../_helpers/optionalStringArray';
 import { TâcheListPage } from './TâcheList.page';
 

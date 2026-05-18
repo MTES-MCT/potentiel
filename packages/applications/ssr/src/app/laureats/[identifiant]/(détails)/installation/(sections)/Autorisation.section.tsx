@@ -5,7 +5,6 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
-
 import { AutorisationDétails } from './AutorisationDétails';
 
 type AutorisationSectionProps = {

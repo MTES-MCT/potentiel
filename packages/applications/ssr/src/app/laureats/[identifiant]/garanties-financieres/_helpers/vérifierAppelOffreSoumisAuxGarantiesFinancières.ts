@@ -1,5 +1,5 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 

@@ -1,8 +1,8 @@
 import { mediator } from 'mediateur';
 
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import type { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
-import { Recipient } from '#sendEmail';
+import type { Recipient } from '#sendEmail';
 
 type ListerRecipientsProps = {
   roles: Array<string>;

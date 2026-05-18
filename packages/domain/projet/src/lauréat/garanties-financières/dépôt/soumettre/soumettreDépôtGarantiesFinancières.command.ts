@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot } from '../../../../getProjetAggregateRoot.port.js';
-import { IdentifiantProjet } from '../../../../index.js';
-import { GarantiesFinancières } from '../../index.js';
+import type { GetProjetAggregateRoot } from '../../../../getProjetAggregateRoot.port.js';
+import type { IdentifiantProjet } from '../../../../index.js';
+import type { GarantiesFinancières } from '../../index.js';
 
 export type SoumettreDépôtGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',

@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-
-import { AbandonListItem, AbandonListItemProps } from './AbandonListItem';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import { AbandonListItem, type AbandonListItemProps } from './AbandonListItem';
 
 export type AbandonListPageProps = {
   list: {

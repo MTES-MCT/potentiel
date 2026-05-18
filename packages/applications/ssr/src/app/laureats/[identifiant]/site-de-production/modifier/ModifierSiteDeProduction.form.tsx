@@ -3,20 +3,19 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  ModifierSiteDeProductionFormKeys,
+  type ModifierSiteDeProductionFormKeys,
   modifierSiteDeProductionAction,
 } from './modifierSiteDeProduction.action';
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -8,7 +8,7 @@ import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
 import { FormattedDate } from '../../atoms/FormattedDate';
 import { DownloadDocument } from '../../atoms/form/document/DownloadDocument';
 import { Heading5 } from '../../atoms/headings';
-import { DétailsDemandeProps } from './DétailsDemande';
+import type { DétailsDemandeProps } from './DétailsDemande';
 
 type DemandeAccordéeProps = NonNullable<DétailsDemandeProps['demande']['accord']>;
 

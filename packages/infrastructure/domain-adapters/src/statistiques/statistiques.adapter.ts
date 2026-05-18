@@ -1,4 +1,4 @@
-import { AjouterStatistiqueUtilisationPort } from '@potentiel-domain/statistiques-utilisation';
+import type { AjouterStatistiqueUtilisationPort } from '@potentiel-domain/statistiques-utilisation';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 /**

@@ -1,6 +1,6 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
-import { createDossierAccessor, GetDossierQuery } from '../../graphql/index.js';
+import { createDossierAccessor, type GetDossierQuery } from '../../graphql/index.js';
 import { getCoordonnées } from '../getters/getCoordonnées.js';
 import { getDateÉchéanceGarantiesFinancières } from '../getters/getDateÉchéanceGarantiesFinancières.js';
 import { getNuméroIdentification } from '../getters/getNuméroIdentification.js';
@@ -17,7 +17,7 @@ import {
   getTypeGarantiesFinancières,
   getTypologieInstallation,
 } from '../getters/index.js';
-import { DeepPartial } from '../types.js';
+import type { DeepPartial } from '../types.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',

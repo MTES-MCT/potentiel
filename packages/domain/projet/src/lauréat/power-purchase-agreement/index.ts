@@ -1,14 +1,14 @@
-import { AnnulerSignalementPowerPurchaseAgreementUseCase } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.usecase.js';
-import {
+import type { AnnulerSignalementPowerPurchaseAgreementUseCase } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.usecase.js';
+import type {
   ConsulterPowerPurchaseAgreementQuery,
   ConsulterPowerPurchaseAgreementReadModel,
 } from './consulter/consulterPowerPurchaseAgreement.query.js';
-import {
+import type {
   HistoriquePowerPurchaseAgreementProjetListItemReadModel,
   ListerHistoriquePowerPurchaseAgreementProjetQuery,
   ListerHistoriquePowerPurchaseAgreementProjetReadModel,
 } from './listerHistorique/listerHistoriquePowerPurchaseAgreementProjet.query.js';
-import { SignalerPowerPurchaseAgreementUseCase } from './signaler/signalerPowerPurchaseAgreement.usecase.js';
+import type { SignalerPowerPurchaseAgreementUseCase } from './signaler/signalerPowerPurchaseAgreement.usecase.js';
 
 // Query
 export type PowerPurchaseAgreementQuery =

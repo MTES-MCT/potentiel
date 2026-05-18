@@ -5,13 +5,13 @@ import * as zod from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
 import { DomainError } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { ImportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
+import { type ActionResult, type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 

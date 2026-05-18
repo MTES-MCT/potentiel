@@ -1,4 +1,4 @@
-import { Période } from '@potentiel-domain/periode';
+import type { Période } from '@potentiel-domain/periode';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';

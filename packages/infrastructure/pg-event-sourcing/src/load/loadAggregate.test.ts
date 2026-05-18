@@ -3,7 +3,7 @@ import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 
-import { AbstractAggregate, DomainEvent } from '@potentiel-domain/core';
+import { AbstractAggregate, type DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { publish } from '../publish/publish.js';

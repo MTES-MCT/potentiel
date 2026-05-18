@@ -1,4 +1,4 @@
-import { createDossierAccessor, GetDossierQuery } from '../../graphql/index.js';
+import { createDossierAccessor, type GetDossierQuery } from '../../graphql/index.js';
 
 type MapApiResponseToFichiers = {
   champs: GetDossierQuery['dossier']['champs'];

@@ -1,14 +1,18 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
-import { convertStringToReadableStream, getRôle, RôleUtilisateur } from '../../../helpers/index.js';
-import { PotentielWorld } from '../../../potentiel.world.js';
-import { ModifierPropositionTechniqueEtFinancière } from '../fixtures/modifierPropositionTechniqueEtFinancière.fixture.js';
-import { TransmettrePropositionTechniqueEtFinancière } from '../fixtures/transmettrePropositionTechniqueEtFinancière.fixture.js';
+import {
+  convertStringToReadableStream,
+  getRôle,
+  type RôleUtilisateur,
+} from '../../../helpers/index.js';
+import type { PotentielWorld } from '../../../potentiel.world.js';
+import type { ModifierPropositionTechniqueEtFinancière } from '../fixtures/modifierPropositionTechniqueEtFinancière.fixture.js';
+import type { TransmettrePropositionTechniqueEtFinancière } from '../fixtures/transmettrePropositionTechniqueEtFinancière.fixture.js';
 
 Quand(
   `le porteur transmet une proposition technique et financière pour le projet lauréat`,

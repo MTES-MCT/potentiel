@@ -1,20 +1,20 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
 import {
-  ConsulterChangementFournisseurDependencies,
+  type ConsulterChangementFournisseurDependencies,
   registerConsulterChangementFournisseurQuery,
 } from './changement/consulter/consulterChangementFournisseur.query.js';
 import {
-  ListerChangementFournisseurDependencies,
+  type ListerChangementFournisseurDependencies,
   registerListerChangementFournisseurQuery,
 } from './changement/lister/listerChangementFournisseur.query.js';
 import { registerMettreÀJourFournisseurCommand } from './changement/miseAJour/common/mettreÀJourFournisseur.command.js';
 import { registerMettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase.js';
 import {
-  ConsulterFournisseurDependencies,
+  type ConsulterFournisseurDependencies,
   registerConsulterFournisseurQuery,
 } from './consulter/consulterFournisseur.query.js';
 import {
-  ListerHistoriqueFournisseurProjetDependencies,
+  type ListerHistoriqueFournisseurProjetDependencies,
   registerListerHistoriqueFournisseurProjetQuery,
 } from './listerHistorique/listerHistoriqueFournisseurProjet.query.js';
 import { registerModifierÉvaluationCarboneCommand } from './modifier/modifierÉvaluationCarbone.command.js';

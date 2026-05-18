@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 import { FormattedDate } from '@/components/atoms/FormattedDate';

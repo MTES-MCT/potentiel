@@ -1,6 +1,6 @@
 import * as zod from 'zod';
 
-import { acceptOnlyFileTypes, FileTypes } from './acceptOnlyFileTypes';
+import { acceptOnlyFileTypes, type FileTypes } from './acceptOnlyFileTypes';
 import { cannotExceedSize } from './cannotExceedSize';
 
 export type RequiredBlob = typeof requiredBlob;

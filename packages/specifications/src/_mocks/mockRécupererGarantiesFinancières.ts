@@ -1,8 +1,8 @@
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { convertStringToReadableStream } from '../helpers/convertStringToReadableStream.js';
-import { PotentielWorld } from '../potentiel.world.js';
+import type { PotentielWorld } from '../potentiel.world.js';
 
 export async function mockRécupererGarantiesFinancières(
   this: PotentielWorld,

@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getDemandeDélaiEnCoursInfos } from './getDélai';
 import {

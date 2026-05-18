@@ -7,8 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { expectFileContent, waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
 
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable`,

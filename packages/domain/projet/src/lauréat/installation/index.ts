@@ -1,44 +1,44 @@
-import {
+import type {
   ConsulterInstallationQuery,
   ConsulterInstallationReadModel,
 } from './consulter/consulterInstallation.query.js';
-import {
+import type {
   ConsulterChangementDispositifDeStockageQuery,
   ConsulterChangementDispositifDeStockageReadModel,
 } from './dispositif-de-stockage/changement/consulter/consulterChangementDispositifDeStockage.query.js';
-import { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase.js';
-import {
+import type { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase.js';
+import type {
   ListerChangementDispositifDeStockageQuery,
   ListerChangementDispositifDeStockageReadModel,
 } from './dispositif-de-stockage/changement/lister/listerChangementDispositifDeStockage.query.js';
-import {
+import type {
   ConsulterDispositifDeStockageQuery,
   ConsulterDispositifDeStockageReadModel,
 } from './dispositif-de-stockage/consulter/consulterDispositifDeStockage.query.js';
-import { ModifierDispositifDeStockageUseCase } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.usecase.js';
-import {
+import type { ModifierDispositifDeStockageUseCase } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.usecase.js';
+import type {
   ConsulterChangementInstallateurQuery,
   ConsulterChangementInstallateurReadModel,
 } from './installateur/changement/consulter/consulterChangementInstallateur.query.js';
-import { EnregistrerChangementInstallateurUseCase } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.usecase.js';
-import {
+import type { EnregistrerChangementInstallateurUseCase } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.usecase.js';
+import type {
   ListerChangementInstallateurQuery,
   ListerChangementInstallateurReadModel,
 } from './installateur/changement/lister/listerChangementInstallateur.query.js';
-import {
+import type {
   ConsulterInstallateurQuery,
   ConsulterInstallateurReadModel,
 } from './installateur/consulter/consulterInstallateur.query.js';
-import { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase.js';
-import {
+import type { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase.js';
+import type {
   HistoriqueInstallationProjetListItemReadModel,
   ListerHistoriqueInstallationProjetQuery,
 } from './listerHistorique/listerHistoriqueInstallationProjet.query.js';
-import {
+import type {
   ConsulterTypologieInstallationQuery,
   ConsulterTypologieInstallationReadModel,
 } from './typologie-installation/consulter/consulterTypologieInstallation.query.js';
-import { ModifierTypologieInstallationUseCase } from './typologie-installation/modifier/modifierTypologieInstallation.usecase.js';
+import type { ModifierTypologieInstallationUseCase } from './typologie-installation/modifier/modifierTypologieInstallation.usecase.js';
 
 // Query
 export type InstallationQuery =

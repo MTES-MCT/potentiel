@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, List, Where } from '@potentiel-domain/entity';
+import { type Joined, type List, Where } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
-import { LauréatEntity } from '../../../index.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import type { LauréatEntity } from '../../../index.js';
 import {
   DocumentMainlevée,
-  MainlevéeGarantiesFinancièresEntity,
+  type MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../../index.js';

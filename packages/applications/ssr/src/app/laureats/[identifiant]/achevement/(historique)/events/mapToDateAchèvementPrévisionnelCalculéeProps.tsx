@@ -1,10 +1,10 @@
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDateAchèvementPrévisionnelCalculéeProps = (
   event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent,

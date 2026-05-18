@@ -1,7 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import { DemanderOuEnregistrerChangementReprésentantLégalForm } from '../components/DemanderOuEnregistrerChangementReprésentantLégal.form';
 
 export type DemanderChangementReprésentantLégalPageProps = {

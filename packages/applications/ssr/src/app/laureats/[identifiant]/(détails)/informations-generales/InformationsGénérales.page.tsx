@@ -1,7 +1,6 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
-
 import { NoteInnovationSection } from '../(sections)/NoteInnovation.section';
 import { ActionnariatSection } from './(sections)/Actionnariat.section';
 import { CandidatSection } from './(sections)/Candidat.section';

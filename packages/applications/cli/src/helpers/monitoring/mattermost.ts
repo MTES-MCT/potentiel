@@ -1,5 +1,5 @@
-import { LogEntry } from 'winston';
-import TransportStream, { TransportStreamOptions } from 'winston-transport';
+import type { LogEntry } from 'winston';
+import TransportStream, { type TransportStreamOptions } from 'winston-transport';
 
 export class MattermostTransport extends TransportStream {
   #webhookUrl?: string;

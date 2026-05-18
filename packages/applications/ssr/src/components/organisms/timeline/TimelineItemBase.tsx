@@ -5,13 +5,13 @@ import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import clsx from 'clsx';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '../../atoms/FormattedDate';
-import { Icon, IconProps } from '../../atoms/Icon';
-import { TimelineItemTitle, TimelineItemTitleProps } from './TimelineItemTitle';
+import { Icon, type IconProps } from '../../atoms/Icon';
+import { TimelineItemTitle, type TimelineItemTitleProps } from './TimelineItemTitle';
 
 export type TimelineItemBaseProps = {
   status?: 'error' | 'success' | 'warning' | 'info';

@@ -1,26 +1,25 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
-import {
+import type { ValidationErrors } from '@/utils/formAction';
+import type {
   EnregistrerGarantiesFinancièresFormKeys,
   enregistrerGarantiesFinancièresAction,
 } from '../../actuelles/enregistrer/enregistrerGarantiesFinancières.action';
 import {
   GarantiesFinancièresFormInputs,
-  GarantiesFinancièresFormInputsProps,
+  type GarantiesFinancièresFormInputsProps,
 } from '../../components/GarantiesFinancièresFormInputs';
-import {
+import type {
   ModifierDépôtGarantiesFinancièresFormKeys,
   modifierDépôtGarantiesFinancièresAction,
 } from '../modifier/modifierDépôtGarantiesFinancières.action';
-import {
+import type {
   SoumettreDépôtGarantiesFinancièresFormKeys,
   soumettreDépôtGarantiesFinancièresAction,
 } from './soumettreDépôtGarantiesFinancières.action';

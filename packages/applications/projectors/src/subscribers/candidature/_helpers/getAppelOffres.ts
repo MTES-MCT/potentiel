@@ -1,5 +1,5 @@
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 // On utilise les données inmemory pour optimiser le rebuild
 // La méthode est asynchrone pour anticiper un futur accès à la projection appel-offre

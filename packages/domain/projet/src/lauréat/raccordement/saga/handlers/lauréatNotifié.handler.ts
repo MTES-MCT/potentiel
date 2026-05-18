@@ -5,11 +5,15 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { Candidature, IdentifiantProjet, RécupererGRDParVillePort } from '../../../../index.js';
-import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
-import { AttribuerGestionnaireRéseauCommand } from '../../attribuer/attribuerGestionnaireRéseau.command.js';
+import {
+  type Candidature,
+  IdentifiantProjet,
+  type RécupererGRDParVillePort,
+} from '../../../../index.js';
+import type { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
+import type { AttribuerGestionnaireRéseauCommand } from '../../attribuer/attribuerGestionnaireRéseau.command.js';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../../errors.js';
-import { TransmettreDemandeComplèteRaccordementCommand } from '../../transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
+import type { TransmettreDemandeComplèteRaccordementCommand } from '../../transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
 
 type HandlerLauréatNotifiéProps = {
   event: LauréatNotifiéEvent;
@@ -68,7 +72,6 @@ export const handleLauréatNotifié = async ({
             identifiantProjet,
             référenceDossierRaccordement: raccordement.référence,
           });
-          continue;
         } else {
           throw error;
         }

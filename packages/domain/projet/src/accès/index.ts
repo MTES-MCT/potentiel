@@ -1,14 +1,17 @@
-import { AutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase.js';
-import { ConsulterAccèsQuery, ConsulterAccèsReadModel } from './consulter/consulterAccès.query.js';
-import { ListerAccèsQuery, ListerAccèsReadModel } from './lister/listerAccès.query.js';
-import {
+import type { AutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase.js';
+import type {
+  ConsulterAccèsQuery,
+  ConsulterAccèsReadModel,
+} from './consulter/consulterAccès.query.js';
+import type { ListerAccèsQuery, ListerAccèsReadModel } from './lister/listerAccès.query.js';
+import type {
   ListerProjetsÀRéclamerQuery,
   ListerProjetsÀRéclamerReadModel,
 } from './lister/listerProjetsÀRéclamer.query.js';
-import { RemplacerAccèsProjetUseCase } from './remplacer/remplacerAccèsProjet.usecase.js';
-import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase.js';
-import { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase.js';
-import { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query.js';
+import type { RemplacerAccèsProjetUseCase } from './remplacer/remplacerAccèsProjet.usecase.js';
+import type { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase.js';
+import type { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase.js';
+import type { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query.js';
 
 // UseCases
 export type AccèsUseCase =

@@ -2,10 +2,11 @@
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { CahierDesCharges, Candidature, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { CahierDesCharges, Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { Form } from '@/components/atoms/form/Form';
@@ -13,14 +14,13 @@ import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
 import { Icon } from '@/components/atoms/Icon';
-import {
+import type {
   ModifierCandidatureNotifiéeFormEntries,
   ModifierLauréatEtCandidatureNotifiéeFormEntries,
   ModifierLauréatKeys,
   ModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import { AttestationField } from './components/fields/AttestationField';
 import { DateDAutorisationField } from './components/fields/DateDAutorisation';
 import { CandidatureField } from './components/fields/generic/CandidatureField';

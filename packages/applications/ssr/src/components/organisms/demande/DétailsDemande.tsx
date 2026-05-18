@@ -1,13 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/projet';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { DocumentProjet } from '@potentiel-domain/projet';
 
 import { DemandeAccordée } from './DemandeAccordée';
 import { DemandeRejetée } from './DemandeRejetée';
 import { DétailsChangement } from './DétailsChangement';
-import { StatutDemandeBadgeProps } from './StatutDemandeBadge';
+import type { StatutDemandeBadgeProps } from './StatutDemandeBadge';
 
 export type DétailsDemandeProps = {
   title: string;

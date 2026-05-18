@@ -1,16 +1,15 @@
 'use client';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-import { ValidationErrors } from '@/utils/formAction';
-
-import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
-import { TypeSociété } from './SaisieTypeSociété.step';
+import type { ValidationErrors } from '@/utils/formAction';
+import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
+import type { TypeSociété } from './SaisieTypeSociété.step';
 
 export type SaisiePièceJustificativeProps = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;

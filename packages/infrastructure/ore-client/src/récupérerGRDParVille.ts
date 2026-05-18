@@ -1,6 +1,6 @@
 import zod from 'zod';
 
-import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { get } from '@potentiel-libraries/http-client';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';

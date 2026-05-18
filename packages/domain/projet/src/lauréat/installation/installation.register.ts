@@ -1,28 +1,28 @@
 import {
-  ConsulterInstallationDependencies,
+  type ConsulterInstallationDependencies,
   registerConsulterInstallationQuery,
 } from './consulter/consulterInstallation.query.js';
-import { ConsulterDispositifDeStockageDependencies } from './dispositif-de-stockage/consulter/consulterDispositifDeStockage.query.js';
+import type { ConsulterDispositifDeStockageDependencies } from './dispositif-de-stockage/consulter/consulterDispositifDeStockage.query.js';
 import {
-  DispositifDeStockageCommandDependencies,
+  type DispositifDeStockageCommandDependencies,
   registerDispositifDeStockageQueries,
   registerDispositifDeStockageUseCase,
 } from './dispositif-de-stockage/dispositifDeStockage.register.js';
 import {
-  InstallateurQueryDependencies,
-  InstallateurUseCaseDependencies,
+  type InstallateurQueryDependencies,
+  type InstallateurUseCaseDependencies,
   registerInstallateurQueries,
   registerInstallateurUseCases,
 } from './installateur/installateur.register.js';
 import {
-  ListerHistoriqueInstallationProjetDependencies,
+  type ListerHistoriqueInstallationProjetDependencies,
   registerListerHistoriqueInstallationProjetQuery,
 } from './listerHistorique/listerHistoriqueInstallationProjet.query.js';
 import {
   registerTypologieInstallationQueries,
   registerTypologieInstallationUseCases,
-  TypologieInstallationQueryDependencies,
-  TypologieInstallationUseCaseDependencies,
+  type TypologieInstallationQueryDependencies,
+  type TypologieInstallationUseCaseDependencies,
 } from './typologie-installation/typologieInstallation.register.js';
 
 export type InstallationQueryDependencies = TypologieInstallationQueryDependencies &

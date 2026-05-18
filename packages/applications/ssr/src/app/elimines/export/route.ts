@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
+import { Candidature, IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
+import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';

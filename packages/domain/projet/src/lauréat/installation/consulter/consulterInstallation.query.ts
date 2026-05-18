@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { TypologieInstallation } from '../../../candidature/index.js';
 import { IdentifiantProjet } from '../../../index.js';
-import { DispositifDeStockage, InstallationEntity } from '../index.js';
+import { DispositifDeStockage, type InstallationEntity } from '../index.js';
 
 export type ConsulterInstallationReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

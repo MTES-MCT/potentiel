@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantProjet } from '../../index.js';
-import { AccèsEntity } from '../accès.entity.js';
+import type { AccèsEntity } from '../accès.entity.js';
 
 export type ConsulterAccèsReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

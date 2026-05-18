@@ -1,22 +1,22 @@
-import {
+import type {
   ConsulterChangementProducteurQuery,
   ConsulterChangementProducteurReadModel,
 } from './changement/consulter/consulterChangementProducteur.query.js';
-import { EnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
-import {
+import type { EnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
+import type {
   ListerChangementProducteurQuery,
   ListerChangementProducteurReadModel,
 } from './changement/lister/listerChangementProducteur.query.js';
-import {
+import type {
   ConsulterProducteurQuery,
   ConsulterProducteurReadModel,
 } from './consulter/consulterProducteur.query.js';
-import {
+import type {
   HistoriqueProducteurProjetListItemReadModel,
   ListerHistoriqueProducteurProjetQuery,
   ListerHistoriqueProducteurProjetReadModel,
 } from './listerHistorique/listerHistoriqueProducteurProjet.query.js';
-import { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase.js';
+import type { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase.js';
 
 // Query
 export type ProducteurQuery =

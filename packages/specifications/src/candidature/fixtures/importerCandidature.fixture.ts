@@ -2,11 +2,11 @@ import { faker } from '@faker-js/faker';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture, DeepPartial } from '../../fixture.js';
+import { AbstractFixture, type DeepPartial } from '../../fixture.js';
 
 interface ImporterCandidature {
   dépôtValue: Candidature.Dépôt.RawType;

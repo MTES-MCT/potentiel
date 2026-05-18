@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
@@ -13,7 +13,7 @@ import {
   getLauréatInfos,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
-import { DocumentItem } from '@/components/organisms/document/DocumentListItem';
+import type { DocumentItem } from '@/components/organisms/document/DocumentListItem';
 import { DocumentsList } from '@/components/organisms/document/DocumentsList';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 

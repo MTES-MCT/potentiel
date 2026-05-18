@@ -1,7 +1,7 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Éliminé } from '@potentiel-domain/projet';
+import type { Éliminé } from '@potentiel-domain/projet';
 
 import {
   handleRecoursAccordé,

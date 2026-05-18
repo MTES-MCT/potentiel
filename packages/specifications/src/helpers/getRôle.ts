@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { PotentielWorld } from '../potentiel.world.js';
+import type { PotentielWorld } from '../potentiel.world.js';
 
 export type RôleUtilisateur = 'le porteur' | 'la dreal' | 'la dgec';
 

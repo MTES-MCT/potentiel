@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { getAttestationGarantiesFinancières } from '@potentiel-infrastructure/ds-api-client';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';

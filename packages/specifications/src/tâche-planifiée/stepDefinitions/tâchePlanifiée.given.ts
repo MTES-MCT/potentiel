@@ -1,12 +1,12 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../potentiel.world.js';
-import { TypeTâchePlanifiée } from '../tâchePlanifiée.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
+import type { TypeTâchePlanifiée } from '../tâchePlanifiée.world.js';
 
 async function ajouterTâchePlanifiée(
   identifiantProjet: IdentifiantProjet.ValueType,

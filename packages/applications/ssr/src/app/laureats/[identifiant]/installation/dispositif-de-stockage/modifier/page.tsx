@@ -1,15 +1,14 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ModifierDispositifDeStockagePage } from './ModifierDispositifDeStockage.page';
 
 export const metadata: Metadata = { title: 'Modifier le dispositif de stockage' };

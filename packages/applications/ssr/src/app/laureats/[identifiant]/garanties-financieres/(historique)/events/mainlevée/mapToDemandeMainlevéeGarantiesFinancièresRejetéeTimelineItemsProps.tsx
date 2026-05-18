@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { formatDateToText } from '@/app/_helpers/formatDateToText';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps = (
   event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent,

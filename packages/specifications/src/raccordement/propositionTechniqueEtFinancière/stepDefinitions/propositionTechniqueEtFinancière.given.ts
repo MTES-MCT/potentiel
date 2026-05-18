@@ -1,10 +1,10 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { convertStringToReadableStream } from '../../../helpers/index.js';
-import { PotentielWorld } from '../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 
 EtantDonné(
   'une proposition technique et financière pour le projet lauréat',

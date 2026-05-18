@@ -7,7 +7,7 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { WrongSubscriberNameError } from './checkSubscriberName.js';
 import { getSubscriber } from './getSubscriber.js';
 import { registerSubscriber } from './registerSubscriber.js';
-import { SubscriberConfiguration } from './subscriberConfiguration.js';
+import type { SubscriberConfiguration } from './subscriberConfiguration.js';
 
 should();
 

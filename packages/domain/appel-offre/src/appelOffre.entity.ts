@@ -1,6 +1,6 @@
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { DateParutionCahierDesChargesModifié } from './référenceCahierDesCharges.valueType.js';
+import type { DateParutionCahierDesChargesModifié } from './référenceCahierDesCharges.valueType.js';
 
 type AppelOffreTypes =
   | 'autoconso'

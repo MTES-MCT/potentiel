@@ -1,16 +1,15 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ModifierGestionnaireRéseauRaccordementPage } from './ModifierGestionnaireRéseauRaccordement.page';
 
 export const metadata: Metadata = { title: 'Modifier le gestionnaire réseau' };

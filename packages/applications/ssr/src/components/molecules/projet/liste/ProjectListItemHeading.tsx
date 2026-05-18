@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import type React from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PPABadge } from '../lauréat/PPABadge';
 

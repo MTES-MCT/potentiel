@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 import { Routes } from '@potentiel-applications/routes';
 

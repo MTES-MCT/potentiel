@@ -1,7 +1,7 @@
 import { Command } from '@oclif/core';
 
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 

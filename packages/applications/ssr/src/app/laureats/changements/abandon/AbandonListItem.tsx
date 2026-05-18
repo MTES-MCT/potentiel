@@ -1,15 +1,14 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-
 import { StatutPreuveRecandidatureBadge } from '../../[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
 
 export type AbandonListItemProps = {

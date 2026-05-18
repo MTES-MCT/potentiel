@@ -1,16 +1,19 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { CahierDesCharges, Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import {
+  type CahierDesCharges,
+  type Candidature,
+  IdentifiantProjet,
+} from '@potentiel-domain/projet';
 
 import { getCahierDesCharges, getCandidature } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { GetLauréat, getLauréat } from '../../_helpers/getLauréat';
-import { ModifierLauréatPage, ModifierLauréatPageProps } from './ModifierLauréat.page';
+import { type GetLauréat, getLauréat } from '../../_helpers/getLauréat';
+import { ModifierLauréatPage, type ModifierLauréatPageProps } from './ModifierLauréat.page';
 
 export const metadata: Metadata = { title: 'Modifier le projet' };
 

@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/projet';
+import type { DocumentProjet } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 

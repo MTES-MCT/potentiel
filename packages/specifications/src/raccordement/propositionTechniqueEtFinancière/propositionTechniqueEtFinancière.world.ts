@@ -1,11 +1,10 @@
 import { mapDateTime, mapToExemple } from '#helpers';
-
 import {
-  ModifierPropositionTechniqueEtFinancière,
+  type ModifierPropositionTechniqueEtFinancière,
   ModifierPropositionTechniqueEtFinancièreFixture,
 } from './fixtures/modifierPropositionTechniqueEtFinancière.fixture.js';
 import {
-  TransmettrePropositionTechniqueEtFinancière,
+  type TransmettrePropositionTechniqueEtFinancière,
   TransmettrePropositionTechniqueEtFinancièreFixture,
 } from './fixtures/transmettrePropositionTechniqueEtFinancière.fixture.js';
 

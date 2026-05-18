@@ -1,6 +1,6 @@
 import { flatten } from 'flat';
 
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 const upsertQuery =

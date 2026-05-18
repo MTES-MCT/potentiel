@@ -1,12 +1,12 @@
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
-import { DocumentProjet, IdentifiantProjet } from '../../index.js';
-import { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { DemandeCorrigéeSansModificationError } from '../lauréat.error.js';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options.js';
 import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options.js';
 import {
@@ -16,7 +16,7 @@ import {
 } from './changement/changementReprésentantLégal.error.js';
 import type { CorrigerChangementOptions } from './changement/corriger/corrigerChangementReprésentantLégal.options.js';
 import type { DemanderChangementOptions } from './changement/demander/demanderChangementReprésentantLégal.options.js';
-import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options.js';
+import type { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options.js';
 import type { RejeterOptions } from './changement/rejeter/rejeterChangementReprésentantLégal.options.js';
 import * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType.js';
 import type { SupprimerOptions } from './changement/supprimer/supprimerChangementReprésentantLégal.options.js';
@@ -465,15 +465,11 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       this.#demande.nom = nomReprésentantLégal;
       this.#demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
       if (pièceJustificative) {
-        {
-          this.#demande.pièceJustificative = DocumentChangementReprésentantLégal.pièceJustificative(
-            {
-              identifiantProjet,
-              demandéLe: this.#demande.demandéLe.formatter(),
-              pièceJustificative: { format: pièceJustificative.format },
-            },
-          );
-        }
+        this.#demande.pièceJustificative = DocumentChangementReprésentantLégal.pièceJustificative({
+          identifiantProjet,
+          demandéLe: this.#demande.demandéLe.formatter(),
+          pièceJustificative: { format: pièceJustificative.format },
+        });
       }
     }
   }

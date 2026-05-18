@@ -1,17 +1,17 @@
-import {
+import type {
   ConsulterAchèvementAchevéReadModel,
   ConsulterAchèvementQuery,
   ConsulterAchèvementReadModel,
 } from './consulter/consulterAchèvement.query.js';
-import { EnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
-import {
+import type { EnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
+import type {
   ListerProjetAvecAchevementATransmettreQuery,
   ListerProjetAvecAchevementATransmettreReadModel,
 } from './lister/listerProjetAvecAchevementATransmettre.query.js';
-import { ModifierAchèvementUseCase } from './modifier/modifierAchèvement.usecase.js';
-import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
-import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
-import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
+import type { ModifierAchèvementUseCase } from './modifier/modifierAchèvement.usecase.js';
+import type { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
+import type { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
+import type { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
 
 export type {
   EnregistrerAttestationConformitéUseCase,

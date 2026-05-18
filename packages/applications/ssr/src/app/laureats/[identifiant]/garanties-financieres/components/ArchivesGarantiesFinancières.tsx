@@ -1,12 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading3, Heading4 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
-
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
 import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinancièresTypeLabel';
 

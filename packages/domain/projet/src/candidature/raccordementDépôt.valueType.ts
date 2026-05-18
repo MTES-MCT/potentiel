@@ -1,5 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import type { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { Raccordement } from '../lauréat/index.js';
 

@@ -1,8 +1,8 @@
-import {
+import type {
   ConsulterMainlevéeEnCoursQuery,
   ConsulterMainlevéeEnCoursReadModel,
 } from './consulter/consulterMainlevéeEnCours.query.js';
-import {
+import type {
   ListerMainlevéeItemReadModel,
   ListerMainlevéesQuery,
   ListerMainlevéesReadModel,

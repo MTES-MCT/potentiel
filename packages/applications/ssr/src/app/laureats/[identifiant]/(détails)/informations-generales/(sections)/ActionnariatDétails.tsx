@@ -1,8 +1,8 @@
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel } from '@/app/_helpers';
-import { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
+import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading6 } from '@/components/atoms/headings';
 

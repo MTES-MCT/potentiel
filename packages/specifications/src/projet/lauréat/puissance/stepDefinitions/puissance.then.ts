@@ -2,11 +2,10 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(
   'la puissance du projet lauréat( ne) devrait( pas) être mise à jour',

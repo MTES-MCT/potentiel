@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
 import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
 
 type GarantiesFinancièresTimelineItemContentProps = {

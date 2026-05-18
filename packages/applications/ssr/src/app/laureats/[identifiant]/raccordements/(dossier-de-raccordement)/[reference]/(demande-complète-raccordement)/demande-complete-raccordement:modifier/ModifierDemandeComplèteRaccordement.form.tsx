@@ -1,22 +1,21 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 import { Option } from '@potentiel-libraries/monads';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
-  GestionnaireRéseauSelectProps,
+  type GestionnaireRéseauSelectProps,
 } from '../../../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 import {
-  ModifierDemandeComplèteRaccordementFormKeys,
+  type ModifierDemandeComplèteRaccordementFormKeys,
   modifierDemandeComplèteRaccordementAction,
 } from './modifierDemandeComplèteRaccordement.action';
 

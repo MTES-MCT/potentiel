@@ -1,10 +1,10 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand('la dgec modifie le nom du projet', async function (this: PotentielWorld) {
   try {

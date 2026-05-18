@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -10,9 +10,8 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import {
   StatutDemandeBadge,
-  StatutDemandeBadgeProps,
+  type StatutDemandeBadgeProps,
 } from '@/components/organisms/demande/StatutDemandeBadge';
-
 import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
 import { ReadMore } from '../../atoms/ReadMore';
 

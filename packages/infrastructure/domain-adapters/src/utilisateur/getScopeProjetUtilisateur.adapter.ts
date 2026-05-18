@@ -2,13 +2,13 @@ import { match, P } from 'ts-pattern';
 
 import { Where } from '@potentiel-domain/entity';
 import {
-  Accès,
-  GetScopeProjetUtilisateur,
+  type Accès,
+  type GetScopeProjetUtilisateur,
   IdentifiantProjet,
-  Lauréat,
-  ProjetUtilisateurScope,
+  type Lauréat,
+  type ProjetUtilisateurScope,
 } from '@potentiel-domain/projet';
-import { Région, UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
+import { Région, type UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 

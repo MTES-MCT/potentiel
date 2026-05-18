@@ -1,9 +1,8 @@
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/timeline';
-
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToDispositifDeStockageEnregistréTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageEnregistréTimelineItemsProps';
 import { mapToDispositifDeStockageModifiéTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageModifiéTimelineItemsProps';
 import { mapToDispositifDeStockageImportéTimelineItemProps } from './events/mapToDispositifDeStockageImportéTimelineItemProps';

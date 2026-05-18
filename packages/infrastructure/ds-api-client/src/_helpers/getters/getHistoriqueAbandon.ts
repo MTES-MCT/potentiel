@@ -1,6 +1,6 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
-import { DossierAccessor } from '../../graphql/index.js';
+import type { DossierAccessor } from '../../graphql/index.js';
 import { mapSelectToValueType } from '../mappers/mapSelectToValueType.js';
 
 const typeHistoriqueAbandonMap = {

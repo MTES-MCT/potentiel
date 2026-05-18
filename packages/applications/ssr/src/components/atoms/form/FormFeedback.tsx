@@ -1,11 +1,10 @@
 'use client';
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
-import { FormState } from '@/utils/formAction';
-
+import type { FormState } from '@/utils/formAction';
 import { Link } from '../LinkNoPrefetch';
 import { FormAlertError } from './FormAlertError';
 

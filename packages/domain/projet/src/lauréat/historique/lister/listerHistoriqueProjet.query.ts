@@ -1,28 +1,28 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import {
+import type {
   HistoryRecord,
   ListHistory,
   ListHistoryResult,
   RangeOptions,
 } from '@potentiel-domain/entity';
 
-import { ÉliminéEvent } from '../../../éliminé/index.js';
-import { HistoriqueRecoursProjetListItemReadModel } from '../../../éliminé/recours/index.js';
-import { HistoriqueAbandonProjetListItemReadModel } from '../../abandon/index.js';
-import { AchèvementEvent } from '../../achèvement/index.js';
-import { HistoriqueActionnaireProjetListItemReadModel } from '../../actionnaire/index.js';
-import { HistoriqueDélaiProjetListItemReadModel } from '../../délai/index.js';
-import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur/index.js';
-import { GarantiesFinancièresEvent } from '../../garanties-financières/index.js';
-import { HistoriqueInstallationProjetListItemReadModel } from '../../installation/index.js';
-import { LauréatEvent } from '../../lauréat.event.js';
-import { HistoriqueNatureDeLExploitationProjetListItemReadModel } from '../../nature-de-l-exploitation/index.js';
-import { HistoriquePowerPurchaseAgreementProjetListItemReadModel } from '../../power-purchase-agreement/index.js';
-import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur/index.js';
-import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance/index.js';
-import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement/index.js';
-import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal/index.js';
+import type { ÉliminéEvent } from '../../../éliminé/index.js';
+import type { HistoriqueRecoursProjetListItemReadModel } from '../../../éliminé/recours/index.js';
+import type { HistoriqueAbandonProjetListItemReadModel } from '../../abandon/index.js';
+import type { AchèvementEvent } from '../../achèvement/index.js';
+import type { HistoriqueActionnaireProjetListItemReadModel } from '../../actionnaire/index.js';
+import type { HistoriqueDélaiProjetListItemReadModel } from '../../délai/index.js';
+import type { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur/index.js';
+import type { GarantiesFinancièresEvent } from '../../garanties-financières/index.js';
+import type { HistoriqueInstallationProjetListItemReadModel } from '../../installation/index.js';
+import type { LauréatEvent } from '../../lauréat.event.js';
+import type { HistoriqueNatureDeLExploitationProjetListItemReadModel } from '../../nature-de-l-exploitation/index.js';
+import type { HistoriquePowerPurchaseAgreementProjetListItemReadModel } from '../../power-purchase-agreement/index.js';
+import type { HistoriqueProducteurProjetListItemReadModel } from '../../producteur/index.js';
+import type { HistoriquePuissanceProjetListItemReadModel } from '../../puissance/index.js';
+import type { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement/index.js';
+import type { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal/index.js';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<'lauréat', LauréatEvent>;
 export type HistoriqueÉliminéProjetListItemReadModel = HistoryRecord<'éliminé', ÉliminéEvent>;

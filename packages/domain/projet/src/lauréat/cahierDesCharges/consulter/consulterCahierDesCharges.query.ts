@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { mapToReadModel as mapToCandidatureReadModel } from '../../../candidature/consulter/consulterCandidature.query.js';
-import { CandidatureEntity } from '../../../candidature/index.js';
+import type { CandidatureEntity } from '../../../candidature/index.js';
 import { CahierDesCharges, IdentifiantProjet } from '../../../index.js';
-import { LauréatEntity } from '../../lauréat.entity.js';
+import type { LauréatEntity } from '../../lauréat.entity.js';
 
 export type ConsulterCahierDesChargesReadModel = CahierDesCharges.ValueType;
 

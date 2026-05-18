@@ -4,7 +4,12 @@ import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { Accès, Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import {
+  type Accès,
+  type Candidature,
+  IdentifiantProjet,
+  type Lauréat,
+} from '@potentiel-domain/projet';
 
 import { getCandidature } from '@/app/_helpers';
 import {
@@ -14,9 +19,9 @@ import {
 } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
 import {
   modifierLauréatEtCandidatureSchéma,
-  PartialModifierCandidatureNotifiéeFormEntries,
+  type PartialModifierCandidatureNotifiéeFormEntries,
 } from '@/utils/candidature';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type CorrigerCandidaturesState = FormState;

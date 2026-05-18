@@ -1,10 +1,12 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
-import { ModifierProducteurForm, ModifierProducteurFormProps } from './ModifierProducteur.form';
+import {
+  ModifierProducteurForm,
+  type ModifierProducteurFormProps,
+} from './ModifierProducteur.form';
 
 export type ModifierProducteurPageProps = ModifierProducteurFormProps;
 

@@ -2,12 +2,11 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { récupérerLauréat } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getAchèvement, getGarantiesFinancières } from '../../../_helpers';
-import { DemanderMainlevéePage, DemanderMainlevéePageProps } from './DemanderMainlevée.page';
+import { DemanderMainlevéePage, type DemanderMainlevéePageProps } from './DemanderMainlevée.page';
 
 export default async function Page({ params }: IdentifiantParameter) {
   const { identifiant } = await params;

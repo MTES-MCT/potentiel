@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { changementReprésentantLégalAccordéProjector } from './changement/changementReprésentantLégalAccordé.projector.js';
 import { changementReprésentantLégalAnnuléProjector } from './changement/changementReprésentantLégalAnnulé.projector.js';

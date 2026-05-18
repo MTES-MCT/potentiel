@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { extension } from 'mime-types';
 import { notFound } from 'next/navigation';
 
-import { Document, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import type { Document, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 

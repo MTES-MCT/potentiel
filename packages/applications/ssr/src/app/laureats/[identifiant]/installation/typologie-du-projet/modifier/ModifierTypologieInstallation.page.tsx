@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   ModifierTypologieInstallationForm,
-  ModifierTypologieInstallationFormProps,
+  type ModifierTypologieInstallationFormProps,
 } from './ModifierTypologieInstallation.form';
 
 export type ModifierTypologieInstallationPageProps = ModifierTypologieInstallationFormProps;

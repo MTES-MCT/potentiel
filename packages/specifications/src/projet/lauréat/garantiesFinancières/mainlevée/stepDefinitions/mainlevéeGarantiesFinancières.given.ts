@@ -1,9 +1,9 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import { exécuterTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.when.js';
 import { modifierGarantiesFinancièresActuelles } from '../../actuelles/stepDefinitions/garantiesFinancièresActuelles.given.js';
 import {

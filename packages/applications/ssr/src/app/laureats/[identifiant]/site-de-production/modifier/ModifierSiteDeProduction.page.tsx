@@ -1,9 +1,8 @@
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import {
   ModifierSiteDeProductionForm,
-  ModifierSiteDeProductionFormProps,
+  type ModifierSiteDeProductionFormProps,
 } from './ModifierSiteDeProduction.form';
 
 export type ModifierSiteDeProductionPageProps = ModifierSiteDeProductionFormProps;

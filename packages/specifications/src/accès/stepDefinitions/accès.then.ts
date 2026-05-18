@@ -4,12 +4,11 @@ import { mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 Alors(
   "l'utilisateur invité a accès au projet {lauréat-éliminé}",

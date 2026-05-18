@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DomainEvent } from '@potentiel-domain/core';
 
 /**
  * @deprecated Use GestionnaireRéseauModifiéEvent instead

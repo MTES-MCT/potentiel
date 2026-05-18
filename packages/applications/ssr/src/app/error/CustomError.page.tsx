@@ -1,9 +1,8 @@
 import { fr } from '@codegouvfr/react-dsfr';
 import Image from 'next/image';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import { DefaultError } from './DefaultError';
 import { ErrorRedirectionLink } from './ErrorRedirectionLink';
 

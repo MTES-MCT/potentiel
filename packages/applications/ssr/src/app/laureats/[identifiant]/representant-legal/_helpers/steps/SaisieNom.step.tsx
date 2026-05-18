@@ -1,13 +1,12 @@
 'use client';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ValidationErrors } from '@/utils/formAction';
-
-import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
+import type { ValidationErrors } from '@/utils/formAction';
+import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
 
 export type SaisieNomProps = {
   nomReprésentantLégal: string;

@@ -1,8 +1,8 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import { type NextFetchEvent, type NextRequest, NextResponse } from 'next/server';
 
 import { CsrfError, createCsrfProtect } from '@potentiel-libraries/csrf';
 
-import { CustomMiddleware } from './middleware';
+import type { CustomMiddleware } from './middleware';
 
 const csrfProtect = createCsrfProtect({
   cookie: {

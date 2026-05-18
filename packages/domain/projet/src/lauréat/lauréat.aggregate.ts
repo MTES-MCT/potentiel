@@ -2,15 +2,15 @@ import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import { Candidature } from '../index.js';
-import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
+import type { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 import { AbandonAggregate } from './abandon/abandon.aggregate.js';
 import { AchèvementAggregate } from './achèvement/achèvement.aggregate.js';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate.js';
-import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
-import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option.js';
+import type { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
+import type { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option.js';
 import { DélaiAggregate } from './délai/délai.aggregate.js';
 import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate.js';
 import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate.js';
@@ -29,27 +29,27 @@ import {
   RetourAuCahierDesChargesInitialImpossibleError,
   StatutLauréatNonModifiéError,
 } from './lauréat.error.js';
-import { LauréatEvent } from './lauréat.event.js';
+import type { LauréatEvent } from './lauréat.event.js';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate.js';
-import { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
-import { EnregistrerChangementNomProjetOptions } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
-import { ModifierNomProjetOptions } from './nom-projet/modifier/modifierNomProjet.option.js';
-import { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
-import {
+import type { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+import type { EnregistrerChangementNomProjetOptions } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
+import type { ModifierNomProjetOptions } from './nom-projet/modifier/modifierNomProjet.option.js';
+import type { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
+import type {
   LauréatNotifiéEvent,
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event.js';
-import { NotifierOptions } from './notifier/notifierLauréat.option.js';
+import type { NotifierOptions } from './notifier/notifierLauréat.option.js';
 import { PowerPurchaseAgreementAggregate } from './power-purchase-agreement/powerPurchaseAgreement.aggregate.js';
 import { ProducteurAggregate } from './producteur/producteur.aggregate.js';
 import { PuissanceAggregate } from './puissance/puissance.aggregate.js';
 import { RaccordementAggregate } from './raccordement/raccordement.aggregate.js';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate.js';
-import { ModifierSiteDeProductionOptions } from './site-de-production/modifierSiteDeProduction.option.js';
-import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
-import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option.js';
-import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
+import type { ModifierSiteDeProductionOptions } from './site-de-production/modifierSiteDeProduction.option.js';
+import type { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
+import type { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option.js';
+import type { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
 import { TâcheAggregate } from './tâche/tâche.aggregate.js';
 import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate.js';
 

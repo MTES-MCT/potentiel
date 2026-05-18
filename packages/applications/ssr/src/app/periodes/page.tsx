@@ -1,19 +1,18 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import z from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Période } from '@potentiel-domain/periode';
-import { Candidature } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Période } from '@potentiel-domain/periode';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { PériodeListPage } from './PériodeList.page';
-import { PériodeListItemProps } from './PériodeListItem';
+import type { PériodeListItemProps } from './PériodeListItem';
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

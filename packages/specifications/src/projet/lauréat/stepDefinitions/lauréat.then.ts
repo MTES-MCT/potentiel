@@ -4,12 +4,11 @@ import { mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 
 Alors('le projet lauréat devrait être consultable', async function (this: PotentielWorld) {
   await waitForExpect(async () => {

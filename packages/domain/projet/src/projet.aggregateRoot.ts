@@ -1,14 +1,14 @@
 import {
   AppelOffre,
-  AppelOffreAggregate,
-  LoadAppelOffreAggregatePort,
+  type AppelOffreAggregate,
+  type LoadAppelOffreAggregatePort,
 } from '@potentiel-domain/appel-offre';
-import { AggregateType, LoadAggregate } from '@potentiel-domain/core';
+import type { AggregateType, LoadAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { AccèsAggregate } from './accès/accès.aggregate.js';
 import { CandidatureAggregate } from './candidature/candidature.aggregate.js';
-import { CahierDesCharges, IdentifiantProjet } from './index.js';
+import { CahierDesCharges, type IdentifiantProjet } from './index.js';
 import { LauréatAggregate } from './lauréat/lauréat.aggregate.js';
 import {
   AggrégatDéjàChargéError,

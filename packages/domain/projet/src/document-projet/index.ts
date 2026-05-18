@@ -1,21 +1,21 @@
-import {
+import type {
   ConsulterDocumentProjetQuery,
   ConsulterDocumentProjetReadModel,
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query.js';
-import {
+import type {
   ArchiverDocumentProjetPort,
   CorrigerDocumentProjetCommand,
 } from './corriger/corrigerDocumentProjet.command.js';
-import {
+import type {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
 } from './déplacer/déplacerDocumentProjet.command.js';
-import {
+import type {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
 } from './enregistrer/enregistrerDocument.command.js';
-import {
+import type {
   EnregistrerDocumentSubstitutCommand,
   EnregistrerDocumentSubstitutPort,
 } from './enregistrer/enregistrerDocumentSubstitut.command.js';

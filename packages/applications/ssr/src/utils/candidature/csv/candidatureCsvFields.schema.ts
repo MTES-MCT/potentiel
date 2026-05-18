@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
 import {
   optionalEnum,

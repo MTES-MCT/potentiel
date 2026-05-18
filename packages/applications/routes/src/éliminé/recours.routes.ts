@@ -1,4 +1,4 @@
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
 import type { Éliminé } from '@potentiel-domain/projet';
 
 import { withFilters } from '../_helpers/withFilters.js';

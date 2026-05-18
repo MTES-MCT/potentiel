@@ -1,13 +1,13 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import type { LoadAggregate } from '@potentiel-domain/core';
 
 import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command.js';
 import { registerAjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase.js';
 import {
-  ConsulterGestionnaireRéseauQueryDependencies,
+  type ConsulterGestionnaireRéseauQueryDependencies,
   registerConsulterGestionnaireRéseauQuery,
 } from './consulter/consulterGestionnaireRéseau.query.js';
 import {
-  ListerGestionnaireRéseauQueryDependencies,
+  type ListerGestionnaireRéseauQueryDependencies,
   registerListerGestionnaireRéseauQuery,
 } from './lister/listerGestionnaireRéseau.query.js';
 import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command.js';

@@ -1,4 +1,4 @@
-import { Document } from '@potentiel-domain/projet';
+import type { Document } from '@potentiel-domain/projet';
 import { upload } from '@potentiel-libraries/file-storage';
 
 import { générerDocumentPdf } from './générerDocumentPdf.js';

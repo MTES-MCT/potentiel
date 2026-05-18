@@ -1,14 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-
 import { Etape } from '../../components/Étape';
 
 export type ÉtapeMiseEnServiceProps = {

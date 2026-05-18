@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { buildUrl } from './buildUrl.js';

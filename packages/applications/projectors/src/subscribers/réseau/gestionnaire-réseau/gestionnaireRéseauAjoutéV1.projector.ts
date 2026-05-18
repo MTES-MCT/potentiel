@@ -1,7 +1,7 @@
 import { match, P } from 'ts-pattern';
 
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const gestionnaireRéseauAjoutéV1Projector = async ({

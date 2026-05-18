@@ -1,5 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { buildUrl, getLauréat, listerDgecRecipients, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';

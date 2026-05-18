@@ -1,12 +1,12 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
 import {
-  ConsulterAchèvementDependencies,
+  type ConsulterAchèvementDependencies,
   registerConsulterAchèvementQuery,
 } from './consulter/consulterAchèvement.query.js';
 import { registerEnregistrerAttestationConformitéCommand } from './enregistrer/enregistrerAttestationConformité.command.js';
 import { registerEnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
 import {
-  ListerProjetAvecAchevementATransmettreDependencies,
+  type ListerProjetAvecAchevementATransmettreDependencies,
   registerListerProjetAvecAchevementATransmettreQuery,
 } from './lister/listerProjetAvecAchevementATransmettre.query.js';
 import { registerModifierAchèvementCommand } from './modifier/modifierAchèvement.command.js';

@@ -3,20 +3,19 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import {
   ModifierDateMiseEnServicePage,
-  ModifierDateMiseEnServicePageProps,
+  type ModifierDateMiseEnServicePageProps,
 } from './ModifierDateMiseEnService.page';
 
 type PageProps = {

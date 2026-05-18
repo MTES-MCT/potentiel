@@ -1,5 +1,8 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { DeepUndefined, updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+import type { Lauréat } from '@potentiel-domain/projet';
+import {
+  type DeepUndefined,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const attestationGarantiesFinancièresEnregistréeProjector = async ({
   payload: { identifiantProjet, attestation, dateConstitution, enregistréLe, enregistréPar },

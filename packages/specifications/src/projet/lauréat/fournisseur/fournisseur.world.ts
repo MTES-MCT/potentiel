@@ -1,7 +1,7 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { MettreÀJourFournisseurFixture } from './fixtures/mettreÀJourFournisseur.fixture.js';
 import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture.js';

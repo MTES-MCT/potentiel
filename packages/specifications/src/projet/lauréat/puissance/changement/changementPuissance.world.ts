@@ -1,5 +1,5 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture.js';
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture.js';

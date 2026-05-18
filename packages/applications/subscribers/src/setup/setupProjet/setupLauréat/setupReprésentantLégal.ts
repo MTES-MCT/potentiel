@@ -1,6 +1,6 @@
 import { ReprésentantLégalNotification } from '@potentiel-applications/notifications';
 import {
-  HistoriqueProjector,
+  type HistoriqueProjector,
   ReprésentantLégalProjector,
 } from '@potentiel-applications/projectors';
 import { Lauréat } from '@potentiel-domain/projet';

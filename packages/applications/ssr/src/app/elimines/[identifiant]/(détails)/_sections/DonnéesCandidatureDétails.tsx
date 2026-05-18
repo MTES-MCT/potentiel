@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Éliminé } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Éliminé } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel } from '@/app/_helpers';
 import { FormattedDate } from '@/components/atoms/FormattedDate';

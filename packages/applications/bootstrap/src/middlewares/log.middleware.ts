@@ -1,4 +1,4 @@
-import { Middleware } from 'mediateur';
+import type { Middleware } from 'mediateur';
 
 import { getContext } from '@potentiel-applications/request-context';
 import { DomainError } from '@potentiel-domain/core';

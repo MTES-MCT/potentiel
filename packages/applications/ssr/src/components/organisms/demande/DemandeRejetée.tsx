@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -9,7 +9,7 @@ import { FormattedDate } from '../../atoms/FormattedDate';
 import { DownloadDocument } from '../../atoms/form/document/DownloadDocument';
 import { Heading5 } from '../../atoms/headings';
 import { ReadMore } from '../../atoms/ReadMore';
-import { DétailsDemandeProps } from './DétailsDemande';
+import type { DétailsDemandeProps } from './DétailsDemande';
 
 type DemandeRejetéeProps = NonNullable<DétailsDemandeProps['demande']['rejet']>;
 

@@ -5,7 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 type ProjetPageProps = IdentifiantParameter & {
   searchParams?: Promise<Record<string, string>>;

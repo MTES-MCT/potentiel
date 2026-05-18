@@ -1,15 +1,14 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { formAction, ValidationErrors } from '@/utils/formAction';
-
-import { TransmettreDateMiseEnServiceStateFormKeys } from './transmettre/transmettreDateMiseEnService.action';
+import type { formAction, ValidationErrors } from '@/utils/formAction';
+import type { TransmettreDateMiseEnServiceStateFormKeys } from './transmettre/transmettreDateMiseEnService.action';
 
 export type DateMiseEnServiceFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;

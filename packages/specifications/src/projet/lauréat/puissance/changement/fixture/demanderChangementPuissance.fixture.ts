@@ -2,8 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { PièceJustificative } from '#helpers';
-
+import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
 
 interface DemanderChangementPuissance {

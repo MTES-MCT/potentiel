@@ -1,10 +1,10 @@
-import { GetProjetAggregateRoot } from '../../../index.js';
+import type { GetProjetAggregateRoot } from '../../../index.js';
 import {
-  ConsulterDépôtGarantiesFinancièresDependencies,
+  type ConsulterDépôtGarantiesFinancièresDependencies,
   registerConsulterDépôtGarantiesFinancièresQuery,
 } from './consulter/consulterDépôtGarantiesFinancières.query.js';
 import {
-  ListerDépôtsGarantiesFinancièresDependencies,
+  type ListerDépôtsGarantiesFinancièresDependencies,
   registerListerDépôtsGarantiesFinancièresQuery,
 } from './lister/listerDépôtGarantiesFinancières.query.js';
 import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifier/modifierDépôtGarantiesFinancières.command.js';

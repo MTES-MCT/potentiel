@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getMainlevéeGf } from '../_utils/index.js';

@@ -1,14 +1,14 @@
-import { TâcheAchevéeEvent } from './achever/acheverTâche.event.js';
-import {
+import type { TâcheAchevéeEvent } from './achever/acheverTâche.event.js';
+import type {
   TâcheAjoutéeEvent,
   TâcheRelancéeEvent,
   TâcheRenouvelléeEvent,
 } from './ajouter/ajouterTâche.event.js';
-import {
+import type {
   ConsulterNombreTâchesQuery,
   ConsulterNombreTâchesReadModel,
 } from './consulter/consulterNombreTâche.query.js';
-import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâche.query.js';
+import type { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâche.query.js';
 
 // Query
 export type TâcheQuery = ConsulterNombreTâchesQuery & ListerTâchesQuery;

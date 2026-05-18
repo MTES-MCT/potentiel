@@ -1,18 +1,20 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { mapToActionnaireTimelineItemProps } from '../../(historique)/mapToActionnaireTimelineItemProps';
-import { ChangementActionnaireActions, DétailsActionnairePage } from './DétailsActionnaire.page';
+import {
+  type ChangementActionnaireActions,
+  DétailsActionnairePage,
+} from './DétailsActionnaire.page';
 
 export const metadata: Metadata = { title: 'Détail de(s) actionnaire(s)' };
 

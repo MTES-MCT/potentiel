@@ -4,8 +4,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { PageDeRedirectionProps, redirectAvecSearchParams } from '@/utils/redirectAvecSearchParams';
-
+import {
+  type PageDeRedirectionProps,
+  redirectAvecSearchParams,
+} from '@/utils/redirectAvecSearchParams';
 import { getActionnaireInfos } from '../../../_helpers';
 
 // Page de redirection vers la dernière demande de changement d'actionnaire du projet

@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -13,9 +13,9 @@ import {
 } from '@/app/_helpers';
 import {
   DemandeDélaiListPage,
-  DemandeDélaiListPageProps,
+  type DemandeDélaiListPageProps,
 } from '@/app/laureats/changements/delai/DemandeDélaiList.page';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';

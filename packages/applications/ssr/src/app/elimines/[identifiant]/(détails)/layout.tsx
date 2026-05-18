@@ -2,9 +2,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Menu } from '@/components/atoms/menu/Menu';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getÉliminéMenuItems } from './_helpers/getÉliminéMenuItems';
 
 type LayoutProps = IdentifiantParameter & {

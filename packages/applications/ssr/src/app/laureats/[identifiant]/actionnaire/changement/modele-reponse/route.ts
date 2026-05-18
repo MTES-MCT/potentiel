@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges } from '@/app/_helpers';
@@ -13,7 +13,6 @@ import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentH
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getLauréat } from '../../../_helpers/getLauréat';
 
 export const GET = async (

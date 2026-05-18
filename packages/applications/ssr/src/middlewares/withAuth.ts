@@ -1,9 +1,9 @@
 import { parse } from 'url';
 
 import { getSessionCookie } from 'better-auth/cookies';
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import { type NextFetchEvent, type NextRequest, NextResponse } from 'next/server';
 
-import { CustomMiddleware } from './middleware';
+import type { CustomMiddleware } from './middleware';
 
 export function withAuth(nextMiddleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {

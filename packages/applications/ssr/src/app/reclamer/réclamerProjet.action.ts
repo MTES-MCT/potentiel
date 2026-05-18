@@ -5,13 +5,12 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { numéroCRESchema } from '@/utils/candidature/identifiantProjet.schema';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withRateLimit } from '@/utils/withRateLimit';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { dépôtSchema } from '../../utils/candidature';
 import { déchiffrerIdentifiantProjet } from './_helpers/chiffrement';
 

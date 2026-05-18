@@ -1,9 +1,9 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getMotifMainlevéeLabel';
 import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/mainlevee/StatutMainlevéeBadge';

@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
-import { CandidatureEntity } from '../candidature.entity.js';
-import {
+import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import type { CandidatureEntity } from '../candidature.entity.js';
+import type {
   Dépôt,
   DétailFournisseursCandidatureEntity,
   Localité,

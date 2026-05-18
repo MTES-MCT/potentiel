@@ -1,15 +1,14 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { Message, mediator } from 'mediateur';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
+import { type Message, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Email } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { RôleUtilisateur } from '#helpers';
-
-import { PotentielWorld } from '../../../potentiel.world.js';
+import type { RôleUtilisateur } from '#helpers';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
   `le porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé`,

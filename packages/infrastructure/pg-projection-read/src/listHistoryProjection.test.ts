@@ -4,7 +4,7 @@ import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 import { faker } from '@faker-js/faker';
 import { should } from 'chai';
 
-import { HistoryRecord, ListHistoryResult } from '@potentiel-domain/entity';
+import type { HistoryRecord, ListHistoryResult } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { listHistoryProjection } from './listHistoryProjection.js';

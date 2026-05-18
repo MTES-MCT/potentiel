@@ -1,18 +1,18 @@
-import { AccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase.js';
-import { AnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase.js';
-import {
+import type { AccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase.js';
+import type { AnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase.js';
+import type {
   ConsulterDemandeDélaiQuery,
   ConsulterDemandeDélaiReadModel,
 } from './demande/consulter/consulterDemandeDélai.query.js';
-import { CorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase.js';
-import { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase.js';
-import {
+import type { CorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase.js';
+import type { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase.js';
+import type {
   ListerDemandeDélaiQuery,
   ListerDemandeDélaiReadModel,
 } from './demande/lister/listerDemandeDélai.query.js';
-import { PasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase.js';
-import { RejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase.js';
-import {
+import type { PasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase.js';
+import type { RejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase.js';
+import type {
   HistoriqueDélaiProjetListItemReadModel,
   ListerHistoriqueDélaiProjetQuery,
   ListerHistoriqueDélaiProjetReadModel,

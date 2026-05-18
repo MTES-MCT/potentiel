@@ -1,5 +1,5 @@
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { clearProjection } from '../../../helpers/index.js';
 

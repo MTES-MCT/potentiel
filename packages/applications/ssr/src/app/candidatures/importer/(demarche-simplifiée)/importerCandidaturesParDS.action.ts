@@ -6,7 +6,7 @@ import * as zod from 'zod';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { DomainError, InvalidOperationError } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import {
   getDémarcheAvecDossiers,
   getDémarcheIdParDossier,
@@ -19,7 +19,7 @@ import { cleanDétailsKeys } from '@/utils/candidature';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
 import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
-import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
+import { type ActionResult, type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 

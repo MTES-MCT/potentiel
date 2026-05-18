@@ -1,6 +1,6 @@
 import { Candidature } from '@potentiel-domain/projet';
 
-import { Champs, createDossierAccessor } from '../../graphql/accessor.js';
+import { type Champs, createDossierAccessor } from '../../graphql/accessor.js';
 
 const map = {
   latitude_degrés: 'Latitude du barycentre (degrés)',

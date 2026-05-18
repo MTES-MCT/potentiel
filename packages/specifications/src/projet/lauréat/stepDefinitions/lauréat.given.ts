@@ -1,15 +1,15 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { Accès, CahierDesCharges, Candidature } from '@potentiel-domain/projet';
-import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
+import { type Accès, CahierDesCharges, type Candidature } from '@potentiel-domain/projet';
+import type { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
-import { PotentielWorld } from '../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 import { choisirCahierDesCharges } from './lauréat.when.js';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {

@@ -1,20 +1,20 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
 import {
-  ConsulterChangementProducteurDependencies,
+  type ConsulterChangementProducteurDependencies,
   registerConsulterChangementProducteurQuery,
 } from './changement/consulter/consulterChangementProducteur.query.js';
 import { registerEnregistrerChangementProducteurCommand } from './changement/enregistrerChangement/enregistrerChangement.command.js';
 import { registerEnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
 import {
-  ListerChangementProducteurDependencies,
+  type ListerChangementProducteurDependencies,
   registerListerChangementProducteurQuery,
 } from './changement/lister/listerChangementProducteur.query.js';
 import {
-  ConsulterProducteurDependencies,
+  type ConsulterProducteurDependencies,
   registerConsulterProducteurQuery,
 } from './consulter/consulterProducteur.query.js';
 import {
-  ListerHistoriqueProducteurProjetDependencies,
+  type ListerHistoriqueProducteurProjetDependencies,
   registerListerHistoriqueProducteurProjetQuery,
 } from './listerHistorique/listerHistoriqueProducteurProjet.query.js';
 import { registerModifierProducteurCommand } from './modifier/modifierProducteur.command.js';

@@ -1,13 +1,12 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { ChampObligatoireAvecAction } from '../../_helpers';
+import type { ChampObligatoireAvecAction } from '../../_helpers';
 
 export type RaccordementDétailsProps = {
   raccordement: ChampObligatoireAvecAction<

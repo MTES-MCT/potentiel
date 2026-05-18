@@ -5,7 +5,7 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
 import { getCandidature } from '@/app/_helpers';
 import {
@@ -20,7 +20,7 @@ import {
   numéroDAutorisationSchema,
   siretSchema,
 } from '@/utils/candidature/dépôt.schema';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type CorrigerCandidaturesState = FormState;

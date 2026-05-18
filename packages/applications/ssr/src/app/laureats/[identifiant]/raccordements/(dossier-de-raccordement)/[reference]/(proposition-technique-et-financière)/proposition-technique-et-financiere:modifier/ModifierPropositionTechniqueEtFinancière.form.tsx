@@ -1,16 +1,15 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  ModifierPropositionTechniqueEtFinancièreFormKeys,
+  type ModifierPropositionTechniqueEtFinancièreFormKeys,
   modifierPropositionTechniqueEtFinancièreAction,
 } from './modifierPropositionTechniqueEtFinancière.action';
 

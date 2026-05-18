@@ -1,4 +1,8 @@
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 import { AucunAbandonEnCours } from './abandon.error.js';
 

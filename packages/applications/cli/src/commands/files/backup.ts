@@ -5,7 +5,7 @@ import { action } from '@oclif/core/ux';
 import { bulkhead } from 'cockatiel';
 import { z } from 'zod';
 
-import { getLogger, Logger } from '@potentiel-libraries/monitoring';
+import { getLogger, type Logger } from '@potentiel-libraries/monitoring';
 
 import { s3Schema } from '#helpers';
 

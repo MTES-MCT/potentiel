@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { appSchema, dbSchema } from '#helpers';

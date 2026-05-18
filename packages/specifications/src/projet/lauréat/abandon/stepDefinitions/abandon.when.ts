@@ -1,12 +1,11 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(`le porteur demande l'abandon pour le projet lauréat`, async function (this: PotentielWorld) {
   try {

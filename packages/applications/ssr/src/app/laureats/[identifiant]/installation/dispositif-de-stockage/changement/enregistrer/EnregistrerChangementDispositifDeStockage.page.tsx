@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   EnregistrerChangementDispositifDeStockageForm,
-  EnregistrerChangementDispositifDeStockageFormProps,
+  type EnregistrerChangementDispositifDeStockageFormProps,
 } from './EnregistrerChangementDispositifDeStockage.form';
 
 type EnregistrerChangementDispositifDeStockagePageProps =

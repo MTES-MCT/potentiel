@@ -1,7 +1,6 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-
 import { sendEmail } from '../../../../sendEmail.js';
 
 export const handleDateAchèvementTransmise = async ({

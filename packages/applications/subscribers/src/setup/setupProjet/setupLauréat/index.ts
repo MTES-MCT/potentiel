@@ -1,9 +1,9 @@
 import { LauréatNotification } from '@potentiel-applications/notifications';
-import { HistoriqueProjector, LauréatProjector } from '@potentiel-applications/projectors';
-import { Lauréat } from '@potentiel-domain/projet';
+import { type HistoriqueProjector, LauréatProjector } from '@potentiel-applications/projectors';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
-import { SetupProjet } from '../setup.js';
+import type { SetupProjet } from '../setup.js';
 import { setupAbandon } from './setupAbandon.js';
 import { setupAchèvement } from './setupAchèvement.js';
 import { setupActionnaire } from './setupActionnaire.js';

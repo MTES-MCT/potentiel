@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
@@ -12,8 +12,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { Heading2 } from '@/components/atoms/headings';
 import { ReadMore } from '@/components/atoms/ReadMore';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-
-import { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
+import type { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;
 

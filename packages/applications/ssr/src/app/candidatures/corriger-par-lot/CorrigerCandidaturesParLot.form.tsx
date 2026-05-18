@@ -2,17 +2,16 @@
 
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useSearchParams } from 'next/navigation';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  CorrigerCandidaturesParLotFormKeys,
+  type CorrigerCandidaturesParLotFormKeys,
   corrigerCandidaturesParLotAction,
 } from './corrigerCandidaturesParLot.action';
 

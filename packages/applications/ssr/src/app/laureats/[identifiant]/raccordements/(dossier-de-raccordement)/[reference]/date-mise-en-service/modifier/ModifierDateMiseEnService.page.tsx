@@ -1,13 +1,12 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
-import { DateMiseEnServiceForm, DateMiseEnServiceFormProps } from '../DateMiseEnService.form';
+import { DateMiseEnServiceForm, type DateMiseEnServiceFormProps } from '../DateMiseEnService.form';
 import { SupprimerDateMiseEnService } from '../supprimer-date-mise-en-service/SupprimerDateMiseEnService.form';
 import { modifierDateMiseEnServiceAction } from './modifierDateMiseEnService.action';
 

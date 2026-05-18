@@ -2,9 +2,9 @@
 
 import Tag from '@codegouvfr/react-dsfr/Tag';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ListFiltersProps } from '@/components/molecules/ListFilters';
+import type { ListFiltersProps } from '@/components/molecules/ListFilters';
 
 export type FiltersTagListProps = {
   filters: ListFiltersProps['filters'];

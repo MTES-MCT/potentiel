@@ -1,5 +1,5 @@
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../fixture.js';
 

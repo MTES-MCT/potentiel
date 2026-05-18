@@ -3,12 +3,15 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { PageDeRedirectionProps, redirectAvecSearchParams } from '@/utils/redirectAvecSearchParams';
+import {
+  type PageDeRedirectionProps,
+  redirectAvecSearchParams,
+} from '@/utils/redirectAvecSearchParams';
 
 export const metadata: Metadata = { title: `Recours` };
 

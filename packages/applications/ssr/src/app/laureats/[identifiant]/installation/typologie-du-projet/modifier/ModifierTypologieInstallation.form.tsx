@@ -3,18 +3,17 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { Candidature, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { getTypologieInstallationLabel } from '@/app/_helpers';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  ModifierTypologieInstallationFormKeys,
+  type ModifierTypologieInstallationFormKeys,
   modifierTypologieInstallationAction,
 } from './modifierTypologieInstallation.action';
 

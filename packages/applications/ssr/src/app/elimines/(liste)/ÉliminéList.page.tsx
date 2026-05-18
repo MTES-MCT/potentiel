@@ -1,11 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-
-import { ÉliminéListItem, ÉliminéListItemProps } from './ÉliminéListItem';
+import type { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import { ÉliminéListItem, type ÉliminéListItemProps } from './ÉliminéListItem';
 
 export type ÉliminéListPageProps = {
   list: {

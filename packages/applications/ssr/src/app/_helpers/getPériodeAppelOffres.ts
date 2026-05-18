@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';

@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { withFilters } from '../_helpers/withFilters.js';
 import { encodeParameter } from '../encodeParameter.js';

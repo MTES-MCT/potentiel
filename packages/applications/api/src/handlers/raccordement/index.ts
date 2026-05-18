@@ -1,4 +1,4 @@
-import { Raccordement } from '@potentiel-applications/api-documentation';
+import type { Raccordement } from '@potentiel-applications/api-documentation';
 
 import { listerHandler } from './lister.handler.js';
 import { listerManquantsHandler } from './listerManquants.handler.js';

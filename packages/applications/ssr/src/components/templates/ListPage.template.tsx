@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '../atoms/headings';
-import { ListFilters, ListFiltersProps } from '../molecules/ListFilters';
-import { ListLegend, ListLegendProps } from '../molecules/ListLegend';
-import { ListPageActions, ListPageActionsProps } from '../molecules/ListPageActions';
-import { Search, SearchProps } from '../molecules/Search';
+import { ListFilters, type ListFiltersProps } from '../molecules/ListFilters';
+import { ListLegend, type ListLegendProps } from '../molecules/ListLegend';
+import { ListPageActions, type ListPageActionsProps } from '../molecules/ListPageActions';
+import { Search, type SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
 import { ListHeader } from '../organisms/ListHeader';
 import { PageTemplate } from './Page.template';

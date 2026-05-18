@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { RéférencielGRD } from './référencielGRD.js';
+import type { RéférencielGRD } from './référencielGRD.js';
 
 export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) => {
   if (gestionnaires.length === 0) {

@@ -2,14 +2,17 @@ import { Command } from '@oclif/core';
 import { mediator } from 'mediateur';
 
 import {
-  EnvoyerNotificationCommand,
+  type EnvoyerNotificationCommand,
   registerNotificationsCommands,
 } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat, registerProjetQueries } from '@potentiel-domain/projet';
+import { type Lauréat, registerProjetQueries } from '@potentiel-domain/projet';
 import { GestionnaireRéseau, registerRéseauQueries } from '@potentiel-domain/reseau';
-import { ListerUtilisateursQuery, registerUtilisateurQueries } from '@potentiel-domain/utilisateur';
+import {
+  type ListerUtilisateursQuery,
+  registerUtilisateurQueries,
+} from '@potentiel-domain/utilisateur';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import {
   countProjection,

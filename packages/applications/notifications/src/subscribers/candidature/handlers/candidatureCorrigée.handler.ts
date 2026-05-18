@@ -1,5 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { buildUrl, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';

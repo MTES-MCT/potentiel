@@ -4,7 +4,7 @@ import '../zod/setupLocale';
 
 import { assert } from 'chai';
 
-import { InstructionSchemaShape, instructionSchema } from '.';
+import { type InstructionSchemaShape, instructionSchema } from '.';
 import { assertError, assertNoError, deepEqualWithRichDiff } from './csv/_test-shared';
 
 const minimumValuesÉliminé: Partial<Record<keyof InstructionSchemaShape, string>> = {

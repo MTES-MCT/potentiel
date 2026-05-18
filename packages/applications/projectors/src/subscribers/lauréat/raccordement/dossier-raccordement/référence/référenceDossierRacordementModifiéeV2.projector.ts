@@ -1,5 +1,5 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { référenceDossierRacordementModifiéeV1Projector } from './référenceDossierRacordementModifiéeV1.projector.js';
 

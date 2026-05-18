@@ -1,9 +1,9 @@
 import { DateTime } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { getTypeGarantiesFinancières } from '../index.js';
-import { getDateConstitutionGarantiesFinancières } from './getDateConstitutionGarantiesFinancières.js';
+import type { getTypeGarantiesFinancières } from '../index.js';
+import type { getDateConstitutionGarantiesFinancières } from './getDateConstitutionGarantiesFinancières.js';
 
 export const getDateÉchéanceGarantiesFinancières = ({
   dateConstitutionGarantiesFinancières,

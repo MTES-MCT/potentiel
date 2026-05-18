@@ -1,5 +1,5 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 

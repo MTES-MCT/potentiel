@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
-
-import { DétailsPuissancePageProps } from './DétailsPuissance.page';
+import type { DétailsPuissancePageProps } from './DétailsPuissance.page';
 
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];

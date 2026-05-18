@@ -1,8 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
-import { ModifierPuissanceForm, ModifierPuissanceFormProps } from './ModifierPuissance.form';
+import { ModifierPuissanceForm, type ModifierPuissanceFormProps } from './ModifierPuissance.form';
 
 export type ModifierPuissancePageProps = ModifierPuissanceFormProps;
 

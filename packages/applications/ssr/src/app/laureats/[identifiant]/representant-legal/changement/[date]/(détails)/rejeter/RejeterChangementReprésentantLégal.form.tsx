@@ -5,10 +5,9 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  RejeterChangementReprésentantLégalFormKeys,
+  type RejeterChangementReprésentantLégalFormKeys,
   rejeterChangementReprésentantLégalAction,
 } from './rejeterChangementReprésentantLégal.action';
 

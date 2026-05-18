@@ -3,12 +3,11 @@ import { expect } from 'chai';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { expectFileContent, waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
 
 Alors(
   'le dépôt de garanties financières devrait être consultable pour le projet lauréat',

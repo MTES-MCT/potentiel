@@ -1,4 +1,4 @@
-import { Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Then as Alors, type DataTable } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
@@ -7,8 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { expectFileContent, waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
 
 Alors(
   'les garanties financières actuelles devraient être consultables',

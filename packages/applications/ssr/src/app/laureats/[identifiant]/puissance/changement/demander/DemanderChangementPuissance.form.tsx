@@ -1,19 +1,18 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
-import { DemanderChangementPuissancePageProps } from './DemanderChangementPuissance.page';
+import type { ValidationErrors } from '@/utils/formAction';
+import type { DemanderChangementPuissancePageProps } from './DemanderChangementPuissance.page';
 import { DemanderChangementPuissanceFormErrors } from './DemanderChangementPuissanceFormErrors';
 import {
-  DemanderChangementPuissanceFormKeys,
+  type DemanderChangementPuissanceFormKeys,
   demanderChangementPuissanceAction,
 } from './demanderChangementPuissance.action';
 

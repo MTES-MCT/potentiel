@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { ListPagination } from './ListPagination';
 import { Tile } from './Tile';

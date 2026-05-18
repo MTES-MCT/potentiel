@@ -3,18 +3,17 @@ import type { Metadata } from 'next';
 import { match, P } from 'ts-pattern';
 import { z } from 'zod';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { HistoryRecord } from '@potentiel-domain/entity';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getLauréatInfos } from '../../_helpers/getLauréat';
 import { mapToLauréatTimelineItemProps } from '../../(historique)/mapToLauréatTimelineItemProps';
 import { mapToAbandonTimelineItemProps } from '../../abandon/(historique)/mapToAbandonTimelineItemProps';
@@ -35,7 +34,7 @@ import {
   mapCatégorieToIcon,
   mapCatégorieToLabel,
 } from './_helpers/catégories';
-import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
+import { type HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Promise<Record<string, string>>;

@@ -1,5 +1,5 @@
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
 
 import { Footer } from '@/components/organisms/Footer';

@@ -1,15 +1,14 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { AccorderChangementActionnaireForm } from './accorder/AccorderChangementActionnaire.form';
 import { AnnulerChangementActionnaireForm } from './annuler/AnnulerChangementActionnaire.form';
 import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';

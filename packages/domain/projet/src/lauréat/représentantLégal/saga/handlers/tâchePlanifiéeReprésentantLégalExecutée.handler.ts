@@ -4,9 +4,9 @@ import { match } from 'ts-pattern';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantProjet, Lauréat } from '../../../../index.js';
-import { SupprimerDocumentProjetSensibleCommand } from '../../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
-import {
+import { IdentifiantProjet, type Lauréat } from '../../../../index.js';
+import type { SupprimerDocumentProjetSensibleCommand } from '../../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
+import type {
   AccorderChangementReprésentantLégalUseCase,
   RejeterChangementReprésentantLégalUseCase,
 } from '../../index.js';

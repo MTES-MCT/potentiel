@@ -1,5 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { ChangementPuissanceWorld } from './changement/changementPuissance.world.js';
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture.js';

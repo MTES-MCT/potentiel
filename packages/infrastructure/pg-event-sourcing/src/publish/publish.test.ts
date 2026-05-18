@@ -3,11 +3,11 @@ import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { loadFromStream } from '../load/loadFromStream.js';
-import { PublishEvent, publish } from './publish.js';
+import { type PublishEvent, publish } from './publish.js';
 
 should();
 

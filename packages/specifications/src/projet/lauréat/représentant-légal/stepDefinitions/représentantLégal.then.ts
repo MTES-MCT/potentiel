@@ -3,12 +3,11 @@ import { assert } from 'chai';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type Document, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString, waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(
   /le représentant légal du projet lauréat devrait être consultable/,

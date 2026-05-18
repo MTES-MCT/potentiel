@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { Période } from '@potentiel-domain/periode';
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 import { Role, Zone } from '@potentiel-domain/utilisateur';
 
 import { buildUrl, listerCocontractantRecipients, listerRecipients } from '#helpers';

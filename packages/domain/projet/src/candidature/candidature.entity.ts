@@ -1,12 +1,12 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Entity } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet, Lauréat } from '../index.js';
-import { Fournisseur } from '../lauréat/fournisseur/index.js';
-import { DispositifDeStockage } from '../lauréat/installation/index.js';
-import {
+import type { IdentifiantProjet, Lauréat } from '../index.js';
+import type { Fournisseur } from '../lauréat/fournisseur/index.js';
+import type { DispositifDeStockage } from '../lauréat/installation/index.js';
+import type {
   Coordonnées,
   HistoriqueAbandon,
   Localité,

@@ -3,7 +3,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import ErrorPicto from '@codegouvfr/react-dsfr/picto/Error';
 import SuccessPicto from '@codegouvfr/react-dsfr/picto/Success';
 import clsx from 'clsx';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 

@@ -1,10 +1,9 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PièceJustificative } from '#helpers';
-
-import { LauréatWorld } from '../lauréat.world.js';
+import type { PièceJustificative } from '#helpers';
+import type { LauréatWorld } from '../lauréat.world.js';
 import { EnregistrerChangementDispositifDeStockageFixture } from './fixture/enregistrerChangementDispositifStockage.fixture.js';
 import { EnregistrerChangementInstallateurFixture } from './fixture/enregistrerChangementInstallateur.fixture.js';
 import { ModifierDispositifDeStockageFixture } from './fixture/modifierDispositifDeStockage.fixture.js';

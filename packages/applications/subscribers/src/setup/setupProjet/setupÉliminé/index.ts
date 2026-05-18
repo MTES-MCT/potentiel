@@ -1,5 +1,5 @@
 import { ÉliminéNotification } from '@potentiel-applications/notifications';
-import { HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
+import { type HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { setupRecours } from './setupRecours.js';

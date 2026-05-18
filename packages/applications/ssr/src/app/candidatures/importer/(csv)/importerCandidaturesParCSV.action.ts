@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { DomainError } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ImportCSV } from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -19,7 +19,7 @@ import {
   récupérerColonnesRequises,
 } from '@/utils/candidature';
 import { mapCsvRowToCoordonnées } from '@/utils/candidature/csv/coordonnéesCsv';
-import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
+import { type ActionResult, type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 

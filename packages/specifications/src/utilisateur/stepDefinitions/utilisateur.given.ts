@@ -1,12 +1,12 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Role, Région, UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisateur';
+import { Role, Région, type UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisateur';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 import { désactiverUtilisateur, inviterPorteur, inviterUtilisateur } from './utilisateur.when.js';
 
 EtantDonné(

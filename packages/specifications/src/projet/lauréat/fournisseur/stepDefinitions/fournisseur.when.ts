@@ -1,4 +1,4 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { assert } from 'chai';
 import { mediator } from 'mediateur';
 
@@ -6,8 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand("la dgec modifie l'évaluation carbone du projet", async function (this: PotentielWorld) {
   await modifierÉvaluationCarbone.call(this);

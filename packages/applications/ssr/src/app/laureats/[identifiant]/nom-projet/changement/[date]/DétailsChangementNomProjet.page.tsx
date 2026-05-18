@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
-
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { DétailsChangementNomProjet } from './DétailsChangementNomProjet';
 
 export type ChangementNomProjetActions = 'enregistrer-changement';

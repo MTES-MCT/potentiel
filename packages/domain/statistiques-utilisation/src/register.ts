@@ -1,5 +1,5 @@
 import {
-  RegisterAjouterStatistiqueUtilisationCommandDependencies,
+  type RegisterAjouterStatistiqueUtilisationCommandDependencies,
   registerAjouterStatistiqueUtilisationCommand,
 } from './ajouter/ajouterStatistiqueUtilisation.command.js';
 

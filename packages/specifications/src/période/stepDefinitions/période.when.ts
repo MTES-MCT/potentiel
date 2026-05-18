@@ -2,10 +2,10 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Période } from '@potentiel-domain/periode';
+import type { Période } from '@potentiel-domain/periode';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 Quand(
   /.* DGEC validateur notifie la période d'un appel d'offres/,

@@ -5,11 +5,10 @@ import z from 'zod';
 import { Routes } from '@potentiel-applications/routes';
 
 import { getSessionUser } from '@/auth/getSessionUser';
-import { AuthProvider, getProviders } from '@/auth/providers/authProvider';
-import { ProviderProps } from '@/components/organisms/auth/AuthTile';
+import { type AuthProvider, getProviders } from '@/auth/providers/authProvider';
+import type { ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { callbackURLSchema } from '@/utils/zod/auth';
-
 import SignUpPage from './SignUp.page';
 
 type PageProps = {

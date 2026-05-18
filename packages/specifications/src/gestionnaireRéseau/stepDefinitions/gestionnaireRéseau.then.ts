@@ -3,11 +3,10 @@ import { expect } from 'chai';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 Alors('le gestionnaire de réseau devrait être consultable', async function (this: PotentielWorld) {
   await waitForExpect(async () => {

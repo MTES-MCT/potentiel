@@ -3,12 +3,11 @@ import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature, Document } from '@potentiel-domain/projet';
+import type { Candidature, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString, waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
   const { identifiantProjet } = this.candidatureWorld.importerCandidature;

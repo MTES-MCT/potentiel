@@ -2,18 +2,20 @@
 
 import { useState } from 'react';
 
-import { DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { DocumentProjet } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   AttestationConformitéFormInput,
   DateAchèvementForm,
   PreuveTransmissionAuCocontractantFormInput,
 } from '../AttestationConformité.inputs';
-import { ModifierAchèvementFormKeys, modifierAchèvementAction } from './modifierAchèvement.action';
+import {
+  type ModifierAchèvementFormKeys,
+  modifierAchèvementAction,
+} from './modifierAchèvement.action';
 
 export type ModifierAchèvementFormProps = {
   identifiantProjet: string;

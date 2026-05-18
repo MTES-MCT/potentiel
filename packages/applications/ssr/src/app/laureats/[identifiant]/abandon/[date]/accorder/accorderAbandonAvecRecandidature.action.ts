@@ -3,15 +3,15 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
+import { buildDocument, type DonnéesDocument } from '@potentiel-applications/document-builder';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
 import { getLauréat } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({

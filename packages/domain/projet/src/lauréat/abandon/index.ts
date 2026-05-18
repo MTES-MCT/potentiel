@@ -1,30 +1,30 @@
-import {
+import type {
   ConsulterAbandonQuery,
   ConsulterAbandonReadModel,
 } from './consulter/consulterAbandon.query.js';
-import { AccorderAbandonUseCase } from './demande/accorder/accorderAbandon.usecase.js';
-import { AnnulerAbandonUseCase } from './demande/annuler/annulerAbandon.usecase.js';
-import { ConfirmerAbandonUseCase } from './demande/confirmer/confirmerAbandon.usecase.js';
-import {
+import type { AccorderAbandonUseCase } from './demande/accorder/accorderAbandon.usecase.js';
+import type { AnnulerAbandonUseCase } from './demande/annuler/annulerAbandon.usecase.js';
+import type { ConfirmerAbandonUseCase } from './demande/confirmer/confirmerAbandon.usecase.js';
+import type {
   ConsulterDemandeAbandonQuery,
   ConsulterDemandeAbandonReadModel,
 } from './demande/consulter/consulterDemandeAbandon.query.js';
-import { DemanderAbandonUseCase } from './demande/demander/demanderAbandon.usecase.js';
-import { DemanderConfirmationAbandonUseCase } from './demande/demanderConfirmation/demanderConfirmationAbandon.usecase.js';
-import { PasserEnInstructionAbandonUseCase } from './demande/instruire/passerAbandonEnInstruction.usecase.js';
-import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './demande/lister/listerAbandonsAvecRecandidatureÀRelancer.query.js';
-import {
+import type { DemanderAbandonUseCase } from './demande/demander/demanderAbandon.usecase.js';
+import type { DemanderConfirmationAbandonUseCase } from './demande/demanderConfirmation/demanderConfirmationAbandon.usecase.js';
+import type { PasserEnInstructionAbandonUseCase } from './demande/instruire/passerAbandonEnInstruction.usecase.js';
+import type { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './demande/lister/listerAbandonsAvecRecandidatureÀRelancer.query.js';
+import type {
   ListerDemandesAbandonQuery,
   ListerDemandesAbandonReadModel,
 } from './demande/lister/listerDemandesAbandon.query.js';
-import { RejeterAbandonUseCase } from './demande/rejeter/rejeterAbandon.usecase.js';
-import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase.js';
-import {
+import type { RejeterAbandonUseCase } from './demande/rejeter/rejeterAbandon.usecase.js';
+import type { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase.js';
+import type {
   HistoriqueAbandonProjetListItemReadModel,
   ListerHistoriqueAbandonProjetQuery,
   ListerHistoriqueAbandonProjetReadModel,
 } from './lister/listerHistoriqueAbandonProjet.query.js';
-import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase.js';
+import type { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase.js';
 
 // Query
 export type AbandonQuery =

@@ -1,7 +1,7 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { roleToLabel } from '@/utils/utilisateur/format-role';
 

@@ -1,13 +1,13 @@
-import { Hook } from '@oclif/core';
+import type { Hook } from '@oclif/core';
 
-import { HealthcheckClient } from '#helpers';
+import type { HealthcheckClient } from '#helpers';
 
 export type CommandWithHealthcheckClient = { _healthcheckClient?: HealthcheckClient };
 
 /**
  * After running the command, signal success or error to the healthcheck service
  */
-const healthcheckFinallyHook: Hook.Finally = async function ({ Command, error }) {
+const healthcheckFinallyHook: Hook.Finally = async ({ Command, error }) => {
   if (error) {
     console.log(error);
   }

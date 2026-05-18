@@ -3,18 +3,18 @@ import { after, afterEach, before, beforeEach, describe, it, mock } from 'node:t
 import { expect, should } from 'chai';
 import waitForExpectLib from 'wait-for-expect';
 
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DomainEvent } from '@potentiel-domain/core';
 import { initLogger } from '@potentiel-libraries/monitoring';
 import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { Event } from '../event.js';
+import type { Event } from '../event.js';
 import { publish } from '../publish/publish.js';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement.js';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements.js';
 import { executeRebuild } from './rebuild/executeRebuild.js';
 import { executeSubscribersRetry, subscribe } from './subscribe.js';
 import { registerSubscriber } from './subscriber/registerSubscriber.js';
-import { Unsubscribe } from './subscriber/subscriber.js';
+import type { Unsubscribe } from './subscriber/subscriber.js';
 
 export const waitForExpect = waitForExpectLib.default;
 

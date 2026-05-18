@@ -1,7 +1,7 @@
-import { ExponentialBackoff, FailureReason, handleAll, retry } from 'cockatiel';
+import { ExponentialBackoff, type FailureReason, handleAll, retry } from 'cockatiel';
 import { Client } from 'pg';
 
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DomainEvent } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 
@@ -9,7 +9,7 @@ import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAckno
 import { EventStreamEmitter } from './eventStreamEmitter.js';
 import { listSubscribers } from './subscriber/listSubscribers.js';
 import { registerSubscriber } from './subscriber/registerSubscriber.js';
-import { Subscriber, Unsubscribe } from './subscriber/subscriber.js';
+import type { Subscriber, Unsubscribe } from './subscriber/subscriber.js';
 
 let isReconnecting = false;
 let client: Client | undefined;

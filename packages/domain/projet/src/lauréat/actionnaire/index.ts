@@ -1,26 +1,26 @@
-import { AccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase.js';
-import { AnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase.js';
-import {
+import type { AccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase.js';
+import type { AnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase.js';
+import type {
   ConsulterChangementActionnaireQuery,
   ConsulterChangementActionnaireReadModel,
 } from './changement/consulter/consulterChangementActionnaire.query.js';
-import { DemanderChangementUseCase } from './changement/demander/demanderChangementActionnaire.usecase.js';
-import { EnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
-import {
+import type { DemanderChangementUseCase } from './changement/demander/demanderChangementActionnaire.usecase.js';
+import type { EnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
+import type {
   ListerChangementActionnaireQuery,
   ListerChangementActionnaireReadModel,
 } from './changement/lister/listerChangementActionnaire.query.js';
-import { RejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase.js';
-import {
+import type { RejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase.js';
+import type {
   ConsulterActionnaireQuery,
   ConsulterActionnaireReadModel,
 } from './consulter/consulterActionnaire.query.js';
-import {
+import type {
   HistoriqueActionnaireProjetListItemReadModel,
   ListerHistoriqueActionnaireProjetQuery,
   ListerHistoriqueActionnaireProjetReadModel,
 } from './listerHistorique/listerHistoriqueActionnaireProjet.query.js';
-import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase.js';
+import type { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase.js';
 
 // Query
 export type ActionnaireQuery =

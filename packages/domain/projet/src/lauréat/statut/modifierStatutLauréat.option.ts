@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { StatutLauréat } from '../index.js';
+import type { StatutLauréat } from '../index.js';
 
 export type ModifierStatutLauréatOptions = {
   modifiéLe: DateTime.ValueType;

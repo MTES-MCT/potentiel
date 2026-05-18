@@ -1,14 +1,13 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { buildUrl, getCahierDesChargesLauréat, getLauréat, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
-
-import { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications.js';
+import type { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications.js';
 
 export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
   identifiantProjet,

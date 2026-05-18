@@ -1,8 +1,8 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
   event: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent,

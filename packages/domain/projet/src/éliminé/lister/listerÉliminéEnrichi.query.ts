@@ -1,25 +1,25 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Joined, List, Where } from '@potentiel-domain/entity';
+import { type Joined, type List, Where } from '@potentiel-domain/entity';
 
 import {
-  CandidatureEntity,
-  Coordonnées,
-  Dépôt,
-  DétailCandidatureEntity,
-  Localité,
+  type CandidatureEntity,
+  type Coordonnées,
+  type Dépôt,
+  type DétailCandidatureEntity,
+  type Localité,
   TypeActionnariat,
   TypologieInstallation,
   UnitéPuissance,
 } from '../../candidature/index.js';
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { DispositifDeStockage } from '../../lauréat/installation/index.js';
 import {
-  NatureDeLExploitationEntity,
+  type NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../../lauréat/nature-de-l-exploitation/index.js';
-import { ÉliminéEntity } from '../éliminé.entity.js';
+import type { ÉliminéEntity } from '../éliminé.entity.js';
 
 export type ÉliminéEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

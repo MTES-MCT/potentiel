@@ -1,12 +1,13 @@
 import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
-import React, { JSX } from 'react';
+import type React from 'react';
+import type { JSX } from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
 import { formatNumber } from '../../helpers/index.js';
-import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
+import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 const Laureat = (project: AttestationCRE4Options) => {
   const { appelOffre, période, famille } = project;

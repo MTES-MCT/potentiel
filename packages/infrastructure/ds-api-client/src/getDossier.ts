@@ -1,8 +1,8 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { DeepPartial, mapApiResponseToDépôt } from './_helpers/index.js';
+import { type DeepPartial, mapApiResponseToDépôt } from './_helpers/index.js';
 import { getDSApiClient } from './graphql/index.js';
 
 export type Dossier = Awaited<ReturnType<typeof getDossier>>;

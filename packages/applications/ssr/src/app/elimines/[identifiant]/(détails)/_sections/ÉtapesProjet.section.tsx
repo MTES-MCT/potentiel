@@ -1,14 +1,13 @@
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getRecours } from '../../../../_helpers/getRecours';
 import { getÉliminé } from '../../../../_helpers/getÉliminé';
-import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
+import { EtapesProjet, type ÉtapeProjet } from './ÉtapesProjet';
 
 type ÉtapesProjetSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

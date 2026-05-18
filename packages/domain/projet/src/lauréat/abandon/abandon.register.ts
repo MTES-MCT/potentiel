@@ -1,6 +1,6 @@
-import { GetProjetAggregateRoot } from '../../index.js';
+import type { GetProjetAggregateRoot } from '../../index.js';
 import {
-  ConsulterAbandonDependencies,
+  type ConsulterAbandonDependencies,
   registerConsulterAbandonQuery,
 } from './consulter/consulterAbandon.query.js';
 import { registerAccorderAbandonCommand } from './demande/accorder/accorderAbandon.command.js';
@@ -10,7 +10,7 @@ import { registerAnnulerAbandonUseCase } from './demande/annuler/annulerAbandon.
 import { registerConfirmerAbandonCommand } from './demande/confirmer/confirmerAbandon.command.js';
 import { registerConfirmerAbandonUseCase } from './demande/confirmer/confirmerAbandon.usecase.js';
 import {
-  ConsulterDemandeAbandonDependencies,
+  type ConsulterDemandeAbandonDependencies,
   registerConsulterDemandeAbandonQuery,
 } from './demande/consulter/consulterDemandeAbandon.query.js';
 import { registerDemanderAbandonCommand } from './demande/demander/demanderAbandon.command.js';
@@ -20,11 +20,11 @@ import { registerDemanderConfirmationAbandonUseCase } from './demande/demanderCo
 import { registerPasserAbandonEnInstructionCommand } from './demande/instruire/passerAbandonEnInstruction.command.js';
 import { registerPasserEnInstructionAbandonUseCase } from './demande/instruire/passerAbandonEnInstruction.usecase.js';
 import {
-  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
+  type ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
 } from './demande/lister/listerAbandonsAvecRecandidatureÀRelancer.query.js';
 import {
-  ListerDemandesAbandonDependencies,
+  type ListerDemandesAbandonDependencies,
   registerListerDemandesAbandonQuery,
 } from './demande/lister/listerDemandesAbandon.query.js';
 import { registerRejeterAbandonCommand } from './demande/rejeter/rejeterAbandon.command.js';
@@ -32,7 +32,7 @@ import { registerRejeterAbandonUseCase } from './demande/rejeter/rejeterAbandon.
 import { registerDemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidature/demanderPreuveRecandidature.command.js';
 import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase.js';
 import {
-  ListerHistoriqueAbandonProjetDependencies,
+  type ListerHistoriqueAbandonProjetDependencies,
   registerListerHistoriqueAbandonProjetQuery,
 } from './lister/listerHistoriqueAbandonProjet.query.js';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.command.js';

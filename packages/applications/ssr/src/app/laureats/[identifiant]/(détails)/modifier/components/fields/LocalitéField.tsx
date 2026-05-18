@@ -3,9 +3,8 @@ import { useState } from 'react';
 
 import { FormRow } from '@/components/atoms/form/FormRow';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
-
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
-import { ModifierLauréatPageProps } from '../../ModifierLauréat.page';
+import type { FieldValidationErrors } from '../../ModifierLauréat.form';
+import type { ModifierLauréatPageProps } from '../../ModifierLauréat.page';
 import { LinkedValuesButton } from '../LinkedValuesButton';
 import { ProjectField } from './generic/ProjectField';
 

@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { KeepOrEditDocument, KeepOrEditDocumentProps } from './KeepOrEditDocument';
-import { UploadDocument, UploadDocumentProps } from './UploadDocument';
+import { KeepOrEditDocument, type KeepOrEditDocumentProps } from './KeepOrEditDocument';
+import { UploadDocument, type UploadDocumentProps } from './UploadDocument';
 
 export type UploadNewOrModifyExistingDocumentProps = UploadDocumentProps | KeepOrEditDocumentProps;
 

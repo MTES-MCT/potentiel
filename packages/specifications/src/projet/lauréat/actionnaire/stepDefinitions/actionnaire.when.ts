@@ -2,11 +2,10 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
   /(le DGEC validateur|la DREAL associée au projet) modifie l'actionnaire pour le projet (lauréat|éliminé)/,

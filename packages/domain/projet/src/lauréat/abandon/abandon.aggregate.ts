@@ -1,12 +1,12 @@
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import { IdentifiantProjet, Lauréat } from '../../index.js';
-import { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
-import { TâcheAggregate } from '../tâche/tâche.aggregate.js';
+import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
 import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant.js';
 import {
   AbandonDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
@@ -21,32 +21,32 @@ import {
   ProjetNotifiéAvantLaDateMinimumError,
   TranmissionPreuveRecandidatureImpossibleError,
 } from './abandon.error.js';
-import { AbandonEvent } from './abandon.event.js';
-import { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event.js';
-import { AccorderOptions } from './demande/accorder/accorderAbandon.option.js';
-import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event.js';
-import { AnnulerOptions } from './demande/annuler/annulerAbandon.option.js';
-import { ConfirmerOptions } from './demande/confirmer/confirmerAbandon.option.js';
-import {
+import type { AbandonEvent } from './abandon.event.js';
+import type { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event.js';
+import type { AccorderOptions } from './demande/accorder/accorderAbandon.option.js';
+import type { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event.js';
+import type { AnnulerOptions } from './demande/annuler/annulerAbandon.option.js';
+import type { ConfirmerOptions } from './demande/confirmer/confirmerAbandon.option.js';
+import type {
   AbandonDemandéEvent,
   AbandonDemandéEventV1,
 } from './demande/demander/demanderAbandon.event.js';
-import { DemanderOptions } from './demande/demander/demanderAbandon.option.js';
-import { DemanderConfirmationOptions } from './demande/demanderConfirmation/demanderConfirmation.option.js';
-import { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event.js';
-import { InstruireOptions } from './demande/instruire/instruireAbandon.option.js';
-import { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event.js';
-import { RejeterOptions } from './demande/rejeter/rejeterAbandon.option.js';
-import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option.js';
+import type { DemanderOptions } from './demande/demander/demanderAbandon.option.js';
+import type { DemanderConfirmationOptions } from './demande/demanderConfirmation/demanderConfirmation.option.js';
+import type { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event.js';
+import type { InstruireOptions } from './demande/instruire/instruireAbandon.option.js';
+import type { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event.js';
+import type { RejeterOptions } from './demande/rejeter/rejeterAbandon.option.js';
+import type { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option.js';
 import {
-  AbandonConfirméEvent,
+  type AbandonConfirméEvent,
   AutoritéCompétente,
-  ConfirmationAbandonDemandéeEvent,
-  PreuveRecandidatureDemandéeEvent,
-  PreuveRecandidatureTransmiseEvent,
+  type ConfirmationAbandonDemandéeEvent,
+  type PreuveRecandidatureDemandéeEvent,
+  type PreuveRecandidatureTransmiseEvent,
   StatutAbandon,
 } from './index.js';
-import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option.js';
+import type { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option.js';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon', LauréatAggregate> {
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;

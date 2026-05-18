@@ -1,11 +1,13 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';
-
-import { InviterUtilisateurForm, InviterUtilisateurFormProps } from './InviterUtilisateur.form';
+import {
+  InviterUtilisateurForm,
+  type InviterUtilisateurFormProps,
+} from './InviterUtilisateur.form';
 
 export type InviterUtilisateurPageProps = InviterUtilisateurFormProps;
 

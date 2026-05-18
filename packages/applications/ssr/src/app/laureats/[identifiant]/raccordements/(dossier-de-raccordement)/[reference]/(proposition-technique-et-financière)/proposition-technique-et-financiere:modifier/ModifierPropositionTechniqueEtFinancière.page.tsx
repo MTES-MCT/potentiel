@@ -1,12 +1,11 @@
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import {
   ModifierPropositionTechniqueEtFinancièreForm,
-  ModifierPropositionTechniqueEtFinancièreFormProps,
+  type ModifierPropositionTechniqueEtFinancièreFormProps,
 } from './ModifierPropositionTechniqueEtFinancière.form';
 
 export type ModifierPropositionTechniqueEtFinancièrePageProps =

@@ -1,26 +1,26 @@
-import {
+import type {
   ConsulterUtilisateurQuery,
   ConsulterUtilisateurReadModel,
   RécupérerUtilisateurPort,
 } from './consulter/consulterUtilisateur.query.js';
-import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
-import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase.js';
-import { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
-import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase.js';
-import {
+import type { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
+import type { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase.js';
+import type { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
+import type { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase.js';
+import type {
   UtilisateurInvitéEvent,
   UtilisateurInvitéEventV1,
 } from './inviter/inviterUtilisateur.event.js';
-import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase.js';
-import {
+import type { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase.js';
+import type {
   ListerUtilisateursQuery,
   ListerUtilisateursReadModel,
 } from './lister/listerUtilisateurs.query.js';
-import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
-import { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase.js';
-import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event.js';
-import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase.js';
-import {
+import type { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
+import type { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase.js';
+import type { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event.js';
+import type { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase.js';
+import type {
   TrouverUtilisateurQuery,
   TrouverUtilisateurReadModel,
 } from './trouver/trouverUtilisateur.query.js';

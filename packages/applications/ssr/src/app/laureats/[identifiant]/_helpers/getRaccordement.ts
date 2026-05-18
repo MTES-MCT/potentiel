@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { cache } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 export const getRaccordement = cache(async (identifiantProjet: IdentifiantProjet.RawType) => {

@@ -2,8 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { buildUrl, getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
-
-import { TâchePlanifiéeRaccordementNotificationProps } from '../tâche-planifiée.raccordement.notifications.js';
+import type { TâchePlanifiéeRaccordementNotificationProps } from '../tâche-planifiée.raccordement.notifications.js';
 
 export const handleDemandeComplèteRaccordementAttendueRelance = async ({
   identifiantProjet,

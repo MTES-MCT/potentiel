@@ -1,5 +1,5 @@
-import { FieldToExempleMapper, mapToExemple } from '../helpers/mapToExemple.js';
-import { PotentielWorld } from '../potentiel.world.js';
+import { type FieldToExempleMapper, mapToExemple } from '../helpers/mapToExemple.js';
+import type { PotentielWorld } from '../potentiel.world.js';
 import { CocontractantFixture } from './fixtures/cocontractant.fixture.js';
 import { CREFixture } from './fixtures/cre.fixture.js';
 import { DGECFixture } from './fixtures/dgec.fixture.js';
@@ -7,7 +7,7 @@ import { DREALFixture } from './fixtures/dreal.fixture.js';
 import { GRDFixture } from './fixtures/grd.fixture.js';
 import {
   InviterUtilisateurFixture,
-  InviterUtilisateurProps,
+  type InviterUtilisateurProps,
 } from './fixtures/inviter/inviter.fixture.js';
 import { InviterPorteurFixture } from './fixtures/inviter/inviterPorteur.fixture.js';
 import { ModifierRôleUtilisateurFixture } from './fixtures/inviter/modifier.fixture.js';

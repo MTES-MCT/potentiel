@@ -1,67 +1,67 @@
-import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
 import {
-  AbandonQueryDependencies,
+  type AbandonQueryDependencies,
   registerAbandonQueries,
   registerAbandonUseCases,
 } from './abandon/abandon.register.js';
 import {
-  AchèvementQueryDependencies,
+  type AchèvementQueryDependencies,
   registerAchèvementQueries,
   registerAchèvementUseCases,
 } from './achèvement/achèvement.register.js';
 import {
-  ActionnaireQueryDependencies,
+  type ActionnaireQueryDependencies,
   registerActionnaireQueries,
   registerActionnaireUseCases,
 } from './actionnaire/actionnaire.register.js';
 import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command.js';
 import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase.js';
 import {
-  ConsulterCahierDesChargesDependencies,
+  type ConsulterCahierDesChargesDependencies,
   registerConsulterCahierDesChargesQuery,
 } from './cahierDesCharges/consulter/consulterCahierDesCharges.query.js';
 import {
-  ConsulterLauréatDependencies,
+  type ConsulterLauréatDependencies,
   registerConsulterLauréatQuery,
 } from './consulter/consulterLauréat.query.js';
 import {
-  DélaiQueryDependencies,
+  type DélaiQueryDependencies,
   registerDélaiQueries,
   registerDélaiUseCases,
 } from './délai/index.js';
 import {
-  FournisseurQueryDependencies,
+  type FournisseurQueryDependencies,
   registerFournisseurQueries,
   registerFournisseurUseCases,
 } from './fournisseur/fournisseur.register.js';
 import {
-  GarantiesFinancièresQueryDependencies,
+  type GarantiesFinancièresQueryDependencies,
   registerGarantiesFinancièresQueries,
   registerGarantiesFinancièresUseCases,
 } from './garanties-financières/garantiesFinancières.register.js';
 import {
-  ListerHistoriqueProjetDependencies,
+  type ListerHistoriqueProjetDependencies,
   registerListerHistoriqueProjetQuery,
 } from './historique/lister/listerHistoriqueProjet.query.js';
 import {
-  InstallationQueryDependencies,
+  type InstallationQueryDependencies,
   registerInstallationQueries,
   registerInstallationUseCases,
 } from './installation/installation.register.js';
 import {
-  ListerLauréatDependencies,
+  type ListerLauréatDependencies,
   registerListerLauréatQuery,
 } from './lister/listerLauréat.query.js';
 import {
-  ListerLauréatEnrichiDependencies,
+  type ListerLauréatEnrichiDependencies,
   registerListerLauréatEnrichiQuery,
 } from './lister/listerLauréatEnrichi.query.js';
 import {
-  ListerHistoriqueLauréatDependencies,
+  type ListerHistoriqueLauréatDependencies,
   registerListerHistoriqueLauréatQuery,
 } from './listerHistorique/listerHistoriqueLauréat.query.js';
 import {
-  NatureDeLExploitationQueryDependencies,
+  type NatureDeLExploitationQueryDependencies,
   registerNatureDeLExploitationQueries,
   registerNatureDeLExploitationUseCases,
 } from './nature-de-l-exploitation/natureDeLExploitation.register.js';
@@ -73,31 +73,31 @@ import { registerModifierNomProjetCommand } from './nom-projet/modifier/modifier
 import { registerModifierNomProjetUseCase } from './nom-projet/modifier/modifierNomProjet.usecase.js';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command.js';
 import {
-  PowerPurchaseAgreementQueryDependencies,
+  type PowerPurchaseAgreementQueryDependencies,
   registerPowerPurchaseAgreementQueries,
   registerPowerPurchaseAgreementUseCases,
 } from './power-purchase-agreement/PowerPurchaseAgreement.register.js';
 import { registerProducteurQueries, registerProducteurUseCases } from './producteur/index.js';
-import { ProducteurQueryDependencies } from './producteur/producteur.register.js';
+import type { ProducteurQueryDependencies } from './producteur/producteur.register.js';
 import {
-  PuissanceQueryDependencies,
+  type PuissanceQueryDependencies,
   registerPuissanceQueries,
   registerPuissanceUseCases,
 } from './puissance/puissance.register.js';
 import {
-  RaccordementQueryDependencies,
+  type RaccordementQueryDependencies,
   registerRaccordementQueries,
   registerRaccordementUseCases,
 } from './raccordement/raccordement.register.js';
 import {
-  ReprésentantLégalCommandDependencies,
-  ReprésentantLégalQueryDependencies,
+  type ReprésentantLégalCommandDependencies,
+  type ReprésentantLégalQueryDependencies,
   registerReprésentantLégalQueries,
   registerReprésentantLégalUseCases,
 } from './représentantLégal/représentantLégal.register.js';
 import { registerModifierSiteDeProductionCommand } from './site-de-production/modifierSiteDeProduction.command.js';
 import { registerModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
-import { registerTâcheQuery, TâcheQueryDependencies } from './tâche/index.js';
+import { registerTâcheQuery, type TâcheQueryDependencies } from './tâche/index.js';
 import {
   registerTâchePlanifiéeQuery,
   registerTâchePlanifiéeUseCases,

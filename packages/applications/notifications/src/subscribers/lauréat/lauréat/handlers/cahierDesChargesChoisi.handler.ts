@@ -1,5 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';

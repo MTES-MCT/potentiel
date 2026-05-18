@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { handleDemandeComplèteRaccordementAttendueRelance } from './handlers/index.js';
 

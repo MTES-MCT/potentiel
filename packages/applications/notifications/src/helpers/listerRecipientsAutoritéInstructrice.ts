@@ -1,9 +1,8 @@
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { Recipient } from '#sendEmail';
-
+import type { Recipient } from '#sendEmail';
 import { getCahierDesChargesLauréat } from './getCahierDesChargesLauréat.js';
 import { listerDrealsRecipients } from './listerDrealsRecipients.js';
 

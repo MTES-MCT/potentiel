@@ -1,15 +1,14 @@
 import assert from 'node:assert';
 import { before, describe, test } from 'node:test';
 
-import { SendEmail } from '@potentiel-applications/notifications';
+import type { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/utilisateur';
+import type { PlainType } from '@potentiel-domain/core';
+import { type TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
-
+import type { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
 import { buildSendMagicLink } from './buildSendMagicLink';
 
 type UtilisateurItem = PlainType<TrouverUtilisateurReadModel>;

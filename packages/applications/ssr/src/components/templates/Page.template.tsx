@@ -1,7 +1,7 @@
 'use client';
 
 import { notFound, useSearchParams } from 'next/navigation';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { FormSuccessAlert } from '@/components/atoms/form/FormSuccessAlert';
 import { FeatureFlaggedComponent } from '@/utils/feature-flag/FeatureFlaggedComponent.template';

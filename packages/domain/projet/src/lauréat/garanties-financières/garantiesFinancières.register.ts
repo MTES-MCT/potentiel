@@ -1,19 +1,19 @@
 import {
-  GarantiesFinancièresActuellesQueryDependencies,
-  GarantiesFinancièresActuellesUseCasesDependencies,
+  type GarantiesFinancièresActuellesQueryDependencies,
+  type GarantiesFinancièresActuellesUseCasesDependencies,
   registerGarantiesFinancièresActuellesQueries,
   registerGarantiesFinancièresActuellesUseCases,
 } from './actuelles/garantiesFinancièresActuelles.register.js';
 import {
-  DépôtGarantiesFinancièresQueryDependencies,
-  DépôtGarantiesFinancièresUseCasesDependencies,
+  type DépôtGarantiesFinancièresQueryDependencies,
+  type DépôtGarantiesFinancièresUseCasesDependencies,
   registerDépôtGarantiesFinancièresQueries,
   registerDépôtGarantiesFinancièresUseCases,
 } from './dépôt/dépôtGarantiesFinancières.register.js';
 import { registerGarantiesFinancièresEnAttenteQueries } from './en-attente/garantiesFinancièresEnAttente.register.js';
 import {
-  MainlevéeGarantiesFinancièresQueryDependencies,
-  MainlevéeGarantiesFinancièresUseCasesDependencies,
+  type MainlevéeGarantiesFinancièresQueryDependencies,
+  type MainlevéeGarantiesFinancièresUseCasesDependencies,
   registerMainlevéeGarantiesFinancièresQueries,
   registerMainlevéeGarantiesFinancièresUseCases,
 } from './mainlevée/mainlevéeGarantiesFinancières.register.js';

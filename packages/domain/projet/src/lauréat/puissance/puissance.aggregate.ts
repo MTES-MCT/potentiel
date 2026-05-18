@@ -3,32 +3,32 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { ChampNonAttenduError } from '../../candidature/candidature.error.js';
-import { LauréatAggregate } from '../lauréat.aggregate.js';
-import { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.event.js';
-import { AccorderChangementPuissanceOptions } from './changement/accorder/accorderChangementPuissance.options.js';
-import { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.event.js';
-import { AnnulerOptions } from './changement/annuler/annulerChangementPuissance.options.js';
-import { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.event.js';
-import { DemanderOptions } from './changement/demander/demanderChangementPuissance.options.js';
-import { ChangementPuissanceEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementPuissance.event.js';
-import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options.js';
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.event.js';
+import type { AccorderChangementPuissanceOptions } from './changement/accorder/accorderChangementPuissance.options.js';
+import type { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.event.js';
+import type { AnnulerOptions } from './changement/annuler/annulerChangementPuissance.options.js';
+import type { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.event.js';
+import type { DemanderOptions } from './changement/demander/demanderChangementPuissance.options.js';
+import type { ChangementPuissanceEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementPuissance.event.js';
+import type { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options.js';
 import {
   DemandeDeChangementInexistanteError,
   RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError,
 } from './changement/errors.js';
-import { ChangementPuissanceRejetéEvent } from './changement/rejeter/rejeterChangementPuissance.event.js';
-import { RejeterChangementPuissanceOptions } from './changement/rejeter/rejeterChangementPuissance.options.js';
-import { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.event.js';
-import { SupprimerChangementPuissanceOptions } from './changement/supprimer/supprimerChangementPuissance.options.js';
-import { PuissanceImportéeEvent } from './importer/importerPuissance.event.js';
-import { ImporterOptions } from './importer/importerPuissance.options.js';
+import type { ChangementPuissanceRejetéEvent } from './changement/rejeter/rejeterChangementPuissance.event.js';
+import type { RejeterChangementPuissanceOptions } from './changement/rejeter/rejeterChangementPuissance.options.js';
+import type { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.event.js';
+import type { SupprimerChangementPuissanceOptions } from './changement/supprimer/supprimerChangementPuissance.options.js';
+import type { PuissanceImportéeEvent } from './importer/importerPuissance.event.js';
+import type { ImporterOptions } from './importer/importerPuissance.options.js';
 import {
   AutoritéCompétente,
   RatioChangementPuissance,
   StatutChangementPuissance,
 } from './index.js';
-import { PuissanceModifiéeEvent } from './modifier/modifierPuissance.event.js';
-import { ModifierOptions } from './modifier/modifierPuissance.options.js';
+import type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.event.js';
+import type { ModifierOptions } from './modifier/modifierPuissance.options.js';
 import {
   DemandeDeChangementPuissanceEnCoursError,
   ModificationPuissanceDeSiteRequiseError,
@@ -37,7 +37,7 @@ import {
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
 } from './puissance.error.js';
-import { PuissanceEvent } from './puissance.event.js';
+import type { PuissanceEvent } from './puissance.event.js';
 
 export class PuissanceAggregate extends AbstractAggregate<
   PuissanceEvent,

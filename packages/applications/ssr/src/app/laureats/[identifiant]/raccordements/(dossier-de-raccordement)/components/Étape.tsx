@@ -1,6 +1,6 @@
 import { fr } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { Icon } from '@/components/atoms/Icon';

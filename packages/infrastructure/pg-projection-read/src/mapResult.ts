@@ -1,8 +1,8 @@
 import { unflatten } from 'flat';
 
-import { Entity, Joined } from '@potentiel-domain/entity';
+import type { Entity, Joined } from '@potentiel-domain/entity';
 
-import { KeyValuePair } from './keyValuePair.js';
+import type { KeyValuePair } from './keyValuePair.js';
 
 export const mapResult = <TEntity extends Entity, TJoin extends Entity | {}>({
   key,

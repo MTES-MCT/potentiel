@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { PièceJustificative } from '../PièceJustificative.js';
+import type { PièceJustificative } from '../PièceJustificative.js';
 import { getFakeDocument } from './getFakeContent.js';
 import { getFakeIdentifiantProjet } from './getFakeIdentifiantProjet.js';
 import { getFakeLocation } from './getFakeLocation.js';

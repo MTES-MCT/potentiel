@@ -1,14 +1,13 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
 import { annulerSignalementPowerPurchaseAgreementAction } from './annulerSignalementPowerPurchaseAgreement.action';
 
 export type AnnulerSignalementPowerPurchaseAgreementFormProps = {

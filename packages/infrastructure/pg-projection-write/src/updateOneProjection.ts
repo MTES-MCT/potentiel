@@ -1,7 +1,7 @@
 import { flatten } from 'flat';
 import format from 'pg-format';
 
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 import { getWhereClause } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';

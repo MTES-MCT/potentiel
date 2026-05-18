@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events';
 
-import { Client } from 'pg';
+import type { Client } from 'pg';
 import format from 'pg-format';
 
-import { DomainEvent } from '@potentiel-domain/core';
-import { getLogger, Logger } from '@potentiel-libraries/monitoring';
+import type { DomainEvent } from '@potentiel-domain/core';
+import { getLogger, type Logger } from '@potentiel-libraries/monitoring';
 
-import { Event, isEvent } from '../event.js';
+import { type Event, isEvent } from '../event.js';
 import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge.js';
 import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error.js';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error.js';
@@ -15,9 +15,9 @@ import { RebuildFailedError } from './errors/RebuildFailed.error.js';
 import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error.js';
 import { rebuild } from './rebuild/rebuild.js';
 import { rebuildAll } from './rebuild/rebuildAll.js';
-import { isRebuildAllEvent, RebuildTriggered } from './rebuild/rebuildTriggered.event.js';
+import { isRebuildAllEvent, type RebuildTriggered } from './rebuild/rebuildTriggered.event.js';
 import { getPayloadTooLarge, isPayloadTooLargeEvent } from './subscriber/getPayloadTooLarge.js';
-import { Subscriber } from './subscriber/subscriber.js';
+import type { Subscriber } from './subscriber/subscriber.js';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 

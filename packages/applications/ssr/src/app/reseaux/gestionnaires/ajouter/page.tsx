@@ -1,8 +1,7 @@
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { AjouterGestionnaireRéseauPage } from './AjouterGestionnaireRéseau.page';
 
 export default async function Page() {

@@ -1,7 +1,7 @@
-import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
-import { FC } from 'react';
+import Input, { type InputProps } from '@codegouvfr/react-dsfr/Input';
+import type { FC } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 type InputDateProps = {
   label: InputProps['label'];

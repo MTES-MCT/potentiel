@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
+import { Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';

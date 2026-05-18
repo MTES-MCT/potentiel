@@ -2,22 +2,22 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import {
-  FieldToExempleMapper,
+  type FieldToExempleMapper,
   mapBoolean,
   mapDateTime,
   mapToExemple,
 } from '../../../../helpers/mapToExemple.js';
-import { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
+import type { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
 import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture.js';
 import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture.js';
 import {
   EnregistrerGarantiesFinancièresFixture,
-  EnregistrerGarantiesFinancièresProps,
+  type EnregistrerGarantiesFinancièresProps,
 } from './fixtures/enregistrerGarantiesFinancières.fixture.js';
 import { ImporterGarantiesFinancièresFixture } from './fixtures/importerGarantiesFinancières.fixture.js';
 import {
   ModifierGarantiesFinancièresFixture,
-  ModifierGarantiesFinancièresProps,
+  type ModifierGarantiesFinancièresProps,
 } from './fixtures/modifierGarantiesFinancières.fixture.js';
 
 export class GarantiesFinancièresActuellesWorld {

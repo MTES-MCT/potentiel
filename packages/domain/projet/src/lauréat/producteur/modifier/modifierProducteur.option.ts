@@ -1,8 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet } from '#document-projet';
-
-import { NuméroIdentification } from '../index.js';
+import type { DocumentProjet } from '#document-projet';
+import type { NuméroIdentification } from '../index.js';
 
 export type ModifierOptions = {
   identifiantUtilisateur: Email.ValueType;

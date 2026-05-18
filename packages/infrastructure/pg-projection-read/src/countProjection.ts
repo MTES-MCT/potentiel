@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import { CountOption, Entity, JoinOptions } from '@potentiel-domain/entity';
+import type { CountOption, Entity, JoinOptions } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { getFromClause } from './getFromClause.js';

@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { InvalidOperationError, type PlainType } from '@potentiel-domain/core';
 
 import { TypeActionnariat } from './candidature/index.js';
 export namespace CahierDesCharges {

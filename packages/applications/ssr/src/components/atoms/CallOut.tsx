@@ -1,6 +1,6 @@
-import { FrIconClassName, fr, RiIconClassName } from '@codegouvfr/react-dsfr';
+import { type FrIconClassName, fr, type RiIconClassName } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { Heading3 } from './headings';
 

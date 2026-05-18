@@ -1,5 +1,5 @@
-import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject, type PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getDescriptionTâche } from '@/app/taches/TâcheListItem';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';

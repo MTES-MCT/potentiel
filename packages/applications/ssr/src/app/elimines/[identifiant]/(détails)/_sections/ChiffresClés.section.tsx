@@ -1,11 +1,10 @@
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { ChiffresClésProjet } from '@/components/molecules/projet/ChiffresClésProjet';
-
 import { getÉliminé } from '../../../../_helpers/getÉliminé';
 
 type ChiffresClésSectionProps = {

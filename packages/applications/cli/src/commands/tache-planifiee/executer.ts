@@ -3,7 +3,11 @@ import { mediator } from 'mediateur';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
+import {
+  type Lauréat,
+  registerProjetQueries,
+  registerProjetUseCases,
+} from '@potentiel-domain/projet';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import {
   countProjection,

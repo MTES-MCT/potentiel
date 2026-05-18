@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { List, Where } from '@potentiel-domain/entity';
+import { type List, Where } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../../../../index.js';
-import { DemandeAbandonEntity, StatutPreuveRecandidature } from '../../index.js';
+import { type DemandeAbandonEntity, StatutPreuveRecandidature } from '../../index.js';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
   résultats: Array<{

@@ -1,4 +1,4 @@
-import { Body } from './post.js';
+import type { Body } from './post.js';
 
 export class RequestError extends Error {
   constructor(

@@ -1,18 +1,18 @@
 import { match, P } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantProjet } from '../../index.js';
-import { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { IdentifiantProjet } from '../../index.js';
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { ChangementImpossibleCarProjetAchevéError } from '../lauréat.error.js';
 import { TypeTâche } from '../tâche/index.js';
-import { TâcheAggregate } from '../tâche/tâche.aggregate.js';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
-import { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
+import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
+import type { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
 import {
   DateDansLeFuturError,
   DateDeMiseEnServiceNonModifiéeError,
@@ -34,12 +34,12 @@ import {
   RéférencesDossierRaccordementIdentiquesError,
 } from './errors.js';
 import { RéférenceDossierRaccordement, TypeTâchePlanifiéeRaccordement } from './index.js';
-import { ModifierDateMiseEnServiceOptions } from './modifier/dateMiseEnService/modifierDateMiseEnService.options.js';
-import { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
-import { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseau.options.js';
-import { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.options.js';
-import { ModifierRéférenceDossierRaccordementOptions } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.options.js';
-import {
+import type { ModifierDateMiseEnServiceOptions } from './modifier/dateMiseEnService/modifierDateMiseEnService.options.js';
+import type { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
+import type { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseau.options.js';
+import type { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.options.js';
+import type { ModifierRéférenceDossierRaccordementOptions } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.options.js';
+import type {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DateMiseEnServiceModifiéeEvent,
   DateMiseEnServiceSuppriméeEvent,
@@ -69,11 +69,11 @@ import {
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
 } from './raccordement.event.js';
-import { SupprimerDateMiseEnServiceOptions } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.options.js';
-import { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options.js';
-import { TransmettreDateMiseEnServiceOptions } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.options.js';
-import { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
-import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options.js';
+import type { SupprimerDateMiseEnServiceOptions } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.options.js';
+import type { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options.js';
+import type { TransmettreDateMiseEnServiceOptions } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.options.js';
+import type { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
+import type { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options.js';
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;

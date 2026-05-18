@@ -1,4 +1,4 @@
-import { FrIconClassName, RiIconClassName } from '@codegouvfr/react-dsfr';
+import type { FrIconClassName, RiIconClassName } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
 
 import { Link } from '../atoms/LinkNoPrefetch';

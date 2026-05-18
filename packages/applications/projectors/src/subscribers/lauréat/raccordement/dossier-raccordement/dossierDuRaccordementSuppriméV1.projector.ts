@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { Where } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   removeProjection,

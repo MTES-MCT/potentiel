@@ -1,6 +1,6 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { PotentielUtilisateur } from '@potentiel-applications/request-context';
+import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { Routes } from '@potentiel-applications/routes';
 
 import { getDashboardRoute } from '@/utils/getDashboardRoute';

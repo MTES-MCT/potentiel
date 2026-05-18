@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
+import { AbstractFixture, type DeepPartial } from '../../../../../fixture.js';
 
 interface DemanderMainlevée {
   motif: string;

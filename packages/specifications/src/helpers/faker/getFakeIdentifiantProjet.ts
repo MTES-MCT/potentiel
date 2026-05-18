@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 

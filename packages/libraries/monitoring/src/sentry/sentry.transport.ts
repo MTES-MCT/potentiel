@@ -1,7 +1,7 @@
 // CREDITS: largely inspired by https://github.com/aandrewww/winston-transport-sentry-node
 
 import * as Sentry from '@sentry/node';
-import TransportStream, { TransportStreamOptions } from 'winston-transport';
+import TransportStream, { type TransportStreamOptions } from 'winston-transport';
 
 const LEVELS_MAP: Record<string, Sentry.SeverityLevel> = {
   silly: 'debug',

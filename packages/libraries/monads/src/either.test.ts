@@ -1,8 +1,8 @@
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
 
-import { Left, left } from './either/left.js';
-import { Right, right } from './either/right.js';
+import { type Left, left } from './either/left.js';
+import { type Right, right } from './either/right.js';
 import { Either } from './index.js';
 
 describe(`Either`, () => {

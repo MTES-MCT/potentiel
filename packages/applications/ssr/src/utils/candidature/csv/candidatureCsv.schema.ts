@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import { dépôtSchema, numéroDAutorisationSchema } from '../dépôt.schema';
 import {

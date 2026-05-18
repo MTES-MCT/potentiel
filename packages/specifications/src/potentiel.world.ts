@@ -1,4 +1,4 @@
-import { IWorldOptions, World } from '@cucumber/cucumber';
+import { type IWorldOptions, World } from '@cucumber/cucumber';
 
 import { AccèsWorld } from './accès/accès.world.js';
 import { CandidatureWorld } from './candidature/candidature.world.js';

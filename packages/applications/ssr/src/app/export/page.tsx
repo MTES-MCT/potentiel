@@ -2,15 +2,14 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import * as z from 'zod';
 
-import { PotentielUtilisateur } from '@potentiel-applications/request-context';
+import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import {
   getStatutLauréatLabel,
   getTypeActionnariatFilterOptions,
@@ -18,7 +17,7 @@ import {
   transformToOptionalEnumArray,
 } from '../_helpers';
 import { featureFlag } from '../_helpers/getFeatureFlag';
-import { ExportPage, ExportPageProps } from './export.page';
+import { ExportPage, type ExportPageProps } from './export.page';
 
 export const metadata: Metadata = { title: 'Export de données' };
 

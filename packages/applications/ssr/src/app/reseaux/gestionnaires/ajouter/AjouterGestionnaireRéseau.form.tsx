@@ -3,10 +3,9 @@ import { Input } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  AjouterGestionnaireRéseauFormKeys,
+  type AjouterGestionnaireRéseauFormKeys,
   ajouterGestionnaireRéseauAction,
 } from './ajouterGestionnaireRéseau.action';
 

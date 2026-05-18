@@ -3,12 +3,12 @@ import { mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import { Candidature, Éliminé } from '../../../../index.js';
-import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
-import { ImporterGarantiesFinancièresCommand } from '../../actuelles/importer/importerGarantiesFinancières.command.js';
+import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import type { Candidature, Éliminé } from '../../../../index.js';
+import type { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
+import type { ImporterGarantiesFinancièresCommand } from '../../actuelles/importer/importerGarantiesFinancières.command.js';
 import { DocumentGarantiesFinancières, GarantiesFinancières } from '../../index.js';
-import { RécupererConstitutionGarantiesFinancièresPort } from '../../port/index.js';
+import type { RécupererConstitutionGarantiesFinancièresPort } from '../../port/index.js';
 
 export const handleLauréatNotifié = async (
   { payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéEvent,

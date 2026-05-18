@@ -1,11 +1,11 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
-import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture.js';
 
 Quand(
   'le porteur demande la mainlevée des garanties financières',

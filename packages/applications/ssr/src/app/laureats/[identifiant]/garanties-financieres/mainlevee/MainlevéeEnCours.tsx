@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet, type IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';

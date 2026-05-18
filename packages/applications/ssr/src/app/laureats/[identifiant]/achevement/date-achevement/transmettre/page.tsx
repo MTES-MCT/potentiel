@@ -1,13 +1,12 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { TransmettreDateAchèvementPage } from './TransmettreDateAchèvement.page';
 
 export const metadata: Metadata = { title: `Transmettre la date d'achèvement` };

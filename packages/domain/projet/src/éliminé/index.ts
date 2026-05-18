@@ -1,16 +1,16 @@
-import { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event.js';
-import {
+import type { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event.js';
+import type {
   ConsulterÉliminéQuery,
   ConsulterÉliminéReadModel,
 } from './consulter/consulterÉliminé.query.js';
-import { ListerÉliminéQuery, ListerÉliminéReadModel } from './lister/listerÉliminé.query.js';
-import {
+import type { ListerÉliminéQuery, ListerÉliminéReadModel } from './lister/listerÉliminé.query.js';
+import type {
   ListerÉliminéEnrichiQuery,
   ListerÉliminéEnrichiReadModel,
   ÉliminéEnrichiListItemReadModel,
 } from './lister/listerÉliminéEnrichi.query.js';
-import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event.js';
-import { ÉliminéEvent } from './éliminé.event.js';
+import type { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event.js';
+import type { ÉliminéEvent } from './éliminé.event.js';
 
 // Query
 export type ÉliminéQuery = ConsulterÉliminéQuery | ListerÉliminéQuery | ListerÉliminéEnrichiQuery;

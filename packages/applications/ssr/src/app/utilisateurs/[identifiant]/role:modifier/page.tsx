@@ -1,23 +1,22 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Email } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import {
-  ConsulterUtilisateurQuery,
-  ModifierRôleUtilisateurUseCase,
+  type ConsulterUtilisateurQuery,
+  type ModifierRôleUtilisateurUseCase,
   Région,
   Zone,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getZoneLabel } from '../../_helpers/getZoneLabel';
 import { ModifierRôleUtilisateurPage } from './ModifierRôleUtilisateur.page';
 

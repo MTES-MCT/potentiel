@@ -1,4 +1,4 @@
-import { RôleUtilisateurModifiéEvent, UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import type { RôleUtilisateurModifiéEvent, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';

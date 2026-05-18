@@ -10,7 +10,6 @@ import {
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { changementActionnaireNécessiteInstruction } from '../../../../../_helpers/changementActionnaireNécessiteInstruction';
 import { ActionnariatDétails } from './ActionnariatDétails';
 

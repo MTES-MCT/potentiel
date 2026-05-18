@@ -1,12 +1,12 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Accès } from '@potentiel-domain/projet';
+import type { Accès } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world.js';
-import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
+import type { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture.js';
 
 Quand(
   `un porteur réclame le projet {lauréat-éliminé} avec le même email que celui de la candidature`,

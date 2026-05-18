@@ -1,5 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Éliminé } from '@potentiel-domain/projet';
+import type { Éliminé } from '@potentiel-domain/projet';
 
 import {
   buildUrl,

@@ -1,4 +1,4 @@
-import { Middleware, mediator } from 'mediateur';
+import { type Middleware, mediator } from 'mediateur';
 
 import { StatistiquesAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { sendEmail } from '@potentiel-infrastructure/email';

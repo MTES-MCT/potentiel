@@ -1,4 +1,4 @@
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import type { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = {
   adresse1: string;

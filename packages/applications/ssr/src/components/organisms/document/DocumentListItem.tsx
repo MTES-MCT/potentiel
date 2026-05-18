@@ -1,5 +1,5 @@
 import Tag from '@codegouvfr/react-dsfr/Tag';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
 

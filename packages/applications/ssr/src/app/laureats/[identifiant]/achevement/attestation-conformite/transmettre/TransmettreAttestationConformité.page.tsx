@@ -1,13 +1,12 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { InfoBoxAttestationConformité } from '../../InfoAttestationConformité';
 import {
   TransmettreAttestationConformitéForm,
-  TransmettreAttestationConformitéFormProps,
+  type TransmettreAttestationConformitéFormProps,
 } from './TransmettreAttestationConformité.form';
 
 export type TransmettreAttestationConformitéPageProps = TransmettreAttestationConformitéFormProps;

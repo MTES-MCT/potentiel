@@ -1,7 +1,7 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { EnregistrerDocumentSubstitutPort } from '../../../../document-projet/index.js';
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
+import type { EnregistrerDocumentSubstitutPort } from '../../../../document-projet/index.js';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type SupprimerDocumentProjetSensibleCommand = Message<
   'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',

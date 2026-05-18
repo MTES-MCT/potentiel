@@ -1,6 +1,6 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import type { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-import { CustomMiddleware, MiddlewareFactory } from './middleware';
+import type { CustomMiddleware, MiddlewareFactory } from './middleware';
 
 export const chain = (functions: MiddlewareFactory[], index = 0): CustomMiddleware => {
   const current = functions[index];

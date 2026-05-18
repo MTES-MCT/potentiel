@@ -1,6 +1,6 @@
-import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event.js';
-import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event.js';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event.js';
+import type { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event.js';
+import type { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event.js';
+import type { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event.js';
 
 export type TâchePlanifiéeEvent =
   | TâchePlanifiéeAjoutéeEvent

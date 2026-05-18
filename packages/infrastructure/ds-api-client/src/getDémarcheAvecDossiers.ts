@@ -8,7 +8,7 @@ const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];
   let hasNextPage = true;
   const first = process.env.DS_API_PAGE_SIZE ? Number(process.env.DS_API_PAGE_SIZE) : undefined;
-  let after: string | undefined = undefined;
+  let after: string | undefined;
 
   const sdk = getDSApiClient();
 

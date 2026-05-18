@@ -4,7 +4,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
-import { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
 
 EtantDonné(
   `des garanties financières en attente pour le projet lauréat`,

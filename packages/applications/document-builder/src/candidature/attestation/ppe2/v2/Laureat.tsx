@@ -1,8 +1,8 @@
 import { Text, View } from '@react-pdf/renderer';
 
-import { CahierDesCharges } from '@potentiel-domain/projet';
+import type { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { formatNumber } from '../../helpers/index.js';
 
 type LaureatProps = {

@@ -1,9 +1,9 @@
-import { Middleware, mediator } from 'mediateur';
+import { type Middleware, mediator } from 'mediateur';
 
-import { EnvoyerNotificationCommand, render } from '@potentiel-applications/notifications';
+import { type EnvoyerNotificationCommand, render } from '@potentiel-applications/notifications';
 import { sendEmail } from '@potentiel-infrastructure/email';
 
-import { PotentielWorld } from '../potentiel.world.js';
+import type { PotentielWorld } from '../potentiel.world.js';
 
 export function createSendEmailTestAdapter(this: PotentielWorld) {
   const emailsEnabled = process.env.EMAILS_DISABLED_FOR_TESTS !== 'true';

@@ -1,16 +1,16 @@
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
 import {
-  ConsulterChangementDispositifDeStockageDependencies,
+  type ConsulterChangementDispositifDeStockageDependencies,
   registerConsulterChangementDispositifDeStockageQuery,
 } from './changement/consulter/consulterChangementDispositifDeStockage.query.js';
 import { registerEnregistrerChangementDispositifDeStockageCommand } from './changement/enregistrer/enregistrerChangementDispositifDeStockage.command.js';
 import { registerEnregistrerChangementDispositifDeStockageUseCase } from './changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase.js';
 import {
-  ListerChangementDispositifDeStockageDependencies,
+  type ListerChangementDispositifDeStockageDependencies,
   registerListerChangementDispositifDeStockageQuery,
 } from './changement/lister/listerChangementDispositifDeStockage.query.js';
 import {
-  ConsulterDispositifDeStockageDependencies,
+  type ConsulterDispositifDeStockageDependencies,
   registerConsulterDispositifDeStockageQuery,
 } from './consulter/consulterDispositifDeStockage.query.js';
 import { registerModifierDispositifDeStockageCommand } from './modifier/modifierDispositifDeStockage.command.js';

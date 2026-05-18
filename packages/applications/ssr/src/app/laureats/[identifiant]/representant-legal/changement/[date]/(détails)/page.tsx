@@ -1,21 +1,20 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { récupérerChangementsPermisParLeCahierDesCharges } from '../../../../../../_helpers/récupérerChangementsPermisParLeCahierDesCharges';
 import { mapToReprésentantLégalTimelineItemProps } from '../../../(historique)/mapToReprésentantLégalTimelineItemProps';
 import {
-  AvailableChangementReprésentantLégalAction,
+  type AvailableChangementReprésentantLégalAction,
   DétailsChangementReprésentantLégalPage,
 } from './DétailsChangementReprésentantLégal.page';
 

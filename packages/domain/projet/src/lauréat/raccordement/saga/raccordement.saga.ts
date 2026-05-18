@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Lauréat, RécupererGRDParVillePort } from '../../../index.js';
-import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event.js';
+import type { Lauréat, RécupererGRDParVillePort } from '../../../index.js';
+import type { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event.js';
 import { handleLauréatNotifié, handleTâchePlanifiéeExecutée } from './handlers/index.js';
 
 export type SubscriptionEvent =

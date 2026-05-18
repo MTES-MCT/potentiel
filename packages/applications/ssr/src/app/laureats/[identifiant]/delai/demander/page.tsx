@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -13,10 +13,9 @@ import {
 } from '@/app/_helpers';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { DemanderDélaiPage } from './DemanderDélai.page';
 
 export const metadata: Metadata = { title: 'Demander un délai de force majeure' };

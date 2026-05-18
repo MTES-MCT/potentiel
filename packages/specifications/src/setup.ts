@@ -19,7 +19,6 @@ import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { waitForExpect } from '#helpers';
-
 import {
   createSendEmailTestAdapter,
   mockRécupererGarantiesFinancières,

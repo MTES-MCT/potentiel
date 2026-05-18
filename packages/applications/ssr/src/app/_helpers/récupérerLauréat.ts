@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 export const récupérerLauréat = async (identifiantProjet: string) => {

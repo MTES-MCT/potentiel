@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -13,14 +13,13 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { Form } from '@/components/atoms/form/Form';
 import { Icon } from '@/components/atoms/Icon';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
-  GestionnaireRéseauSelectProps,
+  type GestionnaireRéseauSelectProps,
 } from '../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 import {
-  TransmettreDemandeComplèteRaccordementFormKeys,
+  type TransmettreDemandeComplèteRaccordementFormKeys,
   transmettreDemandeComplèteRaccordementAction,
 } from './transmettreDemandeComplèteRaccordement.action';
 

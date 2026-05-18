@@ -4,17 +4,16 @@ import { redirect } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { récupérerLauréat } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import {
   getModificationDCRAction,
   getModificationGestionnaireRéseauAction,
@@ -23,7 +22,7 @@ import {
 } from './_helpers';
 import {
   DétailsRaccordementDuProjetPage,
-  DétailsRaccordementPageProps,
+  type DétailsRaccordementPageProps,
 } from './DétailsRaccordementDuProjet.page';
 
 type PageProps = IdentifiantParameter;

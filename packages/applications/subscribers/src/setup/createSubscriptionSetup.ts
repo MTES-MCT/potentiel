@@ -1,12 +1,12 @@
-import { bulkhead, IPolicy, noop, wrap } from 'cockatiel';
-import { Message, mediator } from 'mediateur';
+import { bulkhead, type IPolicy, noop, wrap } from 'cockatiel';
+import { type Message, mediator } from 'mediateur';
 
 import { runWorkerWithContext } from '@potentiel-applications/request-context';
-import { DomainEvent } from '@potentiel-domain/core';
-import { Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { DomainEvent } from '@potentiel-domain/core';
+import { type Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-let globalPolicy: IPolicy | undefined = undefined;
+let globalPolicy: IPolicy | undefined;
 const getGlobalPolicy = () => {
   if (!globalPolicy) {
     const maxConcurrentSubscribers = parseInt(process.env.MAX_CONCURRENT_SUBSCRIBERS ?? '-1');

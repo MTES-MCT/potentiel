@@ -1,19 +1,18 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ConfirmationAction } from '@/components/molecules/ConfirmationAction';
 import { LinkAction } from '@/components/molecules/LinkAction';
 import {
-  ActionMap,
-  Actions,
+  type ActionMap,
+  type Actions,
   ActionsPageTemplate,
 } from '@/components/templates/ActionsPage.template';
-
 import { GarantiesFinancières } from '../components/GarantiesFinancières';
 import { supprimerDépôtGarantiesFinancièresAction } from './supprimer/supprimerDépôtGarantiesFinancières.action';
 import { validerDépôtGarantiesFinancièresAction } from './valider/validerDépôtGarantiesFinancières.action';

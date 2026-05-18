@@ -6,7 +6,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Période } from '@potentiel-domain/periode';
 import {
-  Candidature,
+  type Candidature,
   registerProjetQueries,
   registerProjetUseCases,
 } from '@potentiel-domain/projet';

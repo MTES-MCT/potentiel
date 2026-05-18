@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import {
-  AccèsProjetAutoriséEvent,
+  type AccèsProjetAutoriséEvent,
   accèsProjetAutoriséHandler,
 } from './handlers/accèsProjetAutorisé.handler.js';
 import {
-  AccèsProjetRemplacéEvent,
+  type AccèsProjetRemplacéEvent,
   accèsProjetRemplacéHandler,
 } from './handlers/accèsProjetRemplacé.handler.js';
 

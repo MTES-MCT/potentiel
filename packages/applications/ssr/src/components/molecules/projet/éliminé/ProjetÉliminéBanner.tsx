@@ -1,12 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ProjetBannerTemplate } from '../ProjetBanner.template';
 import { StatutÉliminéBadge } from './StatutÉliminéBadge';
 

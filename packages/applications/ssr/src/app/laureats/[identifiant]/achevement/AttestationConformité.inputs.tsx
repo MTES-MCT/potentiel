@@ -1,14 +1,14 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
+import type { DocumentProjet } from '@potentiel-domain/projet';
 import { now } from '@potentiel-libraries/iso8601-datetime';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { ValidationErrors } from '@/utils/formAction';
+import type { ValidationErrors } from '@/utils/formAction';
 
 export type AttestationConformitéFormInputProps = {
   attestationConformité?: DocumentProjet.RawType;

@@ -5,7 +5,7 @@ import { buildCertificate } from '@potentiel-applications/document-builder';
 import { DateTime } from '@potentiel-domain/common';
 import {
   AccèsFonctionnalitéRefuséError,
-  ConsulterUtilisateurQuery,
+  type ConsulterUtilisateurQuery,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';

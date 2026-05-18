@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = string;
 

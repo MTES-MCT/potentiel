@@ -2,13 +2,12 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 
 Alors(
   `le projet devrait avoir un raccordement attribué au gestionnaire de réseau {string}`,

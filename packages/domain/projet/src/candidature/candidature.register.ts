@@ -1,6 +1,6 @@
-import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
 import {
-  ConsulterCandidatureDependencies,
+  type ConsulterCandidatureDependencies,
   registerConsulterCandidatureQuery,
 } from './consulter/consulterCandidature.query.js';
 import { registerCorrigerCandidatureCommand } from './corriger/corrigerCandidature.command.js';
@@ -9,15 +9,15 @@ import { registerConsulterDétailCandidatureQuery } from './détail/consulter/co
 import { registerImporterCandidatureCommand } from './importer/importerCandidature.command.js';
 import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase.js';
 import {
-  ListerCandidaturesQueryDependencies,
+  type ListerCandidaturesQueryDependencies,
   registerListerCandidaturesQuery,
 } from './lister/listerCandidatures.query.js';
 import {
-  ListerDétailsFournisseurQueryDependencies,
+  type ListerDétailsFournisseurQueryDependencies,
   registerListerDétailsFournisseurQuery,
 } from './lister/listerDétailsFournisseur.query.js';
 import {
-  ListerProjetsEligiblesPreuveRecanditureDependencies,
+  type ListerProjetsEligiblesPreuveRecanditureDependencies,
   registerProjetsEligiblesPreuveRecanditureQuery,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query.js';
 import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command.js';

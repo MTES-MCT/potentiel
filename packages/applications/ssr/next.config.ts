@@ -1,4 +1,4 @@
-import { NextConfig } from 'next';
+import type { NextConfig } from 'next';
 
 import { fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
 

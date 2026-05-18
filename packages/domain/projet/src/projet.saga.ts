@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Candidature, IdentifiantProjet } from './index.js';
-import { NotifierLauréatCommand } from './lauréat/notifier/notifierLauréat.command.js';
-import { NotifierÉliminéCommand } from './éliminé/notifier/notifierÉliminé.command.js';
+import type { NotifierLauréatCommand } from './lauréat/notifier/notifierLauréat.command.js';
+import type { NotifierÉliminéCommand } from './éliminé/notifier/notifierÉliminé.command.js';
 
 export type SubscriptionEvent = Candidature.CandidatureNotifiéeEvent;
 

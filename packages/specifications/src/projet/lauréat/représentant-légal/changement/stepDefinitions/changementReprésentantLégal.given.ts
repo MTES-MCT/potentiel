@@ -6,9 +6,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
-
 import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given.js';
-import { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import { notifierLauréat } from '../../../stepDefinitions/lauréat.given.js';
 
 EtantDonné(

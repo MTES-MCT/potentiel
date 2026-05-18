@@ -2,10 +2,10 @@ import { Command, Flags } from '@oclif/core';
 import z from 'zod';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Candidature, Document, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, Document, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger, Logger } from '@potentiel-libraries/monitoring';
+import { getLogger, type Logger } from '@potentiel-libraries/monitoring';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema, s3Schema } from '#helpers';

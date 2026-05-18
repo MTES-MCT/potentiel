@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   ModifierDispositifDeStockageForm,
-  ModifierDispositifDeStockageFormProps,
+  type ModifierDispositifDeStockageFormProps,
 } from './ModifierDispositifDeStockage.form';
 
 type ModifierDispositifDeStockagePageProps = ModifierDispositifDeStockageFormProps;

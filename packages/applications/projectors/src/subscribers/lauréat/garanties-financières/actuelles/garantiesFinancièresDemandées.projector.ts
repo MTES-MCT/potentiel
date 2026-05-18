@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   updateOneProjection,
   upsertProjection,

@@ -1,4 +1,4 @@
-import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import Button, { type ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
 import type { LinkProps } from 'next/link';
 

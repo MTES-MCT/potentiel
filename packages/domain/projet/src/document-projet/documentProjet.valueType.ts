@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { extension } from 'mime-types';
 
 import { DateTime } from '@potentiel-domain/common';
-import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
+import { InvalidOperationError, type PlainType } from '@potentiel-domain/core';
 
 import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
 import * as DossierProjet from './dossierProjet.valueType.js';

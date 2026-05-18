@@ -6,12 +6,12 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { Période } from '@potentiel-domain/periode';
-import { Candidature } from '@potentiel-domain/projet';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import type { Période } from '@potentiel-domain/periode';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({

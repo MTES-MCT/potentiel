@@ -9,10 +9,9 @@ import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  TransmettrePreuveRecandidatureFormKeys,
+  type TransmettrePreuveRecandidatureFormKeys,
   transmettrePreuveRecandidatureAction,
 } from './transmettrePreuveRecandidature.action';
 

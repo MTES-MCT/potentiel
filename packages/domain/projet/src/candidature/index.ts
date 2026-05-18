@@ -1,43 +1,43 @@
-import {
+import type {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query.js';
-import {
+import type {
   CandidatureCorrigéeEvent,
   CandidatureCorrigéeEventV1,
 } from './corriger/candidatureCorrigée.event.js';
-import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase.js';
-import {
+import type { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase.js';
+import type {
   ConsulterDétailCandidatureQuery,
   ConsulterDétailCandidatureReadModel,
 } from './détail/consulter/consulterDétailCandidature.query.js';
-import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event.js';
-import {
+import type { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event.js';
+import type {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
   DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event.js';
-import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase.js';
-import {
+import type { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase.js';
+import type {
   ListerCandidaturesQuery,
   ListerCandidaturesReadModel,
 } from './lister/listerCandidatures.query.js';
-import {
+import type {
   DétailsFournisseurListItemReadModel,
   ListerDétailsFournisseurQuery,
   ListerDétailsFournisseurReadModel,
 } from './lister/listerDétailsFournisseur.query.js';
-import {
+import type {
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
   RécupérerProjetsEligiblesPreuveRecanditurePort,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query.js';
-import {
+import type {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
   CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event.js';
-import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase.js';
+import type { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase.js';
 
 // Query
 export type CandidatureQuery =

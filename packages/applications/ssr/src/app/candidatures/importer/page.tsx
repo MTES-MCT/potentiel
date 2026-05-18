@@ -3,12 +3,11 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Période } from '@potentiel-domain/periode';
-import { Candidature } from '@potentiel-domain/projet';
+import type { Période } from '@potentiel-domain/periode';
+import type { Candidature } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ImporterCandidaturesPage } from './ImporterCandidatures.page';
 
 const paramsSchema = z.object({

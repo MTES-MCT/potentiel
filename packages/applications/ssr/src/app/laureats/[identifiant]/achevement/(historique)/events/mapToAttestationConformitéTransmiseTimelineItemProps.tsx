@@ -2,7 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { formatDateToText } from '@/app/_helpers';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemFile, TimelineItemProps } from '@/components/organisms/timeline';
+import { TimelineItemFile, type TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAttestationConformitéTransmiseTimelineItemProps = (
   event: Lauréat.Achèvement.AttestationConformitéTransmiseEvent,

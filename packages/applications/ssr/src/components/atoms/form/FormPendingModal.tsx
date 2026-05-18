@@ -2,7 +2,7 @@
 
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 
 import { Spinner } from '../Spinner';

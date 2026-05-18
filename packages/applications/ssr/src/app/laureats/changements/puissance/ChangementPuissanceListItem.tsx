@@ -1,5 +1,5 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
@@ -9,8 +9,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-
-import { ChangementPuissanceListPageProps } from './ChangementPuissanceList.page';
+import type { ChangementPuissanceListPageProps } from './ChangementPuissanceList.page';
 
 export type ChangementPuissanceListItemProps =
   ChangementPuissanceListPageProps['list']['items'][number];

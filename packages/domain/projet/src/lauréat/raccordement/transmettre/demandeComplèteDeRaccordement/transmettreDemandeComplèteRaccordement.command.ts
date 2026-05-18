@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, type Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
+import type * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',

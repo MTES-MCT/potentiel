@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 export const récupérerLesGestionnairesParUtilisateur = async (

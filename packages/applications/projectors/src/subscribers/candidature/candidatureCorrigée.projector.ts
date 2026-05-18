@@ -1,4 +1,4 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';

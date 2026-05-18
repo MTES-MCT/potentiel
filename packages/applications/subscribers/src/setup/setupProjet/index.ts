@@ -1,6 +1,6 @@
 import { ProjetSaga } from '@potentiel-domain/projet';
 
-import { SetupProjet } from './setup.js';
+import type { SetupProjet } from './setup.js';
 import { setupAccès } from './setupAccès.js';
 import { setupCandidature } from './setupCandidature.js';
 import { setupLauréat } from './setupLauréat/index.js';

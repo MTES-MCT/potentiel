@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../../../index.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
-import { SupprimerDossierDuRaccordementCommand } from './supprimerDossierDuRaccordement.command.js';
+import type { SupprimerDossierDuRaccordementCommand } from './supprimerDossierDuRaccordement.command.js';
 
 export type SupprimerDossierDuRaccordementUseCase = Message<
   'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',

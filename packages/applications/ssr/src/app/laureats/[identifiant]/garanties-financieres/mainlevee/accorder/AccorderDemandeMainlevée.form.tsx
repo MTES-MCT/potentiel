@@ -8,10 +8,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  AccorderDemandeMainlevéeFormKeys,
+  type AccorderDemandeMainlevéeFormKeys,
   accorderDemandeMainlevéeAction,
 } from './accorderDemandeMainlevée.action';
 

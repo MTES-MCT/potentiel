@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 type OptionsChangement = {
   url: (identifiantProjet: string) => string;

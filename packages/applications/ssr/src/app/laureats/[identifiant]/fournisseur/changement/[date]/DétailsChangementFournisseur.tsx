@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
-
 import { AlerteChangementÉvaluationCarbone } from '../AlerteChangementÉvaluationCarbone';
 import { ListeFournisseurs } from '../ListeFournisseurs';
 

@@ -1,9 +1,9 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 export type CandidatureListItemActionsProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;

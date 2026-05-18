@@ -1,9 +1,10 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import React, { FC } from 'react';
+import type React from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
@@ -15,7 +16,6 @@ import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 
 type AvailableActions = Record<

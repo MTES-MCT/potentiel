@@ -1,5 +1,5 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 type GetModificationDCRAction = (args: {
   rôle: Role.ValueType;

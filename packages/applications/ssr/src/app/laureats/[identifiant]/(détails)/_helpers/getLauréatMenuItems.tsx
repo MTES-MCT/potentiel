@@ -1,13 +1,12 @@
-import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
+import type { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 import { featureFlag } from '@/app/_helpers/getFeatureFlag';
-
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';

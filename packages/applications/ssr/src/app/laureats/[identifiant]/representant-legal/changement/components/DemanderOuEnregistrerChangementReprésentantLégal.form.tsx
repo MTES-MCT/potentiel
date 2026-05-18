@@ -1,20 +1,19 @@
 'use client';
 
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { Step, Steps } from '@/components/molecules/step/Steps';
-import { ValidationErrors } from '@/utils/formAction';
-
-import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../../_helpers/schema';
+import { type Step, Steps } from '@/components/molecules/step/Steps';
+import type { ValidationErrors } from '@/utils/formAction';
+import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../../_helpers/schema';
 import {
   SaisieNomStep,
   SaisiePièceJustificativeStep,
   SaisieTypeStep,
-  TypeSociété,
+  type TypeSociété,
   ValidationStep,
 } from '../../_helpers/steps';
 import { demanderChangementReprésentantLégalAction } from '../demander/demanderChangementReprésentantLégal.action';

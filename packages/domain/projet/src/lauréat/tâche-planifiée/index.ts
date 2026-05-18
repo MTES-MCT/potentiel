@@ -1,13 +1,13 @@
-import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event.js';
-import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event.js';
-import { AnnulerTâchePlanifiéeUseCase } from './annuler/annulerTâchePlanifiée.usecase.js';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event.js';
-import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase.js';
-import {
+import type { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event.js';
+import type { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event.js';
+import type { AnnulerTâchePlanifiéeUseCase } from './annuler/annulerTâchePlanifiée.usecase.js';
+import type { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event.js';
+import type { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase.js';
+import type {
   ListerTâchesPlanifiéesQuery,
   ListerTâchesPlanifiéesReadModel,
 } from './lister/listerTâchesPlanifiées.query.js';
-import { TâchePlanifiéeEvent } from './tâchePlanifiée.event.js';
+import type { TâchePlanifiéeEvent } from './tâchePlanifiée.event.js';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;

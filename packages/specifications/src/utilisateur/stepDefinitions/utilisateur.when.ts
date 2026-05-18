@@ -1,22 +1,22 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Accès } from '@potentiel-domain/projet';
+import type { Accès } from '@potentiel-domain/projet';
 import {
-  DésactiverUtilisateurUseCase,
-  InviterPorteurUseCase,
-  InviterUtilisateurUseCase,
-  ModifierRôleUtilisateurUseCase,
+  type DésactiverUtilisateurUseCase,
+  type InviterPorteurUseCase,
+  type InviterUtilisateurUseCase,
+  type ModifierRôleUtilisateurUseCase,
   Role,
-  RéactiverUtilisateurUseCase,
-  UtilisateurInvitéEventV1,
+  type RéactiverUtilisateurUseCase,
+  type UtilisateurInvitéEventV1,
   Zone,
 } from '@potentiel-domain/utilisateur';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../potentiel.world.js';
-import { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
+import type { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture.js';
 import { getPayloadForRôle } from './utilisateur.given.js';
 
 Quand(

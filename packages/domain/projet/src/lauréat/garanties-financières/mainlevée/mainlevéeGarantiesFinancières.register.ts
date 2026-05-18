@@ -1,4 +1,4 @@
-import { GetProjetAggregateRoot } from '../../../index.js';
+import type { GetProjetAggregateRoot } from '../../../index.js';
 import { registerAccorderMainlevéeGarantiesFinancièresCommand } from './accorder/accorderMainlevéeGarantiesFinancières.command.js';
 import { registerAccorderMainlevéeGarantiesFinancièresUseCase } from './accorder/accorderMainlevéeGarantiesFinancières.usecase.js';
 import { registerAnnulerMainlevéeGarantiesFinancièresCommand } from './annuler/annulerDemandeMainlevéeGarantiesFinancières.command.js';
@@ -9,7 +9,7 @@ import { registerDemanderMainlevéeGarantiesFinancièresUseCase } from './demand
 import { registerDémarrerInstructionMainlevéeGarantiesFinancièresCommand } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.command.js';
 import { registerDémarrerInstructionMainlevéeGarantiesFinancièresUseCase } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.usecase.js';
 import {
-  ListerMainlevéesQueryDependencies,
+  type ListerMainlevéesQueryDependencies,
   registerListerMainlevéesQuery,
 } from './lister/listerMainlevéesGarantiesFinancières.query.js';
 import { registerRejeterMainlevéeGarantiesFinancièresUseCase } from './rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase.js';

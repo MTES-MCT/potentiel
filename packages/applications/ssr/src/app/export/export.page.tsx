@@ -3,12 +3,12 @@
 import { Card } from '@codegouvfr/react-dsfr/Card';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { Spinner } from '@/components/atoms/Spinner';
 import { FiltersTagList } from '@/components/molecules/FiltersTagList';
-import { ListFilters, ListFiltersProps } from '@/components/molecules/ListFilters';
+import { ListFilters, type ListFiltersProps } from '@/components/molecules/ListFilters';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 export type ExportPageProps = {

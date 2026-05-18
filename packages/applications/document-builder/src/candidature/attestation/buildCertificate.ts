@@ -2,13 +2,13 @@ import path from 'node:path';
 
 import { Font, renderToStream } from '@react-pdf/renderer';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime } from '@potentiel-domain/common';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime } from '@potentiel-domain/common';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
 import { mapToReadableStream } from '../../mapToReadableStream.js';
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
+import type { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
 import { formatPotentielId } from './helpers/formatPotentielId.js';
 import { getDésignationCatégorie } from './helpers/getDésignationCatégorie.js';
 import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate.js';

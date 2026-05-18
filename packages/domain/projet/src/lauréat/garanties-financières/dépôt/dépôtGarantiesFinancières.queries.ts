@@ -1,8 +1,8 @@
-import {
+import type {
   ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterDépôtGarantiesFinancièresReadModel,
 } from './consulter/consulterDépôtGarantiesFinancières.query.js';
-import {
+import type {
   ListerDépôtsGarantiesFinancièresQuery,
   ListerDépôtsGarantiesFinancièresReadModel,
 } from './lister/listerDépôtGarantiesFinancières.query.js';

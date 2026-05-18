@@ -7,7 +7,6 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { DétailTypologieInstallation } from '../../../installation/(historique)/events/DétailTypologieInstallation';
 
 type TypologieInstallationSectionProps = {

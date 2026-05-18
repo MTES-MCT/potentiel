@@ -1,13 +1,12 @@
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { type Candidature, DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import { getGarantiesFinancièresAttestationLabel } from '../_helpers/getGarantiesFinancièresAttestationLabel';
 import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
 

@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai';
 import { diffJson } from 'diff';
-import { ZodSafeParseResult, ZodSafeParseSuccess } from 'zod';
+import type { ZodSafeParseResult, ZodSafeParseSuccess } from 'zod';
 
 export const deepEqualWithRichDiff = (actual: object, expected: object) => {
   try {

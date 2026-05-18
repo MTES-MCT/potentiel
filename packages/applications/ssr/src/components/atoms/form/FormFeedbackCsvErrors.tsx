@@ -1,12 +1,12 @@
 import { fr } from '@codegouvfr/react-dsfr';
 import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
-import { ImportCSV } from '@potentiel-libraries/csv';
+import type { ImportCSV } from '@potentiel-libraries/csv';
 
-import { FormStateCsvLineError } from '@/utils/formAction';
+import type { FormStateCsvLineError } from '@/utils/formAction';
 
 type FormFeedbackCsvLineErrorsProps = {
   formState: FormStateCsvLineError;

@@ -1,4 +1,4 @@
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';

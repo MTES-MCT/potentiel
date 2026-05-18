@@ -1,4 +1,4 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import {
   createProjection,

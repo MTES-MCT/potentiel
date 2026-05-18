@@ -1,13 +1,15 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { TâcheListItem } from '@/app/taches/TâcheListItem';
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
-
-import { SearchProps } from '../../components/molecules/Search';
+import type { SearchProps } from '../../components/molecules/Search';
 
 export type TâcheListPageProps = {
   list: PlainType<Lauréat.Tâche.ListerTâchesReadModel>;

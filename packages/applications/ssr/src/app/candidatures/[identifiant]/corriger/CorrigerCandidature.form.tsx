@@ -4,9 +4,10 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
 
@@ -17,10 +18,9 @@ import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  CorrigerCandidatureFormEntries,
+  type CorrigerCandidatureFormEntries,
   corrigerCandidatureAction,
 } from './corrigerCandidature.action';
 

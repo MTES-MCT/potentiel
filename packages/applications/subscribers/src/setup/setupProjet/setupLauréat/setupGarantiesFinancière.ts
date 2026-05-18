@@ -1,12 +1,12 @@
 import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
 import {
   GarantiesFinancièreProjector,
-  HistoriqueProjector,
+  type HistoriqueProjector,
 } from '@potentiel-applications/projectors';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
-import { SetupProjet } from '../setup.js';
+import type { SetupProjet } from '../setup.js';
 
 export const setupGarantiesFinancières: SetupProjet = async ({
   récupererConstitutionGarantiesFinancières,

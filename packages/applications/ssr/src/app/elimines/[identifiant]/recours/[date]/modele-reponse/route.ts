@@ -6,7 +6,7 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat, type Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';

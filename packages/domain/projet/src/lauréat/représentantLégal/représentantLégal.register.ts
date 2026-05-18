@@ -1,4 +1,4 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
 import { registerAccorderChangementReprésentantLégalCommand } from './changement/accorder/accorderChangementReprésentantLégal.command.js';
 import { registerAccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase.js';
 import { registerAnnulerChangementReprésentantLégalCommand } from './changement/annuler/annulerChangementReprésentantLégal.command.js';
@@ -12,21 +12,21 @@ import { registerDemanderChangementReprésentantLégalUseCase } from './changeme
 import { registerEnregistrerChangementReprésentantLégalCommand } from './changement/enregistrer/enregistrerChangementReprésentantLégal.command.js';
 import { registerEnregistrerChangementReprésentantLégalUseCase } from './changement/enregistrer/enregistrerChangementReprésentantLégal.usecase.js';
 import {
-  ListerChangementReprésentantLégalDependencies,
+  type ListerChangementReprésentantLégalDependencies,
   registerListerChangementReprésentantLégalQuery,
 } from './changement/lister/listerChangementReprésentantLégal.query.js';
 import { registerRejeterChangementReprésentantLégalCommand } from './changement/rejeter/rejeterChangementReprésentantLégal.command.js';
 import { registerRejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase.js';
 import {
   registerSupprimerDocumentProjetSensibleCommand,
-  SupprimerDocumentProjetSensibleCommandDependencies,
+  type SupprimerDocumentProjetSensibleCommandDependencies,
 } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
 import {
-  ConsulterReprésentantLégalDependencies,
+  type ConsulterReprésentantLégalDependencies,
   registerConsulterRepresentantLegalQuery,
 } from './consulter/consulterReprésentantLégal.query.js';
 import {
-  ListerHistoriqueReprésentantLégalProjetDependencies,
+  type ListerHistoriqueReprésentantLégalProjetDependencies,
   registerListerHistoriqueReprésentantLégalProjetQuery,
 } from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query.js';
 import { registerModifierReprésentantLégalCommand } from './modifier/modifierReprésentantLégal.command.js';

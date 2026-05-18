@@ -5,9 +5,9 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { ModifierRôleUtilisateurUseCase } from '@potentiel-domain/utilisateur';
+import type { ModifierRôleUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({

@@ -1,6 +1,6 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
 
 type HeaderProps = {

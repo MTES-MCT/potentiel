@@ -2,7 +2,7 @@ import { Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { LauréatWorld } from '../projet/lauréat/lauréat.world.js';
+import type { LauréatWorld } from '../projet/lauréat/lauréat.world.js';
 import { DateMiseEnServiceWorld } from './dateDeMiseEnService/dateMiseEnService.world.js';
 import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';

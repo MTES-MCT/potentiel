@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
 import {
-  ConsulterGestionnaireRéseauReadModel,
+  type ConsulterGestionnaireRéseauReadModel,
   mapToReadModel,
 } from '../consulter/consulterGestionnaireRéseau.query.js';
-import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity.js';
+import type { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity.js';
 
 export type GestionnaireRéseauListItemReadModel = ConsulterGestionnaireRéseauReadModel;
 

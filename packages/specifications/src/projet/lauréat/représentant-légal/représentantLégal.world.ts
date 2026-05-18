@@ -1,7 +1,7 @@
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { LauréatWorld } from '../lauréat.world.js';
+import type { LauréatWorld } from '../lauréat.world.js';
 import { ChangementReprésentantLégalWorld } from './changement/changementReprésentantLégal.world.js';
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture.js';
 

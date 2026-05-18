@@ -1,9 +1,8 @@
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Section } from '@/components/atoms/menu/Section';
-
 import { ÉvaluationCarbonePage } from '../evaluation-carbone/ÉvaluationCarbone.page';
 import { InformationsGénéralesPage } from '../informations-generales/InformationsGénérales.page';
 import { InstallationPage } from '../installation/Installation.page';

@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { tâchePlanifiéeAchèvementNotifications } from './achèvement/tâche-planifiée.achèvement.notifications.js';
 import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières/tâche-planifiée.garantiesFinancières.notifications.js';

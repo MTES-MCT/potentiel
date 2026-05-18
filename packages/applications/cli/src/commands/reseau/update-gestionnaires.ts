@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import z from 'zod';
 
 import {
-  GestionnaireRéseau,
+  type GestionnaireRéseau,
   registerRéseauQueries,
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';

@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { GarantiesFinancières } from '../../index.js';
+import type { GarantiesFinancières } from '../../index.js';
 
 export type ModifierActuellesOptions = {
   garantiesFinancières: GarantiesFinancières.ValueType;

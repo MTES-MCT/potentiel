@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getCahierDesCharges } from '../../../../_helpers';
 import { NoteInnovationDétails } from './NoteInnovationDétails';
 

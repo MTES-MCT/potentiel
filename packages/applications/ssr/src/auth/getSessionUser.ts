@@ -1,4 +1,4 @@
-import { PotentielUtilisateur } from '@potentiel-applications/request-context';
+import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';

@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../../../index.js';
-import { PasserEnInstructionDemandeDélaiCommand } from './passerEnInstructionDemandeDélai.command.js';
+import type { PasserEnInstructionDemandeDélaiCommand } from './passerEnInstructionDemandeDélai.command.js';
 
 export type PasserEnInstructionDemandeDélaiUseCase = Message<
   'Lauréat.Délai.UseCase.PasserEnInstructionDemande',

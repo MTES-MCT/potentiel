@@ -1,11 +1,10 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getAbandonInfos, getAchèvement } from '../../_helpers';
-import { Alerte, AlertesTableauDeBord } from './AlertesTableauDeBord';
+import { type Alerte, AlertesTableauDeBord } from './AlertesTableauDeBord';
 
 type AlertesTableauDeBordSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

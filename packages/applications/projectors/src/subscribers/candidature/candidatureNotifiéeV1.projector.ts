@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const candidatureNotifiéeV1Projector = async ({

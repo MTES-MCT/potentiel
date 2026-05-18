@@ -1,5 +1,5 @@
-import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { clearProjection } from '../../helpers/index.js';
 

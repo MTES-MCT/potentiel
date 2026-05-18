@@ -6,7 +6,7 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { GetUtilisateur } from './getSessionUser';
+import type { GetUtilisateur } from './getSessionUser';
 import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
 import { getKeycloakConfiguration } from './providers/getProviderConfiguration';
 import { getJWKS } from './providers/openid';

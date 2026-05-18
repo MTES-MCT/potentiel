@@ -1,4 +1,4 @@
-import { IconProps } from '@/components/atoms/Icon';
+import type { IconProps } from '@/components/atoms/Icon';
 
 const DEMANDE_GENERIQUE_ICONE = 'ri-draft-line';
 

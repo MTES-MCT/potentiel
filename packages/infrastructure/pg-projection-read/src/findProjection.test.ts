@@ -4,7 +4,7 @@ import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 import { should } from 'chai';
 import { flatten } from 'flat';
 
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 

@@ -1,6 +1,6 @@
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 
-import { GetProjetAggregateRoot } from '../../../index.js';
+import type { GetProjetAggregateRoot } from '../../../index.js';
 import { registerListerArchivesGarantiesFinancièresQuery } from './archives/lister/listerArchivesGarantiesFinancières.query.js';
 import { registerConsulterGarantiesFinancièresQuery } from './consulter/consulterGarantiesFinancières.query.js';
 import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command.js';

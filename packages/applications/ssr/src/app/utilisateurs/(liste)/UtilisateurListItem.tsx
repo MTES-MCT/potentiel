@@ -1,16 +1,16 @@
 'use client';
 
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import type { ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { useSearchParams } from 'next/navigation';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
+import type { PlainType } from '@potentiel-domain/core';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -18,7 +18,6 @@ import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ListItem } from '@/components/molecules/ListItem';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { roleToLabel } from '@/utils/utilisateur/format-role';
-
 import { getZoneLabel } from '../_helpers/getZoneLabel';
 import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
 import { RoleBadge } from './RoleBadge';

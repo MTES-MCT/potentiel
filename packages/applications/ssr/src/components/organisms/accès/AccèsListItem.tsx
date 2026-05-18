@@ -1,13 +1,12 @@
 'use client';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { Email } from '@potentiel-domain/common';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Email } from '@potentiel-domain/common';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
 import { retirerAccèsProjetAction } from './retirerAccèsProjet.action';
 
 export type PorteurListItemProps = {

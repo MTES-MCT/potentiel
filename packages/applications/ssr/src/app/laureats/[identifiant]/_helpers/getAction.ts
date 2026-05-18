@@ -1,9 +1,8 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-
 import { mapChangements } from './mapChangements';
 import { peutEffectuerUnChangement } from './peutEffectuerUnChangement';
 

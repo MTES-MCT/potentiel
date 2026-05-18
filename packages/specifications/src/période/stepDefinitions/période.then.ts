@@ -4,21 +4,20 @@ import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Période } from '@potentiel-domain/periode';
+import type { Période } from '@potentiel-domain/periode';
 import {
-  Accès,
-  Candidature,
-  Document,
+  type Accès,
+  type Candidature,
+  type Document,
   IdentifiantProjet,
-  Lauréat,
-  Éliminé,
+  type Lauréat,
+  type Éliminé,
 } from '@potentiel-domain/projet';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import type { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString, waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 Alors(
   `la période devrait être notifiée avec les lauréats et les éliminés`,

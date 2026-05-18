@@ -1,19 +1,18 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
-  GestionnaireRéseauSelectProps,
+  type GestionnaireRéseauSelectProps,
 } from '../GestionnaireRéseauSelect';
 import {
-  ModifierGestionnaireRéseauRaccordementFormKeys,
+  type ModifierGestionnaireRéseauRaccordementFormKeys,
   modifierGestionnaireRéseauRaccordementAction,
 } from './modifierGestionnaireRéseauRaccordement.action';
 

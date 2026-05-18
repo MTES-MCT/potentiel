@@ -1,17 +1,16 @@
 'use client';
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
-  ImporterCandidaturesParCSVFormKeys,
+  type ImporterCandidaturesParCSVFormKeys,
   importerCandidaturesParCSVAction,
 } from './importerCandidaturesParCSV.action';
 

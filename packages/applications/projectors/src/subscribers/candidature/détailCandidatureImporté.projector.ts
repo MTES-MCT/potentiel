@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { mapDNDétailToDétailFournisseur } from './_helpers/mapDNDétailToDétailFournisseur.js';

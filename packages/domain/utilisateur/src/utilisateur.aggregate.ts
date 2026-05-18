@@ -3,21 +3,21 @@ import { match } from 'ts-pattern';
 import { Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
-import { DésactiverOptions } from './désactiver/désactiverUtilisateur.options.js';
+import type { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
+import type { DésactiverOptions } from './désactiver/désactiverUtilisateur.options.js';
 import {
   Role,
   Utilisateur,
-  UtilisateurInvitéEvent,
-  UtilisateurInvitéEventV1,
-  UtilisateurRéactivéEvent,
+  type UtilisateurInvitéEvent,
+  type UtilisateurInvitéEventV1,
+  type UtilisateurRéactivéEvent,
 } from './index.js';
-import { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
-import { InviterPorteurOptions } from './inviter/inviterPorteur.options.js';
-import { InviterOptions } from './inviter/inviterUtilisateur.options.js';
-import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
-import { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options.js';
-import { RéactiverOptions } from './réactiver/réactiverUtilisateur.options.js';
+import type { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
+import type { InviterPorteurOptions } from './inviter/inviterPorteur.options.js';
+import type { InviterOptions } from './inviter/inviterUtilisateur.options.js';
+import type { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
+import type { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options.js';
+import type { RéactiverOptions } from './réactiver/réactiverUtilisateur.options.js';
 import {
   DésactivationPropreCompteError,
   InvitationVisiteurImpossibleError,
@@ -31,7 +31,7 @@ import {
   UtilisateurNonActifError,
   UtilisateurNonPorteurError,
 } from './utilisateur.error.js';
-import { UtilisateurEvent } from './utilisateur.event.js';
+import type { UtilisateurEvent } from './utilisateur.event.js';
 
 export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'utilisateur'> {
   #actif = false;

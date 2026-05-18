@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-
-import { UtilisateurListItem, UtilisateurListItemProps } from './UtilisateurListItem';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import { UtilisateurListItem, type UtilisateurListItemProps } from './UtilisateurListItem';
 
 export type UtilisateurListPageProps = {
   list: {

@@ -1,17 +1,16 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { LinkAction } from '@/components/molecules/LinkAction';
-import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
-
+import { type ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 import { GarantiesFinancières } from './components/GarantiesFinancières';
 import { StatutGarantiesFinancièresBadge } from './components/StatutGarantiesFinancièresBadge';

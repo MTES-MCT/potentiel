@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { gestionnaireRéseauAjoutéProjector } from './gestionnaireRéseauAjouté.projector.js';
 import { gestionnaireRéseauAjoutéV1Projector } from './gestionnaireRéseauAjoutéV1.projector.js';

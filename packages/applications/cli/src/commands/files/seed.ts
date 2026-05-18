@@ -1,9 +1,9 @@
 import { Command, Flags } from '@oclif/core';
-import { PDFDocument, PDFFont, StandardFonts } from 'pdf-lib';
+import { PDFDocument, type PDFFont, StandardFonts } from 'pdf-lib';
 import z from 'zod';
 
-import { Candidature, DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Candidature, type DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 

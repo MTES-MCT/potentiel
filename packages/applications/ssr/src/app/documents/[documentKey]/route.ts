@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Accès, Document } from '@potentiel-domain/projet';
+import type { Accès, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { apiAction } from '@/utils/apiAction';

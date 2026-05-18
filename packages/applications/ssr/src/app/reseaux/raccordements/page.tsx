@@ -2,19 +2,18 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
 
 type PageProps = {

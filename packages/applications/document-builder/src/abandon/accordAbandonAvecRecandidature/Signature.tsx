@@ -1,5 +1,5 @@
 import { Text, View } from '@react-pdf/renderer';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 type SignatureProps = {
   instructeur: {

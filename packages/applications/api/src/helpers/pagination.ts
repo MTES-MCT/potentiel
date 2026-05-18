@@ -1,4 +1,4 @@
-import { RangeOptions } from '@potentiel-domain/entity';
+import type { RangeOptions } from '@potentiel-domain/entity';
 
 export const defaultNbItems = 50;
 

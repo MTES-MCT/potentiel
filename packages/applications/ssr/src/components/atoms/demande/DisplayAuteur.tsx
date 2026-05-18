@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Email } from '@potentiel-domain/common';
+import type { Email } from '@potentiel-domain/common';
 
 type DisplayAuteurProps = { email: Email.ValueType };
 

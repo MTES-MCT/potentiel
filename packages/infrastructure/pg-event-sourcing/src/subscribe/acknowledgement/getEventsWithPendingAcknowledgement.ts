@@ -1,7 +1,7 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DomainEvent } from '@potentiel-domain/core';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { Event } from '../../event.js';
+import type { Event } from '../../event.js';
 
 const selectEventsWithPendingAcknowledgement = `
    select 

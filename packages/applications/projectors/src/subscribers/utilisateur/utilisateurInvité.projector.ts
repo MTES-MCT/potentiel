@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import {
+import type {
   Utilisateur,
   UtilisateurEntity,
   UtilisateurInvitéEvent,

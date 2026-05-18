@@ -7,8 +7,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(/la demande.* de délai devrait être consultable/, async function (this: PotentielWorld) {
   await vérifierDemandeDélai.call(

@@ -1,5 +1,5 @@
 'use client';
-import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+import { MainNavigation, type MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { usePathname } from 'next/navigation';
 
 const mapToActiveLink = <TLink extends MainNavigationProps.Item>(

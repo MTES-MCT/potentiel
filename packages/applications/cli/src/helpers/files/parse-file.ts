@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 
 import { Flags } from '@oclif/core';
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { ImportCSV } from '@potentiel-libraries/csv';
 

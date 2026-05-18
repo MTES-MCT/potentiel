@@ -2,8 +2,8 @@ import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 

@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
-import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
-import { AnnulerChangementReprésentantLégalCommand } from './annulerChangementReprésentantLégal.command.js';
+import type { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
+import type { AnnulerChangementReprésentantLégalCommand } from './annulerChangementReprésentantLégal.command.js';
 
 export type AnnulerChangementReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.AnnulerChangementReprésentantLégal',

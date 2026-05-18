@@ -1,10 +1,10 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Éliminé } from '@potentiel-domain/projet';
+import type { Éliminé } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 EtantDonné(
   /une demande de recours en cours pour le projet éliminé/,

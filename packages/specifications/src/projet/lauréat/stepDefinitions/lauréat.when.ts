@@ -1,10 +1,10 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '../../../helpers/index.js';
-import { PotentielWorld } from '../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand('la dgec modifie le site de production du projet', async function (this: PotentielWorld) {
   try {

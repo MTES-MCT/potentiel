@@ -1,4 +1,4 @@
-import { Document } from '@potentiel-domain/projet';
+import type { Document } from '@potentiel-domain/projet';
 import { copyFile, copyFolder, download, upload } from '@potentiel-libraries/file-storage';
 
 export const téléchargerDocumentProjet: Document.RécupérerDocumentProjetPort = download;

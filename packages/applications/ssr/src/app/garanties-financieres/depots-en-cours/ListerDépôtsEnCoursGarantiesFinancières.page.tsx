@@ -1,13 +1,15 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
 import {
   ListItemDépôtGarantiesFinancières,
-  ListItemDépôtGarantiesFinancièresProps,
+  type ListItemDépôtGarantiesFinancièresProps,
 } from './ListItemDépôtGarantiesFinancières';
 
 export type ListDépôtsGarantiesFinancièresProps = {

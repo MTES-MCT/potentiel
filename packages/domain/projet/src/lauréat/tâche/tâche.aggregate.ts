@@ -3,16 +3,16 @@ import { match } from 'ts-pattern';
 import { DateTime } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../index.js';
-import { LauréatAggregate } from '../lauréat.aggregate.js';
-import { TâcheAchevéeEvent } from './achever/acheverTâche.event.js';
-import {
+import type { IdentifiantProjet } from '../../index.js';
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { TâcheAchevéeEvent } from './achever/acheverTâche.event.js';
+import type {
   TâcheAjoutéeEvent,
   TâcheRelancéeEvent,
   TâcheRenouvelléeEvent,
 } from './ajouter/ajouterTâche.event.js';
 import * as TypeTâche from './typeTâche.valueType.js';
-import { TâcheEvent } from './tâche.event.js';
+import type { TâcheEvent } from './tâche.event.js';
 
 export class TâcheAggregate extends AbstractAggregate<TâcheEvent, 'tâche', LauréatAggregate> {
   #achevée: boolean = false;

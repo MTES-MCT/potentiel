@@ -1,10 +1,10 @@
 import { mediator } from 'mediateur';
 
-import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import type { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { Recipient } from '#sendEmail';
+import type { Recipient } from '#sendEmail';
 
 export const listerPorteursRecipients = async (
   identifiantProjet: IdentifiantProjet.ValueType,

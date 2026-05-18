@@ -1,12 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { ChampAvecMultiplesActions } from '../../_helpers';
+import type { ChampAvecMultiplesActions } from '../../_helpers';
 
 export type AchèvementDétailsProps = ChampAvecMultiplesActions<
   PlainType<Lauréat.Achèvement.ConsulterAchèvementReadModel>

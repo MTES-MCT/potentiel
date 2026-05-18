@@ -4,10 +4,10 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FC, useCallback, useState } from 'react';
+import { type FC, useCallback, useState } from 'react';
 import { match } from 'ts-pattern';
 
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 
 import { ImporterCandidaturesParCSVForm } from './(csv)/ImporterCandidaturesParCSV.form';

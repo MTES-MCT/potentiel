@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 export const typeFournisseurLabel: Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string> = {
   'module-ou-films': 'Modules ou films',

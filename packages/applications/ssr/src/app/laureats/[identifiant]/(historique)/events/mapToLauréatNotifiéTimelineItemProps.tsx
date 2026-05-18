@@ -1,7 +1,7 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import { formatDateToText } from '@/app/_helpers';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToLauréatNotifiéTimelineItemProps = (
   event: Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event,

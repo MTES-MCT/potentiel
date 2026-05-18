@@ -1,7 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { CandidatureImportéeEvent } from '../importer/candidatureImportée.event.js';
+import type { CandidatureImportéeEvent } from '../importer/candidatureImportée.event.js';
 
 /**
  * @deprecated Cet événement n'offre pas la possibilité de mettre à jour les informations fournisseurs.

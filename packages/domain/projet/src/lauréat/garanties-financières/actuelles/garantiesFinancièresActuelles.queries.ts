@@ -1,9 +1,9 @@
-import {
+import type {
   ArchiveGarantiesFinancièresListItemReadModel,
   ListerArchivesGarantiesFinancièresQuery,
   ListerArchivesGarantiesFinancièresReadModel,
 } from './archives/lister/listerArchivesGarantiesFinancières.query.js';
-import {
+import type {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
 } from './consulter/consulterGarantiesFinancières.query.js';

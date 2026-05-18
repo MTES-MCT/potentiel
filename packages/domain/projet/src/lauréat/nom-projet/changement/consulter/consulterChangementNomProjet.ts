@@ -1,13 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { DocumentProjet } from '#document-projet';
-
+import type { DocumentProjet } from '#document-projet';
 import { IdentifiantProjet } from '../../../../index.js';
-import { ChangementNomProjetEntity, DocumentNomProjet } from '../../../index.js';
+import { type ChangementNomProjetEntity, DocumentNomProjet } from '../../../index.js';
 
 export type ConsulterChangementNomProjetReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

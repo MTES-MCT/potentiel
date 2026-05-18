@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getAchèvement } from './getAchèvement';
 import { getAbandonInfos } from './getLauréat';

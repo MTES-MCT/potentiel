@@ -1,9 +1,9 @@
 import clsx from 'clsx';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
-import { TimelineItemFile, TimelineItemProps } from '@/components/organisms/timeline';
+import { TimelineItemFile, type TimelineItemProps } from '@/components/organisms/timeline';
 import { TimelineItemBase } from '@/components/organisms/timeline/TimelineItemBase';
 
 export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({

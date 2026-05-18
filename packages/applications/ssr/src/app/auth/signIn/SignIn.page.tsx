@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 
 import { authClient } from '@/auth/client';
-import { AuthProvider } from '@/auth/providers/authProvider';
+import type { AuthProvider } from '@/auth/providers/authProvider';
 import { Heading1 } from '@/components/atoms/headings';
-import { AuthTile, ProviderProps } from '@/components/organisms/auth/AuthTile';
+import { AuthTile, type ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { PageTemplate } from '@/components/templates/Page.template';
 

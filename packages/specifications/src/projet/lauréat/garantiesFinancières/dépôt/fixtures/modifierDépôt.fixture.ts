@@ -3,10 +3,9 @@ import { faker } from '@faker-js/faker';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PièceJustificative } from '#helpers';
-
+import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
-import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
+import type { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
 
 export interface ModifierDépôtGarantiesFinancières {
   type: string;

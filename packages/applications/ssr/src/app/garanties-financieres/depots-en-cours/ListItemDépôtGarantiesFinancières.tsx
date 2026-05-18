@@ -1,9 +1,9 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ListItem } from '@/components/molecules/ListItem';

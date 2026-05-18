@@ -1,13 +1,13 @@
-import { ChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase.js';
-import {
+import type { ChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase.js';
+import type {
   ConsulterCahierDesChargesQuery,
   ConsulterCahierDesChargesReadModel,
 } from './cahierDesCharges/consulter/consulterCahierDesCharges.query.js';
-import {
+import type {
   ConsulterLauréatQuery,
   ConsulterLauréatReadModel,
 } from './consulter/consulterLauréat.query.js';
-import {
+import type {
   HistoriqueAchèvementProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
   HistoriqueLauréatProjetListItemReadModel,
@@ -15,27 +15,27 @@ import {
   ListerHistoriqueProjetQuery,
   ListerHistoriqueProjetReadModel,
 } from './historique/lister/listerHistoriqueProjet.query.js';
-import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query.js';
-import {
+import type { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query.js';
+import type {
   LauréatEnrichiListItemReadModel,
   ListerLauréatEnrichiQuery,
   ListerLauréatEnrichiReadModel,
 } from './lister/listerLauréatEnrichi.query.js';
-import {
+import type {
   ListerHistoriqueLauréatQuery,
   ListerHistoriqueLauréatReadModel,
 } from './listerHistorique/listerHistoriqueLauréat.query.js';
-import {
+import type {
   ConsulterChangementNomProjetQuery,
   ConsulterChangementNomProjetReadModel,
 } from './nom-projet/changement/consulter/consulterChangementNomProjet.js';
-import { EnregistrerChangementNomProjetUseCase } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
-import {
+import type { EnregistrerChangementNomProjetUseCase } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
+import type {
   ListerChangementNomProjetQuery,
   ListerChangementNomProjetReadModel,
 } from './nom-projet/changement/lister/listerChangementNomProjet.js';
-import { ModifierNomProjetUseCase } from './nom-projet/modifier/modifierNomProjet.usecase.js';
-import { ModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
+import type { ModifierNomProjetUseCase } from './nom-projet/modifier/modifierNomProjet.usecase.js';
+import type { ModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
 
 // Query
 export type LauréatQuery =

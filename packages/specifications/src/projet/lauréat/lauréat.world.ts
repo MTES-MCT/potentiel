@@ -8,7 +8,7 @@ import {
   Lauréat,
 } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 import { AbandonWord } from './abandon/abandon.world.js';
 import { AchèvementWorld } from './achèvement/achèvement.world.js';
 import { ActionnaireWorld } from './actionnaire/actionnaire.world.js';
@@ -16,9 +16,9 @@ import { DélaiWorld } from './délai/délai.world.js';
 import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture.js';
 import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture.js';
 import {
-  NotifierLauréat,
+  type NotifierLauréat,
   NotifierLauréatFixture,
-  NotifierLauréatProps,
+  type NotifierLauréatProps,
 } from './fixtures/notifierLauréat.fixture.js';
 import { FournisseurWorld } from './fournisseur/fournisseur.world.js';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world.js';

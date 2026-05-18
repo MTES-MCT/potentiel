@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { ImprimerButton } from '@/components/atoms/ImprimerButton';
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
-import { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
+import type { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { ListFilters } from '@/components/molecules/ListFilters';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
-
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { HistoriqueLauréatTimelineItem } from './HistoriqueLauréatTimelineItem';
 
 export type HistoriqueLauréatAction = 'imprimer';

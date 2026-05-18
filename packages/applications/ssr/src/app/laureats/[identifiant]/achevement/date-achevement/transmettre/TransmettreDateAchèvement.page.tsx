@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   TransmettreDateAchèvementForm,
-  TransmettreDateAchèvementFormProps,
+  type TransmettreDateAchèvementFormProps,
 } from './TransmettreDateAchèvement.form';
 
 export type TransmettreDateAchèvementPageProps = TransmettreDateAchèvementFormProps;

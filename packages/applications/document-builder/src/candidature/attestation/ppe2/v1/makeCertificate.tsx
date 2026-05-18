@@ -1,9 +1,9 @@
-import React from 'react';
+import type React from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { Certificate } from '../components/Certificate.js';
 import { Footnotes } from '../components/Footnotes.js';
 import { Objet } from '../components/Objet.js';

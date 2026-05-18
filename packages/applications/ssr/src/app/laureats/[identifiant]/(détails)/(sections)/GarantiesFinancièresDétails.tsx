@@ -2,9 +2,9 @@ import Notice from '@codegouvfr/react-dsfr/Notice';
 import { match, P } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';

@@ -1,6 +1,6 @@
 import { match, P } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { handleRelanceÉchéanceAchèvement } from './handlers/index.js';
 

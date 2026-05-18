@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { IncomingMessage, ServerResponse } from 'node:http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 export const setCspHeader = (request: IncomingMessage, response: ServerResponse) => {
   const isDev = process.env.NODE_ENV !== 'production';

@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import {
+import type {
   Entity,
   JoinOptions,
   ListOptions,
@@ -15,7 +15,7 @@ import { getOrderClause } from './getOrderClause.js';
 import { getRangeClause } from './getRangeClause.js';
 import { getSelectClause } from './getSelectClause.js';
 import { getWhereClause } from './getWhereClause.js';
-import { KeyValuePair } from './keyValuePair.js';
+import type { KeyValuePair } from './keyValuePair.js';
 import { mapResult } from './mapResult.js';
 
 export const listProjection = async <

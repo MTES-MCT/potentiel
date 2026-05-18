@@ -5,7 +5,6 @@ import { getAction, getLauréatInfos } from '@/app/laureats/[identifiant]/_helpe
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { CandidatDétails } from './CandidatDétails';
 
 type CandidatSectionProps = {

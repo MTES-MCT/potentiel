@@ -1,9 +1,8 @@
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { ChampObligatoireAvecAction } from '../../../_helpers';
+import type { ChampObligatoireAvecAction } from '../../../_helpers';
 import { ListeFournisseurs } from '../../../fournisseur/changement/ListeFournisseurs';
 
 type Props = {

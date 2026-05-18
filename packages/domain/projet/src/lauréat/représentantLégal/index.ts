@@ -1,30 +1,30 @@
-import { AccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase.js';
-import { AnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase.js';
-import {
+import type { AccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase.js';
+import type { AnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase.js';
+import type {
   ConsulterChangementReprésentantLégalQuery,
   ConsulterChangementReprésentantLégalReadModel,
 } from './changement/consulter/consulterChangementReprésentantLégal.query.js';
-import {
+import type {
   ConsulterChangementReprésentantLégalEnCoursQuery,
   ConsulterChangementReprésentantLégalEnCoursReadModel,
 } from './changement/consulter/consulterChangementReprésentantLégalEnCours.query.js';
-import { CorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase.js';
-import { DemanderChangementReprésentantLégalUseCase } from './changement/demander/demanderChangementReprésentantLégal.usecase.js';
-import { EnregistrerChangementReprésentantLégalUseCase } from './changement/enregistrer/enregistrerChangementReprésentantLégal.usecase.js';
-import {
+import type { CorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase.js';
+import type { DemanderChangementReprésentantLégalUseCase } from './changement/demander/demanderChangementReprésentantLégal.usecase.js';
+import type { EnregistrerChangementReprésentantLégalUseCase } from './changement/enregistrer/enregistrerChangementReprésentantLégal.usecase.js';
+import type {
   ListerChangementReprésentantLégalQuery,
   ListerChangementReprésentantLégalReadModel,
 } from './changement/lister/listerChangementReprésentantLégal.query.js';
-import { RejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase.js';
+import type { RejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase.js';
 import type {
   ConsulterReprésentantLégalQuery,
   ConsulterReprésentantLégalReadModel,
 } from './consulter/consulterReprésentantLégal.query.js';
-import {
+import type {
   HistoriqueReprésentantLégalProjetListItemReadModel,
   ListerHistoriqueReprésentantLégalProjetQuery,
 } from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query.js';
-import { ModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase.js';
+import type { ModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase.js';
 
 // Query
 export type ReprésentantLégalQuery =

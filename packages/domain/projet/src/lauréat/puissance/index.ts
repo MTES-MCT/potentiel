@@ -1,30 +1,30 @@
-import { AccorderChangementPuissanceUseCase } from './changement/accorder/accorderChangementPuissance.usecase.js';
-import { AnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase.js';
-import {
+import type { AccorderChangementPuissanceUseCase } from './changement/accorder/accorderChangementPuissance.usecase.js';
+import type { AnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase.js';
+import type {
   ConsulterChangementPuissanceQuery,
   ConsulterChangementPuissanceReadModel,
 } from './changement/consulter/consulterChangementPuissance.query.js';
-import { DemanderChangementUseCase } from './changement/demander/demanderChangementPuissance.usecase.js';
-import { EnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase.js';
-import {
+import type { DemanderChangementUseCase } from './changement/demander/demanderChangementPuissance.usecase.js';
+import type { EnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase.js';
+import type {
   ListerChangementPuissanceQuery,
   ListerChangementPuissanceReadModel,
 } from './changement/lister/listerChangementPuissance.query.js';
-import { RejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase.js';
-import {
+import type { RejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase.js';
+import type {
   ConsulterPuissanceQuery,
   ConsulterPuissanceReadModel,
 } from './consulter/consulterPuissance.query.js';
-import {
+import type {
   ConsulterVolumeRéservéQuery,
   ConsulterVolumeRéservéReadModel,
 } from './consulter/consulterVolumeRéservé.query.js';
-import {
+import type {
   HistoriquePuissanceProjetListItemReadModel,
   ListerHistoriquePuissanceProjetQuery,
   ListerHistoriquePuissanceProjetReadModel,
 } from './listerHistorique/listerHistoriquePuissanceProjet.query.js';
-import { ModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase.js';
+import type { ModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase.js';
 // Query
 export type PuissanceQuery =
   | ConsulterPuissanceQuery

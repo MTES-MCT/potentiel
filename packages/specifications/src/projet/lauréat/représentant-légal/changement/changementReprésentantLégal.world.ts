@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ReprésentantLégalWorld } from '../représentantLégal.world.js';
+import type { ReprésentantLégalWorld } from '../représentantLégal.world.js';
 import { AccorderChangementReprésentantLégalFixture } from './fixtures/accorderChangementReprésentantLégal.fixture.js';
 import { AnnulerChangementReprésentantLégalFixture } from './fixtures/annulerChangementReprésentantLégal.fixture.js';
 import { CorrigerChangementReprésentantLégalFixture } from './fixtures/corrigerChangementReprésentantLégal.fixture.js';

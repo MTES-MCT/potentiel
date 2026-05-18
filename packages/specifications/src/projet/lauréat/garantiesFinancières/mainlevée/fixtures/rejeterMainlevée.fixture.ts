@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PièceJustificative } from '#helpers';
-
+import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
 
 interface RejeterMainlevée {

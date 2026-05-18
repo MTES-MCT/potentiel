@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantProjet } from '../../../index.js';
-import { DemandeRecoursEntity } from '../demandeRecours.entity.js';
-import { RecoursEntity } from '../recours.entity.js';
+import type { DemandeRecoursEntity } from '../demandeRecours.entity.js';
+import type { RecoursEntity } from '../recours.entity.js';
 import * as StatutRecours from '../statutRecours.valueType.js';
 
 export type ConsulterRecoursReadModel = {

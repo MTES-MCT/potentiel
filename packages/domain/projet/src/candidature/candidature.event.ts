@@ -1,14 +1,14 @@
-import {
+import type {
   CandidatureCorrigéeEvent,
   CandidatureCorrigéeEventV1,
 } from './corriger/candidatureCorrigée.event.js';
-import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event.js';
-import {
+import type { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event.js';
+import type {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
   DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event.js';
-import {
+import type {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
   CandidatureNotifiéeEventV2,

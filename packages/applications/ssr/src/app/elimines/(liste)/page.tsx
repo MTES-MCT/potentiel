@@ -4,19 +4,18 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ÉliminéListPage } from './ÉliminéList.page';
 
 type PageProps = {

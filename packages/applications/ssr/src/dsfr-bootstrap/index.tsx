@@ -6,7 +6,6 @@ import {
 } from '@codegouvfr/react-dsfr/next-app-router';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-
 import { defaultColorScheme } from './defaultColorScheme';
 
 declare module '@codegouvfr/react-dsfr/next-app-router' {

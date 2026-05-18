@@ -1,19 +1,19 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import {
-  FieldToExempleMapper,
+  type FieldToExempleMapper,
   mapBoolean,
   mapDateTime,
   mapToExemple,
 } from '../../../../helpers/mapToExemple.js';
-import { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
+import type { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
 import {
   ModifierDépôtGarantiesFinancièresFixture,
-  ModifierDépôtGarantiesFinancièresProps,
+  type ModifierDépôtGarantiesFinancièresProps,
 } from './fixtures/modifierDépôt.fixture.js';
 import {
   SoumettreDépôtGarantiesFinancièresFixture,
-  SoumettreDépôtGarantiesFinancièresProps,
+  type SoumettreDépôtGarantiesFinancièresProps,
 } from './fixtures/soumettreDépôt.fixture.js';
 import { ValiderDépôtGarantiesFinancièresFixture } from './fixtures/validerDépôt.fixture.js';
 

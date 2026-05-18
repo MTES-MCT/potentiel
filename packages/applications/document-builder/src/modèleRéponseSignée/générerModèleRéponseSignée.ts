@@ -6,31 +6,31 @@ import PizZip from 'pizzip';
 
 import { assets } from '../assets.js';
 import {
-  ModèleRéponseAbandon,
+  type ModèleRéponseAbandon,
   modèleRéponseAbandonFileName,
 } from './abandon/modèleRéponseSignéeAbandon.js';
 import {
-  ModèleRéponseActionnaire,
+  type ModèleRéponseActionnaire,
   modèleRéponseActionnaireFileName,
 } from './actionnaire/modèleRéponseSignéeActionnaire.js';
 import {
-  ModèleRéponseDélai,
+  type ModèleRéponseDélai,
   modèleRéponseDélaiFileName,
 } from './délai/modèleRéponseSignéeDélai.js';
 import {
-  ModèleRéponseMainlevée,
+  type ModèleRéponseMainlevée,
   modèleRéponseMainlevéeFileName,
 } from './garantiesFinancières/modèleRéponseSignéeMainlevée.js';
 import {
-  ModèleMiseEnDemeure,
+  type ModèleMiseEnDemeure,
   modèleRéponseMiseEnDemeureFileName,
 } from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure.js';
 import {
-  ModèleRéponsePuissance,
+  type ModèleRéponsePuissance,
   modèleRéponsePuissanceFileName,
 } from './puissance/modèleRéponseSignéePuissance.js';
 import {
-  ModèleRéponseRecours,
+  type ModèleRéponseRecours,
   modèleRéponseRecoursFileName,
 } from './recours/modèleRéponseSignéeRecours.js';
 

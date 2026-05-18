@@ -1,12 +1,12 @@
 // Third party
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
 // Package
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import type { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
+import type { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 
 export type AccorderRecoursCommand = Message<
   'Éliminé.Recours.Command.AccorderRecours',

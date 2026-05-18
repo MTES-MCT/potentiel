@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Find, Joined } from '@potentiel-domain/entity';
+import type { Find, Joined } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { CandidatureEntity, UnitéPuissance } from '../../../candidature/index.js';
+import { type CandidatureEntity, UnitéPuissance } from '../../../candidature/index.js';
 import { IdentifiantProjet } from '../../../index.js';
-import { PuissanceEntity } from '../index.js';
+import type { PuissanceEntity } from '../index.js';
 
 export type ConsulterPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

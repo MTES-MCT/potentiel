@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../index.js';
-import { Dépôt, DétailCandidature, Instruction } from '../index.js';
-import { CorrigerCandidatureCommand } from './corrigerCandidature.command.js';
+import { Dépôt, type DétailCandidature, Instruction } from '../index.js';
+import type { CorrigerCandidatureCommand } from './corrigerCandidature.command.js';
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',

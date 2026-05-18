@@ -1,8 +1,8 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat, type Éliminé } from '@potentiel-domain/projet';
 
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
 import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
@@ -10,7 +10,7 @@ import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/Pro
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 type LayoutProps = IdentifiantParameter & {

@@ -1,16 +1,16 @@
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
+import type { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
 import {
-  ConsulterChangementInstallateurDependencies,
+  type ConsulterChangementInstallateurDependencies,
   registerConsulterChangementInstallateurQuery,
 } from './changement/consulter/consulterChangementInstallateur.query.js';
 import { registerEnregistrerChangementInstallateurCommand } from './changement/enregistrerChangement/enregistrerChangementInstallateur.command.js';
 import { registerEnregistrerChangementInstallateurUseCase } from './changement/enregistrerChangement/enregistrerChangementInstallateur.usecase.js';
 import {
-  ListerChangementInstallateurDependencies,
+  type ListerChangementInstallateurDependencies,
   registerListerChangementInstallateurQuery,
 } from './changement/lister/listerChangementInstallateur.query.js';
 import {
-  ConsulterInstallateurDependencies,
+  type ConsulterInstallateurDependencies,
   registerConsulterInstallateurQuery,
 } from './consulter/consulterInstallateur.query.js';
 import { registerModifierInstallateurCommand } from './modifier/modifierInstallateur.command.js';

@@ -1,12 +1,11 @@
 import { mapBoolean, mapDateTime, mapToExemple } from '#helpers';
-
 import { ImporterDemandeComplèteRaccordementFixture } from './fixtures/importerDemandeComplèteDeRaccordement.fixture.js';
 import {
-  ModifierDemandeComplèteRaccordement,
+  type ModifierDemandeComplèteRaccordement,
   ModifierDemandeComplèteRaccordementFixture,
 } from './fixtures/modifierDemandeComplèteDeRaccordement.fixture.js';
 import {
-  TransmettreDemandeComplèteRaccordement,
+  type TransmettreDemandeComplèteRaccordement,
   TransmettreDemandeComplèteRaccordementFixture,
 } from './fixtures/transmettreDemandeComplèteDeRaccordement.fixture.js';
 

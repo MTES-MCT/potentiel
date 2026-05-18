@@ -7,11 +7,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
-
-import { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import { récupérerTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.then.js';
-import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture.js';
-import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture.js';
+import type { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture.js';
+import type { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture.js';
 
 Quand(
   'le porteur demande le changement de représentant pour le projet lauréat',

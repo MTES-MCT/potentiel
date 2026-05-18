@@ -1,6 +1,6 @@
 import { flatten } from 'flat';
 
-import { Entity, OrderByOptions } from '@potentiel-domain/entity';
+import type { Entity, OrderByOptions } from '@potentiel-domain/entity';
 
 /**
  * Build the ORDER SQL clause based on `orderBy` options

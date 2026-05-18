@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
-import { Raccordement } from '@potentiel-applications/api-documentation';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Raccordement } from '@potentiel-applications/api-documentation';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getUtilisateur, mapToRangeOptions } from '#helpers';
 

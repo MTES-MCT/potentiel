@@ -4,25 +4,24 @@ import { RedirectType, redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
-  ListProjetsAvecGarantiesFinancièresEnAttenteProps,
+  type ListProjetsAvecGarantiesFinancièresEnAttenteProps,
 } from './ListerProjetsAvecGarantiesFinancièresEnAttente.page';
-import { ListItemProjetAvecGarantiesFinancièresEnAttenteActions } from './ListItemProjetAvecGarantiesFinancièresEnAttente';
+import type { ListItemProjetAvecGarantiesFinancièresEnAttenteActions } from './ListItemProjetAvecGarantiesFinancièresEnAttente';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),

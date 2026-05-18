@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToFournisseurImportéTimelineItemProps = (
   event: Lauréat.Fournisseur.FournisseurImportéEvent,

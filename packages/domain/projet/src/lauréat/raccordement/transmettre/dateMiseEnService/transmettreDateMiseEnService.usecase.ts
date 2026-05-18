@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
-import { TransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService.command.js';
+import type { TransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService.command.js';
 
 export type TransmettreDateMiseEnServiceUseCase = Message<
   'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',

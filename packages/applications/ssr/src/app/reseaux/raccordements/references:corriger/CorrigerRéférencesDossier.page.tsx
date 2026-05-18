@@ -4,7 +4,6 @@ import { Table } from '@codegouvfr/react-dsfr/Table';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import { CorrigerRéférencesDossierForm } from './CorrigerRéférencesDossier.form';
 
 export const CorrigerRéférencesDossierPage = () => (

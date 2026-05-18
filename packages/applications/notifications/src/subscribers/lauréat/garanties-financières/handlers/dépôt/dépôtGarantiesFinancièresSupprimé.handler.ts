@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getLauréat, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';

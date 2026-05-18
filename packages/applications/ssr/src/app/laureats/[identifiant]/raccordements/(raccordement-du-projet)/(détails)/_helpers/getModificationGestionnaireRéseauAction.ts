@@ -1,6 +1,6 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 type GetModificationGestionnaireRéseauAction = (args: {
   rôle: Role.ValueType;

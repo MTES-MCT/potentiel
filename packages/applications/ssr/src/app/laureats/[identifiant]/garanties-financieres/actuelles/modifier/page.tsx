@@ -1,22 +1,21 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type CahierDesCharges, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import {
   ModifierGarantiesFinancièresActuellesPage,
-  ModifierGarantiesFinancièresActuellesPageProps,
+  type ModifierGarantiesFinancièresActuellesPageProps,
 } from './ModifierGarantiesFinancièresActuelles.page';
 
 export const metadata: Metadata = { title: 'Modifier les garanties financières actuelles' };

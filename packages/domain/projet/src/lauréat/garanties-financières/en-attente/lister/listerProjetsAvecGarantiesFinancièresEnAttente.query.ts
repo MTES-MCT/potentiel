@@ -1,14 +1,20 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
-
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
-import { StatutLauréat } from '../../../index.js';
-import { LauréatEntity } from '../../../lauréat.entity.js';
-import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import {
-  GarantiesFinancièresEntity,
+  type Joined,
+  type LeftJoin,
+  type List,
+  type RangeOptions,
+  Where,
+} from '@potentiel-domain/entity';
+
+import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
+import { StatutLauréat } from '../../../index.js';
+import type { LauréatEntity } from '../../../lauréat.entity.js';
+import type { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import {
+  type GarantiesFinancièresEntity,
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
 } from '../../index.js';

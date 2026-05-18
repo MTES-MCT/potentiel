@@ -1,5 +1,5 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import React from 'react';
+import type React from 'react';
 
 type NotificationBadgeProps = {
   estNotifié: boolean;

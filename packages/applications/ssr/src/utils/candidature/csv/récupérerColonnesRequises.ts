@@ -1,8 +1,8 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
-  CandidatureHeaders,
-  CsvHeaders,
+  type CandidatureHeaders,
+  type CsvHeaders,
   candidatureCsvHeadersMapping,
 } from './candidatureCsv.schema';
 

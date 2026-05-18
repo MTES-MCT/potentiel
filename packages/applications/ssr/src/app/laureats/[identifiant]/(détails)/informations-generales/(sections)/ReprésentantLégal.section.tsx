@@ -6,7 +6,6 @@ import { getAction, getReprésentantLégalInfos } from '@/app/laureats/[identifi
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ReprésentantLégalDétails } from './ReprésentantLégalDétails';
 
 type ReprésentantLégalSectionProps = {

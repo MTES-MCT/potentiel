@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import {
@@ -11,12 +11,11 @@ import {
   transformToOptionalEnumArray,
 } from '@/app/_helpers';
 import { featureFlag } from '@/app/_helpers/getFeatureFlag';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
+import { AbandonListPage, type AbandonListPageProps } from './AbandonList.page';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

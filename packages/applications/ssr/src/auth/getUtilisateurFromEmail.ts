@@ -1,10 +1,10 @@
 import { mediator } from 'mediateur';
 
-import {
+import type {
   TrouverUtilisateurQuery,
   TrouverUtilisateurReadModel,
 } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
+import type { Option } from '@potentiel-libraries/monads';
 
 export type GetUtilisateurFromEmail = (
   email: string,
