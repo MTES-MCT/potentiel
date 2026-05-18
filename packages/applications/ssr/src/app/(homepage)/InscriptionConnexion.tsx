@@ -21,6 +21,7 @@ export const InscriptionConnexion = () => (
               >
                 <li role="presentation">
                   <button
+                    type="button"
                     id="tabpanel-404"
                     className="fr-tabs__tab"
                     tabIndex={0}
@@ -33,6 +34,7 @@ export const InscriptionConnexion = () => (
                 </li>
                 <li role="presentation">
                   <button
+                    type="button"
                     id="tabpanel-405"
                     className="fr-tabs__tab"
                     tabIndex={-1}

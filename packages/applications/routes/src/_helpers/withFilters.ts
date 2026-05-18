@@ -7,7 +7,9 @@ export const withFilters =
       const value = filters[key];
       if (value) {
         if (Array.isArray(value)) {
-          value.forEach((v) => searchParams.append(key, v));
+          for (const v of value) {
+            searchParams.append(key, v);
+          }
         } else {
           searchParams.set(key, value);
         }

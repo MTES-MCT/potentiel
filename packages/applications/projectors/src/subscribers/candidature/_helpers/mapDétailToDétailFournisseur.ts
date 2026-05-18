@@ -61,7 +61,7 @@ export const mapDétailToDétailFournisseur = (
       const fournisseur = splitDétailsIntoTypeFieldIndex(key);
 
       if (!fournisseur.type) {
-        return;
+        return undefined;
       }
       const type = labelToTypeFournisseur[fournisseur.type.toLowerCase().trim()];
       const field = fournisseur.field.trim();
@@ -69,6 +69,7 @@ export const mapDétailToDétailFournisseur = (
       if (type && field) {
         return { type, field, index: fournisseur.index, valeur };
       }
+      return undefined;
     })
     .filter((item) => item !== undefined);
 

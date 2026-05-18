@@ -11,8 +11,8 @@ export const Footnotes = ({ footnotes }: { footnotes: FootnoteType[] }) => {
         fontSize: 8,
       }}
     >
-      {footnotes.map((footnote, index) => (
-        <Footnote {...footnote} key={`foot_note_${index}`} />
+      {footnotes.map((footnote) => (
+        <Footnote {...footnote} key={footnote.indice} />
       ))}
     </View>
   );

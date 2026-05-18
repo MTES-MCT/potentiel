@@ -48,7 +48,7 @@ export const RaccordementDétails = async ({
     <div>
       <span className="mb-0">Gestionnaire de réseau</span> :{' '}
       {Option.match(raccordement.gestionnaireRéseau)
-        .some(({ raisonSociale }) => <strong>{raisonSociale}</strong>)
+        .some(({ raisonSociale }) => <strong key={raisonSociale}>{raisonSociale}</strong>)
         .none(() => (
           <span>non renseigné</span>
         ))}
@@ -59,12 +59,12 @@ export const RaccordementDétails = async ({
       ))}
       {raccordement.dossiers.length === 0 && <span>Aucun dossier de raccordement renseigné</span>}
     </div>
-    {alertes.map(({ label }, index) => (
+    {alertes.map(({ label }) => (
       <Notice
         description={label}
         title="Données de raccordement à compléter"
         severity="info"
-        key={label + index}
+        key={label}
         className="print:hidden whitespace-pre-line"
       />
     ))}
