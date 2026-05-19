@@ -86,6 +86,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
         identifiantGestionnaireRéseau: Where.equal(scope.identifiantGestionnaireRéseau),
+        désactivé: Where.equalNull(),
       },
       range,
       orderBy: {
