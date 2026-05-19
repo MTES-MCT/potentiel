@@ -2,17 +2,16 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
+import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { TransmettrePropositionTechniqueEtFinancièrePage } from './TransmettrePropositionTechniqueEtFinancière.page';
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 import { vérifierSiModificationRaccordementPossible } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
-import { Routes } from '@potentiel-applications/routes';
+import { TransmettrePropositionTechniqueEtFinancièrePage } from './TransmettrePropositionTechniqueEtFinancière.page';
 
 type PageProps = {
   params: Promise<{

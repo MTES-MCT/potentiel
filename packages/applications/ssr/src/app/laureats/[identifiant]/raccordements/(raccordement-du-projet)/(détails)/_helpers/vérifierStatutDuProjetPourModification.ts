@@ -1,4 +1,4 @@
-import { GetLauréat } from '@/app/laureats/[identifiant]/_helpers';
+import type { GetLauréat } from '@/app/laureats/[identifiant]/_helpers';
 
 export const vérifierSiModificationRaccordementPossible = (lauréat: GetLauréat): boolean =>
   lauréat.powerPurchaseAgreement

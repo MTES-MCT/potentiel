@@ -1,17 +1,15 @@
-import Badge from "@codegouvfr/react-dsfr/Badge";
-import Notice from "@codegouvfr/react-dsfr/Notice";
+import Badge from '@codegouvfr/react-dsfr/Badge';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
-import type { PlainType } from "@potentiel-domain/core";
-import type { Lauréat } from "@potentiel-domain/projet";
-import { Option } from "@potentiel-libraries/monads";
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { TertiaryLink } from "@/components/atoms/form/TertiaryLink";
-import type { ChampAvecAction } from "../../_helpers";
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import type { ChampAvecAction } from '../../_helpers';
 
 export type RaccordementDétailsProps = {
-  raccordement: ChampAvecAction<
-    PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>
-  >;
+  raccordement: ChampAvecAction<PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>>;
   alertes: Array<{ label: string }>;
 };
 
@@ -47,11 +45,9 @@ export const RaccordementDétails = async ({
     {raccordement && (
       <>
         <div>
-          <span className="mb-0">Gestionnaire de réseau</span> :{" "}
+          <span className="mb-0">Gestionnaire de réseau</span> :{' '}
           {Option.match(raccordement.gestionnaireRéseau)
-            .some(({ raisonSociale }) => (
-              <strong key={raisonSociale}>{raisonSociale}</strong>
-            ))
+            .some(({ raisonSociale }) => <strong key={raisonSociale}>{raisonSociale}</strong>)
             .none(() => (
               <span>non renseigné</span>
             ))}
