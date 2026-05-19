@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 import { mapToExemple } from '#helpers';
-
 import { AbstractFixture } from '../../../fixture.js';
 
 export type ModifierRéférenceDossierRaccordement = {

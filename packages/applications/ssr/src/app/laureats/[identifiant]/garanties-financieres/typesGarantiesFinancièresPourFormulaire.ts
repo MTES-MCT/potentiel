@@ -1,4 +1,4 @@
-import { CahierDesCharges } from '@potentiel-domain/projet';
+import type { CahierDesCharges } from '@potentiel-domain/projet';
 
 import { getGarantiesFinancièresTypeLabel } from './_helpers/getGarantiesFinancièresTypeLabel';
 

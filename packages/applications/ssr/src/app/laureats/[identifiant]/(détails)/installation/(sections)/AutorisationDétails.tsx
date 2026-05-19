@@ -1,7 +1,7 @@
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ChampAvecAction } from '@/app/laureats/[identifiant]/_helpers';
+import type { ChampAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { Champ } from '@/components/atoms/menu/Champ';
 
 export type AutorisationDétailsProps = ChampAvecAction<

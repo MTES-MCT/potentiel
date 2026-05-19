@@ -1,17 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Find } from '@potentiel-domain/entity';
-import { OperationRejectedError } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
-import { Role, Région, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
+import { OperationRejectedError } from '@potentiel-domain/core';
+import type { Find } from '@potentiel-domain/entity';
+import { Role, Région, type UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { LauréatEntity } from '../../lauréat/index.js';
-import { CandidatureEntity } from '../../candidature/index.js';
-import { RaccordementEntity } from '../../lauréat/raccordement/index.js';
-import { GetScopeProjetUtilisateur } from '../../getScopeProjetUtilisateur.port.js';
+import type { CandidatureEntity } from '../../candidature/index.js';
+import type { GetScopeProjetUtilisateur } from '../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet } from '../../index.js';
+import type { LauréatEntity } from '../../lauréat/index.js';
+import type { RaccordementEntity } from '../../lauréat/raccordement/index.js';
 
 export type VérifierAccèsProjetQuery = Message<
   'System.Projet.Accès.Query.VérifierAccèsProjet',

@@ -1,14 +1,13 @@
-import { describe, it, after, before, beforeEach } from 'node:test';
 import { randomBytes } from 'node:crypto';
+import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 
+import type { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { DomainEvent } from '@potentiel-domain/core';
 
 import { loadFromStream } from '../load/loadFromStream.js';
-
-import { publish, PublishEvent } from './publish.js';
+import { type PublishEvent, publish } from './publish.js';
 
 should();
 

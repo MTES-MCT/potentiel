@@ -1,24 +1,24 @@
 import { Command, Flags } from '@oclif/core';
-import zod from 'zod';
 import { mediator } from 'mediateur';
+import zod from 'zod';
 
+import { DateTime, Email } from '@potentiel-domain/common';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { Période } from '@potentiel-domain/periode';
 import {
-  Candidature,
+  type Candidature,
   registerProjetQueries,
   registerProjetUseCases,
 } from '@potentiel-domain/projet';
-import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { registerUtilisateurUseCases } from '@potentiel-domain/utilisateur';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { DateTime, Email } from '@potentiel-domain/common';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { Période } from '@potentiel-domain/periode';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { registerUtilisateurUseCases } from '@potentiel-domain/utilisateur';
 
 import { appSchema, dbSchema } from '#helpers';
 

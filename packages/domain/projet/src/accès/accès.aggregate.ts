@@ -1,27 +1,26 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
-
-import { AccèsEvent } from './accès.event.js';
-import { AccèsProjetAutoriséEvent } from './autoriser/autoriserAccèsProjet.event.js';
-import { AutoriserAccèsProjetOptions } from './autoriser/autoriserAccèsProjet.options.js';
-import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.event.js';
+import type { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 import {
-  ProjetNonNotiféError,
+  AccèsProjetDéjàAutoriséError,
   EmailNonCorrespondantError,
   PrixEtNuméroCRENonCorrespondantError,
+  ProjetNonNotiféError,
+  ProjetNonRéclamableError,
   RetraitDeSesAccèsProjetError,
   UtilisateurAPasAccèsAuProjetError,
-  AccèsProjetDéjàAutoriséError,
-  ProjetNonRéclamableError,
 } from './accès.error.js';
-import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options.js';
-import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options.js';
-import { RemplacerAccèsProjetOptions } from './remplacer/remplacerAccèsProjet.options.js';
-import { AccèsProjetRemplacéEvent } from './remplacer/remplacerAccèsProjet.event.js';
+import type { AccèsEvent } from './accès.event.js';
+import type { AccèsProjetAutoriséEvent } from './autoriser/autoriserAccèsProjet.event.js';
+import type { AutoriserAccèsProjetOptions } from './autoriser/autoriserAccèsProjet.options.js';
+import type { AccèsProjetRemplacéEvent } from './remplacer/remplacerAccèsProjet.event.js';
+import type { RemplacerAccèsProjetOptions } from './remplacer/remplacerAccèsProjet.options.js';
+import type { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.event.js';
+import type { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options.js';
+import type { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options.js';
 
 export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', ProjetAggregateRoot> {
   get projet() {
@@ -203,9 +202,9 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', Pr
   private applyAccèsProjetRetiréV1({
     payload: { identifiantsUtilisateur },
   }: AccèsProjetRetiréEvent) {
-    identifiantsUtilisateur.map((identifiantUtilisateurValue) => {
+    for (const identifiantUtilisateurValue of identifiantsUtilisateur) {
       this.identifiantsUtilisateurAyantAccès.delete(identifiantUtilisateurValue);
-    });
+    }
   }
 
   private aDéjàAccès(identifiantUtilisateur: Email.RawType): boolean {

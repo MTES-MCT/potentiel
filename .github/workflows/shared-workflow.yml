@@ -56,8 +56,6 @@ jobs:
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run lint
-        env:
-          NODE_OPTIONS: '--max-old-space-size=10240'
 
   build:
     needs: [setup, build_dev]

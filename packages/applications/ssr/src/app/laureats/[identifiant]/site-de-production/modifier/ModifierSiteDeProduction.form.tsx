@@ -1,24 +1,22 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-import { CommunePicker } from '@/components/molecules/CommunePicker';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
-
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import { CommunePicker } from '@/components/molecules/CommunePicker';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ModifierSiteDeProductionFormKeys,
   modifierSiteDeProductionAction,
-  ModifierSiteDeProductionFormKeys,
 } from './modifierSiteDeProduction.action';
 
 export type ModifierSiteDeProductionFormProps = {
@@ -44,7 +42,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
   const originalRegion = localité.région;
 
   const nécessiteLaConfirmationPourChangementDeRégion =
-    Role.bind(rôle).estDreal() && originalRegion != commune.région;
+    Role.bind(rôle).estDreal() && originalRegion !== commune.région;
 
   return (
     <Form

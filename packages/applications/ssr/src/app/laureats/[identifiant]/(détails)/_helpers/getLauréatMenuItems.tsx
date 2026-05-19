@@ -1,17 +1,15 @@
-import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
+import type { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-
-import { getAction, getLauréatInfos } from '../../_helpers';
-import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
-import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
 import { featureFlag } from '@/app/_helpers/getFeatureFlag';
-
+import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
+import { getAction, getLauréatInfos } from '../../_helpers';
+import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
 import { BadgeDemandesEnCours, BadgeTâches } from './Badges';
 
 export type MenuItem = SideMenuProps.Item;

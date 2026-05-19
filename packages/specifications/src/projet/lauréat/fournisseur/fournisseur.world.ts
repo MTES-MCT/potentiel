@@ -1,13 +1,12 @@
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture.js';
 import { MettreÀJourFournisseurFixture } from './fixtures/mettreÀJourFournisseur.fixture.js';
+import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture.js';
 
 export class FournisseurWorld {
-  constructor() {}
   readonly modifierÉvaluationCarbone = new ModifierÉvaluationCarboneFixture();
   readonly mettreÀJourFournisseur = new MettreÀJourFournisseurFixture();
 

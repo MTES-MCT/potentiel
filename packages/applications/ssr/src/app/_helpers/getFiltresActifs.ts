@@ -3,8 +3,8 @@ type GetFiltresActifsProps = Record<string, string | string[] | undefined>;
 export const getFiltresActifs = (filtres: GetFiltresActifsProps) =>
   Object.fromEntries(
     Object.entries(filtres)
-      .filter(([_, value]) =>
-        value === undefined || (Array.isArray(value) && value.length === 0) ? false : true,
+      .filter(
+        ([_, value]) => !(value === undefined || (Array.isArray(value) && value.length === 0)),
       )
       .map(([key, value]) => {
         if (Array.isArray(value)) {

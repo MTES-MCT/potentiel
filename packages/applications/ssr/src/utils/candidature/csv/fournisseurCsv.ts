@@ -72,12 +72,13 @@ export const mapCsvRowToFournisseurs = (
       if (fournisseur) {
         return { ...fournisseur, valeur: value };
       }
+      return undefined;
     })
     .filter((item) => item !== undefined);
 
   // on construit l'objet complet en groupant par type et index
   // l'index n'est pas utilisé en tant que tel car des valeurs pourraient être omises
-  return Object.values(Object.groupBy(fieldsArray, (item) => item.type + '-' + item.index))
+  return Object.values(Object.groupBy(fieldsArray, (item) => `${item.type}-${item.index}`))
     .filter((champsParTypeEtIndex) => !!champsParTypeEtIndex)
     .map((champsParTypeEtIndex) =>
       champsParTypeEtIndex.reduce(

@@ -1,15 +1,15 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Find, Where } from '@potentiel-domain/entity';
-import { Option } from '@potentiel-libraries/monads';
+import { type Find, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
-import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType.js';
-import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import type { Raccordement } from '../../index.js';
+import type { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
 import { DocumentRaccordement } from '../index.js';
-import { Raccordement } from '../../index.js';
+import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType.js';
 
 export type ConsulterDossierRaccordementReadModel = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;

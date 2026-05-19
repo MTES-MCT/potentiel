@@ -1,11 +1,10 @@
-import { test, describe } from 'node:test';
+import { describe, test } from 'node:test';
 
 import '../zod/setupLocale';
 
 import { assert } from 'chai';
 
-import { instructionSchema, InstructionSchemaShape } from '.';
-
+import { type InstructionSchemaShape, instructionSchema } from '.';
 import { assertError, assertNoError, deepEqualWithRichDiff } from './csv/_test-shared';
 
 const minimumValuesÉliminé: Partial<Record<keyof InstructionSchemaShape, string>> = {

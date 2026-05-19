@@ -3,8 +3,8 @@ import { faker } from '@faker-js/faker';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
-import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
+import { AbstractFixture, type DeepPartial } from '../../../../../fixture.js';
+import type { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
 
 export interface ValiderDépôtGarantiesFinancières {
   validéLe: string;

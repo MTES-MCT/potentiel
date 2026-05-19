@@ -1,36 +1,33 @@
-import { GetProjetAggregateRoot } from '../../index.js';
-
+import type { GetProjetAggregateRoot } from '../../index.js';
+import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command.js';
 import {
-  ListerHistoriqueRaccordementProjetDependencies,
-  registerListerHistoriqueRaccordementProjetQuery,
-} from './listerHistorique/listerHistoriqueRaccordementProjet.query.js';
-import {
-  ConsulterDossierRaccordementDependencies,
+  type ConsulterDossierRaccordementDependencies,
   registerConsulterDossierRaccordementQuery,
 } from './consulter/consulterDossierRaccordement.query.js';
 import {
-  ConsulterGestionnaireRéseauRaccordementDependencies,
+  type ConsulterGestionnaireRéseauRaccordementDependencies,
   registerConsulterGestionnaireRéseauRaccordementQuery,
 } from './consulter/consulterGestionnaireRéseauRaccordement.query.js';
 import {
-  ConsulterNombreDeRaccordementDependencies,
+  type ConsulterNombreDeRaccordementDependencies,
   registerConsulterNombreDeRaccordementQuery,
 } from './consulter/consulterNombreRaccordement.js';
 import {
-  ConsulterRaccordementDependencies,
+  type ConsulterRaccordementDependencies,
   registerConsulterRaccordementQuery,
 } from './consulter/consulterRaccordement.query.js';
 import {
-  ListerDossierRaccordementQueryDependencies,
+  type ListerDossierRaccordementQueryDependencies,
   registerListerDossierRaccordementQuery,
 } from './lister/listerDossierRaccordement.query.js';
 import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query.js';
 import { registerListerDossierRaccordementManquantsQuery } from './lister/listerDossierRaccordementManquants.query.js';
 import {
-  RechercherDossierRaccordementDependencies,
-  registerRechercherDossierRaccordementQuery,
-} from './rechercher/rechercherDossierRaccordement.query.js';
-import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command.js';
+  type ListerHistoriqueRaccordementProjetDependencies,
+  registerListerHistoriqueRaccordementProjetQuery,
+} from './listerHistorique/listerHistoriqueRaccordementProjet.query.js';
+import { registerModifierDateMiseEnServiceCommand } from './modifier/dateMiseEnService/modifierDateMiseEnService.command.js';
+import { registerModifierDateMiseEnServiceUseCase } from './modifier/dateMiseEnService/modifierDateMiseEnService.usecase.js';
 import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.command.js';
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
 import { registerModifierGestionnaireRéseauProjetCommand } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.command.js';
@@ -39,6 +36,10 @@ import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modi
 import { registerModifierPropositionTechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.usecase.js';
 import { registerModifierRéférenceDossierRaccordementCommand } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.command.js';
 import { registerModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase.js';
+import {
+  type RechercherDossierRaccordementDependencies,
+  registerRechercherDossierRaccordementQuery,
+} from './rechercher/rechercherDossierRaccordement.query.js';
 import { registerSupprimerDateMiseEnServiceCommand } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.command.js';
 import { registerSupprimerDateMiseEnServiceUseCase } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.usecase.js';
 import { registerSupprimerDossierDuRaccordementCommand } from './supprimer/dossier/supprimerDossierDuRaccordement.command.js';
@@ -49,8 +50,6 @@ import { registerTransmettreDemandeComplèteRaccordementCommand } from './transm
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase.js';
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command.js';
 import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase.js';
-import { registerModifierDateMiseEnServiceCommand } from './modifier/dateMiseEnService/modifierDateMiseEnService.command.js';
-import { registerModifierDateMiseEnServiceUseCase } from './modifier/dateMiseEnService/modifierDateMiseEnService.usecase.js';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &

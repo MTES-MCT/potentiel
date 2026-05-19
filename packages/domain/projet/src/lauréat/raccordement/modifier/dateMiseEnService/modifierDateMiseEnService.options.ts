@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { RéférenceDossierRaccordement } from '../../index.js';
+import type { RéférenceDossierRaccordement } from '../../index.js';
 
 export type ModifierDateMiseEnServiceOptions = {
   dateMiseEnService: DateTime.ValueType;

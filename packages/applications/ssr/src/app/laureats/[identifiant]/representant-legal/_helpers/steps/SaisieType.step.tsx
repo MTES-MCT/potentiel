@@ -1,17 +1,15 @@
 'use client';
 
-import { FC, ReactNode, useState } from 'react';
+import { type FC, type ReactNode, useState } from 'react';
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ValidationErrors } from '@/utils/formAction';
 import { Heading3 } from '@/components/atoms/headings';
-
-import { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
+import type { ValidationErrors } from '@/utils/formAction';
+import type { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
 import { TypeReprésentantLégalSelect } from '../TypeReprésentantLégalSelect';
-
-import { SaisieTypeSociétéStep, TypeSociété } from './SaisieTypeSociété.step';
+import { SaisieTypeSociétéStep, type TypeSociété } from './SaisieTypeSociété.step';
 
 type Contexte = 'demander' | 'modifier' | 'corriger';
 
@@ -111,11 +109,9 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         nom="Un organisme ou autre"
         informationÀRemplir="le nom de l'organisme"
         piècesJustificatives={
-          <>
-            <li>
-              Tout document officiel permettant d'attester de l'existence juridique de l'organisme
-            </li>
-          </>
+          <li>
+            Tout document officiel permettant d'attester de l'existence juridique de l'organisme
+          </li>
         }
       />
     ))

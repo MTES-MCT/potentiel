@@ -1,6 +1,6 @@
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../../index.js';
+import type { IdentifiantProjet } from '../../index.js';
 
 export type DétailFournisseursCandidatureEntity = Entity<
   'détail-fournisseurs-candidature',

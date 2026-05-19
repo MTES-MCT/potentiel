@@ -1,7 +1,7 @@
+import type { KeycloakOptions } from 'better-auth/plugins';
 import { match } from 'ts-pattern';
-import { KeycloakOptions } from 'better-auth/plugins';
 
-import { ProconnectOptions } from './proconnect.provider';
+import type { ProconnectOptions } from './proconnect.provider';
 
 export const getKeycloakConfiguration = () =>
   ({

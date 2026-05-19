@@ -1,4 +1,4 @@
-import { NotMatchAnyWhereCondition, WhereCondition } from '../whereOptions.js';
+import type { NotMatchAnyWhereCondition, WhereCondition } from '../whereOptions.js';
 
 /** The value does not match any of the values in the array */
 export const notMatchAny = <T>(

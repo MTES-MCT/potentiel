@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
-
-import { AnnulerRecoursCommand } from './annulerRecours.command.js';
+import type { AnnulerRecoursCommand } from './annulerRecours.command.js';
 
 export type AnnulerRecoursUseCase = Message<
   'Éliminé.Recours.UseCase.AnnulerRecours',

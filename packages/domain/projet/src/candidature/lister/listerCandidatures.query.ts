@@ -1,19 +1,19 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
+import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { CandidatureEntity } from '../candidature.entity.js';
-import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query.js';
-import * as StatutCandidature from '../statutCandidature.valueType.js';
-import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { Candidature, type DocumentProjet, IdentifiantProjet } from '../../index.js';
+import type { CandidatureEntity } from '../candidature.entity.js';
+import type { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query.js';
 import {
   DocumentCandidature,
-  Dépôt,
+  type Dépôt,
   Localité,
   TypeActionnariat,
   UnitéPuissance,
 } from '../index.js';
+import * as StatutCandidature from '../statutCandidature.valueType.js';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

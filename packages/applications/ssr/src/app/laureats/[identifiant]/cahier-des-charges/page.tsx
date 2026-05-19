@@ -1,17 +1,15 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { decodeParameter } from '@/utils/decodeParameter';
 import { getCahierDesCharges } from '@/app/_helpers';
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { getAchèvement } from '../_helpers';
-
 import { ChoisirCahierDesChargesPage } from './ChoisirCahierDesCharges.page';
 
 export const metadata: Metadata = { title: 'Choix du Cahier des Charges' };

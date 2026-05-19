@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { Icon, IconProps } from '../Icon';
+import { Icon, type IconProps } from '../Icon';
 
 type Heading2Props = {
   children: ReactNode;

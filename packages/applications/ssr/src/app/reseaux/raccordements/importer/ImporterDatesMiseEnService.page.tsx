@@ -1,12 +1,11 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Table } from '@codegouvfr/react-dsfr/Table';
-import { FC } from 'react';
+import type { FC } from 'react';
 
+import type { GestionnaireRéseauSelectProps } from '@/app/laureats/[identifiant]/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { GestionnaireRéseauSelectProps } from '@/app/laureats/[identifiant]/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import { ImporterDatesMiseEnServiceForm } from './ImporterDatesMiseEnService.form';
 
 export type ImporterDatesMiseEnServicePageProps = {

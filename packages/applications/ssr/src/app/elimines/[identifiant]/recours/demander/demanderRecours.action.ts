@@ -3,10 +3,10 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import type { Éliminé } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
@@ -19,7 +19,7 @@ const schema = zod.object({
 export type DemanderRecoursFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _previousState,
   { identifiantProjet, pieceJustificative, raison },
 ) => {
   return withUtilisateur(async (utilisateur) => {

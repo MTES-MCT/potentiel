@@ -1,5 +1,5 @@
-import { Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Email } from '@potentiel-domain/common';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 type StatistiqueConnexion = {
   type: 'connexionUtilisateur';

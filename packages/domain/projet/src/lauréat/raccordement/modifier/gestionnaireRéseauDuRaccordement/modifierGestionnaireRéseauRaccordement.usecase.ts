@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Role } from '@potentiel-domain/utilisateur';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../../../index.js';
-
-import { ModifierGestionnaireRéseauRaccordementCommand } from './modifierGestionnaireRéseauRaccordement.command.js';
+import type { ModifierGestionnaireRéseauRaccordementCommand } from './modifierGestionnaireRéseauRaccordement.command.js';
 
 export type ModifierGestionnaireRéseauRaccordementUseCase = Message<
   'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',

@@ -1,16 +1,15 @@
-import { Metadata } from 'next';
-
-import { Lauréat } from '@potentiel-domain/projet';
-
-import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getCahierDesCharges, récupérerLauréatSansAbandon } from '@/app/_helpers';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { DemanderAbandonPage } from './DemanderAbandon.page';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
+
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
+
+import { getCahierDesCharges, récupérerLauréatSansAbandon } from '@/app/_helpers';
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
+import { DemanderAbandonPage } from './DemanderAbandon.page';
 
 export const metadata: Metadata = { title: "Demander l'abandon" };
 

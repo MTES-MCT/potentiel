@@ -1,11 +1,10 @@
 import { Text, View } from '@react-pdf/renderer';
-import React from 'react';
 
-import { CahierDesCharges } from '@potentiel-domain/projet';
+import type { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { formatNumber } from '../../helpers/index.js';
-import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
+import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 type MakeLaureatProps = {
   project: AttestationPPE2Options;
@@ -46,16 +45,16 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
             : ' '}
           {project.isGouvernancePartagée && (
             <Text>
-              Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} à la
-              gouvernance partagée jusqu’à dix ans minimum après la Date d’Achèvement de
-              l’Installation.
+              Vous vous êtes engagés
+              {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} à la gouvernance partagée jusqu’à
+              dix ans minimum après la Date d’Achèvement de l’Installation.
             </Text>
           )}
           {project.isFinancementCollectif && (
             <Text>
-              Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} au
-              financement collectif jusqu’à trois ans minimum après la Date d’Achèvement de
-              l’Installation.
+              Vous vous êtes engagés
+              {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} au financement collectif jusqu’à
+              trois ans minimum après la Date d’Achèvement de l’Installation.
             </Text>
           )}
         </Text>

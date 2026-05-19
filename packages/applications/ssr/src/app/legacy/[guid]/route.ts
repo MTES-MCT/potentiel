@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 
-import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Routes } from '@potentiel-applications/routes';
+import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { apiAction } from '@/utils/apiAction';
 

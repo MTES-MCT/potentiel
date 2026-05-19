@@ -1,13 +1,12 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { assert } from 'chai';
+import { mediator } from 'mediateur';
 
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect, expectFileContent } from '#helpers';
-
-import { PotentielWorld } from '../../../potentiel.world.js';
+import { expectFileContent, waitForExpect } from '#helpers';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
 
 Alors(

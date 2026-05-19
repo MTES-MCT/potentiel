@@ -1,19 +1,19 @@
 import {
-  ConsulterÉliminéDependencies,
+  type ConsulterÉliminéDependencies,
   registerConsulterÉliminéQuery,
 } from './consulter/consulterÉliminé.query.js';
 import {
-  ListerÉliminéDependencies,
+  type ListerÉliminéDependencies,
   registerListerÉliminéQuery,
 } from './lister/listerÉliminé.query.js';
 import {
-  ListerÉliminéEnrichiDependencies,
+  type ListerÉliminéEnrichiDependencies,
   registerListerÉliminéEnrichiQuery,
 } from './lister/listerÉliminéEnrichi.query.js';
 import { registerNotifierÉliminéCommand } from './notifier/notifierÉliminé.command.js';
 import {
-  RecoursCommandDependencies,
-  RecoursQueryDependencies,
+  type RecoursCommandDependencies,
+  type RecoursQueryDependencies,
   registerRecoursQueries,
   registerRecoursUseCases,
 } from './recours/recours.register.js';

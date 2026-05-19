@@ -1,4 +1,4 @@
 export {
-  récupérerDépartementRégionParCodePostal,
   type DépartementRégion,
+  récupérerDépartementRégionParCodePostal,
 } from './récupérerDépartementRégionParCodePostal.js';

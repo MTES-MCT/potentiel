@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
-import { CandidatureEntity, Localité } from '../../candidature/index.js';
-import { ÉliminéEntity } from '../éliminé.entity.js';
+import { type CandidatureEntity, Localité } from '../../candidature/index.js';
+import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import type { ÉliminéEntity } from '../éliminé.entity.js';
 
 type ÉliminéListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -116,7 +116,7 @@ const mapToReadModel: MapToReadModelProps = ({
   localité,
   nomReprésentantLégal,
   nomCandidat: producteur,
-  puissance: puissance,
+  puissance,
   unitéPuissance,
   emailContact,
   prixReference,

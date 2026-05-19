@@ -1,10 +1,10 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { DateTime } from '@potentiel-domain/common';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 export const demandeComplèteDeRaccordementTransmiseV1Projector = async ({
   payload: {

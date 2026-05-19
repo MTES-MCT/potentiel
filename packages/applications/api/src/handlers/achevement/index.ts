@@ -1,4 +1,4 @@
-import { AchevementV1 } from '@potentiel-applications/api-documentation';
+import type { AchevementV1 } from '@potentiel-applications/api-documentation';
 
 import { listerProjetAvecAchevementATransmettreHandler } from './listerProjetAvecAchevementATransmettre.handler.js';
 import { transmettreDateAchevementHandler } from './transmettreDateAchevement.handler.js';

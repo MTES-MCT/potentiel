@@ -1,12 +1,12 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture.js';
 import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
+import type { PotentielWorld } from '../../../../../potentiel.world.js';
+import type { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture.js';
 
 EtantDonné(
   'des garanties financières actuelles pour le projet lauréat avec :',

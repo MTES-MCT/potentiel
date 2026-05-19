@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { LoadAggregate } from '@potentiel-domain/core';
 
-import { Utilisateur } from '../index.js';
+import type { Utilisateur } from '../index.js';
 import { UtilisateurAggregate } from '../utilisateur.aggregate.js';
 
 export type InviterUtilisateurCommand = Message<

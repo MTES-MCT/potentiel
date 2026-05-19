@@ -1,10 +1,9 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   SignalerPowerPurchaseAgreementForm,
-  SignalerPowerPurchaseAgreementFormProps,
+  type SignalerPowerPurchaseAgreementFormProps,
 } from './SignalerPowerPurchaseAgreement.form';
 
 export type SignalerPowerPurchaseAgreementPageProps = SignalerPowerPurchaseAgreementFormProps;

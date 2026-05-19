@@ -1,22 +1,15 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector.js';
-import { raccordementSuppriméV1Projector } from './raccordementSuppriméV1.projector.js';
 import {
-  gestionnaireRéseauAttribuéV1Projector,
-  gestionnaireRéseauInconnuAttribuéV1Projector,
-  gestionnaireRéseauRaccordementModifiéV1Projector,
-  gestionnaireRéseauRaccordementModifiéV2Projector,
-} from './gestionnaire-réseau/index.js';
-import {
-  référenceDossierRacordementModifiéeV1Projector,
-  référenceDossierRacordementModifiéeV2Projector,
-} from './dossier-raccordement/référence/index.js';
-import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector.js';
+  dateMiseEnServiceModifiéeProjector,
+  dateMiseEnServiceSuppriméeV1Projector,
+  dateMiseEnServiceTransmiseV1Projector,
+  dateMiseEnServiceTransmiseV2Projector,
+} from './dossier-raccordement/dateMiseEnService/index.js';
 import {
   accuséRéceptionDemandeComplèteRaccordementTransmisV1Projector,
   demandeComplèteDeRaccordementTransmiseV1Projector,
@@ -27,6 +20,7 @@ import {
   demandeComplèteRaccordementModifiéeV3Projector,
   demandeComplèteRaccordementModifiéeV4Projector,
 } from './dossier-raccordement/demandeComplèteDeRaccordement/index.js';
+import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector.js';
 import {
   propositionTechniqueEtFinancièreModifiéeV1Projector,
   propositionTechniqueEtFinancièreModifiéeV2Projector,
@@ -37,11 +31,17 @@ import {
   propositionTechniqueEtFinancièreTransmiseV3Projector,
 } from './dossier-raccordement/propositionTechniqueEtFinancière/index.js';
 import {
-  dateMiseEnServiceModifiéeProjector,
-  dateMiseEnServiceSuppriméeV1Projector,
-  dateMiseEnServiceTransmiseV1Projector,
-  dateMiseEnServiceTransmiseV2Projector,
-} from './dossier-raccordement/dateMiseEnService/index.js';
+  référenceDossierRacordementModifiéeV1Projector,
+  référenceDossierRacordementModifiéeV2Projector,
+} from './dossier-raccordement/référence/index.js';
+import {
+  gestionnaireRéseauAttribuéV1Projector,
+  gestionnaireRéseauInconnuAttribuéV1Projector,
+  gestionnaireRéseauRaccordementModifiéV1Projector,
+  gestionnaireRéseauRaccordementModifiéV2Projector,
+} from './gestionnaire-réseau/index.js';
+import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector.js';
+import { raccordementSuppriméV1Projector } from './raccordementSuppriméV1.projector.js';
 
 export type SubscriptionEvent = Lauréat.Raccordement.RaccordementEvent | RebuildTriggered;
 

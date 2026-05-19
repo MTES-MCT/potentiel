@@ -1,6 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FC, useEffect } from 'react';
+import { type FC, useEffect } from 'react';
+
 import { Link } from '../LinkNoPrefetch';
 
 type Props = {

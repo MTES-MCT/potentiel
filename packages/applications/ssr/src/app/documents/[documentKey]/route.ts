@@ -1,12 +1,11 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Document } from '@potentiel-domain/projet';
+import type { Accès, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Accès } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { apiAction } from '@/utils/apiAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const GET = async (_: Request, ctx: RouteContext<'/documents/[documentKey]'>) =>
   apiAction(() =>

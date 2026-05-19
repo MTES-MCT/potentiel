@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { AutoritéCompétente, DocumentDélai, StatutDemandeDélai } from '../../index.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import { Délai } from '../../../index.js';
-import { DemandeDélaiEntity } from '../demandeDélai.entity.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { AutoritéCompétente, DocumentDélai, type StatutDemandeDélai } from '../../index.js';
+import type { DemandeDélaiEntity } from '../demandeDélai.entity.js';
 
 export type ConsulterDemandeDélaiReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

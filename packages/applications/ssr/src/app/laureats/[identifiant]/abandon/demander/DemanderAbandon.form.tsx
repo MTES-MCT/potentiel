@@ -1,15 +1,14 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import { FC, useState } from 'react';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
-
-import { Form } from '@/components/atoms/form/Form';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
-import { demanderAbandonAction, DemanderAbandonFormKeys } from './demanderAbandon.action';
 import Notice from '@codegouvfr/react-dsfr/Notice';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { type FC, useState } from 'react';
+
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
+import { type DemanderAbandonFormKeys, demanderAbandonAction } from './demanderAbandon.action';
 
 export type DemanderAbandonFormProps = {
   identifiantProjet: string;
@@ -72,7 +71,11 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
             ? 'Veuillez donner des éléments explicatifs et de preuve sur la situation économique du projet'
             : 'Veuillez détailler les raisons de cet abandon (contexte, facteurs extérieurs, etc.)'
         }
-        nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
+        nativeTextAreaProps={{
+          name: 'raison',
+          required: true,
+          'aria-required': true,
+        }}
         state={validationErrors['raison'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['raison']}
       />

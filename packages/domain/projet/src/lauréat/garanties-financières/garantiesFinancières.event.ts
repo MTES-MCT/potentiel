@@ -1,6 +1,6 @@
-import { GarantiesFinancièresActuellesEvent } from './actuelles/garantiesFinancièresActuelles.event.js';
-import { DépôtGarantiesFinancièresEvent } from './dépôt/depôtGarantiesFinancières.event.js';
-import { MainlevéeGarantiesFinancièresEvent } from './mainlevée/mainlevéeGarantiesFinancières.event.js';
+import type { GarantiesFinancièresActuellesEvent } from './actuelles/garantiesFinancièresActuelles.event.js';
+import type { DépôtGarantiesFinancièresEvent } from './dépôt/depôtGarantiesFinancières.event.js';
+import type { MainlevéeGarantiesFinancièresEvent } from './mainlevée/mainlevéeGarantiesFinancières.event.js';
 
 export type * from './actuelles/garantiesFinancièresActuelles.event.js';
 export type * from './dépôt/depôtGarantiesFinancières.event.js';

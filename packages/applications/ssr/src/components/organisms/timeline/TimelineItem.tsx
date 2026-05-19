@@ -1,11 +1,10 @@
-import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
+import type { FC, ReactNode } from 'react';
 
-import { DocumentProjet } from '@potentiel-domain/projet';
+import type { DocumentProjet } from '@potentiel-domain/projet';
 
 import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
-
-import { TimelineItemBase, TimelineItemBaseProps } from './TimelineItemBase';
+import { TimelineItemBase, type TimelineItemBaseProps } from './TimelineItemBase';
 import { TimelineItemFile } from './TimelineItemFile';
 
 export type TimelineItemProps = TimelineItemBaseProps & {

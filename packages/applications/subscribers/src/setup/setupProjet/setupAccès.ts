@@ -1,6 +1,6 @@
-import { AccèsProjector } from '@potentiel-applications/projectors';
 import { AccèsNotification } from '@potentiel-applications/notifications';
-import { UtilisateurSaga } from '@potentiel-domain/utilisateur';
+import { AccèsProjector } from '@potentiel-applications/projectors';
+import type { UtilisateurSaga } from '@potentiel-domain/utilisateur';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 

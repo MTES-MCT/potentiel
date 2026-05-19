@@ -1,17 +1,17 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import {
   buildUrl,
   getLauréat,
+  listerDgecRecipients,
   listerDrealsRecipients,
   listerPorteursRecipients,
-  listerDgecRecipients,
 } from '#helpers';
 import { sendEmail } from '#sendEmail';
 

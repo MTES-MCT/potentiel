@@ -1,14 +1,12 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
 } from '../soumettre/SoumettreDépôtGarantiesFinancières.form';
-
 import { modifierDépôtGarantiesFinancièresAction } from './modifierDépôtGarantiesFinancières.action';
 
 export type ModifierDépôtGarantiesFinancièresPageProps = Pick<

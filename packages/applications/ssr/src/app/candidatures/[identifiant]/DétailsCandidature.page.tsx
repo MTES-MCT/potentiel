@@ -1,22 +1,22 @@
-import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type React from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading1, Heading2 } from '@/components/atoms/headings';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
-import { ActionsList } from '@/components/templates/ActionsList.template';
-import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
-import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 import { getNatureDeLExploitationTypeLabel } from '@/app/_helpers/getNatureDeLExploitationTypeLabel';
-
-import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
+import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
+import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',

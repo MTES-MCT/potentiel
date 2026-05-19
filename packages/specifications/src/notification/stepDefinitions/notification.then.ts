@@ -1,15 +1,14 @@
-import { Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Then as Alors, type DataTable } from '@cucumber/cucumber';
 import { assert } from 'chai';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect, sleep } from '#helpers';
-
-import { PotentielWorld } from '../../potentiel.world.js';
+import { sleep, waitForExpect } from '#helpers';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   await waitForExpect(async () => {

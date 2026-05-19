@@ -1,4 +1,4 @@
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import type { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './utilisateur.error.js';
 
@@ -2344,11 +2344,13 @@ const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(poli
       const props = policy.split('.');
       const permissionsForPolicy = props.reduce(
         (result, prop) => (typeof result === 'object' && result[prop] ? result[prop] : undefined),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny: Policies est redéfini dans cette constante droitsMessagesMediator
         policies as any,
       ) as unknown as string[];
 
-      permissionsForPolicy.forEach((p) => prev[role].add(p));
+      for (const permission of permissionsForPolicy) {
+        prev[role].add(permission);
+      }
     }
 
     return prev;

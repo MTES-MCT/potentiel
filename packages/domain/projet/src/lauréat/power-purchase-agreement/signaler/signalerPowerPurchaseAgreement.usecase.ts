@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
-
-import { SignalerPowerPurchaseAgreementCommand } from './signalerPowerPurchaseAgreement.command.js';
+import type { SignalerPowerPurchaseAgreementCommand } from './signalerPowerPurchaseAgreement.command.js';
 
 export type SignalerPowerPurchaseAgreementUseCase = Message<
   'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',

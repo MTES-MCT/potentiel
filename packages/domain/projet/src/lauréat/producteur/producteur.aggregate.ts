@@ -1,21 +1,19 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { GarantiesFinancières } from '../index.js';
-
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
+import type { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option.js';
+import type { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
+import type { ImporterOptions } from './importer/importerProducteur.option.js';
 import { DocumentProducteur, NuméroIdentification } from './index.js';
-
-import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option.js';
-import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
-import { ProducteurEvent } from './producteur.event.js';
-import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
-import { ModifierOptions } from './modifier/modifierProducteur.option.js';
-import { ImporterOptions } from './importer/importerProducteur.option.js';
-import { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
-import { ProducteurIdentiqueError, ProducteurDéjàTransmisError } from './producteur.error.js';
+import type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
+import type { ModifierOptions } from './modifier/modifierProducteur.option.js';
+import { ProducteurDéjàTransmisError, ProducteurIdentiqueError } from './producteur.error.js';
+import type { ProducteurEvent } from './producteur.event.js';
 
 export class ProducteurAggregate extends AbstractAggregate<
   ProducteurEvent,

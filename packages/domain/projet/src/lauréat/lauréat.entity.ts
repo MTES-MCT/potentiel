@@ -1,10 +1,9 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, Email } from '@potentiel-domain/common';
-import { Entity } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../index.js';
-
-import { StatutLauréat } from './index.js';
+import type { IdentifiantProjet } from '../index.js';
+import type { StatutLauréat } from './index.js';
 
 export type LauréatEntity = Entity<
   'lauréat',

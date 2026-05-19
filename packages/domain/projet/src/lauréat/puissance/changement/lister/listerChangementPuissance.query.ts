@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { ChangementPuissanceEntity, StatutChangementPuissance } from '../../index.js';
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
-import { LauréatEntity } from '../../../lauréat.entity.js';
-import { CandidatureEntity } from '../../../../candidature/index.js';
+import type { CandidatureEntity } from '../../../../candidature/index.js';
+import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
+import type { LauréatEntity } from '../../../lauréat.entity.js';
+import { type ChangementPuissanceEntity, StatutChangementPuissance } from '../../index.js';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

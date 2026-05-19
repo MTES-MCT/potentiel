@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { HttpContext, Raccordement } from '@potentiel-applications/api-documentation';
+import type { HttpContext, Raccordement } from '@potentiel-applications/api-documentation';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getUtilisateur, mapToRangeOptions } from '#helpers';
-
 import { ForbiddenError } from '../../errors.js';
 
-export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, options) => {
+export const listerHandler: Raccordement<HttpContext>['lister'] = async (_ctx, options) => {
   const utilisateur = getUtilisateur();
   if (!utilisateur.estGrd()) {
     throw new ForbiddenError(

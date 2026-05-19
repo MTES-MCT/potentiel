@@ -2,21 +2,20 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
-
 import {
   ModifierDateMiseEnServicePage,
-  ModifierDateMiseEnServicePageProps,
+  type ModifierDateMiseEnServicePageProps,
 } from './ModifierDateMiseEnService.page';
 
 type PageProps = {

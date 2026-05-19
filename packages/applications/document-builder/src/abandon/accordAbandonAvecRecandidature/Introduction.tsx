@@ -1,5 +1,5 @@
 import { Text, View } from '@react-pdf/renderer';
-import React, { FC } from 'react';
+import type { FC } from 'react';
 
 import { formatDateForDocument } from '../../_utils/index.js';
 
@@ -83,7 +83,14 @@ export const Introduction: FC<IntroductionProps> = ({
         </View>
       </View>
 
-      <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10, marginBottom: 10 }}>
+      <Text
+        style={{
+          fontSize: 10,
+          textAlign: 'justify',
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+      >
         Par votre demande reçue dans nos services le{' '}
         {formatDateForDocument(new Date(dateDemandeAbandon))}, vous m’informez que votre société ne
         sera pas en mesure de réaliser ce projet du fait des conditions économiques. Vous m’informez

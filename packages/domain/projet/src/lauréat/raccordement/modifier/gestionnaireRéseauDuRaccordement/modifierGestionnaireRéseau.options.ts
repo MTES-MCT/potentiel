@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 export type ModifierGestionnaireRéseauOptions = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;

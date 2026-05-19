@@ -1,8 +1,8 @@
 import { match } from 'ts-pattern';
 
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
-import { Champs } from '../../graphql/index.js';
+import type { Champs } from '../../graphql/index.js';
 
 export const getTypologieInstallation = (champs: Champs) => {
   const typologieInstallation: Candidature.TypologieInstallation.RawType[] = [];

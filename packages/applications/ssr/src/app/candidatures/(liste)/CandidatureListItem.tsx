@@ -1,14 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
+import type { PlainType } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 
-import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
-import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
-
+import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
+import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
 import { getCandidatureListActions } from '../_helpers';
-
 import { CandidatureListItemActions } from './CandidatureListItemActions';
 
 export type CandidatureListItemProps = PlainType<

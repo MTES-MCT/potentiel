@@ -1,31 +1,30 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
-
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
 import { registerAccorderRecoursCommand } from './accorder/accorderRecours.command.js';
 import { registerAccorderRecoursUseCase } from './accorder/accorderRecours.usecase.js';
 import { registerAnnulerRecoursCommand } from './annuler/annulerRecours.command.js';
 import { registerAnnulerRecoursUseCase } from './annuler/annulerRecours.usecase.js';
 import {
-  ConsulterDemandeRecoursDependencies,
+  type ConsulterDemandeRecoursDependencies,
   registerConsulterDemandeRecoursQuery,
 } from './consulter/consulterDemandeRecours.query.js';
+import {
+  type ConsulterRecoursDependencies,
+  registerConsulterRecoursQuery,
+} from './consulter/consulterRecours.query.js';
 import { registerDemanderRecoursCommand } from './demander/demanderRecours.command.js';
 import { registerDemanderRecoursUseCase } from './demander/demanderRecours.usecase.js';
+import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command.js';
+import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase.js';
 import {
-  ListerDemandeRecoursDependencies,
+  type ListerDemandeRecoursDependencies,
   registerListerDemandeRecoursQuery,
 } from './lister/listerDemandeRecours.query.js';
 import {
-  ListerHistoriqueRecoursProjetDependencies,
+  type ListerHistoriqueRecoursProjetDependencies,
   registerListerHistoriqueRecoursProjetQuery,
 } from './listerHistorique/listerHistoriqueRecoursProjet.query.js';
 import { registerRejeterRecoursCommand } from './rejeter/rejeterRecours.command.js';
 import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase.js';
-import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase.js';
-import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command.js';
-import {
-  ConsulterRecoursDependencies,
-  registerConsulterRecoursQuery,
-} from './consulter/consulterRecours.query.js';
 
 export type RecoursQueryDependencies = ConsulterDemandeRecoursDependencies &
   ConsulterRecoursDependencies &

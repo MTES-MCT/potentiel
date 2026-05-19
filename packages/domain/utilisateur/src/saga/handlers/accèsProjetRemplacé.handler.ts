@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { CréerPorteurCommand } from '../../créer/créerPorteur.command.js';
+import type { CréerPorteurCommand } from '../../créer/créerPorteur.command.js';
 
 /**
  * @deprecated Copie de Accès.AccèsProjetRemplacéEvent pour éviter une dépendence cyclique.

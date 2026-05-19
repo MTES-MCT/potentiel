@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/projet';
 
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
+import type { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
 import { makeCertificate } from './makeCertificate.js';
 
 const meta = {
@@ -27,7 +27,7 @@ const meta = {
     },
     periode: {
       control: 'select',
-      options: [...new Set(appelsOffreData.map((x) => x.periodes.map((p) => p.id)).flat())],
+      options: [...new Set(appelsOffreData.flatMap((x) => x.periodes.map((p) => p.id)))],
     },
     typeActionnariat: {
       control: 'select',

@@ -1,9 +1,8 @@
-import { Entity } from '@potentiel-domain/entity';
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../../index.js';
-
-import {
+import type { IdentifiantProjet } from '../../index.js';
+import type {
   GarantiesFinancières,
   MotifArchivageGarantiesFinancières,
   MotifDemandeGarantiesFinancières,

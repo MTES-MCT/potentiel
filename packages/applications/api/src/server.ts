@@ -1,13 +1,15 @@
-import http from 'node:http';
+import type http from 'node:http';
 
-import { createPotentielApiRouter, HttpContext } from '@potentiel-applications/api-documentation';
+import {
+  createPotentielApiRouter,
+  type HttpContext,
+} from '@potentiel-applications/api-documentation';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getUtilisateur } from '#helpers';
-
-import { raccordementHandlers } from './handlers/raccordement/index.js';
 import { handleError } from './errors.js';
 import { achevementHandlers } from './handlers/achevement/index.js';
+import { raccordementHandlers } from './handlers/raccordement/index.js';
 
 export const writeErrorResponse = (
   { response, request }: Omit<HttpContext, 'errorHandlers'>,

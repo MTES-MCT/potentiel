@@ -1,22 +1,20 @@
 'use client';
 
-import { FC, useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import { Candidature, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { getTypologieInstallationLabel } from '@/app/_helpers';
-
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ModifierTypologieInstallationFormKeys,
   modifierTypologieInstallationAction,
-  ModifierTypologieInstallationFormKeys,
 } from './modifierTypologieInstallation.action';
 
 export type ModifierTypologieInstallationFormProps =
@@ -110,7 +108,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
             `typologieInstallation.${index}.details` satisfies ModifierTypologieInstallationFormKeys;
 
           return (
-            <div className="flex flex-row gap-2" key={`${typologie}-${index}`}>
+            <div className="flex flex-row gap-2" key={typologie}>
               <Select
                 state={validationErrors[typologieFieldKey] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors[typologieFieldKey]}

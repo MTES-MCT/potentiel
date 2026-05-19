@@ -1,5 +1,5 @@
-import { Document } from '@potentiel-domain/projet';
-import { download, upload, copyFolder, copyFile } from '@potentiel-libraries/file-storage';
+import type { Document } from '@potentiel-domain/projet';
+import { copyFile, copyFolder, download, upload } from '@potentiel-libraries/file-storage';
 
 export const téléchargerDocumentProjet: Document.RécupérerDocumentProjetPort = download;
 export const téléverserDocumentProjet: Document.EnregistrerDocumentProjetPort = upload;

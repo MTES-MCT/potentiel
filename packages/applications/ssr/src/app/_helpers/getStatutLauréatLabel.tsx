@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 export const getStatutLauréatLabel = (type: Lauréat.StatutLauréat.RawType) =>
   match(type)

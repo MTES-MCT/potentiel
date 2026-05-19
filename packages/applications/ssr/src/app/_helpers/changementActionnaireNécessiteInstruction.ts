@@ -1,10 +1,9 @@
 import { cache } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { getLauréatInfos, getGarantiesFinancières } from '../laureats/[identifiant]/_helpers';
-
+import { getGarantiesFinancières, getLauréatInfos } from '../laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from './getCahierDesCharges';
 
 export const changementActionnaireNécessiteInstruction = cache(

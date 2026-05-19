@@ -1,6 +1,6 @@
-import { Éliminé } from '@potentiel-domain/projet';
+import type { Éliminé } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToRecoursAnnuléTimelineItemProps = (
   event: Éliminé.Recours.RecoursAnnuléEvent,

@@ -1,14 +1,13 @@
-import { GetProjetAggregateRoot } from '../../index.js';
-
-import {
-  registerListerTâchesPlanifiéesQuery,
-  ListerTâchesPlanifiéesQueryDependencies,
-} from './lister/listerTâchesPlanifiées.query.js';
-import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuterTâchePlanifiée.command.js';
-import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase.js';
+import type { GetProjetAggregateRoot } from '../../index.js';
 import { registerAjouterTâchePlanifiéeCommand } from './ajouter/ajouterTâchePlanifiée.command.js';
 import { registerAnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command.js';
 import { registerAnnulerTâchePlanifiéeUseCase } from './annuler/annulerTâchePlanifiée.usecase.js';
+import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuterTâchePlanifiée.command.js';
+import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase.js';
+import {
+  type ListerTâchesPlanifiéesQueryDependencies,
+  registerListerTâchesPlanifiéesQuery,
+} from './lister/listerTâchesPlanifiées.query.js';
 
 export type TâchePlanifiéeQueryDependencies = ListerTâchesPlanifiéesQueryDependencies;
 

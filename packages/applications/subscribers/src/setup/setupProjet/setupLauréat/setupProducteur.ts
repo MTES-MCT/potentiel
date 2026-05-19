@@ -1,5 +1,5 @@
-import { HistoriqueProjector, ProducteurProjector } from '@potentiel-applications/projectors';
 import { ProducteurNotification } from '@potentiel-applications/notifications';
+import { type HistoriqueProjector, ProducteurProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 

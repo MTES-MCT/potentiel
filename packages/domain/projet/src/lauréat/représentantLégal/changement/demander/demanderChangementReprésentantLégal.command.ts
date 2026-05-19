@@ -1,9 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeReprésentantLégal } from '../../index.js';
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
+import type {
+  DocumentProjet,
+  GetProjetAggregateRoot,
+  IdentifiantProjet,
+} from '../../../../index.js';
+import type { TypeReprésentantLégal } from '../../index.js';
 
 export type DemanderChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.DemanderChangementReprésentantLégal',

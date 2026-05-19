@@ -1,10 +1,10 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, Éliminé } from '@potentiel-domain/projet';
+import type { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getAppelOffre, buildUrl } from '#helpers';
+import { buildUrl, getAppelOffre } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleÉliminéNotifié = async ({

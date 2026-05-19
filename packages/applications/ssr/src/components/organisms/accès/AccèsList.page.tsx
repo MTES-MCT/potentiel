@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SectionPage } from '../../atoms/menu/SectionPage';
 import { Section } from '../../atoms/menu/Section';
-
-import { PorteurListItem, PorteurListItemProps } from './AccèsListItem';
+import { SectionPage } from '../../atoms/menu/SectionPage';
 import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';
+import { PorteurListItem, type PorteurListItemProps } from './AccèsListItem';
 
 export type AccèsListPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.RawType>;

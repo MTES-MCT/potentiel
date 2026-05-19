@@ -1,4 +1,4 @@
-import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
+import Select, { type SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Lauréat } from '@potentiel-domain/projet';
 

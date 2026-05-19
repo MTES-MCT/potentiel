@@ -1,14 +1,14 @@
 import { betterAuth } from 'better-auth';
 import { genericOAuth, keycloak, lastLoginMethod } from 'better-auth/plugins';
 
+import { auditLogs } from './plugins/audit-log.plugin';
+import { getProviders } from './providers/authProvider';
 import {
   getKeycloakConfiguration,
   getProconnectConfiguration,
 } from './providers/getProviderConfiguration';
-import { proconnect } from './providers/proconnect.provider';
 import { customMagicLink } from './providers/magic-link/magicLink.provider';
-import { getProviders } from './providers/authProvider';
-import { auditLogs } from './plugins/audit-log.plugin';
+import { proconnect } from './providers/proconnect.provider';
 
 const isDefined = <T extends object>(val: T | boolean | undefined): val is T => !!val;
 

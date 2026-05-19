@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { PièceJustificative } from '#helpers';
-
+import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface EnregistrerChangementInstallateur {

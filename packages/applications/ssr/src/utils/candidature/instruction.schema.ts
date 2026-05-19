@@ -2,8 +2,7 @@ import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { conditionalRequiredError } from './schemaBase';
-import { numberSchema, optionalStringSchema } from './schemaBase';
+import { conditionalRequiredError, numberSchema, optionalStringSchema } from './schemaBase';
 
 export type InstructionSchemaShape = z.infer<typeof instructionSchema>;
 

@@ -1,8 +1,8 @@
-import {
+import type {
   GestionnaireRéseauAjoutéEvent,
   GestionnaireRéseauAjoutéEventV1,
 } from './ajouter/ajouterGestionnaireRéseau.event.js';
-import {
+import type {
   GestionnaireRéseauModifiéEvent,
   GestionnaireRéseauModifiéEventV1,
 } from './modifier/modifierGestionnaireRéseau.event.js';

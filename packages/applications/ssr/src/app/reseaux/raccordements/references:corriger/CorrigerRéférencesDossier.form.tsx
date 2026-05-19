@@ -1,14 +1,13 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type CorrigerRéférencesDossierFormKeys,
   corrigerRéférencesDossierAction,
-  CorrigerRéférencesDossierFormKeys,
 } from './corrigerRéférencesDossier.action';
 
 export const CorrigerRéférencesDossierForm: FC = () => {

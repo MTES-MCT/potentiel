@@ -1,17 +1,18 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
-import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, type Candidature, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { CorrigerCandidaturePage, CorrigerCandidaturePageProps } from './CorrigerCandidature.page';
+import {
+  CorrigerCandidaturePage,
+  type CorrigerCandidaturePageProps,
+} from './CorrigerCandidature.page';
 
 type PageProps = IdentifiantParameter;
 

@@ -1,39 +1,38 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
-import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
+import PizZip from 'pizzip';
 
 import { assets } from '../assets.js';
-
 import {
-  ModèleRéponseAbandon,
+  type ModèleRéponseAbandon,
   modèleRéponseAbandonFileName,
 } from './abandon/modèleRéponseSignéeAbandon.js';
 import {
-  ModèleRéponseRecours,
-  modèleRéponseRecoursFileName,
-} from './recours/modèleRéponseSignéeRecours.js';
-import {
-  ModèleRéponseMainlevée,
-  modèleRéponseMainlevéeFileName,
-} from './garantiesFinancières/modèleRéponseSignéeMainlevée.js';
-import {
-  ModèleMiseEnDemeure,
-  modèleRéponseMiseEnDemeureFileName,
-} from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure.js';
-import {
-  ModèleRéponseActionnaire,
+  type ModèleRéponseActionnaire,
   modèleRéponseActionnaireFileName,
 } from './actionnaire/modèleRéponseSignéeActionnaire.js';
 import {
-  ModèleRéponsePuissance,
+  type ModèleRéponseDélai,
+  modèleRéponseDélaiFileName,
+} from './délai/modèleRéponseSignéeDélai.js';
+import {
+  type ModèleRéponseMainlevée,
+  modèleRéponseMainlevéeFileName,
+} from './garantiesFinancières/modèleRéponseSignéeMainlevée.js';
+import {
+  type ModèleMiseEnDemeure,
+  modèleRéponseMiseEnDemeureFileName,
+} from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure.js';
+import {
+  type ModèleRéponsePuissance,
   modèleRéponsePuissanceFileName,
 } from './puissance/modèleRéponseSignéePuissance.js';
 import {
-  ModèleRéponseDélai,
-  modèleRéponseDélaiFileName,
-} from './délai/modèleRéponseSignéeDélai.js';
+  type ModèleRéponseRecours,
+  modèleRéponseRecoursFileName,
+} from './recours/modèleRéponseSignéeRecours.js';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseAbandon

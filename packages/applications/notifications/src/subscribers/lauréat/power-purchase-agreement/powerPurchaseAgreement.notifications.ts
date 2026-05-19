@@ -1,7 +1,7 @@
-import { mediator, Message, MessageHandler } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { handlePowerPurchaseAgreementSignalé } from './handlers/index.js';
 import { handleSignalementPowerPurchaseAgreementAnnulé } from './handlers/signalementPowerPurchaseAgreementAnnulé.handler.js';

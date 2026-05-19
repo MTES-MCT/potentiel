@@ -3,7 +3,6 @@ import { describe, it } from 'node:test';
 import { expect } from 'chai';
 
 import { booleanSchema } from '../schemaBase';
-
 import { optionalOuiNonVideSchema } from './commonCsv.schema';
 
 describe('booleanSchema', () => {

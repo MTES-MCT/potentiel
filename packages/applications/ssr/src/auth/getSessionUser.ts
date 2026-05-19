@@ -1,10 +1,9 @@
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 import { auth } from '.';
-
 import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
 import { getLastUsedProvider } from './providers/getLastUsedProvider';
 import { getProviderConfiguration } from './providers/getProviderConfiguration';

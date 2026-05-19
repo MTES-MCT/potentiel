@@ -14,9 +14,9 @@
  *   SPECS_WORKERS=4 node ./get-feature-tags.ts  # Returns array chunked into 4 groups
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -103,7 +103,7 @@ function getChunkSizeArg() {
     process.exit(1);
   }
 
-  if (!chunks || isNaN(chunks) || chunks < 1) {
+  if (!chunks || Number.isNaN(chunks) || chunks < 1) {
     console.error('Error: chunks must be a positive integer');
     process.exit(1);
   }
@@ -142,7 +142,9 @@ function main(): void {
   // Check if any files are missing tags
   if (filesWithoutTags.length > 0) {
     console.error('Error: The following feature files are missing tags at the top:');
-    filesWithoutTags.forEach((file) => console.error(`  - ${file}`));
+    for (const file of filesWithoutTags) {
+      console.error(`  - ${file}`);
+    }
     process.exit(1);
   }
 

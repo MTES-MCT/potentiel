@@ -1,12 +1,11 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
-
-import { DemanderAbandonForm, DemanderAbandonFormProps } from './DemanderAbandon.form';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { DemanderAbandonForm, type DemanderAbandonFormProps } from './DemanderAbandon.form';
 
 export type DemanderAbandonPageProps = DemanderAbandonFormProps & {
   autoritéCompétente: Lauréat.Abandon.AutoritéCompétente.RawType;

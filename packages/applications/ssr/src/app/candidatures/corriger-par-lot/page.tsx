@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { Candidature } from '@potentiel-domain/projet';
-import { Période } from '@potentiel-domain/periode';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import type { Période } from '@potentiel-domain/periode';
+import type { Candidature } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { CorrigerCandidaturesParLotPage } from './CorrigerCandidaturesParLot.page';
 
 export const metadata: Metadata = { title: 'Corriger des candidats par lot' };

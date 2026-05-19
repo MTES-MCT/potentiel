@@ -1,7 +1,7 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../../index.js';
+import type { IdentifiantProjet } from '../../../index.js';
 
 export type PuissanceImportéeEvent = DomainEvent<
   'PuissanceImportée-V1',

@@ -1,6 +1,6 @@
 import {
+  type RegisterAjouterStatistiqueUtilisationCommandDependencies,
   registerAjouterStatistiqueUtilisationCommand,
-  RegisterAjouterStatistiqueUtilisationCommandDependencies,
 } from './ajouter/ajouterStatistiqueUtilisation.command.js';
 
 type RegisterNotificationDependencies = RegisterAjouterStatistiqueUtilisationCommandDependencies;

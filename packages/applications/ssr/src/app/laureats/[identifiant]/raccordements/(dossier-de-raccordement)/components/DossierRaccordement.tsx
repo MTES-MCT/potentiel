@@ -1,24 +1,23 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
+import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
 import {
   ÉtapeDemandeComplèteRaccordement,
-  ÉtapeDemandeComplèteRaccordementProps,
+  type ÉtapeDemandeComplèteRaccordementProps,
 } from '../[reference]/(demande-complète-raccordement)/ÉtapeDemandeComplèteRaccordement';
 import {
-  ÉtapeDateMiseEnService,
-  ÉtapeMiseEnServiceProps,
-} from '../[reference]/date-mise-en-service/ÉtapeDateMiseEnService';
-import {
   ÉtapePropositionTechniqueEtFinancière,
-  ÉtapePropositionTechniqueEtFinancièreProps,
+  type ÉtapePropositionTechniqueEtFinancièreProps,
 } from '../[reference]/(proposition-technique-et-financière)/ÉtapePropositionTechniqueEtFinancière';
-import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
-
+import {
+  ÉtapeDateMiseEnService,
+  type ÉtapeMiseEnServiceProps,
+} from '../[reference]/date-mise-en-service/ÉtapeDateMiseEnService';
 import { Separateur } from './Separateur';
 
 export type DossierRaccordementProps = {

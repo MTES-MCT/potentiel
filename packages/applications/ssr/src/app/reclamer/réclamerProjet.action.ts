@@ -1,19 +1,17 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import * as zod from 'zod';
 
-import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
+import { type Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { withRateLimit } from '@/utils/withRateLimit';
 import { numéroCRESchema } from '@/utils/candidature/identifiantProjet.schema';
-
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
+import { withRateLimit } from '@/utils/withRateLimit';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { dépôtSchema } from '../../utils/candidature';
-
 import { déchiffrerIdentifiantProjet } from './_helpers/chiffrement';
 
 const commonSchema = {

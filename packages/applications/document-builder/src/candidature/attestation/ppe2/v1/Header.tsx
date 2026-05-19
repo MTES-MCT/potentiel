@@ -1,7 +1,6 @@
 import { Image, Text, View } from '@react-pdf/renderer';
-import React from 'react';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
 
 type HeaderProps = {
@@ -20,7 +19,7 @@ export const Header = ({ project, imagesRootPath }: HeaderProps) => {
           justifyContent: 'space-between',
         }}
       >
-        <Image style={{ width: 165, height: 118 }} src={imagesRootPath + '/logo_MTE.png'} />
+        <Image style={{ width: 165, height: 118 }} src={`${imagesRootPath}/logo_MTE.png`} />
         <Text style={{ fontSize: 12, fontWeight: 'bold', width: 190, paddingTop: 10 }}>
           Direction générale de l’énergie et du climat
         </Text>

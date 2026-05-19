@@ -1,10 +1,9 @@
-import { test, describe } from 'node:test';
+import { describe, test } from 'node:test';
 
-import { expect, assert } from 'chai';
+import { assert, expect } from 'chai';
 
 import '../../zod/setupLocale';
-import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '..';
-
+import { type CandidatureCsvRowShape, type CandidatureShape, candidatureCsvSchema } from '..';
 import { assertError, assertNoError, deepEqualWithRichDiff } from './_test-shared';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {

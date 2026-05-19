@@ -1,22 +1,22 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { LauréatEntity } from '../lauréat.entity.js';
-import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
-import { StatutLauréat } from '../index.js';
-import {
-  CandidatureEntity,
-  Localité,
-  TypeTechnologie,
-  UnitéPuissance,
-} from '../../candidature/index.js';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query.js';
+import {
+  type CandidatureEntity,
+  Localité,
+  type TypeTechnologie,
+  type UnitéPuissance,
+} from '../../candidature/index.js';
+import { Candidature, type DocumentProjet, IdentifiantProjet } from '../../index.js';
 import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
-import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import { StatutLauréat } from '../index.js';
+import type { LauréatEntity } from '../lauréat.entity.js';
+import type { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

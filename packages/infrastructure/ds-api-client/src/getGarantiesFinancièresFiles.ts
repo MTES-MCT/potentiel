@@ -1,7 +1,7 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getDSApiClient } from './graphql/index.js';
 import { mapApiResponseToFichiers } from './_helpers/index.js';
+import { getDSApiClient } from './graphql/index.js';
 
 export const getGarantiesFinancièresFiles = async (dossierNumber: number) => {
   const sdk = getDSApiClient();

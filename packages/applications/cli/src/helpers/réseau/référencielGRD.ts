@@ -1,5 +1,5 @@
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
 
 export type RéférencielGRD = {
   àAjouter: ReadonlyArray<OreGestionnaire>;

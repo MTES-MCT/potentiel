@@ -1,18 +1,18 @@
 'use client';
-import Input from '@codegouvfr/react-dsfr/Input';
-import { FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { ExpressionRegulière, Email } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
+
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ModifierGestionnaireRéseauFormKeys,
   modifierGestionnaireRéseauAction,
-  ModifierGestionnaireRéseauFormKeys,
 } from './modifierGestionnaireRéseau.action';
 
 export type ModifierGestionnaireRéseauFormProps =
@@ -45,7 +45,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
       }}
     >
       <div className="mb-6">
-        <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>
+        Code EIC ou Gestionnaire: <b>{identifiantGestionnaireReseauValue}</b>
       </div>
 
       <input

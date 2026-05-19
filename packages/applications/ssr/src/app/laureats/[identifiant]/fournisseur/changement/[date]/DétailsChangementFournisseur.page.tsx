@@ -1,14 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
-
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import {
   DétailsChangementFournisseur,
-  DétailsChangementFournisseurProps,
+  type DétailsChangementFournisseurProps,
 } from './DétailsChangementFournisseur';
 
 export type ChangementFournisseurActions = 'enregistrer-changement';

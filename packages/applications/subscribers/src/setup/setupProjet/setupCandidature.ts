@@ -1,8 +1,8 @@
-import { CandidatureProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
-import { CandidatureNotification } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
-import { ProjetSaga } from '@potentiel-domain/projet';
-import { Unsubscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { CandidatureNotification } from '@potentiel-applications/notifications';
+import { CandidatureProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
+import type { ProjetSaga } from '@potentiel-domain/projet';
+import type { Unsubscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 

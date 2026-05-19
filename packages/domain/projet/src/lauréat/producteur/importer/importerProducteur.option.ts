@@ -1,7 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../../index.js';
-import { NuméroIdentification } from '../index.js';
+import type { IdentifiantProjet } from '../../../index.js';
+import type { NuméroIdentification } from '../index.js';
 
 export type ImporterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;

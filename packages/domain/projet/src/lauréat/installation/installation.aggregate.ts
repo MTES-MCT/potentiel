@@ -2,20 +2,23 @@ import { match, P } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate.js';
-import { TypologieInstallation } from '../../candidature/index.js';
-import { Candidature, Lauréat } from '../../index.js';
 import { ChampNonAttenduError } from '../../candidature/candidature.error.js';
-
+import { TypologieInstallation } from '../../candidature/index.js';
+import type { Candidature, Lauréat } from '../../index.js';
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { ChangementDispositifDeStockageEnregistréEvent } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.event.js';
+import type { EnregistrerChangementDispositifDeStockageOptions } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.options.js';
+import type { ModifierDispositifDeStockageOptions } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.options.js';
+import type { InstallationImportéeEvent } from './importer/importerInstallation.event.js';
+import type { ImporterOptions } from './importer/importerInstallation.option.js';
 import {
-  ChangementInstallateurEnregistréEvent,
+  type ChangementInstallateurEnregistréEvent,
   DispositifDeStockage,
-  DispositifDeStockageModifiéEvent,
-  InstallateurModifiéEvent,
+  type DispositifDeStockageModifiéEvent,
+  type InstallateurModifiéEvent,
 } from './index.js';
-
-import { InstallationEvent } from './installation.event.js';
-import { ImporterOptions } from './importer/importerInstallation.option.js';
+import type { EnregistrerChangementInstallateurOptions } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.option.js';
+import type { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option.js';
 import {
   DispositifDeStockageIdentiqueError,
   InstallateurIdentiqueError,
@@ -23,14 +26,9 @@ import {
   JeuDeTypologiesIdentiquesError,
   NouvelleTypologieInstallationIdentiqueÀLActuelleError,
 } from './installation.error.js';
-import { InstallationImportéeEvent } from './importer/importerInstallation.event.js';
-import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option.js';
-import { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option.js';
-import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event.js';
-import { ModifierDispositifDeStockageOptions } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.options.js';
-import { EnregistrerChangementInstallateurOptions } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.option.js';
-import { ChangementDispositifDeStockageEnregistréEvent } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.event.js';
-import { EnregistrerChangementDispositifDeStockageOptions } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.options.js';
+import type { InstallationEvent } from './installation.event.js';
+import type { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event.js';
+import type { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option.js';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,

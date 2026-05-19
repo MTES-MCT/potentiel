@@ -1,20 +1,18 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { type FC, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ModifierDispositifDeStockageFormKeys,
   modifierDispositifDeStockageAction,
-  ModifierDispositifDeStockageFormKeys,
 } from './modifierDispositifDeStockage.action';
 
 export type ModifierDispositifDeStockageFormProps = PlainType<{

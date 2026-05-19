@@ -1,7 +1,7 @@
-import { join, basename } from 'path';
+import { basename, join } from 'node:path';
 
-import { getFiles } from './getFiles.js';
 import { copyFile } from './copyFile.js';
+import { getFiles } from './getFiles.js';
 
 export const copyFolder = async (sourceKey: string, targetKey: string) => {
   const files = await getFiles(sourceKey);

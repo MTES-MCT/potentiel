@@ -1,6 +1,6 @@
 import {
   applyWatermark,
-  FileTypes,
+  type FileTypes,
   mapToConsulterDocumentProjetReadModel,
   mergePdfDocuments,
   optionalBlobArray,

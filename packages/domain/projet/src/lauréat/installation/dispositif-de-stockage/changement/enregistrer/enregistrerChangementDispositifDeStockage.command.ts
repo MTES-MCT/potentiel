@@ -1,9 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { DispositifDeStockage } from '../../../index.js';
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../../index.js';
+import type {
+  DocumentProjet,
+  GetProjetAggregateRoot,
+  IdentifiantProjet,
+} from '../../../../../index.js';
+import type { DispositifDeStockage } from '../../../index.js';
 
 export type EnregistrerChangementDispositifDeStockageCommand = Message<
   'Lauréat.Installation.Command.EnregistrerChangementDispositifDeStockage',

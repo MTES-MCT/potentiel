@@ -1,4 +1,4 @@
-import { Email, ExpressionRegulière } from '@potentiel-domain/common';
+import type { Email, ExpressionRegulière } from '@potentiel-domain/common';
 
 export type AjouterOptions = {
   raisonSociale: string;

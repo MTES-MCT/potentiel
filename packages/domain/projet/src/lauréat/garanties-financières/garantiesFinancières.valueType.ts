@@ -1,10 +1,9 @@
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { mapToPlainObject, type PlainType, type ReadonlyValueType } from '@potentiel-domain/core';
 
 import { TypeGarantiesFinancières } from '../../candidature/index.js';
-
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,

@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
 import { createMuiDsfrThemeProvider } from '@codegouvfr/react-dsfr/mui';
+import type React from 'react';
 
-import { FeatureFlagContext } from '@/utils/feature-flag/FeatureFlagContext';
 import { DsfrProvider } from '@/dsfr-bootstrap';
+import { FeatureFlagContext } from '@/utils/feature-flag/FeatureFlagContext';
 
 type ProvidersProps = {
   features: Array<string>;

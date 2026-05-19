@@ -1,8 +1,8 @@
-import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { encodeParameter } from '../encodeParameter.js';
 import { withFilters } from '../_helpers/withFilters.js';
+import { encodeParameter } from '../encodeParameter.js';
 
 type ListerFilters = {
   statut?: Array<Lauréat.Délai.StatutDemandeDélai.RawType>;

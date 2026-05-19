@@ -1,4 +1,4 @@
-import { Entity, WhereOptions } from '@potentiel-domain/entity';
+import type { Entity, WhereOptions } from '@potentiel-domain/entity';
 import { getWhereClause } from '@potentiel-infrastructure/pg-projection-read';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 

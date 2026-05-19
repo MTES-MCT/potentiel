@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { LauréatWorld } from '../../lauréat.world.js';
+import type { LauréatWorld } from '../../lauréat.world.js';
 
 interface CalculerDateAchèvementPrévisionnel {
   readonly dateAchèvementPrévisionnel: string;

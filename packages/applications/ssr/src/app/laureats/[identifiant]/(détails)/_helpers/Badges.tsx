@@ -1,7 +1,7 @@
 import Badge from '@mui/material/Badge';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getTâches } from '../taches/_helpers/getTâches';
 

@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../fixture.js';
-import { GestionnaireRéseauWorld } from '../gestionnaireRéseau.world.js';
+import type { GestionnaireRéseauWorld } from '../gestionnaireRéseau.world.js';
 
 interface AjouterGestionnaireRéseau {
   readonly codeEIC: string;

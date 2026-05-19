@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import { ModifierReprésentantLégalForm } from './ModifierReprésentantLégal.form';
 
 export type ModifierReprésentantLégalPageProps = PlainType<

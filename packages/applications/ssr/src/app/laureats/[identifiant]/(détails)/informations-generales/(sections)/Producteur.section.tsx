@@ -1,10 +1,9 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAction, getProducteurInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ProducteurDétails } from './ProducteurDétails';
 
 type ProducteurSectionProps = {

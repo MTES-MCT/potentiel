@@ -1,9 +1,9 @@
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import { Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import {
-  FieldToExempleMapper,
+  type FieldToExempleMapper,
   mapBoolean,
   mapDateTime,
   mapNumber,

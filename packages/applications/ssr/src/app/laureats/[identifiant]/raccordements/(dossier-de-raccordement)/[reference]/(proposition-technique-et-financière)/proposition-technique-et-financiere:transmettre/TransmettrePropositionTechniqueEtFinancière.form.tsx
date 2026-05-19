@@ -1,15 +1,14 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
-import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type TransmettrePropositionTechniqueEtFinancièreFormKeys,
   transmettrePropositionTechniqueEtFinancièreAction,
-  TransmettrePropositionTechniqueEtFinancièreFormKeys,
 } from './transmettrePropositionTechniqueEtFinancière.action';
 
 export type TransmettrePropositionTechniqueEtFinancièreFormProps = {

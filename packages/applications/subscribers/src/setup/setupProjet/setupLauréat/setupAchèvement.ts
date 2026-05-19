@@ -1,5 +1,5 @@
-import { AchèvementProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { AchèvementNotification } from '@potentiel-applications/notifications';
+import { AchèvementProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 

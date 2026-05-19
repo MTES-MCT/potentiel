@@ -1,11 +1,11 @@
-import { Raccordement } from '@potentiel-applications/api-documentation';
+import type { Raccordement } from '@potentiel-applications/api-documentation';
 
 import { listerHandler } from './lister.handler.js';
-import { transmettreDateMiseEnServiceHandler } from './transmettreMiseEnService.handler.js';
-import { modifierDemandeComplèteHandler } from './modifierDemandeComplète.handler.js';
 import { listerManquantsHandler } from './listerManquants.handler.js';
-import { transmettreDemandeComplèteHandler } from './transmettreDemandeComplète.handler.js';
+import { modifierDemandeComplèteHandler } from './modifierDemandeComplète.handler.js';
 import { modifierDateMiseEnServiceHandler } from './modifierMiseEnService.handler.js';
+import { transmettreDemandeComplèteHandler } from './transmettreDemandeComplète.handler.js';
+import { transmettreDateMiseEnServiceHandler } from './transmettreMiseEnService.handler.js';
 
 export const raccordementHandlers: Raccordement = {
   lister: listerHandler,

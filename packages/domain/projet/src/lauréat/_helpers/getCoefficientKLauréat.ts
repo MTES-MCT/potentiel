@@ -1,7 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Joined } from '@potentiel-domain/entity';
+import type { Joined } from '@potentiel-domain/entity';
 
-import { Candidature, CahierDesCharges } from '../../index.js';
+import { CahierDesCharges, type Candidature } from '../../index.js';
 
 type Props = {
   identifiantPériode: string;

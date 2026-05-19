@@ -1,28 +1,27 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { ÉliminéAggregate } from '../éliminé.aggregate.js';
 import { GarantiesFinancières } from '../../lauréat/index.js';
-
-import { RecoursEvent } from './recours.event.js';
-import { AccorderOptions } from './accorder/recoursAccordé.options.js';
-import * as StatutRecours from './statutRecours.valueType.js';
-import { RecoursAccordéEvent } from './accorder/recoursAccordé.event.js';
-import { AnnulerOptions } from './annuler/annulerRecours.options.js';
-import { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
-import { DemanderOptions } from './demander/demanderRecours.options.js';
-import { RecoursDemandéEvent } from './demander/demanderRecours.event.js';
-import { RejeterOptions } from './rejeter/rejeterRecours.options.js';
-import { RecoursRejetéEvent } from './rejeter/rejeterRecours.event.js';
-import { InstruireOptions } from './instruire/passerRecoursEnInstruction.options.js';
-import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event.js';
+import type { ÉliminéAggregate } from '../éliminé.aggregate.js';
+import type { RecoursAccordéEvent } from './accorder/recoursAccordé.event.js';
+import type { AccorderOptions } from './accorder/recoursAccordé.options.js';
+import type { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
+import type { AnnulerOptions } from './annuler/annulerRecours.options.js';
+import type { RecoursDemandéEvent } from './demander/demanderRecours.event.js';
+import type { DemanderOptions } from './demander/demanderRecours.options.js';
+import type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event.js';
+import type { InstruireOptions } from './instruire/passerRecoursEnInstruction.options.js';
 import {
   AucunRecoursEnCours,
-  ÉliminéInexistantError,
   RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
+  ÉliminéInexistantError,
 } from './recours.error.js';
+import type { RecoursEvent } from './recours.event.js';
+import type { RecoursRejetéEvent } from './rejeter/rejeterRecours.event.js';
+import type { RejeterOptions } from './rejeter/rejeterRecours.options.js';
+import * as StatutRecours from './statutRecours.valueType.js';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
   #statut: StatutRecours.ValueType = StatutRecours.inconnu;

@@ -1,16 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { PlainType } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ProjetBannerTemplate } from '../ProjetBanner.template';
-
-import { StatutLauréatBadge } from './StatutLauréatBadge';
 import { PPABadge } from './PPABadge';
+import { StatutLauréatBadge } from './StatutLauréatBadge';
 
 export type ProjetLauréatBannerProps = {
   identifiantProjet: string;

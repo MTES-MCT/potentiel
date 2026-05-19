@@ -1,22 +1,21 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { z } from 'zod';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
 
-import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Routes } from '@potentiel-applications/routes';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Candidature, IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
-import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
+import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ÉliminéListPage } from './ÉliminéList.page';
 
 type PageProps = {

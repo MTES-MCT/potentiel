@@ -4,18 +4,17 @@ import { notFound } from 'next/navigation';
 import { match, P } from 'ts-pattern';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
   DétailsAbandonPage,
-  DétailsAbandonPageProps,
+  type DétailsAbandonPageProps,
 } from '@/app/laureats/[identifiant]/abandon/[date]/DétailsAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { mapToAbandonTimelineItemProps } from '../(historique)/mapToAbandonTimelineItemProps';
 
 type PageProps = { params: Promise<{ identifiant: string; date: string }> };

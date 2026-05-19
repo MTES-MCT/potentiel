@@ -1,11 +1,11 @@
 import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import type { Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { ProjetNonTrouvéError } from './getLauréat.js';
 import { buildUrl } from './buildUrl.js';
+import { ProjetNonTrouvéError } from './getLauréat.js';
 
 export const getÉliminé = async (identifiantProjet: string) => {
   const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({

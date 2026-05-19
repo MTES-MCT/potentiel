@@ -1,12 +1,13 @@
 import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
-import React, { JSX } from 'react';
+import type React from 'react';
+import type { JSX } from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import type { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
 import { formatNumber } from '../../helpers/index.js';
-import { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
-import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
+import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 const Laureat = (project: AttestationCRE4Options) => {
   const { appelOffre, période, famille } = project;
@@ -242,8 +243,8 @@ const Laureat = (project: AttestationCRE4Options) => {
 
   // We have to jugle a bit with String.fromCharCode to have the actual indices and not literaly &sup1; or other
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
-  const footnotes = footNotes.map(({ footnote, indice }, index) => (
-    <Text key={'foot_note_' + index}>
+  const footnotes = footNotes.map(({ footnote, indice }) => (
+    <Text key={indice}>
       {String.fromCharCode(indice)} Paragraphe {footnote.replace(/\s/gi, String.fromCharCode(160))}{' '}
       du cahier des charges
     </Text>
@@ -316,7 +317,7 @@ const Certificate = ({
             left: 63,
           }}
         >
-          <Image style={{ width: 145, height: 118 }} src={imagesRootPath + '/logo_MTES.png'} />
+          <Image style={{ width: 145, height: 118 }} src={`${imagesRootPath}/logo_MTES.png`} />
         </View>
         <View
           style={{

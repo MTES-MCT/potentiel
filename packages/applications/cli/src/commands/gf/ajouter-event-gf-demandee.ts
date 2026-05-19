@@ -1,14 +1,15 @@
 import { Command } from '@oclif/core';
 
-import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
 
 export class AjouterEventGfDemandee extends Command {
-  static override description = `Ajout d'un événement GF demandée pour les projets pour les projets n'ent ayant pas et étant concernés, afin d'initier un stream gf`;
+  static override description =
+    `Ajout d'un événement GF demandée pour les projets pour les projets n'ent ayant pas et étant concernés, afin d'initier un stream gf`;
   async init() {
     dbSchema.parse(process.env);
   }

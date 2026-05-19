@@ -1,7 +1,8 @@
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
+
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 type Props = {
   identifiantProjet: string;

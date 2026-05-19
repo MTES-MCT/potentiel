@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { GarantiesFinancières, DocumentGarantiesFinancières } from '../../index.js';
-
-import { ModifierGarantiesFinancièresCommand } from './modifierGarantiesFinancières.command.js';
+import { DocumentGarantiesFinancières, GarantiesFinancières } from '../../index.js';
+import type { ModifierGarantiesFinancièresCommand } from './modifierGarantiesFinancières.command.js';
 
 export type ModifierGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',

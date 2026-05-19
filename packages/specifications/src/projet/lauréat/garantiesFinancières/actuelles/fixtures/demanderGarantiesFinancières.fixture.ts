@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
-import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
+import { AbstractFixture, type DeepPartial } from '../../../../../fixture.js';
+import type { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
 
 export interface DemanderGarantiesFinancières {
   readonly type: 'type-inconnu';

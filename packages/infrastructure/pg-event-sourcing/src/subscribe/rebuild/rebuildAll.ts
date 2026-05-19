@@ -1,14 +1,13 @@
 import { bulkhead } from 'cockatiel';
 
+import type { DomainEvent } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { DomainEvent } from '@potentiel-domain/core';
 
-import { loadStreamList } from '../../load/loadStreamList.js';
-import { Subscriber } from '../subscriber/subscriber.js';
 import { loadFromStream } from '../../load/loadFromStream.js';
+import { loadStreamList } from '../../load/loadStreamList.js';
 import { RebuildFailedError } from '../errors/RebuildFailed.error.js';
-
-import { RebuildAllTriggered } from './rebuildTriggered.event.js';
+import type { Subscriber } from '../subscriber/subscriber.js';
+import type { RebuildAllTriggered } from './rebuildTriggered.event.js';
 
 export const rebuildAll = async <TEvent extends DomainEvent>(
   rebuildAllTriggered: RebuildAllTriggered,
@@ -63,7 +62,7 @@ export const rebuildAll = async <TEvent extends DomainEvent>(
   clearInterval(interval);
 
   if (errors > 0) {
-    logger.error('Rebuild completed with errors: ' + errors + ' errors encountered.', {
+    logger.error(`Rebuild completed with errors: ${errors} errors encountered.`, {
       durationMs: Date.now() - startTime,
     });
   } else {

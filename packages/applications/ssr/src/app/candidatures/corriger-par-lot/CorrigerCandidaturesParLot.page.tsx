@@ -1,17 +1,16 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { Heading1 } from '@/components/atoms/headings';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import {
   CorrigerCandidaturesParLotForm,
-  CorrigerCandidaturesParLotFormProps,
+  type CorrigerCandidaturesParLotFormProps,
 } from './CorrigerCandidaturesParLot.form';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormProps> = ({
   périodes,

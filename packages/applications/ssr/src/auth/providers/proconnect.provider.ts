@@ -1,5 +1,5 @@
-import { OAuth2Tokens } from 'better-auth';
-import { BaseOAuthProviderOptions, GenericOAuthConfig } from 'better-auth/plugins';
+import type { OAuth2Tokens } from 'better-auth';
+import type { BaseOAuthProviderOptions, GenericOAuthConfig } from 'better-auth/plugins';
 import { jwtVerify } from 'jose';
 
 import { getJWKS, getOpenIdConfiguration } from './openid';

@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import {
+import type {
   Entity,
   JoinOptions,
   ListOptions,
@@ -9,13 +9,13 @@ import {
 } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { KeyValuePair } from './keyValuePair.js';
-import { getWhereClause } from './getWhereClause.js';
+import { countProjection } from './countProjection.js';
+import { getFromClause } from './getFromClause.js';
 import { getOrderClause } from './getOrderClause.js';
 import { getRangeClause } from './getRangeClause.js';
-import { countProjection } from './countProjection.js';
 import { getSelectClause } from './getSelectClause.js';
-import { getFromClause } from './getFromClause.js';
+import { getWhereClause } from './getWhereClause.js';
+import type { KeyValuePair } from './keyValuePair.js';
 import { mapResult } from './mapResult.js';
 
 export const listProjection = async <

@@ -1,4 +1,4 @@
-import { test, before } from 'node:test';
+import { before, test } from 'node:test';
 
 import { expect } from 'chai';
 

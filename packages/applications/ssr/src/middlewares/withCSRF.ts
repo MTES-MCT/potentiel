@@ -1,7 +1,8 @@
-import { createCsrfProtect, CsrfError } from '@potentiel-libraries/csrf';
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import { type NextFetchEvent, type NextRequest, NextResponse } from 'next/server';
 
-import { CustomMiddleware } from './middleware';
+import { CsrfError, createCsrfProtect } from '@potentiel-libraries/csrf';
+
+import type { CustomMiddleware } from './middleware';
 
 const csrfProtect = createCsrfProtect({
   cookie: {
@@ -19,7 +20,7 @@ export function withCSRF(middleware: CustomMiddleware) {
     const response = NextResponse.next();
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: explicit any allowed here
       await csrfProtect(request as any, response as any);
     } catch (err) {
       if (err instanceof CsrfError) {

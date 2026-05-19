@@ -1,12 +1,11 @@
 import { faker } from '@faker-js/faker';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { PièceJustificative } from '#helpers';
-
+import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
-import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
+import type { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
 
 export type EnregistrerGarantiesFinancières = {
   readonly type: string;

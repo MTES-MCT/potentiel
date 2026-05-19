@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
-import { Email, DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 export const getDemandeDélaiEnCoursInfos = async (
   identifiantProjet: IdentifiantProjet.RawType,

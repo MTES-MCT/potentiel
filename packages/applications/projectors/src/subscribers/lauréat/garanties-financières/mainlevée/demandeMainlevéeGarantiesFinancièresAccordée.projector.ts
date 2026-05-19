@@ -1,7 +1,7 @@
 import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 import {
-  DeepUndefined,
+  type DeepUndefined,
   updateManyProjections,
   updateOneProjection,
 } from '@potentiel-infrastructure/pg-projection-write';

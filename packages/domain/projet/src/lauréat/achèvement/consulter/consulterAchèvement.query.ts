@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { AchèvementEntity } from '../achèvement.entity.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import type { AchèvementEntity } from '../achèvement.entity.js';
 import { DateAchèvementPrévisionnel, DocumentAchèvement } from '../index.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterAchèvementAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

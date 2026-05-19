@@ -1,14 +1,13 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { expect } from 'chai';
+import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../../potentiel.world.js';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 
 Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat`,
@@ -145,7 +144,6 @@ export function vérifierDossierRaccordement(
   const actualDossierRaccordement = mapToPlainObject(dossierRaccordement);
 
   if (Option.isSome(actualDossierRaccordement)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (actualDossierRaccordement as any).miseÀJourLe;
   }
   actualDossierRaccordement.should.be.deep.equal(

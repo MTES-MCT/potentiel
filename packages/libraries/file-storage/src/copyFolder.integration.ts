@@ -1,12 +1,12 @@
+import { join } from 'node:path';
 import { before, beforeEach, describe, it } from 'node:test';
-import { join } from 'path';
 
 import { expect } from 'chai';
 
-import { download } from './download.js';
-import { upload } from './upload.js';
 import { copyFolder } from './copyFolder.js';
+import { download } from './download.js';
 import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration.js';
+import { upload } from './upload.js';
 
 describe(`copy folder`, () => {
   const bucketName = 'potentiel';

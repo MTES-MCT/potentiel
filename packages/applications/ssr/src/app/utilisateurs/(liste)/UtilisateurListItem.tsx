@@ -1,29 +1,27 @@
 'use client';
 
-import { FC, useState } from 'react';
-import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import type { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { useSearchParams } from 'next/navigation';
-import { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
-import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
-import { DateTime } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { DateTime } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
+import { ListItem } from '@/components/molecules/ListItem';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { roleToLabel } from '@/utils/utilisateur/format-role';
-
 import { getZoneLabel } from '../_helpers/getZoneLabel';
-
+import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
 import { RoleBadge } from './RoleBadge';
 import { réactiverUtilisateurAction } from './réactiverUtilisateur.action';
-import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export type UtilisateurActions = {
   actions: ('désactiver' | 'réactiver' | 'modifier')[];
@@ -219,7 +217,7 @@ const OptionalElement = <TType,>({
 }) =>
   Option.match(value)
     .some((value) => (
-      <li>
+      <li key={label}>
         <span>
           {label} : {render(value)}
         </span>

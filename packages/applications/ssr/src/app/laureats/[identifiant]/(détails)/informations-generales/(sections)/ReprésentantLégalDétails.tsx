@@ -1,8 +1,8 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
+import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 
 export type ReprésentantLégalDétailsProps = ChampObligatoireAvecAction<
   PlainType<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel>

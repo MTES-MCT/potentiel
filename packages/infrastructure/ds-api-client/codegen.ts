@@ -9,8 +9,6 @@ const config: CodegenConfig = {
   generates: {
     './src/graphql/client.ts': {
       plugins: [
-        { add: { content: '/* eslint-disable */' } },
-
         { add: { content: '//#region Types', placement: 'content' } },
         'typescript',
         { add: { content: '//#endregion\n', placement: 'content' } },
@@ -30,7 +28,6 @@ const config: CodegenConfig = {
       },
     },
   },
-  hooks: { afterOneFileWrite: ['prettier --write'] },
 };
 
 export default config;

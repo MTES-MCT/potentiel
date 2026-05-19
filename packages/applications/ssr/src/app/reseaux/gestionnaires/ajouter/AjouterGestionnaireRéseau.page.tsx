@@ -1,8 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import { AjouterGestionnaireRéseauForm } from './AjouterGestionnaireRéseau.form';
 
 export const AjouterGestionnaireRéseauPage: FC = () => (

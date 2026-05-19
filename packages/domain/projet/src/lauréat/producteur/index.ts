@@ -1,22 +1,22 @@
-import {
+import type {
   ConsulterChangementProducteurQuery,
   ConsulterChangementProducteurReadModel,
 } from './changement/consulter/consulterChangementProducteur.query.js';
-import { EnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
-import {
+import type { EnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
+import type {
   ListerChangementProducteurQuery,
   ListerChangementProducteurReadModel,
 } from './changement/lister/listerChangementProducteur.query.js';
-import {
+import type {
   ConsulterProducteurQuery,
   ConsulterProducteurReadModel,
 } from './consulter/consulterProducteur.query.js';
-import {
+import type {
   HistoriqueProducteurProjetListItemReadModel,
   ListerHistoriqueProducteurProjetQuery,
   ListerHistoriqueProducteurProjetReadModel,
 } from './listerHistorique/listerHistoriqueProducteurProjet.query.js';
-import { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase.js';
+import type { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase.js';
 
 // Query
 export type ProducteurQuery =
@@ -25,39 +25,33 @@ export type ProducteurQuery =
   | ListerChangementProducteurQuery
   | ListerHistoriqueProducteurProjetQuery;
 
-export type {
-  ConsulterProducteurQuery,
-  ConsulterChangementProducteurQuery,
-  ListerChangementProducteurQuery,
-  ListerHistoriqueProducteurProjetQuery,
-};
-
 // ReadModel
 export type {
-  ConsulterProducteurReadModel,
+  ConsulterChangementProducteurQuery,
   ConsulterChangementProducteurReadModel,
-  ListerChangementProducteurReadModel,
-  ListerHistoriqueProducteurProjetReadModel,
+  ConsulterProducteurQuery,
+  ConsulterProducteurReadModel,
   HistoriqueProducteurProjetListItemReadModel,
+  ListerChangementProducteurQuery,
+  ListerChangementProducteurReadModel,
+  ListerHistoriqueProducteurProjetQuery,
+  ListerHistoriqueProducteurProjetReadModel,
 };
 
 // UseCases
 export type ProducteurUseCase = EnregistrerChangementProducteurUseCase | ModifierProducteurUseCase;
-export type { EnregistrerChangementProducteurUseCase, ModifierProducteurUseCase };
 
-// Event
-export type { ProducteurEvent } from './producteur.event.js';
+export type * from './changement/changementProducteur.entity.js';
 export type { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
-export type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
-export type { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
-
-// Register
-export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register.js';
-
 // ValueTypes
 export * as DocumentProducteur from './documentProducteur.valueType.js';
+export type { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
+export type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
 export * as NuméroIdentification from './numéroIdentification.valueType.js';
-
 // Entities
 export type * from './producteur.entity.js';
-export type * from './changement/changementProducteur.entity.js';
+// Event
+export type { ProducteurEvent } from './producteur.event.js';
+// Register
+export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register.js';
+export type { EnregistrerChangementProducteurUseCase, ModifierProducteurUseCase };

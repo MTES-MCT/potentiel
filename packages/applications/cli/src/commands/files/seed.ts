@@ -1,11 +1,11 @@
 import { Command, Flags } from '@oclif/core';
-import { PDFDocument, PDFFont, StandardFonts } from 'pdf-lib';
+import { PDFDocument, type PDFFont, StandardFonts } from 'pdf-lib';
 import z from 'zod';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { Candidature, DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, type DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { appSchema, dbSchema, s3Schema } from '#helpers';
 
@@ -254,10 +254,16 @@ const map: DocumentRecord = {
   // Raccordement
   'DemandeComplèteDeRaccordementTransmise-V2': ({ dateQualification, ...event }) =>
     dateQualification &&
-    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({ ...event, dateQualification }),
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
+      ...event,
+      dateQualification,
+    }),
   'DemandeComplèteDeRaccordementTransmise-V3': ({ dateQualification, ...event }) =>
     dateQualification &&
-    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({ ...event, dateQualification }),
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
+      ...event,
+      dateQualification,
+    }),
   'DemandeComplèteRaccordementModifiée-V3':
     Lauréat.Raccordement.DocumentRaccordement.accuséRéception,
   'DemandeComplèteRaccordementModifiée-V4':
@@ -327,8 +333,12 @@ const map: DocumentRecord = {
 
 const isEventWithDocument = (event: Event): event is EventWithDocument & Event => event.type in map;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mapToDocumentProjet = (event: EventWithDocument) => map[event.type](event.payload as any);
+const mapToDocumentProjet = <T extends EventWithDocument>(event: T) =>
+  (
+    map[event.type] as (
+      payload: T['payload'],
+    ) => DocumentProjet.ValueType | DocumentProjet.ValueType[] | undefined
+  )(event.payload);
 
 export const générerDocumentPdf = async (event: Event, typeDocument: string) => {
   const pdfDoc = await PDFDocument.create();
@@ -345,7 +355,11 @@ export const générerDocumentPdf = async (event: Event, typeDocument: string) =
   // Start drawing from the top with margin
   let startY = page.getHeight() - marginTop;
 
-  type DrawProps = { font?: PDFFont; size?: number; position?: 'left' | 'center' };
+  type DrawProps = {
+    font?: PDFFont;
+    size?: number;
+    position?: 'left' | 'center';
+  };
   const drawText = (
     text: string,
     { font = helveticaFont, size = textSize, position = 'left' }: DrawProps = {},
@@ -376,8 +390,12 @@ export const générerDocumentPdf = async (event: Event, typeDocument: string) =
   });
 
   const content = JSON.stringify(event, null, 2);
-  content.split('\n').forEach((l) => drawText(l));
+  for (const line of content.split('\n')) {
+    drawText(line);
+  }
 
   const pdfBytes = await pdfDoc.save();
-  return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' }).stream();
+  return new Blob([new Uint8Array(pdfBytes)], {
+    type: 'application/pdf',
+  }).stream();
 };

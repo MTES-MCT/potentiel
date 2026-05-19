@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Heading1 } from '@/components/atoms/headings';
 import { Icon } from '@/components/atoms/Icon';
 

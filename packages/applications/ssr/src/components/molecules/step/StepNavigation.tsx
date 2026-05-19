@@ -1,6 +1,6 @@
 'use client';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 

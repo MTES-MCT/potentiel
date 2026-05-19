@@ -1,14 +1,13 @@
-import { z } from 'zod';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { z } from 'zod';
 
-import { Candidature } from '@potentiel-domain/projet';
-import { Période } from '@potentiel-domain/periode';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import type { Période } from '@potentiel-domain/periode';
+import type { Candidature } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { ImporterCandidaturesPage } from './ImporterCandidatures.page';
 
 const paramsSchema = z.object({
@@ -34,7 +33,7 @@ export default async function Page(props: PageProps) {
       const périodes = await mediator.send<Période.ListerPériodesQuery>({
         type: 'Période.Query.ListerPériodes',
         data: {
-          estNotifiée: estUnReimport ? true : false,
+          estNotifiée: !!estUnReimport,
         },
       });
 

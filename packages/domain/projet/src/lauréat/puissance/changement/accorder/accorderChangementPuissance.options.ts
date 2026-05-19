@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import type { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type AccorderChangementPuissanceOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;

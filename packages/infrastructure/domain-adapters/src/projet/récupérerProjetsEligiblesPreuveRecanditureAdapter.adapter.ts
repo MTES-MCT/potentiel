@@ -1,5 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 type ProjetPourRecandidatureReadModel = {

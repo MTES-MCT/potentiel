@@ -1,12 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
 } from '../../depot/soumettre/SoumettreDépôtGarantiesFinancières.form';
-
 import { enregistrerGarantiesFinancièresAction } from './enregistrerGarantiesFinancières.action';
 
 export type EnregistrerGarantiesFinancièresPageProps = Pick<

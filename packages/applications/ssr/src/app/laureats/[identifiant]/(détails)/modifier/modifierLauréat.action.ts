@@ -2,22 +2,27 @@
 
 import { mediator } from 'mediateur';
 
-import { Accès, Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-
-import { FormAction, formAction, FormState } from '@/utils/formAction';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCandidature } from '@/app/_helpers';
 import {
-  modifierLauréatEtCandidatureSchéma,
-  PartialModifierCandidatureNotifiéeFormEntries,
-} from '@/utils/candidature';
+  type Accès,
+  type Candidature,
+  IdentifiantProjet,
+  type Lauréat,
+} from '@potentiel-domain/projet';
+
+import { getCandidature } from '@/app/_helpers';
 import {
   getLauréatInfos,
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
+import {
+  modifierLauréatEtCandidatureSchéma,
+  type PartialModifierCandidatureNotifiéeFormEntries,
+} from '@/utils/candidature';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type CorrigerCandidaturesState = FormState;
 
@@ -132,12 +137,12 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       const siteDeProductionModifié =
-        laureat.adresse1 != undefined ||
-        laureat.adresse2 != undefined ||
-        laureat.codePostal != undefined ||
-        laureat.commune != undefined ||
-        laureat.département != undefined ||
-        laureat.région != undefined;
+        laureat.adresse1 !== undefined ||
+        laureat.adresse2 !== undefined ||
+        laureat.codePostal !== undefined ||
+        laureat.commune !== undefined ||
+        laureat.département !== undefined ||
+        laureat.région !== undefined;
 
       if (siteDeProductionModifié) {
         const lauréatAModifier = await getLauréatInfos(rawIdentifiantProjet);

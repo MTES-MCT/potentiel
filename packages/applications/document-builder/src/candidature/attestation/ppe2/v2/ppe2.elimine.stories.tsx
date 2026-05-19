@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
-
+import type { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
 import { makeCertificate } from './makeCertificate.js';
 
 const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;

@@ -3,12 +3,12 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { ArrayFormKeys } from '@/utils/zod/arrayFormKeys';
+import type { ArrayFormKeys } from '@/utils/zod/arrayFormKeys';
 import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({

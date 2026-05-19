@@ -1,4 +1,4 @@
-import { ModifierLauréatForm, ModifierLauréatFormProps } from './ModifierLauréat.form';
+import { ModifierLauréatForm, type ModifierLauréatFormProps } from './ModifierLauréat.form';
 
 export type ModifierLauréatPageProps = ModifierLauréatFormProps;
 

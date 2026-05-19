@@ -1,6 +1,6 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { DossierAccessor } from '../../graphql/index.js';
+import type { DossierAccessor } from '../../graphql/index.js';
 
 type GetDispositifDeStockageProps<TDossier extends Record<string, string>> = {
   accessor: DossierAccessor<TDossier>;

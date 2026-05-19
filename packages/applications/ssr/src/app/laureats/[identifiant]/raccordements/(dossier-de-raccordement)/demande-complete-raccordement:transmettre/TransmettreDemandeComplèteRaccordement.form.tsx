@@ -1,28 +1,26 @@
 'use client';
 
-import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
+import { Form } from '@/components/atoms/form/Form';
 import { Icon } from '@/components/atoms/Icon';
-
+import { Link } from '@/components/atoms/LinkNoPrefetch';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
-  GestionnaireRéseauSelectProps,
+  type GestionnaireRéseauSelectProps,
 } from '../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
-
 import {
+  type TransmettreDemandeComplèteRaccordementFormKeys,
   transmettreDemandeComplèteRaccordementAction,
-  TransmettreDemandeComplèteRaccordementFormKeys,
 } from './transmettreDemandeComplèteRaccordement.action';
 
 export type TransmettreDemandeComplèteRaccordementFormProps = {
@@ -112,12 +110,16 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         hintText={
           <div>
             {Option.match(légende)
-              .some((légende) => <div>Format attendu : {légende}</div>)
+              .some((légende) => <div key={légende}>Format attendu : {légende}</div>)
               .none(() => (
                 <></>
               ))}
             {Option.match(format)
-              .some((format) => <div className="italic">Exemple : {format}</div>)
+              .some((format) => (
+                <div key={format} className="italic">
+                  Exemple : {format}
+                </div>
+              ))
               .none(() => (
                 <></>
               ))}

@@ -3,18 +3,17 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type RejeterDemandeDélaiFormKeys,
   rejeterDemandeDélaiAction,
-  RejeterDemandeDélaiFormKeys,
 } from './rejeterDemandeDélai.action';
 
 type RejeterDemandeDélaiFormProps = {

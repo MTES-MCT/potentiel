@@ -3,10 +3,9 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
 import { annulerDemandeDélaiAction } from './annulerDemandeDélai.action';
 
 type AnnulerDemandeDélaiFormProps = {

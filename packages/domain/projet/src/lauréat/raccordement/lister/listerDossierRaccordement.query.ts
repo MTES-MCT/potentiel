@@ -1,15 +1,26 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
+import {
+  type Joined,
+  type LeftJoin,
+  type List,
+  type RangeOptions,
+  Where,
+} from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
-import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
-import { AchèvementEntity } from '../../achèvement/index.js';
-import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
-import { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import { Localité, type TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
+import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
+import type { AchèvementEntity } from '../../achèvement/index.js';
+import {
+  type LauréatEntity,
+  type Puissance,
+  type Raccordement,
+  StatutLauréat,
+} from '../../index.js';
+import type { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import { type DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -208,14 +219,12 @@ export const mapToReadModel: MapToReadModelProps = ({
   nomProjet,
   localité: Localité.bind(localité),
   référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-  dateDemandeComplèteRaccordement:
-    demandeComplèteRaccordement && demandeComplèteRaccordement.dateQualification
-      ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
-      : undefined,
-  dateMiseEnService:
-    miseEnService && miseEnService.dateMiseEnService
-      ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
-      : undefined,
+  dateDemandeComplèteRaccordement: demandeComplèteRaccordement?.dateQualification
+    ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
+    : undefined,
+  dateMiseEnService: miseEnService?.dateMiseEnService
+    ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
+    : undefined,
   identifiantGestionnaireRéseau:
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseau,

@@ -1,17 +1,17 @@
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
-import { getHtmlAttributes, DsfrHead } from '@/dsfr-bootstrap/server-only-index';
 import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
+import { DsfrHead, getHtmlAttributes } from '@/dsfr-bootstrap/server-only-index';
 
 // Tailwind import must happen after DSFR import.
 import './global.css';
 
-import Providers from './Providers';
 import { featureFlag } from './_helpers/getFeatureFlag';
+import Providers from './Providers';
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +28,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <html {...getHtmlAttributes({ lang: 'fr' })}>
       <head>
         <DsfrHead
@@ -68,7 +67,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             {children}
           </main>
           <Footer />
-          {/* eslint-disable-next-line react-hooks/static-components */}
           {crispWebsiteId && <CrispChat websiteId={crispWebsiteId} />}
         </Providers>
       </body>

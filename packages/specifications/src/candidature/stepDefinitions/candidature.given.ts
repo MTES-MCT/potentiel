@@ -1,11 +1,11 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world.js';
-import { DeepPartial } from '../../fixture.js';
+import type { DeepPartial } from '../../fixture.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 EtantDonné(
   `la candidature lauréate {string} avec :`,

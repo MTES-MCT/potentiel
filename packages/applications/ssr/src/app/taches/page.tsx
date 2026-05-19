@@ -1,21 +1,19 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { RedirectType, redirect } from 'next/navigation';
 import { z } from 'zod';
-import { redirect, RedirectType } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { optionalStringArray } from '../_helpers/optionalStringArray';
-
 import { TâcheListPage } from './TâcheList.page';
 
 const searchParamsSchema = z.object({

@@ -1,13 +1,12 @@
-import { expect } from 'chai';
 import { Then as Alors } from '@cucumber/cucumber';
+import { expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { waitForExpect } from '#helpers';
-
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 
 Alors('le gestionnaire de réseau devrait être consultable', async function (this: PotentielWorld) {
   await waitForExpect(async () => {
@@ -49,6 +48,6 @@ Alors(
       );
     }
 
-    actual.should.equal(résultat === 'valide' ? true : false);
+    actual.should.equal(résultat === 'valide');
   },
 );

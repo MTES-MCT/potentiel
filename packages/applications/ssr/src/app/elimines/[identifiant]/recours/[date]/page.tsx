@@ -3,18 +3,16 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { match } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { mapToRecoursTimelineItemProps } from '../(historique)/mapToRecoursTimelineItemProps';
-
-import { AvailableRecoursAction, DétailsRecoursPage } from './DétailsRecours.page';
+import { type AvailableRecoursAction, DétailsRecoursPage } from './DétailsRecours.page';
 
 type PageProps = { params: Promise<{ identifiant: string; date: string }> };
 

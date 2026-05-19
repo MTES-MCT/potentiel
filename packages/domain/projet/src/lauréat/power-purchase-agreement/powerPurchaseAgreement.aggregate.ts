@@ -2,18 +2,16 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate.js';
-
-import { SignalementPowerPurchaseAgreementAnnuléEvent } from './index.js';
-
-import { PowerPurchaseAgreementEvents } from './PowerPurchaseAgreement.events.js';
-import { PowerPurchaseAgreementSignaléEvent } from './signaler/PowerPurchaseAgreementSignalé.event.js';
-import { SignalerPowerPurchaseAgreementOptions } from './signaler/signalerPowerPurchaseAgreement.option.js';
+import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { AnnulerSignalementPowerPurchaseAgreementOptions } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.option.js';
+import type { SignalementPowerPurchaseAgreementAnnuléEvent } from './index.js';
 import {
   PowerPurchaseAgreementDéjàSignaléError,
   PowerPurchaseAgreementNonSignaléError,
 } from './PowerPurchaseAgreement.errors.js';
-import { AnnulerSignalementPowerPurchaseAgreementOptions } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.option.js';
+import type { PowerPurchaseAgreementEvents } from './PowerPurchaseAgreement.events.js';
+import type { PowerPurchaseAgreementSignaléEvent } from './signaler/PowerPurchaseAgreementSignalé.event.js';
+import type { SignalerPowerPurchaseAgreementOptions } from './signaler/signalerPowerPurchaseAgreement.option.js';
 
 export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
   PowerPurchaseAgreementEvents,

@@ -1,29 +1,27 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
-import {
-  GarantiesFinancièresFormInputs,
-  GarantiesFinancièresFormInputsProps,
-} from '../../components/GarantiesFinancièresFormInputs';
-import {
-  enregistrerGarantiesFinancièresAction,
+import type { ValidationErrors } from '@/utils/formAction';
+import type {
   EnregistrerGarantiesFinancièresFormKeys,
+  enregistrerGarantiesFinancièresAction,
 } from '../../actuelles/enregistrer/enregistrerGarantiesFinancières.action';
 import {
-  modifierDépôtGarantiesFinancièresAction,
+  GarantiesFinancièresFormInputs,
+  type GarantiesFinancièresFormInputsProps,
+} from '../../components/GarantiesFinancièresFormInputs';
+import type {
   ModifierDépôtGarantiesFinancièresFormKeys,
+  modifierDépôtGarantiesFinancièresAction,
 } from '../modifier/modifierDépôtGarantiesFinancières.action';
-
-import {
-  soumettreDépôtGarantiesFinancièresAction,
+import type {
   SoumettreDépôtGarantiesFinancièresFormKeys,
+  soumettreDépôtGarantiesFinancièresAction,
 } from './soumettreDépôtGarantiesFinancières.action';
 
 type Action =

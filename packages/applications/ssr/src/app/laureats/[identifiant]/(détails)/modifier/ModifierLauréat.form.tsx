@@ -1,34 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
+import type React from 'react';
+import { useState } from 'react';
 
-import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import { CahierDesCharges, Candidature, type Lauréat } from '@potentiel-domain/projet';
 
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { Form } from '@/components/atoms/form/Form';
+import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
-import {
+import { Icon } from '@/components/atoms/Icon';
+import type {
   ModifierCandidatureNotifiéeFormEntries,
   ModifierLauréatEtCandidatureNotifiéeFormEntries,
   ModifierLauréatKeys,
   ModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
-import { ValidationErrors } from '@/utils/formAction';
-import { FormAlertError } from '@/components/atoms/form/FormAlertError';
-import { Icon } from '@/components/atoms/Icon';
-import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
-
-import { modifierLauréatAction } from './modifierLauréat.action';
-import { ProjectField } from './components/fields/generic/ProjectField';
-import { LocalitéField } from './components/fields/LocalitéField';
+import type { ValidationErrors } from '@/utils/formAction';
 import { AttestationField } from './components/fields/AttestationField';
+import { DateDAutorisationField } from './components/fields/DateDAutorisation';
 import { CandidatureField } from './components/fields/generic/CandidatureField';
 import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectField';
-import { DateDAutorisationField } from './components/fields/DateDAutorisation';
+import { ProjectField } from './components/fields/generic/ProjectField';
+import { LocalitéField } from './components/fields/LocalitéField';
+import { modifierLauréatAction } from './modifierLauréat.action';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {

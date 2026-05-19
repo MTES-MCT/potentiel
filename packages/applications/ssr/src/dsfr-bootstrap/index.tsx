@@ -5,8 +5,8 @@ import {
   StartDsfrOnHydration,
 } from '@codegouvfr/react-dsfr/next-app-router';
 
-import { defaultColorScheme } from './defaultColorScheme';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
+import { defaultColorScheme } from './defaultColorScheme';
 
 declare module '@codegouvfr/react-dsfr/next-app-router' {
   interface RegisterLink {
@@ -15,7 +15,6 @@ declare module '@codegouvfr/react-dsfr/next-app-router' {
 }
 
 export function DsfrProvider(props: DsfrProviderProps) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <DsfrProviderBase defaultColorScheme={defaultColorScheme} Link={Link} {...props} />;
 }
 

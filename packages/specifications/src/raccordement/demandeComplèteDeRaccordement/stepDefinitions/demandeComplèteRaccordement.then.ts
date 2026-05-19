@@ -1,14 +1,13 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { assert } from 'chai';
+import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect, expectFileContent } from '#helpers';
-
-import { PotentielWorld } from '../../../potentiel.world.js';
+import { expectFileContent, waitForExpect } from '#helpers';
+import type { PotentielWorld } from '../../../potentiel.world.js';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
 
 Alors(
@@ -68,7 +67,6 @@ function vérifierRaccordement(
   //  on ne peut pas calculer cette date de manière exacte dans les tests
   if (Option.isSome(actualRaccordement)) {
     for (const doss of actualRaccordement.dossiers) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (doss as any).miseÀJourLe;
     }
   }

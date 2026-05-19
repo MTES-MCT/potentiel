@@ -1,6 +1,6 @@
-import { EnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase.js';
-import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase.js';
-import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase.js';
+import type { EnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase.js';
+import type { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase.js';
+import type { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase.js';
 
 // UseCases
 export type GarantiesFinancièresUseCases =
@@ -9,7 +9,7 @@ export type GarantiesFinancièresUseCases =
   | EnregistrerGarantiesFinancièresUseCase;
 
 export type {
-  ModifierGarantiesFinancièresUseCase,
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
+  ModifierGarantiesFinancièresUseCase,
 };

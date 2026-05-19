@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
-import { Find } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature } from '../../../index.js';
+import type { Candidature } from '../../../index.js';
 import { VolumeRéservé } from '../index.js';
 
 export type ConsulterVolumeRéservéReadModel = VolumeRéservé.ValueType;

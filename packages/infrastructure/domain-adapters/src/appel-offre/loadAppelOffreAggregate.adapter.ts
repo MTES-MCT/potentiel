@@ -1,4 +1,4 @@
-import { LoadAppelOffreAggregatePort } from '@potentiel-domain/appel-offre';
+import type { LoadAppelOffreAggregatePort } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Option } from '@potentiel-libraries/monads';
 

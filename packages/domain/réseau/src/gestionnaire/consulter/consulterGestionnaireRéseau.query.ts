@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity.js';
+import type { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity.js';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType.js';
 
 export type ConsulterGestionnaireRéseauReadModel = Readonly<{

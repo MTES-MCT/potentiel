@@ -1,8 +1,7 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemProps } from '@/components/organisms/timeline';
-
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { getGarantiesFinancièresMotifLabel } from '../../../_helpers/getGarantiesFinancièresMotifLabel';
 
 export const mapToGarantiesFinancièresDemandéesTimelineItemsProps = (

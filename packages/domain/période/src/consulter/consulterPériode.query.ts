@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Find } from '@potentiel-domain/entity';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantPériode, PériodeEntity } from '../période.js';
 import { Période } from '../index.js';
+import type { IdentifiantPériode, PériodeEntity } from '../période.js';
 
 export type ConsulterPériodeReadModel = PériodeNotifiée | PériodeNonNotifiée;
 

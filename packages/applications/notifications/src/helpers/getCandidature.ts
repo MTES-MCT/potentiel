@@ -1,8 +1,7 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/projet';
 
 export const getCandidature = async (identifiantProjet: IdentifiantProjet.RawType) => {
   const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({

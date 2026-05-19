@@ -1,6 +1,6 @@
-import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
-import { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
-import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
+import type { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
+import type { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
+import type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
 
 export type ProducteurEvent =
   | ChangementProducteurEnregistréEvent

@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   EnregistrerChangementActionnaireForm,
-  EnregistrerChangementActionnaireFormProps,
+  type EnregistrerChangementActionnaireFormProps,
 } from './EnregistrerChangementActionnaire.form';
 
 export type EnregistrerChangementActionnairePageProps = EnregistrerChangementActionnaireFormProps;

@@ -1,20 +1,18 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import * as zod from 'zod';
 
-import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
+import type { Candidature } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/_helpers';
 import {
-  identifiantProjetSchema,
-  dépôtSchema,
-  instructionSchema,
   doitRegenererAttestationSchema,
+  dépôtSchema,
+  identifiantProjetSchema,
+  instructionSchema,
 } from '@/utils/candidature';
 import {
   coordonnéesSchema,
@@ -22,6 +20,8 @@ import {
   numéroDAutorisationSchema,
   siretSchema,
 } from '@/utils/candidature/dépôt.schema';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type CorrigerCandidaturesState = FormState;
 

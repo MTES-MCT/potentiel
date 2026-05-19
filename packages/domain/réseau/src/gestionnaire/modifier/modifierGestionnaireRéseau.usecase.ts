@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 
 import { IdentifiantGestionnaireRéseau } from '../index.js';
-
-import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command.js';
+import type { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command.js';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',

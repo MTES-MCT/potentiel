@@ -1,17 +1,15 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../(historique)/mapToFournisseurTimelineItemProps';
-
 import { DétailsChangementFournisseurPage } from './DétailsChangementFournisseur.page';
 
 export const metadata: Metadata = { title: 'Détail du changement de fournisseur' };

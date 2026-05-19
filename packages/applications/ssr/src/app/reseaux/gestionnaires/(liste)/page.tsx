@@ -1,16 +1,15 @@
-import type { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
-
 import {
+  type GestionnaireAvecNombreDeRaccordement,
   GestionnaireRéseauListPage,
-  GestionnaireAvecNombreDeRaccordement,
 } from './GestionnaireRéseauList.page';
 
 type PageProps = {
@@ -25,7 +24,7 @@ export const metadata: Metadata = { title: 'Gestionnaires réseaux' };
 export default async function Page(props0: PageProps) {
   const searchParams = await props0.searchParams;
   return PageWithErrorHandling(async () => {
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+    const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
     const raisonSocialeSearch = searchParams?.raisonSociale;
 
     const gestionnairesRéseau =

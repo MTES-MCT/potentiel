@@ -1,5 +1,5 @@
-import type { Config } from 'tailwindcss';
 import { fr } from '@codegouvfr/react-dsfr';
+import type { Config } from 'tailwindcss';
 
 /**
  * @description Cette variable permet de récupérer les [différentes couleurs conforme DSFR](https://components.react-dsfr.codegouv.studio/?path=/docs/%F0%9F%8E%A8-color-helper--page).

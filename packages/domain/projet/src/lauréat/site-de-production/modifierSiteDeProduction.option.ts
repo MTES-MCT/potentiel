@@ -1,8 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet } from '#document-projet';
-
-import { Coordonnées, Localité } from '../../candidature/index.js';
+import type { DocumentProjet } from '#document-projet';
+import type { Coordonnées, Localité } from '../../candidature/index.js';
 
 export type ModifierSiteDeProductionOptions = {
   modifiéLe: DateTime.ValueType;

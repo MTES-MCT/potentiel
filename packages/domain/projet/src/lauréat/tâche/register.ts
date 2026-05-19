@@ -1,9 +1,9 @@
 import {
-  ConsulterNombreTâchesQueryDependencies,
+  type ConsulterNombreTâchesQueryDependencies,
   registerConsulterNombreTâchesQuery,
 } from './consulter/consulterNombreTâche.query.js';
 import {
-  ListerTâchesQueryDependencies,
+  type ListerTâchesQueryDependencies,
   registerListerTâchesQuery,
 } from './lister/listerTâche.query.js';
 

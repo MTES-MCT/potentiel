@@ -1,6 +1,6 @@
-import { AsyncLocalStorage } from 'async_hooks';
+import { AsyncLocalStorage } from 'node:async_hooks';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 export type PotentielUtilisateur = Utilisateur.ValueType & {
   nom?: string;

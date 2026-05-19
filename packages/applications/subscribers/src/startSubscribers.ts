@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { logMiddleware } from '@potentiel-applications/bootstrap';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { setupSubscribers, SetupSubscribersProps } from './setup/index.js';
+import { type SetupSubscribersProps, setupSubscribers } from './setup/index.js';
 
 export type StartSubscribersProps = SetupSubscribersProps;
 

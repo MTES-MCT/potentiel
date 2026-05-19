@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
-import { ModifierAchèvementForm, ModifierAchèvementFormProps } from './ModifierAchèvement.form';
+import {
+  ModifierAchèvementForm,
+  type ModifierAchèvementFormProps,
+} from './ModifierAchèvement.form';
 
 export type ModifierAchèvementPageProps = ModifierAchèvementFormProps;
 

@@ -1,7 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { Role } from '@potentiel-domain/utilisateur';
 
-import { RéférenceDossierRaccordement } from '../../index.js';
+import type { RéférenceDossierRaccordement } from '../../index.js';
 
 export type ModifierDemandeComplèteOptions = {
   dateQualification: DateTime.ValueType;

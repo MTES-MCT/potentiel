@@ -1,4 +1,4 @@
-import { Parser, ParserOptions } from '@json2csv/plainjs';
+import { Parser, type ParserOptions } from '@json2csv/plainjs';
 
 // Utility type to extract string keys from a type
 type FieldKeys<T> = T extends Array<infer U> ? keyof U : keyof T;

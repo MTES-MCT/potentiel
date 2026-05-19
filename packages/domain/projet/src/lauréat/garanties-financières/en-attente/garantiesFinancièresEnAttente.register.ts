@@ -1,5 +1,5 @@
 import {
-  ListerGarantiesFinancièresEnAttenteDependencies,
+  type ListerGarantiesFinancièresEnAttenteDependencies,
   registerListerGarantiesFinancièresEnAttenteQuery,
 } from './lister/listerProjetsAvecGarantiesFinancièresEnAttente.query.js';
 

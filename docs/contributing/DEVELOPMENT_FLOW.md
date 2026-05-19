@@ -79,9 +79,9 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 
 - `dev` : Lance l'application ssr en mode développement
 
-- `lint` : Exécute ESLint pour identifier et signaler les patterns trouvés dans le code.
+- `lint` : Exécute Biome pour identifier et signaler les patterns trouvés dans le code.
 
-- `lint:fix` : Exécute ESLint avec l'option `--fix` pour corriger automatiquement les problèmes de code détectables.
+- `lint:fix` : Exécute Biome avec l'option `--write` pour corriger automatiquement les problèmes de code détectables.
 
 - `format` : Formate le code dans tous les workspaces qui définissent le script `format`, si présent.
 

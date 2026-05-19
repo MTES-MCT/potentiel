@@ -1,8 +1,6 @@
-import React from 'react';
 import { View } from '@react-pdf/renderer';
 
-import { Footnote as FootnoteType } from '../../helpers/makeAddFootnotes.js';
-
+import type { Footnote as FootnoteType } from '../../helpers/makeAddFootnotes.js';
 import { Footnote } from './Footnote.js';
 
 export const Footnotes = ({ footnotes }: { footnotes: FootnoteType[] }) => {
@@ -13,8 +11,8 @@ export const Footnotes = ({ footnotes }: { footnotes: FootnoteType[] }) => {
         fontSize: 8,
       }}
     >
-      {footnotes.map((footnote, index) => (
-        <Footnote {...footnote} key={`foot_note_${index}`} />
+      {footnotes.map((footnote) => (
+        <Footnote {...footnote} key={footnote.indice} />
       ))}
     </View>
   );

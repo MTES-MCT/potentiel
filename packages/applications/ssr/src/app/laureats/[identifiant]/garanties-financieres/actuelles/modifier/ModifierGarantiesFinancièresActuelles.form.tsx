@@ -1,21 +1,19 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GarantiesFinancièresFormInputs,
-  GarantiesFinancièresFormInputsProps,
+  type GarantiesFinancièresFormInputsProps,
 } from '../../components/GarantiesFinancièresFormInputs';
-
 import {
+  type ModifierGarantiesFinancièresFormKeys,
   modifierGarantiesFinancièresActuellesAction,
-  ModifierGarantiesFinancièresFormKeys,
 } from './modifierGarantiesFinancièresActuelles.action';
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {

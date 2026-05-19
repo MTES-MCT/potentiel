@@ -1,9 +1,8 @@
 import { Heading1 } from '@/components/atoms/headings';
-
 import { AnnulerSignalementPowerPurchaseAgreementForm } from './AnnulerSignalementPowerPurchaseAgreement.form';
 import {
   DétailsPowerPurchaseAgreement,
-  DétailsPowerPurchaseAgreementProps,
+  type DétailsPowerPurchaseAgreementProps,
 } from './DétailsPowerPurchaseAgreement';
 
 export type AnnulerSignalementPowerPurchaseAgreementPageProps = DétailsPowerPurchaseAgreementProps;

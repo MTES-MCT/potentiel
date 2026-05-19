@@ -1,6 +1,6 @@
-import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
 import { TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
-import { Lauréat } from '@potentiel-domain/projet';
+import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 

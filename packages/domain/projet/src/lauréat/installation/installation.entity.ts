@@ -1,10 +1,9 @@
-import { DateTime } from '@potentiel-domain/common';
-import { Entity } from '@potentiel-domain/entity';
+import type { DateTime } from '@potentiel-domain/common';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../../index.js';
-import { TypologieInstallation } from '../../candidature/index.js';
-
-import { DispositifDeStockage } from './index.js';
+import type { TypologieInstallation } from '../../candidature/index.js';
+import type { IdentifiantProjet } from '../../index.js';
+import type { DispositifDeStockage } from './index.js';
 
 export type InstallationEntity = Entity<
   'installation',

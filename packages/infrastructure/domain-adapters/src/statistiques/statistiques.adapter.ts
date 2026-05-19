@@ -1,5 +1,5 @@
+import type { AjouterStatistiqueUtilisationPort } from '@potentiel-domain/statistiques-utilisation';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { AjouterStatistiqueUtilisationPort } from '@potentiel-domain/statistiques-utilisation';
 
 /**
  * Ajout de statistiques via une commande qui appel cet adapter (injection de la dépendance via bootstrap)

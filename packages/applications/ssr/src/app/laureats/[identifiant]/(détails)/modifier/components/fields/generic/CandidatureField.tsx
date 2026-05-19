@@ -1,13 +1,12 @@
 'use client';
 
-import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
+import Input, { type InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
-import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/candidature';
-
-import { FieldValidationErrors } from '../../../ModifierLauréat.form';
-import { LinkedValuesButton } from '../../LinkedValuesButton';
+import type { ModifierCandidatureNotifiéeFormEntries } from '@/utils/candidature';
 import { getInputTypeNativeProps } from '../../../_helpers/getInputTypeNativeProps';
+import type { FieldValidationErrors } from '../../../ModifierLauréat.form';
+import { LinkedValuesButton } from '../../LinkedValuesButton';
 
 export type CandidatureFieldProps<T> = {
   candidature: T;

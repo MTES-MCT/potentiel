@@ -1,20 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
-import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
+import type React from 'react';
+import { useState } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ChoisirCahierDesChargesFormKeys,
   choisirCahierDesChargesAction,
-  ChoisirCahierDesChargesFormKeys,
 } from './choisirCahierDesCharges.action';
 
 export type ChoisirCahierDesChargesFormProps = {
@@ -79,8 +79,8 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
             },
             hintText: cdc.descriptions ? (
               <ul>
-                {cdc.descriptions.map((text, i) => (
-                  <li key={i}>{text}</li>
+                {cdc.descriptions.map((text) => (
+                  <li key={text}>{text}</li>
                 ))}
               </ul>
             ) : null,

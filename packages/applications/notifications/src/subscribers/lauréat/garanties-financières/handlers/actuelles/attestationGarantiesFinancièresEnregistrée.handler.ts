@@ -1,8 +1,7 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat, listerDrealsRecipients } from '#helpers';
-import { buildUrl } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleAttestationGarantiesFinancièresEnregistrée = async ({

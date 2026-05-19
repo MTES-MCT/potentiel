@@ -1,6 +1,5 @@
-// eslint-disable-next-line no-restricted-imports
-import { Ajv2020, ValidationError, ValidateFunction } from 'ajv/dist/2020.js';
-// eslint-disable-next-line no-restricted-imports
+/** biome-ignore-all lint/style/noRestrictedImports: intended imports */
+import { Ajv2020, type ValidateFunction, ValidationError } from 'ajv/dist/2020.js';
 import type { JTDDataType } from 'ajv/dist/core.js';
 import addFormats from 'ajv-formats';
 

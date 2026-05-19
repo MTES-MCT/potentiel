@@ -1,4 +1,8 @@
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 // il n'y a plus de nouvelles tâches planifiées à 2 mois, on conserve ce type pour les tâches déjà publiées destinées à être annulées
 

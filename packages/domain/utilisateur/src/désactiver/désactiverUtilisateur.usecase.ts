@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Email, DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DésactiverUtilisateurCommand } from './désactiverUtilisateur.command.js';
+import type { DésactiverUtilisateurCommand } from './désactiverUtilisateur.command.js';
 
 export type DésactiverUtilisateurUseCase = Message<
   'Utilisateur.UseCase.DésactiverUtilisateur',

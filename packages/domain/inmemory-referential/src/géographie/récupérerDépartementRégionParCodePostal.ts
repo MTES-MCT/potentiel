@@ -6,7 +6,7 @@ export type DépartementRégion = {
 export const récupérerDépartementRégionParCodePostal = (
   codePostal: string,
 ): DépartementRégion | undefined => {
-  if (codePostal.length != 5) {
+  if (codePostal.length !== 5) {
     return undefined;
   }
 

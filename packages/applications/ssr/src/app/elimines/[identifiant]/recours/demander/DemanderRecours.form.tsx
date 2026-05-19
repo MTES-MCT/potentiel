@@ -1,13 +1,12 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
-import { demanderRecoursAction, DemanderRecoursFormKeys } from './demanderRecours.action';
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
+import { type DemanderRecoursFormKeys, demanderRecoursAction } from './demanderRecours.action';
 
 export type DemanderRecoursFormProps = {
   identifiantProjet: string;

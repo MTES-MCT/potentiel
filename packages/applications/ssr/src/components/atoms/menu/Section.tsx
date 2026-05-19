@@ -1,5 +1,6 @@
-import React, { ComponentProps } from 'react';
 import clsx from 'clsx';
+import type React from 'react';
+import type { ComponentProps } from 'react';
 
 import { Heading3 } from '@/components/atoms/headings';
 

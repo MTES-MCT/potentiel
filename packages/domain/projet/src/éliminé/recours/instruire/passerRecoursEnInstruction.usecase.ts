@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
-
-import { PasserRecoursEnInstructionCommand } from './passerRecoursEnInstruction.command.js';
+import type { PasserRecoursEnInstructionCommand } from './passerRecoursEnInstruction.command.js';
 
 export type PasserEnInstructionRecoursUseCase = Message<
   'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',

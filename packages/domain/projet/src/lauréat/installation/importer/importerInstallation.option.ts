@@ -1,7 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypologieInstallation } from '../../../candidature/index.js';
-import { DispositifDeStockage } from '../index.js';
+import type { TypologieInstallation } from '../../../candidature/index.js';
+import type { DispositifDeStockage } from '../index.js';
 
 export type ImporterOptions = {
   importéPar: Email.ValueType;

@@ -2,11 +2,10 @@ import { describe, test } from 'node:test';
 
 import { expect } from 'chai';
 
-import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import type { Candidature } from '@potentiel-domain/projet';
 
-import { Champs } from '../../graphql/index.js';
-
+import type { Champs } from '../../graphql/index.js';
 import { getRaccordements } from './getRaccordements.js';
 
 describe(`Projet avec raccordement`, () => {

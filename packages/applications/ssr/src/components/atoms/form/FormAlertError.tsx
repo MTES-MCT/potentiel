@@ -1,5 +1,5 @@
-import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import Alert, { type AlertProps } from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
 type FormAlertErrorProps = Omit<AlertProps.Small, 'small'>;
 

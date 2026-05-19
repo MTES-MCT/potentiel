@@ -1,5 +1,5 @@
 import {
-  AjouterStatistiqueUtilisationPort,
+  type AjouterStatistiqueUtilisationPort,
   registerStatistiquesUtilisationCommands,
 } from '@potentiel-domain/statistiques-utilisation';
 

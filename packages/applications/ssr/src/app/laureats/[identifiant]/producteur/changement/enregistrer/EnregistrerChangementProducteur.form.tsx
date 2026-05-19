@@ -1,19 +1,18 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
+import type { EnregistrerChangementProducteurPageProps } from './EnregistrerChangementProducteur.page';
 import {
+  type EnregistrerChangementProducteurFormKeys,
   enregistrerChangementProducteurAction,
-  EnregistrerChangementProducteurFormKeys,
 } from './enregistrerChangementProducteur.action';
-import { EnregistrerChangementProducteurPageProps } from './EnregistrerChangementProducteur.page';
 
 export type EnregistrerChangementProducteurFormProps = EnregistrerChangementProducteurPageProps;
 

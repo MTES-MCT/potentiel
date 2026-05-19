@@ -1,17 +1,16 @@
-import z from 'zod';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import z from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { getLastUsedProvider } from '@/auth/providers/getLastUsedProvider';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { AuthProvider, getProviders } from '@/auth/providers/authProvider';
-import { ProviderProps } from '@/components/organisms/auth/AuthTile';
-import { callbackURLSchema } from '@/utils/zod/auth';
-
-import SignInPage from './SignIn.page';
 import { getSessionUser } from '@/auth/getSessionUser';
-import { headers } from 'next/headers';
+import { type AuthProvider, getProviders } from '@/auth/providers/authProvider';
+import { getLastUsedProvider } from '@/auth/providers/getLastUsedProvider';
+import type { ProviderProps } from '@/components/organisms/auth/AuthTile';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { callbackURLSchema } from '@/utils/zod/auth';
+import SignInPage from './SignIn.page';
 
 type PageProps = {
   searchParams: Promise<Record<string, string>>;

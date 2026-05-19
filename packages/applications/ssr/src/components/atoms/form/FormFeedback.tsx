@@ -1,13 +1,12 @@
 'use client';
 
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
-import { FormState } from '@/utils/formAction';
-
-import { FormAlertError } from './FormAlertError';
+import type { FormState } from '@/utils/formAction';
 import { Link } from '../LinkNoPrefetch';
+import { FormAlertError } from './FormAlertError';
 
 export type FormFeedbackProps = {
   formState: FormState;
@@ -55,8 +54,8 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
                   <>
                     <p>Certaines opérations ont rencontré les erreurs suivantes :</p>
                     <ul className="list-disc pl-3">
-                      {errors.map(({ reason, key }, index) => (
-                        <li key={index}>
+                      {errors.map(({ reason, key }) => (
+                        <li key={key}>
                           <span className="font-bold">{key}</span> : {reason}
                         </li>
                       ))}

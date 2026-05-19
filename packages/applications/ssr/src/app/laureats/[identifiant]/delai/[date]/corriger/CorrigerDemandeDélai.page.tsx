@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { Heading1 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
+import { Heading1 } from '@/components/atoms/headings';
 import {
   CorrigerDemandeDélaiForm,
-  CorrigerDemandeDélaiFormProps,
+  type CorrigerDemandeDélaiFormProps,
 } from './CorrigerDemandeDélai.form';
 
 export type CorrigerDemandeDélaiPageProps = CorrigerDemandeDélaiFormProps;

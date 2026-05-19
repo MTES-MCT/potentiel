@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   EnregistrerAttestationConformitéForm,
-  EnregistrerAttestationConformitéFormProps,
+  type EnregistrerAttestationConformitéFormProps,
 } from './EnregistrerAttestationConformité.form';
 
 export type EnregistrerAttestationConformitéPageProps = EnregistrerAttestationConformitéFormProps;

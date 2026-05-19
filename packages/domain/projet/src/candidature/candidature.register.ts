@@ -1,28 +1,27 @@
-import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
-
+import type { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
 import {
-  ListerProjetsEligiblesPreuveRecanditureDependencies,
-  registerProjetsEligiblesPreuveRecanditureQuery,
-} from './lister/listerProjetsEligiblesPreuveRecanditure.query.js';
-import {
-  ConsulterCandidatureDependencies,
+  type ConsulterCandidatureDependencies,
   registerConsulterCandidatureQuery,
 } from './consulter/consulterCandidature.query.js';
-import {
-  ListerCandidaturesQueryDependencies,
-  registerListerCandidaturesQuery,
-} from './lister/listerCandidatures.query.js';
-import { registerImporterCandidatureCommand } from './importer/importerCandidature.command.js';
 import { registerCorrigerCandidatureCommand } from './corriger/corrigerCandidature.command.js';
 import { registerCorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase.js';
-import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase.js';
-import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command.js';
-import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase.js';
 import { registerConsulterDétailCandidatureQuery } from './détail/consulter/consulterDétailCandidature.query.js';
+import { registerImporterCandidatureCommand } from './importer/importerCandidature.command.js';
+import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase.js';
 import {
-  ListerDétailsFournisseurQueryDependencies,
+  type ListerCandidaturesQueryDependencies,
+  registerListerCandidaturesQuery,
+} from './lister/listerCandidatures.query.js';
+import {
+  type ListerDétailsFournisseurQueryDependencies,
   registerListerDétailsFournisseurQuery,
 } from './lister/listerDétailsFournisseur.query.js';
+import {
+  type ListerProjetsEligiblesPreuveRecanditureDependencies,
+  registerProjetsEligiblesPreuveRecanditureQuery,
+} from './lister/listerProjetsEligiblesPreuveRecanditure.query.js';
+import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command.js';
+import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase.js';
 
 export type CandiatureCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;

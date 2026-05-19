@@ -1,9 +1,9 @@
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { createProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Période } from '@potentiel-domain/periode';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { createProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const seedPériodes = async () => {
   const logger = getLogger('seedPériodes');

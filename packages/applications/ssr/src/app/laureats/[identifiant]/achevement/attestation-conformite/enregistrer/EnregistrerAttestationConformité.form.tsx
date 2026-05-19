@@ -3,13 +3,11 @@
 import { useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import { AttestationConformitéFormInput } from '../../AttestationConformité.inputs';
-
 import {
+  type EnregistrerAttestationConformitéFormKeys,
   enregistrerAttestationConformitéAction,
-  EnregistrerAttestationConformitéFormKeys,
 } from './enregistrerAttestationConformité.action';
 
 export type EnregistrerAttestationConformitéFormProps = {

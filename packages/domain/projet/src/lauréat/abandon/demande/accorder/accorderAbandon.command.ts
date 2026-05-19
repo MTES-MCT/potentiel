@@ -1,9 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { Role } from '@potentiel-domain/utilisateur';
 
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
+import type {
+  DocumentProjet,
+  GetProjetAggregateRoot,
+  IdentifiantProjet,
+} from '../../../../index.js';
 
 export type AccorderAbandonCommand = Message<
   'Lauréat.Abandon.Command.AccorderAbandon',

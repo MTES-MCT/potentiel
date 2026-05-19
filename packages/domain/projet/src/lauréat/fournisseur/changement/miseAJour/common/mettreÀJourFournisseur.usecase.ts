@@ -1,13 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
+import type { EnregistrerDocumentProjetCommand } from '../../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../../index.js';
-import { Fournisseur, DocumentFournisseur } from '../../../index.js';
-import { EnregistrerDocumentProjetCommand } from '../../../../../document-projet/index.js';
-
-import { MettreÀJourFournisseurCommand } from './mettreÀJourFournisseur.command.js';
+import { DocumentFournisseur, Fournisseur } from '../../../index.js';
+import type { MettreÀJourFournisseurCommand } from './mettreÀJourFournisseur.command.js';
 
 export type MettreÀJourFournisseurUseCase = Message<
   'Lauréat.Fournisseur.UseCase.MettreÀJour',

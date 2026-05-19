@@ -1,16 +1,18 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-
-import { modifierNomProjetAction, ModifierNomProjetFormKeys } from './modifierNomProjet.action';
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
+import {
+  type ModifierNomProjetFormKeys,
+  modifierNomProjetAction,
+} from './modifierNomProjet.action';
 
 export type ModifierNomProjetFormProps = {
   nomProjet: string;

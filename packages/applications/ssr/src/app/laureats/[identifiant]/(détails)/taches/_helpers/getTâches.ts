@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { cache } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 export const getTâches = cache(
   async (identifiantProjet: IdentifiantProjet.RawType, email: string) => {

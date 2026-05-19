@@ -1,10 +1,9 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../potentiel.world.js';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given.js';
-import { Candidat } from '../fixtures/notifierPériode.fixture.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
-
+import type { PotentielWorld } from '../../potentiel.world.js';
+import type { Candidat } from '../fixtures/notifierPériode.fixture.js';
 import { notifierPériode } from './période.when.js';
 
 const candidats = [
@@ -152,13 +151,7 @@ EtantDonné(
 );
 
 async function importerCandidatsPériode(this: PotentielWorld, candidats: Candidat[]) {
-  for (const {
-    nomProjet,
-    statut: statut,
-    sociétéMère,
-    emailContact,
-    ...identifiantProjet
-  } of candidats) {
+  for (const { nomProjet, statut, sociétéMère, emailContact, ...identifiantProjet } of candidats) {
     await importerCandidature.call(this, {
       nomProjet,
       statut,

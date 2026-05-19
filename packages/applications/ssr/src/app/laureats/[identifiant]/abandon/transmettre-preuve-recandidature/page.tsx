@@ -4,8 +4,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { redirectAvecSearchParams, PageDeRedirectionProps } from '@/utils/redirectAvecSearchParams';
-
+import {
+  type PageDeRedirectionProps,
+  redirectAvecSearchParams,
+} from '@/utils/redirectAvecSearchParams';
 import { getAbandonInfos } from '../../_helpers/getLauréat';
 
 /**

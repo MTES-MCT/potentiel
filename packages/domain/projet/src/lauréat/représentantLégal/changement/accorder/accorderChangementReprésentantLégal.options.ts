@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeReprésentantLégal } from '../../index.js';
+import type { TypeReprésentantLégal } from '../../index.js';
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;

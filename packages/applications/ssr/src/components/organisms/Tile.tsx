@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import React, { FC } from 'react';
+import type React from 'react';
+import type { FC } from 'react';
 
 type TileProps = {
   className?: string;

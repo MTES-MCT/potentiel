@@ -1,12 +1,12 @@
-import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import type { LoadAggregate } from '@potentiel-domain/core';
+import type { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
-  ConsulterPériodeDependencies,
+  type ConsulterPériodeDependencies,
   registerConsulterPériodeQuery,
 } from './consulter/consulterPériode.query.js';
 import {
-  ListerPériodesDependencies,
+  type ListerPériodesDependencies,
   registerListerPériodesQuery,
 } from './lister/listerPériodes.query.js';
 import { registerNotifierPériodeCommand } from './notifier/notifierPériode.command.js';

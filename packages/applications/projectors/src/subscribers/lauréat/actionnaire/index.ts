@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { actionnaireImportéProjector } from './actionnaireImporté.projector.js';
 import { actionnaireModifiéProjector } from './actionnaireModifié.projector.js';
@@ -10,9 +10,9 @@ import { actionnaireRebuildTriggered } from './actionnaireRebuildTriggered.proje
 import { changementActionnaireAccordéProjector } from './changementActionnaireAccordé.projector.js';
 import { changementActionnaireAnnuléProjector } from './changementActionnaireAnnulé.projector.js';
 import { changementActionnaireDemandéProjector } from './changementActionnaireDemandé.projector.js';
+import { changementActionnaireEnregistréProjector } from './changementActionnaireEnregistré.projector.js';
 import { changementActionnaireRejetéProjector } from './changementActionnaireRejeté.projector.js';
 import { changementActionnaireSuppriméProjector } from './changementActionnaireSupprimé.projector.js';
-import { changementActionnaireEnregistréProjector } from './changementActionnaireEnregistré.projector.js';
 
 export type SubscriptionEvent = Lauréat.Actionnaire.ActionnaireEvent | RebuildTriggered;
 

@@ -1,18 +1,17 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type CorrigerRéférenceDossierFormKeys,
   corrigerRéférenceDossierAction,
-  CorrigerRéférenceDossierFormKeys,
 } from './corrigerRéférenceDossier.action';
 
 export type CorrigerRéférenceDossierFormProps = {
@@ -56,12 +55,20 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
         hintText={
           <>
             {Option.match(aideSaisieRéférenceDossierRaccordement.format)
-              .some((format) => <div className="m-0">Format attendu : {format}</div>)
+              .some((format) => (
+                <div key={format} className="m-0">
+                  Format attendu : {format}
+                </div>
+              ))
               .none(() => (
                 <></>
               ))}
             {Option.match(aideSaisieRéférenceDossierRaccordement.légende)
-              .some((légende) => <div className="m-0 italic">Exemple : {légende}</div>)
+              .some((légende) => (
+                <div key={légende} className="m-0 italic">
+                  Exemple : {légende}
+                </div>
+              ))
               .none(() => (
                 <></>
               ))}

@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { CandidatureEntity } from '../candidature.entity.js';
-import { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../index.js';
+import type { CandidatureEntity } from '../candidature.entity.js';
 import {
   DocumentCandidature,
   Dépôt,

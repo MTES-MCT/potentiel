@@ -1,9 +1,8 @@
 import { Routes } from '@potentiel-applications/routes';
-import { RôleUtilisateurModifiéEvent } from '@potentiel-domain/utilisateur';
+import type { RôleUtilisateurModifiéEvent } from '@potentiel-domain/utilisateur';
 
 import { buildUrl, listerDgecEtValidateursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
-
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
 
 export async function handleRôleUtilisateurModifié({

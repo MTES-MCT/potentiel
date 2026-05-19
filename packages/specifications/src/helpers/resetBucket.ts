@@ -1,8 +1,8 @@
 import {
-  ListObjectsV2Command,
-  DeleteObjectsCommand,
-  DeleteBucketCommand,
   CreateBucketCommand,
+  DeleteBucketCommand,
+  DeleteObjectsCommand,
+  ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
 
 import { getClient } from '@potentiel-libraries/file-storage';

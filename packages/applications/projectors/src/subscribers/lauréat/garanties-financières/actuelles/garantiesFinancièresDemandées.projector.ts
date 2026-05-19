@@ -1,9 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 export const garantiesFinancièresDemandéesProjector = async ({
   payload: { identifiantProjet, demandéLe, motif, dateLimiteSoumission },

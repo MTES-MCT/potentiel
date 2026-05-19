@@ -1,6 +1,6 @@
 'use client';
 
-import { SideMenu, SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
+import { SideMenu, type SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
 import { usePathname } from 'next/navigation';
 
 import { MenuToggle } from './MenuToggle';

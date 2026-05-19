@@ -1,33 +1,30 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading1, Heading2 } from '@/components/atoms/headings';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Timeline } from '@/components/organisms/timeline';
-import { ActionsList } from '@/components/templates/ActionsList.template';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-import { TimelineItemProps } from '@/components/organisms/timeline';
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
-
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading1, Heading2 } from '@/components/atoms/headings';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { StatutPreuveRecandidatureBadge } from '../transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
 import {
   TransmettrePreuveRecandidatureForm,
-  TransmettrePreuveRecandidatureFormProps,
+  type TransmettrePreuveRecandidatureFormProps,
 } from '../transmettre-preuve-recandidature/TransmettrePreuveRecandidature.form';
-import { StatutPreuveRecandidatureBadge } from '../transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
-
-import { DemanderConfirmationAbandonForm } from './demanderConfirmation/DemanderConfirmationAbandon.form';
 import { AccorderAbandonAvecRecandidatureForm } from './accorder/AccorderAbandonAvecRecandidature.form';
 import { AccorderAbandonSansRecandidatureForm } from './accorder/AccorderAbandonSansRecandidature.form';
 import { AnnulerAbandonForm } from './annuler/AnnulerAbandon.form';
-import { RejeterAbandonForm } from './rejeter/RejeterAbandon.form';
-import { PasserAbandonEnInstructionForm } from './passerEnInstruction/PasserAbandonEnInstruction.form';
-import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
 import { ConfirmerAbandonForm } from './confirmer/ConfirmerAbandon.form';
+import { DemanderConfirmationAbandonForm } from './demanderConfirmation/DemanderConfirmationAbandon.form';
+import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
+import { PasserAbandonEnInstructionForm } from './passerEnInstruction/PasserAbandonEnInstruction.form';
+import { RejeterAbandonForm } from './rejeter/RejeterAbandon.form';
 
 type AvailableActions = Array<
   | 'demander-confirmation'

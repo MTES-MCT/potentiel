@@ -1,4 +1,4 @@
-import { EmptyArrayCondition } from '../whereOptions.js';
+import type { EmptyArrayCondition } from '../whereOptions.js';
 
 export const isEmptyArray = (): EmptyArrayCondition => {
   return {

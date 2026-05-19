@@ -1,19 +1,19 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { abandonRebuildTriggered } from './abandonRebuildTriggered.projector.js';
-import { abandonDemandéProjector } from './abandonDemandé.projector.js';
 import { abandonAccordéProjector } from './abandonAccordé.projector.js';
-import { abandonRejetéProjector } from './abandonRejeté.projector.js';
 import { abandonAnnuléProjector } from './abandonAnnulé.projector.js';
 import { abandonConfirméProjector } from './abandonConfirmé.projector.js';
+import { abandonDemandéProjector } from './abandonDemandé.projector.js';
+import { abandonPasséEnInstructionProjector } from './abandonPasséEnInstruction.projector.js';
+import { abandonRebuildTriggered } from './abandonRebuildTriggered.projector.js';
+import { abandonRejetéProjector } from './abandonRejeté.projector.js';
 import { confirmationAbandonDemandéeProjector } from './confirmationAbandonDemandée.projector.js';
 import { preuveCandidatureDemandéeProjector } from './preuveCandidatureDemandée.projector.js';
 import { preuveCandidatureTransmiseProjector } from './preuveRecandidatureTransmise.projector.js';
-import { abandonPasséEnInstructionProjector } from './abandonPasséEnInstruction.projector.js';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent | RebuildTriggered;
 

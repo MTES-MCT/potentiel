@@ -1,6 +1,5 @@
-import { Fixture } from '../../fixture.js';
-
-import { Utilisateur, AbstractUtilisateur } from './utilisateur.js';
+import type { Fixture } from '../../fixture.js';
+import { AbstractUtilisateur, type Utilisateur } from './utilisateur.js';
 
 interface DREAL extends Utilisateur<'dreal'> {
   readonly région: string;

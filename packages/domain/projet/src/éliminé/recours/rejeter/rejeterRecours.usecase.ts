@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
+import type { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../index.js';
 import { DocumentRecours } from '../index.js';
-
-import { RejeterRecoursCommand } from './rejeterRecours.command.js';
+import type { RejeterRecoursCommand } from './rejeterRecours.command.js';
 
 export type RejeterRecoursUseCase = Message<
   'Éliminé.Recours.UseCase.RejeterRecours',

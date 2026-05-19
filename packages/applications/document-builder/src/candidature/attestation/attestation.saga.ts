@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature, type Document, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Option } from '@potentiel-libraries/monads';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature, Document, IdentifiantProjet } from '@potentiel-domain/projet';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { buildCertificate, BuildCertificateProps } from './buildCertificate.js';
+import { type BuildCertificateProps, buildCertificate } from './buildCertificate.js';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureNotifiéeEvent

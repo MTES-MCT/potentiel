@@ -1,17 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Where, List, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { type Joined, type List, Where } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import type { LauréatEntity } from '../../../index.js';
 import {
-  MainlevéeGarantiesFinancièresEntity,
+  DocumentMainlevée,
+  type MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
-  DocumentMainlevée,
 } from '../../index.js';
-import { LauréatEntity } from '../../../index.js';
 
 export type ConsulterMainlevéeEnCoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

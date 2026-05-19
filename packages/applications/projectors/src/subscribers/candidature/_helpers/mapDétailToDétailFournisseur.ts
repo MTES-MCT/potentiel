@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
 import { splitDétailsIntoTypeFieldIndex } from './mapDétailsToFournisseur.js';
 
@@ -61,7 +61,7 @@ export const mapDétailToDétailFournisseur = (
       const fournisseur = splitDétailsIntoTypeFieldIndex(key);
 
       if (!fournisseur.type) {
-        return;
+        return undefined;
       }
       const type = labelToTypeFournisseur[fournisseur.type.toLowerCase().trim()];
       const field = fournisseur.field.trim();
@@ -69,12 +69,13 @@ export const mapDétailToDétailFournisseur = (
       if (type && field) {
         return { type, field, index: fournisseur.index, valeur };
       }
+      return undefined;
     })
     .filter((item) => item !== undefined);
 
   // on construit l'objet complet en groupant par type et index
   // l'index n'est pas utilisé en tant que tel car des valeurs pourraient être omises
-  return Object.values(Object.groupBy(fieldsArray, (item) => item.type + '-' + item.index))
+  return Object.values(Object.groupBy(fieldsArray, (item) => `${item.type}-${item.index}`))
     .filter((champsParTypeEtIndex) => !!champsParTypeEtIndex)
     .map((champsParTypeEtIndex) =>
       champsParTypeEtIndex.reduce(

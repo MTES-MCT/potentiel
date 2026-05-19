@@ -1,15 +1,15 @@
-import z from 'zod';
 import { jwtVerify } from 'jose';
+import z from 'zod';
 
-import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { GetUtilisateur } from './getSessionUser';
+import type { GetUtilisateur } from './getSessionUser';
 import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
-import { getJWKS } from './providers/openid';
 import { getKeycloakConfiguration } from './providers/getProviderConfiguration';
+import { getJWKS } from './providers/openid';
 
 const jwtSchema = z.object({ email: z.string() });
 

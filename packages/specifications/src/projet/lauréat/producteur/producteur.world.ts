@@ -1,9 +1,7 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { mapToExemple } from '#helpers';
-
 import { EnregistrerChangementProducteurFixture } from './fixture/enregistrerChangementProducteur.fixture.js';
 import { ModifierProducteurFixture } from './fixture/modifierProducteur.fixture.js';
 

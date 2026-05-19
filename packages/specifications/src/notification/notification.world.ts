@@ -3,7 +3,7 @@ import { assert, expect } from 'chai';
 import { Email } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-type Email = {
+type EmailItem = {
   recipients: Array<{ email: string }>;
   subject: string;
   values: Record<string, string>;
@@ -17,7 +17,7 @@ export class NotificationWorld {
     checked?: true;
   }[] = [];
 
-  ajouterNotification(notif: Email) {
+  ajouterNotification(notif: EmailItem) {
     for (const recipient of notif.recipients) {
       this.#notifications.push({
         ...notif,

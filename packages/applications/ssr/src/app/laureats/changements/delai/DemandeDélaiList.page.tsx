@@ -1,11 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { Pagination } from '@/utils/pagination';
-
-import { DemandeDélaiListItem, DemandeDélaiListItemProps } from './DemandeDélaiListItem';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import type { Pagination } from '@/utils/pagination';
+import { DemandeDélaiListItem, type DemandeDélaiListItemProps } from './DemandeDélaiListItem';
 
 export type DemandeDélaiListPageProps = {
   list: {

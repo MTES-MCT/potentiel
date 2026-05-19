@@ -1,17 +1,17 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
+import * as zod from 'zod';
 
-import { DateTime } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
-import { Période } from '@potentiel-domain/periode';
 import { Routes } from '@potentiel-applications/routes';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { DateTime } from '@potentiel-domain/common';
+import type { Période } from '@potentiel-domain/periode';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({

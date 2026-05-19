@@ -1,8 +1,8 @@
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Option } from '@potentiel-libraries/monads';
 
 import { getAppelOffres } from './_helpers/getAppelOffres.js';
 

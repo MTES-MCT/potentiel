@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
 import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
 

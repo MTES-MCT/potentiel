@@ -1,15 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '../../atoms/form/document/DownloadDocument';
-import { FormattedDate } from '../../atoms/FormattedDate';
-import { Heading5 } from '../../atoms/headings';
 import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
-
-import { DétailsDemandeProps } from './DétailsDemande';
+import { FormattedDate } from '../../atoms/FormattedDate';
+import { DownloadDocument } from '../../atoms/form/document/DownloadDocument';
+import { Heading5 } from '../../atoms/headings';
+import type { DétailsDemandeProps } from './DétailsDemande';
 
 type DemandeAccordéeProps = NonNullable<DétailsDemandeProps['demande']['accord']>;
 

@@ -1,12 +1,12 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, type IdentifiantProjet } from '@potentiel-domain/projet';
+import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 import { ExportCSV } from '@potentiel-libraries/csv';
-import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 
+import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 
 type DétailFournisseurCSV = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -47,23 +47,21 @@ export const GET = async (request: Request) =>
           },
         });
 
-      const fournisseurs = fournisseursÀLaCandidature.items
-        .map((projet) =>
-          projet.fournisseurs.map((fournisseur) => ({
-            identifiantProjet: projet.identifiantProjet.formatter(),
-            appelOffre: projet.identifiantProjet.appelOffre,
-            periode: projet.identifiantProjet.période,
-            famille: projet.identifiantProjet.famille,
-            numéroCRE: projet.identifiantProjet.numéroCRE,
-            nomProjet: projet.nomProjet,
-            statutCandidature: projet.statutCandidature.formatter(),
-            region: projet.région,
-            societeMere: projet.sociétéMère,
-            typeActionnariat: projet.typeActionnariat?.formatter(),
-            ...fournisseur,
-          })),
-        )
-        .flat();
+      const fournisseurs = fournisseursÀLaCandidature.items.flatMap((projet) =>
+        projet.fournisseurs.map((fournisseur) => ({
+          identifiantProjet: projet.identifiantProjet.formatter(),
+          appelOffre: projet.identifiantProjet.appelOffre,
+          periode: projet.identifiantProjet.période,
+          famille: projet.identifiantProjet.famille,
+          numéroCRE: projet.identifiantProjet.numéroCRE,
+          nomProjet: projet.nomProjet,
+          statutCandidature: projet.statutCandidature.formatter(),
+          region: projet.région,
+          societeMere: projet.sociétéMère,
+          typeActionnariat: projet.typeActionnariat?.formatter(),
+          ...fournisseur,
+        })),
+      );
 
       const csv = await ExportCSV.toCSV<DétailFournisseurCSV>({
         fields: [

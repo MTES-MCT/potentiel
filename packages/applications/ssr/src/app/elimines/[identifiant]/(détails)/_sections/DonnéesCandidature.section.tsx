@@ -1,14 +1,12 @@
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getÉliminé } from '../../../../_helpers/getÉliminé';
-
 import { DonnéesCandidatureDétail } from './DonnéesCandidatureDétails';
 
 type DonnéesCandidatureSectionProps = {

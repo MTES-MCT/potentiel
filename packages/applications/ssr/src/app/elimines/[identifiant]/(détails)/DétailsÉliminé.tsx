@@ -1,12 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
-
-import { ÉtapesProjetSection } from './_sections/ÉtapesProjet.section';
 import { ChiffresClésSection } from './_sections/ChiffresClés.section';
 import { DonnéesCandidatureSection } from './_sections/DonnéesCandidature.section';
+import { ÉtapesProjetSection } from './_sections/ÉtapesProjet.section';
 
 export type DétailsÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;

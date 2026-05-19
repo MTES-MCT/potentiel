@@ -1,16 +1,14 @@
-import { FC, useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ValidationErrors } from '@/utils/formAction';
 import { PaysPicker } from '@/components/molecules/CountryPicker';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import { typeFournisseurLabel } from '../../typeFournisseurLabel';
-
-import { MettreÀJourFournisseurFormProps } from './MettreÀJourFournisseur.form';
+import type { MettreÀJourFournisseurFormProps } from './MettreÀJourFournisseur.form';
 
 type FournisseursFieldProps = Pick<
   MettreÀJourFournisseurFormProps,
@@ -41,7 +39,7 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
 
   return (
     <>
-      <label className="mb-1 fr-label">Fournisseurs</label>
+      <div className="mb-1 fr-label">Fournisseurs</div>
       <div className="flex flex-col gap-2 ">
         {fournisseurs.map(({ typeFournisseur, nomDuFabricant, lieuDeFabrication }, index) => {
           const typeFournisseurFieldKey = `fournisseurs.${index}.typeFournisseur`;

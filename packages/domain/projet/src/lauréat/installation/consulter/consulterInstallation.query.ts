@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
-import { Find } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../../../index.js';
 import { TypologieInstallation } from '../../../candidature/index.js';
-import { DispositifDeStockage, InstallationEntity } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { DispositifDeStockage, type InstallationEntity } from '../index.js';
 
 export type ConsulterInstallationReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -47,9 +47,9 @@ export const mapToReadModel = ({
 }: InstallationEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   installateur,
-  typologieInstallation:
-    typologieInstallation &&
-    typologieInstallation.map((typologie) => TypologieInstallation.convertirEnValueType(typologie)),
+  typologieInstallation: typologieInstallation?.map((typologie) =>
+    TypologieInstallation.convertirEnValueType(typologie),
+  ),
   dispositifDeStockage:
     dispositifDeStockage && DispositifDeStockage.convertirEnValueType(dispositifDeStockage),
 });

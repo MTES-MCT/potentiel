@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { MotifDemandeMainlevéeGarantiesFinancières } from '../../index.js';
+import type { MotifDemandeMainlevéeGarantiesFinancières } from '../../index.js';
 
 export type DemanderMainlevéeOptions = {
   motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;

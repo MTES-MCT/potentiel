@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
-  DeepUndefined,
+  type DeepUndefined,
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';

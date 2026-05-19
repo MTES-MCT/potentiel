@@ -1,12 +1,10 @@
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/timeline';
-
-import { mapToInstallateurModifiéTimelineItemsProps } from '../../../../(historique)/events/mapToInstallateurModifiéTimelineItemsProps';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToChangementInstallateurEnregistréTimelineItemsProps } from '../../../../(historique)/events/mapToChangementInstallateurEnregistréTimelineItemsProps';
-
+import { mapToInstallateurModifiéTimelineItemsProps } from '../../../../(historique)/events/mapToInstallateurModifiéTimelineItemsProps';
 import { mapToInstallateurImportéTimelineItemProps } from './events/mapToInstallateurImportéTimelineItemProps';
 
 type MapToInstallateurTimelineItemProps = (

@@ -1,11 +1,11 @@
-import assert from 'assert';
+import assert from 'node:assert';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const dateMiseEnServiceTransmiseV1Projector = async ({
   payload: { identifiantProjet, référenceDossierRaccordement, dateMiseEnService },

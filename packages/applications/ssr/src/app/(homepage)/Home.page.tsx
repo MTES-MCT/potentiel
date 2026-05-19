@@ -1,4 +1,4 @@
-import { PotentielUtilisateur } from '@potentiel-applications/request-context';
+import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 import { Benefices } from './Benefices';
 import { Bienvenue } from './Bienvenue';

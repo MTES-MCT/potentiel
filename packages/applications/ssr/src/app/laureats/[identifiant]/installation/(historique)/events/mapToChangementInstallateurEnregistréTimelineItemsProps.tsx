@@ -1,8 +1,8 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
+import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementInstallateurEnregistréTimelineItemsProps = (
   event: Lauréat.Installation.ChangementInstallateurEnregistréEvent,

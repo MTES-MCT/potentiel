@@ -1,12 +1,11 @@
-import { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
-import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
+import type { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+import type { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getSessionUser } from '@/auth/getSessionUser';
-
 import { NavLinks } from './NavLinks';
 
 export async function UserBasedRoleNavigation() {

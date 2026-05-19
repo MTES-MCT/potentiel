@@ -1,10 +1,10 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world.js';
-import { TypeTâchePlanifiée } from '../tâchePlanifiée.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
+import type { TypeTâchePlanifiée } from '../tâchePlanifiée.world.js';
 
 Quand(
   'on exécute les tâches planifiées à la date du {string}',

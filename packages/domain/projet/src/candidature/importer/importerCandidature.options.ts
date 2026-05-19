@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { Dépôt, DétailCandidature, Instruction } from '../index.js';
+import type { Dépôt, DétailCandidature, Instruction } from '../index.js';
 
 export type ImporterCandidatureOptions = {
   dépôt: Dépôt.ValueType;

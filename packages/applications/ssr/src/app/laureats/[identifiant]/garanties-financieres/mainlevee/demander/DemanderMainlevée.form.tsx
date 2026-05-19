@@ -1,7 +1,6 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-
 import { demanderMainlevéeAction } from './demanderMainlevée.action';
 
 export type DemanderMainlevéeFormProps = {

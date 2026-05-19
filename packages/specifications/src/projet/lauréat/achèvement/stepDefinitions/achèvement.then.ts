@@ -1,15 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { assert, expect } from 'chai';
+import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect, expectFileContent } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import { expectFileContent, waitForExpect } from '#helpers';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(`l'achèvement du projet devrait être consultable`, async function (this: PotentielWorld) {
   return waitForExpect(async () => {

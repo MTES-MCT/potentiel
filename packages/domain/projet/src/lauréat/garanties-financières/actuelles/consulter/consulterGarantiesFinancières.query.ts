@@ -1,17 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { GarantiesFinancièresEntity } from '../../garantiesFinancières.entity.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import type { GarantiesFinancièresEntity } from '../../garantiesFinancières.entity.js';
 import {
+  DocumentGarantiesFinancières,
   GarantiesFinancières,
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
-  DocumentGarantiesFinancières,
 } from '../../index.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

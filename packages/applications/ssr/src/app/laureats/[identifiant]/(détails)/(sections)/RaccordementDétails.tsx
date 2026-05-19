@@ -1,13 +1,12 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { ChampObligatoireAvecAction } from '../../_helpers';
+import type { ChampObligatoireAvecAction } from '../../_helpers';
 
 export type RaccordementDétailsProps = {
   raccordement: ChampObligatoireAvecAction<
@@ -48,7 +47,7 @@ export const RaccordementDétails = async ({
     <div>
       <span className="mb-0">Gestionnaire de réseau</span> :{' '}
       {Option.match(raccordement.gestionnaireRéseau)
-        .some(({ raisonSociale }) => <strong>{raisonSociale}</strong>)
+        .some(({ raisonSociale }) => <strong key={raisonSociale}>{raisonSociale}</strong>)
         .none(() => (
           <span>non renseigné</span>
         ))}
@@ -59,12 +58,12 @@ export const RaccordementDétails = async ({
       ))}
       {raccordement.dossiers.length === 0 && <span>Aucun dossier de raccordement renseigné</span>}
     </div>
-    {alertes.map(({ label }, index) => (
+    {alertes.map(({ label }) => (
       <Notice
         description={label}
         title="Données de raccordement à compléter"
         severity="info"
-        key={label + index}
+        key={label}
         className="print:hidden whitespace-pre-line"
       />
     ))}

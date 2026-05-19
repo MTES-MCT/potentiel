@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Éliminé } from '@potentiel-domain/projet';
+import type { Éliminé } from '@potentiel-domain/projet';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { éliminéRebuildTriggeredProjector } from './éliminéRebuildTriggered.projector.js';
-import { éliminéNotifiéProjector } from './éliminéNotifié.projector.js';
 import { éliminéArchivéProjector } from './éliminéArchivé.projector.js';
+import { éliminéNotifiéProjector } from './éliminéNotifié.projector.js';
+import { éliminéRebuildTriggeredProjector } from './éliminéRebuildTriggered.projector.js';
 
 export type SubscriptionEvent = Éliminé.ÉliminéEvent | RebuildTriggered;
 

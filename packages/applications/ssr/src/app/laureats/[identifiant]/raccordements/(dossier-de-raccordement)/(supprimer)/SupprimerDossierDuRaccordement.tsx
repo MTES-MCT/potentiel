@@ -1,8 +1,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
 import { supprimerDossierDuRaccordementAction } from './supprimerDossierDuRaccordement.action';
 
 export type SupprimerDossierDuRaccordementProps = {

@@ -1,9 +1,8 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients, listerDrealsRecipients, getLauréat, buildUrl } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
-
-import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications.js';
+import type { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications.js';
 
 type GarantiesFinancièresRappelÉchéanceNotificationProps =
   TâchePlanifiéeGarantiesFinancièresNotificationProps & {

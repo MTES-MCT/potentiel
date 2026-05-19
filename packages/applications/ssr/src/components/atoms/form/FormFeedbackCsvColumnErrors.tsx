@@ -1,9 +1,9 @@
-import { FC } from 'react';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import { fr } from '@codegouvfr/react-dsfr';
+import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
-import {
+import type {
   FormStateCsvDuplicateColumnError,
   FormStateCsvMissingColumnError,
 } from '@/utils/formAction';

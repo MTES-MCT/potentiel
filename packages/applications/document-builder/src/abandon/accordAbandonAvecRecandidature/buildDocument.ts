@@ -2,9 +2,8 @@ import path from 'node:path';
 
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
-import { mapToReadableStream } from '../../mapToReadableStream.js';
 import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
-
+import { mapToReadableStream } from '../../mapToReadableStream.js';
 import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature.js';
 
 Font.register({

@@ -1,9 +1,8 @@
 import clsx from 'clsx';
 
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { Heading1 } from '../atoms/headings';
-
 import { ActionsList } from './ActionsList.template';
 
 /** Utility type to define a set of actions, based on policies */

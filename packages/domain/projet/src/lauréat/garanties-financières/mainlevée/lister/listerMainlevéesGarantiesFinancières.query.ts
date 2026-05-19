@@ -1,17 +1,27 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Where, List, RangeOptions, Joined, LeftJoin } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
-
-import { DocumentProjet, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import {
-  MainlevéeGarantiesFinancièresEntity,
+  type Joined,
+  type LeftJoin,
+  type List,
+  type RangeOptions,
+  Where,
+} from '@potentiel-domain/entity';
+
+import {
+  type DocumentProjet,
+  type GetScopeProjetUtilisateur,
+  IdentifiantProjet,
+} from '../../../../index.js';
+import type { LauréatEntity } from '../../../index.js';
+import type { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import {
+  DocumentMainlevée,
+  type MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
-  DocumentMainlevée,
 } from '../../index.js';
-import { LauréatEntity } from '../../../index.js';
-import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

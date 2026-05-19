@@ -1,20 +1,19 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import type { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { LinkAction } from '@/components/molecules/LinkAction';
-
+import { type ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 import { GarantiesFinancières } from './components/GarantiesFinancières';
 import { StatutGarantiesFinancièresBadge } from './components/StatutGarantiesFinancièresBadge';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 const actionsGarantiesFinancières = [
   'garantiesFinancières.actuelles.enregistrer',
@@ -24,7 +23,6 @@ const actionsGarantiesFinancières = [
   'garantiesFinancières.dépôt.soumettre',
 ] satisfies Role.Policy[];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const alertesGarantiesFinancières = [
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.dépôt.consulter',
@@ -53,21 +51,27 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       <LinkAction
         label="Soumettre de nouvelles garanties financières"
         buttonProps={{ title: 'Soumettre un dépôt de garanties financières' }}
-        linkProps={{ href: Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet) }}
+        linkProps={{
+          href: Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet),
+        }}
       />
     ),
     'garantiesFinancières.actuelles.enregistrer': () => (
       <LinkAction
         label="Enregistrer"
         buttonProps={{ title: 'Enregistrer des garanties financières' }}
-        linkProps={{ href: Routes.GarantiesFinancières.actuelles.enregistrer(identifiantProjet) }}
+        linkProps={{
+          href: Routes.GarantiesFinancières.actuelles.enregistrer(identifiantProjet),
+        }}
       />
     ),
     ['garantiesFinancières.actuelles.modifier']: () => (
       <LinkAction
         label="Modifier"
         buttonProps={{ title: 'Modifier les garanties financières actuelles' }}
-        linkProps={{ href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet) }}
+        linkProps={{
+          href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
+        }}
       />
     ),
     ['garantiesFinancières.actuelles.enregistrerAttestation']: () => (
@@ -84,7 +88,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
     ['garantiesFinancières.mainlevée.demander']: () => (
       <LinkAction
         label="Demander la mainlevée"
-        buttonProps={{ title: 'Demander la mainlevée des garanties financières' }}
+        buttonProps={{
+          title: 'Demander la mainlevée des garanties financières',
+        }}
         linkProps={{
           href: Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet),
         }}
@@ -178,7 +184,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         )}
 
         <Button
-          linkProps={{ href: Routes.Lauréat.détails.tableauDeBord(identifiantProjet) }}
+          linkProps={{
+            href: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
+          }}
           priority="secondary"
           iconId="fr-icon-arrow-left-line"
         >

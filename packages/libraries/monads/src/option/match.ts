@@ -1,5 +1,5 @@
 import { none } from './none.js';
-import { Option } from './option.js';
+import type { Option } from './option.js';
 import { isSome } from './some.js';
 
 type OnNone<TReturn> = () => TReturn;

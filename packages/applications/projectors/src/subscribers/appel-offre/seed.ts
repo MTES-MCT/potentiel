@@ -1,10 +1,10 @@
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import {
-  removeProjectionByCategory,
   createProjection,
+  removeProjectionByCategory,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const seedAppelOffre = async () => {
   getLogger().info(`Starting to seed  Appel d'offre referential data...`);

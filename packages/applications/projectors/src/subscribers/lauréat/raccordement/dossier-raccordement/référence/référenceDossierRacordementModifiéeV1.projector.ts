@@ -1,14 +1,14 @@
-import assert from 'assert';
+import assert from 'node:assert';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   removeProjection,
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { DateTime } from '@potentiel-domain/common';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 
 export const référenceDossierRacordementModifiéeV1Projector = async ({

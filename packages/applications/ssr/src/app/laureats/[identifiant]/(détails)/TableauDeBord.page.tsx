@@ -1,14 +1,13 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
-
-import { CahierDesChargesSection } from './(sections)/CahierDesCharges.section';
-import { RaccordementSection } from './(sections)/Raccordement.section';
 import { AchèvementSection } from './(sections)/Achèvement.section';
-import { GarantiesFinancièresSection } from './(sections)/GarantiesFinancières.section';
-import { ÉtapesProjetSection } from './(sections)/ÉtapesProjet.section';
 import { AlertesTableauDeBordSection } from './(sections)/AlertesTableauDeBord.section';
+import { CahierDesChargesSection } from './(sections)/CahierDesCharges.section';
 import { ChiffresClésSection } from './(sections)/ChiffresClés.section';
+import { GarantiesFinancièresSection } from './(sections)/GarantiesFinancières.section';
+import { RaccordementSection } from './(sections)/Raccordement.section';
+import { ÉtapesProjetSection } from './(sections)/ÉtapesProjet.section';
 
 type TableauDeBordPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;

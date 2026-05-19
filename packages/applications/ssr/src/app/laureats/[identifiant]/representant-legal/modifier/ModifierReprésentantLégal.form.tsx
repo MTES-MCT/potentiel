@@ -1,23 +1,20 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
-import Stepper from '@codegouvfr/react-dsfr/Stepper';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Stepper from '@codegouvfr/react-dsfr/Stepper';
+import { type FC, useEffect, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-import { Step, Steps } from '@/components/molecules/step/Steps';
-
-import { SaisieNomStep, SaisieTypeStep, TypeSociété, ValidationStep } from '../_helpers/steps';
-
+import { type Step, Steps } from '@/components/molecules/step/Steps';
+import type { ValidationErrors } from '@/utils/formAction';
+import { SaisieNomStep, SaisieTypeStep, type TypeSociété, ValidationStep } from '../_helpers/steps';
+import type { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 import {
+  type ModifierReprésentantLégalFormKeys,
   modifierReprésentantLégalAction,
-  ModifierReprésentantLégalFormKeys,
 } from './modifierReprésentantLégal.action';
-import { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 
 export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPageProps;
 
@@ -78,7 +75,11 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
                 ...validationErrors,
                 typeRepresentantLegal: undefined,
               }));
-              setState((state) => ({ ...state, typeReprésentantLégal, typeSociété }));
+              setState((state) => ({
+                ...state,
+                typeReprésentantLégal,
+                typeSociété,
+              }));
             }}
             validationErrors={validationErrors}
           />
@@ -159,7 +160,6 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((state) => ({ ...state, step: 1 }));
     }
 

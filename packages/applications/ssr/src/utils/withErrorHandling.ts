@@ -1,9 +1,9 @@
 import { unstable_rethrow } from 'next/navigation';
 import z from 'zod';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { DomainError } from '@potentiel-domain/core';
 import { AuthenticationError } from '@potentiel-applications/bootstrap';
+import { DomainError } from '@potentiel-domain/core';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export async function withErrorHandling<TResult>(
   action: () => Promise<TResult>,
@@ -22,7 +22,7 @@ export async function withErrorHandling<TResult>(
     }
 
     if (e instanceof z.ZodError) {
-      getLogger().warn('Validation error: ' + e.message);
+      getLogger().warn(`Validation error: ${e.message}`);
       return onValidationError(e);
     }
 

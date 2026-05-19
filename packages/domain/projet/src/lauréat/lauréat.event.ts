@@ -1,13 +1,13 @@
-import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
-import { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
-import { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
-import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
-import {
+import type { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
+import type { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+import type { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
+import type {
   LauréatNotifiéEvent,
-  NomEtLocalitéLauréatImportésEvent,
   LauréatNotifiéV1Event,
+  NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event.js';
-import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
+import type { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
+import type { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
 
 export type LauréatEvent =
   | LauréatNotifiéEvent

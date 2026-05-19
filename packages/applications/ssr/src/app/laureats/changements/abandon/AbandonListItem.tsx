@@ -1,16 +1,14 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-
 import { StatutPreuveRecandidatureBadge } from '../../[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
 
 export type AbandonListItemProps = {
@@ -36,16 +34,12 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
 }) => (
   <ListItem
     miseÀJourLe={miseÀJourLe}
-    heading={
-      <>
-        <ProjectListItemHeading
-          nomProjet={nomProjet}
-          identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
-          prefix="Abandon du projet"
-          estPartiEnPPA={estPartiEnPPA === true ? true : undefined}
-        />
-      </>
-    }
+    heading=<ProjectListItemHeading
+      nomProjet={nomProjet}
+      identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+      prefix="Abandon du projet"
+      estPartiEnPPA={estPartiEnPPA === true ? true : undefined}
+    />
     actions={
       <Button
         linkProps={{

@@ -1,12 +1,13 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { fr } from '@codegouvfr/react-dsfr';
+import Alert from '@codegouvfr/react-dsfr/Alert';
+import ErrorPicto from '@codegouvfr/react-dsfr/picto/Error';
+import SuccessPicto from '@codegouvfr/react-dsfr/picto/Success';
 import clsx from 'clsx';
-import Success from '@codegouvfr/react-dsfr/picto/Success';
-import Error from '@codegouvfr/react-dsfr/picto/Error';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 const prérequisMainlevée = {
   garantiesFinancièresValidées: {
@@ -74,9 +75,9 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
               >
                 <span aria-hidden>
                   {complété ? (
-                    <Success fontSize="medium" color="green-emeraude" />
+                    <SuccessPicto fontSize="medium" color="green-emeraude" />
                   ) : (
-                    <Error fontSize="medium" color="blue-ecume" />
+                    <ErrorPicto fontSize="medium" color="blue-ecume" />
                   )}
                 </span>
                 <span className={clsx({ 'line-through': complété })}>{label}</span>

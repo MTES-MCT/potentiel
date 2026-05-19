@@ -1,5 +1,5 @@
 import { Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const getMainlevéeGf = async (identifiantProjet: IdentifiantProjet.RawType) => {

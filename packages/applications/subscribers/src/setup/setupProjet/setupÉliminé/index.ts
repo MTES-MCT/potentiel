@@ -1,8 +1,7 @@
-import { HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { ÉliminéNotification } from '@potentiel-applications/notifications';
+import { type HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
-
 import { setupRecours } from './setupRecours.js';
 
 export const setupÉliminé = async () => {

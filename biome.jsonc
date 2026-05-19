@@ -1,0 +1,91 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "**",
+      "!**/potentiel-keycloak",
+      "!packages/applications/notifications/src/templates/layouts/email.layout.html"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "patterns": [{ "group": "**/dist/**" }, { "group": "**/src/**" }]
+          }
+        },
+        "noNonNullAssertion": {
+          "level": "warn",
+          // à retirer (et passer en error?) une fois que les non-null assertions auront été supprimées
+          "fix": "none"
+        }
+      },
+      "correctness": {
+        "noUnusedImports": {
+          "fix": "safe",
+          "level": "error"
+        }
+      },
+      "complexity": {
+        "useLiteralKeys": "off"
+      },
+      "nursery": {
+        "noFloatingPromises": "error"
+      }
+    },
+    "domains": {
+      "next": "recommended",
+      "react": "recommended",
+      "project": "recommended"
+    }
+  },
+  "javascript": {
+    "formatter": { "quoteStyle": "single" }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+
+          "options": {
+            "groups": [
+              // Node standard packages
+              ":NODE:",
+              ":BLANK_LINE:",
+
+              // Packages, except Potentiel ones
+              [":PACKAGE:", "!@potentiel-*/**"],
+              ":BLANK_LINE:",
+
+              // Potentiel packages
+              "@potentiel-*/**",
+              ":BLANK_LINE:",
+
+              // Other imports, starting with @/ imports
+              ":ALIAS:",
+              "**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "css": {
+    "linter": {
+      "enabled": false
+    }
+  }
+}

@@ -1,20 +1,18 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
-import { DateTime, Email } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { ReadMore } from '@/components/atoms/ReadMore';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
-
-import { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
+import type { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;
 

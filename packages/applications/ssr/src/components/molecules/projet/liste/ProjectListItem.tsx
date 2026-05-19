@@ -1,16 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import { Candidature, type IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
-import { ListItem } from '@/components/molecules/ListItem';
-import { Icon } from '@/components/atoms/Icon';
 import { getActionnariatTypeLabel } from '@/app/_helpers';
-
+import { Icon } from '@/components/atoms/Icon';
+import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ChiffresClésProjet } from '../ChiffresClésProjet';
-
 import * as symbols from './ProjectListLegendAndSymbols';
 
 export type ProjectListItemProps = {

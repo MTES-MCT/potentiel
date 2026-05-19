@@ -1,6 +1,6 @@
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { DateParutionCahierDesChargesModifié } from './référenceCahierDesCharges.valueType.js';
+import type { DateParutionCahierDesChargesModifié } from './référenceCahierDesCharges.valueType.js';
 
 type AppelOffreTypes =
   | 'autoconso'
@@ -17,7 +17,6 @@ export type Ratios = {
   max: number;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emailsDGEC = [
   'aoeolien@developpement-durable.gouv.fr',
   'aopv.dgec@developpement-durable.gouv.fr',

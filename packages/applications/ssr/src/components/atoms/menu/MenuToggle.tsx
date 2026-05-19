@@ -2,7 +2,8 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 export const MenuToggle: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);

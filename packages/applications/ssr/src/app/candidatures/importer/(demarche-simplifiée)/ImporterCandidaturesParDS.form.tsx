@@ -1,18 +1,17 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Table from '@codegouvfr/react-dsfr/Table';
+import { type FC, useState } from 'react';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ImporterCandidaturesParDSFormKeys,
   importerCandidaturesParDSAction,
-  ImporterCandidaturesParDSFormKeys,
 } from './importerCandidaturesParDS.action';
 
 export type ImporterCandidaturesParDSFormProps = {

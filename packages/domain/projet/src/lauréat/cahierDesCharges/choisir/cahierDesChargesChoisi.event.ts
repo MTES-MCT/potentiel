@@ -1,8 +1,8 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../../index.js';
+import type { IdentifiantProjet } from '../../../index.js';
 
 export type CahierDesChargesChoisiEvent = DomainEvent<
   'CahierDesChargesChoisi-V1',

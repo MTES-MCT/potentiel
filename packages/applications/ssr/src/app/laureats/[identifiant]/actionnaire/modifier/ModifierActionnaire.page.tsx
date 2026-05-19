@@ -1,8 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
-import { ModifierActionnaireForm, ModifierActionnaireFormProps } from './ModifierActionnaire.form';
+import {
+  ModifierActionnaireForm,
+  type ModifierActionnaireFormProps,
+} from './ModifierActionnaire.form';
 
 export type ModifierActionnairePageProps = ModifierActionnaireFormProps;
 

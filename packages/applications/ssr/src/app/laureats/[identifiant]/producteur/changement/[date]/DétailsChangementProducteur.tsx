@@ -1,8 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
-
-import { DétailsProducteurPageProps } from './DétailsChangementProducteur.page';
+import type { DétailsProducteurPageProps } from './DétailsChangementProducteur.page';
 
 export type DétailsChangementProducteurProps = {
   changement: DétailsProducteurPageProps['changement'];

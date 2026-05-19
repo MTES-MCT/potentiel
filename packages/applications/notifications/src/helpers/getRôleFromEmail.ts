@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
+import type { TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 export class UtilisateurNonTrouvéError extends Error {
   constructor() {

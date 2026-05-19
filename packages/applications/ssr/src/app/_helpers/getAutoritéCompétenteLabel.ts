@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 export const getAutoritéCompétenteLabel = (
   autorité: Lauréat.Abandon.AutoritéCompétente.RawType | Lauréat.Délai.AutoritéCompétente.RawType,

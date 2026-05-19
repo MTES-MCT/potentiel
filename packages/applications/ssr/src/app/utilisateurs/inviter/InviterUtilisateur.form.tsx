@@ -1,18 +1,19 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { type FC, useState } from 'react';
 
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
+import type { ValidationErrors } from '@/utils/formAction';
 import { listeDesRolesSaufPorteur } from '@/utils/utilisateur/format-role';
-
 import { SpécificitésRoleInput } from '../_components/SpécifitéRoleInput';
-
-import { inviterUtilisateurAction, InviterUtilisateurFormKeys } from './inviterUtilisateur.action';
+import {
+  type InviterUtilisateurFormKeys,
+  inviterUtilisateurAction,
+} from './inviterUtilisateur.action';
 
 export type InviterUtilisateurFormProps = {
   rôle?: Role.RawType;

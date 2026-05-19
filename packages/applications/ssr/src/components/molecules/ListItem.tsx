@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '../atoms/FormattedDate';
 

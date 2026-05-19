@@ -1,21 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import { useState } from 'react';
 
-import { ValidationErrors } from '@/utils/formAction';
 import { Form } from '@/components/atoms/form/Form';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   AttestationConformitéFormInput,
   DateAchèvementForm,
-  DateAchèvementFormProps,
+  type DateAchèvementFormProps,
   PreuveTransmissionAuCocontractantFormInput,
 } from '../../AttestationConformité.inputs';
-
 import {
+  type TransmettreAttestationConformitéFormKeys,
   transmettreAttestationConformitéAction,
-  TransmettreAttestationConformitéFormKeys,
 } from './transmettreAttestationConformité.action';
 
 export type TransmettreAttestationConformitéFormProps = {

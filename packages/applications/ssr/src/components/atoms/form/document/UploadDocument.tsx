@@ -1,12 +1,11 @@
-import React, { FC, useState } from 'react';
-import { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
-import Button from '@codegouvfr/react-dsfr/Button';
-import clsx from 'clsx';
-import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { fr } from '@codegouvfr/react-dsfr';
+import Button from '@codegouvfr/react-dsfr/Button';
+import { createModal } from '@codegouvfr/react-dsfr/Modal';
+import type { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
+import clsx from 'clsx';
+import React, { type FC, useState } from 'react';
 
 import { fileSizeLimitInBytes, fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
-
 import { Icon } from '../../Icon';
 import { Link } from '../../LinkNoPrefetch';
 
@@ -82,7 +81,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   };
 
   const handleFileRemove = (index: number) => {
-    if (!hiddenFileInput.current || !hiddenFileInput.current.files) {
+    if (!hiddenFileInput.current?.files) {
       return;
     }
 
@@ -104,7 +103,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   };
 
   const handleRemoveAllFiles = () => {
-    if (!hiddenFileInput.current || !hiddenFileInput.current.files) {
+    if (!hiddenFileInput.current?.files) {
       return;
     }
 
@@ -128,7 +127,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   return (
     <div className={clsx('fr-input-group', className)}>
       {label && (
-        <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
+        <div className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</div>
       )}
       <div className="fr-hint-text">
         Taille maximale : <span className="font-semibold">{fileSizeLimitInMegaBytes} Mo</span>,
@@ -141,7 +140,6 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
         <input
           name={name}
           required={required}
-          aria-required={required}
           ref={hiddenFileInput}
           type="file"
           multiple={multiple}

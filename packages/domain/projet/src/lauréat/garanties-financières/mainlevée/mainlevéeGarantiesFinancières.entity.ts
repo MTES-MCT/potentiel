@@ -1,4 +1,4 @@
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 
 export type MainlevéeGarantiesFinancièresEntity = Entity<
   'mainlevee-garanties-financieres',

@@ -1,9 +1,9 @@
 import { Command } from '@oclif/core';
 
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DateTime, Email } from '@potentiel-domain/common';
+import { type DateTime, Email } from '@potentiel-domain/common';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
 

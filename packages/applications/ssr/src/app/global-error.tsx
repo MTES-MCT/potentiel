@@ -15,7 +15,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
   }, [error]);
 
   return (
-    <html>
+    <html lang="fr">
       <body>
         <Alert
           severity="warning"

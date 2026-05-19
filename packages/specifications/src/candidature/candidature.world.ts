@@ -1,11 +1,8 @@
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { mapToExemple } from '../helpers/mapToExemple.js';
-
-import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture.js';
-import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture.js';
 import {
   autorisationExempleMap,
   coordonnéesExempleMap,
@@ -18,6 +15,8 @@ import {
   natureDeLExploitationExempleMap,
   raccordementExempleMap,
 } from './candidature.exempleMap.js';
+import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture.js';
+import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture.js';
 
 export class CandidatureWorld {
   #importerCandidature: ImporterCandidatureFixture;

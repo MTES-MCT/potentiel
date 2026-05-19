@@ -1,13 +1,11 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { TitrePageRaccordement } from '../../../TitrePageRaccordement';
-
 import {
   ModifierGestionnaireRéseauRaccordementForm,
-  ModifierGestionnaireRéseauRaccordementFormProps,
+  type ModifierGestionnaireRéseauRaccordementFormProps,
 } from './ModifierGestionnaireRéseauRaccordement.form';
 
 export type ModifierGestionnaireRéseauRaccordementPageProps = {

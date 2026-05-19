@@ -1,18 +1,17 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 
-import { Form } from '@/components/atoms/form/Form';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
-import { demanderDélaiAction, DemanderDélaiFormKeys } from './DemanderDélai.action';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
+import { type DemanderDélaiFormKeys, demanderDélaiAction } from './DemanderDélai.action';
 
 export type DemanderDélaiFormProps = {
   identifiantProjet: string;

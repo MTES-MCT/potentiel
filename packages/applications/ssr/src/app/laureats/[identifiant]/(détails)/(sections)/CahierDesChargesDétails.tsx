@@ -1,11 +1,10 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { ChampAvecAction } from '../../_helpers';
+import type { ChampAvecAction } from '../../_helpers';
 
 export type CahierDesChargesDétailsProps = ChampAvecAction<
   PlainType<Lauréat.ConsulterCahierDesChargesReadModel> & {

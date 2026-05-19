@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 type GetFakeIdentifiantProjetProps = Partial<PlainType<IdentifiantProjet.ValueType>>;
 export const getFakeIdentifiantProjet = (props: GetFakeIdentifiantProjetProps = {}): string => {
@@ -16,7 +16,7 @@ export const getFakeIdentifiantProjet = (props: GetFakeIdentifiantProjetProps = 
       );
 
   if (!appelOffre) {
-    if (!!props.appelOffre && !!props.période) {
+    if (props.appelOffre && props.période) {
       return IdentifiantProjet.bind({
         appelOffre: props.appelOffre,
         période: props.période,
@@ -31,7 +31,7 @@ export const getFakeIdentifiantProjet = (props: GetFakeIdentifiantProjetProps = 
     ? appelOffre.periodes.find((p) => p.id === props.période)
     : faker.helpers.arrayElement(appelOffre.periodes);
   if (!période) {
-    if (!!props.appelOffre && !!props.période) {
+    if (props.appelOffre && props.période) {
       return IdentifiantProjet.bind({
         appelOffre: props.appelOffre,
         période: props.période,

@@ -1,6 +1,5 @@
 import { Tile } from '@/components/organisms/Tile';
-
-import { DocumentItem, DocumentListItem } from './DocumentListItem';
+import { type DocumentItem, DocumentListItem } from './DocumentListItem';
 
 export type DocumentListItemProps = { documents: Array<DocumentItem> };
 

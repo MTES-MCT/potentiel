@@ -1,7 +1,7 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { encodeParameter } from '../encodeParameter.js';
 import { withFilters } from '../_helpers/withFilters.js';
+import { encodeParameter } from '../encodeParameter.js';
 
 type ListerFilters = {
   statut?: Array<Lauréat.Puissance.StatutChangementPuissance.RawType>;

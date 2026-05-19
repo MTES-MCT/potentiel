@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Accès } from '@potentiel-domain/projet';
+import type { Accès } from '@potentiel-domain/projet';
 
 import {
-  handleAccèsProjetRetiré,
   handleAccèsProjetAutoriséSuiteÀRéclamation,
+  handleAccèsProjetRetiré,
 } from './handlers/index.js';
 
 export type SubscriptionEvent = Accès.AccèsEvent;

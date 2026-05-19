@@ -1,7 +1,7 @@
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 
+import { copyFile, fileExists, getBucketName, getClient } from '@potentiel-libraries/file-storage';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { fileExists, copyFile, getBucketName, getClient } from '@potentiel-libraries/file-storage';
 
 class DeleteFailedError extends Error {
   constructor() {

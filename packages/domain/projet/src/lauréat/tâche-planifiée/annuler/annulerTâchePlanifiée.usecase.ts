@@ -1,8 +1,7 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '../../../index.js';
-
-import { AnnulerTâchePlanifiéeCommand } from './annulerTâchePlanifiée.command.js';
+import type { AnnulerTâchePlanifiéeCommand } from './annulerTâchePlanifiée.command.js';
 
 export type AnnulerTâchePlanifiéeUseCase = Message<
   'System.TâchePlanifiée.UseCase.AnnulerTâchePlanifiée',

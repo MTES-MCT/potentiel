@@ -1,6 +1,6 @@
-import { Entity } from './entity.js';
-import { JoinOptionsParams } from './joinOptions.js';
-import { WhereOptions } from './whereOptions.js';
+import type { Entity } from './entity.js';
+import type { JoinOptionsParams } from './joinOptions.js';
+import type { WhereOptions } from './whereOptions.js';
 
 export type CountOption<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
   where?: WhereOptions<Omit<TEntity, 'type'>>;

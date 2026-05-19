@@ -1,10 +1,11 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 type Props = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;

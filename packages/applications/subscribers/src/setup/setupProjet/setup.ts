@@ -1,5 +1,5 @@
-import { Lauréat, RécupererGRDParVillePort } from '@potentiel-domain/projet';
-import { Unsubscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Lauréat, RécupererGRDParVillePort } from '@potentiel-domain/projet';
+import type { Unsubscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 
 export type SetupProjetDependencies = {
   récupérerGRDParVille: RécupererGRDParVillePort;

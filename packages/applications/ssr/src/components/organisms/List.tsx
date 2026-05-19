@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Tile } from './Tile';
 import { ListPagination } from './ListPagination';
+import { Tile } from './Tile';
 
 type ListProps<TItem> = {
   items: Array<TItem & { key: string }>;

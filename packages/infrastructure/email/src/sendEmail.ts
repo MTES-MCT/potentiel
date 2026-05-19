@@ -1,12 +1,12 @@
-import nodemailer from 'nodemailer';
 import {
-  circuitBreaker,
-  handleAll,
   ConsecutiveBreaker,
+  circuitBreaker,
   ExponentialBackoff,
+  handleAll,
   retry,
   wrap,
 } from 'cockatiel';
+import nodemailer from 'nodemailer';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 

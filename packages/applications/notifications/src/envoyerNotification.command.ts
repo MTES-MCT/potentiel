@@ -1,9 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { EmailPayload } from '#sendEmail';
-
+import type { EmailPayload } from '#sendEmail';
 import { render } from './templates/render.js';
 
 export type EnvoyerNotificationCommand = Message<'System.Notification.Envoyer', EmailPayload>;

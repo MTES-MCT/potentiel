@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import {
   CorrigerChangementReprésentantLégalForm,
-  CorrigerChangementReprésentantLégalFormProps,
+  type CorrigerChangementReprésentantLégalFormProps,
 } from './CorrigerChangementReprésentantLégal.form';
 
 export type CorrigerChangementReprésentantLégalPageProps =

@@ -1,23 +1,21 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 
-import { Form } from '@/components/atoms/form/Form';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
-  GestionnaireRéseauSelectProps,
+  type GestionnaireRéseauSelectProps,
 } from '../../../laureats/[identifiant]/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
-
 import {
+  type ImporterDatesMiseEnServiceFormKeys,
   importerDatesMiseEnServiceAction,
-  ImporterDatesMiseEnServiceFormKeys,
 } from './importDatesMiseEnService.action';
 
 export type ModifierGestionnaireRéseauRaccordementFormProps = {

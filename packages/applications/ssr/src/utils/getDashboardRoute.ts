@@ -1,5 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const getDashboardRoute = (rôle: Role.ValueType) => {

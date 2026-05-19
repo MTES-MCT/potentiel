@@ -1,10 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
-
 import { DétailsDispositifDeStockage } from '../../DétailsDispositifDeStockage';
-
-import { DétailsChangementDispositifDeStockagePageProps } from './DétailsChangementDispositifDeStockage.page';
+import type { DétailsChangementDispositifDeStockagePageProps } from './DétailsChangementDispositifDeStockage.page';
 
 export type DétailsChangementDispositifDeStockageProps = {
   changement: DétailsChangementDispositifDeStockagePageProps['changement'];

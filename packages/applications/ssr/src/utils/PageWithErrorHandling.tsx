@@ -1,19 +1,18 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import z from 'zod';
-import { JSX } from 'react';
+import type { JSX } from 'react';
+import type z from 'zod';
 
+import { Routes } from '@potentiel-applications/routes';
 import {
   AggregateNotFoundError,
-  DomainError,
+  type DomainError,
   InvalidOperationError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
-import { Routes } from '@potentiel-applications/routes';
 
 import { CustomErrorPage } from '@/app/error/CustomError.page';
-
 import { withErrorHandling } from './withErrorHandling';
 import './zod/setupLocale';
 

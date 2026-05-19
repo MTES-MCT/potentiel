@@ -1,9 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
-
-import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
+import type { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 
 export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePageProps, 'demande'>;
 

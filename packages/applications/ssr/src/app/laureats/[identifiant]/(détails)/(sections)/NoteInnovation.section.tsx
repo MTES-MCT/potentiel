@@ -1,15 +1,13 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '../../../../_helpers';
-
 import { NoteInnovationDétails } from './NoteInnovationDétails';
 
 type NoteInnovationSectionProps = {
@@ -104,7 +102,7 @@ const formatterNote = (note?: string) => {
   if (note) {
     const noteParsée = parseFloat(note.replace(',', '.'));
 
-    return isNaN(noteParsée) ? 'N/A' : (Math.round(noteParsée * 100) / 100).toString();
+    return Number.isNaN(noteParsée) ? 'N/A' : (Math.round(noteParsée * 100) / 100).toString();
   }
   return 'N/A';
 };

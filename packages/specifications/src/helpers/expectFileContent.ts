@@ -1,11 +1,11 @@
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { DocumentProjet, Document } from '@potentiel-domain/projet';
+import type { Document, DocumentProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString } from './convertReadableToString.js';
-import { PièceJustificative } from './PièceJustificative.js';
+import type { PièceJustificative } from './PièceJustificative.js';
 
 export const expectFileContent = async (
   actual: Option.Type<DocumentProjet.ValueType>,

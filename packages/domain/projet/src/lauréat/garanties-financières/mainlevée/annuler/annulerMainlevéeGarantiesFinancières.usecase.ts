@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
-
-import { AnnulerMainlevéeGarantiesFinancièresCommand } from './annulerDemandeMainlevéeGarantiesFinancières.command.js';
+import type { AnnulerMainlevéeGarantiesFinancièresCommand } from './annulerDemandeMainlevéeGarantiesFinancières.command.js';
 
 export type AnnulerMainlevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',

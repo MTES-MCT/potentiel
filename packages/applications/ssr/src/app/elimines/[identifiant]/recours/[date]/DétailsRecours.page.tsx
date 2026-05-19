@@ -1,21 +1,20 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Éliminé } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Éliminé } from '@potentiel-domain/projet';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading1, Heading2 } from '@/components/atoms/headings';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { ActionsList } from '@/components/templates/ActionsList.template';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
-
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading1, Heading2 } from '@/components/atoms/headings';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
-import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
 import { PasserRecoursEnInstruction } from './passerEnInstruction/PasserRecoursEnInstruction.form';
+import { RejeterRecours } from './rejeter/RejeterRecours.form';
 
 export type AvailableRecoursAction =
   | 'accorder'

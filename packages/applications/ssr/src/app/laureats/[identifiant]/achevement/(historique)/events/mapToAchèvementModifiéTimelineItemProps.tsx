@@ -1,8 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemFile, TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemFile, type TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAchèvementModifiéTimelineItemProps = (
   event: Lauréat.Achèvement.AchèvementModifiéEvent,

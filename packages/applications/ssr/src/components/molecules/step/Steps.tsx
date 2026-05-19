@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { StepNavigation } from './StepNavigation';
 
@@ -20,10 +20,10 @@ export type StepsProps = {
 export const Steps: FC<StepsProps> = ({ onStepSelected, steps, currentStep }) => {
   return (
     <ul className="flex flex-col">
-      {steps.map((step, index) => (
+      {steps.map((step) => (
         <li
           className={currentStep !== step.index ? 'hidden' : 'flex flex-col gap-5'}
-          key={`step-${index}`}
+          key={step.index}
         >
           <div>{step.children}</div>
           <StepNavigation

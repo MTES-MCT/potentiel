@@ -1,8 +1,8 @@
-import { FC } from 'react';
 import MuiTimeline from '@mui/lab/Timeline';
 import { timelineOppositeContentClasses } from '@mui/lab/TimelineOppositeContent';
+import type { FC } from 'react';
 
-import { TimelineItem, TimelineItemProps } from './';
+import { TimelineItem, type TimelineItemProps } from './';
 
 export type TimelineProps = {
   items: Array<TimelineItemProps>;

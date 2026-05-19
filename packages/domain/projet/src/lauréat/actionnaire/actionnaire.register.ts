@@ -1,7 +1,7 @@
-import { GetProjetAggregateRoot } from '../../index.js';
-
+import type { GetProjetAggregateRoot } from '../../index.js';
 import { registerAccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase.js';
 import { registerAccorderChangementActionnaireCommand } from './changement/accorder/accorderChangementActionnairet.command.js';
+import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command.js';
 import { registerAnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase.js';
 import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query.js';
 import { registerDemanderChangementActionnaireCommand } from './changement/demander/demanderChangementActionnaire.command.js';
@@ -9,23 +9,22 @@ import { registerDemanderChangementActionnaireUseCase } from './changement/deman
 import { registerEnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command.js';
 import { registerEnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
 import {
-  ListerChangementActionnaireDependencies,
+  type ListerChangementActionnaireDependencies,
   registerListerChangementActionnaireQuery,
 } from './changement/lister/listerChangementActionnaire.query.js';
 import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command.js';
 import { registerRejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase.js';
 import { registerSupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command.js';
 import {
-  ConsulterActionnaireDependencies,
+  type ConsulterActionnaireDependencies,
   registerConsulterActionnaireQuery,
 } from './consulter/consulterActionnaire.query.js';
 import {
-  ListerHistoriqueActionnaireProjetDependencies,
+  type ListerHistoriqueActionnaireProjetDependencies,
   registerListerHistoriqueActionnaireProjetQuery,
 } from './listerHistorique/listerHistoriqueActionnaireProjet.query.js';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command.js';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase.js';
-import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command.js';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
   ListerChangementActionnaireDependencies &

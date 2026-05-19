@@ -65,8 +65,9 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
           </option>
         </select>
       ) : (
-        <div
-          className="fr-select cursor-pointer"
+        <button
+          type="button"
+          className="fr-select cursor-pointer text-left"
           onClick={() => setOpen((o) => !o)}
           aria-haspopup="listbox"
           aria-expanded={open}
@@ -76,7 +77,7 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
               ? `${selected.length} option sélectionnée`
               : `${selected.length} options sélectionnées`
             : 'Sélectionner une option'}
-        </div>
+        </button>
       )}
       {open && (
         <MultipleSelectPopover

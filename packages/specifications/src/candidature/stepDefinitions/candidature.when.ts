@@ -1,13 +1,12 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { type Candidature, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world.js';
+import type { PotentielWorld } from '../../potentiel.world.js';
 import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given.js';
 import { notifierÉliminé } from '../../projet/éliminé/stepDefinitions/éliminé.given.js';
-
 import { importerCandidature } from './candidature.given.js';
 
 Quand(
@@ -153,7 +152,7 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
             : undefined,
         coordonnées:
           changedValues.dépôt.coordonnées?.latitude !== undefined &&
-          changedValues.dépôt.coordonnées?.longitude != undefined
+          changedValues.dépôt.coordonnées?.longitude !== undefined
             ? {
                 latitude: changedValues.dépôt.coordonnées.latitude,
                 longitude: changedValues.dépôt.coordonnées.longitude,

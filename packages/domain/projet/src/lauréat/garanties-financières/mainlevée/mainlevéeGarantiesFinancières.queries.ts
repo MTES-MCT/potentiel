@@ -1,18 +1,18 @@
-import {
+import type {
   ConsulterMainlevéeEnCoursQuery,
   ConsulterMainlevéeEnCoursReadModel,
 } from './consulter/consulterMainlevéeEnCours.query.js';
-import {
+import type {
+  ListerMainlevéeItemReadModel,
   ListerMainlevéesQuery,
   ListerMainlevéesReadModel,
-  ListerMainlevéeItemReadModel,
 } from './lister/listerMainlevéesGarantiesFinancières.query.js';
 
 export type MainlevéeGarantiesFinancièresQuery =
   | ListerMainlevéesQuery
   | ConsulterMainlevéeEnCoursQuery;
 
-export type { ListerMainlevéesQuery, ConsulterMainlevéeEnCoursQuery };
+export type { ConsulterMainlevéeEnCoursQuery, ListerMainlevéesQuery };
 
 export type MainlevéeGarantiesFinancièresReadModel =
   | ListerMainlevéesReadModel
@@ -20,7 +20,7 @@ export type MainlevéeGarantiesFinancièresReadModel =
   | ConsulterMainlevéeEnCoursReadModel;
 
 export type {
-  ListerMainlevéesReadModel,
-  ListerMainlevéeItemReadModel,
   ConsulterMainlevéeEnCoursReadModel,
+  ListerMainlevéeItemReadModel,
+  ListerMainlevéesReadModel,
 };

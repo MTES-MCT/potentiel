@@ -1,7 +1,7 @@
 'use client';
-import SelectNext, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
+import SelectNext, { type SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 import Tag from '@codegouvfr/react-dsfr/Tag';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 type FilterProps = {
   label: string;

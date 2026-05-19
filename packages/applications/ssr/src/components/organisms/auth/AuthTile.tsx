@@ -1,8 +1,8 @@
 'use client';
 
-import Tile, { TileProps } from '@codegouvfr/react-dsfr/Tile';
-import { ReactNode } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import Tile, { type TileProps } from '@codegouvfr/react-dsfr/Tile';
+import type { ReactNode } from 'react';
 
 import { ProfilesBadge } from './ProfilesBadge';
 

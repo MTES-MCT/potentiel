@@ -1,9 +1,8 @@
-import React from 'react';
 import { match } from 'ts-pattern';
 
+import { LogoGouvernement } from './Gouvernement.js';
 import { LogoMCE } from './MCE.js';
 import { LogoMEFSIN } from './MEFSIN.js';
-import { LogoGouvernement } from './Gouvernement.js';
 
 export const Logo = ({
   imagesRootPath,

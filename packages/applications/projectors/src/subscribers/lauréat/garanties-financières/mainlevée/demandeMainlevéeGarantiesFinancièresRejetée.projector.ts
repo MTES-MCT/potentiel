@@ -1,6 +1,6 @@
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
-import { Where } from '@potentiel-domain/entity';
 
 export const demandeMainlevéeGarantiesFinancièresRejetéeProjector = async ({
   payload: { identifiantProjet, rejetéLe, rejetéPar, réponseSignée },

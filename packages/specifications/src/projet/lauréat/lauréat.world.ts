@@ -1,35 +1,34 @@
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import {
   CahierDesCharges,
   Candidature,
+  DocumentProjet,
   IdentifiantProjet,
   Lauréat,
 } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/projet';
-import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { PotentielWorld } from '../../potentiel.world.js';
-
+import type { PotentielWorld } from '../../potentiel.world.js';
 import { AbandonWord } from './abandon/abandon.world.js';
-import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world.js';
-import { ActionnaireWorld } from './actionnaire/actionnaire.world.js';
 import { AchèvementWorld } from './achèvement/achèvement.world.js';
-import { EnregistrerChangementNomProjetFixture } from './nom-projet/fixture/enregistrerChangementNomProjet.fixture.js';
-import {
-  NotifierLauréat,
-  NotifierLauréatFixture,
-  NotifierLauréatProps,
-} from './fixtures/notifierLauréat.fixture.js';
-import { PuissanceWorld } from './puissance/puissance.world.js';
-import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture.js';
-import { ProducteurWorld } from './producteur/producteur.world.js';
-import { FournisseurWorld } from './fournisseur/fournisseur.world.js';
+import { ActionnaireWorld } from './actionnaire/actionnaire.world.js';
 import { DélaiWorld } from './délai/délai.world.js';
+import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture.js';
+import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture.js';
+import {
+  type NotifierLauréat,
+  NotifierLauréatFixture,
+  type NotifierLauréatProps,
+} from './fixtures/notifierLauréat.fixture.js';
+import { FournisseurWorld } from './fournisseur/fournisseur.world.js';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world.js';
 import { InstallationWorld } from './installation/installation.world.js';
 import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world.js';
-import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture.js';
+import { EnregistrerChangementNomProjetFixture } from './nom-projet/fixture/enregistrerChangementNomProjet.fixture.js';
 import { ModifierNomProjetFixture } from './nom-projet/fixture/modifierNomProjet.fixture.js';
+import { ProducteurWorld } from './producteur/producteur.world.js';
+import { PuissanceWorld } from './puissance/puissance.world.js';
+import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world.js';
 
 export class LauréatWorld {
   #lauréatFixtures: Map<string, IdentifiantProjet.ValueType> = new Map();

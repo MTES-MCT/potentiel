@@ -1,17 +1,16 @@
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
 
-import { GetProjetAggregateRoot } from '../../../index.js';
-
+import type { GetProjetAggregateRoot } from '../../../index.js';
+import { registerListerArchivesGarantiesFinancièresQuery } from './archives/lister/listerArchivesGarantiesFinancières.query.js';
+import { registerConsulterGarantiesFinancièresQuery } from './consulter/consulterGarantiesFinancières.query.js';
 import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command.js';
 import { registerEnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase.js';
 import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command.js';
 import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase.js';
+import { registerImporterGarantiesFinancièresCommand } from './importer/importerGarantiesFinancières.command.js';
 import { registerModifierGarantiesFinancièresCommand } from './modifier/modifierGarantiesFinancières.command.js';
 import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase.js';
 import { registerÉchoirGarantiesFinancièresCommand } from './échoir/échoirGarantiesFinancières.command.js';
-import { registerConsulterGarantiesFinancièresQuery } from './consulter/consulterGarantiesFinancières.query.js';
-import { registerListerArchivesGarantiesFinancièresQuery } from './archives/lister/listerArchivesGarantiesFinancières.query.js';
-import { registerImporterGarantiesFinancièresCommand } from './importer/importerGarantiesFinancières.command.js';
 
 export type GarantiesFinancièresActuellesQueryDependencies = {
   find: Find;

@@ -1,16 +1,16 @@
 import { match, P } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
-import {
-  GetScopeProjetUtilisateur,
-  ProjetUtilisateurScope,
-  Accès,
-  IdentifiantProjet,
-  Lauréat,
-} from '@potentiel-domain/projet';
-import { Région, UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Where } from '@potentiel-domain/entity';
+import {
+  type Accès,
+  type GetScopeProjetUtilisateur,
+  IdentifiantProjet,
+  type Lauréat,
+  type ProjetUtilisateurScope,
+} from '@potentiel-domain/projet';
+import { Région, type UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Option } from '@potentiel-libraries/monads';
 
 export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async (
   email,

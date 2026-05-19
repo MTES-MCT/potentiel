@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
-import { TemplateDefinitions } from './templates/emails/index.js';
-import { EnvoyerNotificationCommand } from './envoyerNotification.command.js';
+import type { EnvoyerNotificationCommand } from './envoyerNotification.command.js';
+import type { TemplateDefinitions } from './templates/emails/index.js';
 
 export type Recipient = string;
 

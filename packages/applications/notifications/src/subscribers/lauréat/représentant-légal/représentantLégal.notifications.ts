@@ -1,16 +1,16 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import {
   handleChangementReprésentantLégalAccordé,
-  handleChangementReprésentantLégalDemandé,
   handleChangementReprésentantLégalAnnulé,
+  handleChangementReprésentantLégalCorrigé,
+  handleChangementReprésentantLégalDemandé,
   handleChangementReprésentantLégalEnregistré,
   handleChangementReprésentantLégalRejeté,
   handleReprésentantLégalModifié,
-  handleChangementReprésentantLégalCorrigé,
 } from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent;

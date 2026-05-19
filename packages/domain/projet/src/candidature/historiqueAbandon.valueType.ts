@@ -1,4 +1,8 @@
-import { PlainType, InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 export const types = [
   'première-candidature',

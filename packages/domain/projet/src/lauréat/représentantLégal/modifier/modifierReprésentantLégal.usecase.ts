@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeReprésentantLégal } from '../index.js';
 import { IdentifiantProjet } from '../../../index.js';
-
-import { ModifierReprésentantLégalCommand } from './modifierReprésentantLégal.command.js';
+import { TypeReprésentantLégal } from '../index.js';
+import type { ModifierReprésentantLégalCommand } from './modifierReprésentantLégal.command.js';
 
 export type ModifierReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',

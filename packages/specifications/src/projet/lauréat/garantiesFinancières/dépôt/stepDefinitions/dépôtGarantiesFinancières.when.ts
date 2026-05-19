@@ -1,12 +1,12 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../.././../potentiel.world.js';
-import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/validerDépôt.fixture.js';
 import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
-import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettreDépôt.fixture.js';
+import type { PotentielWorld } from '../../../.././../potentiel.world.js';
+import type { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettreDépôt.fixture.js';
+import type { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/validerDépôt.fixture.js';
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet lauréat',

@@ -1,14 +1,16 @@
-import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
-
+import type { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
 import { registerAutoriserAccèsProjetCommand } from './autoriser/autoriserAccèsProjet.command.js';
 import { registerAutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase.js';
 import {
-  ConsulterAccèsDependencies,
+  type ConsulterAccèsDependencies,
   registerConsulterAccèsQuery,
 } from './consulter/consulterAccès.query.js';
-import { ListerAccèsDependencies, registerListerAccèsQuery } from './lister/listerAccès.query.js';
 import {
-  ListerProjetsÀRéclamerDependencies,
+  type ListerAccèsDependencies,
+  registerListerAccèsQuery,
+} from './lister/listerAccès.query.js';
+import {
+  type ListerProjetsÀRéclamerDependencies,
   registerListerProjetsÀRéclamerQuery,
 } from './lister/listerProjetsÀRéclamer.query.js';
 import { registerRemplacerAccèsProjetCommand } from './remplacer/remplacerAccèsProjet.command.js';
@@ -19,7 +21,7 @@ import { registerRéclamerAccèsProjetCommand } from './réclamer/réclamerAccè
 import { registerRéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase.js';
 import {
   registerVérifierAccèsProjetQuery,
-  VérifierAccèsProjetDependencies,
+  type VérifierAccèsProjetDependencies,
 } from './vérifier/vérifierAccèsProjet.query.js';
 
 export type AccèsCommandDependencies = {

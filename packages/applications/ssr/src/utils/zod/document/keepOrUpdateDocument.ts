@@ -1,12 +1,11 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Document } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import type { Document } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { FileTypes } from '../blob';
-
+import type { FileTypes } from '../blob';
 import { manyDocuments } from './manyDocuments';
 import { singleDocument } from './singleDocument';
 

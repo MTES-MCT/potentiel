@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
-import { LauréatEntity, Raccordement } from '../../index.js';
-import { CandidatureEntity, Localité } from '../../../candidature/index.js';
-import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement/index.js';
-import { PuissanceEntity } from '../../puissance/index.js';
+import { type CandidatureEntity, Localité } from '../../../candidature/index.js';
+import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
+import { type LauréatEntity, Raccordement } from '../../index.js';
+import type { PuissanceEntity } from '../../puissance/index.js';
+import type { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement/index.js';
 
 type ProjetAvecAchevementATransmettre = {
   identifiantProjet: IdentifiantProjet.ValueType;

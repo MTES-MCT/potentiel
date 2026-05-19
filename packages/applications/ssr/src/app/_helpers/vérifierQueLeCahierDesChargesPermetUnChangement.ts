@@ -1,5 +1,5 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getCahierDesCharges } from './getCahierDesCharges';
 

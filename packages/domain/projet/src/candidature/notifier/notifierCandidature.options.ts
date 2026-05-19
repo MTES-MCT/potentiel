@@ -1,5 +1,5 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
 export type NotifierOptions = {
   notifiéeLe: DateTime.ValueType;

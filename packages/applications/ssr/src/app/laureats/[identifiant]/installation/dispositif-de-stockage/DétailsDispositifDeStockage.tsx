@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 type DétailsDispositifDeStockageProps = {
   dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType;

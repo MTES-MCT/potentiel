@@ -2,17 +2,15 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Éliminé } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Éliminé } from '@potentiel-domain/projet';
 
-import { transformToOptionalEnumArray } from '@/app/_helpers';
+import { optionalStringArray, transformToOptionalEnumArray } from '@/app/_helpers';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { optionalStringArray } from '@/app/_helpers';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { RecoursListPage } from './RecoursList.page';
 
 type PageProps = {

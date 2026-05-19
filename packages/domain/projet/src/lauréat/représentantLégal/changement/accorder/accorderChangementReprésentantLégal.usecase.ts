@@ -1,13 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeReprésentantLégal } from '../../index.js';
-import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
 import { IdentifiantProjet } from '../../../../index.js';
-
-import { AccorderChangementReprésentantLégalCommand } from './accorderChangementReprésentantLégal.command.js';
+import { TypeReprésentantLégal } from '../../index.js';
+import type { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
+import type { AccorderChangementReprésentantLégalCommand } from './accorderChangementReprésentantLégal.command.js';
 
 export type AccorderChangementReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',

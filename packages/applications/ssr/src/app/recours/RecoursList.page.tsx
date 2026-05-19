@@ -1,12 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { Éliminé } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 
 import { RecoursListItem } from '@/app/recours/RecoursListItem';
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { Pagination } from '@/utils/pagination';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import type { Pagination } from '@/utils/pagination';
 
 export type RecoursListPageProps = {
   items: PlainType<Éliminé.Recours.ListerDemandeRecoursReadModel['items']>;

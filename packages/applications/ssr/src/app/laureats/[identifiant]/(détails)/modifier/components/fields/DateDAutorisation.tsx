@@ -3,7 +3,7 @@
 import Input from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
+import type { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
 
 export type DateDAutorisationFieldProps = {

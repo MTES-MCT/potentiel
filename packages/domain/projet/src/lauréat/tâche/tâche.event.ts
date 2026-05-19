@@ -1,5 +1,5 @@
-import { TâcheAchevéeEvent } from './achever/acheverTâche.event.js';
-import {
+import type { TâcheAchevéeEvent } from './achever/acheverTâche.event.js';
+import type {
   TâcheAjoutéeEvent,
   TâcheRelancéeEvent,
   TâcheRenouvelléeEvent,

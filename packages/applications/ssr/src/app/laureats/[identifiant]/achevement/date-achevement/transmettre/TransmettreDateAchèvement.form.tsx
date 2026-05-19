@@ -1,16 +1,15 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type TransmettreDateAchèvementFormKeys,
   transmettreDateAchèvementAction,
-  TransmettreDateAchèvementFormKeys,
 } from './transmettreDateAchèvement.action';
 
 export type TransmettreDateAchèvementFormProps = {

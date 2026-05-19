@@ -1,15 +1,14 @@
 import dotenv from 'dotenv';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 import {
   executeSubscribersRetry,
   listDanglingSubscribers,
 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { killPool } from '@potentiel-libraries/pg-helpers';
-import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 
 import { startSubscribers } from './index.js';
-
 import { setupLogger } from './setupLogger.js';
 
 const main = async () => {

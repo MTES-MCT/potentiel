@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../../../index.js';
-
-import { PasserAbandonEnInstructionCommand } from './passerAbandonEnInstruction.command.js';
+import type { PasserAbandonEnInstructionCommand } from './passerAbandonEnInstruction.command.js';
 
 export type PasserEnInstructionAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',

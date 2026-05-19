@@ -1,6 +1,6 @@
 import { match, P } from 'ts-pattern';
 
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
 import { régionsZNIHorsMayotte } from './région.valueType.js';
 

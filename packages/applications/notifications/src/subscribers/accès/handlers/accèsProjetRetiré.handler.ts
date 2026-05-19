@@ -1,5 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Accès } from '@potentiel-domain/projet';
+import type { Accès } from '@potentiel-domain/projet';
 
 import { buildUrl, getProjet } from '#helpers';
 import { sendEmail } from '#sendEmail';

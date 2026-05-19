@@ -4,8 +4,8 @@ import '../../utils/zod/setupLocale';
 
 import { assert, expect } from 'chai';
 
-import { dépôtSchema } from './dépôt.schema';
 import { assertError, deepEqualWithRichDiff } from './csv/_test-shared';
+import { dépôtSchema } from './dépôt.schema';
 
 const minimumValues = {
   nomProjet: 'Nom du projet',

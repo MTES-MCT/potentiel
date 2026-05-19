@@ -1,17 +1,19 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
-import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-
-import { modifierPuissanceAction, ModifierPuissanceFormKeys } from './modifierPuissance.action';
+import { Form } from '@/components/atoms/form/Form';
+import type { ValidationErrors } from '@/utils/formAction';
+import {
+  type ModifierPuissanceFormKeys,
+  modifierPuissanceAction,
+} from './modifierPuissance.action';
 
 export type ModifierPuissanceFormProps = PlainType<
   Pick<
@@ -51,41 +53,39 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
       />
 
       <div className="flex flex-col gap-6">
-        <>
+        <Input
+          state={validationErrors['puissance'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['puissance']}
+          label={`Puissance (en ${unitéPuissance})`}
+          nativeInputProps={{
+            name: 'puissance',
+            defaultValue: puissance,
+            'aria-required': true,
+            required: true,
+            type: 'number',
+            inputMode: 'decimal',
+            pattern: '[0-9]+([.][0-9]+)?',
+            step: 'any',
+          }}
+        />
+        {(infosCahierDesChargesPuissanceDeSite?.type === 'requis' ||
+          infosCahierDesChargesPuissanceDeSite?.type === 'optionnel') && (
           <Input
-            state={validationErrors['puissance'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['puissance']}
-            label={`Puissance (en ${unitéPuissance})`}
+            state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['puissanceDeSite']}
+            label={`Puissance de site (en ${unitéPuissance}) ${infosCahierDesChargesPuissanceDeSite?.type === 'optionnel' ? '(optionnel)' : ''}`}
             nativeInputProps={{
-              name: 'puissance',
-              defaultValue: puissance,
-              'aria-required': true,
-              required: true,
+              name: 'puissanceDeSite',
+              defaultValue: puissanceDeSite,
+              'aria-required': infosCahierDesChargesPuissanceDeSite?.type === 'requis',
+              required: infosCahierDesChargesPuissanceDeSite?.type === 'requis',
               type: 'number',
               inputMode: 'decimal',
               pattern: '[0-9]+([.][0-9]+)?',
               step: 'any',
             }}
           />
-          {(infosCahierDesChargesPuissanceDeSite?.type === 'requis' ||
-            infosCahierDesChargesPuissanceDeSite?.type === 'optionnel') && (
-            <Input
-              state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['puissanceDeSite']}
-              label={`Puissance de site (en ${unitéPuissance}) ${infosCahierDesChargesPuissanceDeSite?.type === 'optionnel' ? '(optionnel)' : ''}`}
-              nativeInputProps={{
-                name: 'puissanceDeSite',
-                defaultValue: puissanceDeSite,
-                'aria-required': infosCahierDesChargesPuissanceDeSite?.type === 'requis',
-                required: infosCahierDesChargesPuissanceDeSite?.type === 'requis',
-                type: 'number',
-                inputMode: 'decimal',
-                pattern: '[0-9]+([.][0-9]+)?',
-                step: 'any',
-              }}
-            />
-          )}
-        </>
+        )}
 
         <Input
           textArea

@@ -1,21 +1,19 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { AccorderChangementActionnaireForm } from './accorder/AccorderChangementActionnaire.form';
-import { RejeterChangementActionnaireForm } from './rejeter/RejeterChangementActionnaire.form';
 import { AnnulerChangementActionnaireForm } from './annuler/AnnulerChangementActionnaire.form';
-import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
+import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
+import { RejeterChangementActionnaireForm } from './rejeter/RejeterChangementActionnaire.form';
 
 export type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 

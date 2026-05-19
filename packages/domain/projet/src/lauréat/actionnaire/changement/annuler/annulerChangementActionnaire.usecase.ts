@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
-
-import { AnnulerChangementActionnaireCommand } from './annulerChangementActionnaire.command.js';
+import type { AnnulerChangementActionnaireCommand } from './annulerChangementActionnaire.command.js';
 
 export type AnnulerChangementActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',

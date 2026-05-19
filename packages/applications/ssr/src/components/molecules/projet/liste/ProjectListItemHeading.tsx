@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
+import type React from 'react';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PPABadge } from '../lauréat/PPABadge';
 
@@ -46,11 +46,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
 const FormattedIdentifiantProjet: FC<{
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
 }> = ({ identifiantProjet: { appelOffre, période, famille, numéroCRE } }) => (
-  <div
-    className="flex italic text-xs items-center"
-    aria-label="Identifiant projet"
-    title="Identifiant projet"
-  >
+  <div className="flex italic text-xs items-center" title="Identifiant projet">
     {appelOffre}-P{période}
     {famille ? `-F${famille}` : ''}-{numéroCRE}
   </div>

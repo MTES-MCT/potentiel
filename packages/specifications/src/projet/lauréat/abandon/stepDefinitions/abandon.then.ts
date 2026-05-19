@@ -1,15 +1,13 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { assert } from 'chai';
+import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect, expectFileContent } from '#helpers';
-
-import { PotentielWorld } from '../../../../potentiel.world.js';
+import { expectFileContent, waitForExpect } from '#helpers';
+import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(
   /l'abandon du projet lauréat devrait être(.*)demandé/,

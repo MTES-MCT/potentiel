@@ -1,7 +1,6 @@
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
-import { ModifierNomProjetForm, ModifierNomProjetFormProps } from './ModifierNomProjet.form';
+import { ModifierNomProjetForm, type ModifierNomProjetFormProps } from './ModifierNomProjet.form';
 
 export type ModifierNomProjetPageProps = ModifierNomProjetFormProps;
 

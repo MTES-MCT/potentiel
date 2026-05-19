@@ -2,7 +2,7 @@ import test from 'node:test';
 
 import { expect } from 'chai';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { récupérerColonnesRequises } from './récupérerColonnesRequises';
 

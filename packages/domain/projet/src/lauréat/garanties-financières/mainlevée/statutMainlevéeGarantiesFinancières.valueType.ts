@@ -1,10 +1,14 @@
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 import {
-  MainlevéeDéjàDemandéeError,
-  MainlevéeDéjàAccordéeError,
-  MainlevéeDéjàEnInstructionError,
   DernièreDemandeMainlevéeRejetéeEtAucuneEnCours,
+  MainlevéeDéjàAccordéeError,
+  MainlevéeDéjàDemandéeError,
+  MainlevéeDéjàEnInstructionError,
 } from './mainlevéeGarantiesFinancières.error.js';
 
 export const statuts = ['demandé', 'en-instruction', 'accordé', 'rejeté'] as const;

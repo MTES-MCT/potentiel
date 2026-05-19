@@ -1,9 +1,8 @@
-import Image from 'next/image';
-import { FC } from 'react';
 import { fr } from '@codegouvfr/react-dsfr';
+import Image from 'next/image';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-
 import { DefaultError } from './DefaultError';
 import { ErrorRedirectionLink } from './ErrorRedirectionLink';
 
@@ -101,8 +100,6 @@ function getDescription(type: ErrorType, message?: CustomErrorProps['message']) 
 
     case 'InvalidOperationError':
       return message ? <p className={fr.cx('fr-text--lead')}>{message}</p> : <DefaultError />;
-
-    case 'ServerError':
     default:
       return <DefaultError />;
   }

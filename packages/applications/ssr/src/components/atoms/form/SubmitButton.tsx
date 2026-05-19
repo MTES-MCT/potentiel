@@ -1,8 +1,8 @@
 'use client';
 
-import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import Button, { type ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
 export type SubmitButtonProps = {
@@ -36,6 +36,7 @@ const Loader = () => (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
+    aria-hidden="true"
   >
     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
     <path

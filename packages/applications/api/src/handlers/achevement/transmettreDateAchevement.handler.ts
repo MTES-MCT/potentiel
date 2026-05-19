@@ -1,8 +1,8 @@
 import { mediator } from 'mediateur';
 
-import { AchevementV1 } from '@potentiel-applications/api-documentation';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { AchevementV1 } from '@potentiel-applications/api-documentation';
 import { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getUtilisateur, validate } from '#helpers';
 

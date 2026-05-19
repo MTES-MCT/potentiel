@@ -1,14 +1,12 @@
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAchèvement, getGarantiesFinancières } from '../../_helpers';
-
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
 
 type GarantiesFinancièresSectionProps = {

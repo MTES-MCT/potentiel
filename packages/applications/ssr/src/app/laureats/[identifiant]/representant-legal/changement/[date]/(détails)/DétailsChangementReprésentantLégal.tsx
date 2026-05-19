@@ -1,14 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
-
 import { getTypeReprésentantLégalLabel } from '../../../_helpers/getTypeReprésentantLégalLabel';
-
-import { DétailsChangementReprésentantLégalPageProps } from './DétailsChangementReprésentantLégal.page';
+import type { DétailsChangementReprésentantLégalPageProps } from './DétailsChangementReprésentantLégal.page';
 
 type DétailsChangementReprésentantLégalProps =
   DétailsChangementReprésentantLégalPageProps['demande'];

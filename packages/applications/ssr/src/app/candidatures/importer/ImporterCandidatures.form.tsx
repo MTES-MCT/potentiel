@@ -1,13 +1,13 @@
 'use client';
 
-import { FC, useCallback, useState } from 'react';
+import Alert from '@codegouvfr/react-dsfr/Alert';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { type FC, useCallback, useState } from 'react';
 import { match } from 'ts-pattern';
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 
 import { ImporterCandidaturesParCSVForm } from './(csv)/ImporterCandidaturesParCSV.form';

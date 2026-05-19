@@ -1,11 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { RangeOptions } from '@potentiel-domain/entity';
+import type { RangeOptions } from '@potentiel-domain/entity';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
-
-import { PériodeListItem, PériodeListItemProps } from './PériodeListItem';
+import { PériodeListItem, type PériodeListItemProps } from './PériodeListItem';
 
 export type PériodeListPageProps = {
   filters: ListPageTemplateProps<PériodeListItemProps>['filters'];

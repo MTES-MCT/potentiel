@@ -1,5 +1,5 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Candidature } from '@potentiel-domain/projet';
 
 export const getFinancementEtTemplate = ({
   période,

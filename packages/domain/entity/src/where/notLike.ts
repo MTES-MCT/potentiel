@@ -1,4 +1,4 @@
-import { NotLikeWhereCondition, WhereCondition } from '../whereOptions.js';
+import type { NotLikeWhereCondition, WhereCondition } from '../whereOptions.js';
 
 export const notStartWith = (value: string | undefined): WhereCondition<string> | undefined => {
   if (value === undefined) {

@@ -1,11 +1,10 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
+
 import { Link } from '@/components/atoms/LinkNoPrefetch';
-
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import {
   ChoisirCahierDesChargesForm,
-  ChoisirCahierDesChargesFormProps,
+  type ChoisirCahierDesChargesFormProps,
 } from './ChoisirCahierDesCharges.form';
 
 export type ChoisirCahierDesChargesPageProps = ChoisirCahierDesChargesFormProps;

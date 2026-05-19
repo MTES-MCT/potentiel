@@ -1,4 +1,4 @@
-import { Event } from '../../event.js';
+import type { Event } from '../../event.js';
 
 export type RebuildAllTriggered = Event & {
   type: 'RebuildTriggered';

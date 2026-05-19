@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../index.js';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../index.js';
 
 export type AttribuerGestionnaireRéseauCommand = Message<
   'Lauréat.Raccordement.Command.AttribuerGestionnaireRéseau',

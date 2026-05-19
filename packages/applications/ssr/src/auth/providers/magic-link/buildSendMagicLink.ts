@@ -1,10 +1,10 @@
-import { GenericEndpointContext } from 'better-auth';
+import type { GenericEndpointContext } from 'better-auth';
 
-import { SendEmail } from '@potentiel-applications/notifications';
-import { Option } from '@potentiel-libraries/monads';
+import type { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
-import { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
+import type { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
 
 type SendOptions = { email: string; url: string };
 

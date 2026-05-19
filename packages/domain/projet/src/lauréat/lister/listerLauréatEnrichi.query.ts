@@ -1,36 +1,35 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type Joined, type LeftJoin, type List, Where } from '@potentiel-domain/entity';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { LauréatEntity } from '../lauréat.entity.js';
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
-  CandidatureEntity,
-  Coordonnées,
-  Dépôt,
-  DétailCandidatureEntity,
-  Localité,
+  type CandidatureEntity,
+  type Coordonnées,
+  type Dépôt,
+  type DétailCandidatureEntity,
+  type Localité,
   TypeActionnariat,
   TypologieInstallation,
   UnitéPuissance,
 } from '../../candidature/index.js';
-import { PuissanceEntity } from '../puissance/index.js';
-import { Actionnaire, Producteur, StatutLauréat } from '../index.js';
-import { AchèvementEntity } from '../achèvement/index.js';
-import { ActionnaireEntity } from '../actionnaire/index.js';
-import { RaccordementEntity, RéférenceDossierRaccordement } from '../raccordement/index.js';
-import { DispositifDeStockage, InstallationEntity } from '../installation/index.js';
+import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
+import type { AchèvementEntity } from '../achèvement/index.js';
+import type { ActionnaireEntity } from '../actionnaire/index.js';
+import { type Actionnaire, Producteur, StatutLauréat } from '../index.js';
+import { DispositifDeStockage, type InstallationEntity } from '../installation/index.js';
+import type { LauréatEntity } from '../lauréat.entity.js';
 import {
-  NatureDeLExploitationEntity,
+  type NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
-import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
-import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
-import { ProducteurEntity } from '../producteur/producteur.entity.js';
-
+import type { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import type { ProducteurEntity } from '../producteur/producteur.entity.js';
+import type { PuissanceEntity } from '../puissance/index.js';
+import { type RaccordementEntity, RéférenceDossierRaccordement } from '../raccordement/index.js';
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
 export type LauréatEnrichiListItemReadModel = {

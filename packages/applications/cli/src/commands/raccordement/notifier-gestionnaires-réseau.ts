@@ -2,24 +2,25 @@ import { Command } from '@oclif/core';
 import { mediator } from 'mediateur';
 
 import {
+  type EnvoyerNotificationCommand,
+  registerNotificationsCommands,
+} from '@potentiel-applications/notifications';
+import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
+import { type Lauréat, registerProjetQueries } from '@potentiel-domain/projet';
+import { GestionnaireRéseau, registerRéseauQueries } from '@potentiel-domain/reseau';
+import {
+  type ListerUtilisateursQuery,
+  registerUtilisateurQueries,
+} from '@potentiel-domain/utilisateur';
+import { sendEmail } from '@potentiel-infrastructure/email';
+import {
   countProjection,
   findProjection,
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { sendEmail } from '@potentiel-infrastructure/email';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { registerRéseauQueries } from '@potentiel-domain/reseau';
-import { registerUtilisateurQueries } from '@potentiel-domain/utilisateur';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { DateTime } from '@potentiel-domain/common';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
-import { Lauréat, registerProjetQueries } from '@potentiel-domain/projet';
-import {
-  EnvoyerNotificationCommand,
-  registerNotificationsCommands,
-} from '@potentiel-applications/notifications';
 
 import { dbSchema } from '#helpers';
 

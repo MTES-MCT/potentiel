@@ -1,6 +1,6 @@
-import { FrIconClassName, RiIconClassName, fr } from '@codegouvfr/react-dsfr';
-import { FC, ReactNode } from 'react';
+import { type FrIconClassName, fr, type RiIconClassName } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
+import type { FC, ReactNode } from 'react';
 
 import { Heading3 } from './headings';
 
@@ -25,7 +25,6 @@ const getIconId = (colorVariant: CallOutProps['colorVariant'], iconId: CallOutPr
       return 'fr-icon-error-line';
     case 'warning':
       return 'fr-icon-warning-line';
-    case 'info':
     default:
       return iconId ?? 'ri-information-line';
   }

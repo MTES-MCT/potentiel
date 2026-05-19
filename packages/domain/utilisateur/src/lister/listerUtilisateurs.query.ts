@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, Where, WhereOptions } from '@potentiel-domain/entity';
+import { type List, type RangeOptions, Where, type WhereOptions } from '@potentiel-domain/entity';
 
-import { UtilisateurEntity } from '../utilisateur.entity.js';
 import {
-  ConsulterUtilisateurReadModel,
+  type ConsulterUtilisateurReadModel,
   mapToReadModel,
 } from '../consulter/consulterUtilisateur.query.js';
 import { Role, Zone } from '../index.js';
 import * as Région from '../région.valueType.js';
+import type { UtilisateurEntity } from '../utilisateur.entity.js';
 
 export type ListerUtilisateursReadModel = {
   items: Array<ConsulterUtilisateurReadModel>;
@@ -56,7 +56,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     zni,
     actif,
   }) => {
-    const roleWhereCondition: WhereOptions<UtilisateurEntity> =
+    const roleWhereCondition = (
       région !== undefined || zni !== undefined
         ? {
             rôle: Where.equal('dreal'),
@@ -79,15 +79,14 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
                 zone: Where.matchAny(zones?.map((z) => Zone.convertirEnValueType(z).nom)),
               }
             : {
-                rôle: (roles
+                rôle: roles
                   ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
-                  : // Typescript is lost with the union type :/
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    undefined) as any,
+                  : undefined,
                 identifiantUtilisateur: identifiantsUtilisateur
                   ? Where.matchAny(identifiantsUtilisateur)
                   : Where.like(identifiantUtilisateur),
-              };
+              }
+    ) as WhereOptions<UtilisateurEntity>;
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
       where: {

@@ -1,11 +1,16 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { RangeOptions } from '@potentiel-domain/entity';
+import type { RangeOptions } from '@potentiel-domain/entity';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
-
-import { RéclamerProjetsListItemProps, RéclamerProjetsListItem } from './RéclamerProjetsListItem';
+import {
+  RéclamerProjetsListItem,
+  type RéclamerProjetsListItemProps,
+} from './RéclamerProjetsListItem';
 
 export type RéclamerProjetsListPageProps = {
   filters: ListPageTemplateProps<RéclamerProjetsListItemProps>['filters'];

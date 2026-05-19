@@ -1,10 +1,10 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { Heading6 } from '@/components/atoms/headings';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export const InfoBoxRévocationDesDroits: FC = () => (
   <Alert

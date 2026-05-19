@@ -1,5 +1,5 @@
-import { retryPolicy, RetryPolicyOptions } from './retryPolicy.js';
 import { RequestError } from './requestError.js';
+import { type RetryPolicyOptions, retryPolicy } from './retryPolicy.js';
 
 export type Body = Record<string, string | Blob>;
 

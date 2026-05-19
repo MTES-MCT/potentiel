@@ -2,10 +2,10 @@ import type { BetterAuthPlugin } from 'better-auth';
 import { createAuthMiddleware } from 'better-auth/plugins';
 import { mediator } from 'mediateur';
 
-import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
+import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
+import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { getUtilisateurFromEmail } from '../getUtilisateurFromEmail';
 

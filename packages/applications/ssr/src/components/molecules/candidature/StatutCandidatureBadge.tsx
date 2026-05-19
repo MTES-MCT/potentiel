@@ -1,8 +1,8 @@
-import { AlertProps } from '@codegouvfr/react-dsfr/Alert';
+import type { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
 const convertStatutCandidatureToBadgeSeverity: Record<
   StatutCandidatureBadgeProps['statut'],

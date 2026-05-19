@@ -1,11 +1,11 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getAppelOffre, buildUrl } from '#helpers';
+import { buildUrl, getAppelOffre } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleLauréatNotifié = async ({

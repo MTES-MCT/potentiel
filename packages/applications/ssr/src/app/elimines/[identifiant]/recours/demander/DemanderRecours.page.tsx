@@ -1,10 +1,9 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
-
-import { DemanderRecoursForm, DemanderRecoursFormProps } from './DemanderRecours.form';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { DemanderRecoursForm, type DemanderRecoursFormProps } from './DemanderRecours.form';
 
 export type DemanderRecoursPageProps = DemanderRecoursFormProps;
 
