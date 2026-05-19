@@ -52,7 +52,7 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                          |
 
     Scénario: Un porteur annule la demande d'abandon d'un projet lauréat déclaré en PPA par l'administration
-        Et le signalement par l'administration d'un PPA pour le projet lauréat
+        Etant donné le signalement par l'administration d'un PPA pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
         Alors l'état PPA devrait être consultable pour le projet lauréat
