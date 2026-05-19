@@ -55,10 +55,10 @@ const fetchData = async () => {
   `);
 
   return [...camembert, ...scalar].reduce(
-    (prev, curr) => ({
-      ...prev,
-      [curr.type]: curr.value,
-    }),
+    (prev, curr) =>
+      Object.assign(prev, {
+        [curr.type]: curr.value,
+      }),
     {} as Record<string, string>,
   );
 };

@@ -111,16 +111,14 @@ export const formAction =
         }
 
         if (allKeys.filter((key) => key === formKey)?.length > 1) {
-          return {
-            ...acc,
+          return Object.assign(acc, {
             [formKey]: formData.getAll(formKey),
-          };
+          });
         }
 
-        return {
-          ...acc,
+        return Object.assign(acc, {
           [formKey]: formData.get(formKey),
-        };
+        });
       }, {});
 
       const data = schema
