@@ -5,7 +5,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemFile, type TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAchèvementModifiéTimelineItemProps = (
-  event: Lauréat.Achèvement.AchèvementModifiéEvent,
+  event: Lauréat.Achèvement.AchèvementModifiéEvent | Lauréat.Achèvement.AchèvementModifiéEventV1,
 ): TimelineItemProps => {
   const {
     identifiantProjet,
@@ -14,7 +14,6 @@ export const mapToAchèvementModifiéTimelineItemProps = (
     dateTransmissionAuCocontractant,
     date,
     utilisateur,
-    raison,
   } = event.payload;
 
   const attestationConformité = attestation
@@ -32,6 +31,8 @@ export const mapToAchèvementModifiéTimelineItemProps = (
         preuveTransmissionAuCocontractant,
       })
     : undefined;
+
+  const raison: string | undefined = 'raison' in event.payload ? event.payload.raison : undefined;
 
   return {
     date,
