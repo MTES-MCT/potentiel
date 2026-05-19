@@ -27,14 +27,14 @@
         },
         "noNonNullAssertion": {
           "level": "warn",
+          // à retirer (et passer en error?) une fois que les non-null assertions auront été supprimées
           "fix": "none"
         }
       },
       "correctness": {
         "noUnusedImports": {
           "fix": "safe",
-          "level": "error",
-          "options": {}
+          "level": "error"
         }
       },
       "complexity": {
@@ -85,11 +85,7 @@
   },
   "css": {
     "linter": {
-      // remove ?
       "enabled": false
-    },
-    "parser": {
-      "tailwindDirectives": true
     }
   }
 }
