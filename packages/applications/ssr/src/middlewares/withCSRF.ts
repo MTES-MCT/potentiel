@@ -39,6 +39,8 @@ export function withCSRF(nextMiddleware: CustomMiddleware) {
       name: CSRF_TOKEN_COOKIE,
       value: token,
       httpOnly: false,
+      secure: true,
+      sameSite: 'strict',
     });
     return nextMiddleware(req, event, res);
   };
