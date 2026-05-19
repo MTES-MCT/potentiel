@@ -8,4 +8,5 @@ export type ModifierAchèvementOptions = {
   attestation?: DocumentProjet.ValueType;
   preuveTransmissionAuCocontractant?: DocumentProjet.ValueType;
   date: DateTime.ValueType;
+  raison: string;
 };

@@ -1,5 +1,6 @@
 'use client';
 
+import Input from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
 import type { DateTime } from '@potentiel-domain/common';
@@ -62,6 +63,15 @@ export const ModifierAchèvementForm = ({
         validationErrors={validationErrors}
         lauréatNotifiéLe={lauréatNotifiéLe}
         dateTransmissionAuCocontractant={dateTransmissionAuCocontractant}
+      />
+      <Input
+        textArea
+        label="Raison"
+        id="raison"
+        hintText="Veuillez détailler les raisons de cette modification"
+        nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
+        state={validationErrors['raison'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['raison']}
       />
     </Form>
   );

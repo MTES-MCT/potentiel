@@ -16,6 +16,7 @@ export const setupAchèvement = async () => {
       'AttestationConformitéTransmise-V1',
       'AttestationConformitéModifiée-V1',
       'AchèvementModifié-V1',
+      'AchèvementModifié-V2',
       'DateAchèvementPrévisionnelCalculée-V1',
       'DateAchèvementTransmise-V1',
       'AttestationConformitéEnregistrée-V1',

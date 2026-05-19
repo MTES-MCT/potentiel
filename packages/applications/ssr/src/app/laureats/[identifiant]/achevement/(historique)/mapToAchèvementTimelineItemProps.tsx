@@ -32,7 +32,10 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
       { type: 'AttestationConformitéEnregistrée-V1' },
       mapToAttestationConformitéEnregistréeTimelineItemProps,
     )
-    .with({ type: 'AchèvementModifié-V1' }, mapToAchèvementModifiéTimelineItemProps)
+    .with(
+      { type: P.union('AchèvementModifié-V1', 'AchèvementModifié-V2') },
+      mapToAchèvementModifiéTimelineItemProps,
+    )
     .with(
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
