@@ -1,22 +1,22 @@
+import crypto from 'node:crypto';
 import { join } from 'node:path';
-import { before, beforeEach, describe, it } from 'node:test';
+import { after, before, describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
+import { killPool } from '@potentiel-libraries/pg-helpers';
+
 import { copyFolder } from './copyFolder.js';
 import { download } from './download.js';
-import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration.js';
 import { upload } from './upload.js';
 
 describe(`copy folder`, () => {
-  const bucketName = 'potentiel';
-
   before(() => {
-    setTestBucketEnvVariable(bucketName);
+    process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
   });
 
-  beforeEach(async () => {
-    await createOrRecreateBucket(bucketName);
+  after(async () => {
+    await killPool();
   });
 
   it(`
@@ -25,11 +25,12 @@ describe(`copy folder`, () => {
     Quand le dossier est copié
     Alors la copie devrait être récupérable depuis le bucket
     Et l'original devrait  être récupérable depuis le bucket`, async () => {
-    const sourcePath = 'path/source';
+    const uid = crypto.randomUUID();
+    const sourcePath = `${uid}/source`;
     const sourceFilePath1 = join(sourcePath, 'file1.pdf');
     const sourceFilePath2 = join(sourcePath, 'file2.pdf');
 
-    const targetPath = 'path/target';
+    const targetPath = `${uid}/target`;
     const targetFilePath1 = join(targetPath, 'file1.pdf');
     const targetFilePath2 = join(targetPath, 'file2.pdf');
 

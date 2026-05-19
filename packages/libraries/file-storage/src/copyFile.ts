@@ -1,40 +1,25 @@
-import path from 'node:path';
-
-import { CopyObjectCommand } from '@aws-sdk/client-s3';
-
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { fileExists } from './fileExists.js';
-import { getBucketName } from './getBucketName.js';
-import { getClient } from './getClient.js';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 class CopyFailedError extends Error {
-  constructor(message: string) {
-    super(`La copie du fichier a échoué: ${message}`);
+  constructor({ cause }: { cause?: Error } = {}) {
+    super(`La copie du fichier a échoué`, { cause });
   }
 }
 
 export const copyFile = async (sourceKey: string, targetKey: string) => {
   try {
-    const response = await getClient().send(
-      new CopyObjectCommand({
-        Bucket: getBucketName(),
-        Key: targetKey,
-        CopySource: path.join(getBucketName(), encodeURIComponent(sourceKey)),
-      }),
+    const { rowCount } = await executeQuery(
+      `insert into document_store.files (key, content) 
+      select $1, content from document_store.files where key = $2`,
+      targetKey,
+      sourceKey,
     );
-    if (!response.CopyObjectResult) {
-      throw new Error();
-    }
-    const exists = await fileExists(targetKey);
-    if (!exists) {
-      throw new CopyFailedError(`Target file not found: ${targetKey}`);
+    if (rowCount === 0) {
+      throw new Error(`Fichier source non trouvé`);
     }
   } catch (e) {
     getLogger().warn('Copy failed', { error: e, sourceKey, targetKey });
-    if (e instanceof CopyFailedError) {
-      throw e;
-    }
-    throw new CopyFailedError((e as Error).message);
+    throw new CopyFailedError({ cause: e instanceof Error ? e : undefined });
   }
 };

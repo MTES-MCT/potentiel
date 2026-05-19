@@ -1,13 +1,16 @@
-import { basename, join } from 'node:path';
-
-import { copyFile } from './copyFile.js';
-import { getFiles } from './getFiles.js';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 export const copyFolder = async (sourceKey: string, targetKey: string) => {
-  const files = await getFiles(sourceKey);
+  sourceKey = sourceKey.replace(/\/?$/, '/');
+  targetKey = targetKey.replace(/\/?$/, '/');
 
-  for (const fromFileName of files) {
-    const toFileName = join(targetKey, basename(fromFileName));
-    await copyFile(fromFileName, toFileName);
-  }
+  await executeQuery(
+    `insert into document_store.files (key, content)
+    select regexp_replace(key, $1, $2) as key, content
+    from document_store.files
+    where key like $3`,
+    `^${sourceKey}`,
+    `${targetKey}`,
+    `${sourceKey}%`,
+  );
 };

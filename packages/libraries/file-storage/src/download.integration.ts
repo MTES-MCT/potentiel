@@ -1,28 +1,28 @@
-import { before, beforeEach, describe, it } from 'node:test';
+import crypto from 'node:crypto';
+import { after, before, describe, it } from 'node:test';
 
 import { assert, expect } from 'chai';
 
+import { killPool } from '@potentiel-libraries/pg-helpers';
+
 import { download } from './download.js';
 import { FichierInexistant } from './fichierInexistant.error.js';
-import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration.js';
 import { upload } from './upload.js';
 
 describe(`download file`, () => {
-  const bucketName = 'potentiel';
-
   before(() => {
-    setTestBucketEnvVariable(bucketName);
+    process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
   });
 
-  beforeEach(async () => {
-    await createOrRecreateBucket(bucketName);
+  after(async () => {
+    await killPool();
   });
 
   it(`
     Etant donné un endpoint et un bucket
     Quand un fichier est téléversé
     Alors le fichier devrait être récupérable depuis le bucket`, async () => {
-    const filePath = 'path/to/file.pdf';
+    const filePath = `path/to/${crypto.randomUUID()}.pdf`;
     const content = new ReadableStream({
       start: async (controller) => {
         controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
@@ -40,7 +40,7 @@ describe(`download file`, () => {
     Etant donné un endpoint et un bucket
     Quand aucun fichier n'est téléversé
     Alors le fichier ne devrait pas être récupérable depuis le bucket`, async () => {
-    const filePath = 'path/to/file.pdf';
+    const filePath = `path/to/${crypto.randomUUID()}.pdf`;
 
     try {
       await download(filePath);

@@ -1,29 +1,30 @@
-import { before, beforeEach, describe, it } from 'node:test';
+import assert from 'node:assert';
+import { after, before, describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
+import { killPool } from '@potentiel-libraries/pg-helpers';
+
 import { copyFile } from './copyFile.js';
 import { download } from './download.js';
-import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration.js';
 import { upload } from './upload.js';
 
 describe(`copy file`, () => {
-  const bucketName = 'potentiel';
   before(() => {
-    setTestBucketEnvVariable(bucketName);
+    process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
   });
 
-  beforeEach(async () => {
-    await createOrRecreateBucket(bucketName);
+  after(async () => {
+    await killPool();
   });
 
   it(`
-    Etant donné un endpoint et un bucket
-    Et un fichier téléverśe
+    Etant donné un fichier téléverśe
     Quand un fichier est copié
     Alors la copie devrait être récupérable depuis le bucket`, async () => {
-    const sourcePath = 'path/to/file.pdf';
-    const targetPath = 'path/to/another/file.pdf';
+    const uid = crypto.randomUUID();
+    const sourcePath = `${uid}/to/file.pdf`;
+    const targetPath = `${uid}/to/another/file.pdf`;
 
     const content = new ReadableStream({
       start: async (controller) => {
@@ -37,5 +38,18 @@ describe(`copy file`, () => {
 
     const actual = await download(targetPath);
     expect(actual).not.to.be.null;
+  });
+
+  it(`
+    Quand un fichier inexistant est copié
+    Alors une erreur est émise`, async () => {
+    const uid = crypto.randomUUID();
+    const sourcePath = `${uid}/to/file.pdf`;
+    const targetPath = `${uid}/to/another/file.pdf`;
+
+    await assert.rejects(
+      () => copyFile(sourcePath, targetPath),
+      'La copie du fichier a échoué : fichier non trouvé',
+    );
   });
 });
