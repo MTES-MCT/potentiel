@@ -79,19 +79,19 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             </Link>
           )}
         </div>
-      ) : actions.transmettre ? (
-        <Link
-          className="mt-4 w-fit mx-auto"
-          href={Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
-            identifiantProjet,
-            référence,
-          )}
-          aria-label={`Transmettre la proposition technique et financière pour le dossier ${référence}`}
-        >
-          Transmettre
-        </Link>
       ) : (
-        <></>
+        actions.transmettre && (
+          <Link
+            className="mt-4 w-fit mx-auto"
+            href={Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
+              identifiantProjet,
+              référence,
+            )}
+            aria-label={`Transmettre la proposition technique et financière pour le dossier ${référence}`}
+          >
+            Transmettre
+          </Link>
+        )
       )}
     </Etape>
   );
