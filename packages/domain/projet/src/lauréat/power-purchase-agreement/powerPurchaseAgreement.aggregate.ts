@@ -34,7 +34,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
   }
 
   get estPartiEnPPA() {
-    return this.#estPartiEnPPA;
+    return this.#PPA !== undefined;
   }
 
   private get identifiantProjet() {
