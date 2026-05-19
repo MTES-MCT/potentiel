@@ -1,6 +1,7 @@
+import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleÉvaluationCarboneSimplifiéeModifiée = async ({
@@ -14,7 +15,7 @@ export const handleÉvaluationCarboneSimplifiéeModifiée = async ({
   const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    url: projet.url,
+    url: buildUrl(Routes.Lauréat.détails.évaluationCarbone(projet.identifiantProjet.formatter())),
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
   };
