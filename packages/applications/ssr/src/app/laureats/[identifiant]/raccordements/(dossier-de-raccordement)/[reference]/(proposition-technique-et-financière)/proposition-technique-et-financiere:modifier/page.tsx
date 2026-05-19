@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -13,6 +13,9 @@ import {
   ModifierPropositionTechniqueEtFinancièrePage,
   type ModifierPropositionTechniqueEtFinancièrePageProps,
 } from './ModifierPropositionTechniqueEtFinancière.page';
+import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
+import { vérifierSiModificationRaccordementPossible } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
+import { Routes } from '@potentiel-applications/routes';
 
 type PageProps = {
   params: Promise<{
@@ -38,7 +41,11 @@ export default async function Page(props0: PageProps) {
         decodeParameter(identifiant),
       );
 
-      await récupérerLauréatSansAbandon(identifiantProjet.formatter());
+      const lauréat = await getLauréat(identifiantProjet.formatter());
+      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
+      if (!peutModifierRaccordement) {
+        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
+      }
 
       const referenceDossierRaccordement = decodeParameter(reference);
 

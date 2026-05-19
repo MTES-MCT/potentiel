@@ -1,15 +1,15 @@
-import Badge from '@codegouvfr/react-dsfr/Badge';
-import Notice from '@codegouvfr/react-dsfr/Notice';
+import Badge from "@codegouvfr/react-dsfr/Badge";
+import Notice from "@codegouvfr/react-dsfr/Notice";
 
-import type { PlainType } from '@potentiel-domain/core';
-import type { Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
+import type { PlainType } from "@potentiel-domain/core";
+import type { Lauréat } from "@potentiel-domain/projet";
+import { Option } from "@potentiel-libraries/monads";
 
-import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import type { ChampObligatoireAvecAction } from '../../_helpers';
+import { TertiaryLink } from "@/components/atoms/form/TertiaryLink";
+import type { ChampAvecAction } from "../../_helpers";
 
 export type RaccordementDétailsProps = {
-  raccordement: ChampObligatoireAvecAction<
+  raccordement: ChampAvecAction<
     PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>
   >;
   alertes: Array<{ label: string }>;
@@ -44,21 +44,29 @@ export const RaccordementDétails = async ({
   alertes,
 }: RaccordementDétailsProps) => (
   <>
-    <div>
-      <span className="mb-0">Gestionnaire de réseau</span> :{' '}
-      {Option.match(raccordement.gestionnaireRéseau)
-        .some(({ raisonSociale }) => <strong key={raisonSociale}>{raisonSociale}</strong>)
-        .none(() => (
-          <span>non renseigné</span>
-        ))}
-    </div>
-    <div className="mb-0">
-      {raccordement.dossiers.map((dossier) => (
-        <Dossier key={dossier.référence.référence} dossier={dossier} />
-      ))}
-      {raccordement.dossiers.length === 0 && <span>Aucun dossier de raccordement renseigné</span>}
-    </div>
-    {alertes.map(({ label }) => (
+    {raccordement && (
+      <>
+        <div>
+          <span className="mb-0">Gestionnaire de réseau</span> :{" "}
+          {Option.match(raccordement.gestionnaireRéseau)
+            .some(({ raisonSociale }) => (
+              <strong key={raisonSociale}>{raisonSociale}</strong>
+            ))
+            .none(() => (
+              <span>non renseigné</span>
+            ))}
+        </div>
+        <div className="mb-0">
+          {raccordement.dossiers.map((dossier) => (
+            <Dossier key={dossier.référence.référence} dossier={dossier} />
+          ))}
+          {raccordement.dossiers.length === 0 && (
+            <span>Aucun dossier de raccordement renseigné</span>
+          )}
+        </div>
+      </>
+    )}
+    {alertes.map(({ label }, index) => (
       <Notice
         description={label}
         title="Données de raccordement à compléter"

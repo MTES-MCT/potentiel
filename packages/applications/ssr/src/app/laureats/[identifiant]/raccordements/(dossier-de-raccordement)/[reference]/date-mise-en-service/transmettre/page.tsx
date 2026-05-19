@@ -1,22 +1,24 @@
-import { mediator } from 'mediateur';
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { mediator } from "mediateur";
+import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 
-import { Routes } from '@potentiel-applications/routes';
-import type { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
+import { Routes } from "@potentiel-applications/routes";
+import type { AppelOffre } from "@potentiel-domain/appel-offre";
+import { DateTime } from "@potentiel-domain/common";
+import { IdentifiantProjet, type Lauréat } from "@potentiel-domain/projet";
+import type { Utilisateur } from "@potentiel-domain/utilisateur";
+import { Option } from "@potentiel-libraries/monads";
 
-import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getPériodeAppelOffres } from "@/app/_helpers";
+import { getLauréat } from "@/app/laureats/[identifiant]/_helpers";
+import { decodeParameter } from "@/utils/decodeParameter";
+import { PageWithErrorHandling } from "@/utils/PageWithErrorHandling";
+import { withUtilisateur } from "@/utils/withUtilisateur";
+import { vérifierSiModificationRaccordementPossible } from "../../../../(raccordement-du-projet)/(détails)/_helpers";
 import {
   TransmettreDateMiseEnServicePage,
   type TransmettreDateMiseEnServicePageProps,
-} from './TransmettreDateMiseEnService.page';
+} from "./TransmettreDateMiseEnService.page";
 
 type PageProps = {
   params: Promise<{
@@ -25,7 +27,9 @@ type PageProps = {
   }>;
 };
 
-export const metadata: Metadata = { title: 'Transmettre la date de mise en service' };
+export const metadata: Metadata = {
+  title: "Transmettre la date de mise en service",
+};
 
 export default async function Page(props0: PageProps) {
   const params = await props0.params;
@@ -35,22 +39,32 @@ export default async function Page(props0: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>(
-        'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
+        "Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService",
       );
 
-      const identifiantProjet = decodeParameter(identifiant);
-      const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet);
-
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
+      const lauréat = await getLauréat(identifiantProjet);
+      const peutModifierRaccordement =
+        vérifierSiModificationRaccordementPossible(lauréat);
+      if (!peutModifierRaccordement) {
+        return redirect(
+          Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
+        );
+      }
       const referenceDossierRaccordement = decodeParameter(reference);
 
       const dossierRaccordement =
-        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            référenceDossierRaccordementValue: referenceDossierRaccordement,
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>(
+          {
+            type: "Lauréat.Raccordement.Query.ConsulterDossierRaccordement",
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              référenceDossierRaccordementValue: referenceDossierRaccordement,
+            },
           },
-        });
+        );
 
       if (Option.isNone(dossierRaccordement)) {
         return notFound();
@@ -63,7 +77,7 @@ export default async function Page(props0: PageProps) {
       const props = mapToProps({
         utilisateur,
         referenceDossierRaccordement,
-        lauréat,
+        lauréat: lauréat.lauréat,
         période,
         dossierRaccordement,
       });
@@ -95,9 +109,10 @@ const mapToProps: MapToProps = ({
   période,
   dossierRaccordement,
 }) => {
-  const intervalleDatesMeSDélaiCDC2022 = période.cahiersDesChargesModifiésDisponibles.find(
-    (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
-  )?.délaiApplicable?.intervaleDateMiseEnService;
+  const intervalleDatesMeSDélaiCDC2022 =
+    période.cahiersDesChargesModifiésDisponibles.find(
+      (cdc) => cdc.type === "modifié" && cdc.paruLe === "30/08/2022",
+    )?.délaiApplicable?.intervaleDateMiseEnService;
 
   return {
     identifiantProjet: lauréat.identifiantProjet.formatter(),
@@ -105,16 +120,22 @@ const mapToProps: MapToProps = ({
 
     dossierRaccordement: {
       référence: referenceDossierRaccordement,
-      miseEnService: dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
+      miseEnService:
+        dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ??
+        undefined,
     },
 
     intervalleDatesMeSDélaiCDC2022: intervalleDatesMeSDélaiCDC2022
       ? {
-          min: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.min).formatter(),
-          max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
+          min: DateTime.convertirEnValueType(
+            intervalleDatesMeSDélaiCDC2022.min,
+          ).formatter(),
+          max: DateTime.convertirEnValueType(
+            intervalleDatesMeSDélaiCDC2022.max,
+          ).formatter(),
         }
       : undefined,
-    lienRetour: utilisateur.rôle.aLaPermission('raccordement.consulter')
+    lienRetour: utilisateur.rôle.aLaPermission("raccordement.consulter")
       ? Routes.Raccordement.détail(lauréat.identifiantProjet.formatter())
       : Routes.Raccordement.lister,
   };
