@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import type { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { makeCertificate } from './makeCertificate.js';
 
-const eolien = appelsOffreData.find((x) => x.id === 'Eolien')!;
+const eolien = appelsOffreData.find((x) => x.id === 'Eolien') as AppelOffre.AppelOffreReadModel;
 
 const meta = {
   title: 'Attestations PDF/CRE4/v1',

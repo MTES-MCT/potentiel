@@ -6,8 +6,12 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { makeCertificate } from './makeCertificate.js';
 
-const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;
-const eolienPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Eolien')!;
+const batimentPPE2 = appelsOffreData.find(
+  (x) => x.id === 'PPE2 - Bâtiment',
+) as AppelOffre.AppelOffreReadModel;
+const eolienPPE2 = appelsOffreData.find(
+  (x) => x.id === 'PPE2 - Eolien',
+) as AppelOffre.AppelOffreReadModel;
 
 const meta = {
   title: 'Attestations PDF/PPE2/v1',
