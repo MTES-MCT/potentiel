@@ -1,75 +1,105 @@
-import { Command } from '@oclif/core';
+import { Command, Flags } from '@oclif/core';
 
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-
-const query = `
-SELECT
-    SPLIT_PART(key, '|', 2) AS identifiantProjet, value->>'détail.Numéro SIREN ou SIRET*' as value
-FROM
-    domain_views.projection dp
-WHERE
-    dp.key LIKE 'détail-candidature%'
-    AND dp.value->>'détail.Numéro SIREN ou SIRET*' IS NOT NULL
-    AND dp.value->>'détail.Numéro SIREN ou SIRET*' <> '';`;
+import { Where } from '@potentiel-domain/entity';
+import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 export class ImporterSirenEtSiretCommand extends Command {
+  static flags = {
+    projet: Flags.string(),
+  };
+
   async run() {
-    const donnéeAValider = await executeSelect<{
-      identifiantProjet: string;
-      value: string;
-    }>(query);
+    // à exécuter manuellement en production
+    if (process.env.NODE_ENV !== 'production') {
+      await executeQuery(
+        `DROP RULE IF EXISTS prevent_update_on_event_stream on event_store.event_stream;`,
+      );
+    }
 
-    const candidatsAvecNuméroValide = donnéeAValider
-      .map((donnée) => {
-        // supprime tous les caractères ou espace qui ne sont pas des chiffres
-        const numéroAValider = donnée.value.trim().replace(/\D/g, '');
+    const { flags } = await this.parse(ImporterSirenEtSiretCommand);
 
-        // vérifier si il s'agit d'un SIREN ou d'un SIRET ou si la valeur est invalide
-        const isSiret = numéroAValider.length === 14;
-        const isSiren = numéroAValider.length === 9;
+    const { items } = await listProjection<
+      Candidature.DétailCandidatureEntity,
+      Candidature.CandidatureEntity
+    >(`détail-candidature`, {
+      where: {
+        identifiantProjet: Where.equal(flags.projet as IdentifiantProjet.RawType),
+      },
+      join: {
+        entity: 'candidature',
+        on: 'identifiantProjet',
+      },
+    });
 
-        if (!isSiret && !isSiren) {
-          console.warn(
-            `Le numéro d'identification ${donnée.value} pour le projet ${donnée.identifiantProjet} n'est pas valide et ne sera pas importé.`,
-          );
-          return null;
+    const stats = {
+      ok: 0,
+      nok: 0,
+    };
+
+    for (const item of items) {
+      const identifiantProjet = item.identifiantProjet;
+
+      try {
+        const numéroSirenOuSiret = item.détail['Numéro SIREN ou SIRET*'];
+
+        if (!numéroSirenOuSiret) {
+          stats.nok++;
+          continue;
         }
 
-        return {
-          identifiantProjet: donnée.identifiantProjet,
-          numéroIdentification: {
-            siret: isSiret ? numéroAValider : undefined,
-            siren: isSiren ? numéroAValider : undefined,
-          },
+        const numéro = numéroSirenOuSiret.trim().replace(/\D/g, '');
+
+        const isSIRET = numéro.length === 14;
+        const isSIREN = numéro.length === 9;
+
+        const numéroIdentification = {
+          siret: isSIRET ? numéro : undefined,
+          siren: isSIRET ? numéro.slice(0, 9) : isSIREN ? numéro : undefined,
         };
-      })
-      .filter(Boolean);
 
-    let index = 0;
+        if (!isSIRET && !isSIREN) {
+          console.warn(
+            `Le numéro d'identification ${numéroSirenOuSiret} pour le projet ${identifiantProjet} n'est pas valide et ne sera pas importé.`,
+          );
+          stats.nok++;
+          continue;
+        }
 
-    console.log(`Mise à jour des ${candidatsAvecNuméroValide.length} candidats`);
+        const numéroIdentificationValueType =
+          Lauréat.Producteur.NuméroIdentification.convertirEnValueType(numéroIdentification);
 
-    for (const candidat of candidatsAvecNuméroValide) {
-      try {
-        console.log(
-          `Traitement du candidat n°${index} sur ${candidatsAvecNuméroValide.length} : ${candidat?.identifiantProjet}`,
+        await executeQuery(
+          `update event_store.event_stream
+             set payload=jsonb_set(payload, '{numéroIdentification}', $2::jsonb)
+             where stream_id in ('candidature|' || $1, 'lauréat|' || $1)
+             and type in (
+             'CandidatureImportée-V1',
+             'CandidatureImportée-V2',
+             'CandidatureCorrigée-V1',
+             'CandidatureCorrigée-V2',
+             'LauréatNotifié-V1',
+             'LauréatNotifié-V2',
+             'ProducteurModifié-V1'
+             )`,
+          identifiantProjet,
+          JSON.stringify(numéroIdentificationValueType),
         );
-
-        // update des événements d'import de candidature
-
-        // update des événement de correction de candidature (avec l'ancienne valeur)
-
-        // Partir pour les lauréats
-        // update des événements d'import des producteurs (lauréat)
-        // update des événement de modification ou de changement des producteurs (remettre SIRET à undefined ? Décider avec le métier)
-
-        index++;
+        stats.ok++;
       } catch (e) {
-        console.error(`❌ Erreur pour le projet ${candidat?.identifiantProjet}  : ${e}`);
+        console.error(`❌ Erreur pour le projet ${identifiantProjet}  : ${e}`);
+        stats.nok++;
       }
     }
 
-    console.log(`🥳 ${index} candidats mise à jour`);
-    console.log('🥳 Publication des événements terminée');
+    if (process.env.NODE_ENV !== 'production') {
+      await executeQuery(`call event_store.rebuild('candidature')`);
+      await executeQuery(`call event_store.rebuild('lauréat')`);
+    } else {
+      console.log('Now, rebuild candidature and lauréat :');
+      console.log("call event_store.rebuild('candidature')");
+      console.log("call event_store.rebuild('lauréat')");
+    }
   }
 }
