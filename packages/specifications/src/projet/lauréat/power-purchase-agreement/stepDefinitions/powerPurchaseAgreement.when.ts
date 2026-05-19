@@ -15,9 +15,6 @@ Quand(
           : rôle === 'dreal'
             ? this.utilisateurWorld.drealFixture.email
             : 'inconnu';
-      if (utilisateur === 'inconnu') {
-        throw new Error(`Rôle utilisateur inconnu : ${rôle}`);
-      }
 
       await mediator.send<Lauréat.PowerPurchaseAgreement.SignalerPowerPurchaseAgreementUseCase>({
         type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
@@ -28,6 +25,7 @@ Quand(
               : this.éliminéWorld.identifiantProjet.formatter(),
           signaléLeValue: new Date().toISOString(),
           signaléParValue: utilisateur,
+          rôleUtilisateurValue: rôle,
         },
       });
     } catch (e) {

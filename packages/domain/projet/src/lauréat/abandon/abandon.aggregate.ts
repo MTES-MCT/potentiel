@@ -2,6 +2,7 @@ import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet, Lauréat } from '../../index.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
@@ -123,6 +124,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       await this.lauréat.powerPurchaseAgreement.signaler({
         signaléLe: dateDemande,
         signaléPar: identifiantUtilisateur,
+        rôleUtilisateur: Role.porteur,
       });
     }
   }
@@ -344,6 +346,13 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
+
+    if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
+      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
+        annuléLe: dateAnnulation,
+        annuléPar: identifiantUtilisateur,
+      });
+    }
   }
 
   async rejeter({

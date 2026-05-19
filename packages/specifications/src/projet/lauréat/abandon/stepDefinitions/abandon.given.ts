@@ -19,6 +19,13 @@ EtantDonné(
 );
 
 EtantDonné(
+  /une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    await créerDemandeAbandon.call(this, true);
+  },
+);
+
+EtantDonné(
   /une demande d'abandon en cours avec recandidature pour le projet lauréat/,
   async function (this: PotentielWorld) {
     await créerDemandeAbandonAvecRecandidature.call(this);
@@ -142,13 +149,14 @@ async function créerDemandeAbandonAvecRecandidature(this: PotentielWorld) {
   await publish(`abandon|${identifiantProjet}`, event);
 }
 
-async function créerDemandeAbandon(this: PotentielWorld) {
+async function créerDemandeAbandon(this: PotentielWorld, PPA?: true) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { raison, demandéLe, demandéPar, pièceJustificative } =
+  const { raison, demandéLe, demandéPar, pièceJustificative, estPPA } =
     this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
       identifiantProjet,
       demandéPar: this.utilisateurWorld.porteurFixture.email,
+      estPPA: PPA ?? false,
     });
 
   if (pièceJustificative) {
@@ -160,6 +168,7 @@ async function créerDemandeAbandon(this: PotentielWorld) {
         raisonValue: raison,
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
+        PPASignaléValue: estPPA ? true : undefined,
       },
     });
   } else {
