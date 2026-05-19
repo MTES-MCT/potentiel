@@ -73,7 +73,7 @@ export class ModifierAchèvementFixture
       preuve: faker.potentiel.document(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
-      raison: faker.lorem.sentence(),
+      raison: faker.word.words(),
       ...partialFixture,
     };
 
