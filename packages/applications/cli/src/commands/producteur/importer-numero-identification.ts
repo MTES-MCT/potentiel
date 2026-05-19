@@ -27,8 +27,15 @@ export class ImporterSirenEtSiretCommand extends Command {
       },
     });
 
-    const stats = {
+    const stats: {
+      ok: number;
+      okSIREN: number;
+      okSIRET: number;
+      nok: number;
+    } = {
       ok: 0,
+      okSIREN: 0,
+      okSIRET: 0,
       nok: 0,
     };
 
@@ -68,7 +75,7 @@ export class ImporterSirenEtSiretCommand extends Command {
         await executeQuery(
           `update event_store.event_stream
              set payload=jsonb_set(payload, '{numéroIdentification}', $2::jsonb)
-             where stream_id in ('candidature|' || $1, 'lauréat|' || $1)
+             where stream_id in ('candidature|' || $1, 'lauréat|' || $1, 'producteur|' || $1)
              and type in (
              'CandidatureImportée-V1',
              'CandidatureImportée-V2',
@@ -76,6 +83,7 @@ export class ImporterSirenEtSiretCommand extends Command {
              'CandidatureCorrigée-V2',
              'LauréatNotifié-V1',
              'LauréatNotifié-V2',
+             'ProducteurImporté-V1',
              'ProducteurModifié-V1'
              )`,
           identifiantProjet,
@@ -85,13 +93,13 @@ export class ImporterSirenEtSiretCommand extends Command {
         console.log(`✅ Mis à jour du projet ${identifiantProjet}`);
 
         stats.ok++;
+        if (isSIREN) stats.okSIREN++;
+        if (isSIRET) stats.okSIRET++;
       } catch (e) {
         console.error(`❌ Erreur pour le projet ${identifiantProjet}  : ${e}`);
         stats.nok++;
       }
     }
-
-    console.log(stats);
 
     if (process.env.NODE_ENV !== 'production') {
       await executeQuery(`call event_store.rebuild('candidature')`);
@@ -103,5 +111,7 @@ export class ImporterSirenEtSiretCommand extends Command {
       console.log("call event_store.rebuild('lauréat')");
       console.log("call event_store.rebuild('producteur')");
     }
+
+    console.log(stats);
   }
 }
