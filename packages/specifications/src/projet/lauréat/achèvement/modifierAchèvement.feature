@@ -10,11 +10,23 @@ Fonctionnalité: Modifier un achèvement
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet
         Alors l'achèvement du projet devrait être consultable
+        Et un email a été envoyé au porteur avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification des informations d'achèvement |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                              |
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification des informations d'achèvement |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                              |
 
     Scénario: Un admin modifie une date d'achèvement sans attestation de conformité transmise
         Etant donné une date d'achèvement réel transmise pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet sans attestation de conformité
         Alors l'achèvement du projet devrait être consultable
+        Et un email a été envoyé au porteur avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification des informations d'achèvement |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                          |
+            Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification des informations d'achèvement |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                          |
 
     Scénario: Impossible de modifier une attestation de conformité si la date de transmission au Cocontractant est dans le futur
         Etant donné une attestation de conformité transmise pour le projet lauréat
