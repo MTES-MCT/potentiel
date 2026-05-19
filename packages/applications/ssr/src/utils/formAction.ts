@@ -1,19 +1,18 @@
-import { unflatten } from 'flat';
-import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
-import { redirect, unstable_rethrow } from 'next/navigation';
-import * as zod from 'zod';
-
 import { DomainError } from '@potentiel-domain/core';
 import { ImportCSV } from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { unflatten } from 'flat';
+import { revalidatePath } from 'next/cache';
+import { redirect, unstable_rethrow } from 'next/navigation';
+import * as zod from 'zod';
 
 import { applySearchParams } from '@/app/_helpers';
 
 import './zod/setupLocale';
+import { CsrfError, verifyCsrfToken } from './csrf';
 import { TooManyRequestsError } from './withRateLimit';
 import { callbackURLSchema } from './zod/auth';
-import { CsrfError, verifyCsrfToken } from './csrf';
+import { cookies } from 'next/headers';
 
 export type ActionResult = {
   successMessage: string;
@@ -69,7 +68,7 @@ export type FormStateCsvDuplicateColumnError = {
   columns: Array<ImportCSV.CsvDuplicateHeaderError>;
 };
 
-export type FromStateCsrfError = {
+export type FormStateCsrfError = {
   status: 'csrf-error';
 };
 
@@ -86,7 +85,7 @@ export type FormState =
   | FormStateCsvMissingColumnError
   | FormStateUnknownError
   | FormStateCsvDuplicateColumnError
-  | FromStateCsrfError;
+  | FormStateCsrfError;
 
 export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.ZodObject> = (
   previousState: TState,
@@ -100,7 +99,7 @@ export const formAction =
   ) =>
   async (previousState: TState, formData: FormData): Promise<FormState> => {
     try {
-      await verifyCsrfToken(await cookies(), formData);
+      await verifyCsrfToken(formData, await cookies());
       const allKeys = Array.from(formData.keys());
 
       const dataReduced = allKeys.reduce((acc, formKey) => {
@@ -205,7 +204,9 @@ export const formAction =
       }
 
       if (e instanceof CsrfError) {
-        getLogger().warn('CSRF token verification failed', { error: e.message });
+        getLogger().warn('CSRF token verification failed', {
+          error: e.message,
+        });
         return {
           status: 'csrf-error',
         };

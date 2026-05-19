@@ -1,16 +1,18 @@
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 import crypto from 'node:crypto';
+import { CSRF_SECRET_COOKIE, CSRF_FORM_FIELD, CSRF_TOKEN_COOKIE } from './constants';
 
-// the secret cookie, generated per user session (http only : true)
-export const CSRF_SECRET_COOKIE = '__Host-csrf-secret';
-// the token cookie, generated per page load (http only : false)
-export const CSRF_TOKEN_COOKIE = 'csrf-token';
-export const CSRF_FORM_FIELD = 'csrf_token';
+export { CSRF_SECRET_COOKIE, CSRF_TOKEN_COOKIE, CSRF_FORM_FIELD };
+
+export type CookieJar = {
+  get: (name: string) => { value: string } | undefined;
+};
 
 function getCsrfSecret() {
   const secret = process.env.CSRF_SECRET ?? '';
   if (!secret || secret.length < 32) {
-    throw new Error('CSRF_SECRET environment variable is not set');
+    throw new Error(
+      'CSRF_SECRET environment variable must be set and be at least 32 characters long',
+    );
   }
   return secret;
 }
@@ -51,7 +53,7 @@ export function isValidCsrfToken(requestCsrfToken: string, sessionToken: string)
   return crypto.timingSafeEqual(a, b);
 }
 
-export const verifyCsrfToken = async (cookies: ReadonlyRequestCookies, formData: FormData) => {
+export const verifyCsrfToken = async (formData: FormData, cookies: CookieJar) => {
   const submittedToken = formData.get(CSRF_FORM_FIELD);
   if (submittedToken === null) {
     throw new CsrfError('Missing CSRF token in form data');

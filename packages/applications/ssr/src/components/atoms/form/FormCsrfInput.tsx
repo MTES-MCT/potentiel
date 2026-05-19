@@ -1,6 +1,6 @@
 'use client';
 
-import { CSRF_FORM_FIELD, CSRF_TOKEN_COOKIE } from '@/utils/csrf';
+import { CSRF_FORM_FIELD, CSRF_TOKEN_COOKIE } from '@/utils/csrf/constants';
 import { useEffect, useState } from 'react';
 
 function readCookie(name: string) {
