@@ -131,7 +131,7 @@ const Laureat = (project: AttestationCRE4Options) => {
           .{' '}
           <Text style={{ textDecoration: 'underline' }}>
             La durée de la garantie{' '}
-            {appelOffre.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres};
+            {appelOffre.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres}
           </Text>
         </Text>
       ) : (
