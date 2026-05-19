@@ -4,7 +4,9 @@ export type PlainType<T> =
     : T extends ReadonlyArray<infer U>
       ? ReadonlyArray<PlainType<U>>
       : {
-          [K in keyof T as T[K] extends Function ? never : K]: T[K] extends Array<infer U>
+          [K in keyof T as T[K] extends (...args: never) => unknown
+            ? never
+            : K]: T[K] extends Array<infer U>
             ? Array<PlainType<U>>
             : T[K] extends ReadonlyArray<infer U>
               ? ReadonlyArray<PlainType<U>>

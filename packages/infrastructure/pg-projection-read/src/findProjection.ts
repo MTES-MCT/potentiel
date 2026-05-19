@@ -10,7 +10,10 @@ import { getWhereClause } from './getWhereClause.js';
 import type { KeyValuePair } from './keyValuePair.js';
 import { mapResult } from './mapResult.js';
 
-export const findProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
+export const findProjection = async <
+  TEntity extends Entity,
+  TJoin extends Entity | object = object,
+>(
   id: `${TEntity['type']}|${string}`,
   options?: FindOptions<TEntity, TJoin>,
 ): Promise<Option.Type<TEntity & Joined<TJoin>>> => {

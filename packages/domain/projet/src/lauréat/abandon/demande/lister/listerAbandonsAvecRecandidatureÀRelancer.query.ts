@@ -15,7 +15,7 @@ type AbandonsAvecRecandidatureÀRelancerReadModel = {
 
 export type ListerAbandonsAvecRecandidatureÀRelancerQuery = Message<
   'Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
-  {},
+  Record<never, never>,
   AbandonsAvecRecandidatureÀRelancerReadModel
 >;
 

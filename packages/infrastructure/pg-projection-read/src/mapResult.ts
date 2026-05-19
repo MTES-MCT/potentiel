@@ -4,7 +4,7 @@ import type { Entity, Joined } from '@potentiel-domain/entity';
 
 import type { KeyValuePair } from './keyValuePair.js';
 
-export const mapResult = <TEntity extends Entity, TJoin extends Entity | {}>({
+export const mapResult = <TEntity extends Entity, TJoin extends Entity | object>({
   key,
   value,
   join_values,

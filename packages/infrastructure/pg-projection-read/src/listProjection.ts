@@ -20,7 +20,7 @@ import { mapResult } from './mapResult.js';
 
 export const listProjection = async <
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | {} = {},
+  TJoin extends Entity | Entity[] | object = object,
 >(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
