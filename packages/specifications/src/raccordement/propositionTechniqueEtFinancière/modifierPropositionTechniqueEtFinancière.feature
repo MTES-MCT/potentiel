@@ -6,6 +6,7 @@ Fonctionnalité: Modifier une proposition technique et financière
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
 
@@ -117,7 +118,7 @@ Fonctionnalité: Modifier une proposition technique et financière
             | role       |
             | le porteur |
             | la dreal   |
-
+@select
     Scénario: Impossible de modifier une proposition technique et financière d'un projet abandonné
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
