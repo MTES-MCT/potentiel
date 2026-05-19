@@ -19,6 +19,7 @@ function getOrCreateCsrfSessionToken(req: NextRequest, res: NextResponse) {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
+    path: '/',
   });
   return newToken;
 }
@@ -41,6 +42,7 @@ export function withCSRF(nextMiddleware: CustomMiddleware) {
       httpOnly: false,
       secure: true,
       sameSite: 'strict',
+      path: '/',
     });
     return nextMiddleware(req, event, res);
   };
