@@ -46,20 +46,21 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
               url: Routes.Raccordement.détail(identifiantProjet),
             }
           : undefined;
-      const alertes = rôle.estPorteur()
-        ? getAlertesRaccordement({
-            CDC2022Choisi:
-              !!cahierDesCharges.cahierDesChargesModificatif &&
-              cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-            raccordement,
-            dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
-              cahierDesCharges.période.delaiDcrEnMois.valeur,
-            ),
-            transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
-              !!cahierDesCharges.appelOffre
-                .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
-          })
-        : [];
+      const alertes =
+        rôle.estPorteur() && peutModifierRaccordement
+          ? getAlertesRaccordement({
+              CDC2022Choisi:
+                !!cahierDesCharges.cahierDesChargesModificatif &&
+                cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
+              raccordement,
+              dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
+                cahierDesCharges.période.delaiDcrEnMois.valeur,
+              ),
+              transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
+                !!cahierDesCharges.appelOffre
+                  .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
+            })
+          : [];
 
       const value = raccordement && mapToPlainObject(raccordement);
 
