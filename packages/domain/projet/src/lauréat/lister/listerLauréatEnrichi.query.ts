@@ -244,7 +244,9 @@ export const registerListerLauréatEnrichiQuery = ({
           gestionnaireRéseau: lauréat.raccordement
             ? gestionnaireRéseauMap.get(lauréat.raccordement.identifiantGestionnaireRéseau)
             : undefined,
-          appelOffre: appelsOffres.items.find((ao) => ao.id === lauréat.appelOffre)!,
+          appelOffre: appelsOffres.items.find(
+            (ao) => ao.id === lauréat.appelOffre,
+          ) as AppelOffre.AppelOffreEntity,
         }),
       ),
     };

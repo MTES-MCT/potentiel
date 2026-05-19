@@ -25,6 +25,7 @@ import {
   LauréatNonModifiéError,
   LauréatNonNotifiéError,
   LauréatNonTrouvéError,
+  LauréatSansNomProjetError,
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
   StatutLauréatNonModifiéError,
@@ -399,6 +400,11 @@ export class LauréatAggregate extends AbstractAggregate<
     pièceJustificative,
   }: ModifierNomProjetOptions) {
     this.vérifierQueLeLauréatExiste();
+
+    if (!this.#nomProjet) {
+      throw new LauréatSansNomProjetError();
+    }
+
     if (this.#nomProjet === nomProjet) {
       throw new LauréatNonModifiéError();
     }
@@ -408,7 +414,7 @@ export class LauréatAggregate extends AbstractAggregate<
         identifiantProjet: this.projet.identifiantProjet.formatter(),
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
-        ancienNomProjet: this.#nomProjet!,
+        ancienNomProjet: this.#nomProjet,
         nomProjet,
         raison,
         pièceJustificative,
@@ -427,6 +433,10 @@ export class LauréatAggregate extends AbstractAggregate<
   }: EnregistrerChangementNomProjetOptions) {
     this.vérifierQueLeChangementEstPossible('information-enregistrée', 'nomProjet');
 
+    if (!this.#nomProjet) {
+      throw new LauréatSansNomProjetError();
+    }
+
     if (this.#nomProjet === nomProjet) {
       throw new LauréatNonModifiéError();
     }
@@ -438,7 +448,7 @@ export class LauréatAggregate extends AbstractAggregate<
         enregistréLe: enregistréLe.formatter(),
         enregistréPar: enregistréPar.formatter(),
         nomProjet,
-        ancienNomProjet: this.#nomProjet!,
+        ancienNomProjet: this.#nomProjet,
         raison,
         pièceJustificative,
       },

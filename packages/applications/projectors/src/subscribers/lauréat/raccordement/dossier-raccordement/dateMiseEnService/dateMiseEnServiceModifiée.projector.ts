@@ -69,9 +69,13 @@ export const dateMiseEnServiceModifiéeProjector = async ({
     return;
   }
 
+  if (!autresDossiersEnService.items[0].miseEnService) {
+    return;
+  }
+
   const dateMiseEnServiceTransmise = DateTime.convertirEnValueType(payload.dateMiseEnService);
   const dateMiseEnServicePlusTardiveDesAutresDossiers = DateTime.convertirEnValueType(
-    autresDossiersEnService.items[0].miseEnService!.dateMiseEnService,
+    autresDossiersEnService.items[0].miseEnService.dateMiseEnService,
   );
 
   if (dateMiseEnServiceTransmise.estAntérieurÀ(dateMiseEnServicePlusTardiveDesAutresDossiers)) {

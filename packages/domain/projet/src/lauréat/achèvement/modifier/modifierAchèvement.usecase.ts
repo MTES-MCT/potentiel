@@ -59,21 +59,21 @@ export const registerModifierAchèvementUseCase = () => {
 
     const identifiantUtilisateur = Email.convertirEnValueType(utilisateurValue);
 
-    if (attestation) {
+    if (attestation && attestationValue) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
-          content: attestationValue!.content,
+          content: attestationValue.content,
           documentProjet: attestation,
         },
       });
     }
 
-    if (preuveTransmissionAuCocontractant) {
+    if (preuveTransmissionAuCocontractant && preuveTransmissionAuCocontractantValue) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
-          content: preuveTransmissionAuCocontractantValue!.content,
+          content: preuveTransmissionAuCocontractantValue.content,
           documentProjet: preuveTransmissionAuCocontractant,
         },
       });

@@ -30,11 +30,18 @@ async function main() {
   const apiHandler = createApiServer('/api/v1');
   const ignorePaths = ['/_next', '/illustrations', '/api/auth'];
   const server = createServer(async (req, res) => {
-    const parsedUrl = parse(req.url!, true);
+    if (!req.url) {
+      res.writeHead(400).end();
+      return;
+    }
+
+    const url = req.url;
+
+    const parsedUrl = parse(url, true);
 
     setCspHeader(req, res);
 
-    if (ignorePaths.some((p) => req.url?.startsWith(p))) {
+    if (ignorePaths.some((p) => url.startsWith(p))) {
       return nextHandler(req, res, parsedUrl);
     }
 

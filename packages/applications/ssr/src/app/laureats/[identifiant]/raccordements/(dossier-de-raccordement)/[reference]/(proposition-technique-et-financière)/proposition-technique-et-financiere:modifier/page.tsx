@@ -55,7 +55,15 @@ export default async function Page(props0: PageProps) {
         return notFound();
       }
 
-      const props = mapToProps({ identifiantProjet, dossierRaccordement });
+      if (!dossierRaccordement.propositionTechniqueEtFinancière) {
+        return notFound();
+      }
+
+      const props = mapToProps({
+        identifiantProjet,
+        référence: dossierRaccordement.référence,
+        propositionTechniqueEtFinancière: dossierRaccordement.propositionTechniqueEtFinancière,
+      });
 
       return (
         <ModifierPropositionTechniqueEtFinancièrePage
@@ -69,18 +77,24 @@ export default async function Page(props0: PageProps) {
 
 type MapToProps = (params: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
+  référence: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['référence'];
+  propositionTechniqueEtFinancière: NonNullable<
+    Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['propositionTechniqueEtFinancière']
+  >;
 }) => ModifierPropositionTechniqueEtFinancièrePageProps;
 
-const mapToProps: MapToProps = ({ identifiantProjet, dossierRaccordement }) => ({
+const mapToProps: MapToProps = ({
+  identifiantProjet,
+  référence,
+  propositionTechniqueEtFinancière,
+}) => ({
   identifiantProjet: identifiantProjet.formatter(),
   raccordement: {
-    reference: dossierRaccordement.référence.formatter(),
+    reference: référence.formatter(),
     propositionTechniqueEtFinancière: {
-      dateSignature:
-        dossierRaccordement.propositionTechniqueEtFinancière!.dateSignature.formatter(),
+      dateSignature: propositionTechniqueEtFinancière.dateSignature.formatter(),
       propositionTechniqueEtFinancièreSignée:
-        dossierRaccordement.propositionTechniqueEtFinancière!.propositionTechniqueEtFinancièreSignée.formatter(),
+        propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
     },
   },
 });

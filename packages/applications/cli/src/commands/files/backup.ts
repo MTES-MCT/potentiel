@@ -110,7 +110,7 @@ export class Backup extends Command {
         StartAfter: startAfter,
       });
 
-      const files = fileKeys?.map((f) => f.Key!) ?? [];
+      const files = fileKeys?.flatMap((f) => (f.Key ? [f.Key] : [])) ?? [];
       if (!IsTruncated) {
         return files;
       }

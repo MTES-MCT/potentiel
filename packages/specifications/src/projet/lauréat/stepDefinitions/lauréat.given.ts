@@ -64,7 +64,9 @@ EtantDonné(
   'un cahier des charges permettant la modification du projet',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
-    const appelOffre = appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre)!;
+    const appelOffre = appelsOffreData.find(
+      (ao) => ao.id === identifiantProjet.appelOffre,
+    ) as AppelOffre.AppelOffreReadModel;
     const période = appelOffre?.periodes.find((p) => p.id === identifiantProjet.période);
     if (!période) {
       throw new Error('Données invalides - période non trouvée');
@@ -82,7 +84,7 @@ EtantDonné(
       await choisirCahierDesCharges.call(
         this,
         AppelOffre.RéférenceCahierDesCharges.bind(
-          période.cahiersDesChargesModifiésDisponibles[0]!,
+          période.cahiersDesChargesModifiésDisponibles[0],
         ).formatter(),
       );
     }

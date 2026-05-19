@@ -35,7 +35,7 @@ export const mapToExemple = <TMap extends Record<string, unknown>>(
     (prev, [exempleName, value]) => {
       const fieldName = exempleToFieldName[exempleName];
       if (!fieldName) return prev;
-      const transformer = fieldNameToTransformFunc[fieldName]!;
+      const transformer = fieldNameToTransformFunc[fieldName];
       prev[fieldName] = transformer ? transformer(value) : value;
       return prev;
     },

@@ -60,12 +60,12 @@ export const registerCorrigerChangementReprésentantLégalUseCase = () => {
       },
     });
 
-    if (pièceJustificativeValue) {
+    if (pièceJustificativeValue && pièceJustificative) {
       await mediator.send<CorrigerDocumentProjetCommand>({
         type: 'Document.Command.CorrigerDocumentProjet',
         data: {
           content: pièceJustificativeValue.content,
-          documentProjetKey: pièceJustificative!.formatter(),
+          documentProjetKey: pièceJustificative.formatter(),
         },
       });
     }

@@ -80,8 +80,13 @@ const mapToÉtapesData = ({ éliminé, recours }: GetÉtapesData) => {
     });
   }
 
-  return étapes
-    .filter((a) => a.date)
-    .sort((a, b) => a.date!.localeCompare(b.date!))
-    .concat(étapes.filter((a) => !a.date));
+  const étapesAvecDateSorted: Array<ÉtapeProjet> = étapes
+    .filter((a): a is ÉtapeProjet & { date: NonNullable<ÉtapeProjet['date']> } => !!a.date)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  const étapesSansDate: Array<ÉtapeProjet> = étapes.filter(
+    (a): a is ÉtapeProjet & { date: undefined } => a.date === undefined,
+  );
+
+  return étapesAvecDateSorted.concat(étapesSansDate);
 };

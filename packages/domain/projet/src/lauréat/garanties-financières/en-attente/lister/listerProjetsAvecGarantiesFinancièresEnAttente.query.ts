@@ -119,7 +119,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
     });
 
     return {
-      items: items.map((item) => mapToReadModel(item)),
+      items: items.map((item) => mapToReadModel(item as Parameters<MapToReadModelProps>[number])),
       range: { endPosition, startPosition },
       total,
     };
@@ -132,7 +132,10 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: GarantiesFinancièresEntity & Joined<JoinedEntities>,
+  args: GarantiesFinancièresEntity &
+    Joined<JoinedEntities> & {
+      enAttente: NonNullable<GarantiesFinancièresEntity['enAttente']>;
+    },
 ) => GarantiesFinancièresEnAttenteListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -144,8 +147,8 @@ const mapToReadModel: MapToReadModelProps = ({
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(enAttente!.motif),
-  dateLimiteSoumission: DateTime.convertirEnValueType(enAttente!.dateLimiteSoumission),
+  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(enAttente.motif),
+  dateLimiteSoumission: DateTime.convertirEnValueType(enAttente.dateLimiteSoumission),
   statut: StatutLauréat.convertirEnValueType(statut),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),

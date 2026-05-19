@@ -40,7 +40,7 @@ export const registerEnregistrerChangementActionnaireUseCase = () => {
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
-        content: pièceJustificativeValue!.content,
+        content: pièceJustificativeValue.content,
         documentProjet: pièceJustificative,
       },
     });

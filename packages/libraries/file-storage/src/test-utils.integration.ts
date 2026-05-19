@@ -24,7 +24,9 @@ const deleteBucket = async (bucketName: string) => {
     await getClient().send(
       new DeleteObjectsCommand({
         Bucket: bucketName,
-        Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
+        Delete: {
+          Objects: objectsToDelete.Contents.flatMap((o) => (o.Key ? [{ Key: o.Key }] : [])),
+        },
       }),
     );
   }

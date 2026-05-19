@@ -163,7 +163,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   get localité() {
-    return this.dépôt.localité!;
+    return this.dépôt.localité;
   }
 
   get nomCandidat() {
