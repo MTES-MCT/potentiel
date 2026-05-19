@@ -1,7 +1,8 @@
 'use client';
 
-import { CSRF_FORM_FIELD, CSRF_TOKEN_COOKIE } from '@/utils/csrf/constants';
 import { useEffect, useState } from 'react';
+
+import { CSRF_FORM_FIELD, CSRF_TOKEN_COOKIE } from '@/utils/csrf/constants';
 
 function readCookie(name: string) {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

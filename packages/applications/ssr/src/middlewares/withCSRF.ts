@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
+
 import {
-  createCsrfToken,
   CSRF_SECRET_COOKIE,
   CSRF_TOKEN_COOKIE,
+  createCsrfToken,
   generateCsrfSecret,
 } from '@/utils/csrf';
 

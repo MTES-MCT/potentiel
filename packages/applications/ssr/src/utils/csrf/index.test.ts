@@ -2,13 +2,13 @@ import assert from 'node:assert';
 import { beforeEach, describe, test } from 'node:test';
 
 import {
+  type CookieJar,
+  CSRF_FORM_FIELD,
+  CSRF_SECRET_COOKIE,
+  CsrfError,
   createCsrfToken,
   isValidCsrfToken,
   verifyCsrfToken,
-  CsrfError,
-  CSRF_SECRET_COOKIE,
-  CSRF_FORM_FIELD,
-  CookieJar,
 } from './index';
 
 beforeEach(() => {
