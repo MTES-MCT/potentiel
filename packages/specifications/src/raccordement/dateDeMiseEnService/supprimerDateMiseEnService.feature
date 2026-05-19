@@ -21,7 +21,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Quand la dgec supprime la mise en service du dossier de raccordement
         Alors la mise en service du dossier de raccordement devrait être supprimée
         Et il ne devrait pas y avoir de mise en service dans le raccordement du projet lauréat
@@ -30,7 +30,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand la dgec supprime la mise en service du dossier de raccordement
         Alors la mise en service du dossier de raccordement devrait être supprimée

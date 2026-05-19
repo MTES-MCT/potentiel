@@ -22,7 +22,7 @@ Fonctionnalité: Transmettre une proposition technique et financière
 
     Scénario: Transmettre une PTF pour un projet abandonné avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur transmet une proposition technique et financière pour le projet lauréat
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
@@ -30,7 +30,7 @@ Fonctionnalité: Transmettre une proposition technique et financière
     Scénario: Transmettre une PTF pour un projet en cours d'abandon avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Quand le porteur transmet une proposition technique et financière pour le projet lauréat
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 

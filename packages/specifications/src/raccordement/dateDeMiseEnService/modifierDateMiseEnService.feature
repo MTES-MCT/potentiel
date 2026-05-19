@@ -31,7 +31,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
             | La date de mise en service              | 2025-01-01         |
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
@@ -47,7 +47,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
             | La date de mise en service              | 2025-01-01         |
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |

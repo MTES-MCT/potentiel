@@ -75,7 +75,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement pour un projet abandonné avec PPA
-        Etant donné le projet lauréat avec un état PPA signalé
+        Etant donné le signalement par l'administration d'un PPA pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur modifie le gestionnaire de réseau du projet avec :
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
@@ -83,7 +83,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement pour un projet en cours d'abandon avec PPA
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Quand le porteur modifie le gestionnaire de réseau du projet avec :
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"

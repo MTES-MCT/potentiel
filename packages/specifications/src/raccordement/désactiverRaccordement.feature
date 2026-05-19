@@ -29,6 +29,6 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
-        Et le projet lauréat avec un état PPA signalé
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
