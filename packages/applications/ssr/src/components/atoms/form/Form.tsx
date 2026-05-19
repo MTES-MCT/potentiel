@@ -1,18 +1,12 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import {
-  type FC,
-  type FormHTMLAttributes,
-  type ReactNode,
-  useActionState,
-  useEffect,
-  useState,
-} from 'react';
+import { type FC, type FormHTMLAttributes, type ReactNode, useActionState, useEffect } from 'react';
 
 import type { formAction, ValidationErrors } from '@/utils/formAction';
 import { Heading2 } from '../headings';
 import { FormActionButtons, type FormActionButtonsProps } from './FormActionButtons';
+import { FormCsrfInput } from './FormCsrfInput';
 import { FormFeedback } from './FormFeedback';
 import { FormFeedbackCsvColumnErrors } from './FormFeedbackCsvColumnErrors';
 import { FormFeedbackCsvLineErrors } from './FormFeedbackCsvErrors';
@@ -45,23 +39,9 @@ export const Form: FC<FormProps> = ({
   onInvalid,
   className,
 }) => {
-  const [csrfToken, setCsrfToken] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
   const retourUrl = searchParams.get('retour');
-
-  useEffect(() => {
-    const fetchCSRFToken = async () => {
-      const response = await fetch('/csrf', {
-        method: 'HEAD',
-      });
-
-      const tokenFromHeader = response.headers.get('csrf_token');
-      setCsrfToken(tokenFromHeader ?? 'empty_token');
-    };
-
-    void fetchCSRFToken();
-  }, []);
 
   const [state, formAction] = useActionState(action, {
     status: undefined,
@@ -79,7 +59,7 @@ export const Form: FC<FormProps> = ({
 
   return (
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError} className={className}>
-      <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
+      <FormCsrfInput />
       {retourUrl && (
         <input
           type="hidden"

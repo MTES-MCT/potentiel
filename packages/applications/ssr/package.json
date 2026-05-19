@@ -39,7 +39,6 @@
     "@potentiel-infrastructure/ds-api-client": "*",
     "@potentiel-infrastructure/filigrane-facile-client": "*",
     "@potentiel-infrastructure/geo-api-client": "*",
-    "@potentiel-libraries/csrf": "*",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monads": "*",
