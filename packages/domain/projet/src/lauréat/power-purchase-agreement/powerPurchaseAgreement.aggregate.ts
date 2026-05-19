@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { AnnulerSignalementPowerPurchaseAgreementOptions } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.option.js';

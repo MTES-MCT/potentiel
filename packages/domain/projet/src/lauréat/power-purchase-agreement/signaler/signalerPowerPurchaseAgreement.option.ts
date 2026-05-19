@@ -1,5 +1,5 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 export type SignalerPowerPurchaseAgreementOptions = {
   signaléLe: DateTime.ValueType;

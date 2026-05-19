@@ -1,8 +1,8 @@
 import { mediator } from 'mediateur';
 
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDgecRecipients } from '../../../../helpers/listerDgecRecipients.js';

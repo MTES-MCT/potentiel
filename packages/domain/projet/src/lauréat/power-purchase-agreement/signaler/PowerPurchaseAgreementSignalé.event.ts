@@ -1,6 +1,6 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { DomainEvent } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { IdentifiantProjet } from '../../../index.js';
 

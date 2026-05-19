@@ -2,6 +2,7 @@ import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet, Lauréat } from '../../index.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
@@ -47,7 +48,6 @@ import {
   StatutAbandon,
 } from './index.js';
 import type { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option.js';
-import { Role } from '@potentiel-domain/utilisateur';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon', LauréatAggregate> {
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;
@@ -474,7 +474,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       };
     }
   }
-  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) { }
+  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) {}
 
   private applyPreuveRecandidatureTransmiseV1({
     payload: { preuveRecandidature },

@@ -3,7 +3,6 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { buildUrl, getLauréat } from '#helpers';
 import { sendEmail } from '#sendEmail';
-
 import { getRecipients } from '../_helper/getRecipients.js';
 
 export const handleSignalementPowerPurchaseAgreementAnnulé = async ({

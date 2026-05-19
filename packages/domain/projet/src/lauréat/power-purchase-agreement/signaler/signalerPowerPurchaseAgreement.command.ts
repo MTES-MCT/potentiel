@@ -1,7 +1,7 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../index.js';
 
