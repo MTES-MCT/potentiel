@@ -1,7 +1,6 @@
 import { Command, Flags } from '@oclif/core';
 
-import { Where } from '@potentiel-domain/entity';
-import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type Candidature, Lauréat } from '@potentiel-domain/projet';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
@@ -18,15 +17,10 @@ export class ImporterSirenEtSiretCommand extends Command {
       );
     }
 
-    const { flags } = await this.parse(ImporterSirenEtSiretCommand);
-
     const { items } = await listProjection<
       Candidature.DétailCandidatureEntity,
       Candidature.CandidatureEntity
     >(`détail-candidature`, {
-      where: {
-        identifiantProjet: Where.equal(flags.projet as IdentifiantProjet.RawType),
-      },
       join: {
         entity: 'candidature',
         on: 'identifiantProjet',
@@ -45,6 +39,7 @@ export class ImporterSirenEtSiretCommand extends Command {
         const numéroSirenOuSiret = item.détail['Numéro SIREN ou SIRET*'];
 
         if (!numéroSirenOuSiret) {
+          console.log(`⚠️  Pas de numéro d'identification pour le projet ${identifiantProjet}`);
           stats.nok++;
           continue;
         }
@@ -86,6 +81,9 @@ export class ImporterSirenEtSiretCommand extends Command {
           identifiantProjet,
           JSON.stringify(numéroIdentificationValueType),
         );
+
+        console.log(`✅ Mis à jour du projet ${identifiantProjet}`);
+
         stats.ok++;
       } catch (e) {
         console.error(`❌ Erreur pour le projet ${identifiantProjet}  : ${e}`);
@@ -93,13 +91,17 @@ export class ImporterSirenEtSiretCommand extends Command {
       }
     }
 
+    console.log(stats);
+
     if (process.env.NODE_ENV !== 'production') {
       await executeQuery(`call event_store.rebuild('candidature')`);
       await executeQuery(`call event_store.rebuild('lauréat')`);
+      await executeQuery(`call event_store.rebuild('producteur')`);
     } else {
       console.log('Now, rebuild candidature and lauréat :');
       console.log("call event_store.rebuild('candidature')");
       console.log("call event_store.rebuild('lauréat')");
+      console.log("call event_store.rebuild('producteur')");
     }
   }
 }
