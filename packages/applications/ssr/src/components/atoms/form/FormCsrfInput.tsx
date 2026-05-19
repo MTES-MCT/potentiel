@@ -11,7 +11,9 @@ function readCookie(name: string) {
 }
 
 export function FormCsrfInput() {
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(() =>
+    typeof document === 'undefined' ? '' : readCookie(CSRF_TOKEN_COOKIE),
+  );
 
   useEffect(() => {
     setToken(readCookie(CSRF_TOKEN_COOKIE));
