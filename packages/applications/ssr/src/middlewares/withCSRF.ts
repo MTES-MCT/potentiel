@@ -1,4 +1,4 @@
-import { type NextRequest, NextResponse } from 'next/server';
+import { type NextFetchEvent, type NextRequest, NextResponse } from 'next/server';
 
 import {
   CSRF_SECRET_COOKIE,
@@ -6,6 +6,7 @@ import {
   createCsrfToken,
   generateCsrfSecret,
 } from '@/utils/csrf';
+import type { CustomMiddleware } from './middleware';
 
 function getOrCreateCsrfSessionToken(req: NextRequest, res: NextResponse) {
   const existing = req.cookies.get(CSRF_SECRET_COOKIE)?.value;
@@ -23,13 +24,13 @@ function getOrCreateCsrfSessionToken(req: NextRequest, res: NextResponse) {
 }
 
 /** Middleware that populates a CSRF token for each incoming request */
-export function withCSRF() {
-  return async (req: NextRequest) => {
+export function withCSRF(nextMiddleware: CustomMiddleware) {
+  return async (req: NextRequest, event: NextFetchEvent) => {
     const method = req.method.toUpperCase();
     const res = NextResponse.next();
 
     if (method !== 'GET') {
-      return res;
+      return nextMiddleware(req, event, res);
     }
 
     const sessionToken = getOrCreateCsrfSessionToken(req, res);
@@ -39,6 +40,6 @@ export function withCSRF() {
       value: token,
       httpOnly: false,
     });
-    return res;
+    return nextMiddleware(req, event, res);
   };
 }
