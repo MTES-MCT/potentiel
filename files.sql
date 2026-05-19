@@ -2,8 +2,10 @@ CREATE schema document_store;
 create TABLE document_store.files (
   key TEXT NOT NULL PRIMARY KEY,
   content BYTEA NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NULL
 );
+
 
 truncate table document_store.files;
 
@@ -27,7 +29,6 @@ SELECT pg_size_pretty(
   );
 
 
-select count(*)
+select *
 from document_store.files
-delete from document_store.files
-where key like '%/candidature/import/%.json'
+limit 1;

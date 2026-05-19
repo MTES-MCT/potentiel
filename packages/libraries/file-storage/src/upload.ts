@@ -1,20 +1,9 @@
-import { Upload } from '@aws-sdk/lib-storage';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getBucketName } from './getBucketName.js';
-import { getClient } from './getClient.js';
-
-/**
- *
- * @todo ici la key devrait être un IdentifiantDocumentProjet et la
- * fonction upload a la responsabilité de créer le chemin de fichier et les caractères spéciaux interdit
- */
 export const upload = async (filePath: string, content: ReadableStream) => {
-  await new Upload({
-    client: getClient(),
-    params: {
-      Bucket: getBucketName(),
-      Key: filePath,
-      Body: content,
-    },
-  }).done();
+  await executeQuery(
+    'insert into document_store.files (key, content) values ($1, $2) on conflict (key) do update set content = excluded.content, updated_at=NOW()',
+    filePath,
+    content,
+  );
 };
