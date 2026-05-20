@@ -7,7 +7,7 @@ import type { WhereOptions } from './whereOptions.js';
 
 export type ListOptions<
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | object = object,
+  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
 > = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
   range?: RangeOptions;
@@ -17,14 +17,17 @@ export type ListOptions<
 
 export type ListResult<
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | object = object,
+  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
 > = {
   total: number;
   items: ReadonlyArray<TEntity & Joined<TJoin>>;
   range: RangeOptions;
 };
 
-export type List = <TEntity extends Entity, TJoin extends Entity | Entity[] | object = object>(
+export type List = <
+  TEntity extends Entity,
+  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+>(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
 ) => Promise<ListResult<TEntity, TJoin>>;

@@ -12,7 +12,7 @@ import { mapResult } from './mapResult.js';
 
 export const findProjection = async <
   TEntity extends Entity,
-  TJoin extends Entity | object = object,
+  TJoin extends Entity | Record<never, never> = Record<never, never>,
 >(
   id: `${TEntity['type']}|${string}`,
   options?: FindOptions<TEntity, TJoin>,
