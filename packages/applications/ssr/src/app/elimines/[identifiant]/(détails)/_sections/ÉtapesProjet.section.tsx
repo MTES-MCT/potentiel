@@ -83,5 +83,5 @@ const mapToÉtapesData = ({ éliminé, recours }: GetÉtapesData) => {
   return étapes
     .filter((a) => a.date)
     .sort((a, b) => a.date.localeCompare(b.date))
-    .concat(étapes.filter((a) => a.date));
+    .concat(étapes.filter((a) => !a.date));
 };
