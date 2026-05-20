@@ -97,7 +97,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
     )
     .with(
       { type: 'DateMiseEnServiceSupprimée-V1' },
-      dossierRaccordement.dateMiseEnService.mapToDossierRacordementSuppriméTimelineItemProps,
+      dossierRaccordement.dateMiseEnService.mapToDateMiseEnServiceSuppriméeTimelineItemProps,
     )
 
     /***
