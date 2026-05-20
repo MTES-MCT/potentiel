@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - {{ nom_projet }} -  Modification des informations d'achèvement
+subject: Potentiel - {{ nom_projet }} - Modification des informations d'achèvement
 ---
 
 Madame, Monsieur,

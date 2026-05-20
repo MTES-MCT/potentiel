@@ -5,7 +5,7 @@ import { sendEmail } from '#sendEmail';
 
 export const handleAchèvementModifié = async ({
   payload: { identifiantProjet },
-}: Lauréat.Achèvement.AchèvementModifiéEvent) => {
+}: Lauréat.Achèvement.AchèvementModifiéEvent | Lauréat.Achèvement.AchèvementModifiéEventV1) => {
   const projet = await getLauréat(identifiantProjet);
 
   const dreals = await listerDrealsRecipients(projet.région);
