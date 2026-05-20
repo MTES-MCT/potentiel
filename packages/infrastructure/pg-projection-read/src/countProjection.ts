@@ -8,7 +8,7 @@ import { getWhereClause } from './getWhereClause.js';
 
 export const countProjection = async <
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 >(
   category: TEntity['type'],
   options?: CountOption<TEntity, TJoin>,

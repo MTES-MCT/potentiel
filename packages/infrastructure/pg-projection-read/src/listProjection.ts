@@ -20,7 +20,7 @@ import { mapResult } from './mapResult.js';
 
 export const listProjection = async <
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 >(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
@@ -48,11 +48,9 @@ export const listProjection = async <
 
   const total = await countProjection<TEntity, Entity[]>(category, { where, join: joins });
 
-  const items = result.map(mapResult<TEntity, TJoin>);
-
   return {
     total,
-    items,
+    items: result.map(mapResult<TEntity, TJoin>),
     range: range ?? {
       endPosition: total,
       startPosition: 0,

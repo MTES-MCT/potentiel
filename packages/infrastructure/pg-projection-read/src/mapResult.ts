@@ -4,7 +4,7 @@ import type { Entity, Joined } from '@potentiel-domain/entity';
 
 import type { KeyValuePair } from './keyValuePair.js';
 
-export const mapResult = <TEntity extends Entity, TJoin extends Entity | Record<never, never>>({
+export const mapResult = <TEntity extends Entity, TJoin extends Entity | Entity[] | undefined>({
   key,
   value,
   join_values,
@@ -15,7 +15,7 @@ export const mapResult = <TEntity extends Entity, TJoin extends Entity | Record<
     type: key.split('|')[0],
     ...join_values?.reduce(
       (prev, curr) => {
-        prev[curr.category] = unflatten<unknown, Omit<TJoin, 'type'>>(curr.value);
+        prev[curr.category] = unflatten(curr.value);
         return prev;
       },
       {} as Record<string, unknown>,
