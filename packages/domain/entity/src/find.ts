@@ -6,14 +6,14 @@ import type { SelectOptions } from './selectOptions.js';
 
 export type FindOptions<
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 > = {
   select?: SelectOptions<Omit<TEntity, 'type'>>;
 } & JoinOptionsParams<TEntity, TJoin>;
 
 export type Find = <
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 >(
   id: `${TEntity['type']}|${string}`,
   options?: FindOptions<TEntity, TJoin>,

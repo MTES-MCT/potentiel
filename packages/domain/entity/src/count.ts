@@ -4,14 +4,14 @@ import type { WhereOptions } from './whereOptions.js';
 
 export type CountOption<
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 > = {
   where?: WhereOptions<Omit<TEntity, 'type'>>;
 } & JoinOptionsParams<TEntity, TJoin>;
 
 export type Count = <
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 >(
   category: TEntity['type'],
   options?: CountOption<TEntity, TJoin>,
