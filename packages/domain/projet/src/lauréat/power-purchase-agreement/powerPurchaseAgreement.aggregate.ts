@@ -62,6 +62,10 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
       },
     };
 
+    if (this.lauréat.raccordement.estDésactivé) {
+      await this.lauréat.raccordement.réactiverRaccordement();
+    }
+
     await this.publish(event);
   }
 

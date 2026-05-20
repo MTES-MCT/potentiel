@@ -1,5 +1,6 @@
 # language: fr
 @raccordement
+@statut-raccordement
 Fonctionnalité: Supprimer le raccordement d'un projet
 
     Contexte:

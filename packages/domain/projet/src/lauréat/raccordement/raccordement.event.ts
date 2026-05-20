@@ -10,6 +10,15 @@ export type RaccordementSuppriméEvent = DomainEvent<
   'RaccordementSupprimé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
+    //raison: string;
+  }
+>;
+
+export type RaccordementRéactivéEvent = DomainEvent<
+  'RaccordementRéactivé-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    //raison: string;
   }
 >;
 //#endregion Raccordement du projet
@@ -414,4 +423,5 @@ export type RaccordementEvent =
   | GestionnaireRéseauInconnuAttribuéEvent
   | GestionnaireRéseauAttribuéEvent
   | DossierDuRaccordementSuppriméEvent
-  | RaccordementSuppriméEvent;
+  | RaccordementSuppriméEvent
+  | RaccordementRéactivéEvent;

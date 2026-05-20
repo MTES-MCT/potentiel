@@ -65,6 +65,7 @@ import type {
   PropositionTechniqueEtFinancièreTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV2,
   RaccordementEvent,
+  RaccordementRéactivéEvent,
   RaccordementSuppriméEvent,
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
@@ -95,6 +96,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   'raccordement',
   LauréatAggregate
 > {
+  #désactivé?: true;
   #gestionnaireRéseau!: AggregateType<GestionnaireRéseau.GestionnaireRéseauAggregate>;
   #dossiers: Map<string, DossierRaccordement> = new Map();
 
@@ -134,6 +136,9 @@ export class RaccordementAggregate extends AbstractAggregate<
   //#region helpers
   get lauréat() {
     return this.parent;
+  }
+  get estDésactivé() {
+    return this.#désactivé;
   }
 
   private get identifiantProjet(): IdentifiantProjet.ValueType {
@@ -491,8 +496,23 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
   }
   private applyRaccordementSuppriméEventV1() {
-    this.#identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
-    this.#dossiers = new Map();
+    this.#désactivé = true;
+  }
+
+  async réactiverRaccordement() {
+    const raccordementReactivé: RaccordementRéactivéEvent = {
+      type: 'RaccordementRéactivé-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+      },
+    };
+
+    await this.publish(raccordementReactivé);
+
+    // @TODO autre PR : recréer tâches raccordement si nécessaire
+  }
+  private applyRaccordementReactivéEventV1() {
+    this.#désactivé = undefined;
   }
   //#endregion dossier de raccordement
 
@@ -1224,6 +1244,7 @@ export class RaccordementAggregate extends AbstractAggregate<
         { type: 'DateMiseEnServiceSupprimée-V1' },
         this.applyDateMiseEnServiceSuppriméeEventV1.bind(this),
       )
+      .with({ type: 'RaccordementRéactivé-V1' }, this.applyRaccordementReactivéEventV1.bind(this))
       .exhaustive();
   }
 }
