@@ -131,7 +131,8 @@ const Laureat = (project: AttestationCRE4Options) => {
           .{' '}
           <Text style={{ textDecoration: 'underline' }}>
             La durée de la garantie{' '}
-            {`${appelOffre.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres};`}
+            {/** biome-ignore lint/suspicious/noSuspiciousSemicolonInJsx: desired semicolon */}
+            {appelOffre.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres};
           </Text>
         </Text>
       ) : (
@@ -149,7 +150,7 @@ const Laureat = (project: AttestationCRE4Options) => {
           - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le rapport
           de contribution à l’innovation et le cas échéant dans le mémoire technique sur la synergie
           avec l’usage agricole, remis lors du dépôt de l’offre;
-          <Text>{`${addFootNote('3.2.4 et 3.2.5')};`}</Text>
+          <Text>{addFootNote('3.2.4 et 3.2.5')}</Text>.
         </Text>
       ) : (
         <Text />
