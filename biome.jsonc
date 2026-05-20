@@ -17,8 +17,8 @@
   "linter": {
     "enabled": true,
     /* 
-      Merci de laisser les règles linter "domains" AVANT les rules custom 
-      sinon y a un problème de surchage
+      Les règles linter "domains" doivent être placées avant les règles personnalisées 
+      pour être prises en charge correctement
     */
     "domains": {
       "next": "recommended",
@@ -90,5 +90,17 @@
     "linter": {
       "enabled": false
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.test.ts", "**/*.stories.tsx", "packages/specifications/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    }
+  ]
 }

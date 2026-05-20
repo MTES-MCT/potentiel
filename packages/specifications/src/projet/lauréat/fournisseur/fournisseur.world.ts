@@ -24,7 +24,7 @@ export class FournisseurWorld {
   ) {
     const appelOffres = appelsOffreData.find(
       (ao) => ao.id === candidature.identifiantProjet.appelOffre,
-    ) as AppelOffre.AppelOffreReadModel;
+    )!;
     const expected: Lauréat.Fournisseur.ConsulterFournisseurReadModel = {
       identifiantProjet,
       fournisseurs: this.mettreÀJourFournisseur.aÉtéCréé

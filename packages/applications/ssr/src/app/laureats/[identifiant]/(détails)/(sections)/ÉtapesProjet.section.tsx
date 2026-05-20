@@ -113,13 +113,11 @@ const mapToÉtapesData = ({
     étapes.push({ type: 'achèvement-réel' });
   }
 
-  const étapesAvecDateSorted: Array<ÉtapeProjet> = étapes
-    .filter((a): a is ÉtapeProjet & { date: NonNullable<ÉtapeProjet['date']> } => !!a.date)
-    .sort((a, b) => a.date.localeCompare(b.date));
-
-  const étapesSansDate: Array<ÉtapeProjet> = étapes.filter(
-    (a): a is ÉtapeProjet & { date: undefined } => a.date === undefined,
+  return (
+    étapes
+      .filter((a) => a.date)
+      // biome-ignore lint/style/noNonNullAssertion: C'est acceptable de forcer la valeur de date ici car on a filter avant
+      .sort((a, b) => a.date!.localeCompare(b.date!))
+      .concat(étapes.filter((a) => !a.date))
   );
-
-  return étapesAvecDateSorted.concat(étapesSansDate);
 };

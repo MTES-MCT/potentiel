@@ -46,9 +46,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCandidatureOptions => {
-  const appelOffre = appelsOffreData.find(
-    (x) => x.id === appelOffreId,
-  ) as AppelOffre.AppelOffreReadModel;
+  const appelOffre = appelsOffreData.find((x) => x.id === appelOffreId)!;
   const période =
     appelOffre.periodes.find((x) => x.id === périodeId) ??
     appelOffre.periodes[appelOffre.periodes.length - 1];

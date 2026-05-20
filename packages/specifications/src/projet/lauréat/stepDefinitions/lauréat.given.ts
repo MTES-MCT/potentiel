@@ -64,9 +64,7 @@ EtantDonné(
   'un cahier des charges permettant la modification du projet',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
-    const appelOffre = appelsOffreData.find(
-      (ao) => ao.id === identifiantProjet.appelOffre,
-    ) as AppelOffre.AppelOffreReadModel;
+    const appelOffre = appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre)!;
     const période = appelOffre?.periodes.find((p) => p.id === identifiantProjet.période);
     if (!période) {
       throw new Error('Données invalides - période non trouvée');

@@ -1,32 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import type { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
 import { makeCertificate } from './makeCertificate.js';
 
-const batimentPPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Bâtiment',
-) as AppelOffre.AppelOffreReadModel;
-const petitPVBâtimentPPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Petit PV Bâtiment',
-) as AppelOffre.AppelOffreReadModel;
-const eolienPPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Eolien',
-) as AppelOffre.AppelOffreReadModel;
-const neutrePPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Neutre',
-) as AppelOffre.AppelOffreReadModel;
-const solPPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Sol',
-) as AppelOffre.AppelOffreReadModel;
-const innovationPPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Innovation',
-) as AppelOffre.AppelOffreReadModel;
+const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;
+const petitPVBâtimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Petit PV Bâtiment')!;
+const eolienPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Eolien')!;
+const neutrePPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Neutre')!;
+const solPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Sol')!;
+const innovationPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Innovation')!;
 const autoconsommationMetropolePPE2 = appelsOffreData.find(
   (x) => x.id === 'PPE2 - Autoconsommation Métropole',
-) as AppelOffre.AppelOffreReadModel;
+)!;
 
 const meta = {
   title: 'Attestations PDF/PPE2/v2',

@@ -132,12 +132,8 @@ export class LauréatWorld {
   }
 
   get cahierDesCharges() {
-    const appelOffre = appelsOffreData.find(
-      (ao) => ao.id === this.identifiantProjet.appelOffre,
-    ) as AppelOffre.AppelOffreReadModel;
-    const période = appelOffre.periodes.find(
-      (p) => p.id === this.identifiantProjet.période,
-    ) as AppelOffre.AppelOffreReadModel['periodes'][number];
+    const appelOffre = appelsOffreData.find((ao) => ao.id === this.identifiantProjet.appelOffre)!;
+    const période = appelOffre.periodes.find((p) => p.id === this.identifiantProjet.période)!;
     const cahierDesChargesModificatif = this.choisirCahierDesChargesFixture.aÉtéCréé
       ? période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
           AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(

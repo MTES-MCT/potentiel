@@ -6,12 +6,8 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import type { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
 import { makeCertificate } from './makeCertificate.js';
 
-const batimentPPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Bâtiment',
-) as AppelOffre.AppelOffreReadModel;
-const eolienPPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Eolien',
-) as AppelOffre.AppelOffreReadModel;
+const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;
+const eolienPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Eolien')!;
 
 const meta = {
   title: 'Attestations PDF/PPE2/v2',
@@ -34,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 const fakeProject = {
   template: 'ppe2.v2',
   logo: 'Gouvernement',
-  appelOffre: eolienPPE2 as AppelOffre.AppelOffreReadModel,
+  appelOffre: eolienPPE2,
   période: eolienPPE2.periodes[0],
   famille: eolienPPE2.periodes[0].familles[0],
   isClasse: true,
