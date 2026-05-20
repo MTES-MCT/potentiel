@@ -14,10 +14,10 @@ export const mapResult = <TEntity extends Entity, TJoin extends Entity | Record<
     ...unflatten<unknown, Omit<TEntity, 'type'>>(value),
     type: key.split('|')[0],
     ...join_values?.reduce(
-      (prev, curr) =>
-        Object.assign(prev, {
-          [curr.category]: unflatten<unknown, Omit<TJoin, 'type'>>(curr.value),
-        }),
-      {},
+      (prev, curr) => {
+        prev[curr.category] = unflatten<unknown, Omit<TJoin, 'type'>>(curr.value);
+        return prev;
+      },
+      {} as Record<string, unknown>,
     ),
   }) as TEntity & Joined<TJoin>;

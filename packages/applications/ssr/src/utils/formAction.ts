@@ -105,21 +105,22 @@ export const formAction =
       await verifyCsrfToken(formData, await cookies());
       const allKeys = Array.from(formData.keys());
 
-      const dataReduced = allKeys.reduce((acc, formKey) => {
-        if (Object.hasOwn(acc, formKey)) {
+      const dataReduced = allKeys.reduce(
+        (acc, formKey) => {
+          if (Object.hasOwn(acc, formKey)) {
+            return acc;
+          }
+
+          if (allKeys.filter((key) => key === formKey)?.length > 1) {
+            acc[formKey] = formData.getAll(formKey);
+            return acc;
+          }
+
+          acc[formKey] = formData.getAll(formKey);
           return acc;
-        }
-
-        if (allKeys.filter((key) => key === formKey)?.length > 1) {
-          return Object.assign(acc, {
-            [formKey]: formData.getAll(formKey),
-          });
-        }
-
-        return Object.assign(acc, {
-          [formKey]: formData.get(formKey),
-        });
-      }, {});
+        },
+        {} as Record<string, unknown>,
+      );
 
       const data = schema
         ? await schema.parseAsync(unflatten(dataReduced))
