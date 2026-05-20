@@ -7,6 +7,7 @@ import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../(détails)
 import {
   dossierRaccordement,
   gestionnaireRéseau,
+  mapToRaccordementRéactivéTimelineItemProps,
   mapToRaccordementSuppriméTimelineItemProps,
 } from './events';
 
@@ -125,6 +126,12 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
         type: 'RaccordementSupprimé-V1',
       },
       mapToRaccordementSuppriméTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'RaccordementRéactivé-V1',
+      },
+      mapToRaccordementRéactivéTimelineItemProps,
     )
     /**
      * Ignoré

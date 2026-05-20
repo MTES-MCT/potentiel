@@ -9,7 +9,6 @@ Fonctionnalité: Réactiver le raccordement d'un projet
         Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-@select
     Scénario: Le signalement d'un PPA doit réactiver un raccordement désactivé par un abandon
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat

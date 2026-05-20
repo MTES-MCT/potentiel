@@ -169,7 +169,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     });
 
     if (!this.lauréat.powerPurchaseAgreement.estPartiEnPPA) {
-      await this.lauréat.raccordement.supprimerRaccordement();
+      await this.lauréat.raccordement.supprimerRaccordement('abandon');
     }
 
     await this.lauréat.garantiesFinancières.annulerTâchePorteurDemanderGarantiesFinancières();

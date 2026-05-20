@@ -482,11 +482,12 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.#dossiers.delete(payload.référenceDossier);
   }
 
-  async supprimerRaccordement() {
+  async supprimerRaccordement(raison: string) {
     const raccordementSupprimé: RaccordementSuppriméEvent = {
       type: 'RaccordementSupprimé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
+        raison,
       },
     };
 
@@ -499,11 +500,12 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.#désactivé = true;
   }
 
-  async réactiverRaccordement() {
+  async réactiverRaccordement(raison: string) {
     const raccordementReactivé: RaccordementRéactivéEvent = {
       type: 'RaccordementRéactivé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
+        raison,
       },
     };
 

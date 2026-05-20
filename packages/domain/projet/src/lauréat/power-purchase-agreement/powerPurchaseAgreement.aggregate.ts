@@ -63,7 +63,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     };
 
     if (this.lauréat.raccordement.estDésactivé) {
-      await this.lauréat.raccordement.réactiverRaccordement();
+      await this.lauréat.raccordement.réactiverRaccordement('PPA-signalé');
     }
 
     await this.publish(event);
