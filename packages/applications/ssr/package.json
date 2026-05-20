@@ -47,7 +47,7 @@
     "@scalar/nextjs-api-reference": "0.10.14",
     "@sentry/core": "10.41.0",
     "@sentry/nextjs": "10.41.0",
-    "better-auth": "1.4.18",
+    "better-auth": "1.6.2",
     "clsx": "2.1.1",
     "crisp-sdk-web": "1.0.25",
     "flat": "6.0.1",
