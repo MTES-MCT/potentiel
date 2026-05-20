@@ -1,5 +1,4 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import type React from 'react';
 import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -12,6 +11,7 @@ import { getNatureDeLExploitationTypeLabel } from '@/app/_helpers/getNatureDeLEx
 import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { FormattedSIREN, FormattedSIRET } from '@/components/atoms/FormattedNuméroIdentification';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ActionsList } from '@/components/templates/ActionsList.template';
@@ -220,8 +220,12 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
             <FieldGroup name="Contact">
               <Field name="Nom du producteur">{dépôt.nomCandidat}</Field>
               <Field name="Numéro d'identification">
-                <span>Numéro SIRET : {dépôt.numéroIdentification?.siret || 'Non renseigné'}</span>
-                <span>Numéro SIREN : {dépôt.numéroIdentification?.siren || 'Non renseigné'}</span>
+                <span>
+                  Numéro SIRET : <FormattedSIRET siret={dépôt.numéroIdentification?.siret} />
+                </span>
+                <span>
+                  Numéro SIREN : <FormattedSIREN siren={dépôt.numéroIdentification?.siren} />
+                </span>
               </Field>
               <Field name="Nom du représentant légal">{dépôt.nomReprésentantLégal}</Field>
               <Field name="Adresse email à la candidature">
