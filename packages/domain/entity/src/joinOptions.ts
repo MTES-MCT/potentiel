@@ -65,4 +65,4 @@ export type Joined<TEntity extends Entity | Entity[] | undefined> = TEntity exte
   ? (A extends Entity ? EntityWithoutType<A> : object) & Joined<R extends Entity[] ? R : []>
   : TEntity extends Entity
     ? EntityWithoutType<TEntity>
-    : object;
+    : unknown;
