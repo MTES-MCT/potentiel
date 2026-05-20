@@ -7,7 +7,7 @@ import type { WhereOptions } from './whereOptions.js';
 
 export type ListOptions<
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 > = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
   range?: RangeOptions;
@@ -17,7 +17,7 @@ export type ListOptions<
 
 export type ListResult<
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 > = {
   total: number;
   items: ReadonlyArray<TEntity & Joined<TJoin>>;
@@ -26,7 +26,7 @@ export type ListResult<
 
 export type List = <
   TEntity extends Entity,
-  TJoin extends Entity | Entity[] | Record<never, never> = Record<never, never>,
+  TJoin extends Entity | Entity[] | undefined = undefined,
 >(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
