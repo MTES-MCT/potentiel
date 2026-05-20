@@ -16,6 +16,15 @@
   },
   "linter": {
     "enabled": true,
+    /* 
+      Merci de laisser les règles linter "domains" AVANT les rules custom 
+      sinon y a un problème de surchage
+    */
+    "domains": {
+      "next": "recommended",
+      "react": "recommended",
+      "project": "recommended"
+    },
     "rules": {
       "recommended": true,
       "style": {
@@ -25,11 +34,7 @@
             "patterns": [{ "group": "**/dist/**" }, { "group": "**/src/**" }]
           }
         },
-        "noNonNullAssertion": {
-          "level": "warn",
-          // à retirer (et passer en error?) une fois que les non-null assertions auront été supprimées
-          "fix": "none"
-        }
+        "noNonNullAssertion": "error"
       },
       "correctness": {
         "noUnusedImports": {
@@ -42,12 +47,10 @@
       },
       "nursery": {
         "noFloatingPromises": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn"
       }
-    },
-    "domains": {
-      "next": "recommended",
-      "react": "recommended",
-      "project": "recommended"
     }
   },
   "javascript": {

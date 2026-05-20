@@ -150,5 +150,5 @@ packages/applications/notifications/src/templates/**/index.d.ts
 CLAUDE.md
 .claude/
 
-#VSCode
+# VSCode
 .vscode
