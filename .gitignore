@@ -149,3 +149,6 @@ packages/applications/notifications/src/templates/**/index.d.ts
 # Claude
 CLAUDE.md
 .claude/
+
+#VSCode
+.vscode
