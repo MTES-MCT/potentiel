@@ -116,7 +116,7 @@ export const formAction =
             return acc;
           }
 
-          acc[formKey] = formData.getAll(formKey);
+          acc[formKey] = formData.get(formKey);
           return acc;
         },
         {} as Record<string, unknown>,
