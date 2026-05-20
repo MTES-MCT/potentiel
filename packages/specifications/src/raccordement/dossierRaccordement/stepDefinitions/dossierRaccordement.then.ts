@@ -144,8 +144,15 @@ export function vérifierDossierRaccordement(
   const actualDossierRaccordement = mapToPlainObject(dossierRaccordement);
 
   if (Option.isSome(actualDossierRaccordement)) {
-    delete (actualDossierRaccordement as any).miseÀJourLe;
+    const { miseÀJourLe: _, ...restDossier } = actualDossierRaccordement;
+
+    restDossier.should.be.deep.equal(
+      expectedDossier,
+      `le dossier de raccordement n'est pas identique`,
+    );
+    return;
   }
+
   actualDossierRaccordement.should.be.deep.equal(
     expectedDossier,
     `le dossier de raccordement n'est pas identique`,

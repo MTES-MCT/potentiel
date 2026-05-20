@@ -65,13 +65,14 @@ function vérifierRaccordement(
 
   // HACK : misÀJourLe vaut la date de l'event (created_at),
   //  on ne peut pas calculer cette date de manière exacte dans les tests
-  if (Option.isSome(actualRaccordement)) {
-    for (const doss of actualRaccordement.dossiers) {
-      delete (doss as any).miseÀJourLe;
-    }
-  }
+  const raccordementSansDates = Option.isSome(actualRaccordement)
+    ? {
+        ...actualRaccordement,
+        dossiers: actualRaccordement.dossiers.map(({ miseÀJourLe: _, ...doss }) => doss),
+      }
+    : actualRaccordement;
 
-  actualRaccordement.should.be.deep.equal(
+  raccordementSansDates.should.be.deep.equal(
     expectedRaccordement,
     `le raccordement n'est pas identique`,
   );
