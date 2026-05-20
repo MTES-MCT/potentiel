@@ -2,6 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { formatDateToText } from '@/app/_helpers';
+import { FormattedSIRET } from '@/components/atoms/FormattedNuméroIdentification';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
@@ -29,7 +30,9 @@ export const mapToChangementProducteurEnregistréTimelineItemProps = (
           Nouveau producteur : <span className="font-semibold">{producteur}</span>
         </div>
         <div>
-          <span>Numéro SIRET : {numéroIdentification?.siret || 'Non renseigné'}</span>
+          <span>
+            Numéro SIRET : <FormattedSIRET siret={numéroIdentification?.siret} />
+          </span>
         </div>
       </div>
     ),
