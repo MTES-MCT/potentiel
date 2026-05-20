@@ -5,6 +5,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { handleAttestationConformitéModifiée } from './handlers/attestationConformitéModifiée.handler.js';
 import {
+  handleAchèvementModifié,
   handleAttestationConformitéTransmise,
   handleDateAchèvementTransmise,
 } from './handlers/index.js';
@@ -21,9 +22,13 @@ export const register = () => {
       .with({ type: 'DateAchèvementTransmise-V1' }, handleDateAchèvementTransmise)
       .with(
         {
+          type: P.union('AchèvementModifié-V1', 'AchèvementModifié-V2'),
+        },
+        handleAchèvementModifié,
+      )
+      .with(
+        {
           type: P.union(
-            'AchèvementModifié-V1',
-            'AchèvementModifié-V2',
             'AttestationConformitéEnregistrée-V1',
             'DateAchèvementPrévisionnelCalculée-V1',
           ),

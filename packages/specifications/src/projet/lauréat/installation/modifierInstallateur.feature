@@ -14,12 +14,11 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
         Quand le DGEC validateur modifie l'installateur du projet lauréat
         Alors l'installateur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | nom_projet | Du boulodrome de Marseille                 |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.* |
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification de l'installateur |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                              |
 
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'installateur |
-            | nom_projet | Du boulodrome de Marseille                                              |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                              |
 
     Scénario: Modifier l'installateur d'un projet lauréat abandonné
@@ -28,11 +27,9 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
         Alors l'installateur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'installateur |
-            | nom_projet | Du boulodrome de Marseille                                              |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                              |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'installateur |
-            | nom_projet | Du boulodrome de Marseille                                              |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                              |
 
     Scénario: Modifier l'installateur d'un projet lauréat achevé
@@ -41,11 +38,9 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
         Alors l'installateur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'installateur |
-            | nom_projet | Du boulodrome de Marseille                                              |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                              |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'installateur |
-            | nom_projet | Du boulodrome de Marseille                                              |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                              |
 
     Scénario: Impossible de modifier l'installateur avec une valeur identique
