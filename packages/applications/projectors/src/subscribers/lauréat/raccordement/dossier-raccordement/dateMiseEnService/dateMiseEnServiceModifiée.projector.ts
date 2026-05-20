@@ -7,6 +7,7 @@ import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 type DateMiseEnServiceModifiéeProps = (
   | Lauréat.Raccordement.DateMiseEnServiceModifiéeEventV1
@@ -70,6 +71,9 @@ export const dateMiseEnServiceModifiéeProjector = async ({
   }
 
   if (!autresDossiersEnService.items[0].miseEnService) {
+    getLogger().error(`Aucune date de mise en service actuelle n'a été trouvée`, {
+      identifiantProjet: payload.identifiantProjet,
+    });
     return;
   }
 
