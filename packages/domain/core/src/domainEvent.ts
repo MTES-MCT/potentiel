@@ -7,7 +7,7 @@ type PrimitiveType =
 
 export type DomainEvent<
   TType extends string = string,
-  TPayload extends Record<string, PrimitiveType> = {},
+  TPayload extends Record<string, PrimitiveType> = Record<never, never>,
 > = {
   type: TType;
   payload: TPayload;

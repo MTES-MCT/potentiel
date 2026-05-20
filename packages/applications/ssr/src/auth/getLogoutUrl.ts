@@ -40,6 +40,6 @@ export const getLogoutUrl = async (provider: string) => {
 
   const signoutUrl = new URL(endSessionUrl);
   signoutUrl.searchParams.set('id_token_hint', idToken);
-  signoutUrl.searchParams.set('post_logout_redirect_uri', process.env.BASE_URL!);
+  signoutUrl.searchParams.set('post_logout_redirect_uri', process.env.BASE_URL ?? '');
   return signoutUrl.toString();
 };

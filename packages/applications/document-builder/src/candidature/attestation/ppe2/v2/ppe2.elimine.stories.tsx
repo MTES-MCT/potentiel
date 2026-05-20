@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 const fakeProject = {
   template: 'ppe2.v2',
   logo: 'Gouvernement',
-  appelOffre: eolienPPE2 as AppelOffre.AppelOffreReadModel,
+  appelOffre: eolienPPE2,
   période: eolienPPE2.periodes[0],
   famille: eolienPPE2.periodes[0].familles[0],
   isClasse: true,

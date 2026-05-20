@@ -145,10 +145,12 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
           {abandon?.estAbandonné && (
             <Accordion label="Abandon du projet">
               <div className=" flex flex-col">
-                <div>
-                  Date d'abandon :{' '}
-                  <FormattedDate className="font-semibold" date={abandon.accordéLe!.date} />
-                </div>
+                {abandon.accordéLe && (
+                  <div>
+                    Date d'abandon :{' '}
+                    <FormattedDate className="font-semibold" date={abandon.accordéLe.date} />
+                  </div>
+                )}
                 <div>
                   <Link
                     href={Routes.Abandon.détail(

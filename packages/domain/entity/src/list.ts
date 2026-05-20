@@ -5,20 +5,29 @@ import type { RangeOptions } from './rangeOptions.js';
 import type { SelectOptions } from './selectOptions.js';
 import type { WhereOptions } from './whereOptions.js';
 
-export type ListOptions<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
+export type ListOptions<
+  TEntity extends Entity,
+  TJoin extends Entity | Entity[] | undefined = undefined,
+> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
   range?: RangeOptions;
   where?: WhereOptions<Omit<TEntity, 'type'>>;
   select?: SelectOptions<Omit<TEntity, 'type'>>;
 } & JoinOptionsParams<TEntity, TJoin>;
 
-export type ListResult<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
+export type ListResult<
+  TEntity extends Entity,
+  TJoin extends Entity | Entity[] | undefined = undefined,
+> = {
   total: number;
   items: ReadonlyArray<TEntity & Joined<TJoin>>;
   range: RangeOptions;
 };
 
-export type List = <TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}>(
+export type List = <
+  TEntity extends Entity,
+  TJoin extends Entity | Entity[] | undefined = undefined,
+>(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
 ) => Promise<ListResult<TEntity, TJoin>>;

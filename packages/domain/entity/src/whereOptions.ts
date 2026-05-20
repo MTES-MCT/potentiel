@@ -31,7 +31,7 @@ export type GreaterOrEqualCondition<T> = { operator: 'greaterOrEqual'; value: T 
 
 export type EmptyArrayCondition = { operator: 'emptyArray' };
 
-export type WhereCondition<T = {}> =
+export type WhereCondition<T = unknown> =
   | EqualWhereCondition<T>
   | NotEqualWhereCondition<T>
   | LikeWhereCondition

@@ -295,7 +295,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
     return (
       Object.keys(candidatureCsvHeadersMapping) as (keyof typeof candidatureCsvHeadersMapping)[]
     ).reduce(
-      (prev, curr) => ({ ...prev, [curr]: val[candidatureCsvHeadersMapping[curr]] }),
+      (prev, curr) => Object.assign(prev, { [curr]: val[candidatureCsvHeadersMapping[curr]] }),
       {} as unknown as CandidatureShape,
     );
   })

@@ -69,6 +69,7 @@ export const sendEmail = async ({ content, subject, recipients }: EmailOptions) 
       subject,
       html: content,
       to: recipients.join(';'),
+      // biome-ignore lint/style/noNonNullAssertion: from is always set via createTransport options above
       from: transporter.options.from!,
       headers: {
         // suppress out-of-office auto-replies

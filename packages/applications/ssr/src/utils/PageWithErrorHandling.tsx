@@ -38,7 +38,7 @@ const renderDomainError = (e: DomainError) => {
     return <CustomErrorPage statusCode="400" type="InvalidOperationError" message={e.message} />;
   }
 
-  return <></>;
+  return renderUnknownError(e);
 };
 
 const renderUnknownError = (_: Error) => {

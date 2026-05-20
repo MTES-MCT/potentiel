@@ -41,11 +41,11 @@ export const ModifierDateMiseEnServicePage = ({
     rightColumn={{
       children: (
         <>
-          {peutSupprimer && (
+          {peutSupprimer && dossierRaccordement.dateMiseEnService && (
             <SupprimerDateMiseEnService
               identifiantProjet={identifiantProjet}
               référenceDossier={dossierRaccordement.référence}
-              dateMiseEnService={dossierRaccordement.dateMiseEnService!}
+              dateMiseEnService={dossierRaccordement.dateMiseEnService}
             />
           )}
           <Alert

@@ -4,7 +4,7 @@ import type { WhereOptions } from './whereOptions.js';
 
 export type JoinOptionsParams<
   TEntity extends Entity,
-  TJoin extends Entity[] | Entity | {} = {},
+  TJoin extends Entity[] | Entity | undefined = undefined,
 > = TJoin extends Entity[]
   ? {
       join: {
@@ -58,8 +58,11 @@ type EntityWithoutType<T extends Entity> =
  *  type AB = Joined<[A,B]>; // => { "a": { foo: string }, "b": { bar:number} }
  *  ```
  **/
-export type Joined<TEntity extends Entity | Entity[] | {}> = TEntity extends [infer A, ...infer R]
-  ? (A extends Entity ? EntityWithoutType<A> : {}) & Joined<R extends Entity[] ? R : []>
+export type Joined<TEntity extends Entity | Entity[] | undefined> = TEntity extends [
+  infer A,
+  ...infer R,
+]
+  ? (A extends Entity ? EntityWithoutType<A> : object) & Joined<R extends Entity[] ? R : []>
   : TEntity extends Entity
     ? EntityWithoutType<TEntity>
-    : {};
+    : unknown;

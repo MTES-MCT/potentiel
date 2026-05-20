@@ -78,7 +78,7 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
 
 const mapProfileToUser = (profile: Record<string, string>): Record<string, string> => ({
   ...profile,
-  accountUrl: process.env.PROCONNECT_ACCOUNT!,
+  accountUrl: process.env.PROCONNECT_ACCOUNT ?? '',
   provider: 'proconnect',
 });
 

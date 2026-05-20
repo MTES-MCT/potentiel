@@ -30,7 +30,13 @@ export function runWebWithContext({
       const utilisateur = await getUtilisateur({
         headers: new Headers(req.headers as Record<string, string>),
       });
-      const store = requestContextStorage.getStore()!;
+
+      const store = requestContextStorage.getStore();
+
+      if (!store) {
+        throw new Error("Impossible d'accèder au store du context");
+      }
+
       // we could set `utilisateur` in the `run` parameters, but we wouldn't have correlationId in the context
       store.utilisateur = utilisateur;
     } catch (e) {

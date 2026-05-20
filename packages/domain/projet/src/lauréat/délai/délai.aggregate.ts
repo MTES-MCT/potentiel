@@ -91,6 +91,10 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     pièceJustificative,
     raison,
   }: CorrigerDemandeDélaiOptions) {
+    if (!this.#demande) {
+      throw new DemandeDeDélaiInexistanteError();
+    }
+
     this.vérifierSiCorrectionEstValide({
       nombreDeMois,
       pièceJustificative,
@@ -103,7 +107,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.identifiantProjet.formatter(),
         corrigéeLe: dateCorrection.formatter(),
         corrigéePar: identifiantUtilisateur.formatter(),
-        dateDemande: this.#demande!.demandéLe,
+        dateDemande: this.#demande.demandéLe,
         nombreDeMois,
         raison,
         pièceJustificative: pièceJustificative ? { format: pièceJustificative.format } : undefined,

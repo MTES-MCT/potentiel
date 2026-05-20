@@ -12,6 +12,12 @@ export class LauréatNonNotifiéError extends AggregateNotFoundError {
   }
 }
 
+export class LauréatSansNomProjetError extends AggregateNotFoundError {
+  constructor() {
+    super(`Le projet lauréat n'a pas de nom`);
+  }
+}
+
 export class LauréatDéjàNotifiéError extends InvalidOperationError {
   constructor() {
     super(`Le projet lauréat est déjà notifié`);

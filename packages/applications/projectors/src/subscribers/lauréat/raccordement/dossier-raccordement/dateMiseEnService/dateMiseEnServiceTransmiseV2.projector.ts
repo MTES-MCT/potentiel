@@ -7,6 +7,7 @@ import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const dateMiseEnServiceTransmiseV2Projector = async ({
   payload: {
@@ -78,9 +79,16 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
     return;
   }
 
+  if (!autresDossiersEnService.items[0].miseEnService) {
+    getLogger().error(`Aucune date de mise en service actuelle n'a été trouvée`, {
+      identifiantProjet,
+    });
+    return;
+  }
+
   const dateMiseEnServiceTransmise = DateTime.convertirEnValueType(dateMiseEnService);
   const dateMiseEnServicePlusTardiveDesAutresDossiers = DateTime.convertirEnValueType(
-    autresDossiersEnService.items[0].miseEnService!.dateMiseEnService,
+    autresDossiersEnService.items[0].miseEnService.dateMiseEnService,
   );
 
   if (dateMiseEnServiceTransmise.estAntérieurÀ(dateMiseEnServicePlusTardiveDesAutresDossiers)) {

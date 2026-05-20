@@ -61,6 +61,10 @@ export class DélaiWorld {
 
     const ao = appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre);
 
+    if (!ao) {
+      throw new Error(`Appel d'offre non trouvée dans DélaiWorld`);
+    }
+
     const expected: Lauréat.Délai.ConsulterDemandeDélaiReadModel = {
       statut,
       identifiantProjet,
@@ -74,7 +78,7 @@ export class DélaiWorld {
         pièceJustificative: { format: this.#demanderDélaiFixture.pièceJustificative.format },
       }),
       autoritéCompétente: Lauréat.Délai.AutoritéCompétente.convertirEnValueType(
-        ao!.miseÀJour.changement === 'indisponible' || !ao?.miseÀJour.changement.délai.demande
+        ao.miseÀJour.changement === 'indisponible' || !ao?.miseÀJour.changement.délai.demande
           ? Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI
           : ao.miseÀJour.changement.délai.autoritéCompétente,
       ),

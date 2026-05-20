@@ -77,7 +77,7 @@ export class ChangementReprésentantLégalWorld {
             demandéLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
             pièceJustificative: {
               format:
-                this.#demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative!
+                this.#demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative
                   .format,
             },
           }),
@@ -94,7 +94,7 @@ export class ChangementReprésentantLégalWorld {
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
           pièceJustificative: {
-            format: this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
+            format: this.#corrigerChangementReprésentantLégalFixture.pièceJustificative.format,
           },
         });
     }

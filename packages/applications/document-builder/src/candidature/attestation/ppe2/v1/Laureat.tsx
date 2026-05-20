@@ -122,7 +122,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
               - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le
               rapport de contribution à l’innovation et le cas échéant dans le mémoire technique sur
               la synergie avec l’usage agricole, remis lors du dépôt de l’offre
-              {addFootNote('3.2.4 et 3.2.5')};
+              {addFootNote('3.2.4 et 3.2.5')}
             </Text>
           )}
 

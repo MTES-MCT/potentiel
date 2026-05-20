@@ -131,6 +131,7 @@ const Laureat = (project: AttestationCRE4Options) => {
           .{' '}
           <Text style={{ textDecoration: 'underline' }}>
             La durée de la garantie{' '}
+            {/** biome-ignore lint/suspicious/noSuspiciousSemicolonInJsx: desired semicolon */}
             {appelOffre.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres};
           </Text>
         </Text>

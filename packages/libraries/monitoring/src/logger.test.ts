@@ -8,6 +8,7 @@ import { initLogger, resetLogger } from './logger.js';
 import { consoleTransport } from './winston/console.transport.js';
 import { createLogger } from './winston/createLogger.js';
 
+// biome-ignore lint/suspicious/noExplicitAny: les any sont acceptable ici
 const logMock = (calls: string[]) => (info: any, next: any) => calls.push(info.message) && next();
 
 describe('winston-logger', () => {

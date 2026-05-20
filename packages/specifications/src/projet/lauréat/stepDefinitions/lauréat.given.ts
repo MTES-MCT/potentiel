@@ -82,7 +82,7 @@ EtantDonné(
       await choisirCahierDesCharges.call(
         this,
         AppelOffre.RéférenceCahierDesCharges.bind(
-          période.cahiersDesChargesModifiésDisponibles[0]!,
+          période.cahiersDesChargesModifiésDisponibles[0],
         ).formatter(),
       );
     }

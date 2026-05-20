@@ -113,8 +113,11 @@ const mapToÉtapesData = ({
     étapes.push({ type: 'achèvement-réel' });
   }
 
-  return étapes
-    .filter((a) => a.date)
-    .sort((a, b) => a.date!.localeCompare(b.date!))
-    .concat(étapes.filter((a) => !a.date));
+  return (
+    étapes
+      .filter((a) => a.date)
+      // biome-ignore lint/style/noNonNullAssertion: C'est acceptable de forcer la valeur de date ici car on a filter avant
+      .sort((a, b) => a.date!.localeCompare(b.date!))
+      .concat(étapes.filter((a) => !a.date))
+  );
 };

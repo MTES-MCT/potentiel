@@ -10,5 +10,5 @@ export const ImprimerButton = () => {
     }, timeoutInMs);
   }, []);
 
-  return <></>;
+  return null;
 };
