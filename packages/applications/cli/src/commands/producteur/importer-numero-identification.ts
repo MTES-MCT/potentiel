@@ -32,11 +32,17 @@ export class ImporterSirenEtSiretCommand extends Command {
       okSIREN: number;
       okSIRET: number;
       nok: number;
+      nokCarR: number;
+      nokCarFormat: number;
+      nokAutre: number;
     } = {
       ok: 0,
       okSIREN: 0,
       okSIRET: 0,
       nok: 0,
+      nokCarR: 0,
+      nokCarFormat: 0,
+      nokAutre: 0,
     };
 
     for (const item of items) {
@@ -46,8 +52,9 @@ export class ImporterSirenEtSiretCommand extends Command {
         const numéroSirenOuSiret = item.détail['Numéro SIREN ou SIRET*'];
 
         if (!numéroSirenOuSiret) {
-          console.log(`⚠️  Pas de numéro d'identification pour le projet ${identifiantProjet}`);
+          console.log(`❌  Pas de numéro d'identification pour le projet ${identifiantProjet}`);
           stats.nok++;
+          stats.nokCarR++;
           continue;
         }
 
@@ -63,9 +70,10 @@ export class ImporterSirenEtSiretCommand extends Command {
 
         if (!isSIRET && !isSIREN) {
           console.warn(
-            `Le numéro d'identification ${numéroSirenOuSiret} pour le projet ${identifiantProjet} n'est pas valide et ne sera pas importé.`,
+            `❌ Le numéro d'identification "${numéroSirenOuSiret}" pour le projet ${identifiantProjet} n'est pas au bon format (14 ou 9 caractères).`,
           );
           stats.nok++;
+          stats.nokCarFormat++;
           continue;
         }
 
@@ -75,14 +83,12 @@ export class ImporterSirenEtSiretCommand extends Command {
         await executeQuery(
           `update event_store.event_stream
              set payload=jsonb_set(payload, '{numéroIdentification}', $2::jsonb)
-             where stream_id in ('candidature|' || $1, 'lauréat|' || $1, 'producteur|' || $1)
+             where stream_id in ('candidature|' || $1, 'producteur|' || $1)
              and type in (
              'CandidatureImportée-V1',
              'CandidatureImportée-V2',
              'CandidatureCorrigée-V1',
              'CandidatureCorrigée-V2',
-             'LauréatNotifié-V1',
-             'LauréatNotifié-V2',
              'ProducteurImporté-V1',
              'ProducteurModifié-V1'
              )`,
@@ -98,17 +104,16 @@ export class ImporterSirenEtSiretCommand extends Command {
       } catch (e) {
         console.error(`❌ Erreur pour le projet ${identifiantProjet}  : ${e}`);
         stats.nok++;
+        stats.nokAutre++;
       }
     }
 
     if (process.env.NODE_ENV !== 'production') {
       await executeQuery(`call event_store.rebuild('candidature')`);
-      await executeQuery(`call event_store.rebuild('lauréat')`);
       await executeQuery(`call event_store.rebuild('producteur')`);
     } else {
-      console.log('Now, rebuild candidature and lauréat :');
+      console.log('Now, rebuild candidature and producteur :');
       console.log("call event_store.rebuild('candidature')");
-      console.log("call event_store.rebuild('lauréat')");
       console.log("call event_store.rebuild('producteur')");
     }
 
