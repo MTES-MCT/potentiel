@@ -12,5 +12,7 @@ export type AbandonAccordéEvent = DomainEvent<
     réponseSignée: {
       format: string;
     };
+    PPASignalé?: true;
+    PPAAnnulé?: true;
   }
 >;

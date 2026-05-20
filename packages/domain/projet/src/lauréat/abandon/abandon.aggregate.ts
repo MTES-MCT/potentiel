@@ -138,6 +138,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     identifiantUtilisateur,
     réponseSignée,
     rôleUtilisateur,
+    PPASignalé,
+    PPAAnnulé,
   }: AccorderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
@@ -151,6 +153,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
         },
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
+        PPASignalé,
+        PPAAnnulé,
       },
     };
 
@@ -183,6 +187,21 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       statut: Lauréat.StatutLauréat.abandonné,
       modifiéPar: Email.système,
     });
+
+    if (PPASignalé) {
+      await this.lauréat.powerPurchaseAgreement.signaler({
+        signaléLe: dateAccord,
+        signaléPar: identifiantUtilisateur,
+        rôleUtilisateur,
+      });
+    }
+
+    if (PPAAnnulé) {
+      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
+        annuléLe: dateAccord,
+        annuléPar: identifiantUtilisateur,
+      });
+    }
   }
 
   async demanderPreuveRecandidature({ dateDemande }: DemanderPreuveRecandidatureOptions) {
