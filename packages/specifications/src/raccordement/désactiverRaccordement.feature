@@ -30,3 +30,9 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+
+    Scénario: Le raccordement d'un projet abandonné n'est plus consultable en cas d'annulation d'un état PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon accordée avec déclaration de PPA
+        Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
+        Alors aucun raccordement ni dossier de raccordement ne devrait être consultable pour le projet
