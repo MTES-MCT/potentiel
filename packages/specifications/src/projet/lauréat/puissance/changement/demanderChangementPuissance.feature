@@ -40,7 +40,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | nom_projet | Du bouchon lyonnais                                               |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance              |
 
-    Exemples:
+        Exemples:
             | Ratio |
             | 1     |
             | 1.2   |
@@ -91,7 +91,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
 
-    Exemples:
+        Exemples:
             | Ratio |
             | 0     |
             | -1    |
@@ -104,7 +104,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance   | 1                   |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
-    Exemples:
+        Exemples:
             | Puissance de site |
             | 0                 |
             | -1                |

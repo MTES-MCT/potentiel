@@ -15,7 +15,7 @@ Fonctionnalité: Modifier une DCR
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -49,7 +49,7 @@ Fonctionnalité: Modifier une DCR
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -61,7 +61,7 @@ Fonctionnalité: Modifier une DCR
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -102,7 +102,7 @@ Fonctionnalité: Modifier une DCR
         Quand <role> modifie la demande complète de raccordement
         Alors <role> devrait être informé que "La demande complète de raccordement du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service"
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -113,7 +113,7 @@ Fonctionnalité: Modifier une DCR
         Quand <role> modifie la demande complète de raccordement
         Alors <role> devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |

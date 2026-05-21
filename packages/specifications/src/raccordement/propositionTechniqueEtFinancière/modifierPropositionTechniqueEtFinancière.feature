@@ -15,7 +15,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Quand <role> modifie la proposition technique et financière
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -85,7 +85,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Quand <role> modifie la proposition technique et financière
         Alors <role> devrait être informé que "La proposition technique et financière du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service"
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -97,7 +97,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Quand <role> modifie la proposition technique et financière
         Alors <role> devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |

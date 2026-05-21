@@ -80,7 +80,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors <role> devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -92,7 +92,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors <role> devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
 
-    Exemples:
+        Exemples:
             | role       |
             | le porteur |
             | la dreal   |

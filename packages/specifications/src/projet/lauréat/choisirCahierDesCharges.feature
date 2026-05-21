@@ -78,7 +78,7 @@ Fonctionnalité: Choisir un cahier des charges
         Alors le cahier des charges devrait être modifié
         Et la date d'achèvement prévisionnel du projet lauréat devrait être au "<date achèvement prévisionnel attendue>"
 
-    Exemples:
+        Exemples:
             | appel d'offres  | période | date notification | date de mise en service | date achèvement prévisionnel attendue |
             ##
             ## Mise en service dans l'intervalle : délai appliqué

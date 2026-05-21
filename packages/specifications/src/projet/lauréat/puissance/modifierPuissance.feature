@@ -64,7 +64,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
             | ratio puissance | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
 
-    Exemples:
+        Exemples:
             | Ratio |
             | 0     |
             | -1    |
@@ -77,7 +77,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
             | ratio puissance de site | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
-    Exemples:
+        Exemples:
             | Ratio |
             | 0     |
             | -1    |

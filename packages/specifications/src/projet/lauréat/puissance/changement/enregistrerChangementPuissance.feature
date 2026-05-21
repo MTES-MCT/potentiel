@@ -41,7 +41,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | nom_projet | Du bouchon lyonnais                                                      |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*       |
 
-    Exemples:
+        Exemples:
             | Ratio |
             | 1     |
             | 1.05  |
@@ -56,7 +56,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | ratio puissance | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
 
-    Exemples:
+        Exemples:
             | Ratio |
             | 0     |
             | -1    |
@@ -69,7 +69,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | ratio puissance   | 1                   |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
-    Exemples:
+        Exemples:
             | Puissance de site |
             | 0                 |
             | -1                |
@@ -109,7 +109,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | ratio puissance | <Ratio> |
         Alors le porteur devrait être informé que "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offres"
 
-    Exemples:
+        Exemples:
             | Appel d'offre | Période | Ratio |
             | PPE2 - Eolien | 1       | 0.75  |
             | CRE4 - Sol    | 7       | 0.85  |
@@ -123,7 +123,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | ratio puissance | <Ratio> |
         Alors le porteur devrait être informé que "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offres"
 
-    Exemples:
+        Exemples:
             | Appel d'offre | Période | Ratio |
             | PPE2 - Eolien | 1       | 1.25  |
             | CRE4 - Sol    | 7       | 1.15  |
