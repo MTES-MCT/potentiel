@@ -51,7 +51,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                            |
 
     Scénario: Modifier la puissance d'un projet lauréat achevé par un admin
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
@@ -64,7 +64,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
             | ratio puissance | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
 
-        Exemples:
+    Exemples:
             | Ratio |
             | 0     |
             | -1    |
@@ -77,7 +77,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
             | ratio puissance de site | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
-        Exemples:
+    Exemples:
             | Ratio |
             | 0     |
             | -1    |

@@ -8,7 +8,7 @@ Fonctionnalité: Modifier une attestation de conformité
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: le porteur modifie l'attestation de conformité
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le porteur modifie l'attestation de conformité
         Alors l'achèvement du projet devrait être consultable
         Et un email a été envoyé à la dreal avec :
@@ -30,7 +30,7 @@ Fonctionnalité: Modifier une attestation de conformité
         Alors le porteur devrait être informé que "L'attestation de conformité n'est pas transmise"
 
     Scénario: Impossible de modifier une attestation de conformité si la mainlevée des garanties financières est accordée
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée
         Quand le porteur modifie l'attestation de conformité

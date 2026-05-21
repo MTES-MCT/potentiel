@@ -20,21 +20,43 @@ export const AttestationConformitéFormInput: FC<AttestationConformitéFormInput
   attestationConformité,
   optionnel,
   validationErrors,
-}) => {
-  return (
-    <UploadNewOrModifyExistingDocument
-      name="attestation"
-      multiple
-      required={!optionnel}
-      documentKeys={attestationConformité ? [attestationConformité] : undefined}
-      label={`Attestation de conformité et rapport associé${optionnel ? ' (optionnel)' : ''}`}
-      hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
-      state={validationErrors['attestation'] ? 'error' : 'default'}
-      stateRelatedMessage={validationErrors['attestation']}
-      formats={['pdf']}
-    />
-  );
+}) => (
+  <UploadNewOrModifyExistingDocument
+    name="attestation"
+    multiple
+    required={!optionnel}
+    documentKeys={attestationConformité ? [attestationConformité] : undefined}
+    label={`Attestation de conformité${optionnel ? ' (optionnel)' : ''}`}
+    hintText="Joindre l'attestation de conformité en un seul fichier"
+    state={validationErrors['attestation'] ? 'error' : 'default'}
+    stateRelatedMessage={validationErrors['attestation']}
+    formats={['pdf']}
+  />
+);
+
+export type RapportAssociéFormInputProps = {
+  rapportAssocié?: DocumentProjet.RawType;
+  optionnel?: true;
+  validationErrors: ValidationErrors<'rapportAssocie'>;
 };
+
+export const RapportAssociéFormInput: FC<RapportAssociéFormInputProps> = ({
+  rapportAssocié,
+  optionnel,
+  validationErrors,
+}) => (
+  <UploadNewOrModifyExistingDocument
+    name="rapportAssocie"
+    multiple
+    required={!optionnel}
+    documentKeys={rapportAssocié ? [rapportAssocié] : undefined}
+    label={`Rapport associé${optionnel ? ' (optionnel)' : ''}`}
+    hintText="Joindre le rapport associé en un seul fichier"
+    state={validationErrors['rapportAssocie'] ? 'error' : 'default'}
+    stateRelatedMessage={validationErrors['rapportAssocie']}
+    formats={['pdf']}
+  />
+);
 
 export type PreuveTransmissionAuCocontractantFormInputProps = {
   preuveTransmissionAuCocontractant?: DocumentProjet.RawType;

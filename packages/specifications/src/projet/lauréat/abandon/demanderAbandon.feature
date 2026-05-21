@@ -76,7 +76,7 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Alors le porteur devrait être informé que "La demande d'abandon a déjà été accordée"
 
     Scénario: Impossible de demander l'abandon d'un projet achevé
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 

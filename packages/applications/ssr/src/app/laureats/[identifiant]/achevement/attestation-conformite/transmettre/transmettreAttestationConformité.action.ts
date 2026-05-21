@@ -7,14 +7,14 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { manyDocuments } from '@/utils//zod/document/manyDocuments';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: manyDocuments({ acceptedFileTypes: ['application/pdf'] }),
+  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  rapportAssocie: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   preuveTransmissionAuCocontractant: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   dateTransmissionAuCocontractant: zod.string().min(1),
   demanderMainlevee: zod.string().optional(),
@@ -26,10 +26,11 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   {
     identifiantProjet,
-    attestation,
-    dateTransmissionAuCocontractant,
-    preuveTransmissionAuCocontractant,
     demanderMainlevee,
+    dateTransmissionAuCocontractant,
+    attestation,
+    rapportAssocie,
+    preuveTransmissionAuCocontractant,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -38,6 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         attestationValue: attestation,
+        rapportAssociéValue: rapportAssocie,
         preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractantValue: new Date(
           dateTransmissionAuCocontractant,

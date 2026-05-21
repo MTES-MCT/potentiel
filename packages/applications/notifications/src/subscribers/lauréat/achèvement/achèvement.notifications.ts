@@ -17,7 +17,10 @@ export type Execute = Message<'System.Notification.Lauréat.Achèvement', Subscr
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     return match(event)
-      .with({ type: 'AttestationConformitéTransmise-V1' }, handleAttestationConformitéTransmise)
+      .with(
+        { type: P.union('AttestationConformitéTransmise-V1', 'AttestationConformitéTransmise-V2') },
+        handleAttestationConformitéTransmise,
+      )
       .with({ type: 'AttestationConformitéModifiée-V1' }, handleAttestationConformitéModifiée)
       .with({ type: 'DateAchèvementTransmise-V1' }, handleDateAchèvementTransmise)
       .with(

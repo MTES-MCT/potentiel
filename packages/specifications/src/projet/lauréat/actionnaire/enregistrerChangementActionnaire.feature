@@ -48,7 +48,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet achevé
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 

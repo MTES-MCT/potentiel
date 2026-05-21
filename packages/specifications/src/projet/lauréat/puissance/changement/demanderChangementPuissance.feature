@@ -40,7 +40,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | nom_projet | Du bouchon lyonnais                                               |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance              |
 
-        Exemples:
+    Exemples:
             | Ratio |
             | 1     |
             | 1.2   |
@@ -75,7 +75,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible de demander le changement de puissance d'un projet achevé
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
@@ -91,7 +91,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
 
-        Exemples:
+    Exemples:
             | Ratio |
             | 0     |
             | -1    |
@@ -104,7 +104,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance   | 1                   |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
-        Exemples:
+    Exemples:
             | Puissance de site |
             | 0                 |
             | -1                |

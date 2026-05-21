@@ -21,7 +21,7 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
   match(readmodel)
     .with({ type: 'DateAchèvementTransmise-V1' }, mapToDateAchèvementTransmiseTimelineItemProps)
     .with(
-      { type: 'AttestationConformitéTransmise-V1' },
+      { type: P.union('AttestationConformitéTransmise-V1', 'AttestationConformitéTransmise-V2') },
       mapToAttestationConformitéTransmiseTimelineItemProps,
     )
     .with(

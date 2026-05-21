@@ -9,6 +9,13 @@ export const attestationConformité = DocumentProjet.documentFactory({
   nomChampDate: 'enregistréLe',
 });
 
+export const rapportAssocié = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'rapport-associe',
+  nomChampDocument: 'rapportAssocie',
+  nomChampDate: 'enregistréLe',
+});
+
 export const preuveTransmissionAttestationConformité = DocumentProjet.documentFactory({
   domaine,
   typeDocument: 'preuve-transmission-attestation-conformite',

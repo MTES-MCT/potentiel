@@ -29,7 +29,7 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible d'enregistrer le changement de producteur d'un projet achevé
-        Et une attestation de conformité transmise pour le projet lauréat
+        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand un porteur enregistre un changement de nom du projet
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 

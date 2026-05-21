@@ -36,13 +36,13 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau inconnu d'un raccordement pour un projet achevé
         Etant donné le gestionnaire de réseau inconnu attribué au raccordement du projet lauréat
-        Et une attestation de conformité transmise pour le projet lauréat
+        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le porteur modifie le gestionnaire de réseau du projet avec :
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 
     Scénario: La dgec modifie le gestionnaire de réseau inconnu d'un raccordement pour un projet achevé
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand la dgec modifie le gestionnaire de réseau du projet avec :
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
@@ -75,12 +75,12 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Plan du scénario: Impossible pour un profil non admin de modifier le gestionnaire de réseau d'un raccordement si le projet est achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une attestation de conformité transmise pour le projet lauréat
+        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand <role> modifie le gestionnaire de réseau du projet avec :
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors <role> devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-        Exemples:
+    Exemples:
             | role       |
             | le porteur |
             | la dreal   |
@@ -92,7 +92,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors <role> devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
 
-        Exemples:
+    Exemples:
             | role       |
             | le porteur |
             | la dreal   |

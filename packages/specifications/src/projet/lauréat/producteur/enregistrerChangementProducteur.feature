@@ -74,7 +74,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Bâtiment |
             | période        | 1               |
-        Et une attestation de conformité transmise pour le projet lauréat
+        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
@@ -85,7 +85,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
-        Exemples:
+    Exemples:
             | Appel d'offre | Période |
             | Eolien        | 1       |
             | CRE4 - Sol    | 1       |

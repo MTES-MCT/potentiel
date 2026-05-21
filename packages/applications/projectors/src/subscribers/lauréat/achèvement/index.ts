@@ -20,7 +20,10 @@ export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, achèvementRebuildTriggered)
-      .with({ type: 'AttestationConformitéTransmise-V1' }, attestationConformitéTransmiseProjector)
+      .with(
+        { type: P.union('AttestationConformitéTransmise-V1', 'AttestationConformitéTransmise-V2') },
+        attestationConformitéTransmiseProjector,
+      )
       .with({ type: 'AttestationConformitéModifiée-V1' }, attestationConformitéModifiéeProjector)
       .with(
         { type: P.union('AchèvementModifié-V1', 'AchèvementModifié-V2') },

@@ -16,6 +16,10 @@ export type TransmettreAttestationConformitéUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    rapportAssociéValue: {
+      content: ReadableStream;
+      format: string;
+    };
     dateTransmissionAuCocontractantValue: string;
     preuveTransmissionAuCocontractantValue: {
       content: ReadableStream;
@@ -28,8 +32,9 @@ export type TransmettreAttestationConformitéUseCase = Message<
 export const registerTransmettreAttestationConformitéUseCase = () => {
   const runner: MessageHandler<TransmettreAttestationConformitéUseCase> = async ({
     identifiantProjetValue,
-    attestationValue,
     dateValue,
+    attestationValue,
+    rapportAssociéValue,
     preuveTransmissionAuCocontractantValue,
     dateTransmissionAuCocontractantValue,
     identifiantUtilisateurValue,
@@ -39,6 +44,11 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
       identifiantProjet: identifiantProjet.formatter(),
       enregistréLe: DateTime.convertirEnValueType(dateValue).formatter(),
       attestation: attestationValue,
+    });
+    const rapportAssocié = DocumentAchèvement.rapportAssocié({
+      identifiantProjet: identifiantProjet.formatter(),
+      enregistréLe: DateTime.convertirEnValueType(dateValue).formatter(),
+      rapportAssocie: rapportAssociéValue,
     });
     const dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
       dateTransmissionAuCocontractantValue,
@@ -64,6 +74,14 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
+        content: rapportAssociéValue.content,
+        documentProjet: rapportAssocié,
+      },
+    });
+
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
         content: preuveTransmissionAuCocontractantValue.content,
         documentProjet: preuveTransmissionAuCocontractant,
       },
@@ -73,8 +91,9 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
       type: 'Lauréat.Achèvement.Command.TransmettreAttestationConformité',
       data: {
         identifiantProjet,
-        attestation,
         date,
+        attestation,
+        rapportAssocié,
         preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractant,
         identifiantUtilisateur,

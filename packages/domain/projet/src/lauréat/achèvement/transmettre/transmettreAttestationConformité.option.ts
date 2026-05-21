@@ -4,8 +4,9 @@ import type { DocumentProjet } from '../../../index.js';
 
 export type TransmettreAttestationConformitéOptions = {
   identifiantUtilisateur: Email.ValueType;
-  attestation: DocumentProjet.ValueType;
-  dateTransmissionAuCocontractant: DateTime.ValueType;
-  preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
   date: DateTime.ValueType;
+  dateTransmissionAuCocontractant: DateTime.ValueType;
+  attestation: DocumentProjet.ValueType;
+  rapportAssocié: DocumentProjet.ValueType;
+  preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
 };

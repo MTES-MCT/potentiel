@@ -160,6 +160,7 @@ type EventWithDocument =
   | Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent
   | Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
   | Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent
+  | Lauréat.Achèvement.AttestationConformitéTransmiseEventV1
   | Lauréat.Achèvement.AttestationConformitéTransmiseEvent
   | Lauréat.Achèvement.AttestationConformitéEnregistréeEvent
   | Lauréat.Achèvement.AchèvementModifiéEvent
@@ -233,6 +234,17 @@ const map: DocumentRecord = {
   // Achèvement
   'AttestationConformitéTransmise-V1': (event) => [
     Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+      ...event,
+      enregistréLe: event.date,
+    }),
+    Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité(event),
+  ],
+  'AttestationConformitéTransmise-V2': (event) => [
+    Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+      ...event,
+      enregistréLe: event.date,
+    }),
+    Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
       ...event,
       enregistréLe: event.date,
     }),
