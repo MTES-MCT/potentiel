@@ -47,6 +47,7 @@ export type DétailsAbandonPageProps = {
   informations: Array<AvailableInformation>;
   historique: Array<TimelineItemProps>;
   actions: AvailableActions;
+  PPADéclaréPendantLaDemande: boolean;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -56,6 +57,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   informations,
   projetsÀSélectionner,
   historique,
+  PPADéclaréPendantLaDemande,
 }) => (
   <ColumnPageTemplate
     heading={<Heading1>Demande d'abandon</Heading1>}
@@ -107,6 +109,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             identifiantProjet,
             projetsÀSélectionner,
             dateDemande: abandon.demande.demandéLe.date,
+            PPADéclaréPendantLaDemande,
           })}
           {mapToInformationsComponents({
             informations,
@@ -123,6 +126,7 @@ type MapToActionsComponentsProps = {
   identifiantProjet: string;
   projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
   dateDemande: string;
+  PPADéclaréPendantLaDemande: boolean;
 };
 
 const mapToActionComponents = ({
@@ -130,6 +134,7 @@ const mapToActionComponents = ({
   identifiantProjet,
   projetsÀSélectionner,
   dateDemande,
+  PPADéclaréPendantLaDemande,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
@@ -148,7 +153,10 @@ const mapToActionComponents = ({
       />
     )}
     {actions.includes('accorder-sans-recandidature') && (
-      <AccorderAbandonSansRecandidatureForm identifiantProjet={identifiantProjet} />
+      <AccorderAbandonSansRecandidatureForm
+        identifiantProjet={identifiantProjet}
+        PPADéclaréPendantLaDemande={PPADéclaréPendantLaDemande}
+      />
     )}
     {actions.includes('rejeter') && <RejeterAbandonForm identifiantProjet={identifiantProjet} />}
     {actions.includes('confirmer') && (

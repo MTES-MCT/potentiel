@@ -147,7 +147,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
   appelOffre: mainlevée.lauréat.appelOffre,
   nomProjet: mainlevée.lauréat.nomProjet,
-  estPartiEnPPA: mainlevée['power-purchase-agreement']?.estPartiEnPPA,
+  estPartiEnPPA: mainlevée['power-purchase-agreement'] ? true : undefined,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {
@@ -156,31 +156,31 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
   },
   instruction: mainlevée.instruction
     ? {
-        démarréeLe: DateTime.convertirEnValueType(mainlevée.instruction.démarréeLe),
-        démarréePar: Email.convertirEnValueType(mainlevée.instruction.démarréePar),
-      }
+      démarréeLe: DateTime.convertirEnValueType(mainlevée.instruction.démarréeLe),
+      démarréePar: Email.convertirEnValueType(mainlevée.instruction.démarréePar),
+    }
     : undefined,
   accord: mainlevée.accord
     ? {
-        accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
-        accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-        courrierAccord: DocumentMainlevée.demandeAccordée({
-          identifiantProjet: mainlevée.identifiantProjet,
-          accordéLe: mainlevée.accord.accordéeLe,
-          réponseSignée: mainlevée.accord.courrierAccord,
-        }),
-      }
+      accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
+      accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
+      courrierAccord: DocumentMainlevée.demandeAccordée({
+        identifiantProjet: mainlevée.identifiantProjet,
+        accordéLe: mainlevée.accord.accordéeLe,
+        réponseSignée: mainlevée.accord.courrierAccord,
+      }),
+    }
     : undefined,
   rejet: mainlevée.rejet
     ? {
-        rejetéLe: DateTime.convertirEnValueType(mainlevée.rejet.rejetéLe),
-        rejetéPar: Email.convertirEnValueType(mainlevée.rejet.rejetéPar),
-        courrierRejet: DocumentMainlevée.demandeRejetée({
-          identifiantProjet: mainlevée.identifiantProjet,
-          rejetéLe: mainlevée.rejet.rejetéLe,
-          réponseSignée: mainlevée.rejet.courrierRejet,
-        }),
-      }
+      rejetéLe: DateTime.convertirEnValueType(mainlevée.rejet.rejetéLe),
+      rejetéPar: Email.convertirEnValueType(mainlevée.rejet.rejetéPar),
+      courrierRejet: DocumentMainlevée.demandeRejetée({
+        identifiantProjet: mainlevée.identifiantProjet,
+        rejetéLe: mainlevée.rejet.rejetéLe,
+        réponseSignée: mainlevée.rejet.courrierRejet,
+      }),
+    }
     : undefined,
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(mainlevée.dernièreMiseÀJour.date),

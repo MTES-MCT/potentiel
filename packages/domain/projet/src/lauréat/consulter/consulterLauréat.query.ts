@@ -129,6 +129,6 @@ const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
       : undefined,
     autorisation: candidature.dépôt.autorisation,
     actionnariat: candidature.dépôt.actionnariat,
-    estPartiEnPPA: lauréat['power-purchase-agreement']?.estPartiEnPPA ? true : undefined,
+    estPartiEnPPA: lauréat['power-purchase-agreement'] ? true : undefined,
   };
 };

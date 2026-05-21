@@ -2,7 +2,7 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import Select from '@mui/material/Select';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -18,17 +18,18 @@ import {
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
+  PPADéclaréPendantLaDemande: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
   identifiantProjet,
-}: AccorderAbandonSansRecandidatureFormProps) => {
+  PPADéclaréPendantLaDemande,
+}: AccorderAbandonSansRecandidatureFormProps & { PPADéclaréPendantLaDemande: boolean }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderAbandonSansRecandidatureFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
-  const [test, setTest] = useState('false');
-  const aÉtéSignaléPPAParLePorteur = true;
+  const [estPPA, setEstPPA] = useState(PPADéclaréPendantLaDemande);
 
   return (
     <>
@@ -53,7 +54,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-              {aÉtéSignaléPPAParLePorteur ? (
+              {PPADéclaréPendantLaDemande ? (
                 <Notice
                   title={
                     "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par le porteur de projet. Vous pouvez changer cette information si elle n'est plus à jour."
@@ -73,24 +74,24 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 id="estPPA"
                 label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
                 nativeSelectProps={{
-                  defaultValue: aÉtéSignaléPPAParLePorteur ? 'true' : 'false',
+                  defaultValue: PPADéclaréPendantLaDemande ? 'true' : 'false',
                   required: true,
                   'aria-required': true,
-                  onchange: (e) => {
-                    setTest(e.target.value);
+                  onChange: (e) => {
+                    setEstPPA(e.target.value === 'true');
                   },
                 }}
                 options={[
-                  { label: 'Oui', value: true },
-                  { label: 'Non', value: false },
+                  { label: 'Oui', value: 'true' },
+                  { label: 'Non', value: 'false' },
                 ]}
               />
 
               <input
                 type={'hidden'}
-                value={test}
+                value={estPPA ? 'true' : 'false'}
                 name="estPPA"
-                disabled={test === aÉtéSignaléPPAParLePorteur}
+                disabled={estPPA === PPADéclaréPendantLaDemande}
               />
 
               <UploadNewOrModifyExistingDocument

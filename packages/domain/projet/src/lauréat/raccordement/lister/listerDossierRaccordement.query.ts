@@ -159,16 +159,17 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'achèvement',
           on: 'identifiantProjet',
         },
+        // viovio vérifier que ça marche
         {
           entity: 'power-purchase-agreement',
           type: 'left',
           on: 'identifiantProjet',
           where: {
-            estPartiEnPPA:
+            signaléLe:
               estPartiEnPPA === true
-                ? Where.equal(true)
+                ? Where.notEqualNull()
                 : estPartiEnPPA === false
-                  ? Where.notEqual(true)
+                  ? Where.equalNull()
                   : undefined,
           },
         },
@@ -238,7 +239,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   prixReference,
   sociétéMère,
   statutProjet: StatutLauréat.convertirEnValueType(statut),
-  estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
+  estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
   dateAchèvement: achèvement.réel?.date
     ? DateTime.convertirEnValueType(achèvement.réel.date)
     : undefined,

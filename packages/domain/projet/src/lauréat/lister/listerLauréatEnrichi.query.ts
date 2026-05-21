@@ -60,8 +60,8 @@ export type LauréatEnrichiListItemReadModel = {
   typeActionnariat: TypeActionnariat.ValueType | undefined;
 
   raisonSocialeGestionnaireRéseau:
-    | GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel['raisonSociale']
-    | undefined;
+  | GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel['raisonSociale']
+  | undefined;
 
   dateAchèvementPrévisionnelle: DateTime.ValueType | undefined;
   dateAchèvementRéelle: DateTime.ValueType | undefined;
@@ -81,14 +81,14 @@ export type LauréatEnrichiListItemReadModel = {
   typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage:
-    | DispositifDeStockage.ValueType['installationAvecDispositifDeStockage']
-    | undefined;
+  | DispositifDeStockage.ValueType['installationAvecDispositifDeStockage']
+  | undefined;
   puissanceDuDispositifDeStockageEnKW:
-    | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
-    | undefined;
+  | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
+  | undefined;
   capacitéDuDispositifDeStockageEnKWh:
-    | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
-    | undefined;
+  | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
+  | undefined;
   typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
   tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
@@ -217,11 +217,11 @@ export const registerListerLauréatEnrichiQuery = ({
           on: 'identifiantProjet',
           type: 'left',
           where: {
-            estPartiEnPPA:
+            signaléLe:
               estPartiEnPPA === true
-                ? Where.equal(true)
+                ? Where.notEqualNull()
                 : estPartiEnPPA === false
-                  ? Where.notEqual(true)
+                  ? Where.equalNull()
                   : undefined,
           },
         },
@@ -333,8 +333,8 @@ const mapToReadModel: MapToReadModelProps = ({
       : undefined,
     référenceDossierRaccordement: raccordement?.miseEnService?.référenceDossierRaccordement
       ? RéférenceDossierRaccordement.convertirEnValueType(
-          raccordement.miseEnService.référenceDossierRaccordement,
-        )
+        raccordement.miseEnService.référenceDossierRaccordement,
+      )
       : undefined,
 
     prixReference,
@@ -368,8 +368,8 @@ const mapToReadModel: MapToReadModelProps = ({
     ),
     typeNatureDeLExploitation: natureDeLExploitation
       ? TypeDeNatureDeLExploitation.convertirEnValueType(
-          natureDeLExploitation.typeNatureDeLExploitation,
-        )
+        natureDeLExploitation.typeNatureDeLExploitation,
+      )
       : undefined,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,

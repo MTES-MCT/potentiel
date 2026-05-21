@@ -509,7 +509,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       };
     }
   }
-  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) { }
+  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) {}
 
   private applyPreuveRecandidatureTransmiseV1({
     payload: { preuveRecandidature },
