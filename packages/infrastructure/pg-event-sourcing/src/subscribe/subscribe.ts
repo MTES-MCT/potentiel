@@ -17,8 +17,6 @@ let client: Client | undefined;
 // biome-ignore lint/suspicious/noExplicitAny: EventStreamEmitter type unkown
 const eventStreamEmitters = new Map<string, EventStreamEmitter<any>>();
 
-const maxListeners = eventStreamEmitters.size + 2;
-
 export const subscribe = async <TEvent extends DomainEvent = DomainEvent>(
   subscriber: Subscriber<TEvent>,
 ): Promise<Unsubscribe> => {
@@ -26,7 +24,11 @@ export const subscribe = async <TEvent extends DomainEvent = DomainEvent>(
     client = await connect();
   }
 
-  client.setMaxListeners(maxListeners);
+  /*
+   +1 pour le nouvel emitter qui va être ajouté
+   +2 pour les listeners error/notification qui proviennent de connect()
+  */
+  client.setMaxListeners(eventStreamEmitters.size + 3);
 
   await registerSubscriber(subscriber);
 
@@ -120,7 +122,10 @@ const handleClientError = async (error: Error) => {
     await retryPolicy.execute(async () => {
       client = await connect();
 
-      client.setMaxListeners(maxListeners);
+      /*
+        size listeners des emitters existants + 2 listeners error/notification de connect() 
+      */
+      client.setMaxListeners(eventStreamEmitters.size + 2);
 
       logger.info(`Subscribe Postgresql client reconnection succeeds !`);
     });
