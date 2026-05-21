@@ -5,9 +5,7 @@ import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { type GetLauréat, getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 
-export const returnLauréatSiModificationRaccordementAccessibleSinonRedirect = async (
-  identifiantProjet: IdentifiantProjet.RawType,
-) => {
+export const getLauréatOrRedirect = async (identifiantProjet: IdentifiantProjet.RawType) => {
   const lauréat = await getLauréat(identifiantProjet);
   const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
   if (!peutModifierRaccordement) {

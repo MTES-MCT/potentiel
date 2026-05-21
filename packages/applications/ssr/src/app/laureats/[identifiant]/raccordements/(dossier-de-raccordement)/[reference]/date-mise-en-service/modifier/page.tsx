@@ -13,7 +13,7 @@ import { getPériodeAppelOffres } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
+import { getLauréatOrRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import {
   ModifierDateMiseEnServicePage,
   type ModifierDateMiseEnServicePageProps,
@@ -45,8 +45,7 @@ export default async function Page(props0: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
 
-      const { lauréat } =
-        await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
+      const { lauréat } = await getLauréatOrRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 

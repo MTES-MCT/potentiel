@@ -8,7 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
+import { getLauréatOrRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import {
   ModifierPropositionTechniqueEtFinancièrePage,
   type ModifierPropositionTechniqueEtFinancièrePageProps,
@@ -38,7 +38,7 @@ export default async function Page(props0: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
 
-      await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
+      await getLauréatOrRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 

@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../(raccordement-du-projet)/(détails)/_helpers';
+import { getLauréatOrRedirect } from '../../(raccordement-du-projet)/(détails)/_helpers';
 import { TransmettreDemandeComplèteRaccordementPage } from './TransmettreDemandeComplèteRaccordement.page';
 
 export const metadata: Metadata = {
@@ -38,7 +38,7 @@ export default async function Page(props: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
 
-      await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
+      await getLauréatOrRedirect(identifiantProjet);
 
       const { période } = await getPériodeAppelOffres(identifiantProjet);
 

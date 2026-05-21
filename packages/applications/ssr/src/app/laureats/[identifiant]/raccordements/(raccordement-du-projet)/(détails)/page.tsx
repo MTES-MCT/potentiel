@@ -14,11 +14,11 @@ import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
+  getLauréatOrRedirect,
   getModificationDCRAction,
   getModificationGestionnaireRéseauAction,
   getModificationPTFAction,
   getSupprimerDossierAction,
-  returnLauréatSiModificationRaccordementAccessibleSinonRedirect,
 } from './_helpers';
 import {
   DétailsRaccordementDuProjetPage,
@@ -47,9 +47,7 @@ export default async function Page(props: PageProps) {
         },
       });
 
-      const { lauréat } = await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(
-        identifiantProjet.formatter(),
-      );
+      const { lauréat } = await getLauréatOrRedirect(identifiantProjet.formatter());
 
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
