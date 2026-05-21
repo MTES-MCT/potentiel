@@ -6,6 +6,7 @@ Fonctionnalité: Modifier une proposition technique et financière
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
 
@@ -44,6 +45,20 @@ Fonctionnalité: Modifier une proposition technique et financière
             | Le document a été modifié ? | non |
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Plan du scénario: Modifier une PTF pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une demande d'abandon accordée avec déclaration de PPA
+        Quand le porteur modifie la proposition technique et financière
+        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Plan du scénario: Modifier une PTF pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Quand le porteur modifie la proposition technique et financière
+        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Impossible de modifier une proposition technique et financière pour un projet sans dossier de raccordement
         Quand le porteur modifie la proposition technique et financière avec :
@@ -101,3 +116,10 @@ Fonctionnalité: Modifier une proposition technique et financière
             | role       |
             | le porteur |
             | la dreal   |
+
+    Scénario: Impossible de modifier une proposition technique et financière d'un projet abandonné
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec modifie la proposition technique et financière
+        Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"

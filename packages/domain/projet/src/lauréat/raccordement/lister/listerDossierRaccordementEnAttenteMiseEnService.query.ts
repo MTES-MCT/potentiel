@@ -4,7 +4,7 @@ import type { DateTime } from '@potentiel-domain/common';
 import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { type Candidature, IdentifiantProjet } from '../../../index.js';
-import { type Puissance, StatutLauréat } from '../../index.js';
+import { type Puissance, type Raccordement, StatutLauréat } from '../../index.js';
 import type { LauréatEntity } from '../../lauréat.entity.js';
 import { type DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
 
@@ -52,6 +52,7 @@ type ListerDossierRaccordementEnAttenteMiseEnServiceJoins = [
   LauréatEntity,
   Candidature.CandidatureEntity,
   Puissance.PuissanceEntity,
+  Raccordement.RaccordementEntity,
 ];
 
 export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
@@ -92,6 +93,11 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
           {
             entity: 'puissance',
             on: 'identifiantProjet',
+          },
+          {
+            entity: 'raccordement',
+            on: 'identifiantProjet',
+            where: { désactivé: Where.equalNull() },
           },
         ],
         range,

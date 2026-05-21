@@ -6,6 +6,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
 
@@ -46,6 +47,20 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | La référence du dossier de raccordement          | OUE-RP-2022-000033 |
             | La nouvelle référence du dossier de raccordement | OUE-RP-2022-000034 |
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Modifier la référence d'une demande complète de raccordement pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon accordée avec déclaration de PPA
+        Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Modifier la référence d'une demande complète de raccordement pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Impossible de modifier une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau
         Etant donné le gestionnaire de réseau avec :
@@ -94,3 +109,17 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | La référence du dossier de raccordement          | OUE-RP-2022-000033 |
             | La nouvelle référence du dossier de raccordement | OUE-RP-2022-000034 |
         Alors le porteur devrait être informé que "Il est impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet"
+
+    Scénario: Impossible de modifier une référence de raccordement si le projet a une demande d'abandon en cours
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Alors la dgec devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
+
+    Scénario: Impossible de modifier une référence de raccordement si le projet est abandonné
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"

@@ -57,6 +57,14 @@ EtantDonné(
 );
 
 EtantDonné(
+  /une demande d'abandon accordée avec déclaration de PPA/,
+  async function (this: PotentielWorld) {
+    await créerDemandeAbandon.call(this, true);
+    await créerAccordAbandon.call(this);
+  },
+);
+
+EtantDonné(
   /une demande d'abandon rejetée(.*)pour le projet lauréat/,
   async function (this: PotentielWorld, etat: string) {
     if (etat.includes('avec recandidature')) {

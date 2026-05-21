@@ -9,12 +9,12 @@ import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { récupérerLauréat } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
+  getLauréatOrRedirect,
   getModificationDCRAction,
   getModificationGestionnaireRéseauAction,
   getModificationPTFAction,
@@ -47,15 +47,15 @@ export default async function Page(props: PageProps) {
         },
       });
 
-      const lauréat = await récupérerLauréat(identifiantProjet.formatter());
+      const { lauréat } = await getLauréatOrRedirect(identifiantProjet.formatter());
 
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
-          lauréat.statut.estAbandonné()
-            ? Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())
-            : Routes.Raccordement.transmettreDemandeComplèteRaccordement(
+          utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
+            ? Routes.Raccordement.transmettreDemandeComplèteRaccordement(
                 identifiantProjet.formatter(),
-              ),
+              )
+            : Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()),
         );
       }
 

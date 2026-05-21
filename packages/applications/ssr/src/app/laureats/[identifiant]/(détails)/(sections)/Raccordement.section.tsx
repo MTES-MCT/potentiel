@@ -7,7 +7,8 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAbandonInfos, getLauréat, getRaccordement } from '../../_helpers';
+import { getLauréat, getRaccordement } from '../../_helpers';
+import { vérifierSiModificationRaccordementPossible } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { RaccordementDétails, type RaccordementDétailsProps } from './RaccordementDétails';
 
 type RaccordementSectionProps = {
@@ -25,44 +26,43 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
 
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
-      const abandon = await getAbandonInfos(identifiantProjet);
-
       const raccordement = await getRaccordement(identifiantProjet);
 
       const lauréat = await getLauréat(identifiantProjet);
+      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
 
-      if (!raccordement) {
+      if (!raccordement && !peutModifierRaccordement) {
         return null;
       }
 
       const détailEstConsultable =
-        raccordement.dossiers.length > 0 ||
+        (raccordement && raccordement.dossiers.length > 0) ||
         rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
 
       const action =
-        !abandon?.demandeEnCours && détailEstConsultable
+        peutModifierRaccordement && détailEstConsultable
           ? {
               label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet),
             }
           : undefined;
+      const alertes =
+        rôle.estPorteur() && peutModifierRaccordement
+          ? getAlertesRaccordement({
+              CDC2022Choisi:
+                !!cahierDesCharges.cahierDesChargesModificatif &&
+                cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
+              raccordement,
+              dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
+                cahierDesCharges.période.delaiDcrEnMois.valeur,
+              ),
+              transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
+                !!cahierDesCharges.appelOffre
+                  .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
+            })
+          : [];
 
-      const alertes = rôle.estPorteur()
-        ? getAlertesRaccordement({
-            CDC2022Choisi:
-              !!cahierDesCharges.cahierDesChargesModificatif &&
-              cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-            raccordement,
-            dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
-              cahierDesCharges.période.delaiDcrEnMois.valeur,
-            ),
-            transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
-              !!cahierDesCharges.appelOffre
-                .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
-          })
-        : [];
-
-      const value = mapToPlainObject(raccordement);
+      const value = raccordement && mapToPlainObject(raccordement);
 
       return (
         <Section title={sectionTitle}>
@@ -80,7 +80,7 @@ const getAlertesRaccordement = ({
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
 }: {
   CDC2022Choisi: boolean;
-  raccordement: Lauréat.Raccordement.ConsulterRaccordementReadModel;
+  raccordement?: Lauréat.Raccordement.ConsulterRaccordementReadModel;
   dcrAttendueAvantLe: DateTime.ValueType;
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: boolean;
 }): RaccordementDétailsProps['alertes'] => {
@@ -109,7 +109,7 @@ const getAlertesRaccordement = ({
 
   const alertes: RaccordementDétailsProps['alertes'] = [];
 
-  if (raccordement.dossiers.length === 0) {
+  if ((raccordement && raccordement.dossiers.length === 0) || !raccordement) {
     alertes.push({
       label: transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
         ? demandeComplèteRaccordementManquanteAlerteSiTransmissionAutomatiséeAuCocontractant

@@ -5,14 +5,15 @@ import { notFound } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getLauréatOrRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import {
   ModifierDateMiseEnServicePage,
   type ModifierDateMiseEnServicePageProps,
@@ -25,7 +26,9 @@ type PageProps = {
   }>;
 };
 
-export const metadata: Metadata = { title: 'Modifier la date de mise en service' };
+export const metadata: Metadata = {
+  title: 'Modifier la date de mise en service',
+};
 
 export default async function Page(props0: PageProps) {
   const params = await props0.params;
@@ -38,8 +41,11 @@ export default async function Page(props0: PageProps) {
         'Lauréat.Raccordement.UseCase.ModifierDateMiseEnService',
       );
 
-      const identifiantProjet = decodeParameter(identifiant);
-      const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
+
+      const { lauréat } = await getLauréatOrRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 

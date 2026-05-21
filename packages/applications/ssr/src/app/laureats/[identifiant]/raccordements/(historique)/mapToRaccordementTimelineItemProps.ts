@@ -4,11 +4,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-import {
-  dossierRaccordement,
-  gestionnaireRéseau,
-  mapToRaccordementSuppriméTimelineItemProps,
-} from './events';
+import { dossierRaccordement, gestionnaireRéseau } from './events';
 
 type MapToRaccordementTimelineItemProps = (
   record: Lauréat.Raccordement.HistoriqueRaccordementProjetListItemReadModel,
@@ -96,7 +92,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
     )
     .with(
       { type: 'DateMiseEnServiceSupprimée-V1' },
-      dossierRaccordement.dateMiseEnService.mapToDossierRacordementSuppriméTimelineItemProps,
+      dossierRaccordement.dateMiseEnService.mapToDateMiseEnServiceSuppriméeTimelineItemProps,
     )
 
     /***
@@ -120,18 +116,17 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
     /**
      * Raccordement du projet
      */
-    .with(
-      {
-        type: 'RaccordementSupprimé-V1',
-      },
-      mapToRaccordementSuppriméTimelineItemProps,
-    )
+
     /**
      * Ignoré
      */
     .with(
       {
-        type: 'GestionnaireRéseauInconnuAttribué-V1',
+        type: P.union(
+          'GestionnaireRéseauInconnuAttribué-V1',
+          'RaccordementSupprimé-V1',
+          'RaccordementRéactivé-V1',
+        ),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
     )

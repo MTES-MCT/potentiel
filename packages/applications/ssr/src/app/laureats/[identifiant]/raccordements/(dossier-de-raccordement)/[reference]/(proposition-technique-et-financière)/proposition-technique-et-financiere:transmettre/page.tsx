@@ -5,10 +5,10 @@ import { notFound } from 'next/navigation';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getLauréatOrRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from './TransmettrePropositionTechniqueEtFinancière.page';
 
 type PageProps = {
@@ -35,7 +35,7 @@ export default async function Page(props: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
 
-      await récupérerLauréatNonAbandonné(identifiantProjet);
+      await getLauréatOrRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 

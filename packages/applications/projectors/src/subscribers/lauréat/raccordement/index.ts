@@ -41,6 +41,7 @@ import {
   gestionnaireRéseauRaccordementModifiéV2Projector,
 } from './gestionnaire-réseau/index.js';
 import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector.js';
+import { raccordementRéactivéV1Projector } from './raccordementRéactivéV1.projector.js';
 import { raccordementSuppriméV1Projector } from './raccordementSuppriméV1.projector.js';
 
 export type SubscriptionEvent = Lauréat.Raccordement.RaccordementEvent | RebuildTriggered;
@@ -66,8 +67,9 @@ export const register = () => {
         { type: 'GestionnaireRéseauRaccordementModifié-V2' },
         gestionnaireRéseauRaccordementModifiéV2Projector,
       )
-      // Suppression du raccordement
+      // Suppression / réactivation du raccordement
       .with({ type: 'RaccordementSupprimé-V1' }, raccordementSuppriméV1Projector)
+      .with({ type: 'RaccordementRéactivé-V1' }, raccordementRéactivéV1Projector)
 
       // Dossier Raccordement
       .otherwise((event) =>

@@ -19,6 +19,7 @@ export type GetLauréat = {
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   abandon?: Lauréat.Abandon.ConsulterAbandonReadModel;
   demandeDélai?: Lauréat.Délai.ConsulterDemandeDélaiReadModel;
+  powerPurchaseAgreement?: Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementReadModel;
 };
 
 export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLauréat> => {
@@ -29,6 +30,7 @@ export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLa
   const producteurInfos = await getProducteurInfos(identifiantProjet);
   const fournisseurInfos = await getFournisseurInfos(identifiantProjet);
   const abandonInfo = await getAbandonInfos(identifiantProjet);
+  const powerPurchaseAgreementInfo = await getPowerPurchaseAgreementInfos(identifiantProjet);
 
   return {
     actionnaire: actionnaireInfos,
@@ -37,6 +39,7 @@ export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLa
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
     abandon: abandonInfo,
+    powerPurchaseAgreement: powerPurchaseAgreementInfo,
     lauréat,
   };
 });
@@ -199,4 +202,16 @@ export const getInstallateurInfos = cache(async (identifiantProjet: Props) => {
   });
 
   return Option.isSome(installateur) ? installateur : undefined;
+});
+
+export const getPowerPurchaseAgreementInfos = cache(async (identifiantProjet: Props) => {
+  const powerPurchaseAgreement =
+    await mediator.send<Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementQuery>({
+      type: 'Lauréat.PowerPurchaseAgreement.Query.ConsulterPowerPurchaseAgreement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+      },
+    });
+
+  return Option.isSome(powerPurchaseAgreement) ? powerPurchaseAgreement : undefined;
 });

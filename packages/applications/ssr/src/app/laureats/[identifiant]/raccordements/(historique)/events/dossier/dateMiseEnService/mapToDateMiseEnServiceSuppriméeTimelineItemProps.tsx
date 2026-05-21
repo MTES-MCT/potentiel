@@ -1,7 +1,7 @@
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
-export const mapToDossierRacordementSuppriméTimelineItemProps = (
+export const mapToDateMiseEnServiceSuppriméeTimelineItemProps = (
   event: Lauréat.Raccordement.DateMiseEnServiceSuppriméeEvent,
 ): TimelineItemProps => {
   const { suppriméeLe, suppriméePar, référenceDossierRaccordement } = event.payload;

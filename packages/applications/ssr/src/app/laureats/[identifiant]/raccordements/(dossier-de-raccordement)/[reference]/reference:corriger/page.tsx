@@ -6,13 +6,15 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getLauréatOrRedirect } from '../../../(raccordement-du-projet)/(détails)/_helpers';
 import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossier.page';
 
-export const metadata: Metadata = { title: 'Corriger une référence de dossier de raccordement' };
+export const metadata: Metadata = {
+  title: 'Corriger une référence de dossier de raccordement',
+};
 
 export default async function Page(
   props: PageProps<'/laureats/[identifiant]/raccordements/[reference]/reference:corriger'>,
@@ -27,15 +29,15 @@ export default async function Page(
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
-      );
-      await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
+      ).formatter();
 
+      await getLauréatOrRedirect(identifiantProjet);
       const referenceDossierRaccordement = decodeParameter(reference);
 
       const gestionnaireRéseau =
         await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
+          data: { identifiantProjetValue: identifiantProjet },
         });
 
       if (Option.isNone(gestionnaireRéseau)) {
@@ -47,7 +49,7 @@ export default async function Page(
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue: identifiantProjet,
           },
         });
 
@@ -57,7 +59,7 @@ export default async function Page(
 
       return (
         <CorrigerRéférenceDossierPage
-          identifiantProjet={identifiantProjet.formatter()}
+          identifiantProjet={identifiantProjet}
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
           dossierRaccordement={mapToPlainObject(dossierRaccordement)}
         />

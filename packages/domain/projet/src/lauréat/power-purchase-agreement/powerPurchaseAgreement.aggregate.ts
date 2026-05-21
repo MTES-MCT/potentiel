@@ -33,6 +33,10 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     return this.parent;
   }
 
+  get estPartiEnPPA() {
+    return this.#PPA !== undefined;
+  }
+
   private get identifiantProjet() {
     return this.lauréat.projet.identifiantProjet;
   }
@@ -57,6 +61,10 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
         rôleUtilisateur: rôleUtilisateur.nom,
       },
     };
+
+    if (this.lauréat.raccordement.estDésactivé) {
+      await this.lauréat.raccordement.réactiverRaccordement('PPA-signalé');
+    }
 
     await this.publish(event);
   }

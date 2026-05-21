@@ -1,5 +1,6 @@
 # language: fr
 @raccordement
+@statut-raccordement
 Fonctionnalité: Supprimer le raccordement d'un projet
 
     Contexte:
@@ -23,3 +24,9 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
+
+    Scénario: Le raccordement d'un projet signataire d'un PPA reste consultable en cas d'abandon accordé
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
