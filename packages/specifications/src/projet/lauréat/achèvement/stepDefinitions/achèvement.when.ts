@@ -8,26 +8,33 @@ import { convertFixtureFileToReadableStream } from '../../../../helpers/convertF
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
-  'le porteur transmet une attestation de conformité pour le projet {lauréat-éliminé}',
+  'le porteur transmet une attestation de conformité avec le rapport associé pour le projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
       const { identifiantProjet } =
         statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
-      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
-          utilisateur: this.utilisateurWorld.porteurFixture.email,
-        });
+      const {
+        attestation,
+        rapportAssocié,
+        preuve,
+        dateTransmissionAuCocontractant,
+        date,
+        utilisateur,
+      } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
+        utilisateur: this.utilisateurWorld.porteurFixture.email,
+      });
 
       await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: convertFixtureFileToReadableStream(attestation),
-          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
+          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           identifiantUtilisateurValue: utilisateur,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
+          rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
         },
       });
     } catch (error) {
@@ -37,32 +44,39 @@ Quand(
 );
 
 Quand(
-  'le porteur transmet une attestation de conformité pour le projet lauréat avec :',
+  'le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
-          utilisateur: this.utilisateurWorld.porteurFixture.email,
-          ...(exemple['date transmission au Cocontractant'] && {
-            dateTransmissionAuCocontractant: new Date(
-              exemple['date transmission au Cocontractant'],
-            ).toISOString(),
-          }),
-        });
+      const {
+        attestation,
+        rapportAssocié,
+        preuve,
+        dateTransmissionAuCocontractant,
+        date,
+        utilisateur,
+      } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
+        utilisateur: this.utilisateurWorld.porteurFixture.email,
+        ...(exemple['date transmission au Cocontractant'] && {
+          dateTransmissionAuCocontractant: new Date(
+            exemple['date transmission au Cocontractant'],
+          ).toISOString(),
+        }),
+      });
 
       await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           identifiantUtilisateurValue: utilisateur,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
+          rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
         },
       });
     } catch (error) {

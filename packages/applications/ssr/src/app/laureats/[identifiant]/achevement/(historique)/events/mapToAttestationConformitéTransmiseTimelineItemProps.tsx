@@ -5,7 +5,9 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemFile, type TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAttestationConformitéTransmiseTimelineItemProps = (
-  event: Lauréat.Achèvement.AttestationConformitéTransmiseEvent,
+  event:
+    | Lauréat.Achèvement.AttestationConformitéTransmiseEventV1
+    | Lauréat.Achèvement.AttestationConformitéTransmiseEvent,
 ): TimelineItemProps => {
   const {
     identifiantProjet,
@@ -21,6 +23,15 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     enregistréLe: date,
     attestation,
   });
+
+  const rapportAssocié =
+    event.type === 'AttestationConformitéTransmise-V2'
+      ? Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
+          identifiantProjet,
+          enregistréLe: date,
+          rapportAssocie: event.payload.rapportAssocié,
+        })
+      : undefined;
 
   const preuveTransmission =
     Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
@@ -40,6 +51,13 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
           document={attestationConformité}
           ariaLabel={`Télécharger l'attestation de conformité du projet achevé le ${formatDateToText(date)}`}
         />
+        {rapportAssocié && (
+          <TimelineItemFile
+            label="Télécharger le rapport associé"
+            document={rapportAssocié}
+            ariaLabel={`Télécharger le rapport associé du projet achevé le ${formatDateToText(date)}`}
+          />
+        )}
         <TimelineItemFile
           label="Télécharger la preuve de transmission au Cocontractant"
           document={preuveTransmission}

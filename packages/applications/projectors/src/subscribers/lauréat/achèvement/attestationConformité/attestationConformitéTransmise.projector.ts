@@ -2,27 +2,26 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const attestationConformitéTransmiseProjector = async ({
-  payload: {
-    identifiantProjet,
-    attestation,
-    date,
-    preuveTransmissionAuCocontractant,
-    dateTransmissionAuCocontractant,
-    utilisateur,
-  },
-}: Lauréat.Achèvement.AttestationConformitéTransmiseEvent) => {
+  type,
+  payload,
+}:
+  | Lauréat.Achèvement.AttestationConformitéTransmiseEventV1
+  | Lauréat.Achèvement.AttestationConformitéTransmiseEvent) => {
   await updateOneProjection<Lauréat.Achèvement.AchèvementEntity>(
-    `achèvement|${identifiantProjet}`,
+    `achèvement|${payload.identifiantProjet}`,
     {
       estAchevé: true,
       réel: {
-        date: dateTransmissionAuCocontractant,
-        attestationConformité: { format: attestation.format, transmiseLe: date },
+        date: payload.dateTransmissionAuCocontractant,
+        attestationConformité: { format: payload.attestation.format, transmiseLe: payload.date },
+        ...(type === 'AttestationConformitéTransmise-V2' && {
+          rapportAssocié: { format: payload.rapportAssocié.format, transmisLe: payload.date },
+        }),
         preuveTransmissionAuCocontractant: {
-          format: preuveTransmissionAuCocontractant.format,
-          transmiseLe: dateTransmissionAuCocontractant,
+          format: payload.preuveTransmissionAuCocontractant.format,
+          transmiseLe: payload.dateTransmissionAuCocontractant,
         },
-        dernièreMiseÀJour: { date, utilisateur },
+        dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
       },
     },
   );

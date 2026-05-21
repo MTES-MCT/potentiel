@@ -65,6 +65,7 @@ export class TransmettreDateAchèvementFixture
     return {
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateAchèvement),
       attestation: Option.none,
+      rapportAssocié: Option.none,
       preuveTransmissionAuCocontractant: Option.none,
       misÀJourLe: DateTime.convertirEnValueType(this.transmiseLe),
       misÀJourPar: Email.convertirEnValueType(this.transmisePar),

@@ -8,7 +8,7 @@ Fonctionnalité: Modifier un achèvement
         Et la dreal "Dreal centrale" associée à la région du projet
 
     Scénario: Un admin modifie une attestation de conformité
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet
         Alors l'achèvement du projet devrait être consultable
         Et un email a été envoyé au porteur avec :
@@ -30,13 +30,13 @@ Fonctionnalité: Modifier un achèvement
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                           |
 
     Scénario: Impossible de modifier une attestation de conformité si la date de transmission au Cocontractant est dans le futur
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet avec :
             | date transmission au Cocontractant | 2040-01-01 |
         Alors l'admin devrait être informé que "La date de transmission au Cocontractant ne peut pas être une date future"
 
     Scénario: Impossible de modifier une attestation de conformité si aucune modification n'est transmise
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet avec les mêmes valeurs
         Alors l'admin devrait être informé que "Aucune modification n'a été transmise"
 

@@ -8,7 +8,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un porteur annule la demande de mainlevée des garanties financières
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
@@ -20,7 +20,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                            |
 
     Scénario: Annuler une demande de mainlevée si la demande de mainlevée des garanties financières est en instruction
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières en instruction
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
@@ -32,7 +32,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                            |
 
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée n'existe pas
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |
@@ -40,7 +40,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières en cours pour ce projet"
 
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est rejetée
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières rejetée
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
@@ -49,7 +49,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée rejetée pour ce projet"
 
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est accordée
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée
         Quand le porteur annule la demande de mainlevée des garanties financières avec :

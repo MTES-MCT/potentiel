@@ -69,7 +69,7 @@ Fonctionnalité: Transmettre la date d'achèvement
         Alors l'utilisateur devrait être informé que "La date d'achèvement ne peut pas être dans le futur"
 
     Scénario: Impossible de transmettre une date d'achèvement pour un projet déjà achevé
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le Cocontractant transmet la date d'achèvement "2025-11-14" pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet est déjà achevé"
 

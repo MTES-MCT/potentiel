@@ -17,19 +17,21 @@ export type Execute = Message<'System.Notification.Lauréat.Achèvement', Subscr
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     return match(event)
-      .with({ type: 'AttestationConformitéTransmise-V1' }, handleAttestationConformitéTransmise)
+      .with({ type: 'AttestationConformitéTransmise-V2' }, handleAttestationConformitéTransmise)
       .with({ type: 'AttestationConformitéModifiée-V1' }, handleAttestationConformitéModifiée)
       .with({ type: 'DateAchèvementTransmise-V1' }, handleDateAchèvementTransmise)
       .with(
         {
-          type: P.union('AchèvementModifié-V1', 'AchèvementModifié-V2'),
+          type: 'AchèvementModifié-V2',
         },
         handleAchèvementModifié,
       )
       .with(
         {
           type: P.union(
+            'AttestationConformitéTransmise-V1',
             'AttestationConformitéEnregistrée-V1',
+            'AchèvementModifié-V1',
             'DateAchèvementPrévisionnelCalculée-V1',
           ),
         },

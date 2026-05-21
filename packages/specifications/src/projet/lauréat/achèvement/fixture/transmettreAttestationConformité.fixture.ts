@@ -9,6 +9,7 @@ import type { LauréatWorld } from '../../lauréat.world.js';
 
 interface TransmettreAttestationConformité {
   readonly attestation: PièceJustificative;
+  readonly rapportAssocié: PièceJustificative;
   readonly preuve: PièceJustificative;
   readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
@@ -23,6 +24,12 @@ export class TransmettreAttestationConformitéFixture
 
   get attestation(): TransmettreAttestationConformité['attestation'] {
     return this.#attestation;
+  }
+
+  #rapportAssocié!: TransmettreAttestationConformité['rapportAssocié'];
+
+  get rapportAssocié(): TransmettreAttestationConformité['rapportAssocié'] {
+    return this.#rapportAssocié;
   }
 
   #preuve!: TransmettreAttestationConformité['preuve'];
@@ -67,6 +74,7 @@ export class TransmettreAttestationConformitéFixture
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
       attestation: faker.potentiel.document(),
+      rapportAssocié: faker.potentiel.document(),
       preuve: faker.potentiel.document(),
       ...partialFixture,
     };
@@ -75,6 +83,7 @@ export class TransmettreAttestationConformitéFixture
     this.#date = fixture.date;
     this.#utilisateur = fixture.utilisateur;
     this.#attestation = fixture.attestation;
+    this.#rapportAssocié = fixture.rapportAssocié;
     this.#preuve = fixture.preuve;
 
     this.aÉtéCréé = true;
@@ -84,6 +93,7 @@ export class TransmettreAttestationConformitéFixture
 
   mapToExpected() {
     return {
+      dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
       attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
         identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
         enregistréLe: DateTime.convertirEnValueType(this.date).formatter(),
@@ -91,8 +101,13 @@ export class TransmettreAttestationConformitéFixture
           format: this.attestation.format,
         },
       }),
-
-      dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
+      rapportAssocié: Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        enregistréLe: DateTime.convertirEnValueType(this.date).formatter(),
+        rapportAssocie: {
+          format: this.rapportAssocié.format,
+        },
+      }),
       preuveTransmissionAuCocontractant:
         Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
           identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),

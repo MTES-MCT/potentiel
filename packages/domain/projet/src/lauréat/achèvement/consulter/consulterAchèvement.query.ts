@@ -15,6 +15,7 @@ export type ConsulterAchèvementAchevéReadModel = {
 
   estAchevé: true;
   attestation: Option.Type<DocumentProjet.ValueType>;
+  rapportAssocié: Option.Type<DocumentProjet.ValueType>;
   dateAchèvementRéel: DateTime.ValueType;
   preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType>;
   misÀJourLe: DateTime.ValueType;
@@ -84,6 +85,7 @@ const mapToReadModel = ({
   const {
     date: dateAchèvementRéel,
     attestationConformité,
+    rapportAssocié,
     preuveTransmissionAuCocontractant,
     dernièreMiseÀJour,
   } = réel;
@@ -95,6 +97,13 @@ const mapToReadModel = ({
           identifiantProjet,
           enregistréLe: attestationConformité.transmiseLe,
           attestation: attestationConformité,
+        })
+      : Option.none,
+    rapportAssocié: rapportAssocié
+      ? DocumentAchèvement.rapportAssocié({
+          identifiantProjet,
+          enregistréLe: rapportAssocié.transmisLe,
+          rapportAssocie: rapportAssocié,
         })
       : Option.none,
     dateAchèvementRéel: DateTime.convertirEnValueType(dateAchèvementRéel),

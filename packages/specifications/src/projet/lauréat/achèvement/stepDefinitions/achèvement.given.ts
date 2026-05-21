@@ -9,22 +9,29 @@ import { convertFixtureFileToReadableStream } from '../../../../helpers/convertF
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 EtantDonné(
-  'une attestation de conformité transmise pour le projet lauréat',
+  'une attestation de conformité et un rapport associé transmis pour le projet lauréat',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { dateTransmissionAuCocontractant, date, utilisateur, attestation, preuve } =
-      this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
+    const {
+      dateTransmissionAuCocontractant,
+      date,
+      utilisateur,
+      attestation,
+      rapportAssocié,
+      preuve,
+    } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
 
     await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        attestationValue: convertFixtureFileToReadableStream(attestation),
         dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
         dateValue: date,
-        preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
         identifiantUtilisateurValue: utilisateur,
+        attestationValue: convertFixtureFileToReadableStream(attestation),
+        rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
+        preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
       },
     });
   },

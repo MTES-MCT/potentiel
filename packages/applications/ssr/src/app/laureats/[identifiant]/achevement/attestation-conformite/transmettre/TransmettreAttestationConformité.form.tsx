@@ -10,6 +10,7 @@ import {
   DateAchèvementForm,
   type DateAchèvementFormProps,
   PreuveTransmissionAuCocontractantFormInput,
+  RapportAssociéFormInput,
 } from '../../AttestationConformité.inputs';
 import {
   type TransmettreAttestationConformitéFormKeys,
@@ -43,6 +44,7 @@ export const TransmettreAttestationConformitéForm = ({
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
       <AttestationConformitéFormInput validationErrors={validationErrors} />
+      <RapportAssociéFormInput validationErrors={validationErrors} />
       <PreuveTransmissionAuCocontractantFormInput validationErrors={validationErrors} />
 
       <DateAchèvementForm validationErrors={validationErrors} lauréatNotifiéLe={lauréatNotifiéLe} />

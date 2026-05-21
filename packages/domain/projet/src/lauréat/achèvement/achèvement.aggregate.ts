@@ -23,11 +23,17 @@ import type { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateA
 import type { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option.js';
 import type { EnregistrerAttestationConformitéOptions } from './enregistrer/enregistrerAttestationConformité.option.js';
 import { DateAchèvementPrévisionnel, TypeTâchePlanifiéeAchèvement } from './index.js';
-import type { AchèvementModifiéEvent } from './modifier/modifierAchèvement.event.js';
+import type {
+  AchèvementModifiéEvent,
+  AchèvementModifiéEventV1,
+} from './modifier/modifierAchèvement.event.js';
 import type { ModifierAchèvementOptions } from './modifier/modifierAchèvement.option.js';
 import type { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
 import type { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option.js';
-import type { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event.js';
+import type {
+  AttestationConformitéTransmiseEvent,
+  AttestationConformitéTransmiseEventV1,
+} from './transmettre/transmettreAttestationConformité.event.js';
 import type { TransmettreAttestationConformitéOptions } from './transmettre/transmettreAttestationConformité.option.js';
 import type { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event.js';
 import type { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option.js';
@@ -141,9 +147,10 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async transmettreAttestationConformité({
     identifiantUtilisateur,
-    attestation,
     date,
     dateTransmissionAuCocontractant,
+    attestation,
+    rapportAssocié,
     preuveTransmissionAuCocontractant,
   }: TransmettreAttestationConformitéOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
@@ -159,14 +166,15 @@ export class AchèvementAggregate extends AbstractAggregate<
     }
 
     const event: AttestationConformitéTransmiseEvent = {
-      type: 'AttestationConformitéTransmise-V1',
+      type: 'AttestationConformitéTransmise-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        attestation: { format: attestation.format },
-        dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
-        preuveTransmissionAuCocontractant: { format: preuveTransmissionAuCocontractant.format },
         date: date.formatter(),
         utilisateur: identifiantUtilisateur.formatter(),
+        dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
+        attestation: { format: attestation.format },
+        rapportAssocié: { format: rapportAssocié.format },
+        preuveTransmissionAuCocontractant: { format: preuveTransmissionAuCocontractant.format },
       },
     };
 
@@ -363,8 +371,8 @@ export class AchèvementAggregate extends AbstractAggregate<
   apply(event: AchèvementEvent): void {
     match(event)
       .with(
-        { type: 'AttestationConformitéTransmise-V1' },
-        this.applyAttestationConformitéTransmiseV1.bind(this),
+        { type: P.union('AttestationConformitéTransmise-V1', 'AttestationConformitéTransmise-V2') },
+        this.applyAttestationConformitéTransmise.bind(this),
       )
       .with(
         { type: P.union('AchèvementModifié-V1', 'AchèvementModifié-V2') },
@@ -386,9 +394,9 @@ export class AchèvementAggregate extends AbstractAggregate<
       .exhaustive();
   }
 
-  private applyAttestationConformitéTransmiseV1({
+  private applyAttestationConformitéTransmise({
     payload: { dateTransmissionAuCocontractant },
-  }: AttestationConformitéTransmiseEvent) {
+  }: AttestationConformitéTransmiseEventV1 | AttestationConformitéTransmiseEvent) {
     this.#estAchevé = true;
 
     this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
@@ -397,7 +405,7 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   private applyAchèvementModifié({
     payload: { dateTransmissionAuCocontractant, attestation },
-  }: AchèvementModifiéEvent) {
+  }: AchèvementModifiéEventV1 | AchèvementModifiéEvent) {
     this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
     if (attestation) {
       this.#attestationConformitéTransmise = true;

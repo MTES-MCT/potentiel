@@ -23,7 +23,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
     Scénario: la dgec supprime un dossier du raccordement pour un projet achevé
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand la dgec supprime le dossier de raccordement pour le projet lauréat
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
@@ -88,7 +88,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Alors le porteur devrait être informé que "Un dossier avec une date de mise en service ne peut pas être supprimé"
 
     Scénario: Impossible pour un porteur de projet de supprimer un dossier lorsque le projet est achevé
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
