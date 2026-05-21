@@ -1,12 +1,19 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
+import {
+  type Joined,
+  type LeftJoin,
+  type List,
+  type RangeOptions,
+  Where,
+} from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { type CandidatureEntity, Localité } from '../../../candidature/index.js';
 import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { type LauréatEntity, Raccordement } from '../../index.js';
+import type { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import type { PuissanceEntity } from '../../puissance/index.js';
 import type { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement/index.js';
 
@@ -51,6 +58,7 @@ type ProjetAvecAchevementATransmettreJoins = [
   RaccordementEntity,
   CandidatureEntity,
   PuissanceEntity,
+  LeftJoin<PowerPurchaseAgreementEntity>,
 ];
 export const registerListerProjetAvecAchevementATransmettreQuery = ({
   list,
@@ -94,6 +102,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
             on: 'identifiantProjet',
             where: {
               identifiantGestionnaireRéseau: Where.equal(scope.identifiantGestionnaireRéseau),
+              désactivé: Where.notEqual(true),
             },
           },
           {
@@ -103,6 +112,12 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
           {
             entity: 'puissance',
             on: 'identifiantProjet',
+          },
+          {
+            entity: 'power-purchase-agreement',
+            on: 'identifiantProjet',
+            type: 'left',
+            where: { estPartiEnPPA: Where.equalNull() },
           },
         ],
         orderBy: {
