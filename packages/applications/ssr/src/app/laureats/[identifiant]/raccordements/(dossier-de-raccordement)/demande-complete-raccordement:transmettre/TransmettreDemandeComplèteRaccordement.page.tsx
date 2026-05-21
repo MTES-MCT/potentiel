@@ -1,8 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
@@ -37,10 +35,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
       <>
         <TitrePageRaccordement />
         {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
-          <AucunDossierDeRaccordementAlert
-            identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-            showLink={false}
-          />
+          <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
         )}
       </>
     }

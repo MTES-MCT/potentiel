@@ -13,13 +13,12 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat } from '../../../_helpers';
 import {
   getModificationDCRAction,
   getModificationGestionnaireRéseauAction,
   getModificationPTFAction,
   getSupprimerDossierAction,
-  vérifierSiModificationRaccordementPossible,
+  returnLauréatSiModificationRaccordementAccessibleSinonRedirect,
 } from './_helpers';
 import {
   DétailsRaccordementDuProjetPage,
@@ -48,15 +47,13 @@ export default async function Page(props: PageProps) {
         },
       });
 
-      const lauréat = await getLauréat(identifiantProjet.formatter());
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
-      if (!peutModifierRaccordement) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
-      }
+      const { lauréat } = await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(
+        identifiantProjet.formatter(),
+      );
 
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
-          peutModifierRaccordement
+          utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
             ? Routes.Raccordement.transmettreDemandeComplèteRaccordement(
                 identifiantProjet.formatter(),
               )
@@ -81,11 +78,11 @@ export default async function Page(props: PageProps) {
           dossiers={mapToDossierActions({
             rôle: utilisateur.rôle,
             dossiers: raccordement.dossiers,
-            statutLauréat: lauréat.lauréat.statut,
+            statutLauréat: lauréat.statut,
           })}
           actions={mapToRaccordementActions({
             rôle: utilisateur.rôle,
-            statutLauréat: lauréat.lauréat.statut,
+            statutLauréat: lauréat.statut,
             identifiantGestionnaireActuel: raccordement.identifiantGestionnaireRéseau,
             dossiers: raccordement.dossiers,
           })}

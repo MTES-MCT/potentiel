@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -24,7 +24,7 @@ import {
 } from './transmettreDemandeComplèteRaccordement.action';
 
 export type TransmettreDemandeComplèteRaccordementFormProps = {
-  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
+  identifiantProjet: PlainType<IdentifiantProjet.RawType>;
   gestionnaireRéseauActuel: GestionnaireRéseauSelectProps['gestionnaireRéseauActuel'];
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
@@ -36,7 +36,6 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   listeGestionnairesRéseau,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
-  const identifiantProjetValue = IdentifiantProjet.bind(identifiantProjet).formatter();
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
   >({});
@@ -73,14 +72,14 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         },
       }}
     >
-      <input name="identifiantProjet" type="hidden" value={identifiantProjetValue} />
+      <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
       {Option.isSome(gestionnaireRéseauActuel) ? (
         <div className="flex flex-col">
           <div className="flex gap-3">
             <legend className="font-bold">Gestionnaire réseau actuel</legend>
             {aDéjàTransmisUneDemandeComplèteDeRaccordement ? null : (
-              <Link href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjetValue)}>
+              <Link href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}>
                 <Icon id="fr-icon-edit-box-line" size="sm" /> Modifier
               </Link>
             )}

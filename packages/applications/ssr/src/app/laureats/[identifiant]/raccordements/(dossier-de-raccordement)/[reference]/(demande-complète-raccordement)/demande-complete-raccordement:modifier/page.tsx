@@ -1,8 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
-import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
@@ -11,11 +10,10 @@ import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getPériodeAppelOffres } from '@/app/_helpers';
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { vérifierSiModificationRaccordementPossible } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
+import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import {
   ModifierDemandeComplèteRaccordementPage,
   type ModifierDemandeComplèteRaccordementPageProps,
@@ -48,22 +46,18 @@ export default async function Page(props0: PageProps) {
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
-      );
+      ).formatter();
 
-      const lauréat = await getLauréat(identifiantProjet.formatter());
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
-      if (!peutModifierRaccordement) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
-      }
+      await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 
-      const { période } = await getPériodeAppelOffres(identifiantProjet.formatter());
+      const { période } = await getPériodeAppelOffres(identifiantProjet);
 
       const gestionnaireRéseau =
         await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
+          data: { identifiantProjetValue: identifiantProjet },
         });
 
       const listeGestionnairesRéseau = Option.isSome(gestionnaireRéseau)
@@ -78,7 +72,7 @@ export default async function Page(props0: PageProps) {
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue: identifiantProjet,
           },
         });
 
@@ -97,7 +91,7 @@ export default async function Page(props0: PageProps) {
 
       return (
         <ModifierDemandeComplèteRaccordementPage
-          identifiantProjet={identifiantProjet.formatter()}
+          identifiantProjet={identifiantProjet}
           raccordement={props.raccordement}
           gestionnaireRéseauActuel={props.gestionnaireRéseauActuel}
           delaiDemandeDeRaccordementEnMois={props.delaiDemandeDeRaccordementEnMois}
@@ -113,7 +107,7 @@ type MapToProps = (args: {
   role: Role.ValueType;
   gestionnaireRéseau?: Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
-  identifiantProjet: IdentifiantProjet.ValueType;
+  identifiantProjet: IdentifiantProjet.RawType;
   listeGestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel | undefined;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
@@ -130,7 +124,7 @@ const mapToProps: MapToProps = ({
     ((role.estPorteur() || role.estDreal()) && !dossierRaccordement.miseEnService);
 
   return {
-    identifiantProjet: identifiantProjet.formatter(),
+    identifiantProjet,
     raccordement: {
       référence: {
         value: dossierRaccordement.référence.référence,

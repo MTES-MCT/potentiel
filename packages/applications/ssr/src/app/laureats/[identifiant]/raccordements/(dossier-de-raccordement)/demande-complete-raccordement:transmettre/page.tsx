@@ -1,8 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
-import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -13,8 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat } from '../../../_helpers';
-import { vérifierSiModificationRaccordementPossible } from '../../(raccordement-du-projet)/(détails)/_helpers';
+import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../(raccordement-du-projet)/(détails)/_helpers';
 import { TransmettreDemandeComplèteRaccordementPage } from './TransmettreDemandeComplèteRaccordement.page';
 
 export const metadata: Metadata = {
@@ -39,15 +36,11 @@ export default async function Page(props: PageProps) {
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
-      );
+      ).formatter();
 
-      const lauréat = await getLauréat(identifiantProjet.formatter());
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
-      if (!peutModifierRaccordement) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
-      }
+      await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
 
-      const { période } = await getPériodeAppelOffres(identifiantProjet.formatter());
+      const { période } = await getPériodeAppelOffres(identifiantProjet);
 
       const gestionnairesRéseau =
         await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -58,12 +51,12 @@ export default async function Page(props: PageProps) {
       const gestionnaireRéseauActuel =
         await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
+          data: { identifiantProjetValue: identifiantProjet },
         });
 
       const raccordements = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
+        data: { identifiantProjetValue: identifiantProjet },
       });
 
       const aDéjàTransmisUneDemandeComplèteDeRaccordement =

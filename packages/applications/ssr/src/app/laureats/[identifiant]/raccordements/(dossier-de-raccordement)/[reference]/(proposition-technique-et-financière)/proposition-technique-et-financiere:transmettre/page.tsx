@@ -1,16 +1,14 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { vérifierSiModificationRaccordementPossible } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
+import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from './TransmettrePropositionTechniqueEtFinancière.page';
 
 type PageProps = {
@@ -37,11 +35,7 @@ export default async function Page(props: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
 
-      const lauréat = await getLauréat(identifiantProjet);
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
-      if (!peutModifierRaccordement) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
-      }
+      await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 

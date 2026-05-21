@@ -1,17 +1,15 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
-import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { vérifierSiModificationRaccordementPossible } from '../../../(raccordement-du-projet)/(détails)/_helpers';
+import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../../(raccordement-du-projet)/(détails)/_helpers';
 import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossier.page';
 
 export const metadata: Metadata = {
@@ -31,19 +29,15 @@ export default async function Page(
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
-      );
-      const lauréat = await getLauréat(identifiantProjet.formatter());
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
-      if (!peutModifierRaccordement) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
-      }
+      ).formatter();
 
+      await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
       const referenceDossierRaccordement = decodeParameter(reference);
 
       const gestionnaireRéseau =
         await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
+          data: { identifiantProjetValue: identifiantProjet },
         });
 
       if (Option.isNone(gestionnaireRéseau)) {
@@ -55,7 +49,7 @@ export default async function Page(
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue: identifiantProjet,
           },
         });
 
@@ -65,7 +59,7 @@ export default async function Page(
 
       return (
         <CorrigerRéférenceDossierPage
-          identifiantProjet={identifiantProjet.formatter()}
+          identifiantProjet={identifiantProjet}
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
           dossierRaccordement={mapToPlainObject(dossierRaccordement)}
         />

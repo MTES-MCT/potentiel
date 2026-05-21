@@ -1,16 +1,14 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { vérifierSiModificationRaccordementPossible } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
+import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import {
   ModifierPropositionTechniqueEtFinancièrePage,
   type ModifierPropositionTechniqueEtFinancièrePageProps,
@@ -38,13 +36,9 @@ export default async function Page(props0: PageProps) {
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
-      );
+      ).formatter();
 
-      const lauréat = await getLauréat(identifiantProjet.formatter());
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
-      if (!peutModifierRaccordement) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
-      }
+      await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 
@@ -52,7 +46,7 @@ export default async function Page(props0: PageProps) {
         await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue: identifiantProjet,
             référenceDossierRaccordementValue: referenceDossierRaccordement,
           },
         });
@@ -82,7 +76,7 @@ export default async function Page(props0: PageProps) {
 }
 
 type MapToProps = (params: {
-  identifiantProjet: IdentifiantProjet.ValueType;
+  identifiantProjet: IdentifiantProjet.RawType;
   référence: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['référence'];
   propositionTechniqueEtFinancière: NonNullable<
     Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['propositionTechniqueEtFinancière']
@@ -94,7 +88,7 @@ const mapToProps: MapToProps = ({
   référence,
   propositionTechniqueEtFinancière,
 }) => ({
-  identifiantProjet: identifiantProjet.formatter(),
+  identifiantProjet,
   raccordement: {
     reference: référence.formatter(),
     propositionTechniqueEtFinancière: {

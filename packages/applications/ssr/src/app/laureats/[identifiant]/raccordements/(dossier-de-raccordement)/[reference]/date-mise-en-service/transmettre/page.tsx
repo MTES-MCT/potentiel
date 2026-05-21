@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -10,11 +10,10 @@ import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getPériodeAppelOffres } from '@/app/_helpers';
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { vérifierSiModificationRaccordementPossible } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
+import { returnLauréatSiModificationRaccordementAccessibleSinonRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import {
   TransmettreDateMiseEnServicePage,
   type TransmettreDateMiseEnServicePageProps,
@@ -45,11 +44,10 @@ export default async function Page(props0: PageProps) {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       ).formatter();
-      const lauréat = await getLauréat(identifiantProjet);
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
-      if (!peutModifierRaccordement) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
-      }
+
+      const { lauréat } =
+        await returnLauréatSiModificationRaccordementAccessibleSinonRedirect(identifiantProjet);
+
       const referenceDossierRaccordement = decodeParameter(reference);
 
       const dossierRaccordement =
@@ -72,7 +70,7 @@ export default async function Page(props0: PageProps) {
       const props = mapToProps({
         utilisateur,
         referenceDossierRaccordement,
-        lauréat: lauréat.lauréat,
+        lauréat,
         période,
         dossierRaccordement,
       });

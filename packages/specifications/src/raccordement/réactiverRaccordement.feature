@@ -13,6 +13,5 @@ Fonctionnalité: Réactiver le raccordement d'un projet
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat
         Quand un utilisateur "dgec" signale un état PPA pour le projet lauréat
-        Alors l'état PPA devrait être consultable pour le projet lauréat
         Et le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat   

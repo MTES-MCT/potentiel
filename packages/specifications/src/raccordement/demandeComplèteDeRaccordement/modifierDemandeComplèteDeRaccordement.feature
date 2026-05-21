@@ -24,16 +24,14 @@ Fonctionnalité: Modifier une DCR
 
     Scénario: Modifier une DCR pour un projet abandonné avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et le signalement par l'administration d'un PPA pour le projet lauréat
-        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Et une demande d'abandon accordée avec déclaration de PPA
         Quand la dgec modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Modifier une DCR pour un projet en cours d'abandon avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une demande d'abandon en cours pour le projet lauréat
-        Et le signalement par l'administration d'un PPA pour le projet lauréat
+        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
         Quand la dgec modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
