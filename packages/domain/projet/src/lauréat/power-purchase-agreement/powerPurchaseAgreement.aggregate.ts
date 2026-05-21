@@ -90,8 +90,8 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    if (this.lauréat.statut.estAbandonné() && !this.lauréat.raccordement.estDésactivé) {
-      await this.lauréat.raccordement.supprimerRaccordement('signalement-PPA-annulé');
+    if (this.lauréat.statut.estAbandonné()) {
+      await this.lauréat.raccordement.supprimerRaccordement('abandon');
     }
   }
 
