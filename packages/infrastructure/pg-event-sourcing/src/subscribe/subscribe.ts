@@ -122,9 +122,8 @@ const handleClientError = async (error: Error) => {
     await retryPolicy.execute(async () => {
       client = await connect();
 
-      /* 
-        Contexte de reconnexion, les émitters existants sont déjà ok
-        donc size+2 suffit, on ne fait que restaurer les listeners déjà comptabilisés
+      /*
+        size listeners des emitters existants + 2 listeners error/notification de connect() 
       */
       client.setMaxListeners(eventStreamEmitters.size + 2);
 
