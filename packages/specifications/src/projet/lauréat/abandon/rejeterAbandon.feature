@@ -39,6 +39,12 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Quand la dgec rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
 
+    Scénario: La DGEC rejette la demande d'abandon avec signalement de PPA pour le projet lauréat
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand la dgec rejette la demande d'abandon du projet lauréat
+        Alors la demande d'abandon du projet lauréat devrait être rejetée
+        Et l'état PPA ne devrait plus être consultable pour le projet lauréat
+
     Scénario: Une dreal peut rejeter la demande d'abandon d'un projet si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
@@ -60,12 +66,12 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Quand la dgec rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
 
-    Scénario: Impossible de rejetter une demande d'abandon déjà accordée
+    Scénario: Impossible de rejeter une demande d'abandon déjà accordée
         Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand la dgec rejette la demande d'abandon du projet lauréat
         Alors la dgec devrait être informé que "La demande d'abandon a déjà été accordée"
 
-    Scénario: Impossible de rejetter l'abandon d'un projet lauréat sans demande d'abandon
+    Scénario: Impossible de rejeter l'abandon d'un projet lauréat sans demande d'abandon
         Quand la dgec rejette la demande d'abandon du projet lauréat
         Alors la dgec devrait être informé que "Aucune demande d'abandon n'est en cours"
 
@@ -78,7 +84,7 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Quand la DREAL rejette la demande d'abandon du projet lauréat
         Alors l'utilisateur devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
 
-    Scénario: Impossible de rejetter la demande d'abandon pour un abandon déjà annulé
+    Scénario: Impossible de rejeter la demande d'abandon pour un abandon déjà annulé
         Etant donné une demande d'abandon annulée pour le projet lauréat
         Quand la dgec rejette la demande d'abandon du projet lauréat
         Alors la dgec devrait être informé que "La demande d'abandon a déjà été annulée"

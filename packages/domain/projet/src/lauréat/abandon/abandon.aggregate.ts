@@ -408,6 +408,13 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
     await this.lauréat.raccordement.ajouterTâchesEtTâchesPlanifiées();
+
+    if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
+      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
+        annuléLe: dateRejet,
+        annuléPar: identifiantUtilisateur,
+      });
+    }
   }
 
   async supprimerDemandeChangement({
@@ -502,7 +509,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       };
     }
   }
-  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) {}
+  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) { }
 
   private applyPreuveRecandidatureTransmiseV1({
     payload: { preuveRecandidature },

@@ -60,7 +60,7 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
 
     Scénario: Un porteur annule la demande d'abandon d'un projet lauréat en ayant déclarer un PPA
         Etant donné la dreal "Dreal du sud" associée à la région du projet
-        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
         Alors l'état PPA ne devrait plus être consultable pour le projet lauréat
         Et un email a été envoyé à la dgec avec :
