@@ -69,6 +69,25 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
             | sujet | Potentiel - Du boulodrome de Rome - Signalement PPA |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*          |
 
+    Scénario: La demande d'abandon avec signalement d'un PPA ne supprime pas les tâches et tâches planifiées liées au raccordement d'un projet lauréat
+        Etant donné le projet lauréat "Du boulodrome de Paris" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
+        Quand le porteur demande l'abandon pour le projet lauréat en signalant un PPA
+        Alors une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
+        Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet     
+
+    Scénario: La demande d'abandon après signalement d'un PPA ne supprime pas les tâches et tâches planifiées liées au raccordement d'un projet lauréat
+        Etant donné le projet lauréat "Du boulodrome de Paris" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
+        Et le signalement par l'administration d'un PPA pour le projet lauréat   
+        Quand le porteur demande l'abandon pour le projet lauréat
+        Alors une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
+        Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet      
+
     Scénario: Un porteur demande l'abandon d'un projet lauréat après un rejet
         Etant donné une demande d'abandon rejetée pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat

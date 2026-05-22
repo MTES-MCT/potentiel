@@ -119,7 +119,10 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
 
     await this.publish(event);
     await this.lauréat.achèvement.annulerTâchesPlanifiéesRappelsÉchéance();
-    await this.lauréat.raccordement.annulerTâchesEtTâchesPlanifiées();
+
+    if (!PPASignalé && !this.lauréat.powerPurchaseAgreement.estPartiEnPPA) {
+      await this.lauréat.raccordement.annulerTâchesEtTâchesPlanifiées();
+    }
 
     if (PPASignalé) {
       await this.lauréat.powerPurchaseAgreement.signaler({
