@@ -9,11 +9,11 @@ export const mapToAchèvementModifiéTimelineItemProps = (
 ): TimelineItemProps => {
   const {
     identifiantProjet,
+    date,
+    dateTransmissionAuCocontractant,
+    utilisateur,
     attestation,
     preuveTransmissionAuCocontractant,
-    dateTransmissionAuCocontractant,
-    date,
-    utilisateur,
   } = event.payload;
 
   const attestationConformité = attestation
@@ -23,6 +23,15 @@ export const mapToAchèvementModifiéTimelineItemProps = (
         attestation,
       })
     : undefined;
+
+  const rapport =
+    event.type !== 'AchèvementModifié-V1' && event.payload.rapportAssocié
+      ? Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
+          identifiantProjet,
+          enregistréLe: date,
+          rapportAssocie: event.payload.rapportAssocié,
+        })
+      : undefined;
 
   const preuveTransmission = preuveTransmissionAuCocontractant
     ? Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
@@ -36,7 +45,7 @@ export const mapToAchèvementModifiéTimelineItemProps = (
 
   return {
     date,
-    title: "Modification de l'attestation de conformité",
+    title: "Modification de l'achèvement réel",
     actor: utilisateur,
     details: (
       <div className="flex flex-col gap-2">
@@ -45,6 +54,13 @@ export const mapToAchèvementModifiéTimelineItemProps = (
             document={attestationConformité}
             label="Télécharger l'attestation de conformité"
             ariaLabel={`Télécharger l'attestation de conformité du projet achevé le ${formatDateToText(date)}`}
+          />
+        )}
+        {rapport && (
+          <TimelineItemFile
+            label="Télécharger le rapport associé"
+            document={rapport}
+            ariaLabel={`Télécharger le rapport associé du projet achevé le ${formatDateToText(dateTransmissionAuCocontractant)}`}
           />
         )}
         {preuveTransmission && (

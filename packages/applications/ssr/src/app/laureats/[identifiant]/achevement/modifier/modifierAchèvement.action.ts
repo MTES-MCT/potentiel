@@ -15,18 +15,18 @@ import {
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateTransmissionAuCocontractant: zod.string().min(1),
+  raison: zod.string().min(1),
   attestation: keepOrUpdateSingleOptionalDocument({ acceptedFileTypes: ['application/pdf'] }),
+  attestationDocumentSelection: documentSelectionSchema.optional(),
   rapportAssocie: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
+  rapportAssocieDocumentSelection: documentSelectionSchema.optional(),
   preuveTransmissionAuCocontractant: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
-  attestationDocumentSelection: documentSelectionSchema.optional(),
-  rapportAssocieDocumentSelection: documentSelectionSchema.optional(),
   preuveTransmissionAuCocontractantDocumentSelection: documentSelectionSchema.optional(),
-  dateTransmissionAuCocontractant: zod.string().min(1),
-  raison: zod.string().min(1),
 });
 
 export type ModifierAchèvementFormKeys = keyof zod.infer<typeof schema>;
@@ -71,7 +71,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
-        message: "L'attestation de conformité a bien été modifiée",
+        message: "Les données d'achèvement réel du projet ont bien été modifiées",
       },
     };
   });
