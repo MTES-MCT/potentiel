@@ -33,7 +33,7 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                              |
 
     Scénario: Modifier l'installateur d'un projet lauréat achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le DGEC validateur modifie l'installateur du projet lauréat
         Alors l'installateur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :

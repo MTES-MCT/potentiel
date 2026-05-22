@@ -31,7 +31,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation supprimées |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                                                         |
 
-    Exemples:
+        Exemples:
             | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
@@ -70,7 +70,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
 
     Scénario: Pour un projet achevé, aucune tâche de relance pour GF n'est planifiée si un porteur supprime un dépôt de GF
         Etant donné des garanties financières en attente pour le projet lauréat
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Et un dépôt de garanties financières
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors une tâche indiquant de 'transmettre les garanties financières' n'est plus consultable dans la liste des tâches du porteur pour le projet
@@ -81,7 +81,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-10-01         |
             | date de validation | 2024-11-24         |
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Et un dépôt de garanties financières
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors il n'y a pas de tâche "rappel échéance garanties financières à un mois" planifiée pour le projet lauréat

@@ -21,7 +21,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                        |
 
-    Exemples:
+        Exemples:
             | type GF                   | date d'échéance |
             | avec-date-échéance        | 2027-12-01      |
             | consignation              |                 |
@@ -74,7 +74,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date d'échéance | 2028-01-01 |
         Alors l'utilisateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
-    Exemples:
+        Exemples:
             | type GF                   |
             | consignation              |
             | six-mois-après-achèvement |
@@ -96,7 +96,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée a été demandée
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
@@ -104,7 +104,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de mainlevée de garanties financières en cours"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée est en instruction
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières en instruction
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
@@ -112,7 +112,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si les garanties financières du projet sont levées
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :

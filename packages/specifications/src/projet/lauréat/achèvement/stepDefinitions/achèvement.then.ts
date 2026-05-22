@@ -10,35 +10,38 @@ import { Option } from '@potentiel-libraries/monads';
 import { expectFileContent, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
-Alors(`l'achèvement du projet devrait être consultable`, async function (this: PotentielWorld) {
-  return waitForExpect(async () => {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet;
+Alors(
+  `l'achèvement réel du projet devrait être consultable`,
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+
+      assert(Option.isSome(achèvement), 'Non trouvé');
+      assert(achèvement.estAchevé, 'Non achevé');
+      const actual = mapToPlainObject(achèvement);
+      const expected = mapToPlainObject(this.lauréatWorld.achèvementWorld.mapToExpected());
+
+      actual.should.be.deep.equal(expected);
+
+      await expectFileContent(
+        achèvement.attestation,
+        this.lauréatWorld.achèvementWorld.mapToAttestation(),
+      );
+
+      await expectFileContent(
+        achèvement.preuveTransmissionAuCocontractant,
+        this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
+      );
     });
-
-    assert(Option.isSome(achèvement), 'Non trouvé');
-    assert(achèvement.estAchevé, 'Non achevé');
-    const actual = mapToPlainObject(achèvement);
-    const expected = mapToPlainObject(this.lauréatWorld.achèvementWorld.mapToExpected());
-
-    actual.should.be.deep.equal(expected);
-
-    await expectFileContent(
-      achèvement.attestation,
-      this.lauréatWorld.achèvementWorld.mapToAttestation(),
-    );
-
-    await expectFileContent(
-      achèvement.preuveTransmissionAuCocontractant,
-      this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
-    );
-  });
-});
+  },
+);
 
 Alors(
   `la date d'achèvement prévisionnel du projet lauréat devrait être au {string}`,
@@ -67,7 +70,7 @@ Alors(
 );
 
 Alors(
-  `la date d'achèvement devrait être consultable pour le projet lauréat`,
+  `la date d'achèvement réelle devrait être consultable pour le projet lauréat`,
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       const identifiantProjet = this.lauréatWorld.identifiantProjet;

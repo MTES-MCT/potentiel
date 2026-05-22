@@ -20,7 +20,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières mises à jour |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres            |
 
-    Exemples:
+        Exemples:
             | type GF                   | date d'échéance | Le document a été modifié |
             | avec-date-échéance        | 2027-12-01      | non                       |
             | consignation              |                 | oui                       |
@@ -80,7 +80,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | date d'échéance | <date d'échéance> |
         Alors l'utilisateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
-    Exemples:
+        Exemples:
             | type GF                   | date d'échéance |
             | consignation              | 2027-12-01      |
             | six-mois-après-achèvement | 2027-12-01      |
@@ -99,7 +99,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières actuelles pour ce projet"
 
     Scénario: Impossible de modifier des garanties financières actuelles si les garanties financières du projet sont levées
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
@@ -111,7 +111,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-12-01         |
             | date de validation | 2024-11-24         |
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-12-02         |

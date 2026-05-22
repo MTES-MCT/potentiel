@@ -17,7 +17,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Et aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet lauréat
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat

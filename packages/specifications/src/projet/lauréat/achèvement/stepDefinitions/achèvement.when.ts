@@ -7,8 +7,9 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
+// #region Achèvement réel
 Quand(
-  'le porteur transmet une attestation de conformité avec le rapport associé pour le projet {lauréat-éliminé}',
+  `le porteur transmet l'achèvement réel pour le projet {lauréat-éliminé}`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
       const { identifiantProjet } =
@@ -44,7 +45,7 @@ Quand(
 );
 
 Quand(
-  'le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat avec :',
+  `le porteur transmet l'achèvement réel pour le projet lauréat avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -84,29 +85,6 @@ Quand(
     }
   },
 );
-
-Quand(`le porteur modifie l'attestation de conformité`, async function (this: PotentielWorld) {
-  try {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    const { attestation, modifiéeLe, modifiéePar } =
-      this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
-        modifiéePar: this.utilisateurWorld.porteurFixture.email,
-      });
-
-    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        attestationValue: convertFixtureFileToReadableStream(attestation),
-        modifiéeLeValue: modifiéeLe,
-        modifiéeParValue: modifiéePar,
-      },
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
-});
 
 Quand(
   "l'admin modifie l'achèvement réel du projet sans attestation de conformité",
@@ -236,9 +214,11 @@ Quand(
     }
   },
 );
+// #region Achèvement réel
 
+// #region Date achèvement réelle
 Quand(
-  "le Cocontractant transmet la date d'achèvement {string} pour le projet {lauréat-éliminé}",
+  "le Cocontractant transmet la date d'achèvement réelle {string} pour le projet {lauréat-éliminé}",
   async function (
     this: PotentielWorld,
     dateAchèvementValue: string,
@@ -267,6 +247,31 @@ Quand(
     }
   },
 );
+// #endregion Date achèvement réelle
+
+// #region Attestation de conformité
+Quand(`le porteur modifie l'attestation de conformité`, async function (this: PotentielWorld) {
+  try {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { attestation, modifiéeLe, modifiéePar } =
+      this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+        modifiéePar: this.utilisateurWorld.porteurFixture.email,
+      });
+
+    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        attestationValue: convertFixtureFileToReadableStream(attestation),
+        modifiéeLeValue: modifiéeLe,
+        modifiéeParValue: modifiéePar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
 
 Quand(
   'le porteur enregistre une attestation de conformité pour le projet lauréat',
@@ -291,3 +296,4 @@ Quand(
     }
   },
 );
+// #endregion Attestation de conformité

@@ -30,7 +30,7 @@ Fonctionnalité: Enregistrer un changement d'installateur d'un projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
     Scénario: Impossible d'enregistrer un changement d'installateur pour un projet lauréat achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur enregistre un changement d'installateur du projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
