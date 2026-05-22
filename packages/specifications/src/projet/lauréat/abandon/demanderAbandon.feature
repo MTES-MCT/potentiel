@@ -22,6 +22,10 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
             | sujet      | Potentiel - Du boulodrome de Marseille - Nouvelle demande d'abandon |
             | nom_projet | Du boulodrome de Marseille                                          |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                  |
+        Alors il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
+        Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet   
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

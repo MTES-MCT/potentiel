@@ -208,8 +208,14 @@ export class RaccordementAggregate extends AbstractAggregate<
     });
   }
 
-  private async annulerTâchePlanifiéeRelanceDCR() {
+  async annulerTâchePlanifiéeRelanceDCR() {
     await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
+  }
+
+  async annulerTâches() {
+    await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
+    await this.#tâcheTransmettreRéférenceRaccordement.achever();
+    await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
   }
 
   //#region gestionnaire de réseau
