@@ -97,6 +97,10 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     if (this.lauréat.statut.estAbandonné()) {
       await this.lauréat.raccordement.supprimerRaccordement('abandon');
     }
+
+    if (this.lauréat.abandon.statut.estEnCours() || this.lauréat.statut.estAbandonné()) {
+      await this.lauréat.raccordement.annulerTâchesEtTâchesPlanifiées();
+    }
   }
 
   apply(event: PowerPurchaseAgreementEvents): void {
