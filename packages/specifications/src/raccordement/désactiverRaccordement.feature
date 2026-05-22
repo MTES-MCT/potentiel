@@ -44,7 +44,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
             | période        | 1                        |
         Et une demande d'abandon accordée avec déclaration de PPA
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
-        Et il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
         Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
@@ -55,7 +55,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
             | période        | 1                        |
         Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
-        Et il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
         Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet

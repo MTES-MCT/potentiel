@@ -13,8 +13,8 @@ Fonctionnalité: Réactiver le raccordement d'un projet
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat
         Quand un utilisateur "dgec" signale un état PPA pour le projet lauréat
-        Et le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
-        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat   
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Le signalement d'un PPA pour un projet en cours d'abandon doit rétablir les tâches et tâches planifiées liées au raccordement
         Etant donné le projet lauréat "Du boulodrome de Pantin" avec :
@@ -22,7 +22,7 @@ Fonctionnalité: Réactiver le raccordement d'un projet
             | période        | 1                        |
         Et une demande d'abandon en cours pour le projet lauréat
         Quand un utilisateur "dgec" signale un état PPA pour le projet lauréat
-        Et une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
+        Alors une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
         Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet
 
@@ -32,6 +32,6 @@ Fonctionnalité: Réactiver le raccordement d'un projet
             | période        | 1                        |
         Et une demande d'abandon accordée pour le projet lauréat
         Quand un utilisateur "dgec" signale un état PPA pour le projet lauréat
-        Et une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
+        Alors une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
         Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
-        Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet        
+        Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet
