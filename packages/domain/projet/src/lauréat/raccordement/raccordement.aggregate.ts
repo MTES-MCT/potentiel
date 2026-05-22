@@ -208,7 +208,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     });
   }
 
-  async annulerTâchePlanifiéeRelanceDCR() {
+  private async annulerTâchePlanifiéeRelanceDCR() {
     await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
   }
 

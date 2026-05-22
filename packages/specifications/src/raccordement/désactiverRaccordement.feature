@@ -38,7 +38,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
         Alors aucun raccordement ni dossier de raccordement ne devrait être consultable pour le projet
 
-    Scénario: L'annulation d'un état PPA pour un projet abandonné doit rétablir les tâches et tâches planifiées liées au raccordement
+    Scénario: L'annulation d'un état PPA pour un projet abandonné doit supprimer les tâches et tâches planifiées liées au raccordement
         Etant donné le projet lauréat "Du boulodrome de Pantin" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
@@ -47,10 +47,10 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
         Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
-        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet    
+        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
-    Scénario: L'annulation d'un état PPA pour un projet en cours d'abandon doit rétablir les tâches et tâches planifiées liées au raccordement
-                Etant donné le projet lauréat "Du boulodrome de Pantin" avec :
+    Scénario: L'annulation d'un état PPA pour un projet en cours d'abandon doit supprimer les tâches et tâches planifiées liées au raccordement
+        Etant donné le projet lauréat "Du boulodrome de Pantin" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
         Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
@@ -58,4 +58,4 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
         Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
-        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet  
+        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
