@@ -62,7 +62,7 @@ export const RaccordementDétails = async ({
         </div>
       </>
     )}
-    {alertes.map(({ label }, index) => (
+    {alertes.map(({ label }, _index) => (
       <Notice
         description={label}
         title="Données de raccordement à compléter"
