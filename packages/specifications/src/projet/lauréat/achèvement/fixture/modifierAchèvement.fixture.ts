@@ -8,12 +8,13 @@ import { AbstractFixture } from '../../../../fixture.js';
 import type { LauréatWorld } from '../../lauréat.world.js';
 
 interface ModifierAchèvement {
-  readonly attestation?: PièceJustificative;
-  readonly preuve?: PièceJustificative;
-  readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
+  readonly dateTransmissionAuCocontractant: string;
   readonly utilisateur: string;
   readonly raison: string;
+  readonly attestation?: PièceJustificative;
+  readonly rapportAssocié?: PièceJustificative;
+  readonly preuve?: PièceJustificative;
 }
 
 export class ModifierAchèvementFixture
@@ -24,6 +25,12 @@ export class ModifierAchèvementFixture
 
   get attestation(): ModifierAchèvement['attestation'] {
     return this.#attestation;
+  }
+
+  #rapportAssocié?: ModifierAchèvement['attestation'];
+
+  get rapportAssocié(): ModifierAchèvement['rapportAssocié'] {
+    return this.#rapportAssocié;
   }
 
   #preuve?: ModifierAchèvement['preuve'];
@@ -61,6 +68,7 @@ export class ModifierAchèvementFixture
 
   créer(partialFixture?: Partial<ModifierAchèvement>): ModifierAchèvement {
     const fixture: ModifierAchèvement = {
+      date: faker.date.soon().toISOString(),
       dateTransmissionAuCocontractant: faker.date
         .between({
           from: DateTime.convertirEnValueType(
@@ -69,20 +77,21 @@ export class ModifierAchèvementFixture
           to: DateTime.now().date,
         })
         .toISOString(),
-      attestation: faker.potentiel.document(),
-      preuve: faker.potentiel.document(),
-      date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
       raison: faker.word.words(),
+      attestation: faker.potentiel.document(),
+      rapportAssocié: faker.potentiel.document(),
+      preuve: faker.potentiel.document(),
       ...partialFixture,
     };
 
-    this.#dateTransmissionAuCocontractant = fixture.dateTransmissionAuCocontractant;
     this.#date = fixture.date;
+    this.#dateTransmissionAuCocontractant = fixture.dateTransmissionAuCocontractant;
     this.#utilisateur = fixture.utilisateur;
-    this.#attestation = fixture.attestation;
-    this.#preuve = fixture.preuve;
     this.#raison = fixture.raison;
+    this.#attestation = fixture.attestation;
+    this.#rapportAssocié = fixture.rapportAssocié;
+    this.#preuve = fixture.preuve;
 
     this.aÉtéCréé = true;
 
@@ -98,6 +107,13 @@ export class ModifierAchèvementFixture
           identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
           enregistréLe: this.date,
           attestation: this.attestation,
+        }),
+      }),
+      ...(this.rapportAssocié && {
+        rapportAssocié: Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
+          identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+          enregistréLe: this.date,
+          rapportAssocie: this.rapportAssocié,
         }),
       }),
       ...(this.preuve && {

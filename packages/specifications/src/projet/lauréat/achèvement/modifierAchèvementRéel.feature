@@ -1,5 +1,6 @@
 # language: fr
 @achèvement
+@select
 Fonctionnalité: Modifier un achèvement réel
 
     Contexte:
@@ -7,6 +8,7 @@ Fonctionnalité: Modifier un achèvement réel
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal centrale" associée à la région du projet
 
+    @select
     Scénario: Un admin modifie l'achèvement réel
         Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet
@@ -20,7 +22,7 @@ Fonctionnalité: Modifier un achèvement réel
 
     Scénario: Un admin modifie une date d'achèvement réel sans attestation de conformité transmise
         Etant donné une date d'achèvement réel transmise pour le projet lauréat
-        Quand l'admin modifie l'achèvement réel du projet sans attestation de conformité
+        Quand l'admin modifie l'achèvement réel du projet sans pièce justificative
         Alors l'achèvement réel du projet devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Centrale PV - Modification des informations d'achèvement |

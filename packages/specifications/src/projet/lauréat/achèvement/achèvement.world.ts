@@ -124,18 +124,46 @@ export class AchèvementWorld {
   }
 
   mapToAttestation(): PièceJustificative | undefined {
-    return (
-      this.modifierAttestationConformitéFixture.attestation ??
-      this.modifierAchèvementFixture.attestation ??
-      this.transmettreAttestationConformitéFixture.attestation ??
-      this.enregistrerAttestationConformitéFixture.attestation
-    );
+    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+      return this.modifierAttestationConformitéFixture.attestation;
+    }
+
+    if (this.modifierAchèvementFixture.aÉtéCréé) {
+      return this.modifierAchèvementFixture.attestation;
+    }
+
+    if (this.enregistrerAttestationConformitéFixture.aÉtéCréé) {
+      return this.enregistrerAttestationConformitéFixture.attestation;
+    }
+
+    if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {
+      return this.transmettreAttestationConformitéFixture.attestation;
+    }
+
+    return undefined;
+  }
+
+  mapToRapportAssocié(): PièceJustificative | undefined {
+    if (this.modifierAchèvementFixture.aÉtéCréé) {
+      return this.modifierAchèvementFixture.rapportAssocié;
+    }
+
+    if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {
+      return this.transmettreAttestationConformitéFixture.rapportAssocié;
+    }
+
+    return undefined;
   }
 
   mapToPreuveTransmissionAuCocontractant(): PièceJustificative | undefined {
     if (this.modifierAchèvementFixture.aÉtéCréé) {
       return this.modifierAchèvementFixture.preuve;
     }
-    return this.transmettreAttestationConformitéFixture.preuve;
+
+    if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {
+      return this.transmettreAttestationConformitéFixture.preuve;
+    }
+
+    return undefined;
   }
 }

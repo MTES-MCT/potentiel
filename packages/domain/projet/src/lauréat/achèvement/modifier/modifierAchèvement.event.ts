@@ -24,6 +24,7 @@ export type AchèvementModifiéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateTransmissionAuCocontractant: DateTime.RawType;
     attestation?: { format: string };
+    rapportAssocié?: { format: string };
     preuveTransmissionAuCocontractant?: { format: string };
     raison: string;
     date: DateTime.RawType;

@@ -222,11 +222,12 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async modifierAchèvement({
     identifiantUtilisateur,
-    attestation,
     date,
     dateTransmissionAuCocontractant,
-    preuveTransmissionAuCocontractant,
     raison,
+    attestation,
+    rapportAssocié,
+    preuveTransmissionAuCocontractant,
   }: ModifierAchèvementOptions) {
     if (dateTransmissionAuCocontractant.estDansLeFutur()) {
       throw new DateDeTransmissionAuCoContractantFuturError();
@@ -241,6 +242,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     if (
       !attestation &&
       !preuveTransmissionAuCocontractant &&
+      !rapportAssocié &&
       this.dateAchèvementRéel &&
       dateTransmissionAuCocontractant.estÉgaleÀ(this.dateAchèvementRéel)
     ) {
@@ -251,14 +253,15 @@ export class AchèvementAggregate extends AbstractAggregate<
       type: 'AchèvementModifié-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        attestation: attestation ? { format: attestation.format } : undefined,
+        date: date.formatter(),
         dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
+        utilisateur: identifiantUtilisateur.formatter(),
+        raison,
+        attestation: attestation ? { format: attestation.format } : undefined,
+        rapportAssocié: rapportAssocié ? { format: rapportAssocié.format } : undefined,
         preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant
           ? { format: preuveTransmissionAuCocontractant.format }
           : undefined,
-        date: date.formatter(),
-        utilisateur: identifiantUtilisateur.formatter(),
-        raison,
       },
     };
 

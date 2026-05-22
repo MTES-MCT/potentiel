@@ -89,6 +89,7 @@ const mapToReadModel = ({
     preuveTransmissionAuCocontractant,
     dernièreMiseÀJour,
   } = réel;
+
   return {
     ...common,
     estAchevé: true,

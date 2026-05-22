@@ -11,32 +11,43 @@ export type ModifierAchèvementUseCase = Message<
   'Lauréat.Achèvement.UseCase.ModifierAchèvement',
   {
     identifiantProjetValue: string;
+    dateTransmissionAuCocontractantValue: string;
+    dateValue: string;
+    utilisateurValue: string;
+    raisonValue: string;
     attestationValue?: {
       content: ReadableStream;
       format: string;
     };
-    dateTransmissionAuCocontractantValue: string;
+    rapportAssociéValue?: {
+      content: ReadableStream;
+      format: string;
+    };
     preuveTransmissionAuCocontractantValue?: {
       content: ReadableStream;
       format: string;
     };
-    dateValue: string;
-    utilisateurValue: string;
-    raisonValue: string;
   }
 >;
 
 export const registerModifierAchèvementUseCase = () => {
   const runner: MessageHandler<ModifierAchèvementUseCase> = async ({
     identifiantProjetValue,
-    attestationValue,
-    dateValue,
-    preuveTransmissionAuCocontractantValue,
     dateTransmissionAuCocontractantValue,
+    dateValue,
     utilisateurValue,
     raisonValue,
+    attestationValue,
+    rapportAssociéValue,
+    preuveTransmissionAuCocontractantValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const date = DateTime.convertirEnValueType(dateValue);
+    const dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
+      dateTransmissionAuCocontractantValue,
+    );
+    const identifiantUtilisateur = Email.convertirEnValueType(utilisateurValue);
+
     const attestation = attestationValue
       ? DocumentAchèvement.attestationConformité({
           identifiantProjet: identifiantProjet.formatter(),
@@ -44,9 +55,13 @@ export const registerModifierAchèvementUseCase = () => {
           attestation: attestationValue,
         })
       : undefined;
-    const dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
-      dateTransmissionAuCocontractantValue,
-    );
+    const rapportAssocié = rapportAssociéValue
+      ? DocumentAchèvement.rapportAssocié({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: DateTime.convertirEnValueType(dateValue).formatter(),
+          rapportAssocie: rapportAssociéValue,
+        })
+      : undefined;
     const preuveTransmissionAuCocontractant = preuveTransmissionAuCocontractantValue
       ? DocumentAchèvement.preuveTransmissionAttestationConformité({
           identifiantProjet: identifiantProjet.formatter(),
@@ -55,16 +70,22 @@ export const registerModifierAchèvementUseCase = () => {
         })
       : undefined;
 
-    const date = DateTime.convertirEnValueType(dateValue);
-
-    const identifiantUtilisateur = Email.convertirEnValueType(utilisateurValue);
-
     if (attestation && attestationValue) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
           content: attestationValue.content,
           documentProjet: attestation,
+        },
+      });
+    }
+
+    if (rapportAssocié && rapportAssociéValue) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: rapportAssociéValue.content,
+          documentProjet: rapportAssocié,
         },
       });
     }
@@ -83,12 +104,13 @@ export const registerModifierAchèvementUseCase = () => {
       type: 'Lauréat.Achèvement.Command.ModifierAchèvement',
       data: {
         identifiantProjet,
-        attestation,
         date,
-        preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractant,
         identifiantUtilisateur,
         raison: raisonValue,
+        attestation,
+        rapportAssocié,
+        preuveTransmissionAuCocontractant,
       },
     });
   };

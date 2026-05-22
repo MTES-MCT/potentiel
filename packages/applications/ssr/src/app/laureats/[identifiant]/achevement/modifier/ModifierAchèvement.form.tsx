@@ -12,6 +12,7 @@ import {
   AttestationConformitéFormInput,
   DateAchèvementForm,
   PreuveTransmissionAuCocontractantFormInput,
+  RapportAssociéFormInput,
 } from '../AttestationConformité.inputs';
 import {
   type ModifierAchèvementFormKeys,
@@ -21,6 +22,7 @@ import {
 export type ModifierAchèvementFormProps = {
   identifiantProjet: string;
   attestationConformité?: DocumentProjet.RawType;
+  rapportAssocié?: DocumentProjet.RawType;
   dateTransmissionAuCocontractant: DateTime.RawType;
   preuveTransmissionAuCocontractant?: DocumentProjet.RawType;
   lauréatNotifiéLe: DateTime.RawType;
@@ -28,8 +30,9 @@ export type ModifierAchèvementFormProps = {
 
 export const ModifierAchèvementForm = ({
   identifiantProjet,
-  attestationConformité,
   dateTransmissionAuCocontractant,
+  attestationConformité,
+  rapportAssocié,
   preuveTransmissionAuCocontractant,
   lauréatNotifiéLe,
 }: ModifierAchèvementFormProps) => {
@@ -48,9 +51,14 @@ export const ModifierAchèvementForm = ({
         },
       }}
     >
-      <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+      <input name="identifiantProjet" type="hidden" defaultValue={identifiantProjet} />
       <AttestationConformitéFormInput
         attestationConformité={attestationConformité}
+        validationErrors={validationErrors}
+        optionnel
+      />
+      <RapportAssociéFormInput
+        rapportAssocié={rapportAssocié}
         validationErrors={validationErrors}
         optionnel
       />

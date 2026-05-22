@@ -36,6 +36,11 @@ Alors(
       );
 
       await expectFileContent(
+        achèvement.rapportAssocié,
+        this.lauréatWorld.achèvementWorld.mapToRapportAssocié(),
+      );
+
+      await expectFileContent(
         achèvement.preuveTransmissionAuCocontractant,
         this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
       );

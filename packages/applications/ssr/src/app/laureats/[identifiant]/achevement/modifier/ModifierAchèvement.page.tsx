@@ -11,18 +11,20 @@ export type ModifierAchèvementPageProps = ModifierAchèvementFormProps;
 export const ModifierAchèvementPage: FC<ModifierAchèvementPageProps> = ({
   identifiantProjet,
   dateTransmissionAuCocontractant,
-  attestationConformité,
-  preuveTransmissionAuCocontractant,
   lauréatNotifiéLe,
+  attestationConformité,
+  rapportAssocié,
+  preuveTransmissionAuCocontractant,
 }) => (
   <>
     <Heading1>Modifier l'achèvement du projet</Heading1>
     <ModifierAchèvementForm
       identifiantProjet={identifiantProjet}
+      lauréatNotifiéLe={lauréatNotifiéLe}
       dateTransmissionAuCocontractant={dateTransmissionAuCocontractant}
       attestationConformité={attestationConformité}
+      rapportAssocié={rapportAssocié}
       preuveTransmissionAuCocontractant={preuveTransmissionAuCocontractant}
-      lauréatNotifiéLe={lauréatNotifiéLe}
     />
   </>
 );

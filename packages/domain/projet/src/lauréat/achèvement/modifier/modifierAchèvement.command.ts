@@ -11,6 +11,7 @@ export type ModifierAchèvementCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     dateTransmissionAuCocontractant: DateTime.ValueType;
     attestation?: DocumentProjet.ValueType;
+    rapportAssocié?: DocumentProjet.ValueType;
     preuveTransmissionAuCocontractant?: DocumentProjet.ValueType;
     date: DateTime.ValueType;
     raison: string;

@@ -87,7 +87,7 @@ Quand(
 );
 
 Quand(
-  "l'admin modifie l'achèvement réel du projet sans attestation de conformité",
+  "l'admin modifie l'achèvement réel du projet sans pièce justificative",
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
@@ -96,6 +96,7 @@ Quand(
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.dgecFixture.email,
           attestation: undefined,
+          rapportAssocié: undefined,
           preuve: undefined,
         });
 
@@ -120,22 +121,30 @@ Quand("l'admin modifie l'achèvement réel du projet", async function (this: Pot
   try {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur, raison } =
-      this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
-        utilisateur: this.utilisateurWorld.dgecFixture.email,
-      });
+    const {
+      attestation,
+      rapportAssocié,
+      preuve,
+      dateTransmissionAuCocontractant,
+      date,
+      utilisateur,
+      raison,
+    } = this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
+      utilisateur: this.utilisateurWorld.dgecFixture.email,
+    });
 
     await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
       type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
-        dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
         dateValue: date,
-        preuveTransmissionAuCocontractantValue:
-          preuve && convertFixtureFileToReadableStream(preuve),
+        dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
         utilisateurValue: utilisateur,
         raisonValue: raison,
+        attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
+        rapportAssociéValue: rapportAssocié && convertFixtureFileToReadableStream(rapportAssocié),
+        preuveTransmissionAuCocontractantValue:
+          preuve && convertFixtureFileToReadableStream(preuve),
       },
     });
   } catch (error) {
