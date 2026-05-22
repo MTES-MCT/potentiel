@@ -19,7 +19,26 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Et un email a été envoyé à l'autorité instructrice avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Demande d'abandon annulée |
             | nom_projet | Du boulodrome de Marseille                                         |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                 |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                 |   
+    
+    Scénario: L'annulation de l'abandon d'un projet lauréat réactive les tâches et tâches planifiées liées au raccordement du projet (projet sans DCR)
+        Etant donné le projet lauréat "Du boulodrome de Poitiers" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur annule la demande d'abandon pour le projet lauréat
+        Et une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
+        Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet
+
+    Scénario: L'annulation de l'abandon d'un projet lauréat réactive les tâches et tâches planifiées liées au raccordement du projet (projet avec DCR sans AR)
+        Etant donné le projet lauréat "Du boulodrome de Poitiers" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
+        Et une demande complète de raccordement sans accusé de réception pour le projet lauréat 
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur annule la demande d'abandon pour le projet lauréat
+        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" est consultable dans la liste des tâches du porteur pour le projet  
 
     Scénario: Un porteur annule la demande d'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome du Savon" avec :

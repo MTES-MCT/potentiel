@@ -212,10 +212,34 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
   }
 
-  async annulerTâches() {
+  async annulerTâchesEtTâchesPlanifiées() {
+    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
     await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
     await this.#tâcheTransmettreRéférenceRaccordement.achever();
     await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+  }
+
+  async ajouterTâchesEtTâchesPlanifiées() {
+    // DCR manquante
+    if (this.#dossiers.size === 0) {
+      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+      await this.planifierRelanceDemandeComplèteRaccordement(
+        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
+      );
+    }
+
+    // AR DCR manquant
+    const dossierRaccordementSansAR = [...this.#dossiers.values()].filter((dossier) =>
+      Option.isNone(dossier.demandeComplèteRaccordement.format),
+    );
+    if (dossierRaccordementSansAR.length > 0) {
+      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
+    }
+
+    // gestionnaire réseau inconnu
+    if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
+      await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
+    }
   }
 
   //#region gestionnaire de réseau
