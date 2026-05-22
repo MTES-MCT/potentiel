@@ -21,9 +21,10 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Etant donné le gestionnaire de réseau inconnu attribué au raccordement du projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
-        Et il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
+        Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
-        Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Le raccordement d'un projet signataire d'un PPA reste consultable en cas d'abandon accordé
         Etant donné une demande complète de raccordement pour le projet lauréat
