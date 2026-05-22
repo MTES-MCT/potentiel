@@ -10,14 +10,14 @@ Fonctionnalité: Enregistrer une attestation de conformité
     Scénario: le porteur enregistre une attestation de conformité pour le projet lauréat
         Etant donné une date d'achèvement réel transmise pour le projet lauréat
         Quand le porteur enregistre une attestation de conformité pour le projet lauréat
-        Alors l'achèvement du projet devrait être consultable
+        Alors l'achèvement réel du projet devrait être consultable
 
     Scénario: Impossible d'enregistrer une attestation de conformité si le projet n'est pas achevé
         Quand le porteur enregistre une attestation de conformité pour le projet lauréat
         Alors le porteur devrait être informé que "Le projet n'est pas achevé"
 
     Scénario: Impossible d'enregistrer une attestation de conformité si le projet a déjà une attestation de conformité transmise
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur enregistre une attestation de conformité pour le projet lauréat
         Alors le porteur devrait être informé que "Une attestation de conformité est déjà présente pour ce projet"
 

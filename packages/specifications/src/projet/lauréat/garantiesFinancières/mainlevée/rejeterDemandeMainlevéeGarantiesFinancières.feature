@@ -20,7 +20,7 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres      |
 
     Scénario: Un utilisateur Dreal rejette une demande de mainlevée pour un projet achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-achevé |
@@ -32,21 +32,21 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres      |
 
     Scénario: Impossible de rejeter une demande de mainlevée si le projet n'a pas de demande de mainlevée
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Quand un utilisateur Dreal rejette la demande de mainlevée des garanties financières
         Alors l'utilisateur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières en cours pour ce projet"
 
     Scénario: Impossible de rejeter une demande de mainlevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières actuelles pour le projet lauréat
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée
         Quand un utilisateur Dreal rejette la demande de mainlevée des garanties financières
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"
 
     Scénario: Impossible de rejeter une demande de mainlevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières actuelles pour le projet lauréat
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Et une demande de mainlevée de garanties financières rejetée
         Quand un utilisateur Dreal rejette la demande de mainlevée des garanties financières
         Alors le porteur devrait être informé que "La dernière demande de mainlevée pour ce projet a été rejetée, aucune n'est en cours"

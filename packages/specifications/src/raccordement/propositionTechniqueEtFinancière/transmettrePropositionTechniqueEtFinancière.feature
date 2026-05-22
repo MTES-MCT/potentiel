@@ -16,7 +16,7 @@ Fonctionnalité: Transmettre une proposition technique et financière
 
     Scénario: Un porteur de projet transmet une proposition technique et financière pour le dossier de raccordement d'un projet achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Quand le porteur transmet une proposition technique et financière pour le projet lauréat
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 

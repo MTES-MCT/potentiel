@@ -44,7 +44,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                       |
 
     Scénario: Modifier le dispositif de stockage d'un projet achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :
             | installation avec dispositif de stockage | non |
         Alors le dispositif de stockage du projet lauréat devrait être mise à jour

@@ -37,7 +37,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat en tant qu'admin
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
 
     Scénario: Modifier le producteur d'un projet lauréat achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand la DGEC modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et le porteur a accès au projet lauréat

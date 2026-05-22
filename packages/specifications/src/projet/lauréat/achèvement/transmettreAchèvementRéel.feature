@@ -7,9 +7,9 @@ Fonctionnalité: Transmettre une attestation de conformité avec un rapport asso
     Et un cahier des charges permettant la modification du projet
     Et la dreal "Dreal du sud" associée à la région du projet
 
-  Scénario: le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
-    Alors l'achèvement du projet devrait être consultable
+  Scénario: le porteur transmet l'achèvement réel pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
+    Alors l'achèvement réel du projet devrait être consultable
     Et le statut du projet lauréat devrait être "achevé"
     Et un email a été envoyé à la dreal avec :
       | sujet      | Potentiel - Du boulodrome de Marseille - Transmission de l'attestation de conformité et de la preuve de transmission |
@@ -20,13 +20,13 @@ Fonctionnalité: Transmettre une attestation de conformité avec un rapport asso
       | nom_projet | Du boulodrome de Marseille                                                   |
       | url        | https://potentiel.beta.gouv.fr/laureats/.*                                   |
 
-  Scénario: le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat de l'appel d'offres Petit PV
+  Scénario: le porteur transmet l'achèvement réel pour le projet lauréat de l'appel d'offres Petit PV
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | appel d'offres | PPE2 - Petit PV Bâtiment |
       | période        | 1                        |
     Et la dreal "Dreal du nord" associée à la région du projet
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
-    Alors l'achèvement du projet devrait être consultable
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
+    Alors l'achèvement réel du projet devrait être consultable
     Et le statut du projet lauréat devrait être "achevé"
     Et un email a été envoyé à la dreal avec :
       | sujet      | Potentiel - Du boulodrome de Marseille - Transmission de l'attestation de conformité et de la preuve de transmission |
@@ -40,75 +40,75 @@ Fonctionnalité: Transmettre une attestation de conformité avec un rapport asso
     Et il n'y a pas de tâche "rappel échéance achèvement à deux mois" planifiée pour le projet lauréat
     Et il n'y a pas de tâche "rappel échéance achèvement à un mois" planifiée pour le projet lauréat
 
-  Scénario: Une tâche planifiée du type "échoir les garanties financières" est annulée quand une attestation de conformité est transmise avec le rapport associé
+  Scénario: Une tâche planifiée du type "échoir les garanties financières" est annulée quand l'achèvement réel est transmis
     Etant donné des garanties financières actuelles pour le projet lauréat avec :
       | type GF            | avec-date-échéance |
       | date d'échéance    | 2050-12-01         |
       | date de validation | 2024-11-24         |
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
     Alors il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
 
-  Scénario: Une tâche planifiée du type "rappel échéance garanties financières à un mois" est annulée quand une attestation de conformité est transmise avec le rapport associé
+  Scénario: Une tâche planifiée du type "rappel échéance garanties financières à un mois" est annulée quand l'achèvement réel est transmis
     Etant donné des garanties financières actuelles pour le projet lauréat avec :
       | type GF            | avec-date-échéance |
       | date d'échéance    | 2050-12-01         |
       | date de validation | 2024-11-24         |
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
     Alors il n'y a pas de tâche "rappel échéance garanties financières à un mois" planifiée pour le projet lauréat
 
-  Scénario: Une tâche planifiée du type "rappel échéance garanties financières à trois mois" est annulée quand une attestation de conformité est transmise avec le rapport associé
+  Scénario: Une tâche planifiée du type "rappel échéance garanties financières à trois mois" est annulée quand l'achèvement réel est transmis
     Etant donné des garanties financières actuelles pour le projet lauréat avec :
       | type GF            | avec-date-échéance |
       | date d'échéance    | 2050-12-01         |
       | date de validation | 2024-11-24         |
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
     Alors il n'y a pas de tâche "rappel échéance garanties financières à trois mois" planifiée pour le projet lauréat
 
-  Scénario: Une tâche planifiée du type "rappel échéance garanties financières à trois mois" est annulée quand une attestation de conformité est transmise avec le rapport associé
+  Scénario: Une tâche planifiée du type "rappel échéance garanties financières à trois mois" est annulée quand l'achèvement réel est transmis
     Etant donné des garanties financières actuelles pour le projet lauréat avec :
       | type GF            | avec-date-échéance |
       | date d'échéance    | 2050-12-01         |
       | date de validation | 2024-11-24         |
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
     Alors il n'y a pas de tâche "rappel échéance garanties financières à trois mois" planifiée pour le projet lauréat
 
-  Scénario: Une tâche porteur du type "transmettre les garanties financières" est achevée quand une attestation de conformité est transmise avec le rapport associé
+  Scénario: Une tâche porteur du type "transmettre les garanties financières" est achevée quand l'achèvement réel est transmis
     Etant donné des garanties financières en attente pour le projet lauréat
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
     Alors une tâche indiquant de 'transmettre les garanties financières' n'est plus consultable dans la liste des tâches du porteur pour le projet
 
   Scénario: le porteur transmet une attestation de conformité avec le rapport associé pour un projet avec un cahier des charges sans changement autorisé
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | appel d'offres | CRE4 - Sol |
       | période        | 7          |
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
-    Alors l'achèvement du projet devrait être consultable
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
+    Alors l'achèvement réel du projet devrait être consultable
     Et le statut du projet lauréat devrait être "achevé"
 
   Scénario: Impossible de transmettre une attestation de conformité avec le rapport associé si la date de transmission au Cocontractant est dans le futur
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat avec :
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat avec :
       | date transmission au Cocontractant | 2040-01-01 |
     Alors le porteur devrait être informé que "La date de transmission au Cocontractant ne peut pas être une date future"
 
   Scénario: Impossible de transmettre une attestation de conformité avec le rapport associé si le projet est dejà achevé
-    Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
+    Etant donné l'achèvement réel transmis pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
     Alors le porteur devrait être informé que "Le projet est déjà achevé"
 
   Scénario: Impossible de transmettre une attestation de conformité avec le rapport associé si le projet est éliminé
     Etant donné le projet éliminé "MIOS"
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet éliminé
+    Quand le porteur transmet l'achèvement réel pour le projet éliminé
     Alors le porteur devrait être informé que "Le projet lauréat n'existe pas"
 
   Scénario: Impossible de transmettre une attestation de conformité avec le rapport associé si le projet est abandonné
     Etant donné une demande d'abandon accordée pour le projet lauréat
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
     Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
   Scénario: Impossible de transmettre une attestation de conformité avec le rapport associé si la date de transmission au Cocontractant est antérieure à la date de désignation
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | date notification | 2025-11-01 |
-    Quand le porteur transmet une attestation de conformité avec le rapport associé pour le projet lauréat avec :
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat avec :
       | date transmission au Cocontractant | 2025-10-01 |
     Alors le porteur devrait être informé que "La date d'achèvement ne peut pas être antérieure à la date de notification du projet"
 

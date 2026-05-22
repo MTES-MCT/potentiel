@@ -19,7 +19,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                   |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                   |
 
-    Exemples:
+        Exemples:
             | l'utilisateur autorisé      |
             | le DGEC validateur          |
             | la DREAL associée au projet |
@@ -37,13 +37,13 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                   |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                   |
 
-    Exemples:
+        Exemples:
             | l'utilisateur autorisé      |
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
     Scénario: Modifier l'actionnaire d'un projet lauréat abandonné par une dreal ou un admin
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
@@ -55,7 +55,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                   |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                   |
 
-    Exemples:
+        Exemples:
             | l'utilisateur autorisé      |
             | le DGEC validateur          |
             | la DREAL associée au projet |

@@ -27,7 +27,7 @@ Fonctionnalité: Demander un délai pour un projet lauréat
         Alors le porteur devrait être informé que "Une demande de délai est déjà en cours"
 
     Scénario: Impossible de demander un délai pour un projet achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur demande un délai pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 

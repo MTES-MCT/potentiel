@@ -33,7 +33,7 @@ Fonctionnalité: Modifier une proposition technique et financière
     Scénario: La dgec modifie la PTF d'un projet achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Quand la dgec modifie la proposition technique et financière
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
@@ -107,7 +107,7 @@ Fonctionnalité: Modifier une proposition technique et financière
     Plan du scénario: Impossible pour un rôle non la dgec de modifier une proposition technique et financière si le projet est achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
-        Et une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Et l'achèvement réel transmis pour le projet lauréat
         Quand <role> modifie la proposition technique et financière
         Alors <role> devrait être informé que "Impossible de faire un changement pour un projet achevé"
 

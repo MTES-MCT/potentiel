@@ -9,7 +9,7 @@ import { convertFixtureFileToReadableStream } from '../../../../helpers/convertF
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 EtantDonné(
-  'une attestation de conformité et un rapport associé transmis pour le projet lauréat',
+  `l'achèvement réel transmis pour le projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 

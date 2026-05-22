@@ -78,7 +78,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible de demander le changement de l'actionnaire d'un projet achevé
-        Etant donné une attestation de conformité et un rapport associé transmis pour le projet lauréat
+        Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
