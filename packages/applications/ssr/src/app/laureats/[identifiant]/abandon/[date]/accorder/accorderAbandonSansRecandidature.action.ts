@@ -13,14 +13,14 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
-  estPPA: zod.stringbool().optional(),
+  choixPPAPourAutoritéCompétente: zod.stringbool().optional(),
 });
 
 export type AccorderAbandonSansRecandidatureFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, estPPA },
+  { identifiantProjet, reponseSignee, choixPPAPourAutoritéCompétente },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Abandon.AbandonUseCase>({
@@ -31,8 +31,8 @@ const action: FormAction<FormState, typeof schema> = async (
         rôleUtilisateurValue: utilisateur.rôle.nom,
         dateAccordValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
-        ...(estPPA === true && { PPASignaléValue: true }),
-        ...(estPPA === false && { PPAAnnuléValue: true }),
+        ...(choixPPAPourAutoritéCompétente && { PPASignaléValue: true }),
+        ...(choixPPAPourAutoritéCompétente === false && { PPAAnnuléValue: true }),
       },
     });
 

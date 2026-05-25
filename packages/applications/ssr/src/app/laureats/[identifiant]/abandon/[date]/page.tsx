@@ -53,7 +53,11 @@ export default async function Page(props: PageProps) {
           },
         });
 
-      const PPADéclaréPendantLaDemande =
+      const estDéjàPPA =
+        Option.isSome(powerPurchaseAgreement) &&
+        !powerPurchaseAgreement.signaléPar.estÉgaleÀ(abandon.demande.demandéPar);
+
+      const PPASignaléÀLaDemande =
         Option.isSome(powerPurchaseAgreement) &&
         powerPurchaseAgreement.signaléPar.estÉgaleÀ(abandon.demande.demandéPar);
 
@@ -79,7 +83,8 @@ export default async function Page(props: PageProps) {
       return (
         <DétailsAbandonPage
           abandon={mapToPlainObject(abandon)}
-          PPADéclaréPendantLaDemande={PPADéclaréPendantLaDemande}
+          PPASignaléÀLaDemande={PPASignaléÀLaDemande}
+          estDéjàPPA={estDéjàPPA}
           identifiantProjet={identifiantProjet}
           actions={actions}
           informations={mapToInformations({

@@ -18,18 +18,21 @@ import {
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
-  PPADéclaréPendantLaDemande: boolean;
+  estDéjàPPA: boolean;
+  PPASignaléÀLaDemande: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
   identifiantProjet,
-  PPADéclaréPendantLaDemande,
-}: AccorderAbandonSansRecandidatureFormProps & { PPADéclaréPendantLaDemande: boolean }) => {
+  estDéjàPPA,
+  PPASignaléÀLaDemande,
+}: AccorderAbandonSansRecandidatureFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderAbandonSansRecandidatureFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
-  const [estPPA, setEstPPA] = useState(PPADéclaréPendantLaDemande);
+  const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] =
+    useState(PPASignaléÀLaDemande);
 
   return (
     <>
@@ -53,46 +56,54 @@ export const AccorderAbandonSansRecandidatureForm = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-
-              {PPADéclaréPendantLaDemande ? (
+              {estDéjàPPA && (
                 <Notice
                   title={
-                    "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par le porteur de projet. Vous pouvez changer cette information si elle n'est plus à jour."
-                  }
-                />
-              ) : (
-                <Notice
-                  title={
-                    "Ce projet n'a pas été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par le porteur de projet. Vous pouvez changer cette information si elle n'est plus à jour."
+                    "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA)"
                   }
                 />
               )}
-
-              <Select
-                state={validationErrors['estPPA'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['estPPA']}
-                id="estPPA"
-                label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
-                nativeSelectProps={{
-                  defaultValue: PPADéclaréPendantLaDemande ? 'true' : 'false',
-                  required: true,
-                  'aria-required': true,
-                  onChange: (e) => {
-                    setEstPPA(e.target.value === 'true');
-                  },
-                }}
-                options={[
-                  { label: 'Oui', value: 'true' },
-                  { label: 'Non', value: 'false' },
-                ]}
-              />
-
-              <input
-                type={'hidden'}
-                value={estPPA ? 'true' : 'false'}
-                name="estPPA"
-                disabled={estPPA === PPADéclaréPendantLaDemande}
-              />
+              {!estDéjàPPA && (
+                <>
+                  {PPASignaléÀLaDemande ? (
+                    <Notice
+                      title={
+                        "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par le porteur de projet. Vous pouvez changer cette information si elle n'est plus à jour."
+                      }
+                    />
+                  ) : (
+                    <Notice
+                      title={
+                        "Ce projet n'a pas été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par le porteur de projet. Vous pouvez changer cette information si elle n'est plus à jour."
+                      }
+                    />
+                  )}
+                  <Select
+                    state={validationErrors['choixPPAPourAutoritéCompétente'] ? 'error' : 'default'}
+                    stateRelatedMessage={validationErrors['choixPPAPourAutoritéCompétente']}
+                    id="choixPPAPourAutoritéCompétente"
+                    label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
+                    nativeSelectProps={{
+                      defaultValue: PPASignaléÀLaDemande ? 'true' : 'false',
+                      required: true,
+                      'aria-required': true,
+                      onChange: (e) => {
+                        setChoixPPAPourAutoritéCompétente(e.target.value === 'true');
+                      },
+                    }}
+                    options={[
+                      { label: 'Oui', value: 'true' },
+                      { label: 'Non', value: 'false' },
+                    ]}
+                  />
+                  <input
+                    type={'hidden'}
+                    value={choixPPAPourAutoritéCompétente ? 'true' : 'false'}
+                    name="choixPPAPourAutoritéCompétente"
+                    disabled={choixPPAPourAutoritéCompétente === PPASignaléÀLaDemande}
+                  />
+                </>
+              )}
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

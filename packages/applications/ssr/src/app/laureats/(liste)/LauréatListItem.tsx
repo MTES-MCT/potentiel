@@ -40,7 +40,7 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
     evaluationCarboneSimplifiée={evaluationCarboneSimplifiée}
     typeActionnariat={typeActionnariat}
     statutBadge={
-      <div className='flex gap-1'>
+      <div className="flex gap-1">
         <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statut).formatter()} />
         {estPartiEnPPA && <PPABadge />}
       </div>
