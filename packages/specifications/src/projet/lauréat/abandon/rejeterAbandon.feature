@@ -43,7 +43,7 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand la dgec rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
-        Et l'état PPA ne devrait plus être consultable pour le projet lauréat
+        Et l'état PPA ne devrait pas être consultable pour le projet lauréat
 
     Scénario: Une dreal peut rejeter la demande d'abandon d'un projet si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

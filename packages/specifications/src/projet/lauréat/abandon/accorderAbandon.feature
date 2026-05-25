@@ -28,6 +28,27 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
             | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
             | nom_projet | L'hélice qui tourne                                          |
 
+    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, en validant le signalement PPA indiqué par le porteur
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec signalement de PPA pour le projet lauréat
+        Alors la demande d'abandon du projet lauréat devrait être accordée
+        Et le statut du projet lauréat devrait être "abandonné"
+        Et l'état PPA devrait être consultable pour le projet lauréat
+
+    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, en signalement l'état PPA non indiqué par le porteur
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec signalement de PPA pour le projet lauréat
+        Alors la demande d'abandon du projet lauréat devrait être accordée
+        Et le statut du projet lauréat devrait être "abandonné"
+        Et l'état PPA devrait être consultable pour le projet lauréat
+
+    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, en annulant le signalement PPA du porteur
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon pour le projet lauréat
+        Alors la demande d'abandon du projet lauréat devrait être accordée
+        Et le statut du projet lauréat devrait être "abandonné"
+        Et l'état PPA ne devrait pas être consultable pour le projet lauréat
+
     Scénario: Une dreal peut accorder une demande d'abandon si elle en a l'autorité
         Etant donné le projet lauréat "L'hélice qui tourne" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |

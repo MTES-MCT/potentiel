@@ -62,7 +62,7 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Etant donné la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
-        Alors l'état PPA ne devrait plus être consultable pour le projet lauréat
+        Alors l'état PPA ne devrait pas être consultable pour le projet lauréat
         Et un email a été envoyé à la dgec avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Annulation signalement PPA |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                          |
