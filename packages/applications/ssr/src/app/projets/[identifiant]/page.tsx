@@ -6,6 +6,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 type ProjetPageProps = IdentifiantParameter & {
   searchParams?: Promise<Record<string, string>>;
@@ -22,17 +23,19 @@ export default async function ProjetPage(props: ProjetPageProps) {
     decodeParameter(identifiant),
   ).formatter();
 
-  const éliminé = await getÉliminé(identifiantProjet);
+  return PageWithErrorHandling(async () => {
+    const éliminé = await getÉliminé(identifiantProjet);
 
-  if (éliminé) {
-    redirect(Routes.Éliminé.détails.tableauDeBord(identifiantProjet));
-  }
+    if (éliminé) {
+      redirect(Routes.Éliminé.détails.tableauDeBord(identifiantProjet));
+    }
 
-  const urlSearchParams = new URLSearchParams(searchParams);
-  if (urlSearchParams.size === 0) {
-    return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
-  }
-  return redirect(
-    `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet)}?${urlSearchParams.toString()}`,
-  );
+    const urlSearchParams = new URLSearchParams(searchParams);
+    if (urlSearchParams.size === 0) {
+      return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
+    }
+    return redirect(
+      `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet)}?${urlSearchParams.toString()}`,
+    );
+  });
 }
