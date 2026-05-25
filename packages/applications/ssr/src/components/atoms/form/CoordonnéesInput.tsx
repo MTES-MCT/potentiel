@@ -31,14 +31,18 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
   const [latitude, setLatitude] = useState(coordonnéesInitiales?.toDMS()[0]);
   const [longitude, setLongitude] = useState(coordonnéesInitiales?.toDMS()[1]);
 
-  const latitudeDecimal = useMemo(
-    () => latitude && Candidature.Coordonnées.toDecimal(latitude),
-    [latitude],
-  );
-  const longitudeDecimal = useMemo(
-    () => longitude && Candidature.Coordonnées.toDecimal(longitude),
-    [longitude],
-  );
+  const latitudeDecimal = useMemo(() => {
+    if (!latitude) return;
+    try {
+      return Candidature.Coordonnées.toDecimal(latitude);
+    } catch {}
+  }, [latitude]);
+  const longitudeDecimal = useMemo(() => {
+    if (!longitude) return;
+    try {
+      return Candidature.Coordonnées.toDecimal(longitude);
+    } catch {}
+  }, [longitude]);
 
   const onChange =
     (
@@ -103,11 +107,11 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: latitude?.degrés,
+            value: latitude?.degrés ?? '',
             type: 'number',
             pattern: '[0-9]',
             min: 0,
-            max: 90,
+            max: 89,
             onChange: onChange(setLatitude, 'degrés'),
             onPaste,
             'aria-label': `Degré d'angle de la latitude. Vous pouvez également coller des coordonnées au format décimal ou au format Degré Minute Seconde dans ce champ`,
@@ -120,7 +124,7 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: latitude?.minutes,
+            value: latitude?.minutes ?? '',
             type: 'number',
             pattern: '[0-9]',
             min: 0,
@@ -136,7 +140,7 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: latitude?.secondes,
+            value: latitude?.secondes ?? '',
             type: 'number',
             pattern: '[0-9]+([.][0-9]+)?',
             inputMode: 'decimal',
@@ -156,7 +160,7 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           ]}
           label=""
           nativeSelectProps={{
-            value: latitude?.cardinal,
+            value: latitude?.cardinal ?? '',
             onChange: onChange(setLatitude, 'cardinal', (str) => str),
             'aria-label': 'Cardinal de la latitude',
           }}
@@ -172,7 +176,7 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: longitude?.degrés,
+            value: longitude?.degrés ?? '',
             type: 'number',
             pattern: '[0-9]',
             min: 0,
@@ -188,7 +192,7 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: longitude?.minutes,
+            value: longitude?.minutes ?? '',
             type: 'number',
             pattern: '[0-9]',
             min: 0,
@@ -204,7 +208,7 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: longitude?.secondes,
+            value: longitude?.secondes ?? '',
             type: 'number',
             pattern: '[0-9]+([.][0-9]+)?',
             inputMode: 'decimal',
@@ -224,7 +228,7 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           ]}
           label=""
           nativeSelectProps={{
-            value: longitude?.cardinal,
+            value: longitude?.cardinal ?? '',
             onChange: onChange(setLongitude, 'cardinal', (str) => str),
             'aria-label': 'Cardinal de la longitude',
           }}
@@ -237,13 +241,13 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
       <input
         name="coordonnées.latitude"
         disabled={latitudeDecimal === undefined}
-        value={latitudeDecimal}
+        value={latitudeDecimal ?? ''}
         type="hidden"
       />
       <input
         name="coordonnées.longitude"
         disabled={longitudeDecimal === undefined}
-        value={longitudeDecimal}
+        value={longitudeDecimal ?? ''}
         type="hidden"
       />
     </>
