@@ -29,7 +29,9 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
       mapToAttestationConformitéModifiéeTimelineItemProps,
     )
     .with(
-      { type: 'AttestationConformitéEnregistrée-V1' },
+      {
+        type: P.union('AttestationConformitéEnregistrée-V1', 'AttestationConformitéEnregistrée-V2'),
+      },
       mapToAttestationConformitéEnregistréeTimelineItemProps,
     )
     .with(

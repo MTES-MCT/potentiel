@@ -4,7 +4,10 @@ import { useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import { AttestationConformitéFormInput } from '../../AttestationConformité.inputs';
+import {
+  AttestationConformitéFormInput,
+  RapportAssociéFormInput,
+} from '../../AttestationConformité.inputs';
 import {
   type EnregistrerAttestationConformitéFormKeys,
   enregistrerAttestationConformitéAction,
@@ -32,6 +35,7 @@ export const EnregistrerAttestationConformitéForm = ({
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
       <AttestationConformitéFormInput validationErrors={validationErrors} />
+      <RapportAssociéFormInput validationErrors={validationErrors} />
     </Form>
   );
 };

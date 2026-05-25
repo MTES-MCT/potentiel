@@ -6,20 +6,21 @@ import * as zod from 'zod';
 import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import { manyDocuments } from '@/utils//zod/document/manyDocuments';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: manyDocuments({ acceptedFileTypes: ['application/pdf'] }),
+  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  rapportAssocie: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type EnregistrerAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, attestation },
+  { identifiantProjet, attestation, rapportAssocie },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
@@ -27,6 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         attestationConformitéValue: attestation,
+        rapportAssociéValue: rapportAssocie,
         enregistréeLeValue: new Date().toISOString(),
         enregistréeParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
@@ -36,7 +38,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.GarantiesFinancières.détail(identifiantProjet),
-        message: 'Votre attestation de conformité a bien été enregistrée',
+        message: 'Votre attestation de conformité avec son rapport associé a bien été enregistrée',
       },
     };
   });
