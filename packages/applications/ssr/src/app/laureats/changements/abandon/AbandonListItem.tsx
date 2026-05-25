@@ -54,7 +54,6 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </Button>
     }
   >
-    {' '}
     <div className="flex gap-1">
       <StatutDemandeBadge statut={statut} small />
       {recandidature && (
