@@ -130,25 +130,25 @@ const mapToReadModel = ({
   GarantiesFinancièresEntity & {
     dépôt: NonNullable<GarantiesFinancièresEntity['dépôt']>;
   }): DépôtGarantiesFinancièresListItemReadModel => ({
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet: lauréat.nomProjet,
-    estPartiEnPPA: PPA ? true : undefined,
-    dépôt: {
-      type: Candidature.TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
-      dateÉchéance:
-        dépôt.type === 'avec-date-échéance'
-          ? DateTime.convertirEnValueType(dépôt.dateÉchéance)
-          : undefined,
-      dateConstitution: DateTime.convertirEnValueType(dépôt.constitution.date),
-      attestation: DocumentGarantiesFinancières.attestationSoumise({
-        identifiantProjet,
-        dateConstitution: dépôt.constitution.date,
-        attestation: dépôt.constitution.attestation,
-      }),
-      soumisLe: DateTime.convertirEnValueType(dépôt.soumisLe),
-      dernièreMiseÀJour: {
-        date: DateTime.convertirEnValueType(dépôt.dernièreMiseÀJour.date),
-        par: Email.convertirEnValueType(dépôt.dernièreMiseÀJour.par),
-      },
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet: lauréat.nomProjet,
+  estPartiEnPPA: PPA ? true : undefined,
+  dépôt: {
+    type: Candidature.TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
+    dateÉchéance:
+      dépôt.type === 'avec-date-échéance'
+        ? DateTime.convertirEnValueType(dépôt.dateÉchéance)
+        : undefined,
+    dateConstitution: DateTime.convertirEnValueType(dépôt.constitution.date),
+    attestation: DocumentGarantiesFinancières.attestationSoumise({
+      identifiantProjet,
+      dateConstitution: dépôt.constitution.date,
+      attestation: dépôt.constitution.attestation,
+    }),
+    soumisLe: DateTime.convertirEnValueType(dépôt.soumisLe),
+    dernièreMiseÀJour: {
+      date: DateTime.convertirEnValueType(dépôt.dernièreMiseÀJour.date),
+      par: Email.convertirEnValueType(dépôt.dernièreMiseÀJour.par),
     },
-  });
+  },
+});
