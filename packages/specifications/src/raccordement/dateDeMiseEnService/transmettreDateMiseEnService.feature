@@ -23,7 +23,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
 
     Scénario: Transmettre une date de mise en service pour un dossier de raccordement d'un projet en cours d'abandon avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand la dgec transmet la date de mise en service pour le dossier de raccordement du projet lauréat
         Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
         Et le raccordement du projet lauréat devrait être en service pour le projet lauréat

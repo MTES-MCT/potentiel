@@ -56,7 +56,7 @@ Fonctionnalité: Modifier une proposition technique et financière
     Plan du scénario: Modifier une PTF pour un projet en cours d'abandon avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
-        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand le porteur modifie la proposition technique et financière
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
