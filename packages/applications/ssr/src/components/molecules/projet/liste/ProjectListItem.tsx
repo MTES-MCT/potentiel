@@ -29,7 +29,6 @@ export type ProjectListItemProps = {
   actions?: React.ReactNode;
 };
 
-// viovio vérifier si problème
 export const ProjectListItem: FC<ProjectListItemProps> = ({
   identifiantProjet,
   nomProjet,

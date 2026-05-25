@@ -159,7 +159,6 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'achèvement',
           on: 'identifiantProjet',
         },
-        // viovio vérifier que ça marche
         {
           entity: 'power-purchase-agreement',
           type: 'left',
