@@ -7,6 +7,7 @@ import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ListItem } from '@/components/molecules/ListItem';
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 export type ListItemDépôtGarantiesFinancièresProps = {
@@ -33,7 +34,7 @@ export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFi
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Garanties financières du projet"
-        estPartiEnPPA={estPartiEnPPA}
+        statutProjetBadge={<div className="flex gap-1">{estPartiEnPPA && <PPABadge />}</div>}
       />
     }
     actions={

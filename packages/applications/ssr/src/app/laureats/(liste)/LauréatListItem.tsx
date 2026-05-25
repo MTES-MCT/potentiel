@@ -5,6 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
 
@@ -38,8 +39,12 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
     prixReference={prixReference}
     evaluationCarboneSimplifiée={evaluationCarboneSimplifiée}
     typeActionnariat={typeActionnariat}
-    statutBadge={<StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statut).formatter()} />}
-    estPartiEnPPA={estPartiEnPPA}
+    statutBadge={
+      <div className='flex gap-1'>
+        <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statut).formatter()} />
+        {estPartiEnPPA && <PPABadge />}
+      </div>
+    }
     actions={
       <Button
         className="md:flex ml-auto"

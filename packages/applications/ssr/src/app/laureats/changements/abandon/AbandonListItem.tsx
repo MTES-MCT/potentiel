@@ -7,6 +7,7 @@ import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { ListItem } from '@/components/molecules/ListItem';
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import { StatutPreuveRecandidatureBadge } from '../../[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
@@ -34,12 +35,14 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
 }) => (
   <ListItem
     miseÀJourLe={miseÀJourLe}
-    heading=<ProjectListItemHeading
-      nomProjet={nomProjet}
-      identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
-      prefix="Abandon du projet"
-      estPartiEnPPA={estPartiEnPPA === true ? true : undefined}
-    />
+    heading={
+      <ProjectListItemHeading
+        nomProjet={nomProjet}
+        identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+        prefix="Abandon du projet"
+        statutProjetBadge={estPartiEnPPA && <PPABadge />}
+      />
+    }
     actions={
       <Button
         linkProps={{
@@ -51,6 +54,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </Button>
     }
   >
+    {' '}
     <div className="flex gap-1">
       <StatutDemandeBadge statut={statut} small />
       {recandidature && (

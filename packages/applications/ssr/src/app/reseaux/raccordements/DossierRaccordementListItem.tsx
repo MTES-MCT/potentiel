@@ -10,6 +10,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
 import { ListItem } from '@/components/molecules/ListItem';
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
@@ -35,10 +36,12 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Projet lauréat"
-        statutBadge={
-          <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statutProjet).formatter()} />
+        statutProjetBadge={
+          <div className="flex gap-1">
+            <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statutProjet).formatter()} />
+            {estPartiEnPPA && <PPABadge />}
+          </div>
         }
-        estPartiEnPPA={estPartiEnPPA}
       />
     }
     actions={
