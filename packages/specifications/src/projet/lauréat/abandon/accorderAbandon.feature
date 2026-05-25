@@ -28,9 +28,9 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
             | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
             | nom_projet | L'hélice qui tourne                                          |
 
-    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, en validant le signalement PPA indiqué par le porteur
+    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, sans rectifier le signalement PPA indiqué par le porteur
         Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
-        Quand la dgec accorde la demande d'abandon avec signalement de PPA pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon pour le projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être accordée
         Et le statut du projet lauréat devrait être "abandonné"
         Et l'état PPA devrait être consultable pour le projet lauréat
@@ -44,7 +44,7 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
 
     Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, en annulant le signalement PPA du porteur
         Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
-        Quand la dgec accorde la demande d'abandon pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec annulation du signalement PPA pour le projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être accordée
         Et le statut du projet lauréat devrait être "abandonné"
         Et l'état PPA ne devrait pas être consultable pour le projet lauréat
@@ -128,3 +128,14 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL accorde la demande d'abandon pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
+
+    Scénario: Impossible de signaler un état PPA pendant l'accord si il a déjà été signalé par le porteur
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec signalement de PPA pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet est déjà signalé comme étant parti en PPA"
+
+    Scénario: Impossible d'annuler un état PPA pendant l'accord si il n'a pas été signalé par le porteur
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec annulation du signalement PPA pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet n'a pas été signalé comme étant parti en PPA"
+
