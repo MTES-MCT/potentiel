@@ -46,7 +46,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
     const updateProducteurInfo = async (siret: string) => {
       const searchParams = new URLSearchParams({ q: siret });
       const data = await fetch(
-        `https://recherche-entreprises.api.gouv.fr/search?${searchParams.toString()}`,
+        `${process.env.NEXT_PUBLIC_ENTREPRISES_API_URL}/search?${searchParams.toString()}`,
       ).then(
         (response) =>
           response.json() as Promise<{
