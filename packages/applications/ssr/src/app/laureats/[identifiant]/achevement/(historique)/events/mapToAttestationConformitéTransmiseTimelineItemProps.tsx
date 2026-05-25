@@ -42,7 +42,7 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
 
   return {
     date,
-    title: "Transmission de l'attestation de conformité",
+    title: "Transmission de l'achèvement réel",
     actor: utilisateur,
     details: (
       <div className="flex flex-col gap-2">

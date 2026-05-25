@@ -132,7 +132,7 @@ export const getLauréatMenuItems = async ({
           !aUnAbandonEnCours
         ? linkToSection("Date d'achèvement", 'achevement/date-achevement/transmettre')
         : utilisateur.rôle.aLaPermission('achèvement.modifier') && lauréat.statut.estAchevé()
-          ? linkToSection('Attestation de conformité', 'achevement/modifier')
+          ? linkToSection('Achèvement', 'achevement/modifier')
           : undefined;
 
   const modifications = [

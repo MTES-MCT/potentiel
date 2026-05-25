@@ -4,9 +4,10 @@ import type { DocumentProjet } from '../../../index.js';
 
 export type ModifierAchèvementOptions = {
   identifiantUtilisateur: Email.ValueType;
-  dateTransmissionAuCocontractant: DateTime.ValueType;
-  attestation?: DocumentProjet.ValueType;
-  preuveTransmissionAuCocontractant?: DocumentProjet.ValueType;
   date: DateTime.ValueType;
+  dateTransmissionAuCocontractant: DateTime.ValueType;
   raison: string;
+  attestation?: DocumentProjet.ValueType;
+  rapportAssocié?: DocumentProjet.ValueType;
+  preuveTransmissionAuCocontractant?: DocumentProjet.ValueType;
 };

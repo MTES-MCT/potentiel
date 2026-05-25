@@ -43,13 +43,15 @@ export default async function Page(props0: IdentifiantParameter) {
       }
 
       const props = mapToProps(projet.identifiantProjet, achèvement, projet.notifiéLe);
+
       return (
         <ModifierAchèvementPage
           identifiantProjet={props.identifiantProjet}
-          attestationConformité={props.attestationConformité}
           dateTransmissionAuCocontractant={props.dateTransmissionAuCocontractant}
-          preuveTransmissionAuCocontractant={props.preuveTransmissionAuCocontractant}
           lauréatNotifiéLe={props.lauréatNotifiéLe}
+          attestationConformité={props.attestationConformité}
+          rapportAssocié={props.rapportAssocié}
+          preuveTransmissionAuCocontractant={props.preuveTransmissionAuCocontractant}
         />
       );
     }),
@@ -61,15 +63,17 @@ type MapToProps = (
   achèvement: Lauréat.Achèvement.ConsulterAchèvementAchevéReadModel,
   notifiéLe: DateTime.ValueType,
 ) => ModifierAchèvementPageProps;
+
 const mapToProps: MapToProps = (
   identifiantProjet,
-  { attestation, preuveTransmissionAuCocontractant, dateAchèvementRéel },
+  { attestation, rapportAssocié, preuveTransmissionAuCocontractant, dateAchèvementRéel },
   notifiéLe,
 ) => ({
   identifiantProjet: identifiantProjet.formatter(),
   lauréatNotifiéLe: notifiéLe.formatter(),
   dateTransmissionAuCocontractant: dateAchèvementRéel.formatter(),
   attestationConformité: Option.isSome(attestation) ? attestation.formatter() : undefined,
+  rapportAssocié: Option.isSome(rapportAssocié) ? rapportAssocié.formatter() : undefined,
   preuveTransmissionAuCocontractant: Option.isSome(preuveTransmissionAuCocontractant)
     ? preuveTransmissionAuCocontractant.formatter()
     : undefined,

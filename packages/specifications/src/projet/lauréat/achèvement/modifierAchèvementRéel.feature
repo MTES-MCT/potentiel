@@ -18,9 +18,9 @@ Fonctionnalité: Modifier un achèvement réel
             | sujet | Potentiel - Centrale PV - Modification des informations d'achèvement |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                           |
 
-    Scénario: Un admin modifie une date d'achèvement réel sans attestation de conformité transmise
+    Scénario: Un admin modifie une date d'achèvement réel sans joindre de pièce justificative
         Etant donné une date d'achèvement réel transmise pour le projet lauréat
-        Quand l'admin modifie l'achèvement réel du projet sans attestation de conformité
+        Quand l'admin modifie l'achèvement réel du projet sans pièce justificative
         Alors l'achèvement réel du projet devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Centrale PV - Modification des informations d'achèvement |

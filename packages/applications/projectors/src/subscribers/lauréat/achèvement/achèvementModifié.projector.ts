@@ -3,12 +3,13 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 
 export const achèvementModifiéProjector = async ({
   payload: {
-    dateTransmissionAuCocontractant,
     identifiantProjet,
     date,
+    dateTransmissionAuCocontractant,
     utilisateur,
-    preuveTransmissionAuCocontractant,
     attestation,
+    rapportAssocié,
+    preuveTransmissionAuCocontractant,
   },
 }: Lauréat.Achèvement.AchèvementModifiéEvent) => {
   await updateOneProjection<Lauréat.Achèvement.AchèvementEntity>(
@@ -17,14 +18,20 @@ export const achèvementModifiéProjector = async ({
       réel: {
         date: dateTransmissionAuCocontractant,
         dernièreMiseÀJour: { date, utilisateur },
+        ...(attestation && {
+          attestationConformité: { format: attestation.format, transmiseLe: date },
+        }),
+        ...(rapportAssocié && {
+          rapportAssocié: {
+            format: rapportAssocié.format,
+            transmisLe: date,
+          },
+        }),
         ...(preuveTransmissionAuCocontractant && {
           preuveTransmissionAuCocontractant: {
             format: preuveTransmissionAuCocontractant.format,
             transmiseLe: dateTransmissionAuCocontractant,
           },
-        }),
-        ...(attestation && {
-          attestationConformité: { format: attestation.format, transmiseLe: date },
         }),
       },
     },

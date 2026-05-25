@@ -23,7 +23,6 @@ export const AttestationConformitéFormInput: FC<AttestationConformitéFormInput
 }) => (
   <UploadNewOrModifyExistingDocument
     name="attestation"
-    multiple
     required={!optionnel}
     documentKeys={attestationConformité ? [attestationConformité] : undefined}
     label={`Attestation de conformité${optionnel ? ' (optionnel)' : ''}`}
@@ -47,7 +46,6 @@ export const RapportAssociéFormInput: FC<RapportAssociéFormInputProps> = ({
 }) => (
   <UploadNewOrModifyExistingDocument
     name="rapportAssocie"
-    multiple
     required={!optionnel}
     documentKeys={rapportAssocié ? [rapportAssocié] : undefined}
     label={`Rapport associé${optionnel ? ' (optionnel)' : ''}`}
