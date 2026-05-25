@@ -91,10 +91,6 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
     }
   };
 
-  const inputClasses: InputProps['classes'] = {
-    nativeInputOrTextArea: 'invalid:shadow-[inset_0_-2px_0_0_var(--border-plain-red-marianne)]',
-  };
-
   return (
     <>
       <InputLabel>
@@ -121,7 +117,6 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
             'aria-label': `Degré d'angle de la latitude. Vous pouvez également coller des coordonnées au format décimal ou au format Degré Minute Seconde dans ce champ`,
           }}
           className="flex-1"
-          classes={inputClasses}
         />
         <span>°</span>
         <Input
@@ -138,7 +133,6 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
             'aria-label': "Minutes d'angle de la latitude",
           }}
           className="flex-1"
-          classes={inputClasses}
         />
         <span>'</span>
         <Input
@@ -157,7 +151,6 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
             'aria-label': "Secondes d'angle de la latitude",
           }}
           className="flex-1"
-          classes={inputClasses}
         />
         <span>"</span>
         <Select
@@ -192,7 +185,6 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
             'aria-label': "Degré d'angle de la longitude",
           }}
           className="flex-1"
-          classes={inputClasses}
         />
         <span>°</span>
         <Input
@@ -209,7 +201,6 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
             'aria-label': "Minutes d'angle de la longitude",
           }}
           className="flex-1"
-          classes={inputClasses}
         />
         <span>'</span>
         <Input
@@ -228,7 +219,6 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
             'aria-label': "Secondes d'angle de la longitude",
           }}
           className="flex-1"
-          classes={inputClasses}
         />
         <span>"</span>
         <Select
