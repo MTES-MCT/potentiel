@@ -31,30 +31,31 @@ export class ImporterSirenEtSiretCommand extends Command {
       ok: number;
       okSIREN: number;
       okSIRET: number;
-      nok: number;
-      nokCarR: number;
-      nokCarFormat: number;
-      nokAutre: number;
+      pasOK: number;
+      pasOKCarPasDeDonnée: number;
+      pasOKCarFormatInvalide: number;
+      pasOKAutreErreur: number;
     } = {
       ok: 0,
       okSIREN: 0,
       okSIRET: 0,
-      nok: 0,
-      nokCarR: 0,
-      nokCarFormat: 0,
-      nokAutre: 0,
+      pasOK: 0,
+      pasOKCarPasDeDonnée: 0,
+      pasOKCarFormatInvalide: 0,
+      pasOKAutreErreur: 0,
     };
 
     for (const item of items) {
       const identifiantProjet = item.identifiantProjet;
 
       try {
-        const numéroSirenOuSiret = item.détail['Numéro SIREN ou SIRET*'];
+        const numéroSirenOuSiret = item.identifiantProjet.includes('Petit PV Bâtiment') ? item.détail['Numéro SIRET du candidat'] : item.détail['Numéro SIREN ou SIRET*'];
+
 
         if (!numéroSirenOuSiret) {
           console.log(`❌  Pas de numéro d'identification pour le projet ${identifiantProjet}`);
-          stats.nok++;
-          stats.nokCarR++;
+          stats.pasOK++;
+          stats.pasOKCarPasDeDonnée++;
           continue;
         }
 
@@ -72,8 +73,8 @@ export class ImporterSirenEtSiretCommand extends Command {
           console.warn(
             `❌ Le numéro d'identification "${numéroSirenOuSiret}" pour le projet ${identifiantProjet} n'est pas au bon format (14 ou 9 caractères).`,
           );
-          stats.nok++;
-          stats.nokCarFormat++;
+          stats.pasOK++;
+          stats.pasOKCarFormatInvalide++;
           continue;
         }
 
@@ -89,11 +90,19 @@ export class ImporterSirenEtSiretCommand extends Command {
              'CandidatureImportée-V2',
              'CandidatureCorrigée-V1',
              'CandidatureCorrigée-V2',
-             'ProducteurImporté-V1',
-             'ProducteurModifié-V1'
+             'ProducteurImporté-V1'
              )`,
           identifiantProjet,
           JSON.stringify(numéroIdentificationValueType),
+        );
+
+        // remise à 0 des evenements de modification si il y en a pour "reset" le numéro d'identification en cas de changement
+        await executeQuery(
+          `update event_store.event_stream
+         set payload=jsonb_set(payload, '{numéroIdentification}', 'null'::jsonb)
+         where stream_id in ('producteur|' || $1)
+         and type in ('ProducteurModifié-V1')`,
+          identifiantProjet
         );
 
         console.log(`✅ Mis à jour du projet ${identifiantProjet}`);
@@ -103,8 +112,8 @@ export class ImporterSirenEtSiretCommand extends Command {
         if (isSIRET) stats.okSIRET++;
       } catch (e) {
         console.error(`❌ Erreur pour le projet ${identifiantProjet}  : ${e}`);
-        stats.nok++;
-        stats.nokAutre++;
+        stats.pasOK++;
+        stats.pasOKAutreErreur++;
       }
     }
 
