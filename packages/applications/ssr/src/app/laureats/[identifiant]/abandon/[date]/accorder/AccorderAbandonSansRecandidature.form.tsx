@@ -31,8 +31,9 @@ export const AccorderAbandonSansRecandidatureForm = ({
     ValidationErrors<AccorderAbandonSansRecandidatureFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
-  const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] =
-    useState(ppaSignaléLorsDeLaDemande);
+  const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] = useState(
+    ppaSignaléLorsDeLaDemande,
+  );
 
   return (
     <>
@@ -65,16 +66,10 @@ export const AccorderAbandonSansRecandidatureForm = ({
               )}
               {!ppaDéjàSignaléParLAdministration && (
                 <>
-                  {ppaSignaléLorsDeLaDemande ? (
+                  {!ppaSignaléLorsDeLaDemande && (
                     <Notice
                       title={
-                        "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par le porteur de projet. Vous pouvez changer cette information si elle n'est plus à jour."
-                      }
-                    />
-                  ) : (
-                    <Notice
-                      title={
-                        "Ce projet n'a pas été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par le porteur de projet. Vous pouvez changer cette information si elle n'est plus à jour."
+                        'Ce projet a été signalé en PPA par le porteur. Vous pouvez mettre à jour cette information.'
                       }
                     />
                   )}
@@ -82,7 +77,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                     state={validationErrors['choixPPAPourAutoritéCompétente'] ? 'error' : 'default'}
                     stateRelatedMessage={validationErrors['choixPPAPourAutoritéCompétente']}
                     id="choixPPAPourAutoritéCompétente"
-                    label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
+                    label="Cet abandon est-il consécutif à la signature d'un PPA ?"
                     nativeSelectProps={{
                       defaultValue: ppaSignaléLorsDeLaDemande ? 'true' : 'false',
                       required: true,
@@ -105,22 +100,26 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 </>
               )}
 
-              <UploadNewOrModifyExistingDocument
-                label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
-                name="reponseSignee"
-                required
-                className="mb-4"
-                formats={['pdf']}
-              />
+              <div className="flex flex-col gap-1">
+                <UploadNewOrModifyExistingDocument
+                  label="Réponse signée"
+                  state={validationErrors['reponseSignee'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['reponseSignee']}
+                  name="reponseSignee"
+                  required
+                  className="mb-4"
+                  formats={['pdf']}
+                />
 
-              <DownloadDocument
-                className="mb-4"
-                url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
-                format="docx"
-                label="Télécharger le modèle de réponse"
-              />
+                <DownloadDocument
+                  className="mb-2"
+                  url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
+                  format="docx"
+                  label="Télécharger le modèle de réponse"
+                  small
+                  hideFormat
+                />
+              </div>
             </>
           ),
         }}

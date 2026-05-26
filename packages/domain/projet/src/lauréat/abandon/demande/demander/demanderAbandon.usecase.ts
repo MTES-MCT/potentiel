@@ -18,7 +18,7 @@ export type DemanderAbandonUseCase = Message<
       format: string;
     };
     raisonValue: string;
-    ppaSignaléValue ?: true;
+    ppaSignaléValue?: true;
   }
 >;
 
