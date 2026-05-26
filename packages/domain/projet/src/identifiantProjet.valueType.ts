@@ -17,6 +17,7 @@ export type ValueType = ReadonlyValueType<{
   famille: Famille;
   numéroCRE: NuméroCRE;
   formatter(): RawType;
+  formatterMétier(): string;
 }>;
 
 export const bind = ({
@@ -32,6 +33,9 @@ export const bind = ({
     numéroCRE,
     formatter() {
       return `${this.appelOffre}#${this.période}#${this.famille}#${this.numéroCRE}`;
+    },
+    formatterMétier() {
+      return `${appelOffre}-P${période}${famille ? `-F${famille}` : ''}-${numéroCRE}`;
     },
     estÉgaleÀ(valueType) {
       return valueType.formatter() === this.formatter();

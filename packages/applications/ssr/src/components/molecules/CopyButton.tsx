@@ -1,6 +1,6 @@
 'use client';
 
-import Button, { type ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import { Button, type ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import { type ReactNode, useState } from 'react';
 
@@ -44,11 +44,10 @@ export const CopyButton = ({
           aria-label="copier-coller"
           priority={priority}
           onClick={copyLink}
-          style={{ marginTop: 0 }}
           size="small"
-        >
-          {hasCopied ? 'Copié !' : ''}
-        </Button>
+          // biome-ignore lint/correctness/noChildrenProp: si un children est présent l'icône s'affiche mal
+          children={hasCopied ? 'Copié !' : undefined}
+        />
       </Tooltip>
     </div>
   );

@@ -21,7 +21,7 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children, feature 
   const pageContent = (
     <>
       {banner && (
-        <div className="text-theme-white py-6 mb-3 bg-theme-blueFrance">
+        <div className="text-theme-white py-4 md:py-5 mb-3 bg-theme-blueFrance">
           <div className="fr-container">{banner}</div>
         </div>
       )}

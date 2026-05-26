@@ -9,7 +9,6 @@ import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
 import { mapToReadableStream } from '../../mapToReadableStream.js';
 import type { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
-import { formatPotentielId } from './helpers/formatPotentielId.js';
 import { getDésignationCatégorie } from './helpers/getDésignationCatégorie.js';
 import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate.js';
 import { makeCertificate } from './makeCertificate.js';
@@ -93,7 +92,7 @@ const mapToCertificateData = ({
     return {};
   }
 
-  const potentielId = formatPotentielId(candidature.identifiantProjet);
+  const potentielId = candidature.identifiantProjet.formatterMétier();
 
   return {
     data: {

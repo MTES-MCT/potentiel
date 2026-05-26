@@ -1556,7 +1556,7 @@ const policies = {
     accèsDonnées: {
       prix: [],
     },
-    copierIdentifiant: [],
+    accèsIdentifiants: [],
   },
   appelOffre: {
     consulter: [référencielPermissions.appelOffre.query.consulter],
@@ -1644,7 +1644,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
 
   'projet.accèsDonnées.prix',
-  'projet.copierIdentifiant',
+  'projet.accèsIdentifiants',
 
   // Historique
   'historique.imprimer',
@@ -1853,6 +1853,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   'lauréat.listerLauréatEnrichi',
 
   'projet.accèsDonnées.prix',
+  'projet.accèsIdentifiants',
 
   // Abandon
   'abandon.lister.demandes',
@@ -1930,7 +1931,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
-  'projet.copierIdentifiant',
+  'projet.accèsIdentifiants',
 
   'projet.accèsDonnées.prix',
 
@@ -2212,6 +2213,8 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
 
   'projet.accèsDonnées.prix',
+  'projet.accèsIdentifiants',
+
   'lauréat.listerLauréatEnrichi',
 
   // Abandon
@@ -2280,6 +2283,8 @@ const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
 
 const grdPolicies: ReadonlyArray<Policy> = [
   'historique.lister',
+
+  'projet.accèsIdentifiants',
 
   'appelOffre.consulter',
   'cahierDesCharges.consulter',

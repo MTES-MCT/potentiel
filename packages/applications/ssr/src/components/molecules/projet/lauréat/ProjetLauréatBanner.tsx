@@ -43,6 +43,5 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = ({
       }
       identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
       nom={nomProjet}
-      utilisateurPeutCopier={rôle.aLaPermission('projet.copierIdentifiant')}
     />
   ));
