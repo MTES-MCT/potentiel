@@ -1,6 +1,7 @@
 # language: fr
 @lauréat
 @PPA
+@annuler-signalement-PPA
 Fonctionnalité: L'Administration DGEC ou DREAL annule le signalement d'un power purchase agreement pour un projet lauréat
 
     Contexte:
@@ -23,6 +24,28 @@ Fonctionnalité: L'Administration DGEC ou DREAL annule le signalement d'un power
             | Rôle  |
             | dgec  |
             | dreal |
+
+    Scénario: Le raccordement d'un projet abandonné n'est plus consultable en cas d'annulation d'un état PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon accordée avec déclaration de PPA
+        Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
+        Alors aucun raccordement ni dossier de raccordement ne devrait être consultable pour le projet
+
+    Scénario: L'annulation d'un état PPA pour un projet abandonné doit supprimer les tâches et tâches planifiées liées au raccordement
+        Etant donné le projet lauréat "Du boulodrome de Pantin" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
+        Et une demande d'abandon accordée avec déclaration de PPA
+        Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
+        Alors aucune tâche ou tâche planifiée raccordement n'est consultable pour le projet
+
+    Scénario: L'annulation d'un état PPA pour un projet en cours d'abandon doit supprimer les tâches et tâches planifiées liées au raccordement
+        Etant donné le projet lauréat "Du boulodrome de Pantin" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
+        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
+        Alors aucune tâche ou tâche planifiée raccordement n'est consultable pour le projet
 
     Scénario: Impossible d'annuler un état PPA pour un projet lauréat actif non signalé comme PPA
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat

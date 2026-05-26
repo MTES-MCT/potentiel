@@ -212,6 +212,34 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
   }
 
+  async annulerTâchesEtTâchesPlanifiées() {
+    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
+    await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
+    await this.#tâcheTransmettreRéférenceRaccordement.achever();
+    await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+  }
+
+  async ajouterTâchesEtTâchesPlanifiées() {
+    const demandeComplèteDeRaccordementManquante = this.#dossiers.size === 0;
+    if (demandeComplèteDeRaccordementManquante) {
+      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+      await this.planifierRelanceDemandeComplèteRaccordement(
+        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
+      );
+    }
+
+    const dossierRaccordementSansAccuséDeRéception = [...this.#dossiers.values()].filter(
+      (dossier) => Option.isNone(dossier.demandeComplèteRaccordement.format),
+    );
+    if (dossierRaccordementSansAccuséDeRéception.length > 0) {
+      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
+    }
+
+    if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
+      await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
+    }
+  }
+
   //#region gestionnaire de réseau
 
   async loadGestionnaireRéseau(codeEIC: string) {
