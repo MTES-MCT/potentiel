@@ -101,7 +101,7 @@ export class ImporterSirenEtSiretCommand extends Command {
           `update event_store.event_stream
          set payload=jsonb_set(payload, '{numéroIdentification}', 'null'::jsonb)
          where stream_id in ('producteur|' || $1)
-         and type in ('ProducteurModifié-V1')`,
+         and type in ('ProducteurModifié-V1', 'ChangementProducteurEnregistré-V1')`,
           identifiantProjet
         );
 
