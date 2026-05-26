@@ -25,7 +25,7 @@ const TâchesList = ({ tâches, utilisateurEstPorteur }: Props) => {
       {tâches.items.length === 0 ? (
         <span>Aucune tâche à afficher</span>
       ) : (
-        <ul className="flex flex-col gap-3 w-3/4">
+        <ul className="flex flex-col gap-3">
           {mapToPlainObject(tâches.items)
             .map(({ typeTâche, identifiantProjet, miseÀJourLe, nomProjet }) => ({
               ...getDescriptionTâche(typeTâche, identifiantProjet, nomProjet),

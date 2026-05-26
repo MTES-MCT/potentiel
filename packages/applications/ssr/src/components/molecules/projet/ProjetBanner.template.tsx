@@ -34,17 +34,20 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
         <div className="flex justify-start w-fit gap-4 flex-row items-center">
           <div className="flex gap-2 items-center">
             <Leaf fontSize="large" color="blue-ecume" className="bg-theme-white rounded-lg mr-2" />
-            {href ? (
-              <a
-                href={href}
-                className="text-xl/relaxed print:text-3xl font-bold !text-theme-white mr-2"
-              >
-                {nom}
-              </a>
-            ) : (
-              <p className="text-xl font-bold !text-theme-white mr-2">{nom}</p>
-            )}
+            <div>
+              {href ? (
+                <a
+                  href={href}
+                  className="text-xl/relaxed print:text-3xl font-bold !text-theme-white mr-2"
+                >
+                  {nom}
+                </a>
+              ) : (
+                <p className="text-xl font-bold !text-theme-white mr-2">{nom}</p>
+              )}
+            </div>
           </div>
+          <div className="hidden md:block">{statutBadge}</div>
         </div>
       </div>
       <div className="flex gap-4 h-6 mb-1 items-center text-sm font-medium print:text-theme-black">
@@ -53,7 +56,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
             Notifié le <FormattedDate date={dateDésignation} className="font-bold" />
           </span>
         )}
-        <div>{statutBadge}</div>
+        <div className="md:hidden">{statutBadge}</div>
       </div>
       {localité && (
         <p className="flex h-6 items-center text-sm font-medium print:text-theme-black">
