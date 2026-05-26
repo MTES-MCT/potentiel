@@ -16,6 +16,7 @@ export const setupAchèvement = async () => {
       'AttestationConformitéTransmise-V1',
       'AttestationConformitéTransmise-V2',
       'AttestationConformitéModifiée-V1',
+      'AttestationConformitéModifiée-V2',
       'AchèvementModifié-V1',
       'AchèvementModifié-V2',
       'DateAchèvementPrévisionnelCalculée-V1',
@@ -36,7 +37,7 @@ export const setupAchèvement = async () => {
     eventType: [
       'AttestationConformitéTransmise-V2',
       'DateAchèvementTransmise-V1',
-      'AttestationConformitéModifiée-V1',
+      'AttestationConformitéModifiée-V2',
       'AchèvementModifié-V2',
     ],
     messageType: 'System.Notification.Lauréat.Achèvement',

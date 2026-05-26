@@ -9,6 +9,7 @@ export type ModifierAttestationConformitéCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     attestation: DocumentProjet.ValueType;
+    rapportAssocié: DocumentProjet.ValueType;
     modifiéePar: Email.ValueType;
     modifiéeLe: DateTime.ValueType;
   }

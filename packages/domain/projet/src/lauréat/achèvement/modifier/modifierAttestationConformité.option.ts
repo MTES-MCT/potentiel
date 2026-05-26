@@ -6,4 +6,5 @@ export type ModifierAttestationConformitéOptions = {
   modifiéePar: Email.ValueType;
   modifiéeLe: DateTime.ValueType;
   attestation: DocumentProjet.ValueType;
+  rapportAssocié: DocumentProjet.ValueType;
 };

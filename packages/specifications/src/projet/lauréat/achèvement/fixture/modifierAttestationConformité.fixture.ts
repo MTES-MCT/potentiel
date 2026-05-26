@@ -9,6 +9,7 @@ import type { LauréatWorld } from '../../lauréat.world.js';
 
 interface ModifierAttestationConformité {
   readonly attestation: PièceJustificative;
+  readonly rapportAssocié: PièceJustificative;
   readonly modifiéeLe: string;
   readonly modifiéePar: string;
 }
@@ -21,6 +22,12 @@ export class ModifierAttestationConformitéFixture
 
   get attestation(): ModifierAttestationConformité['attestation'] {
     return this.#attestation;
+  }
+
+  #rapportAssocié!: ModifierAttestationConformité['rapportAssocié'];
+
+  get rapportAssocié(): ModifierAttestationConformité['rapportAssocié'] {
+    return this.#rapportAssocié;
   }
 
   #modifiéeLe!: string;
@@ -44,12 +51,14 @@ export class ModifierAttestationConformitéFixture
       modifiéeLe: faker.date.soon().toISOString(),
       modifiéePar: faker.internet.email(),
       attestation: faker.potentiel.document(),
+      rapportAssocié: faker.potentiel.document(),
       ...partialFixture,
     };
 
     this.#modifiéePar = fixture.modifiéePar;
     this.#modifiéeLe = fixture.modifiéeLe;
     this.#attestation = fixture.attestation;
+    this.#rapportAssocié = fixture.rapportAssocié;
 
     this.aÉtéCréé = true;
 
@@ -62,6 +71,11 @@ export class ModifierAttestationConformitéFixture
         identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
         enregistréLe: this.modifiéeLe,
         attestation: this.attestation,
+      }),
+      rapportAssocié: Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        enregistréLe: this.modifiéeLe,
+        rapportAssocie: this.rapportAssocié,
       }),
       misÀJourLe: DateTime.convertirEnValueType(this.modifiéeLe),
       misÀJourPar: Email.convertirEnValueType(this.modifiéePar),

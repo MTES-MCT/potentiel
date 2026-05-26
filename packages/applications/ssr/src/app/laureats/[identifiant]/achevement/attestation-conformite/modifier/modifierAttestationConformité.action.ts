@@ -7,20 +7,21 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { manyDocuments } from '@/utils//zod/document/manyDocuments';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: manyDocuments({ acceptedFileTypes: ['application/pdf'] }),
+  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  rapportAssocie: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, attestation },
+  { identifiantProjet, attestation, rapportAssocie },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
@@ -28,6 +29,7 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         attestationValue: attestation,
+        rapportAssociéValue: rapportAssocie,
         modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
         modifiéeLeValue: new Date().toISOString(),
       },

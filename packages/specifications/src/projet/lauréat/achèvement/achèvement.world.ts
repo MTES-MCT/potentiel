@@ -124,12 +124,11 @@ export class AchèvementWorld {
   }
 
   mapToAttestation(): PièceJustificative | undefined {
-    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
-      return this.modifierAttestationConformitéFixture.attestation;
-    }
-
     if (this.modifierAchèvementFixture.aÉtéCréé) {
       return this.modifierAchèvementFixture.attestation;
+    }
+    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+      return this.modifierAttestationConformitéFixture.attestation;
     }
 
     if (this.enregistrerAttestationConformitéFixture.aÉtéCréé) {
@@ -150,6 +149,10 @@ export class AchèvementWorld {
 
     if (this.modifierAchèvementFixture.aÉtéCréé) {
       return this.modifierAchèvementFixture.rapportAssocié;
+    }
+
+    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+      return this.modifierAttestationConformitéFixture.rapportAssocié;
     }
 
     if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {

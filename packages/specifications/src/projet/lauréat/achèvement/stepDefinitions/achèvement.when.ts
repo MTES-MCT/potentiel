@@ -259,28 +259,32 @@ Quand(
 // #endregion Date achèvement réelle
 
 // #region Attestation de conformité
-Quand(`le porteur modifie l'attestation de conformité`, async function (this: PotentielWorld) {
-  try {
-    const { identifiantProjet } = this.lauréatWorld;
+Quand(
+  `le porteur modifie l'attestation de conformité avec son rapport associé`,
+  async function (this: PotentielWorld) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld;
 
-    const { attestation, modifiéeLe, modifiéePar } =
-      this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
-        modifiéePar: this.utilisateurWorld.porteurFixture.email,
+      const { attestation, rapportAssocié, modifiéeLe, modifiéePar } =
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+          modifiéePar: this.utilisateurWorld.porteurFixture.email,
+        });
+
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: convertFixtureFileToReadableStream(attestation),
+          rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
+          modifiéeLeValue: modifiéeLe,
+          modifiéeParValue: modifiéePar,
+        },
       });
-
-    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        attestationValue: convertFixtureFileToReadableStream(attestation),
-        modifiéeLeValue: modifiéeLe,
-        modifiéeParValue: modifiéePar,
-      },
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
-});
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
 
 Quand(
   'le porteur enregistre une attestation de conformité avec son rapport associé pour le projet lauréat',
