@@ -19,8 +19,8 @@ export type AccorderAbandonUseCase = Message<
       format: string;
     };
     rôleUtilisateurValue: string;
-    PPASignaléValue?: true;
-    PPAAnnuléValue?: true;
+    ppaSignaléValue?: true;
+    ppaAnnuléValue?: true;
   }
 >;
 
@@ -31,8 +31,8 @@ export const registerAccorderAbandonUseCase = () => {
     réponseSignéeValue: { content, format },
     identifiantProjetValue,
     rôleUtilisateurValue,
-    PPASignaléValue,
-    PPAAnnuléValue,
+    ppaSignaléValue,
+    ppaAnnuléValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
@@ -60,8 +60,8 @@ export const registerAccorderAbandonUseCase = () => {
         identifiantProjet,
         réponseSignée,
         rôleUtilisateur,
-        PPASignalé: PPASignaléValue,
-        PPAAnnulé: PPAAnnuléValue,
+        ppaSignalé: ppaSignaléValue,
+        ppaAnnulé: ppaAnnuléValue,
       },
     });
   };

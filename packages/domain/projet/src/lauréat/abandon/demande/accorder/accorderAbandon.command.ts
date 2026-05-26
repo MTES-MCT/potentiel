@@ -17,8 +17,8 @@ export type AccorderAbandonCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
     rôleUtilisateur: Role.ValueType;
-    PPASignalé?: true;
-    PPAAnnulé?: true;
+    ppaSignalé?: true;
+    ppaAnnulé?: true;
   }
 >;
 
@@ -29,8 +29,8 @@ export const registerAccorderAbandonCommand = (getProjetAggregateRoot: GetProjet
     identifiantProjet,
     réponseSignée,
     rôleUtilisateur,
-    PPASignalé,
-    PPAAnnulé,
+    ppaSignalé,
+    ppaAnnulé,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -39,8 +39,8 @@ export const registerAccorderAbandonCommand = (getProjetAggregateRoot: GetProjet
       identifiantUtilisateur,
       réponseSignée,
       rôleUtilisateur,
-      PPASignalé,
-      PPAAnnulé,
+      ppaSignalé,
+      ppaAnnulé,
     });
   };
   mediator.register('Lauréat.Abandon.Command.AccorderAbandon', handler);

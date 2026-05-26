@@ -8,6 +8,6 @@ export type AccorderOptions = {
   identifiantUtilisateur: Email.ValueType;
   rôleUtilisateur: Role.ValueType;
   réponseSignée: DocumentProjet.ValueType;
-  PPASignalé?: true;
-  PPAAnnulé?: true;
+  ppaSignalé?: true;
+  ppaAnnulé?: true;
 };

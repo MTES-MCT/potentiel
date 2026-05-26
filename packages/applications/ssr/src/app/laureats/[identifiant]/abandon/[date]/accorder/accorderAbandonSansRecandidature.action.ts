@@ -31,8 +31,8 @@ const action: FormAction<FormState, typeof schema> = async (
         rôleUtilisateurValue: utilisateur.rôle.nom,
         dateAccordValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
-        ...(choixPPAPourAutoritéCompétente && { PPASignaléValue: true }),
-        ...(choixPPAPourAutoritéCompétente === false && { PPAAnnuléValue: true }),
+        ...(choixPPAPourAutoritéCompétente && { ppaSignaléValue: true }),
+        ...(choixPPAPourAutoritéCompétente === false && { ppaAnnuléValue: true }),
       },
     });
 

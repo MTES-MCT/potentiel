@@ -58,7 +58,7 @@ Quand(
             pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
             dateDemandeValue: demandéLe,
             identifiantUtilisateurValue: demandéPar,
-            PPASignaléValue: true,
+            ppaSignaléValue: true,
           },
         });
       }
@@ -177,7 +177,7 @@ Quand(
           réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: accordéePar,
           rôleUtilisateurValue: rôle,
-          PPAAnnuléValue: PPAAnnulé,
+          ppaAnnuléValue: PPAAnnulé,
         },
       });
     } catch (error) {
@@ -207,7 +207,7 @@ Quand(
           réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: accordéePar,
           rôleUtilisateurValue: rôle,
-          PPASignaléValue: PPASignalé,
+          ppaSignaléValue: PPASignalé,
         },
       });
     } catch (error) {

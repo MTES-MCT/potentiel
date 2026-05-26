@@ -31,5 +31,6 @@ export type AbandonDemandéEvent = DomainEvent<
     pièceJustificative: {
       format: string;
     };
+    ppaSignalé?: true;
   }
 >;
