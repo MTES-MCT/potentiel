@@ -228,10 +228,10 @@ export class RaccordementAggregate extends AbstractAggregate<
       );
     }
 
-    const dossierRaccordementSansAR = [...this.#dossiers.values()].filter((dossier) =>
-      Option.isNone(dossier.demandeComplèteRaccordement.format),
+    const dossierRaccordementSansAccuséDeRéception = [...this.#dossiers.values()].filter(
+      (dossier) => Option.isNone(dossier.demandeComplèteRaccordement.format),
     );
-    if (dossierRaccordementSansAR.length > 0) {
+    if (dossierRaccordementSansAccuséDeRéception.length > 0) {
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     }
 

@@ -67,8 +67,7 @@ Fonctionnalité: L'Administration DGEC ou DREAL signale un power purchase agreem
         Et une demande complète de raccordement pour le projet lauréat
         Et une demande d'abandon accordée pour le projet lauréat
         Quand un utilisateur "dgec" signale un état PPA pour le projet lauréat
-        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
-        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat        
+        Alors la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat        
 
     Scénario: Le signalement d'un PPA pour un projet en cours d'abandon doit réactiver les tâches de raccordement
         Etant donné une demande d'abandon en cours pour le projet lauréat
