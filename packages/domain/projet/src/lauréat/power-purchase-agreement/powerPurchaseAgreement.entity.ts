@@ -7,6 +7,5 @@ export type PowerPurchaseAgreementEntity = Entity<
     identifiantProjet: string;
     signaléLe: DateTime.RawType;
     signaléPar: Email.RawType;
-    estPartiEnPPA: true;
   }
 >;

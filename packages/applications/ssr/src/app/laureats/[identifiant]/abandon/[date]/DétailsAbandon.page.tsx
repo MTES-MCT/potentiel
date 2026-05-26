@@ -47,6 +47,8 @@ export type DétailsAbandonPageProps = {
   informations: Array<AvailableInformation>;
   historique: Array<TimelineItemProps>;
   actions: AvailableActions;
+  ppaDéjàSignaléParLAdministration: boolean;
+  ppaSignaléLorsDeLaDemande: boolean;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -56,6 +58,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   informations,
   projetsÀSélectionner,
   historique,
+  ppaDéjàSignaléParLAdministration,
+  ppaSignaléLorsDeLaDemande,
 }) => (
   <ColumnPageTemplate
     heading={<Heading1>Demande d'abandon</Heading1>}
@@ -107,6 +111,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             identifiantProjet,
             projetsÀSélectionner,
             dateDemande: abandon.demande.demandéLe.date,
+            ppaDéjàSignaléParLAdministration,
+            ppaSignaléLorsDeLaDemande,
           })}
           {mapToInformationsComponents({
             informations,
@@ -123,6 +129,8 @@ type MapToActionsComponentsProps = {
   identifiantProjet: string;
   projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
   dateDemande: string;
+  ppaDéjàSignaléParLAdministration: boolean;
+  ppaSignaléLorsDeLaDemande: boolean;
 };
 
 const mapToActionComponents = ({
@@ -130,6 +138,8 @@ const mapToActionComponents = ({
   identifiantProjet,
   projetsÀSélectionner,
   dateDemande,
+  ppaDéjàSignaléParLAdministration,
+  ppaSignaléLorsDeLaDemande,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
@@ -148,7 +158,11 @@ const mapToActionComponents = ({
       />
     )}
     {actions.includes('accorder-sans-recandidature') && (
-      <AccorderAbandonSansRecandidatureForm identifiantProjet={identifiantProjet} />
+      <AccorderAbandonSansRecandidatureForm
+        identifiantProjet={identifiantProjet}
+        ppaDéjàSignaléParLAdministration={ppaDéjàSignaléParLAdministration}
+        ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
+      />
     )}
     {actions.includes('rejeter') && <RejeterAbandonForm identifiantProjet={identifiantProjet} />}
     {actions.includes('confirmer') && (

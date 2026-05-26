@@ -18,7 +18,7 @@ export type DemanderAbandonUseCase = Message<
       format: string;
     };
     raisonValue: string;
-    PPASignaléValue?: true;
+    ppaSignaléValue?: true;
   }
 >;
 
@@ -29,7 +29,7 @@ export const registerDemanderAbandonUseCase = () => {
     pièceJustificativeValue,
     identifiantUtilisateurValue,
     raisonValue,
-    PPASignaléValue,
+    ppaSignaléValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
@@ -57,7 +57,7 @@ export const registerDemanderAbandonUseCase = () => {
         identifiantProjet,
         identifiantUtilisateur,
         pièceJustificative,
-        PPASignalé: PPASignaléValue,
+        ppaSignalé: ppaSignaléValue,
       },
     });
   };

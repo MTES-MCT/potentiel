@@ -217,11 +217,11 @@ export const registerListerLauréatEnrichiQuery = ({
           on: 'identifiantProjet',
           type: 'left',
           where: {
-            estPartiEnPPA:
+            signaléLe:
               estPartiEnPPA === true
-                ? Where.equal(true)
+                ? Where.notEqualNull()
                 : estPartiEnPPA === false
-                  ? Where.notEqual(true)
+                  ? Where.equalNull()
                   : undefined,
           },
         },

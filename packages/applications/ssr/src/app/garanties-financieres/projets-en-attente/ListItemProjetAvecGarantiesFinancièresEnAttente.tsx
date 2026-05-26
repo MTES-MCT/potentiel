@@ -9,6 +9,7 @@ import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ListItem } from '@/components/molecules/ListItem';
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
@@ -40,8 +41,12 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Projet"
-        statutBadge={<StatutLauréatBadge statut={statut} />}
-        estPartiEnPPA={estPartiEnPPA}
+        statutProjetBadge={
+          <div className="flex gap-1">
+            <StatutLauréatBadge statut={statut} />
+            {estPartiEnPPA && <PPABadge />}
+          </div>
+        }
       />
     }
     actions={

@@ -108,11 +108,11 @@ export const registerListerDemandesAbandonQuery = ({
           on: 'identifiantProjet',
           type: 'left',
           where: {
-            estPartiEnPPA:
+            signaléLe:
               estPartiEnPPA === true
-                ? Where.equal(true)
+                ? Where.notEqualNull()
                 : estPartiEnPPA === false
-                  ? Where.notEqual(true)
+                  ? Where.equalNull()
                   : undefined,
           },
         },
@@ -150,6 +150,6 @@ const mapToReadModel = ({
       ? StatutPreuveRecandidature.convertirEnValueType(demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
     dateDemande: DateTime.convertirEnValueType(demande.demandéLe),
-    estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
+    estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
   };
 };

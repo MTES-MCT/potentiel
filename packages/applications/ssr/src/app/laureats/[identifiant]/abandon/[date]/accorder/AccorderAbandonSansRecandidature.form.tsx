@@ -1,6 +1,8 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
+import Notice from '@codegouvfr/react-dsfr/Notice';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -16,15 +18,22 @@ import {
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
+  ppaDéjàSignaléParLAdministration: boolean;
+  ppaSignaléLorsDeLaDemande: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
   identifiantProjet,
+  ppaDéjàSignaléParLAdministration,
+  ppaSignaléLorsDeLaDemande,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderAbandonSansRecandidatureFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
+  const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] = useState(
+    ppaSignaléLorsDeLaDemande,
+  );
 
   return (
     <>
@@ -48,23 +57,69 @@ export const AccorderAbandonSansRecandidatureForm = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              {ppaDéjàSignaléParLAdministration && (
+                <Notice
+                  title={
+                    "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA)"
+                  }
+                />
+              )}
+              {!ppaDéjàSignaléParLAdministration && (
+                <>
+                  {!ppaSignaléLorsDeLaDemande && (
+                    <Notice
+                      title={
+                        'Ce projet a été signalé en PPA par le porteur. Vous pouvez mettre à jour cette information.'
+                      }
+                    />
+                  )}
+                  <Select
+                    state={validationErrors['choixPPAPourAutoritéCompétente'] ? 'error' : 'default'}
+                    stateRelatedMessage={validationErrors['choixPPAPourAutoritéCompétente']}
+                    id="choixPPAPourAutoritéCompétente"
+                    label="Cet abandon est-il consécutif à la signature d'un PPA ?"
+                    nativeSelectProps={{
+                      defaultValue: ppaSignaléLorsDeLaDemande ? 'true' : 'false',
+                      required: true,
+                      'aria-required': true,
+                      onChange: (e) => {
+                        setChoixPPAPourAutoritéCompétente(e.target.value === 'true');
+                      },
+                    }}
+                    options={[
+                      { label: 'Oui', value: 'true' },
+                      { label: 'Non', value: 'false' },
+                    ]}
+                  />
+                  <input
+                    type={'hidden'}
+                    value={choixPPAPourAutoritéCompétente ? 'true' : 'false'}
+                    name="choixPPAPourAutoritéCompétente"
+                    disabled={choixPPAPourAutoritéCompétente === ppaSignaléLorsDeLaDemande}
+                  />
+                </>
+              )}
 
-              <UploadNewOrModifyExistingDocument
-                label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
-                name="reponseSignee"
-                required
-                className="mb-4"
-                formats={['pdf']}
-              />
+              <div className="flex flex-col gap-1">
+                <UploadNewOrModifyExistingDocument
+                  label="Réponse signée"
+                  state={validationErrors['reponseSignee'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['reponseSignee']}
+                  name="reponseSignee"
+                  required
+                  className="mb-4"
+                  formats={['pdf']}
+                />
 
-              <DownloadDocument
-                className="mb-4"
-                url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
-                format="docx"
-                label="Télécharger le modèle de réponse"
-              />
+                <DownloadDocument
+                  className="mb-2"
+                  url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
+                  format="docx"
+                  label="Télécharger le modèle de réponse"
+                  small
+                  hideFormat
+                />
+              </div>
             </>
           ),
         }}

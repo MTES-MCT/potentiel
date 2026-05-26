@@ -89,7 +89,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     dateDemande,
     pièceJustificative,
     raison,
-    PPASignalé,
+    ppaSignalé,
   }: DemanderOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAchevé();
@@ -114,17 +114,18 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
         raison,
         demandéLe: dateDemande.formatter(),
         demandéPar: identifiantUtilisateur.formatter(),
+        ppaSignalé,
       },
     };
 
     await this.publish(event);
     await this.lauréat.achèvement.annulerTâchesPlanifiéesRappelsÉchéance();
 
-    if (!PPASignalé && !this.lauréat.powerPurchaseAgreement.estPartiEnPPA) {
+    if (!ppaSignalé && !this.lauréat.powerPurchaseAgreement.estPartiEnPPA) {
       await this.lauréat.raccordement.annulerTâchesEtTâchesPlanifiées();
     }
 
-    if (PPASignalé) {
+    if (ppaSignalé) {
       await this.lauréat.powerPurchaseAgreement.signaler({
         signaléLe: dateDemande,
         signaléPar: identifiantUtilisateur,
@@ -138,6 +139,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     identifiantUtilisateur,
     réponseSignée,
     rôleUtilisateur,
+    ppaSignalé,
+    ppaAnnulé,
   }: AccorderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
@@ -151,6 +154,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
         },
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
+        ppaSignalé,
+        ppaAnnulé,
       },
     };
 
@@ -183,6 +188,21 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       statut: Lauréat.StatutLauréat.abandonné,
       modifiéPar: Email.système,
     });
+
+    if (ppaSignalé) {
+      await this.lauréat.powerPurchaseAgreement.signaler({
+        signaléLe: dateAccord,
+        signaléPar: identifiantUtilisateur,
+        rôleUtilisateur,
+      });
+    }
+
+    if (ppaAnnulé) {
+      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
+        annuléLe: dateAccord,
+        annuléPar: identifiantUtilisateur,
+      });
+    }
   }
 
   async demanderPreuveRecandidature({ dateDemande }: DemanderPreuveRecandidatureOptions) {
@@ -389,6 +409,13 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
     await this.lauréat.raccordement.ajouterTâchesEtTâchesPlanifiées();
+
+    if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
+      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
+        annuléLe: dateRejet,
+        annuléPar: identifiantUtilisateur,
+      });
+    }
   }
 
   async supprimerDemandeChangement({

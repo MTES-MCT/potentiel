@@ -16,7 +16,7 @@ export type DemanderAbandonCommand = Message<
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
-    PPASignalé?: true;
+    ppaSignalé?: true;
   }
 >;
 
@@ -27,7 +27,7 @@ export const registerDemanderAbandonCommand = (getProjetAggregateRoot: GetProjet
     raison,
     identifiantUtilisateur,
     dateDemande,
-    PPASignalé,
+    ppaSignalé,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -36,7 +36,7 @@ export const registerDemanderAbandonCommand = (getProjetAggregateRoot: GetProjet
       raison,
       identifiantUtilisateur,
       dateDemande,
-      PPASignalé,
+      ppaSignalé,
     });
   };
   mediator.register('Lauréat.Abandon.Command.DemanderAbandon', handler);

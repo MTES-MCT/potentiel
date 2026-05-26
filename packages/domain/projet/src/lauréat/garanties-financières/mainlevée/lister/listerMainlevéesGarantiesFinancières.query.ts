@@ -147,7 +147,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
   appelOffre: mainlevée.lauréat.appelOffre,
   nomProjet: mainlevée.lauréat.nomProjet,
-  estPartiEnPPA: mainlevée['power-purchase-agreement']?.estPartiEnPPA,
+  estPartiEnPPA: mainlevée['power-purchase-agreement'] ? true : undefined,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {

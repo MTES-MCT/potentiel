@@ -136,11 +136,11 @@ export const registerListerLauréatQuery = ({
           on: 'identifiantProjet',
           type: 'left',
           where: {
-            estPartiEnPPA:
+            signaléLe:
               estPartiEnPPA === true
-                ? Where.equal(true)
+                ? Where.notEqualNull()
                 : estPartiEnPPA === false
-                  ? Where.notEqual(true)
+                  ? Where.equalNull()
                   : undefined,
           },
         },
@@ -196,6 +196,6 @@ const mapToReadModel: MapToReadModelProps = ({
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
     statut: StatutLauréat.convertirEnValueType(statut),
-    estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
+    estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
   };
 };

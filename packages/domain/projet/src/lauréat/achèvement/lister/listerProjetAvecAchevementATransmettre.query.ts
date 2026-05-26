@@ -117,7 +117,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
             entity: 'power-purchase-agreement',
             on: 'identifiantProjet',
             type: 'left',
-            where: { estPartiEnPPA: Where.equalNull() },
+            where: { signaléLe: Where.equalNull() },
           },
         ],
         orderBy: {

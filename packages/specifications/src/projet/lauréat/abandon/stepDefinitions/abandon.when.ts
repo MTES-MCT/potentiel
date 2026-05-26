@@ -58,7 +58,7 @@ Quand(
             pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
             dateDemandeValue: demandéLe,
             identifiantUtilisateurValue: demandéPar,
-            PPASignaléValue: true,
+            ppaSignaléValue: true,
           },
         });
       }
@@ -148,6 +148,66 @@ Quand(
           réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: accordéePar,
           rôleUtilisateurValue: rôle,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "la dgec accorde la demande d'abandon avec annulation du signalement PPA pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+      const rôle = Role.dgec.nom;
+
+      const { accordéLe, accordéePar, réponseSignée, PPAAnnulé } =
+        this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
+          accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+          PPAAnnulé: true,
+        });
+
+      await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({
+        type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          dateAccordValue: accordéLe,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
+          identifiantUtilisateurValue: accordéePar,
+          rôleUtilisateurValue: rôle,
+          ppaAnnuléValue: PPAAnnulé,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "la dgec accorde la demande d'abandon avec signalement de PPA pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+      const rôle = Role.dgec.nom;
+
+      const { accordéLe, accordéePar, réponseSignée, PPASignalé } =
+        this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
+          accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+          PPASignalé: true,
+        });
+
+      await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({
+        type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          dateAccordValue: accordéLe,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
+          identifiantUtilisateurValue: accordéePar,
+          rôleUtilisateurValue: rôle,
+          ppaSignaléValue: PPASignalé,
         },
       });
     } catch (error) {

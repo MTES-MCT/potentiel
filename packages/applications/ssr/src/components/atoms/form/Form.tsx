@@ -76,8 +76,8 @@ export const Form: FC<FormProps> = ({
         </FormPendingModal>
       )}
       {!omitMandatoryFieldsLegend && (
-        <div className="text-sm italic my-4">
-          Sauf mention contraire "(optionnel)" dans le label, tous les champs sont obligatoires
+        <div className="text-xs italic my-4">
+          Sauf mention contraire "(optionnel)" dans le label, tous les champs sont obligatoires.
         </div>
       )}
       <div className="flex flex-col gap-5">

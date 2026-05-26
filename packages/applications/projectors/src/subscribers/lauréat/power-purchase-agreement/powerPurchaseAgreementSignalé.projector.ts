@@ -7,7 +7,6 @@ export const powerPurchaseAgreementSignaléProjector = async ({
   await upsertProjection<Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementEntity>(
     `power-purchase-agreement|${identifiantProjet}`,
     {
-      estPartiEnPPA: true,
       signaléLe,
       signaléPar,
       identifiantProjet,

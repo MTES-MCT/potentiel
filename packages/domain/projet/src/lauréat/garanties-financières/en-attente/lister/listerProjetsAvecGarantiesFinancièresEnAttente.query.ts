@@ -153,5 +153,5 @@ const mapToReadModel: MapToReadModelProps = ({
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },
-  estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
+  estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
 });

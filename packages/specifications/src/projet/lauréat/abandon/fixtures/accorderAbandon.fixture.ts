@@ -7,6 +7,8 @@ interface AccorderAbandon {
   readonly réponseSignée: PièceJustificative;
   readonly accordéLe: string;
   readonly accordéePar: string;
+  readonly PPASignalé?: true;
+  readonly PPAAnnulé?: true;
 }
 
 export class AccorderAbandonFixture
@@ -31,6 +33,18 @@ export class AccorderAbandonFixture
     return this.#accordéPar;
   }
 
+  #PPASignalé?: true;
+
+  get PPASignalé(): true | undefined {
+    return this.#PPASignalé;
+  }
+
+  #PPAAnnulé?: true;
+
+  get PPAAnnulé(): true | undefined {
+    return this.#PPAAnnulé;
+  }
+
   créer(partialFixture?: Partial<AccorderAbandon>): AccorderAbandon {
     const fixture: AccorderAbandon = {
       accordéLe: faker.date.soon().toISOString(),
@@ -42,6 +56,8 @@ export class AccorderAbandonFixture
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéePar;
     this.#réponseSignée = fixture.réponseSignée;
+    this.#PPASignalé = fixture.PPASignalé;
+    this.#PPAAnnulé = fixture.PPAAnnulé;
 
     this.aÉtéCréé = true;
     return fixture;

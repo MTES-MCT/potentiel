@@ -28,6 +28,27 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
             | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
             | nom_projet | L'hélice qui tourne                                          |
 
+    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, sans rectifier le signalement PPA indiqué par le porteur
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon pour le projet lauréat
+        Alors la demande d'abandon du projet lauréat devrait être accordée
+        Et le statut du projet lauréat devrait être "abandonné"
+        Et l'état PPA devrait être consultable pour le projet lauréat
+
+    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, en signalement l'état PPA non indiqué par le porteur
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec signalement de PPA pour le projet lauréat
+        Alors la demande d'abandon du projet lauréat devrait être accordée
+        Et le statut du projet lauréat devrait être "abandonné"
+        Et l'état PPA devrait être consultable pour le projet lauréat
+
+    Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat, en annulant le signalement PPA du porteur
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec annulation du signalement PPA pour le projet lauréat
+        Alors la demande d'abandon du projet lauréat devrait être accordée
+        Et le statut du projet lauréat devrait être "abandonné"
+        Et l'état PPA ne devrait pas être consultable pour le projet lauréat
+
     Scénario: Une dreal peut accorder une demande d'abandon si elle en a l'autorité
         Etant donné le projet lauréat "L'hélice qui tourne" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
@@ -70,9 +91,9 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
 
     Scénario: Le raccordement d'un projet signataire d'un PPA reste consultable en cas d'abandon accordé
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
-        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat  
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
 
     # TODO : Vérifier avec le métier pour supprimer carrément la partie recandidature
     # Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
@@ -107,3 +128,14 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL accorde la demande d'abandon pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
+
+    Scénario: Impossible de signaler un état PPA pendant l'accord si il a déjà été signalé par le porteur
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec signalement de PPA pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet est déjà signalé comme étant parti en PPA"
+
+    Scénario: Impossible d'annuler un état PPA pendant l'accord si il n'a pas été signalé par le porteur
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec accorde la demande d'abandon avec annulation du signalement PPA pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet n'a pas été signalé comme étant parti en PPA"
+

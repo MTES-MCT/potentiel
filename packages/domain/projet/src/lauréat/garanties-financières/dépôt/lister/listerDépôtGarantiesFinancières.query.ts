@@ -132,7 +132,7 @@ const mapToReadModel = ({
   }): DépôtGarantiesFinancièresListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet: lauréat.nomProjet,
-  estPartiEnPPA: PPA?.estPartiEnPPA,
+  estPartiEnPPA: PPA ? true : undefined,
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
     dateÉchéance:

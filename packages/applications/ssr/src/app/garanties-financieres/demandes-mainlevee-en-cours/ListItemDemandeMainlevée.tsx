@@ -9,6 +9,7 @@ import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-
 import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/mainlevee/StatutMainlevéeBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ListItem } from '@/components/molecules/ListItem';
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 export type ListItemDemandeMainlevéeProps = {
@@ -37,7 +38,6 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Mainlevée du projet"
         nomProjet={nomProjet}
-        estPartiEnPPA={estPartiEnPPA}
       />
     }
     actions={
@@ -64,5 +64,6 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
       </li>
     </ul>
     <StatutMainlevéeBadge statut={statut} />
+    {estPartiEnPPA && <PPABadge />}
   </ListItem>
 );

@@ -26,7 +26,7 @@ Alors(
 );
 
 Alors(
-  `l'état PPA ne devrait plus être consultable pour le projet lauréat`,
+  `l'état PPA ne devrait pas être consultable pour le projet lauréat`,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
       const powerPurchaseAgreement =

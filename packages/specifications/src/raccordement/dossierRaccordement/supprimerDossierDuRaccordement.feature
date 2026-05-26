@@ -74,7 +74,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
     Scénario: Supprimer le dossier de raccordement d'un projet en cours d'abandon avec PPA
-        Etant donné une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand la dgec supprime le dossier de raccordement pour le projet lauréat
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 

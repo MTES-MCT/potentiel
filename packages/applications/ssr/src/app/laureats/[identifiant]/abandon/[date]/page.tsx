@@ -45,6 +45,22 @@ export default async function Page(props: PageProps) {
         return notFound();
       }
 
+      const powerPurchaseAgreement =
+        await mediator.send<Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementQuery>({
+          type: 'Lauréat.PowerPurchaseAgreement.Query.ConsulterPowerPurchaseAgreement',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+          },
+        });
+
+      const ppaDéjàSignaléParLAdministration =
+        Option.isSome(powerPurchaseAgreement) &&
+        !powerPurchaseAgreement.signaléPar.estÉgaleÀ(abandon.demande.demandéPar);
+
+      const ppaSignaléLorsDeLaDemande =
+        Option.isSome(powerPurchaseAgreement) &&
+        powerPurchaseAgreement.signaléPar.estÉgaleÀ(abandon.demande.demandéPar);
+
       const historique = await mediator.send<Lauréat.Abandon.ListerHistoriqueAbandonProjetQuery>({
         type: 'Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet',
         data: {
@@ -67,6 +83,8 @@ export default async function Page(props: PageProps) {
       return (
         <DétailsAbandonPage
           abandon={mapToPlainObject(abandon)}
+          ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
+          ppaDéjàSignaléParLAdministration={ppaDéjàSignaléParLAdministration}
           identifiantProjet={identifiantProjet}
           actions={actions}
           informations={mapToInformations({

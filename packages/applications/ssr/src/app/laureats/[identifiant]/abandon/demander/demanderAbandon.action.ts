@@ -33,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateDemandeValue: dateDemande,
         raisonValue: raison,
         pièceJustificativeValue: pieceJustificative,
-        ...(estPPA === true && { PPASignaléValue: true }),
+        ...(estPPA === true && { ppaSignaléValue: true }),
       },
     });
 

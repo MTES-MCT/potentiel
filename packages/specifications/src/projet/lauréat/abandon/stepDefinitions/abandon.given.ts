@@ -19,7 +19,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  /une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat/,
+  /une demande d'abandon en cours avec signalement de PPA pour le projet lauréat/,
   async function (this: PotentielWorld) {
     await créerDemandeAbandon.call(this, true);
   },
@@ -176,7 +176,7 @@ async function créerDemandeAbandon(this: PotentielWorld, PPA?: true) {
         raisonValue: raison,
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
-        PPASignaléValue: estPPA ? true : undefined,
+        ppaSignaléValue: estPPA ? true : undefined,
       },
     });
   } else {
