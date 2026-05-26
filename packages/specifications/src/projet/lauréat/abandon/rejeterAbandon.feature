@@ -1,5 +1,6 @@
 # language: fr
 @abandon
+@rejeter-abandon
 Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
 
     Contexte:
