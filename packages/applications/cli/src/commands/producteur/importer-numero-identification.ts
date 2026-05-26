@@ -49,8 +49,9 @@ export class ImporterSirenEtSiretCommand extends Command {
       const identifiantProjet = item.identifiantProjet;
 
       try {
-        const numéroSirenOuSiret = item.identifiantProjet.includes('Petit PV Bâtiment') ? item.détail['Numéro SIRET du candidat'] : item.détail['Numéro SIREN ou SIRET*'];
-
+        const numéroSirenOuSiret = item.identifiantProjet.includes('Petit PV Bâtiment')
+          ? item.détail['Numéro SIRET du candidat']
+          : item.détail['Numéro SIREN ou SIRET*'];
 
         if (!numéroSirenOuSiret) {
           console.log(`❌  Pas de numéro d'identification pour le projet ${identifiantProjet}`);
@@ -102,7 +103,7 @@ export class ImporterSirenEtSiretCommand extends Command {
          set payload=jsonb_set(payload, '{numéroIdentification}', 'null'::jsonb)
          where stream_id in ('producteur|' || $1)
          and type in ('ProducteurModifié-V1', 'ChangementProducteurEnregistré-V1')`,
-          identifiantProjet
+          identifiantProjet,
         );
 
         console.log(`✅ Mis à jour du projet ${identifiantProjet}`);
