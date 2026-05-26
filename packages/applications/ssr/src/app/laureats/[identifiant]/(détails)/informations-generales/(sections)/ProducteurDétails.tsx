@@ -18,7 +18,7 @@ export const ProducteurDétails = ({ value, action }: ProducteurDétailsProps) =
         <span>{value.producteur || 'Champ non renseigné'}</span>
       </div>
       <div>
-        <Heading6>Numéro d'immmatriculation</Heading6>
+        <Heading6>Numéro d'identification</Heading6>
         <div className="flex flex-col">
           <span>
             Numéro SIRET : <FormattedSIRET siret={value.numéroIdentification?.siret} />
