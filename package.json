@@ -21,7 +21,7 @@
     "up:test": "./.scripts/docker-up-test.sh",
     "down:test": "./.scripts/docker-down-test.sh",
     "build": "turbo run build",
-    "build:dev": "turbo run build --filter=@potentiel-applications/subscribers",
+    "build:dev": "turbo run build --filter=@potentiel-applications/subscribers --filter=@potentiel-applications/ssr^...",
     "build:cli": "turbo run build --filter=@potentiel/cli...",
     "build:test": "turbo run build --filter=@potentiel-applications/ssr^... --filter=@potentiel-applications/subscribers",
     "clean": "turbo run clean && rm -rf .turbo",
