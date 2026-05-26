@@ -91,9 +91,9 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
 
     Scénario: Le raccordement d'un projet signataire d'un PPA reste consultable en cas d'abandon accordé
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
-        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat  
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
 
     # TODO : Vérifier avec le métier pour supprimer carrément la partie recandidature
     # Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé

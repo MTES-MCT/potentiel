@@ -43,7 +43,7 @@ Fonctionnalité: L'Administration DGEC ou DREAL annule le signalement d'un power
         Etant donné le projet lauréat "Du boulodrome de Pantin" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
-        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
         Alors aucune tâche ou tâche planifiée raccordement n'est consultable pour le projet
 
