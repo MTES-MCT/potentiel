@@ -50,14 +50,16 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
           <div className="hidden md:block">{statutBadge}</div>
         </div>
       </div>
-      <div className="flex gap-4 h-6 mb-1 items-center text-sm font-medium print:text-theme-black">
-        {Option.isSome(dateDésignation) && (
+      {Option.isSome(dateDésignation) ? (
+        <div className="flex gap-4 h-6 mb-1 items-center text-sm font-medium print:text-theme-black">
           <span>
             Notifié le <FormattedDate date={dateDésignation} className="font-bold" />
           </span>
-        )}
-        <div className="md:hidden">{statutBadge}</div>
-      </div>
+          <div className="md:hidden">{statutBadge}</div>
+        </div>
+      ) : (
+        <div className="h-6 mb-1 md:hidden">{statutBadge}</div>
+      )}
       {localité && (
         <p className="flex h-6 items-center text-sm font-medium print:text-theme-black">
           {localité.commune}, {localité.département}, {localité.région}
