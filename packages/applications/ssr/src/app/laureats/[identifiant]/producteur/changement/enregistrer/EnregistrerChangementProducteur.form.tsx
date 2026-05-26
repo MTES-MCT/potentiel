@@ -1,7 +1,8 @@
 'use client';
 
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
@@ -18,12 +19,54 @@ export type EnregistrerChangementProducteurFormProps = EnregistrerChangementProd
 
 export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProducteurFormProps> = ({
   identifiantProjet,
-  producteur,
+  producteur: producteurInitialValue,
   numéroIdentification,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementProducteurFormKeys>
   >({});
+
+  const [producteur, setProducteur] = useState({ value: '', fromAPI: false });
+  const [siret, setSiret] = useState('');
+  const [siretUnknown, setSiretUnknown] = useState(false);
+  const [siretError, setSiretError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSiretError(null);
+    if (!siret || siretUnknown) {
+      return;
+    }
+
+    if (!siret.replaceAll(/\s/g, '').match(/^\d{14}$/)) {
+      setSiretError('Le SIRET doit être constitué de 14 chiffres');
+      return;
+    }
+
+    const updateProducteurInfo = async (siret: string) => {
+      const searchParams = new URLSearchParams({ q: siret });
+      const data = await fetch(
+        `${process.env.NEXT_PUBLIC_ENTREPRISES_API_URL}/search?${searchParams.toString()}`,
+      ).then(
+        (response) =>
+          response.json() as Promise<{
+            results: {
+              siren: string;
+              nom_raison_sociale: string;
+            }[];
+          }>,
+      );
+      if (data.results.length === 1) {
+        setProducteur({ value: data.results[0].nom_raison_sociale, fromAPI: true });
+        return;
+      } else if (data.results.length === 0) {
+        setSiretError('Aucun producteur trouvé pour ce SIRET');
+      } else {
+        setSiretError('Plusieurs producteurs trouvés pour ce SIRET');
+      }
+    };
+
+    void updateProducteurInfo(siret);
+  }, [siret, siretUnknown]);
 
   return (
     <Form
@@ -43,29 +86,53 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
       />
 
       <div className="flex flex-col gap-6">
+        <Checkbox
+          options={[
+            {
+              label: 'Je ne connais pas le SIRET du nouveau producteur',
+              nativeInputProps: {
+                checked: siretUnknown,
+                onChange: (event) => {
+                  setSiretUnknown(event.target.checked);
+                  setSiret('');
+                  setProducteur((p) => ({ value: p.value, fromAPI: false }));
+                },
+              },
+            },
+          ]}
+        />
+        {!siretUnknown && (
+          <Input
+            state={siretError || validationErrors['siret'] ? 'error' : 'default'}
+            stateRelatedMessage={siretError ?? validationErrors['siret']}
+            hintText={`Constitué de 14 chiffres. Précédemment : ${numéroIdentification?.siret ?? 'non renseigné'}`}
+            label={'Numéro SIRET'}
+            nativeInputProps={{
+              name: 'siret',
+              value: siret,
+              onChange: (e) => setSiret(e.target.value),
+              required: !siretUnknown,
+              'aria-required': !siretUnknown,
+            }}
+          />
+        )}
         <Input
-          state={validationErrors['producteur'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['producteur']}
+          state={validationErrors['producteur'] ? 'error' : producteur.fromAPI ? 'info' : 'default'}
+          stateRelatedMessage={
+            validationErrors['producteur'] ??
+            (producteur.fromAPI
+              ? 'Le nom du producteur est récupéré automatiquement à partir du SIRET'
+              : undefined)
+          }
           label="Producteur"
-          className="lg:w-1/2"
           nativeInputProps={{
             name: 'producteur',
-            defaultValue: producteur,
+            value: producteur.value,
+            onChange: (e) => setProducteur({ value: e.target.value, fromAPI: false }),
             required: true,
             'aria-required': true,
           }}
-        />
-        <Input
-          state={validationErrors['siret'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['siret']}
-          hintText="Constitué de 14 chiffres"
-          label="Numéro SIRET (optionnel)"
-          nativeInputProps={{
-            name: 'siret',
-            defaultValue: numéroIdentification?.siret,
-            required: false,
-            'aria-required': false,
-          }}
+          hintText={`Précédemment : ${producteurInitialValue}`}
         />
         <Input
           textArea

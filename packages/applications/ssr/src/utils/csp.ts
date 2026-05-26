@@ -18,6 +18,7 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
       'https://sentry.incubateur.net',
 
       process.env.NEXT_PUBLIC_GEO_API_URL ?? '',
+      process.env.NEXT_PUBLIC_ENTREPRISES_API_URL ?? '',
     ],
     'media-src  ': ["'self'", 'https://*.crisp.chat'],
     'font-src': ["'self'", 'https://*.crisp.chat'],
