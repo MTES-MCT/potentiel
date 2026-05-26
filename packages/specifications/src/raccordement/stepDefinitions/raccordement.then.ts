@@ -8,6 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../potentiel.world.js';
+import { récupérerTâchePlanifiée } from '../../tâche-planifiée/stepDefinitions/tâchePlanifiée.then.js';
 
 Alors(
   `le raccordement du projet lauréat devrait être en service pour le projet lauréat`,
@@ -66,6 +67,43 @@ Alors(
       assert(Option.isSome(raccordement), 'Aucun raccordement trouvé pour le projet lauréat');
 
       expect(raccordement.miseEnService).to.be.undefined;
+    });
+  },
+);
+
+Alors(
+  `aucune tâche ou tâche planifiée raccordement n'est consultable pour le projet`,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const tâches = await mediator.send<Lauréat.Tâche.ListerTâchesQuery>({
+        type: 'Tâche.Query.ListerTâches',
+        data: {
+          email: this.utilisateurWorld.porteurFixture.email,
+        },
+      });
+
+      const actualTâches: Lauréat.Tâche.TypeTâche.ValueType[] = tâches.items.map(
+        (t) => t.typeTâche,
+      );
+
+      const tâchesRaccordement: Lauréat.Tâche.TypeTâche.ValueType[] = [
+        Lauréat.Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+        Lauréat.Tâche.TypeTâche.raccordementRéférenceNonTransmise,
+        Lauréat.Tâche.TypeTâche.raccordementGestionnaireRéseauInconnuAttribué,
+      ];
+
+      const tâchesRaccordementPrésentes = actualTâches.filter((t) =>
+        tâchesRaccordement.includes(t),
+      );
+
+      expect(tâchesRaccordementPrésentes, 'Des tâches de raccordement sont présentes').to.be.empty;
+
+      const actualTâchePlanifiée = await récupérerTâchePlanifiée(
+        Lauréat.Raccordement.TypeTâchePlanifiéeRaccordement.relanceTransmissionDeLaDemandeComplèteRaccordement.formatter(),
+        this.lauréatWorld.identifiantProjet,
+      );
+      expect(actualTâchePlanifiée, 'Une tâche planifiée de raccordement est présente').to.be
+        .undefined;
     });
   },
 );

@@ -28,10 +28,8 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
         Quand le porteur demande l'abandon pour le projet lauréat
-       Alors il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
-        Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
-        Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
-        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet 
+        Alors aucune tâche ou tâche planifiée raccordement n'est consultable pour le projet
+
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

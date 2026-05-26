@@ -220,15 +220,14 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   async ajouterTâchesEtTâchesPlanifiées() {
-    // DCR manquante
-    if (this.#dossiers.size === 0) {
+    const demandeComplèteDeRaccordementManquante = this.#dossiers.size === 0;
+    if (demandeComplèteDeRaccordementManquante) {
       await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
       await this.planifierRelanceDemandeComplèteRaccordement(
         this.lauréat.notifiéLe.ajouterNombreDeMois(2),
       );
     }
 
-    // AR DCR manquant
     const dossierRaccordementSansAR = [...this.#dossiers.values()].filter((dossier) =>
       Option.isNone(dossier.demandeComplèteRaccordement.format),
     );
@@ -236,7 +235,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     }
 
-    // gestionnaire réseau inconnu
     if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
     }

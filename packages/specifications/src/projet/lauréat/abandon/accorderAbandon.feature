@@ -1,5 +1,6 @@
 # language: fr
 @abandon
+@accorder-abandon
 Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
 
     Contexte:
@@ -53,6 +54,25 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Quand la dgec accorde la demande d'abandon pour le projet lauréat
         Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
+
+    Scénario: Le raccordement d'un projet n'est plus consultable en cas d'abandon accordé
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
+        Alors aucun raccordement ni dossier de raccordement ne devrait être consultable pour le projet
+
+    Scénario: Le système supprime les tâches de raccordement d'un projet en cas d'abandon accordé
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
+        Alors aucune tâche ou tâche planifiée raccordement n'est consultable pour le projet
+
+    Scénario: Le raccordement d'un projet signataire d'un PPA reste consultable en cas d'abandon accordé
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat  
 
     # TODO : Vérifier avec le métier pour supprimer carrément la partie recandidature
     # Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
