@@ -36,7 +36,7 @@ export const LauréatListPage: FC<LauréatListPageProps> = ({
     legend={legend}
     totalItems={totalItems}
     ItemComponent={LauréatListItem}
-    search={{ label: 'Rechercher par nom ou identifiant de projet', params: 'nomProjet' }}
+    search={{ label: 'Rechercher par nom ou identifiant', params: 'nomProjet' }}
     items={lauréats.map((projet) => ({
       ...projet,
       key: IdentifiantProjet.bind(projet.identifiantProjet).formatter(),
