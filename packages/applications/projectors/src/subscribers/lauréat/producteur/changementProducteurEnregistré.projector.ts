@@ -1,10 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import {
-  updateOneProjection,
-  upsertProjection,
-} from '@potentiel-infrastructure/pg-projection-write';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -40,14 +37,12 @@ export const changementProducteurEnregistréProjector = async ({
     .some((producteur) => producteur.numéroIdentification)
     .none(() => undefined);
 
-  await updateOneProjection<Lauréat.Producteur.ProducteurEntity>(
-    `producteur|${identifiantProjet}`,
-    {
-      nom: producteur,
-      miseÀJourLe: enregistréLe,
-      numéroIdentification,
-    },
-  );
+  await upsertProjection<Lauréat.Producteur.ProducteurEntity>(`producteur|${identifiantProjet}`, {
+    identifiantProjet,
+    nom: producteur,
+    miseÀJourLe: enregistréLe,
+    numéroIdentification,
+  });
 
   await upsertProjection<Lauréat.Producteur.ChangementProducteurEntity>(
     `changement-producteur|${identifiantProjet}#${enregistréLe}`,
