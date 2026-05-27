@@ -10,9 +10,15 @@ export type ModifierAttestationConformitéPageProps = ModifierAttestationConform
 
 export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformitéPageProps> = ({
   identifiantProjet,
+  attestationConformité,
+  rapportAssocié,
 }) => (
   <>
     <Heading1>Modifier l'attestation de conformité du projet</Heading1>
-    <ModifierAttestationConformitéForm identifiantProjet={identifiantProjet} />
+    <ModifierAttestationConformitéForm
+      identifiantProjet={identifiantProjet}
+      attestationConformité={attestationConformité}
+      rapportAssocié={rapportAssocié}
+    />
   </>
 );

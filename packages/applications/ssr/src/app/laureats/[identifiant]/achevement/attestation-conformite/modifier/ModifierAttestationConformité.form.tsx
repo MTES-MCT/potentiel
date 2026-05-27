@@ -4,7 +4,12 @@ import { useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import { AttestationConformitéFormInput } from '../../AttestationConformité.inputs';
+import {
+  AttestationConformitéFormInput,
+  type AttestationConformitéFormInputProps,
+  RapportAssociéFormInput,
+  type RapportAssociéFormInputProps,
+} from '../../AttestationConformité.inputs';
 import {
   type ModifierAttestationConformitéFormKeys,
   modifierAttestationConformitéAction,
@@ -12,14 +17,30 @@ import {
 
 export type ModifierAttestationConformitéFormProps = {
   identifiantProjet: string;
+  attestationConformité: AttestationConformitéFormInputProps['attestationConformité'];
+  rapportAssocié: RapportAssociéFormInputProps['rapportAssocié'];
+};
+
+type DocumentModifiéState = {
+  attestation: boolean;
+  rapportAssocie: boolean;
 };
 
 export const ModifierAttestationConformitéForm = ({
   identifiantProjet,
+  attestationConformité,
+  rapportAssocié,
 }: ModifierAttestationConformitéFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierAttestationConformitéFormKeys>
   >({});
+
+  const [documentModifié, setDocumentModifié] = useState<DocumentModifiéState>({
+    attestation: false,
+    rapportAssocie: false,
+  });
+
+  const auMoinsUnDocumentModifié = documentModifié.attestation || documentModifié.rapportAssocie;
 
   return (
     <Form
@@ -27,13 +48,27 @@ export const ModifierAttestationConformitéForm = ({
       onValidationError={setValidationErrors}
       actionButtons={{
         submitLabel: 'Modifier',
+        submitDisabled: !auMoinsUnDocumentModifié,
         secondaryAction: {
           type: 'back',
         },
       }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
-      <AttestationConformitéFormInput validationErrors={validationErrors} />
+      <AttestationConformitéFormInput
+        validationErrors={validationErrors}
+        attestationConformité={attestationConformité}
+        onChange={(filenames) =>
+          setDocumentModifié((prev) => ({ ...prev, attestation: filenames.length > 0 }))
+        }
+      />
+      <RapportAssociéFormInput
+        rapportAssocié={rapportAssocié}
+        validationErrors={validationErrors}
+        onChange={(filenames) =>
+          setDocumentModifié((prev) => ({ ...prev, rapportAssocie: filenames.length > 0 }))
+        }
+      />
     </Form>
   );
 };

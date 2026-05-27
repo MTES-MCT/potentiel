@@ -17,6 +17,10 @@ export type ModifierAttestationConformitéUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    rapportAssociéValue: {
+      content: ReadableStream;
+      format: string;
+    };
   }
 >;
 
@@ -24,6 +28,7 @@ export const registerModifierAttestationConformitéUseCase = () => {
   const runner: MessageHandler<ModifierAttestationConformitéUseCase> = async ({
     identifiantProjetValue,
     attestationValue,
+    rapportAssociéValue,
     modifiéeLeValue,
     modifiéeParValue,
   }) => {
@@ -32,6 +37,12 @@ export const registerModifierAttestationConformitéUseCase = () => {
       identifiantProjet: identifiantProjet.formatter(),
       enregistréLe: modifiéeLeValue,
       attestation: attestationValue,
+    });
+
+    const rapportAssocié = DocumentAchèvement.rapportAssocié({
+      identifiantProjet: identifiantProjet.formatter(),
+      enregistréLe: modifiéeLeValue,
+      rapportAssocie: rapportAssociéValue,
     });
 
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
@@ -45,11 +56,20 @@ export const registerModifierAttestationConformitéUseCase = () => {
       },
     });
 
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: rapportAssociéValue.content,
+        documentProjet: rapportAssocié,
+      },
+    });
+
     await mediator.send<ModifierAttestationConformitéCommand>({
       type: 'Lauréat.Achèvement.Command.ModifierAttestationConformité',
       data: {
         identifiantProjet,
         attestation,
+        rapportAssocié,
         modifiéeLe,
         modifiéePar,
       },

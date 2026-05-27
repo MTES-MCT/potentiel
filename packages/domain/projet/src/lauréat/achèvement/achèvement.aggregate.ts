@@ -28,7 +28,10 @@ import type {
   AchèvementModifiéEventV1,
 } from './modifier/modifierAchèvement.event.js';
 import type { ModifierAchèvementOptions } from './modifier/modifierAchèvement.option.js';
-import type { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
+import type {
+  AttestationConformitéModifiéeEvent,
+  AttestationConformitéModifiéeEventV1,
+} from './modifier/modifierAttestationConformité.event.js';
 import type { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option.js';
 import type {
   AttestationConformitéTransmiseEvent,
@@ -192,6 +195,7 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async modifierAttestationConformité({
     attestation,
+    rapportAssocié,
     modifiéeLe,
     modifiéePar,
   }: ModifierAttestationConformitéOptions) {
@@ -208,10 +212,11 @@ export class AchèvementAggregate extends AbstractAggregate<
     }
 
     const event: AttestationConformitéModifiéeEvent = {
-      type: 'AttestationConformitéModifiée-V1',
+      type: 'AttestationConformitéModifiée-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         attestation: { format: attestation.format },
+        rapportAssocié: { format: rapportAssocié.format },
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
       },
@@ -398,8 +403,8 @@ export class AchèvementAggregate extends AbstractAggregate<
         this.applyAttestationConformitéEnregistrée.bind(this),
       )
       .with(
-        { type: 'AttestationConformitéModifiée-V1' },
-        this.applyAttestationConformitéModifiéeV1.bind(this),
+        { type: P.union('AttestationConformitéModifiée-V1', 'AttestationConformitéModifiée-V2') },
+        this.applyAttestationConformitéModifiée.bind(this),
       )
       .exhaustive();
   }
@@ -426,7 +431,9 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.#attestationConformitéTransmise = true;
   }
 
-  private applyAttestationConformitéModifiéeV1(_: AttestationConformitéModifiéeEvent) {}
+  private applyAttestationConformitéModifiée(
+    _event: AttestationConformitéModifiéeEventV1 | AttestationConformitéModifiéeEvent,
+  ) {}
 
   private applyDateAchèvementPrévisionnelCalculéeV1({
     payload: { date },

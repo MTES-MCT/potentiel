@@ -18,7 +18,7 @@ export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     return match(event)
       .with({ type: 'AttestationConformitéTransmise-V2' }, handleAttestationConformitéTransmise)
-      .with({ type: 'AttestationConformitéModifiée-V1' }, handleAttestationConformitéModifiée)
+      .with({ type: 'AttestationConformitéModifiée-V2' }, handleAttestationConformitéModifiée)
       .with({ type: 'DateAchèvementTransmise-V1' }, handleDateAchèvementTransmise)
       .with(
         {
@@ -34,6 +34,7 @@ export const register = () => {
             'AttestationConformitéEnregistrée-V2',
             'AchèvementModifié-V1',
             'DateAchèvementPrévisionnelCalculée-V1',
+            'AttestationConformitéModifiée-V1',
           ),
         },
         () => Promise.resolve(),
