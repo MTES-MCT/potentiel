@@ -57,16 +57,15 @@ export const AccorderAbandonSansRecandidatureForm = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              {ppaDéjàSignaléParLAdministration && (
+              {ppaDéjàSignaléParLAdministration ? (
                 <Notice
                   title={
-                    "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA)"
+                    "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par l'administration. Vous pouvez mettre à jour cette information depuis la page projet."
                   }
                 />
-              )}
-              {!ppaDéjàSignaléParLAdministration && (
+              ) : (
                 <>
-                  {!ppaSignaléLorsDeLaDemande && (
+                  {ppaSignaléLorsDeLaDemande && (
                     <Notice
                       title={
                         'Ce projet a été signalé en PPA par le porteur. Vous pouvez mettre à jour cette information.'
