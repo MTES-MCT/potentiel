@@ -1,6 +1,6 @@
 'use client';
 
-import { addPaginationTranslations, Pagination } from '@codegouvfr/react-dsfr/Pagination';
+import { Pagination } from '@codegouvfr/react-dsfr/Pagination';
 import { usePathname, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
@@ -9,15 +9,6 @@ type ListPaginationProps = {
   totalItems: number;
   itemsPerPage: number;
 };
-
-// Hack pour éviter que la pagination ne dépasse la liste : on retire les textes de boutons previous/next
-addPaginationTranslations({
-  lang: 'fr',
-  messages: {
-    'previous page': '',
-    'next page': '',
-  },
-});
 
 export const ListPagination: FC<ListPaginationProps> = ({
   currentPage,
