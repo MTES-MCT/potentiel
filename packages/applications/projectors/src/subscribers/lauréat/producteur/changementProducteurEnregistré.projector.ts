@@ -57,8 +57,8 @@ export const changementProducteurEnregistréProjector = async ({
           producteur,
           numéroIdentification: numéroIdentification?.siret
             ? Lauréat.Producteur.NuméroIdentification.bind({
-              siret: numéroIdentification.siret,
-            })
+                siret: numéroIdentification.siret,
+              })
             : undefined,
         },
         enregistréPar,
