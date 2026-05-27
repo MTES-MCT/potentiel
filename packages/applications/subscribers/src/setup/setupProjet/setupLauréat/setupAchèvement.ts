@@ -35,8 +35,8 @@ export const setupAchèvement = async () => {
   >({
     name: 'notifications',
     eventType: [
-      'AttestationConformitéTransmise-V2',
       'DateAchèvementTransmise-V1',
+      'AttestationConformitéTransmise-V2',
       'AttestationConformitéModifiée-V2',
       'AchèvementModifié-V2',
     ],

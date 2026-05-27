@@ -14,12 +14,14 @@ export type AttestationConformitéFormInputProps = {
   attestationConformité?: DocumentProjet.RawType;
   optionnel?: true;
   validationErrors: ValidationErrors<'attestation'>;
+  onChange?: (filenames: Array<string>) => void;
 };
 
 export const AttestationConformitéFormInput: FC<AttestationConformitéFormInputProps> = ({
   attestationConformité,
   optionnel,
   validationErrors,
+  onChange,
 }) => (
   <UploadNewOrModifyExistingDocument
     name="attestation"
@@ -30,6 +32,7 @@ export const AttestationConformitéFormInput: FC<AttestationConformitéFormInput
     state={validationErrors['attestation'] ? 'error' : 'default'}
     stateRelatedMessage={validationErrors['attestation']}
     formats={['pdf']}
+    onChange={onChange}
   />
 );
 
@@ -37,12 +40,14 @@ export type RapportAssociéFormInputProps = {
   rapportAssocié?: DocumentProjet.RawType;
   optionnel?: true;
   validationErrors: ValidationErrors<'rapportAssocie'>;
+  onChange?: (filenames: Array<string>) => void;
 };
 
 export const RapportAssociéFormInput: FC<RapportAssociéFormInputProps> = ({
   rapportAssocié,
   optionnel,
   validationErrors,
+  onChange,
 }) => (
   <UploadNewOrModifyExistingDocument
     name="rapportAssocie"
@@ -53,6 +58,7 @@ export const RapportAssociéFormInput: FC<RapportAssociéFormInputProps> = ({
     state={validationErrors['rapportAssocie'] ? 'error' : 'default'}
     stateRelatedMessage={validationErrors['rapportAssocie']}
     formats={['pdf']}
+    onChange={onChange}
   />
 );
 

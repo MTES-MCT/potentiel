@@ -37,7 +37,21 @@ export default async function Page({ params }: IdentifiantParameter) {
         throw new InvalidOperationError("Le projet n'est pas achevé");
       }
 
-      return <ModifierAttestationConformitéPage identifiantProjet={identifiantProjet} />;
+      const attestationConformité = Option.isSome(achèvement.attestation)
+        ? achèvement.attestation.formatter()
+        : undefined;
+
+      const rapportAssocié = Option.isSome(achèvement.rapportAssocié)
+        ? achèvement.rapportAssocié.formatter()
+        : undefined;
+
+      return (
+        <ModifierAttestationConformitéPage
+          identifiantProjet={identifiantProjet}
+          attestationConformité={attestationConformité}
+          rapportAssocié={rapportAssocié}
+        />
+      );
     }),
   );
 }

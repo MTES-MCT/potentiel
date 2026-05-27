@@ -9,12 +9,12 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
-  rapportAssocie: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  rapportAssocie: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;
@@ -51,7 +51,7 @@ const action: FormAction<FormState, typeof schema> = async (
         url: aDéjàTransmisUnDossierDeRaccordement
           ? Routes.Lauréat.détails.tableauDeBord(identifiantProjet)
           : Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet),
-        message: 'Votre attestation de conformité a bien été transmise',
+        message: 'Votre attestation de conformité a bien été modifiée',
       },
     };
   });
