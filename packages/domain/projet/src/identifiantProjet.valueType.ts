@@ -65,7 +65,7 @@ export function estValide(value: string) {
   return regexIdentifiantProjet.test(value);
 }
 
-const regexIdentifiantMétier = /^(?<ao>.+)-P(?<p>\d+)(-F(?<f>.+))?-(?<n>.+)$/;
+const regexIdentifiantMétier = /^(?<ao>.+)-P(?<p>\d+)(-F(?<f>\w+))?-(?<n>.+)$/;
 export function estValideMétier(value: string) {
   return regexIdentifiantMétier.test(value);
 }
