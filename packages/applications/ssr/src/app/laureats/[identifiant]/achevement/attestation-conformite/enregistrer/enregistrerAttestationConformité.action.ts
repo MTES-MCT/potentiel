@@ -38,7 +38,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.GarantiesFinancières.détail(identifiantProjet),
-        message: 'Votre attestation de conformité avec son rapport associé a bien été enregistrée',
+        message: 'Votre attestation de conformité et son rapport associé ont bien été enregistrés',
       },
     };
   });
