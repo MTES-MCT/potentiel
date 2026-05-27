@@ -8,7 +8,7 @@ import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErr
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-type RaccordementSectionProps = {
+type IdentifiantProjetSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
@@ -16,7 +16,7 @@ const sectionTitle = 'Identifiants';
 
 export const IdentifiantProjetSection = ({
   identifiantProjet: rawIdentifiant,
-}: RaccordementSectionProps) =>
+}: IdentifiantProjetSectionProps) =>
   SectionWithErrorHandling(
     withUtilisateur(async ({ rôle }) => {
       if (!rôle.aLaPermission('projet.accèsIdentifiants')) {
@@ -25,7 +25,7 @@ export const IdentifiantProjetSection = ({
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(rawIdentifiant);
       return (
         <Section title={sectionTitle}>
-          <ul className="flex-col gap-2">
+          <ul className="flex flex-col gap-1">
             <li>
               <span>Identifiant Projet : </span>
               <CopyButton textToCopy={identifiantProjet.formatterMétier()} />
