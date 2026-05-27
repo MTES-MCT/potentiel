@@ -40,7 +40,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
         nomProjet={nomProjet}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Abandon du projet"
-        statutProjetBadge={estPartiEnPPA && <PPABadge />}
+        badgeStatutProjet={estPartiEnPPA && <PPABadge />}
       />
     }
     actions={

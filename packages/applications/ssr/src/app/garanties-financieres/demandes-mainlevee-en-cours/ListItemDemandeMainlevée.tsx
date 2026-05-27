@@ -38,6 +38,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Mainlevée du projet"
         nomProjet={nomProjet}
+        badgeStatutProjet={estPartiEnPPA && <PPABadge />}
       />
     }
     actions={
@@ -64,6 +65,5 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
       </li>
     </ul>
     <StatutMainlevéeBadge statut={statut} />
-    {estPartiEnPPA && <PPABadge />}
   </ListItem>
 );

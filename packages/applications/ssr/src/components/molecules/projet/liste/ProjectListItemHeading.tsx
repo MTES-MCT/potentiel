@@ -10,26 +10,22 @@ export type ProjectListItemHeadingProps = {
   prefix: string;
   estNotifié?: boolean;
   actionnariat?: Candidature.TypeActionnariat.RawType;
-  statutProjetBadge?: React.ReactNode;
+  badgeStatutProjet?: React.ReactNode;
 };
 
 export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
   nomProjet,
   identifiantProjet,
   prefix,
-  statutProjetBadge,
+  badgeStatutProjet,
 }) => (
-  <div className="flex flex-col gap-2">
-    <div className="flex flex-col justify-between gap-2 w-full">
-      <div className="leading-5">
-        {prefix} <span className="font-bold mr-3">{nomProjet}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />{' '}
-      </div>
+  <div className="flex flex-col justify-between gap-2 w-full">
+    <div className="leading-5">
+      {prefix} <span className="font-bold mr-3">{nomProjet}</span>
     </div>
-    <div className="flex gap-1 md:items-center md:flex-row flex-col">
-      {statutProjetBadge && <div className="flex gap-1">{statutProjetBadge}</div>}
+    <div className="flex gap-2">
+      <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />
+      {badgeStatutProjet && <div className="flex gap-1">{badgeStatutProjet}</div>}
     </div>
   </div>
 );

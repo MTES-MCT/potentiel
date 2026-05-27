@@ -47,7 +47,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
-        statutProjetBadge={statutBadge}
+        badgeStatutProjet={statutBadge}
         identifiantProjet={identifiantProjet}
         prefix="Projet"
       />

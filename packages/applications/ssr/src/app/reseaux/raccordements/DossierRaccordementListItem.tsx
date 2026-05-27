@@ -36,7 +36,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Projet lauréat"
-        statutProjetBadge={
+        badgeStatutProjet={
           <div className="flex gap-1">
             <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statutProjet).formatter()} />
             {estPartiEnPPA && <PPABadge />}
