@@ -16,6 +16,7 @@ export type DemandeAbandonEntity = Entity<
       };
 
       estUneRecandidature: boolean;
+      ppaSignalé?: true;
 
       recandidature?: {
         statut: string;

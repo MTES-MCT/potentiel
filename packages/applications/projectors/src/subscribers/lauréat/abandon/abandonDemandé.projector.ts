@@ -16,6 +16,10 @@ export const abandonDemandéProjector = async (
     .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
     .otherwise(() => false);
 
+  const ppaSignalé = match(event)
+    .with({ type: 'AbandonDemandé-V2' }, (event) => event.payload.ppaSignalé)
+    .otherwise(() => undefined);
+
   const cahierDesCharges = await getCahierDesCharges(
     IdentifiantProjet.convertirEnValueType(identifiantProjet),
   );
@@ -40,6 +44,7 @@ export const abandonDemandéProjector = async (
         demandéPar: event.payload.demandéPar,
         raison: event.payload.raison,
         estUneRecandidature,
+        ppaSignalé,
         autoritéCompétente:
           cahierDesCharges.getRèglesChangements('abandon').autoritéCompétente ??
           Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON,

@@ -23,6 +23,7 @@ export type ConsulterDemandeAbandonReadModel = {
     pièceJustificative?: DocumentProjet.ValueType;
 
     estUneRecandidature: boolean;
+    ppaSignalé?: true;
 
     recandidature?: {
       statut: StatutPreuveRecandidature.ValueType;
@@ -104,6 +105,7 @@ const mapToReadModel = (result: DemandeAbandonEntity) => {
       demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
       raison: result.demande.raison,
       estUneRecandidature: !!result.demande.recandidature,
+      ppaSignalé: result.demande.ppaSignalé,
       pièceJustificative: result.demande.pièceJustificative
         ? DocumentAbandon.pièceJustificative({
             identifiantProjet: result.identifiantProjet,

@@ -113,6 +113,7 @@ export class AbandonWord {
         demandéLe: DateTime.convertirEnValueType(this.#demanderAbandonFixture.demandéLe),
         demandéPar: Email.convertirEnValueType(this.#demanderAbandonFixture.demandéPar),
         estUneRecandidature: this.#demanderAbandonFixture.recandidature,
+        ppaSignalé: this.#demanderAbandonFixture.estPPA ? true : undefined,
         raison: this.#demanderAbandonFixture.raison,
         recandidature: this.#demanderAbandonFixture.recandidature
           ? {

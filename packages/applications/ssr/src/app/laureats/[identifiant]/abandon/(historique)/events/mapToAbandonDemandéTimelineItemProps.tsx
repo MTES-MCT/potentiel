@@ -28,10 +28,16 @@ export const mapToAbandonDemandéTimelineItemProps = (
     },
     details: (
       <>
+        {event.type === 'AbandonDemandé-V2' && event.payload.ppaSignalé && (
+          <div className="mb-4">
+            Le projet a été déclaré comme étant signataire d'un{' '}
+            <span className="font-semibold">contrat de vente de gré à gré (PPA)</span>.
+          </div>
+        )}
         {event.type === 'AbandonDemandé-V1' && event.payload.recandidature && (
           <div className="mb-4">
             Le projet s'inscrit dans un{' '}
-            <span className="font-semibold">contexte de recandidature</span>
+            <span className="font-semibold">contexte de recandidature</span>.
           </div>
         )}
       </>
