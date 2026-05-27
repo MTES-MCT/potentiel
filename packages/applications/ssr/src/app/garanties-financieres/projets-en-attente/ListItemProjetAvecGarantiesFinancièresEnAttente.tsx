@@ -41,7 +41,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Projet"
-        statutProjetBadge={
+        badgeStatutProjet={
           <div className="flex gap-1">
             <StatutLauréatBadge statut={statut} />
             {estPartiEnPPA && <PPABadge />}

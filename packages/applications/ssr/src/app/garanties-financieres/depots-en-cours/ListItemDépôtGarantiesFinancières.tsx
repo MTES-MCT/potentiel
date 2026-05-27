@@ -34,7 +34,7 @@ export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFi
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Garanties financières du projet"
-        statutProjetBadge={<div className="flex gap-1">{estPartiEnPPA && <PPABadge />}</div>}
+        badgeStatutProjet={<div className="flex gap-1">{estPartiEnPPA && <PPABadge />}</div>}
       />
     }
     actions={
