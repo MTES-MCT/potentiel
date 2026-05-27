@@ -2,11 +2,13 @@
 
 import { Button, type ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
+import clsx from 'clsx';
 import { type ReactNode, useState } from 'react';
 
 export type CopyButtonProps = {
   textToCopy: string;
   priority?: ButtonProps['priority'];
+  className?: string;
 } & (
   | {
       noChildren: true;
@@ -23,6 +25,7 @@ export const CopyButton = ({
   noChildren,
   children,
   priority = 'tertiary no outline',
+  className,
 }: CopyButtonProps) => {
   const [hasCopied, setHasCopied] = useState<boolean>(false);
   const timeoutInMs = 2000;
@@ -36,7 +39,7 @@ export const CopyButton = ({
   };
 
   return (
-    <div className="print:hidden flex flex-row gap-1 items-center">
+    <div className={clsx('print:hidden flex flex-row gap-1 items-center', className)}>
       {noChildren ? null : (children ?? <span className="italic">{textToCopy}</span>)}
       <Tooltip kind="hover" title="Copier">
         <Button
