@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { IdentifiantProjetSection } from '@/app/laureats/[identifiant]/(détails)/(sections)/IdentifiantProjet.section';
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
 import { ChiffresClésSection } from './_sections/ChiffresClés.section';
 import { DonnéesCandidatureSection } from './_sections/DonnéesCandidature.section';
@@ -19,6 +20,7 @@ export const DétailsÉliminéPage: FC<DétailsÉliminéPageProps> = ({ identifi
         <ChiffresClésSection identifiantProjet={identifiantProjet} />
       </div>
       <DonnéesCandidatureSection identifiantProjet={identifiantProjet} />
+      <IdentifiantProjetSection identifiantProjet={identifiantProjet} />
     </div>
   </SectionPage>
 );

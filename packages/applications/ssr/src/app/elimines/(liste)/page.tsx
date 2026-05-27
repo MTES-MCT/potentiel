@@ -1,16 +1,15 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
+import { Candidature, type Éliminé } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { redirigerPageProjet } from '@/app/_helpers/redirigerPageProjet';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -42,8 +41,8 @@ export default async function Page(props: PageProps) {
       const { page, appelOffre, periode, famille, nomProjet, typeActionnariat } =
         paramsSchema.parse(searchParams);
 
-      if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
-        return redirect(Routes.Éliminé.détails.tableauDeBord(nomProjet));
+      if (nomProjet) {
+        redirigerPageProjet(nomProjet);
       }
 
       const éliminés = await mediator.send<Éliminé.ListerÉliminéQuery>({
