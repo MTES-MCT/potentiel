@@ -144,6 +144,10 @@ export class AchèvementWorld {
   }
 
   mapToRapportAssocié(): PièceJustificative | undefined {
+    if (this.enregistrerAttestationConformitéFixture.aÉtéCréé) {
+      return this.enregistrerAttestationConformitéFixture.rapportAssocié;
+    }
+
     if (this.modifierAchèvementFixture.aÉtéCréé) {
       return this.modifierAchèvementFixture.rapportAssocié;
     }

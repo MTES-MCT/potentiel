@@ -9,6 +9,7 @@ export type EnregistrerAttestationConformitéCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     attestationConformité: { format: string };
+    rapportAssocié: { format: string };
     enregistréeLe: DateTime.ValueType;
     enregistréePar: Email.ValueType;
   }

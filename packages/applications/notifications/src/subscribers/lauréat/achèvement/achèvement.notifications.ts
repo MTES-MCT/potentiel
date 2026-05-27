@@ -31,6 +31,7 @@ export const register = () => {
           type: P.union(
             'AttestationConformitéTransmise-V1',
             'AttestationConformitéEnregistrée-V1',
+            'AttestationConformitéEnregistrée-V2',
             'AchèvementModifié-V1',
             'DateAchèvementPrévisionnelCalculée-V1',
           ),

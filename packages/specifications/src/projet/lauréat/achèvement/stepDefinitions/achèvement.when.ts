@@ -283,12 +283,12 @@ Quand(`le porteur modifie l'attestation de conformité`, async function (this: P
 });
 
 Quand(
-  'le porteur enregistre une attestation de conformité pour le projet lauréat',
+  'le porteur enregistre une attestation de conformité avec son rapport associé pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const { attestation, enregistréeLe, enregistréePar } =
+      const { attestation, rapportAssocié, enregistréeLe, enregistréePar } =
         this.lauréatWorld.achèvementWorld.enregistrerAttestationConformitéFixture.créer({});
 
       await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
@@ -296,6 +296,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationConformitéValue: convertFixtureFileToReadableStream(attestation),
+          rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
           enregistréeLeValue: enregistréeLe,
           enregistréeParValue: enregistréePar,
         },

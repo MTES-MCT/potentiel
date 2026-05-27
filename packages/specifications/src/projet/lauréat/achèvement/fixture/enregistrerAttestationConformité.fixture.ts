@@ -10,6 +10,7 @@ import type { LauréatWorld } from '../../lauréat.world.js';
 
 interface EnregistrerAttestationConformité {
   readonly attestation: PièceJustificative;
+  readonly rapportAssocié: PièceJustificative;
   readonly enregistréeLe: string;
   readonly enregistréePar: string;
 }
@@ -22,6 +23,12 @@ export class EnregistrerAttestationConformitéFixture
 
   get attestation(): EnregistrerAttestationConformité['attestation'] {
     return this.#attestation;
+  }
+
+  #rapportAssocié!: EnregistrerAttestationConformité['rapportAssocié'];
+
+  get rapportAssocié(): EnregistrerAttestationConformité['rapportAssocié'] {
+    return this.#rapportAssocié;
   }
 
   #enregistréeLe!: string;
@@ -47,12 +54,14 @@ export class EnregistrerAttestationConformitéFixture
       enregistréeLe: faker.date.soon().toISOString(),
       enregistréePar: faker.internet.email(),
       attestation: faker.potentiel.document(),
+      rapportAssocié: faker.potentiel.document(),
       ...partialFixture,
     };
 
     this.#enregistréeLe = fixture.enregistréeLe;
     this.#enregistréePar = fixture.enregistréePar;
     this.#attestation = fixture.attestation;
+    this.#rapportAssocié = fixture.rapportAssocié;
 
     this.aÉtéCréé = true;
 
@@ -65,6 +74,11 @@ export class EnregistrerAttestationConformitéFixture
         identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
         enregistréLe: this.enregistréeLe,
         attestation: this.attestation,
+      }),
+      rapportAssocié: Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        enregistréLe: this.enregistréeLe,
+        rapportAssocie: this.rapportAssocié,
       }),
 
       preuveTransmissionAuCocontractant: Option.none,

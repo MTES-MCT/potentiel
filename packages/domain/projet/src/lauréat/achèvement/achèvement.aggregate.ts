@@ -269,7 +269,8 @@ export class AchèvementAggregate extends AbstractAggregate<
   }
 
   async enregistrerAttestationConformité({
-    attestationConformité: { format },
+    attestationConformité,
+    rapportAssocié,
     enregistréeLe,
     enregistréePar,
   }: EnregistrerAttestationConformitéOptions) {
@@ -282,10 +283,11 @@ export class AchèvementAggregate extends AbstractAggregate<
     }
 
     const event: AttestationConformitéEnregistréeEvent = {
-      type: 'AttestationConformitéEnregistrée-V1',
+      type: 'AttestationConformitéEnregistrée-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        attestationConformité: { format },
+        attestationConformité: { format: attestationConformité.format },
+        rapportAssocié: { format: rapportAssocié.format },
         enregistréeLe: enregistréeLe.formatter(),
         enregistréePar: enregistréePar.formatter(),
       },
@@ -387,8 +389,13 @@ export class AchèvementAggregate extends AbstractAggregate<
       )
       .with({ type: 'DateAchèvementTransmise-V1' }, this.applyDateAchèvementTransmiseV1.bind(this))
       .with(
-        { type: 'AttestationConformitéEnregistrée-V1' },
-        this.applyAttestationConformitéEnregistréeV1.bind(this),
+        {
+          type: P.union(
+            'AttestationConformitéEnregistrée-V1',
+            'AttestationConformitéEnregistrée-V2',
+          ),
+        },
+        this.applyAttestationConformitéEnregistrée.bind(this),
       )
       .with(
         { type: 'AttestationConformitéModifiée-V1' },
@@ -415,7 +422,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     }
   }
 
-  private applyAttestationConformitéEnregistréeV1(_: AttestationConformitéEnregistréeEvent) {
+  private applyAttestationConformitéEnregistrée(_: AttestationConformitéEnregistréeEvent) {
     this.#attestationConformitéTransmise = true;
   }
 

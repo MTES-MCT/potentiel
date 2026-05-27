@@ -38,11 +38,11 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une attestation de conformité enregistrée pour le projet lauréat',
+  'une attestation de conformité enregistrée avec son rapport associé pour le projet lauréat',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { enregistréeLe, enregistréePar, attestation } =
+    const { enregistréeLe, enregistréePar, attestation, rapportAssocié } =
       this.lauréatWorld.achèvementWorld.enregistrerAttestationConformitéFixture.créer({});
 
     await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
@@ -50,6 +50,7 @@ EtantDonné(
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         attestationConformitéValue: convertFixtureFileToReadableStream(attestation),
+        rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
         enregistréeLeValue: enregistréeLe,
         enregistréeParValue: enregistréePar,
       },
