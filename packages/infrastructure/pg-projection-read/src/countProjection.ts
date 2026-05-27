@@ -13,12 +13,12 @@ export const countProjection = async <
   category: TEntity['type'],
   options?: CountOption<TEntity, TJoin>,
 ): Promise<number> => {
-  const { where, join } = options ?? {};
+  const { where, join, search } = options ?? {};
   const selectClause = 'SELECT COUNT(p.key) as total';
   const joins = (Array.isArray(join) ? join : join ? [join] : []) as JoinOptions[];
-  const fromClause = getFromClause({ joins });
+  const fromClause = getFromClause({ joins, search });
   const key = { operator: 'like', value: `${category}|%` } as const;
-  const [whereClause, whereValues] = getWhereClause({ where, key, joins });
+  const [whereClause, whereValues] = getWhereClause({ where, key, joins, search });
 
   const count = format(`${selectClause} ${fromClause} ${whereClause}`);
 

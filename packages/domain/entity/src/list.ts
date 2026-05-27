@@ -13,6 +13,7 @@ export type ListOptions<
   range?: RangeOptions;
   where?: WhereOptions<Omit<TEntity, 'type'>>;
   select?: SelectOptions<Omit<TEntity, 'type'>>;
+  search?: string;
 } & JoinOptionsParams<TEntity, TJoin>;
 
 export type ListResult<

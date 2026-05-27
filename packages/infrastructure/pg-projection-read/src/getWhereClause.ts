@@ -17,6 +17,7 @@ type GetWhereClauseOptions = {
   key: EqualWhereCondition<string> | LikeWhereCondition;
   where?: WhereOptions<Omit<Entity, 'type'>>;
   joins?: JoinOptions[];
+  search?: string;
 };
 
 type WhereClausesAndValues = [clause: string, values: Array<unknown>];
@@ -26,16 +27,28 @@ const emptyWhere: WhereClausesAndValues = ['', []];
 export const getWhereClause = ({
   key,
   where,
+  search,
   joins = [],
 }: GetWhereClauseOptions): WhereClausesAndValues => {
   const baseWhereClause = key.operator === 'like' ? `where p.key LIKE $1` : `where p.key = $1`;
 
   const [whereClause, whereValues] = where ? buildWhereClause(where, 'p') : emptyWhere;
+  const [searchClause, searchValues] = search
+    ? buildSearchWhereClause(search, whereValues.length + 2)
+    : emptyWhere;
 
-  const [joinWhereClause, joinWhereValues] = buildJoinWhereClause(joins, whereValues.length);
-  const completeWhereClause = combineClauses([baseWhereClause, whereClause, joinWhereClause]);
+  const [joinWhereClause, joinWhereValues] = buildJoinWhereClause(
+    joins,
+    whereValues.length + searchValues.length,
+  );
+  const completeWhereClause = combineClauses([
+    baseWhereClause,
+    searchClause,
+    whereClause,
+    joinWhereClause,
+  ]);
 
-  return [completeWhereClause, [key.value, ...whereValues, ...joinWhereValues]];
+  return [completeWhereClause, [key.value, ...whereValues, ...searchValues, ...joinWhereValues]];
 };
 
 /**
@@ -98,6 +111,13 @@ const buildJoinWhereClause = (
   }
 
   return [combineClauses(whereClauses), whereValues];
+};
+
+const buildSearchWhereClause = (
+  search: string,
+  startIndex: number,
+): [clause: string, values: Array<unknown>] => {
+  return [`s.search @@ plainto_tsquery($${startIndex})`, [search]];
 };
 
 const combineClauses = (clauses: string[]) => clauses.filter(Boolean).join(' AND ');
