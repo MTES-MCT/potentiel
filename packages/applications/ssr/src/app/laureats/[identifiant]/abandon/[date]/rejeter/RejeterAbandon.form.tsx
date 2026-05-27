@@ -47,7 +47,7 @@ export const RejeterAbandonForm = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              {ppaSignaléLorsDeLaDemande === true && <AlerteAnnulationPPA />}
+              {ppaSignaléLorsDeLaDemande && <AlerteAnnulationPPA />}
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

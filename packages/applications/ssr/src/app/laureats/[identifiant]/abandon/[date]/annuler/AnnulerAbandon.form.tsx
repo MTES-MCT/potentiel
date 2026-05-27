@@ -40,7 +40,7 @@ export const AnnulerAbandonForm = ({
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
-              {ppaSignaléLorsDeLaDemande === true && <AlerteAnnulationPPA />}
+              {ppaSignaléLorsDeLaDemande && <AlerteAnnulationPPA />}
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
           ),
