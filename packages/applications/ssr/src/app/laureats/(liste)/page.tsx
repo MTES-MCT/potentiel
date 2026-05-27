@@ -1,18 +1,17 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { redirigerPageProjet } from '@/app/_helpers/redirigerPageProjet';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -46,8 +45,8 @@ export default async function Page(props: PageProps) {
       const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
         paramsSchema.parse(searchParams);
 
-      if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
-        return redirect(Routes.Projet.details(nomProjet));
+      if (nomProjet) {
+        redirigerPageProjet(nomProjet);
       }
 
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({

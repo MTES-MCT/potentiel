@@ -36,7 +36,7 @@ export const ÉliminéListPage: FC<ÉliminéListPageProps> = ({
     legend={legend}
     totalItems={totalItems}
     ItemComponent={ÉliminéListItem}
-    search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    search={{ label: 'Rechercher par nom ou identifiant', params: 'nomProjet' }}
     items={éliminés.map((projet) => ({
       ...projet,
       key: IdentifiantProjet.bind(projet.identifiantProjet).formatter(),

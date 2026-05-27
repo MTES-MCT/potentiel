@@ -36,7 +36,7 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
     legend={legend}
     totalItems={totalItems}
     ItemComponent={CandidatureListItem}
-    search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    search={{ label: 'Rechercher par nom ou identifiant', params: 'nomProjet' }}
     items={candidatures.map((candidature) => ({
       ...candidature,
       key: IdentifiantProjet.bind(candidature.identifiantProjet).formatter(),

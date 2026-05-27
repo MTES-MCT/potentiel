@@ -41,7 +41,7 @@ export default async function CandidatureLayout({ params, children }: LayoutProp
   const { identifiant } = await params;
 
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async ({ rôle }) => {
+    withUtilisateur(async () => {
       const identifiantProjetValue = decodeParameter(identifiant);
       const { identifiantProjet, notification, dépôt, instruction } =
         await getCandidature(identifiantProjetValue);
@@ -61,7 +61,6 @@ export default async function CandidatureLayout({ params, children }: LayoutProp
                 </div>
               }
               dateDésignation={notification ? notification.notifiéeLe.formatter() : Option.none}
-              utilisateurPeutCopier={rôle.aLaPermission('projet.copierIdentifiant')}
             />
           }
         >

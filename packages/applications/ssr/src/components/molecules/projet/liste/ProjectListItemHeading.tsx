@@ -2,7 +2,7 @@ import type React from 'react';
 import type { FC } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
-import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 export type ProjectListItemHeadingProps = {
   nomProjet: string;
@@ -24,17 +24,10 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
       {prefix} <span className="font-bold mr-3">{nomProjet}</span>
     </div>
     <div className="flex gap-2">
-      <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />
+      <div className="flex items-center gap-2 italic text-xs" title="Identifiant projet">
+        {IdentifiantProjet.bind(identifiantProjet).formatterMétier()}
+      </div>
       {badgeStatutProjet && <div className="flex gap-1">{badgeStatutProjet}</div>}
     </div>
-  </div>
-);
-
-const FormattedIdentifiantProjet: FC<{
-  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-}> = ({ identifiantProjet: { appelOffre, période, famille, numéroCRE } }) => (
-  <div className="flex italic text-xs items-center" title="Identifiant projet">
-    {appelOffre}-P{période}
-    {famille ? `-F${famille}` : ''}-{numéroCRE}
   </div>
 );

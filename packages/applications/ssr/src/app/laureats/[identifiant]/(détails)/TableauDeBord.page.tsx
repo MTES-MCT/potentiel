@@ -6,6 +6,7 @@ import { AlertesTableauDeBordSection } from './(sections)/AlertesTableauDeBord.s
 import { CahierDesChargesSection } from './(sections)/CahierDesCharges.section';
 import { ChiffresClésSection } from './(sections)/ChiffresClés.section';
 import { GarantiesFinancièresSection } from './(sections)/GarantiesFinancières.section';
+import { IdentifiantProjetSection } from './(sections)/IdentifiantProjet.section';
 import { RaccordementSection } from './(sections)/Raccordement.section';
 import { ÉtapesProjetSection } from './(sections)/ÉtapesProjet.section';
 
@@ -21,6 +22,7 @@ export const TableauDeBordPage = ({ identifiantProjet }: TableauDeBordPageProps)
         <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
           <ÉtapesProjetSection identifiantProjet={identifiantProjet} />
           <RaccordementSection identifiantProjet={identifiantProjet} />
+          <IdentifiantProjetSection identifiantProjet={identifiantProjet} />
         </div>
         <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
           <ChiffresClésSection identifiantProjet={identifiantProjet} />
