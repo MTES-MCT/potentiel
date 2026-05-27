@@ -1,5 +1,5 @@
 DROP VIEW IF EXISTS domain_views.stats_projets;
-CREATE VIEW domain_views.stats_projets AS 
+CREATE VIEW domain_views.stats_projets AS
 SELECT proj.value->>'identifiantProjet' AS id,
   ao.value->>'cycleAppelOffre' as "cycleAppelOffre",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 1) as "appelOffre",
@@ -10,7 +10,7 @@ SELECT proj.value->>'identifiantProjet' AS id,
     proj.value->>'nomProjet',
     cand.value->>'nomProjet'
   ) AS "nomProjet",
-  cand.value->>'nomCandidat' AS "nomCandidat",
+  COALESCE(prod.value->>'nom', cand.value->>'nomCandidat') AS "nomCandidat",
   cand.value->>'technologieCalculée' AS "technologie",
   COALESCE(
     proj.value->>'localité.région',
@@ -68,7 +68,11 @@ FROM domain_views.projection proj
     proj.value->>'identifiantProjet'
   )
   LEFT JOIN domain_views.projection rac on rac.key = format(
-    'raccordement|%s', 
+    'raccordement|%s',
+    proj.value->>'identifiantProjet'
+  )
+  LEFT JOIN domain_views.projection prod on prod.key = format(
+    'producteur|%s',
     proj.value->>'identifiantProjet'
   )
 WHERE proj.key LIKE 'lauréat|%'
