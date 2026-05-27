@@ -106,13 +106,13 @@ export const registerListerLauréatQuery = ({
       },
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
-        nomProjet: Where.like(nomProjet),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: Where.matchAny(scope.régions) },
         statut: statut?.length ? Where.matchAny(statut) : undefined,
       },
+      search: nomProjet,
       join: [
         {
           entity: 'puissance',

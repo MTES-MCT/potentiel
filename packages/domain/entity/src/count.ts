@@ -7,6 +7,7 @@ export type CountOption<
   TJoin extends Entity | Entity[] | undefined = undefined,
 > = {
   where?: WhereOptions<Omit<TEntity, 'type'>>;
+  search?: string;
 } & JoinOptionsParams<TEntity, TJoin>;
 
 export type Count = <
