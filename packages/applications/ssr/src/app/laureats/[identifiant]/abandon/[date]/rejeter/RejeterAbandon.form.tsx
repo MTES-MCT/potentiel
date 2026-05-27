@@ -9,13 +9,18 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
+import { AlerteAnnulationPPA } from '../AlerteAnnulationPPA';
 import { type RejeterAbandonFormKeys, rejeterAbandonAction } from './rejeterAbandon.action';
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
+  ppaSignaléLorsDeLaDemande?: true;
 };
 
-export const RejeterAbandonForm = ({ identifiantProjet }: RejeterAbandonFormProps) => {
+export const RejeterAbandonForm = ({
+  identifiantProjet,
+  ppaSignaléLorsDeLaDemande,
+}: RejeterAbandonFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RejeterAbandonFormKeys>
   >({});
@@ -42,6 +47,7 @@ export const RejeterAbandonForm = ({ identifiantProjet }: RejeterAbandonFormProp
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              {ppaSignaléLorsDeLaDemande === true && <AlerteAnnulationPPA />}
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

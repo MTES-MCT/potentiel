@@ -54,12 +54,7 @@ export default async function Page(props: PageProps) {
         });
 
       const ppaDéjàSignaléParLAdministration =
-        Option.isSome(powerPurchaseAgreement) &&
-        !powerPurchaseAgreement.signaléPar.estÉgaleÀ(abandon.demande.demandéPar);
-
-      const ppaSignaléLorsDeLaDemande =
-        Option.isSome(powerPurchaseAgreement) &&
-        powerPurchaseAgreement.signaléPar.estÉgaleÀ(abandon.demande.demandéPar);
+        Option.isSome(powerPurchaseAgreement) && !abandon.demande.ppaSignalé;
 
       const historique = await mediator.send<Lauréat.Abandon.ListerHistoriqueAbandonProjetQuery>({
         type: 'Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet',
@@ -83,7 +78,6 @@ export default async function Page(props: PageProps) {
       return (
         <DétailsAbandonPage
           abandon={mapToPlainObject(abandon)}
-          ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
           ppaDéjàSignaléParLAdministration={ppaDéjàSignaléParLAdministration}
           identifiantProjet={identifiantProjet}
           actions={actions}

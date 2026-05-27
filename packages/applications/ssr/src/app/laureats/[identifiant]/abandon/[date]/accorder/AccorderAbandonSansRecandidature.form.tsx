@@ -19,7 +19,7 @@ import {
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
   ppaDéjàSignaléParLAdministration: boolean;
-  ppaSignaléLorsDeLaDemande: boolean;
+  ppaSignaléLorsDeLaDemande?: true;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
@@ -32,7 +32,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
   >({});
   const [isOpen, setIsOpen] = useState(false);
   const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] = useState(
-    ppaSignaléLorsDeLaDemande,
+    ppaSignaléLorsDeLaDemande === true,
   );
 
   return (
