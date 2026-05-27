@@ -30,7 +30,7 @@ Fonctionnalité: Modifier une attestation de conformité
         Alors le porteur devrait être informé que "L'attestation de conformité n'est pas transmise"
 
 
-    Scénario: Impossible de modifier une attestation de conformité si le rapport associé n'est pas transmis
+    Scénario: Impossible de modifier une attestation de conformité et son rapport associé si aucune attestation n'a été transmise
         Etant donné une date d'achèvement réel transmise pour le projet lauréat
         Quand le porteur modifie l'attestation de conformité avec son rapport associé
         Alors le porteur devrait être informé que "L'attestation de conformité n'est pas transmise"
