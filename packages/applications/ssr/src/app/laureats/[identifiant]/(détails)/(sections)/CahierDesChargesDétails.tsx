@@ -17,12 +17,18 @@ export const CahierDesChargesDétails = ({ value, action }: CahierDesChargesDét
     <>
       <div>
         Instruction selon le cahier des charges{' '}
-        {!value.cahierDesChargesModificatif
-          ? 'initial (en vigueur à la candidature)'
-          : `${
-              value.cahierDesChargesModificatif.alternatif ? 'alternatif' : ''
-            } modifié rétroactivement et publié le ${value.cahierDesChargesModificatif.paruLe}`}
+        <strong>
+          {!value.cahierDesChargesModificatif
+            ? 'initial (en vigueur à la candidature)'
+            : `${
+                value.cahierDesChargesModificatif.alternatif ? 'alternatif' : ''
+              } modifié rétroactivement et publié le ${value.cahierDesChargesModificatif.paruLe}`}
+        </strong>
         .
+      </div>
+      <div>
+        Appel d'offre {value.appelOffre.title}, {value.période.title} période
+        {value.famille && <>, famille {value.famille?.title}</>}.
       </div>
       <TertiaryLink
         href={value.appelOffre.cahiersDesChargesUrl}
