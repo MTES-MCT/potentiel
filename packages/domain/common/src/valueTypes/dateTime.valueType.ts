@@ -1,5 +1,5 @@
 import { UTCDate } from '@date-fns/utc';
-import { addHours, addMonths, differenceInDays, subMonths } from 'date-fns';
+import { addHours, addMilliseconds, addMonths, differenceInDays, subMonths } from 'date-fns';
 
 import {
   InvalidOperationError,
@@ -20,6 +20,7 @@ export type ValueType = ReadonlyValueType<{
   nombreJoursÉcartAvec(dateTime: ValueType): number;
   ajouterNombreDeJours(nombreDeJours: number): ValueType;
   retirerNombreDeJours(nombreDeMois: number): ValueType;
+  ajouterNombreDeMillisecondes(nombreDeMillisecondes: number): ValueType;
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
   retirerNombreDeMois(nombreDeMois: number): ValueType;
   définirHeureÀMidi(): ValueType;
@@ -85,6 +86,11 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       const nouvelleDate = new Date(this.date);
       nouvelleDate.setDate(nouvelleDate.getDate() + nombreDeJours);
       return convertirEnValueType(nouvelleDate);
+    },
+    ajouterNombreDeMillisecondes(nombreDeMillisecondes) {
+      const utcDate = new UTCDate(this.date);
+      const avecNombreDeMillisecondesAjouté = addMilliseconds(utcDate, nombreDeMillisecondes);
+      return convertirEnValueType(avecNombreDeMillisecondesAjouté);
     },
     retirerNombreDeJours(nombreDeJours) {
       return this.ajouterNombreDeJours(-nombreDeJours);
