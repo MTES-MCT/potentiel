@@ -26,7 +26,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
       actions={[]}
       items={abandons.map((abandon) => ({
         ...abandon,
-        key: abandon.identifiantProjet,
+        key: `${abandon.identifiantProjet}-${abandon.dateDemande}`,
       }))}
       currentPage={currentPage}
       totalItems={totalItems}

@@ -29,7 +29,7 @@ export const RecoursListPage: FC<RecoursListPageProps> = ({
       actions={[]}
       items={items.map((item) => ({
         ...item,
-        key: IdentifiantProjet.bind(item.identifiantProjet).formatter(),
+        key: `${IdentifiantProjet.bind(item.identifiantProjet).formatter()}-${item.dateDemande}`,
       }))}
       currentPage={currentPage}
       totalItems={total}
