@@ -7,8 +7,6 @@ import type { CustomMiddleware } from './middleware';
 
 export function withAuth(nextMiddleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {
-    // NB this does not validate the session, it merely checks for its presence.
-    // This is acceptable because session validation is performed by getSessionUser / getApiUser.
     const utilisateur = await getSessionUser(request);
     if (!utilisateur) {
       const url = new URL('/auth/signIn', request.url);
