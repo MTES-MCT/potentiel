@@ -6,7 +6,7 @@ then
   exit 0
 fi
 
-if [ -z $SENTRY_CRONS ] || [ -z $APPLICATION_STAGE ]
+if [ -z "${SENTRY_CRONS:-}" ] || [ -z "${APPLICATION_STAGE:-}" ]
 then
   echo "A monitoring variable is missing !!"
 fi
@@ -14,19 +14,17 @@ fi
 SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|s3-backup|')
 MONITORING_URL="$SENTRY_URL?environment=$APPLICATION_STAGE"
 
-if [ -z $AWS_ACCESS_KEY_ID ] || [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $S3_ENDPOINT ] || [ -z $S3_BUCKET ] || [ -z $S3_BACKUP_BUCKET ] 
+if [ -z "${AWS_ACCESS_KEY_ID:-}" ] || [ -z "${AWS_SECRET_ACCESS_KEY:-}" ] || [ -z "${S3_ENDPOINT:-}" ] || [ -z "${S3_BUCKET:-}" ] || [ -z "${S3_BACKUP_BUCKET:-}" ]
 then
     echo "An environment variable is missing !!"
     curl "${MONITORING_URL}&status=error"
     exit 1
 fi
 
+
 handle_error() {
   local message="Error on 'S3-backup' script line $1"
-  echo $message
-
-  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  local hostname=$(hostname)
+  echo "$message"
 
   curl "${MONITORING_URL}&status=error"
 
@@ -35,19 +33,18 @@ handle_error() {
 
 trap 'handle_error $LINENO' ERR
 
-echo "Installing aws cli..."
+echo "Installing rclone..."
 
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-./aws/install -i ~/aws-cli -b ~/aws-cli/bin
+curl -fsSL "https://downloads.rclone.org/rclone-current-linux-amd64.zip" -o "rclone.zip"
+unzip rclone.zip -d ./rclone
+alias rclone=$(find ./rclone -name "rclone" -type f -executable)
 
-cd ~/aws-cli/bin
+echo "Configuring rclone..."
+rclone config create prod s3 env_auth=true provider Outscale endpoint "$S3_ENDPOINT"
 
 echo "Syncing bucket..."
 
-./aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-./aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-./aws s3 sync s3://$S3_BUCKET s3://$S3_BACKUP_BUCKET --endpoint-url $S3_ENDPOINT
+rclone copy "prod:$S3_BUCKET" "prod:$S3_BACKUP_BUCKET"
 
 echo "Bucket successfully synced..."
 
