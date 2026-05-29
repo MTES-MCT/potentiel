@@ -428,7 +428,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           nativeSelectProps={{
             name: 'coefficientKChoisi',
             defaultValue: candidature.coefficientKChoisi ? 'true' : 'false',
-            required: true,
+            required: champsSupplémentaires.coefficientKChoisi.type === 'requis',
             'aria-required': true,
           }}
           disabled={champsSupplémentaires.coefficientKChoisi.type === 'défaut'}
@@ -447,14 +447,14 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             nativeInputProps={{
               name: 'numéroDAutorisation',
               defaultValue: candidature.numéroDAutorisation,
-              required: true,
+              required: champsSupplémentaires.autorisation.type === 'requis',
               'aria-required': true,
             }}
           />
           <InputDate
             name="dateDAutorisation"
             label="Date d'obtention de l'autorisation"
-            required
+            required={champsSupplémentaires.autorisation.type === 'requis' || undefined}
             defaultValue={
               candidature.dateDAutorisation &&
               DateTime.convertirEnValueType(candidature.dateDAutorisation).formatter()
