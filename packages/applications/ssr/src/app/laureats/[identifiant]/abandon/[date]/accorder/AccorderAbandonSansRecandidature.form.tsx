@@ -18,21 +18,26 @@ import {
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
-  ppaDéjàSignaléParLAdministration: boolean;
-  ppaSignaléLorsDeLaDemande: boolean;
+  ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
+  estPPA: boolean;
+  ppaSignaléLorsDeLaDemande?: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
   identifiantProjet,
-  ppaDéjàSignaléParLAdministration,
+  estPPA,
   ppaSignaléLorsDeLaDemande,
+  ppaSignaléLorsDeLaDemandeEtToujoursActif,
 }: AccorderAbandonSansRecandidatureFormProps) => {
+  const ppaDéjàSignaléParLAdministration = estPPA && !ppaSignaléLorsDeLaDemande;
+  const ppaSignaléLorsDeLaDemandePuisAnnulé = ppaSignaléLorsDeLaDemande === true && !estPPA;
+
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderAbandonSansRecandidatureFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
   const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] = useState(
-    ppaSignaléLorsDeLaDemande === true,
+    estPPA === true,
   );
 
   return (
@@ -65,10 +70,17 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 />
               ) : (
                 <>
-                  {ppaSignaléLorsDeLaDemande && (
+                  {ppaSignaléLorsDeLaDemandeEtToujoursActif && (
                     <Notice
                       title={
                         'Ce projet a été signalé en PPA par le porteur. Vous pouvez mettre à jour cette information.'
+                      }
+                    />
+                  )}
+                  {ppaSignaléLorsDeLaDemandePuisAnnulé && (
+                    <Notice
+                      title={
+                        "Ce projet a été signalé en PPA par le porteur lors de sa demande d'abandon, le signalement a ensuite été annulé par l'administration."
                       }
                     />
                   )}
@@ -78,7 +90,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                     id="choixPPAPourAutoritéCompétente"
                     label="Cet abandon est-il consécutif à la signature d'un PPA ?"
                     nativeSelectProps={{
-                      defaultValue: ppaSignaléLorsDeLaDemande ? 'true' : 'false',
+                      defaultValue: estPPA ? 'true' : 'false',
                       required: true,
                       'aria-required': true,
                       onChange: (e) => {
@@ -94,7 +106,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                     type={'hidden'}
                     value={choixPPAPourAutoritéCompétente ? 'true' : 'false'}
                     name="choixPPAPourAutoritéCompétente"
-                    disabled={choixPPAPourAutoritéCompétente === ppaSignaléLorsDeLaDemande}
+                    disabled={choixPPAPourAutoritéCompétente === estPPA}
                   />
                 </>
               )}
