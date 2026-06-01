@@ -48,7 +48,7 @@ export type DétailsAbandonPageProps = {
   historique: Array<TimelineItemProps>;
   actions: AvailableActions;
   estPPA: boolean;
-  ppaSignaléLorsDeLaDemande?: boolean;
+  ppaSignaléLorsDeLaDemande?: true;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -130,7 +130,7 @@ type MapToActionsComponentsProps = {
   projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
   dateDemande: string;
   estPPA: boolean;
-  ppaSignaléLorsDeLaDemande?: boolean;
+  ppaSignaléLorsDeLaDemande?: true;
 };
 
 const mapToActionComponents = ({
@@ -141,7 +141,7 @@ const mapToActionComponents = ({
   estPPA,
   ppaSignaléLorsDeLaDemande,
 }: MapToActionsComponentsProps) => {
-  const ppaSignaléLorsDeLaDemandeEtToujoursActif = ppaSignaléLorsDeLaDemande === true && estPPA;
+  const ppaSignaléLorsDeLaDemandeEtToujoursActif = !!ppaSignaléLorsDeLaDemande && estPPA;
 
   return (
     <ActionsList actionsListLength={actions.length}>
