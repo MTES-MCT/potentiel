@@ -9,12 +9,12 @@ import { annulerAbandonAction } from './annulerAbandon.action';
 
 type AnnulerAbandonFormProps = {
   identifiantProjet: string;
-  ppaSignaléLorsDeLaDemande?: true;
+  ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
 };
 
 export const AnnulerAbandonForm = ({
   identifiantProjet,
-  ppaSignaléLorsDeLaDemande,
+  ppaSignaléLorsDeLaDemandeEtToujoursActif,
 }: AnnulerAbandonFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,7 +40,7 @@ export const AnnulerAbandonForm = ({
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
-              {ppaSignaléLorsDeLaDemande && <AlerteAnnulationPPA />}
+              {ppaSignaléLorsDeLaDemandeEtToujoursActif && <AlerteAnnulationPPA />}
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
           ),

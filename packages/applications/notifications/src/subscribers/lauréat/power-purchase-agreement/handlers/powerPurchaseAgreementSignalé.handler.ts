@@ -13,16 +13,18 @@ export const handlePowerPurchaseAgreementSignalé = async ({
   const recipients = await getRecipients(projet.identifiantProjet, signaléPar, projet.région);
 
   if (recipients) {
-    await sendEmail({
-      key: 'lauréat/power-purchase-agreement/signaler',
-      recipients,
-      values: {
-        nom_projet: projet.nom,
-        departement_projet: projet.département,
-        url: buildUrl(Routes.Lauréat.détails.tableauDeBord(projet.identifiantProjet.formatter())),
-        appel_offre: projet.identifiantProjet.appelOffre,
-        période: projet.identifiantProjet.période,
-      },
-    });
+    for (const recipient of recipients) {
+      await sendEmail({
+        key: 'lauréat/power-purchase-agreement/signaler',
+        recipients: recipient,
+        values: {
+          nom_projet: projet.nom,
+          departement_projet: projet.département,
+          url: buildUrl(Routes.Lauréat.détails.tableauDeBord(projet.identifiantProjet.formatter())),
+          appel_offre: projet.identifiantProjet.appelOffre,
+          période: projet.identifiantProjet.période,
+        },
+      });
+    }
   }
 };
