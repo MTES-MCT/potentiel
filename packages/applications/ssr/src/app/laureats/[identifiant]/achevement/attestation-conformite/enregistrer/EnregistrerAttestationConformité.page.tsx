@@ -12,7 +12,7 @@ export const EnregistrerAttestationConformitéPage: FC<
   EnregistrerAttestationConformitéPageProps
 > = ({ identifiantProjet }) => (
   <>
-    <Heading1>Enregistrer l'attestation de conformit et la rapport du projet</Heading1>
+    <Heading1>Enregistrer l'attestation de conformité et la rapport du projet</Heading1>
     <EnregistrerAttestationConformitéForm identifiantProjet={identifiantProjet} />
   </>
 );
