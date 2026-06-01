@@ -28,15 +28,16 @@ export const getRecipients = async (
     return;
   }
 
-  const recipients = await listerDrealsRecipients(région);
+  const drealsRecipients = await listerDrealsRecipients(région);
+  const recipientsByRôle = [drealsRecipients];
 
   if (utilisateur.rôle.estPorteur()) {
     const dgecRecipients = await listerDgecRecipients(identifiantProjet);
-    recipients.push(...dgecRecipients);
+    recipientsByRôle.push(dgecRecipients);
   } else {
     const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
-    recipients.push(...porteursRecipients);
+    recipientsByRôle.push(porteursRecipients);
   }
 
-  return recipients;
+  return recipientsByRôle;
 };

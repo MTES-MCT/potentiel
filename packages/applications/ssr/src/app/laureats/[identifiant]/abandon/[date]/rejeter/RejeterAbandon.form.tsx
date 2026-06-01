@@ -14,17 +14,18 @@ import { type RejeterAbandonFormKeys, rejeterAbandonAction } from './rejeterAban
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
-  ppaSignaléLorsDeLaDemande?: true;
+  ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
 };
 
 export const RejeterAbandonForm = ({
   identifiantProjet,
-  ppaSignaléLorsDeLaDemande,
+  ppaSignaléLorsDeLaDemandeEtToujoursActif,
 }: RejeterAbandonFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RejeterAbandonFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <Button
@@ -47,7 +48,7 @@ export const RejeterAbandonForm = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              {ppaSignaléLorsDeLaDemande && <AlerteAnnulationPPA />}
+              {ppaSignaléLorsDeLaDemandeEtToujoursActif && <AlerteAnnulationPPA />}
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

@@ -47,6 +47,11 @@ Fonctionnalité: L'Administration DGEC ou DREAL annule le signalement d'un power
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
         Alors aucune tâche ou tâche planifiée raccordement n'est consultable pour le projet
 
+    Scénario: Annuler un état PPA pour un projet lauréat en cours d'abandon, ayant fait l'objet d'un signalement PPA pendant la demande d'abandon
+        Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
+        Alors l'état PPA ne devrait pas être consultable pour le projet lauréat
+
     Scénario: Impossible d'annuler un état PPA pour un projet lauréat actif non signalé comme PPA
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet n'a pas été signalé comme étant parti en PPA"

@@ -47,7 +47,8 @@ export type DétailsAbandonPageProps = {
   informations: Array<AvailableInformation>;
   historique: Array<TimelineItemProps>;
   actions: AvailableActions;
-  ppaDéjàSignaléParLAdministration: boolean;
+  estPPA: boolean;
+  ppaSignaléLorsDeLaDemande?: true;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -57,7 +58,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   informations,
   projetsÀSélectionner,
   historique,
-  ppaDéjàSignaléParLAdministration,
+  estPPA,
+  ppaSignaléLorsDeLaDemande,
 }) => (
   <ColumnPageTemplate
     heading={<Heading1>Demande d'abandon</Heading1>}
@@ -109,8 +111,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             identifiantProjet,
             projetsÀSélectionner,
             dateDemande: abandon.demande.demandéLe.date,
-            ppaDéjàSignaléParLAdministration,
-            ppaSignaléLorsDeLaDemande: abandon.demande.ppaSignalé,
+            estPPA,
+            ppaSignaléLorsDeLaDemande,
           })}
           {mapToInformationsComponents({
             informations,
@@ -127,7 +129,7 @@ type MapToActionsComponentsProps = {
   identifiantProjet: string;
   projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
   dateDemande: string;
-  ppaDéjàSignaléParLAdministration: boolean;
+  estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: true;
 };
 
@@ -136,55 +138,60 @@ const mapToActionComponents = ({
   identifiantProjet,
   projetsÀSélectionner,
   dateDemande,
-  ppaDéjàSignaléParLAdministration,
+  estPPA,
   ppaSignaléLorsDeLaDemande,
-}: MapToActionsComponentsProps) => (
-  <ActionsList actionsListLength={actions.length}>
-    {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-      <PasserAbandonEnInstructionForm
-        identifiantProjet={identifiantProjet}
-        estUneReprise={actions.includes('reprendre-instruction')}
-      />
-    )}
-    {actions.includes('demander-confirmation') && (
-      <DemanderConfirmationAbandonForm identifiantProjet={identifiantProjet} />
-    )}
-    {actions.includes('accorder-avec-recandidature') && (
-      <AccorderAbandonAvecRecandidatureForm
-        identifiantProjet={identifiantProjet}
-        dateDemande={dateDemande}
-      />
-    )}
-    {actions.includes('accorder-sans-recandidature') && (
-      <AccorderAbandonSansRecandidatureForm
-        identifiantProjet={identifiantProjet}
-        ppaDéjàSignaléParLAdministration={ppaDéjàSignaléParLAdministration}
-        ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
-      />
-    )}
-    {actions.includes('rejeter') && (
-      <RejeterAbandonForm
-        identifiantProjet={identifiantProjet}
-        ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
-      />
-    )}
-    {actions.includes('confirmer') && (
-      <ConfirmerAbandonForm identifiantProjet={identifiantProjet} />
-    )}
-    {actions.includes('transmettre-preuve-recandidature') && (
-      <TransmettrePreuveRecandidatureForm
-        identifiantProjet={identifiantProjet}
-        projetsÀSélectionner={projetsÀSélectionner}
-      />
-    )}
-    {actions.includes('annuler') && (
-      <AnnulerAbandonForm
-        identifiantProjet={identifiantProjet}
-        ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
-      />
-    )}
-  </ActionsList>
-);
+}: MapToActionsComponentsProps) => {
+  const ppaSignaléLorsDeLaDemandeEtToujoursActif = !!ppaSignaléLorsDeLaDemande && estPPA;
+
+  return (
+    <ActionsList actionsListLength={actions.length}>
+      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+        <PasserAbandonEnInstructionForm
+          identifiantProjet={identifiantProjet}
+          estUneReprise={actions.includes('reprendre-instruction')}
+        />
+      )}
+      {actions.includes('demander-confirmation') && (
+        <DemanderConfirmationAbandonForm identifiantProjet={identifiantProjet} />
+      )}
+      {actions.includes('accorder-avec-recandidature') && (
+        <AccorderAbandonAvecRecandidatureForm
+          identifiantProjet={identifiantProjet}
+          dateDemande={dateDemande}
+        />
+      )}
+      {actions.includes('accorder-sans-recandidature') && (
+        <AccorderAbandonSansRecandidatureForm
+          identifiantProjet={identifiantProjet}
+          estPPA={estPPA}
+          ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
+          ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
+        />
+      )}
+      {actions.includes('rejeter') && (
+        <RejeterAbandonForm
+          identifiantProjet={identifiantProjet}
+          ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
+        />
+      )}
+      {actions.includes('confirmer') && (
+        <ConfirmerAbandonForm identifiantProjet={identifiantProjet} />
+      )}
+      {actions.includes('transmettre-preuve-recandidature') && (
+        <TransmettrePreuveRecandidatureForm
+          identifiantProjet={identifiantProjet}
+          projetsÀSélectionner={projetsÀSélectionner}
+        />
+      )}
+      {actions.includes('annuler') && (
+        <AnnulerAbandonForm
+          identifiantProjet={identifiantProjet}
+          ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
+        />
+      )}
+    </ActionsList>
+  );
+};
 
 type MapToInformationsComponentsProps = {
   informations: Array<AvailableInformation>;

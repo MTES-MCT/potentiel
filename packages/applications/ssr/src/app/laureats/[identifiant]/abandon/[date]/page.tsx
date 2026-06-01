@@ -53,8 +53,8 @@ export default async function Page(props: PageProps) {
           },
         });
 
-      const ppaDéjàSignaléParLAdministration =
-        Option.isSome(powerPurchaseAgreement) && !abandon.demande.ppaSignalé;
+      const estPPA = Option.isSome(powerPurchaseAgreement);
+      const ppaSignaléLorsDeLaDemande = abandon.demande.ppaSignalé;
 
       const historique = await mediator.send<Lauréat.Abandon.ListerHistoriqueAbandonProjetQuery>({
         type: 'Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet',
@@ -78,7 +78,8 @@ export default async function Page(props: PageProps) {
       return (
         <DétailsAbandonPage
           abandon={mapToPlainObject(abandon)}
-          ppaDéjàSignaléParLAdministration={ppaDéjàSignaléParLAdministration}
+          estPPA={estPPA}
+          ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
           identifiantProjet={identifiantProjet}
           actions={actions}
           informations={mapToInformations({
