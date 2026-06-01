@@ -9,7 +9,7 @@ import { annulerAbandonAction } from './annulerAbandon.action';
 
 type AnnulerAbandonFormProps = {
   identifiantProjet: string;
-  ppaSignaléLorsDeLaDemande?: true;
+  ppaSignaléLorsDeLaDemande: boolean;
 };
 
 export const AnnulerAbandonForm = ({

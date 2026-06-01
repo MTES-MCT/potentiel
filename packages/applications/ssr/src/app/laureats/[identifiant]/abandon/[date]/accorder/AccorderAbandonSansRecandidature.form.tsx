@@ -19,7 +19,7 @@ import {
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
   ppaDéjàSignaléParLAdministration: boolean;
-  ppaSignaléLorsDeLaDemande?: true;
+  ppaSignaléLorsDeLaDemande: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({

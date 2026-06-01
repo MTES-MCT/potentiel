@@ -110,7 +110,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             projetsÀSélectionner,
             dateDemande: abandon.demande.demandéLe.date,
             ppaDéjàSignaléParLAdministration,
-            ppaSignaléLorsDeLaDemande: abandon.demande.ppaSignalé,
+            ppaSignaléLorsDeLaDemande: abandon.demande.ppaSignalé === true,
           })}
           {mapToInformationsComponents({
             informations,
@@ -128,7 +128,7 @@ type MapToActionsComponentsProps = {
   projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
   dateDemande: string;
   ppaDéjàSignaléParLAdministration: boolean;
-  ppaSignaléLorsDeLaDemande?: true;
+  ppaSignaléLorsDeLaDemande: boolean;
 };
 
 const mapToActionComponents = ({

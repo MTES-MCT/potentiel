@@ -14,7 +14,7 @@ import { type RejeterAbandonFormKeys, rejeterAbandonAction } from './rejeterAban
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
-  ppaSignaléLorsDeLaDemande?: true;
+  ppaSignaléLorsDeLaDemande: boolean;
 };
 
 export const RejeterAbandonForm = ({
@@ -25,6 +25,7 @@ export const RejeterAbandonForm = ({
     ValidationErrors<RejeterAbandonFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <Button
