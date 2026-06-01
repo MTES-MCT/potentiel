@@ -9,7 +9,7 @@ type DéplacerEventInconnuEnPremierProps = {
   date: DateTime.RawType;
 };
 
-export const déplacerEventInconnuEnPremier = async ({
+export const déplacerEventEnPremierEtTransformerEnNotification = async ({
   identifiantProjet,
   version,
   createdAt,

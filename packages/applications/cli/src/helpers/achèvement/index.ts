@@ -1,5 +1,6 @@
-import { déplacerEventInconnuEnPremier } from './déplacerEventInconnuEnPremier.js';
+import { déplacerEventEnPremierEtTransformerEnNotification } from './déplacerEventEnPremierEtTransformerEnNotification.js';
 import { getDonnéesCorrectes } from './getDonnéesCorrectes.js';
+import { transformerEventInconnuEnEventNotification } from './transformerEventInconnuEnEventNotification.js';
 import {
   DateAvecÉcartDeJoursTropImportantError,
   ECART_JOURS,
@@ -8,8 +9,9 @@ import {
 
 export {
   DateAvecÉcartDeJoursTropImportantError,
-  déplacerEventInconnuEnPremier,
+  déplacerEventEnPremierEtTransformerEnNotification,
   ECART_JOURS,
   getDonnéesCorrectes,
+  transformerEventInconnuEnEventNotification,
   vérifierDateAchèvementPrévisionnelDansÉcart,
 };

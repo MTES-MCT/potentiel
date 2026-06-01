@@ -8,9 +8,10 @@ import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { dbSchema } from '#helpers';
 import {
   DateAvecÉcartDeJoursTropImportantError,
-  déplacerEventInconnuEnPremier,
+  déplacerEventEnPremierEtTransformerEnNotification,
   ECART_JOURS,
   getDonnéesCorrectes,
+  transformerEventInconnuEnEventNotification,
   vérifierDateAchèvementPrévisionnelDansÉcart,
 } from '#helpers/achèvement';
 
@@ -30,35 +31,6 @@ type EventInconnu = {
   identifiantProjet: IdentifiantProjet.RawType;
   eventVersion: number;
   datePrévisionnelleExistante: DateTime.RawType;
-};
-
-type ModifierRaisonEventInconnuProps = {
-  identifiantProjet: IdentifiantProjet.RawType;
-  createdAt: DateTime.RawType;
-  date: DateTime.RawType;
-};
-const modifierRaisonEventInconnu = async ({
-  identifiantProjet,
-  createdAt,
-  date,
-}: ModifierRaisonEventInconnuProps) => {
-  await executeQuery(
-    `
-      UPDATE event_store.event_stream
-      SET
-        created_at = $2,
-        payload = jsonb_set(jsonb_set(payload, '{raison}', $3::jsonb), '{date}', $4::jsonb)
-      WHERE
-        stream_id = $1
-        AND type = 'DateAchèvementPrévisionnelCalculée-V1'
-        AND payload->>'raison' = 'inconnue'
-        AND version = 1
-    `,
-    `achevement|${identifiantProjet}`,
-    createdAt,
-    JSON.stringify('notification'),
-    JSON.stringify(date),
-  );
 };
 
 export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extends Command {
@@ -137,7 +109,11 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
           const { dateCorrecte, createdAt } = await getDonnéesCorrectes(identifiantProjet);
 
           if (eventVersion === 1) {
-            await modifierRaisonEventInconnu({ identifiantProjet, date: dateCorrecte, createdAt });
+            await transformerEventInconnuEnEventNotification({
+              identifiantProjet,
+              date: dateCorrecte,
+              createdAt,
+            });
 
             stats.succèsModification.push({ identifiantProjet });
 
@@ -153,7 +129,7 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
             throw new DateAvecÉcartDeJoursTropImportantError(identifiantProjet);
           }
 
-          await déplacerEventInconnuEnPremier({
+          await déplacerEventEnPremierEtTransformerEnNotification({
             identifiantProjet,
             version: eventVersion,
             createdAt,

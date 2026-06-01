@@ -8,7 +8,12 @@ import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
-import { ECART_JOURS, getDonnéesCorrectes } from '#helpers/achèvement';
+import {
+  déplacerEventEnPremierEtTransformerEnNotification,
+  ECART_JOURS,
+  getDonnéesCorrectes,
+  transformerEventInconnuEnEventNotification,
+} from '#helpers/achèvement';
 
 const envSchema = z.object({
   ...dbSchema.shape,
@@ -89,7 +94,7 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
           compteur++;
           process.stdout.write(`\r⏳ [${compteur}/${total}]`);
 
-          const { dateCorrecte } = await getDonnéesCorrectes(identifiantProjet);
+          const { createdAt, dateCorrecte } = await getDonnéesCorrectes(identifiantProjet);
 
           const eventStreamAvecEventsInconnu = await executeSelect<{
             version: EventInconnu['version'];
@@ -132,57 +137,54 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
             continue;
           }
 
+          /**
+           * Si 1 seule correspondance, alors on peut transformer ou déplacer l'event
+           * en fonction de son numéro de version existant
+           */
           if (correspondances.length === 1) {
+            const [{ version }] = correspondances;
+
+            if (version === 1) {
+              await transformerEventInconnuEnEventNotification({
+                identifiantProjet,
+                createdAt,
+                date: dateCorrecte,
+              });
+              continue;
+            }
+
+            await déplacerEventEnPremierEtTransformerEnNotification({
+              identifiantProjet,
+              version,
+              createdAt,
+              date: dateCorrecte,
+            });
+
+            continue;
           }
 
           /**
-           * Regroupe dans un map par date commune, exemple :
-           *
-           * [
-           *   { date: '2023-01-01', version: 3 },
-           *   { date: '2023-01-01', version: 5 },
-           *   { date: '2024-06-15', version: 7 },
-           * ]
-           * =>
-           * Map {
-           * '2023-01-01' => [{ date: '2023-01-01', version: 3 }, { date: '2023-01-01', version: 5 }],
-           * '2024-06-15' => [{ date: '2024-06-15', version: 7 }],
-           * }
-           *
-           **/
-          const eventsGroupByDate = Map.groupBy(correspondances, (e) => e.date).values();
-          const versionsÀConserver = new Set<number>();
+           * Si plusieurs correspondances sont trouvées, alors on séléctionne celle qui a
+           * le nombre d'écart de jours le plus faible, et qui a la plus petite version.
+           */
+          const plusAncienneCorrespondance = correspondances.sort(
+            (a, b) => a.écartJours - b.écartJours || a.version - b.version,
+          )[0];
 
-          for (const events of eventsGroupByDate) {
-            const plusAncien = events.sort((a, b) => a.version - b.version)[0];
-            versionsÀConserver.add(plusAncien.version);
-          }
-
-          for (const { version } of correspondances) {
-            if (!versionsÀConserver.has(version)) {
-              await executeQuery(
-                `DELETE FROM event_store.event_stream WHERE stream_id = $1 AND version = $2`,
-                `achevement|${identifiantProjet}`,
-                version,
-              );
-            }
-          }
-
-          if (versionsÀConserver.size > 1) {
-            résultats.push({
+          if (plusAncienneCorrespondance.version === 1) {
+            await transformerEventInconnuEnEventNotification({
               identifiantProjet,
-              résultat: 'match-multiple',
-              dateAttendue: dateCorrecte,
-              eventsInconnus: évènementsAvecÉcart,
+              createdAt,
+              date: dateCorrecte,
             });
             continue;
           }
 
-          résultats.push({
+          await déplacerEventEnPremierEtTransformerEnNotification({
             identifiantProjet,
-            résultat: 'match-unique',
-            dateAttendue: dateCorrecte,
-            eventsInconnus: évènementsAvecÉcart,
+            version: plusAncienneCorrespondance.version,
+            createdAt,
+            date: dateCorrecte,
           });
         } catch (error) {
           résultats.push({
@@ -219,7 +221,7 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
         console.info(`\n📄 Rapport des match multiple écrit dans ${FICHIER_RAPPORT_AUCUN_MATCH}`);
       }
       if (erreurs.length) {
-        await writeFile(FICHIER_RAPPORT_ERREUR, JSON.stringify(matchMultiple, null, 2), 'utf-8');
+        await writeFile(FICHIER_RAPPORT_ERREUR, JSON.stringify(erreurs, null, 2), 'utf-8');
         console.info(`\n📄 Rapport des erreurs écrit dans ${FICHIER_RAPPORT_ERREUR}`);
       }
     } finally {
