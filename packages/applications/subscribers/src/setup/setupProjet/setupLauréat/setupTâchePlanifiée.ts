@@ -4,11 +4,11 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupTâchePlanifiée = async () => {
+export const setupTâchePlanifiée = () => {
   const tâchePlanifiée = createSubscriptionSetup('tâche-planifiée');
 
   TâchePlanifiéeProjector.register();
-  await tâchePlanifiée.setupSubscription<
+  tâchePlanifiée.addSubscription<
     TâchePlanifiéeProjector.SubscriptionEvent,
     TâchePlanifiéeProjector.Execute
   >({
@@ -23,7 +23,7 @@ export const setupTâchePlanifiée = async () => {
   });
 
   TâchePlanifiéeNotification.register();
-  await tâchePlanifiée.setupSubscription<
+  tâchePlanifiée.addSubscription<
     TâchePlanifiéeNotification.SubscriptionEvent,
     TâchePlanifiéeNotification.Execute
   >({
@@ -32,7 +32,7 @@ export const setupTâchePlanifiée = async () => {
     messageType: 'System.Notification.TâchePlanifiée',
   });
 
-  await tâchePlanifiée.setupSubscription<
+  tâchePlanifiée.addSubscription<
     Lauréat.ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent,
     Lauréat.ReprésentantLégal.ReprésentantLégalSaga.Execute
   >({
@@ -41,7 +41,7 @@ export const setupTâchePlanifiée = async () => {
     messageType: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
   });
 
-  await tâchePlanifiée.setupSubscription<
+  tâchePlanifiée.addSubscription<
     Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent,
     Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.Execute
   >({
@@ -50,7 +50,7 @@ export const setupTâchePlanifiée = async () => {
     messageType: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
   });
 
-  await tâchePlanifiée.setupSubscription<
+  tâchePlanifiée.addSubscription<
     Lauréat.Raccordement.RaccordementSaga.SubscriptionEvent,
     Lauréat.Raccordement.RaccordementSaga.Execute
   >({
@@ -59,5 +59,5 @@ export const setupTâchePlanifiée = async () => {
     messageType: 'System.Lauréat.Raccordement.Saga.Execute',
   });
 
-  return tâchePlanifiée.clearSubscriptions;
+  return tâchePlanifiée;
 };

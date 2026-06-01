@@ -8,7 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import type { SetupProjet } from '../setup.js';
 
-export const setupGarantiesFinancières: SetupProjet = async ({
+export const setupGarantiesFinancières: SetupProjet = ({
   récupererConstitutionGarantiesFinancières,
 }) => {
   const garantiesFinancières = createSubscriptionSetup('garanties-financieres');
@@ -17,7 +17,7 @@ export const setupGarantiesFinancières: SetupProjet = async ({
   });
 
   GarantiesFinancièreProjector.register();
-  await garantiesFinancières.setupSubscription<
+  garantiesFinancières.addSubscription<
     GarantiesFinancièreProjector.SubscriptionEvent,
     GarantiesFinancièreProjector.Execute
   >({
@@ -48,7 +48,7 @@ export const setupGarantiesFinancières: SetupProjet = async ({
   });
 
   GarantiesFinancièresNotification.register();
-  await garantiesFinancières.setupSubscription<
+  garantiesFinancières.addSubscription<
     GarantiesFinancièresNotification.SubscriptionEvent,
     GarantiesFinancièresNotification.Execute
   >({
@@ -73,7 +73,7 @@ export const setupGarantiesFinancières: SetupProjet = async ({
     messageType: 'System.Notification.Lauréat.GarantiesFinancières',
   });
 
-  await garantiesFinancières.setupSubscription<
+  garantiesFinancières.addSubscription<
     HistoriqueProjector.SubscriptionEvent,
     HistoriqueProjector.Execute
   >({
@@ -82,5 +82,5 @@ export const setupGarantiesFinancières: SetupProjet = async ({
     messageType: 'System.Projector.Historique',
   });
 
-  return garantiesFinancières.clearSubscriptions;
+  return garantiesFinancières;
 };

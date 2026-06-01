@@ -1,5 +1,12 @@
 import { HistoriqueProjector } from '@potentiel-applications/projectors';
 
-export const setupHistorique = () => {
+import type { SubscriberSetup } from './createSubscriptionSetup.js';
+
+export const setupHistorique = (): SubscriberSetup => {
   HistoriqueProjector.register();
+  return {
+    setupSubscriptions: async () => {},
+    clearSubscriptions: async () => {},
+    listSubscriptions: () => [],
+  };
 };

@@ -3,14 +3,11 @@ import { AchèvementProjector, type HistoriqueProjector } from '@potentiel-appli
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupAchèvement = async () => {
+export const setupAchèvement = () => {
   const achèvement = createSubscriptionSetup('achevement');
 
   AchèvementProjector.register();
-  await achèvement.setupSubscription<
-    AchèvementProjector.SubscriptionEvent,
-    AchèvementProjector.Execute
-  >({
+  achèvement.addSubscription<AchèvementProjector.SubscriptionEvent, AchèvementProjector.Execute>({
     name: 'projector',
     eventType: [
       'AttestationConformitéTransmise-V1',
@@ -29,7 +26,7 @@ export const setupAchèvement = async () => {
   });
 
   AchèvementNotification.register();
-  await achèvement.setupSubscription<
+  achèvement.addSubscription<
     AchèvementNotification.SubscriptionEvent,
     AchèvementNotification.Execute
   >({
@@ -43,14 +40,11 @@ export const setupAchèvement = async () => {
     messageType: 'System.Notification.Lauréat.Achèvement',
   });
 
-  await achèvement.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  achèvement.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  return achèvement.clearSubscriptions;
+  return achèvement;
 };

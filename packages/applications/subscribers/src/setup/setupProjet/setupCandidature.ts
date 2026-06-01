@@ -2,38 +2,36 @@ import { AttestationSaga } from '@potentiel-applications/document-builder';
 import { CandidatureNotification } from '@potentiel-applications/notifications';
 import { CandidatureProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 import type { ProjetSaga } from '@potentiel-domain/projet';
-import type { Unsubscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
+import { createSubscriptionSetup, type SubscriberSetup } from '../createSubscriptionSetup.js';
 
-type SetupCandidature = () => Promise<Unsubscribe>;
+type SetupCandidature = () => SubscriberSetup;
 
-export const setupCandidature: SetupCandidature = async () => {
+export const setupCandidature: SetupCandidature = () => {
   const candidature = createSubscriptionSetup('candidature');
 
   CandidatureProjector.register();
-  await candidature.setupSubscription<
-    CandidatureProjector.SubscriptionEvent,
-    CandidatureProjector.Execute
-  >({
-    name: 'projector',
-    eventType: [
-      'RebuildTriggered',
-      'DétailsFournisseursCandidatureImportés-V1',
-      'DétailCandidatureImporté-V1',
-      'CandidatureImportée-V1',
-      'CandidatureImportée-V2',
-      'CandidatureCorrigée-V1',
-      'CandidatureCorrigée-V2',
-      'CandidatureNotifiée-V1',
-      'CandidatureNotifiée-V2',
-      'CandidatureNotifiée-V3',
-    ],
-    messageType: 'System.Projector.Candidature',
-  });
+  candidature.addSubscription<CandidatureProjector.SubscriptionEvent, CandidatureProjector.Execute>(
+    {
+      name: 'projector',
+      eventType: [
+        'RebuildTriggered',
+        'DétailsFournisseursCandidatureImportés-V1',
+        'DétailCandidatureImporté-V1',
+        'CandidatureImportée-V1',
+        'CandidatureImportée-V2',
+        'CandidatureCorrigée-V1',
+        'CandidatureCorrigée-V2',
+        'CandidatureNotifiée-V1',
+        'CandidatureNotifiée-V2',
+        'CandidatureNotifiée-V3',
+      ],
+      messageType: 'System.Projector.Candidature',
+    },
+  );
 
   CandidatureNotification.register();
-  await candidature.setupSubscription<
+  candidature.addSubscription<
     CandidatureNotification.SubscriptionEvent,
     CandidatureNotification.Execute
   >({
@@ -43,27 +41,24 @@ export const setupCandidature: SetupCandidature = async () => {
   });
 
   AttestationSaga.register();
-  await candidature.setupSubscription<AttestationSaga.SubscriptionEvent, AttestationSaga.Execute>({
+  candidature.addSubscription<AttestationSaga.SubscriptionEvent, AttestationSaga.Execute>({
     name: 'attestation-saga',
     eventType: ['CandidatureNotifiée-V3', 'CandidatureCorrigée-V2'],
     messageType: 'System.Candidature.Attestation.Saga.Execute',
     maxConcurrency: 5,
   });
 
-  await candidature.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  candidature.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  await candidature.setupSubscription<ProjetSaga.SubscriptionEvent, ProjetSaga.Execute>({
+  candidature.addSubscription<ProjetSaga.SubscriptionEvent, ProjetSaga.Execute>({
     name: 'projet-candidature-saga',
     eventType: ['CandidatureNotifiée-V3'],
     messageType: 'System.Projet.Saga.Execute',
   });
 
-  return candidature.clearSubscriptions;
+  return candidature;
 };

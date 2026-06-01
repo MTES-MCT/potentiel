@@ -1,42 +1,33 @@
 import { ÉliminéNotification } from '@potentiel-applications/notifications';
 import { type HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 
-import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
+import { createSubscriptionSetup, mergeSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { setupRecours } from './setupRecours.js';
 
-export const setupÉliminé = async () => {
+export const setupÉliminé = () => {
   const éliminé = createSubscriptionSetup('éliminé');
 
   ÉliminéProjector.register();
-  await éliminé.setupSubscription<ÉliminéProjector.SubscriptionEvent, ÉliminéProjector.Execute>({
+  éliminé.addSubscription<ÉliminéProjector.SubscriptionEvent, ÉliminéProjector.Execute>({
     name: 'projector',
     eventType: ['ÉliminéNotifié-V1', 'ÉliminéArchivé-V1', 'RebuildTriggered'],
     messageType: 'System.Projector.Eliminé',
   });
 
   ÉliminéNotification.register();
-  await éliminé.setupSubscription<
-    ÉliminéNotification.SubscriptionEvent,
-    ÉliminéNotification.Execute
-  >({
+  éliminé.addSubscription<ÉliminéNotification.SubscriptionEvent, ÉliminéNotification.Execute>({
     name: 'notifications',
     eventType: ['ÉliminéNotifié-V1'],
     messageType: 'System.Notification.Éliminé',
   });
 
-  await éliminé.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  éliminé.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  const unsubscribeRecours = await setupRecours();
+  const recours = setupRecours();
 
-  return async () => {
-    await éliminé.clearSubscriptions();
-    await unsubscribeRecours();
-  };
+  return mergeSubscriptionSetup(éliminé, recours);
 };

@@ -3,30 +3,29 @@ import { UtilisateurProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 
-export const setupUtilisateur = async () => {
+export const setupUtilisateur = () => {
   const utilisateur = createSubscriptionSetup('utilisateur');
 
   UtilisateurProjector.register();
-  await utilisateur.setupSubscription<
-    UtilisateurProjector.SubscriptionEvent,
-    UtilisateurProjector.Execute
-  >({
-    name: 'projector',
-    eventType: [
-      'RebuildTriggered',
-      'UtilisateurInvité-V1',
-      'UtilisateurInvité-V2',
-      'PorteurInvité-V1',
-      'UtilisateurDésactivé-V1',
-      'UtilisateurRéactivé-V1',
-      'RôleUtilisateurModifié-V1',
-    ],
-    messageType: 'System.Projector.Utilisateur',
-  });
+  utilisateur.addSubscription<UtilisateurProjector.SubscriptionEvent, UtilisateurProjector.Execute>(
+    {
+      name: 'projector',
+      eventType: [
+        'RebuildTriggered',
+        'UtilisateurInvité-V1',
+        'UtilisateurInvité-V2',
+        'PorteurInvité-V1',
+        'UtilisateurDésactivé-V1',
+        'UtilisateurRéactivé-V1',
+        'RôleUtilisateurModifié-V1',
+      ],
+      messageType: 'System.Projector.Utilisateur',
+    },
+  );
 
   UtilisateurNotification.register();
 
-  await utilisateur.setupSubscription<
+  utilisateur.addSubscription<
     UtilisateurNotification.SubscriptionEvent,
     UtilisateurNotification.Execute
   >({
@@ -35,5 +34,5 @@ export const setupUtilisateur = async () => {
     messageType: 'System.Notification.Utilisateur',
   });
 
-  return utilisateur.clearSubscriptions;
+  return utilisateur;
 };

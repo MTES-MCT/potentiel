@@ -7,14 +7,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import type { SetupProjet } from '../setup.js';
 
-export const setupRaccordement: SetupProjet = async (dependencies) => {
+export const setupRaccordement: SetupProjet = (dependencies) => {
   const raccordement = createSubscriptionSetup('raccordement');
 
   Lauréat.Raccordement.RaccordementSaga.register(dependencies);
 
   RaccordementProjector.register();
 
-  await raccordement.setupSubscription<
+  raccordement.addSubscription<
     RaccordementProjector.SubscriptionEvent,
     RaccordementProjector.Execute
   >({
@@ -55,14 +55,11 @@ export const setupRaccordement: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Lauréat.Raccordement',
   });
 
-  await raccordement.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  raccordement.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  return raccordement.clearSubscriptions;
+  return raccordement;
 };

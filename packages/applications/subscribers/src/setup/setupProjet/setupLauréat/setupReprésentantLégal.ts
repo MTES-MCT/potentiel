@@ -7,13 +7,13 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupReprésentantLégal = async () => {
+export const setupReprésentantLégal = () => {
   const représentantLégal = createSubscriptionSetup('représentant-légal');
 
   Lauréat.ReprésentantLégal.ReprésentantLégalSaga.register();
 
   ReprésentantLégalProjector.register();
-  await représentantLégal.setupSubscription<
+  représentantLégal.addSubscription<
     ReprésentantLégalProjector.SubscriptionEvent,
     ReprésentantLégalProjector.Execute
   >({
@@ -34,7 +34,7 @@ export const setupReprésentantLégal = async () => {
   });
 
   ReprésentantLégalNotification.register();
-  await représentantLégal.setupSubscription<
+  représentantLégal.addSubscription<
     ReprésentantLégalNotification.SubscriptionEvent,
     ReprésentantLégalNotification.Execute
   >({
@@ -51,7 +51,7 @@ export const setupReprésentantLégal = async () => {
     messageType: 'System.Notification.Lauréat.ReprésentantLégal',
   });
 
-  await représentantLégal.setupSubscription<
+  représentantLégal.addSubscription<
     HistoriqueProjector.SubscriptionEvent,
     HistoriqueProjector.Execute
   >({
@@ -60,5 +60,5 @@ export const setupReprésentantLégal = async () => {
     messageType: 'System.Projector.Historique',
   });
 
-  return représentantLégal.clearSubscriptions;
+  return représentantLégal;
 };

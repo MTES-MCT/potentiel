@@ -22,7 +22,18 @@ const getGlobalPolicy = () => {
 
 export const createSubscriptionSetup = <TCategory extends string>(streamCategory: TCategory) => {
   const listeners: (() => Promise<void>)[] = [];
-  const setupSubscription = async <
+  type SubscriptionOptions<TEvent extends DomainEvent, TMessage extends Message<string, TEvent>> = {
+    messageType: TMessage['type'];
+    eventType: Subscriber<TEvent>['eventType'];
+    name: 'projector' | 'history' | 'notifications' | `${string}-saga`;
+    maxConcurrency?: number;
+  };
+
+  const subscriptions: (SubscriptionOptions<DomainEvent, Message<string, DomainEvent>> & {
+    streamCategory: string;
+  })[] = [];
+
+  const addSubscription = async <
     TEvent extends DomainEvent,
     TMessage extends Message<string, TEvent>,
   >({
@@ -30,33 +41,8 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
     eventType,
     name,
     maxConcurrency,
-  }: {
-    messageType: TMessage['type'];
-    eventType: Subscriber<TEvent>['eventType'];
-    name: 'projector' | 'history' | 'notifications' | 'historique' | `${string}-saga`;
-    maxConcurrency?: number;
-  }): Promise<void> => {
-    const policy = maxConcurrency
-      ? wrap(bulkhead(maxConcurrency, Infinity), getGlobalPolicy())
-      : getGlobalPolicy();
-    const unsubscribe = await subscribe<TEvent>({
-      name,
-      eventType,
-      eventHandler: (event) =>
-        policy.execute(async () =>
-          runWorkerWithContext({
-            app: 'subscribers',
-            callback: async () => {
-              await mediator.send<Message<TMessage['type'], TMessage['data']>>({
-                type: messageType,
-                data: event,
-              });
-            },
-          }),
-        ),
-      streamCategory,
-    });
-    listeners.push(unsubscribe);
+  }: SubscriptionOptions<TEvent, TMessage>): Promise<void> => {
+    subscriptions.push({ messageType, eventType, name, maxConcurrency, streamCategory });
   };
 
   const clearSubscriptions = async () => {
@@ -65,8 +51,52 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
     }
   };
 
+  const setupSubscriptions = async () => {
+    for (const { messageType, eventType, name, maxConcurrency, streamCategory } of subscriptions) {
+      const policy = maxConcurrency
+        ? wrap(bulkhead(maxConcurrency, Infinity), getGlobalPolicy())
+        : getGlobalPolicy();
+      const unsubscribe = await subscribe({
+        name,
+        eventType,
+        eventHandler: (event) =>
+          policy.execute(async () =>
+            runWorkerWithContext({
+              app: 'subscribers',
+              callback: async () => {
+                await mediator.send({ type: messageType, data: event });
+              },
+            }),
+          ),
+        streamCategory,
+      });
+      listeners.push(unsubscribe);
+    }
+  };
+  const listSubscriptions = () => subscriptions;
+
   return {
-    setupSubscription,
+    addSubscription,
     clearSubscriptions,
+    setupSubscriptions,
+    listSubscriptions,
+  };
+};
+
+export type SubscriberSetup = Omit<ReturnType<typeof createSubscriptionSetup>, 'addSubscription'>;
+
+export const mergeSubscriptionSetup = (...subscriptions: SubscriberSetup[]): SubscriberSetup => {
+  return {
+    clearSubscriptions: async () => {
+      for (const subscription of subscriptions) {
+        await subscription.clearSubscriptions();
+      }
+    },
+    setupSubscriptions: async () => {
+      for (const subscription of subscriptions) {
+        await subscription.setupSubscriptions();
+      }
+    },
+    listSubscriptions: () => subscriptions.flatMap((s) => s.listSubscriptions()),
   };
 };

@@ -1,7 +1,7 @@
-import { seedAppelOffre, seedPériodes } from '@potentiel-applications/projectors';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
+import { mergeSubscriptionSetup } from './createSubscriptionSetup.js';
 import { setupHistorique } from './setupHistorique.js';
 import { setupProjet } from './setupProjet/index.js';
 import { setupPériode } from './setupPériode.js';
@@ -18,25 +18,17 @@ export type SetupSubscribersProps = {
   dependencies?: Partial<typeof defaultDependencies>;
 };
 
-export const setupSubscribers = async ({ dependencies }: SetupSubscribersProps) => {
+export const setupSubscribers = ({ dependencies }: SetupSubscribersProps) => {
   const allDependencies = {
     ...defaultDependencies,
     ...dependencies,
   };
 
-  await seedAppelOffre();
-  await seedPériodes();
+  const historique = setupHistorique();
+  const projet = setupProjet(allDependencies);
+  const utilisateur = setupUtilisateur();
+  const période = setupPériode();
+  const réseau = setupRéseau();
 
-  setupHistorique();
-  const unsetupProjet = await setupProjet(allDependencies);
-  const unsetupUtilisateur = await setupUtilisateur();
-  const unsetupPériode = await setupPériode();
-  const unsetupRéseau = await setupRéseau();
-
-  return async () => {
-    await unsetupRéseau();
-    await unsetupPériode();
-    await unsetupUtilisateur();
-    await unsetupProjet();
-  };
+  return mergeSubscriptionSetup(historique, projet, utilisateur, période, réseau);
 };

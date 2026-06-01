@@ -3,11 +3,11 @@ import { DélaiProjector, type HistoriqueProjector } from '@potentiel-applicatio
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupDélai = async () => {
+export const setupDélai = () => {
   const délai = createSubscriptionSetup('délai');
 
   DélaiProjector.registerDélaiProjectors();
-  await délai.setupSubscription<DélaiProjector.SubscriptionEvent, DélaiProjector.Execute>({
+  délai.addSubscription<DélaiProjector.SubscriptionEvent, DélaiProjector.Execute>({
     name: 'projector',
     eventType: [
       'RebuildTriggered',
@@ -23,7 +23,7 @@ export const setupDélai = async () => {
   });
 
   DélaiNotification.registerDélaiNotifications();
-  await délai.setupSubscription<DélaiNotification.SubscriptionEvent, DélaiNotification.Execute>({
+  délai.addSubscription<DélaiNotification.SubscriptionEvent, DélaiNotification.Execute>({
     name: 'notifications',
     eventType: [
       'DélaiDemandé-V1',
@@ -36,9 +36,11 @@ export const setupDélai = async () => {
     messageType: 'System.Notification.Lauréat.Délai',
   });
 
-  await délai.setupSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>(
-    { name: 'history', eventType: 'all', messageType: 'System.Projector.Historique' },
-  );
+  délai.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
+  });
 
-  return délai.clearSubscriptions;
+  return délai;
 };

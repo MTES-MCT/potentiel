@@ -4,11 +4,11 @@ import type { UtilisateurSaga } from '@potentiel-domain/utilisateur';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 
-export const setupAccès = async () => {
+export const setupAccès = () => {
   const accès = createSubscriptionSetup('accès');
 
   AccèsProjector.register();
-  await accès.setupSubscription<AccèsProjector.SubscriptionEvent, AccèsProjector.Execute>({
+  accès.addSubscription<AccèsProjector.SubscriptionEvent, AccèsProjector.Execute>({
     name: 'projector',
     eventType: [
       'RebuildTriggered',
@@ -20,17 +20,17 @@ export const setupAccès = async () => {
   });
 
   AccèsNotification.register();
-  await accès.setupSubscription<AccèsNotification.SubscriptionEvent, AccèsNotification.Execute>({
+  accès.addSubscription<AccèsNotification.SubscriptionEvent, AccèsNotification.Execute>({
     name: 'notifications',
     eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
     messageType: 'System.Notification.Accès',
   });
 
-  await accès.setupSubscription<UtilisateurSaga.SubscriptionEvent, UtilisateurSaga.Execute>({
+  accès.addSubscription<UtilisateurSaga.SubscriptionEvent, UtilisateurSaga.Execute>({
     name: 'utilisateur-acces-saga',
     eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRemplacé-V1'],
     messageType: 'System.Utilisateur.Saga.Execute',
   });
 
-  return accès.clearSubscriptions;
+  return accès;
 };

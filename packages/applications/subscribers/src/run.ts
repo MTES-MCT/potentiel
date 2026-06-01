@@ -25,7 +25,8 @@ const main = async () => {
     middlewares: [logMiddleware],
   });
 
-  const unlisten = await startSubscribers({});
+  const subscribers = startSubscribers({});
+  await subscribers.setupSubscriptions();
 
   const danglingSubscribers = await listDanglingSubscribers();
   if (danglingSubscribers.length > 0) {
@@ -38,7 +39,7 @@ const main = async () => {
 
   process.on('SIGTERM', async () => {
     logger.info('Gracefully shutting down...');
-    await unlisten();
+    await subscribers.clearSubscriptions();
     await killPool();
     logger.info('Shut down complete.');
   });

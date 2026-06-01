@@ -2,11 +2,11 @@ import { TâcheProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupTâche = async () => {
+export const setupTâche = () => {
   const tâche = createSubscriptionSetup('tâche');
 
   TâcheProjector.register();
-  await tâche.setupSubscription<TâcheProjector.SubscriptionEvent, TâcheProjector.Execute>({
+  tâche.addSubscription<TâcheProjector.SubscriptionEvent, TâcheProjector.Execute>({
     name: 'projector',
     eventType: [
       'RebuildTriggered',
@@ -17,5 +17,5 @@ export const setupTâche = async () => {
     ],
     messageType: 'System.Projector.Tâche',
   });
-  return tâche.clearSubscriptions;
+  return tâche;
 };
