@@ -153,7 +153,9 @@ const mapBodyToUseCaseData = (
       })),
       numéroIdentification: data.siret
         ? { siret: data.siret, siren: data.siret.slice(0, 9) }
-        : previous.dépôt.numéroIdentification,
+        : data.siret === undefined
+          ? previous.dépôt.numéroIdentification
+          : undefined,
     },
 
     détailsValue: undefined,
