@@ -68,7 +68,7 @@ const getAchèvementData = async (
       if (Option.isNone(achèvement.attestation)) {
         actions.push({
           permission: 'achèvement.enregistrerAttestation',
-          label: "Enregistrer l'attestation de conformité",
+          label: "Enregistrer l'attestation de conformité et le rapport",
           url: Routes.Achèvement.enregistrerAttestationConformité(identifiantProjet),
         });
       } else {

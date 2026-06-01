@@ -1,3 +1,5 @@
+import Notice from '@codegouvfr/react-dsfr/Notice';
+
 import { Routes } from '@potentiel-applications/routes';
 import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, type Lauréat } from '@potentiel-domain/projet';
@@ -24,7 +26,12 @@ export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps
             small
           />
         ) : (
-          <span>L'attestation de conformité n'a pas été transmise</span>
+          <Notice
+            description="L'attestation de conformité reste à transmettre"
+            title=""
+            severity="info"
+            className="print:hidden"
+          />
         )}
         {Option.isSome(value.rapportAssocié) ? (
           <DownloadDocument
@@ -35,7 +42,12 @@ export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps
             small
           />
         ) : (
-          <span>Le rapport associé n'a pas été transmis</span>
+          <Notice
+            description="Le rapport associé à l'attestation de conformité reste à transmettre."
+            title=""
+            severity="info"
+            className="print:hidden"
+          />
         )}
         {Option.isSome(value.preuveTransmissionAuCocontractant) && (
           <DownloadDocument
