@@ -11,7 +11,9 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { EnregistrerAttestationConformitéPage } from './EnregistrerAttestationConformité.page';
 
-export const metadata: Metadata = { title: `Enregistrer l'attestation de conformité` };
+export const metadata: Metadata = {
+  title: `Enregistrer l'attestation de conformité et le rapport`,
+};
 
 export default async function Page({ params }: IdentifiantParameter) {
   const { identifiant } = await params;

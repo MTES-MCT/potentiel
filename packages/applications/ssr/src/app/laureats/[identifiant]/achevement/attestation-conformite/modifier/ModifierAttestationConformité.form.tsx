@@ -22,8 +22,8 @@ export type ModifierAttestationConformitéFormProps = {
 };
 
 type DocumentModifiéState = {
-  attestation: boolean;
-  rapportAssocie: boolean;
+  attestation: boolean | undefined;
+  rapportAssocie: boolean | undefined;
 };
 
 export const ModifierAttestationConformitéForm = ({
@@ -36,11 +36,22 @@ export const ModifierAttestationConformitéForm = ({
   >({});
 
   const [documentModifié, setDocumentModifié] = useState<DocumentModifiéState>({
-    attestation: false,
-    rapportAssocie: false,
+    attestation: undefined,
+    rapportAssocie: undefined,
   });
 
-  const auMoinsUnDocumentModifié = documentModifié.attestation || documentModifié.rapportAssocie;
+  const shouldDisableButton = () => {
+    const attestationValide =
+      documentModifié.attestation === undefined
+        ? !!attestationConformité
+        : documentModifié.attestation;
+    const rapportValide =
+      documentModifié.rapportAssocie === undefined
+        ? !!rapportAssocié
+        : documentModifié.rapportAssocie;
+
+    return !attestationValide || !rapportValide;
+  };
 
   return (
     <Form
@@ -48,7 +59,7 @@ export const ModifierAttestationConformitéForm = ({
       onValidationError={setValidationErrors}
       actionButtons={{
         submitLabel: 'Modifier',
-        submitDisabled: !auMoinsUnDocumentModifié,
+        submitDisabled: shouldDisableButton(),
         secondaryAction: {
           type: 'back',
         },

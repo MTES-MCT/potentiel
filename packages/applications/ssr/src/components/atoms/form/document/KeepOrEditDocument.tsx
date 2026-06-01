@@ -74,7 +74,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
             checked: documentSelection === 'keep_existing_document',
             onChange: () => {
               setDocumentSelection('keep_existing_document');
-              onChange?.([]);
+              onChange?.(documentKeys);
             },
             value: 'keep_existing_document',
             disabled: noExistingDocument,
@@ -101,7 +101,10 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
           ),
           nativeInputProps: {
             checked: documentSelection === 'edit_document',
-            onChange: () => setDocumentSelection('edit_document'),
+            onChange: () => {
+              setDocumentSelection('edit_document');
+              onChange?.([]);
+            },
             value: 'edit_document',
           },
         },

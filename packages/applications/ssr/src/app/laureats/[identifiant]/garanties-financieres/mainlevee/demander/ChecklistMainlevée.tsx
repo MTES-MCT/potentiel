@@ -37,9 +37,9 @@ const prérequisMainlevée = {
     },
   },
   attestationConformitéTransmise: {
-    label: "L'attestation de conformité est transmise dans Potentiel",
+    label: "L'attestation de conformité et le rapport sont transmis transmise dans Potentiel",
     action: {
-      label: `Enregistrer l'attestation de conformité`,
+      label: `Enregistrer l'attestation de conformité et le rapport`,
       lien: Routes.Achèvement.enregistrerAttestationConformité,
     },
   },
