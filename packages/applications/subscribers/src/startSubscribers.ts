@@ -7,12 +7,14 @@ import { type SetupSubscribersProps, setupSubscribers } from './setup/index.js';
 
 export type StartSubscribersProps = SetupSubscribersProps;
 
-export const startSubscribers = ({ dependencies }: StartSubscribersProps) => {
+export const startSubscribers = async ({ dependencies }: StartSubscribersProps) => {
   mediator.use({ middlewares: [logMiddleware] });
 
-  const unsetup = setupSubscribers({ dependencies });
+  const subscribers = setupSubscribers({ dependencies });
+
+  await subscribers.setupSubscriptions();
 
   getLogger('subscribers').info('Subscribers started');
 
-  return unsetup;
+  return subscribers.clearSubscriptions;
 };
