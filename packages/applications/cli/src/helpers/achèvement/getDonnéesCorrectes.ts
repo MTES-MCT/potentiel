@@ -6,11 +6,12 @@ export const getDonnéesCorrectes = async (identifiantProjet: IdentifiantProjet.
     IdentifiantProjet.convertirEnValueType(identifiantProjet),
   );
 
-  const dateCorrecte = await projet.lauréat.achèvement.getDateAchèvementPrévisionnelCalculée({
-    type: 'notification',
-  });
+  const datePrévisionnelleCorrecte =
+    await projet.lauréat.achèvement.getDateAchèvementPrévisionnelCalculée({
+      type: 'notification',
+    });
 
   const createdAt = projet.lauréat.notifiéLe.ajouterNombreDeMillisecondes(500).formatter();
 
-  return { dateCorrecte, createdAt };
+  return { datePrévisionnelleCorrecte, createdAt };
 };

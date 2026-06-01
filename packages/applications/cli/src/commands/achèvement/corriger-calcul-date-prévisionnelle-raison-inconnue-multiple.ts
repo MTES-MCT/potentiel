@@ -33,18 +33,18 @@ type EventInconnu = {
 
 type LigneSuccès = {
   identifiantProjet: IdentifiantProjet.RawType;
-  versionSource: number;
-  datePrévisionnelleChoisie: DateTime.RawType;
-  dateCorrecte: DateTime.RawType;
+  eventVersion: number;
+  datePrévisionnelleCorrecte: DateTime.RawType;
+  datePrévisionnelleActuelle: DateTime.RawType;
   écartJours: number;
   opération: 'transformation' | 'déplacement + transformation';
 };
 
 type LigneAucunMatch = {
   identifiantProjet: IdentifiantProjet.RawType;
-  dateCorrecte: string;
+  datePrévisionnelleCorrecte: DateTime.RawType;
+  datePrévisionnelleActuelle: DateTime.RawType;
   eventVersion: number;
-  datePrévisionnelleCandidat: DateTime.RawType;
   écartJours: number;
 };
 
@@ -110,7 +110,8 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
           compteur++;
           process.stdout.write(`\r⏳ [${compteur}/${total}]`);
 
-          const { createdAt, dateCorrecte } = await getDonnéesCorrectes(identifiantProjet);
+          const { createdAt, datePrévisionnelleCorrecte } =
+            await getDonnéesCorrectes(identifiantProjet);
 
           const eventStreamAvecEventsInconnu = await executeSelect<{
             version: EventInconnu['version'];
@@ -133,7 +134,7 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
           const évènementsAvecÉcart: EventInconnu[] = eventStreamAvecEventsInconnu.map(
             ({ version, date }) => {
               const écartJours = DateTime.convertirEnValueType(date).nombreJoursÉcartAvec(
-                DateTime.convertirEnValueType(dateCorrecte),
+                DateTime.convertirEnValueType(datePrévisionnelleCorrecte),
               );
               return { version, date, écartJours, correspondance: écartJours <= ECART_JOURS };
             },
@@ -147,9 +148,9 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
             for (const { version, date, écartJours } of évènementsAvecÉcart) {
               aucunMatch.push({
                 identifiantProjet,
-                dateCorrecte,
+                datePrévisionnelleCorrecte,
+                datePrévisionnelleActuelle: date,
                 eventVersion: version,
-                datePrévisionnelleCandidat: date,
                 écartJours,
               });
             }
@@ -167,14 +168,14 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
               await transformerEventInconnuEnEventNotification({
                 identifiantProjet,
                 createdAt,
-                date: dateCorrecte,
+                date: datePrévisionnelleCorrecte,
               });
 
               succès.push({
                 identifiantProjet,
-                versionSource: version,
-                datePrévisionnelleChoisie: date,
-                dateCorrecte,
+                eventVersion: version,
+                datePrévisionnelleCorrecte,
+                datePrévisionnelleActuelle: date,
                 écartJours,
                 opération: 'transformation',
               });
@@ -185,14 +186,14 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
               identifiantProjet,
               version,
               createdAt,
-              date: dateCorrecte,
+              date: datePrévisionnelleCorrecte,
             });
 
             succès.push({
               identifiantProjet,
-              versionSource: version,
-              datePrévisionnelleChoisie: date,
-              dateCorrecte,
+              eventVersion: version,
+              datePrévisionnelleActuelle: date,
+              datePrévisionnelleCorrecte,
               écartJours,
               opération: 'déplacement + transformation',
             });
@@ -211,14 +212,14 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
             await transformerEventInconnuEnEventNotification({
               identifiantProjet,
               createdAt,
-              date: dateCorrecte,
+              date: datePrévisionnelleCorrecte,
             });
 
             succès.push({
               identifiantProjet,
-              versionSource: plusAncienneCorrespondance.version,
-              datePrévisionnelleChoisie: plusAncienneCorrespondance.date,
-              dateCorrecte,
+              eventVersion: plusAncienneCorrespondance.version,
+              datePrévisionnelleCorrecte,
+              datePrévisionnelleActuelle: plusAncienneCorrespondance.date,
               écartJours: plusAncienneCorrespondance.écartJours,
               opération: 'transformation',
             });
@@ -229,14 +230,14 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
             identifiantProjet,
             version: plusAncienneCorrespondance.version,
             createdAt,
-            date: dateCorrecte,
+            date: datePrévisionnelleCorrecte,
           });
 
           succès.push({
             identifiantProjet,
-            versionSource: plusAncienneCorrespondance.version,
-            datePrévisionnelleChoisie: plusAncienneCorrespondance.date,
-            dateCorrecte,
+            eventVersion: plusAncienneCorrespondance.version,
+            datePrévisionnelleCorrecte,
+            datePrévisionnelleActuelle: plusAncienneCorrespondance.date,
             écartJours: plusAncienneCorrespondance.écartJours,
             opération: 'déplacement + transformation',
           });
@@ -260,9 +261,9 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
             data: succès,
             fields: [
               { label: 'Identifiant projet', value: 'identifiantProjet' },
-              { label: 'Version source', value: 'versionSource' },
-              { label: 'Date prévisionnelle choisie', value: 'datePrévisionnelleChoisie' },
-              { label: 'Date correcte', value: 'dateCorrecte' },
+              { label: 'Version source', value: 'eventVersion' },
+              { label: 'Date prévisionnelle correcte', value: 'datePrévisionnelleCorrecte' },
+              { label: 'Date prévisionnelle actuelle', value: 'datePrévisionnelleActuelle' },
               { label: 'Écart jours', value: 'écartJours' },
               { label: 'Opération', value: 'opération' },
             ],
@@ -279,9 +280,9 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
             data: aucunMatch,
             fields: [
               { label: 'Identifiant projet', value: 'identifiantProjet' },
-              { label: 'Date correcte', value: 'dateCorrecte' },
+              { label: 'Date prévisionnelle correcte', value: 'datePrévisionnelleCorrecte' },
+              { label: 'Date prévisionnelle actuelle', value: 'datePrévisionnelleActuelle' },
               { label: 'Version event candidat', value: 'eventVersion' },
-              { label: 'Date prévisionnelle candidate', value: 'datePrévisionnelleCandidat' },
               { label: 'Écart jours', value: 'écartJours' },
             ],
           }),

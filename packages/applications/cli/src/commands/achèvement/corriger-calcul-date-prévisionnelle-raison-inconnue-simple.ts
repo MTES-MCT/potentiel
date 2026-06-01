@@ -22,15 +22,16 @@ const envSchema = z.object({
 
 type LigneSuccès = {
   identifiantProjet: IdentifiantProjet.RawType;
-  datePrévisionnelleAvant: DateTime.RawType;
-  datePrévisionnelleAprès: DateTime.RawType;
+  datePrévisionnelleActuelle: DateTime.RawType;
+  datePrévisionnelleCorrecte: DateTime.RawType;
   écartJours: number;
   opération: 'transformation' | 'déplacement + transformation';
 };
 
 type LigneErreurÉcart = {
   identifiantProjet: IdentifiantProjet.RawType;
-  datePrévisionnelleExistante: DateTime.RawType;
+  datePrévisionnelleActuelle: DateTime.RawType;
+  datePrévisionnelleCorrecte: DateTime.RawType;
   écartJoursAvecDateCorrecte: number;
 };
 
@@ -50,7 +51,7 @@ type Stats = {
 type EventInconnu = {
   identifiantProjet: IdentifiantProjet.RawType;
   eventVersion: number;
-  datePrévisionnelleExistante: DateTime.RawType;
+  datePrévisionnelleActuelle: DateTime.RawType;
 };
 
 const FICHIER_SUCCÈS = './rapport-simple_succès.csv';
@@ -80,7 +81,7 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
       SELECT
         payload->>'identifiantProjet' as "identifiantProjet",
         version as "eventVersion",
-        payload->>'date' as "datePrévisionnelleExistante"
+        payload->>'date' as "datePrévisionnelleActuelle"
       FROM event_store.event_stream
       WHERE stream_id LIKE 'achevement|%'
         AND type = 'DateAchèvementPrévisionnelCalculée-V1'
@@ -124,17 +125,18 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
       for (const {
         identifiantProjet,
         eventVersion,
-        datePrévisionnelleExistante,
+        datePrévisionnelleActuelle,
       } of eventsAvecRaisonInconnu) {
         try {
           compteur++;
           process.stdout.write(`\r⏳ [${compteur}/${stats.total}]`);
 
-          const { dateCorrecte, createdAt } = await getDonnéesCorrectes(identifiantProjet);
+          const { datePrévisionnelleCorrecte, createdAt } =
+            await getDonnéesCorrectes(identifiantProjet);
 
           const écartJours = DateTime.convertirEnValueType(
-            datePrévisionnelleExistante,
-          ).nombreJoursÉcartAvec(DateTime.convertirEnValueType(dateCorrecte));
+            datePrévisionnelleActuelle,
+          ).nombreJoursÉcartAvec(DateTime.convertirEnValueType(datePrévisionnelleCorrecte));
 
           /**
            * Si la version de l'event est 1, on a juste à transformer cet évènement raison "notification"
@@ -142,14 +144,14 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
           if (eventVersion === 1) {
             await transformerEventInconnuEnEventNotification({
               identifiantProjet,
-              date: dateCorrecte,
+              date: datePrévisionnelleCorrecte,
               createdAt,
             });
 
             stats.succèsModification.push({
               identifiantProjet,
-              datePrévisionnelleAvant: datePrévisionnelleExistante,
-              datePrévisionnelleAprès: dateCorrecte,
+              datePrévisionnelleActuelle,
+              datePrévisionnelleCorrecte,
               écartJours,
               opération: 'transformation',
             });
@@ -163,7 +165,8 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
           if (écartJours > ECART_JOURS) {
             stats.erreursÉcart.push({
               identifiantProjet,
-              datePrévisionnelleExistante,
+              datePrévisionnelleActuelle,
+              datePrévisionnelleCorrecte,
               écartJoursAvecDateCorrecte: écartJours,
             });
             continue;
@@ -173,13 +176,13 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
             identifiantProjet,
             version: eventVersion,
             createdAt,
-            date: dateCorrecte,
+            date: datePrévisionnelleCorrecte,
           });
 
           stats.succèsDéplacement.push({
             identifiantProjet,
-            datePrévisionnelleAvant: datePrévisionnelleExistante,
-            datePrévisionnelleAprès: dateCorrecte,
+            datePrévisionnelleActuelle,
+            datePrévisionnelleCorrecte,
             écartJours,
             opération: 'déplacement + transformation',
           });
@@ -224,8 +227,8 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
           data: succès,
           fields: [
             { label: 'Identifiant projet', value: 'identifiantProjet' },
-            { label: 'Date prévisionnelle avant', value: 'datePrévisionnelleAvant' },
-            { label: 'Date prévisionnelle après', value: 'datePrévisionnelleAprès' },
+            { label: 'Date prévisionnelle actuelle', value: 'datePrévisionnelleActuelle' },
+            { label: 'Date prévisionnelle correcte', value: 'datePrévisionnelleCorrecte' },
             { label: 'Écart jours', value: 'écartJours' },
             { label: 'Opération', value: 'opération' },
           ],
@@ -242,7 +245,8 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
           data: stats.erreursÉcart,
           fields: [
             { label: 'Identifiant projet', value: 'identifiantProjet' },
-            { label: 'Date prévisionnelle existante', value: 'datePrévisionnelleExistante' },
+            { label: 'Date prévisionnelle actuelle', value: 'datePrévisionnelleActuelle' },
+            { label: 'Date prévisionnelle correcte', value: 'datePrévisionnelleCorrecte' },
             { label: 'Écart jours avec date correcte', value: 'écartJoursAvecDateCorrecte' },
           ],
         }),
