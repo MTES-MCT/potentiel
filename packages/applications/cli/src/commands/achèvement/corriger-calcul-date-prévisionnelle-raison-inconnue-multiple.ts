@@ -5,6 +5,7 @@ import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import { ExportCSV } from '@potentiel-libraries/csv';
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
@@ -19,11 +20,9 @@ const envSchema = z.object({
   ...dbSchema.shape,
 });
 
-const FICHIER_RAPPORT_ERREUR = './rapport-doublons-calcul-date-achèvement-inconnu_erreurs.json';
-const FICHIER_RAPPORT_MATCH_MULTIPLE =
-  './rapport-doublons-calcul-date-achèvement-inconnu_match-multipe.json';
-const FICHIER_RAPPORT_AUCUN_MATCH =
-  './rapport-doublons-calcul-date-achèvement-inconnu_aucun-match.json';
+const FICHIER_SUCCÈS = './rapport-multiple_succès.csv';
+const FICHIER_AUCUN_MATCH = './rapport-multiple_aucun-match.csv';
+const FICHIER_ERREURS = './rapport-multiple_erreurs.csv';
 
 type EventInconnu = {
   version: number;
@@ -32,12 +31,26 @@ type EventInconnu = {
   correspondance: boolean;
 };
 
-type AnalyseProjet = {
+type LigneSuccès = {
   identifiantProjet: IdentifiantProjet.RawType;
-  résultat: 'match-unique' | 'match-multiple' | 'aucun-match' | 'erreur';
-  dateAttendue?: string;
-  eventsInconnus?: Array<EventInconnu>;
-  raison?: string;
+  versionSource: number;
+  datePrévisionnelleChoisie: DateTime.RawType;
+  dateCorrecte: DateTime.RawType;
+  écartJours: number;
+  opération: 'transformation' | 'déplacement + transformation';
+};
+
+type LigneAucunMatch = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  dateCorrecte: string;
+  eventVersion: number;
+  datePrévisionnelleCandidat: DateTime.RawType;
+  écartJours: number;
+};
+
+type LigneErreur = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  raison: string;
 };
 
 export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand extends Command {
@@ -77,6 +90,10 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
       return;
     }
 
+    const succès: Array<LigneSuccès> = [];
+    const aucunMatch: Array<LigneAucunMatch> = [];
+    const erreurs: Array<LigneErreur> = [];
+
     try {
       const total = eventsAvecRaisonInconnuMultiple.length;
       console.info(`ℹ️  ${total} projets à corriger`);
@@ -87,7 +104,6 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
       );
 
       let compteur = 0;
-      const résultats: Array<AnalyseProjet> = [];
 
       for (const { identifiantProjet } of eventsAvecRaisonInconnuMultiple) {
         try {
@@ -128,12 +144,15 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
           );
 
           if (correspondances.length === 0) {
-            résultats.push({
-              identifiantProjet,
-              résultat: 'aucun-match',
-              dateAttendue: dateCorrecte,
-              eventsInconnus: évènementsAvecÉcart,
-            });
+            for (const { version, date, écartJours } of évènementsAvecÉcart) {
+              aucunMatch.push({
+                identifiantProjet,
+                dateCorrecte,
+                eventVersion: version,
+                datePrévisionnelleCandidat: date,
+                écartJours,
+              });
+            }
             continue;
           }
 
@@ -142,13 +161,22 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
            * en fonction de son numéro de version existant
            */
           if (correspondances.length === 1) {
-            const [{ version }] = correspondances;
+            const [{ version, date, écartJours }] = correspondances;
 
             if (version === 1) {
               await transformerEventInconnuEnEventNotification({
                 identifiantProjet,
                 createdAt,
                 date: dateCorrecte,
+              });
+
+              succès.push({
+                identifiantProjet,
+                versionSource: version,
+                datePrévisionnelleChoisie: date,
+                dateCorrecte,
+                écartJours,
+                opération: 'transformation',
               });
               continue;
             }
@@ -160,6 +188,14 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
               date: dateCorrecte,
             });
 
+            succès.push({
+              identifiantProjet,
+              versionSource: version,
+              datePrévisionnelleChoisie: date,
+              dateCorrecte,
+              écartJours,
+              opération: 'déplacement + transformation',
+            });
             continue;
           }
 
@@ -177,6 +213,15 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
               createdAt,
               date: dateCorrecte,
             });
+
+            succès.push({
+              identifiantProjet,
+              versionSource: plusAncienneCorrespondance.version,
+              datePrévisionnelleChoisie: plusAncienneCorrespondance.date,
+              dateCorrecte,
+              écartJours: plusAncienneCorrespondance.écartJours,
+              opération: 'transformation',
+            });
             continue;
           }
 
@@ -186,43 +231,78 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand exte
             createdAt,
             date: dateCorrecte,
           });
-        } catch (error) {
-          résultats.push({
+
+          succès.push({
             identifiantProjet,
-            résultat: 'erreur',
+            versionSource: plusAncienneCorrespondance.version,
+            datePrévisionnelleChoisie: plusAncienneCorrespondance.date,
+            dateCorrecte,
+            écartJours: plusAncienneCorrespondance.écartJours,
+            opération: 'déplacement + transformation',
+          });
+        } catch (error) {
+          erreurs.push({
+            identifiantProjet,
             raison: error instanceof Error ? error.message : String(error),
           });
         }
       }
 
-      const matchUnique = résultats.filter(({ résultat }) => résultat === 'match-unique');
-      const matchMultiple = résultats.filter(({ résultat }) => résultat === 'match-multiple');
-      const aucunMatch = résultats.filter(({ résultat }) => résultat === 'aucun-match');
-      const erreurs = résultats.filter(({ résultat }) => résultat === 'erreur');
-
       console.info(`\n📊 Résultat :`);
-      console.info(`  ✅ ${matchUnique.length} projets avec un match unique (±${ECART_JOURS}j)`);
-      console.info(`  ⚠️  ${matchMultiple.length} projets avec plusieurs matches`);
+      console.info(`  ✅ ${succès.length} projets corrigés`);
       console.info(`  ❓ ${aucunMatch.length} projets sans match`);
       console.info(`  ❌ ${erreurs.length} erreurs`);
 
-      if (matchMultiple.length) {
+      if (succès.length) {
         await writeFile(
-          FICHIER_RAPPORT_MATCH_MULTIPLE,
-          JSON.stringify(matchMultiple, null, 2),
+          FICHIER_SUCCÈS,
+          await ExportCSV.toCSV({
+            data: succès,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              { label: 'Version source', value: 'versionSource' },
+              { label: 'Date prévisionnelle choisie', value: 'datePrévisionnelleChoisie' },
+              { label: 'Date correcte', value: 'dateCorrecte' },
+              { label: 'Écart jours', value: 'écartJours' },
+              { label: 'Opération', value: 'opération' },
+            ],
+          }),
           'utf-8',
         );
-        console.info(
-          `\n📄 Rapport des match multiple écrit dans ${FICHIER_RAPPORT_MATCH_MULTIPLE}`,
-        );
+        console.info(`\n📄 Rapport des succès écrit dans ${FICHIER_SUCCÈS}`);
       }
+
       if (aucunMatch.length) {
-        await writeFile(FICHIER_RAPPORT_AUCUN_MATCH, JSON.stringify(aucunMatch, null, 2), 'utf-8');
-        console.info(`\n📄 Rapport des match multiple écrit dans ${FICHIER_RAPPORT_AUCUN_MATCH}`);
+        await writeFile(
+          FICHIER_AUCUN_MATCH,
+          await ExportCSV.toCSV({
+            data: aucunMatch,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              { label: 'Date correcte', value: 'dateCorrecte' },
+              { label: 'Version event candidat', value: 'eventVersion' },
+              { label: 'Date prévisionnelle candidate', value: 'datePrévisionnelleCandidat' },
+              { label: 'Écart jours', value: 'écartJours' },
+            ],
+          }),
+          'utf-8',
+        );
+        console.info(`\n📄 Rapport des aucun-match écrit dans ${FICHIER_AUCUN_MATCH}`);
       }
+
       if (erreurs.length) {
-        await writeFile(FICHIER_RAPPORT_ERREUR, JSON.stringify(erreurs, null, 2), 'utf-8');
-        console.info(`\n📄 Rapport des erreurs écrit dans ${FICHIER_RAPPORT_ERREUR}`);
+        await writeFile(
+          FICHIER_ERREURS,
+          await ExportCSV.toCSV({
+            data: erreurs,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              { label: 'Raison', value: 'raison' },
+            ],
+          }),
+          'utf-8',
+        );
+        console.info(`\n📄 Rapport des erreurs écrit dans ${FICHIER_ERREURS}`);
       }
     } finally {
       process.stdout.write('\n');

@@ -1,30 +1,50 @@
+import { writeFile } from 'node:fs/promises';
+
 import { Command } from '@oclif/core';
 import z from 'zod';
 
-import type { DateTime } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import { ExportCSV } from '@potentiel-libraries/csv';
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
 import {
-  DateAvecÉcartDeJoursTropImportantError,
   déplacerEventEnPremierEtTransformerEnNotification,
   ECART_JOURS,
   getDonnéesCorrectes,
   transformerEventInconnuEnEventNotification,
-  vérifierDateAchèvementPrévisionnelDansÉcart,
 } from '#helpers/achèvement';
 
 const envSchema = z.object({
   ...dbSchema.shape,
 });
 
+type LigneSuccès = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  datePrévisionnelleAvant: DateTime.RawType;
+  datePrévisionnelleAprès: DateTime.RawType;
+  écartJours: number;
+  opération: 'transformation' | 'déplacement + transformation';
+};
+
+type LigneErreurÉcart = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  datePrévisionnelleExistante: DateTime.RawType;
+  écartJoursAvecDateCorrecte: number;
+};
+
+type LigneErreur = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  raison: string;
+};
+
 type Stats = {
   total: number;
-  succèsModification: Array<{ identifiantProjet: IdentifiantProjet.RawType }>;
-  succèsDéplacement: Array<{ identifiantProjet: IdentifiantProjet.RawType }>;
-  erreurDéplacement: Array<{ identifiantProjet: IdentifiantProjet.RawType }>;
-  erreurs: Array<{ identifiantProjet: IdentifiantProjet.RawType; raison: string }>;
+  succèsModification: Array<LigneSuccès>;
+  succèsDéplacement: Array<LigneSuccès>;
+  erreursÉcart: Array<LigneErreurÉcart>;
+  erreurs: Array<LigneErreur>;
 };
 
 type EventInconnu = {
@@ -33,10 +53,14 @@ type EventInconnu = {
   datePrévisionnelleExistante: DateTime.RawType;
 };
 
+const FICHIER_SUCCÈS = './rapport-simple_succès.csv';
+const FICHIER_ERREUR_ÉCART = './rapport-simple_erreur-écart.csv';
+const FICHIER_ERREURS = './rapport-simple_erreurs.csv';
+
 export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extends Command {
   static override description =
-    `Corriger les streams d'achèvement en s'assurant d'avoir en premier évènement un calcul de date prévisionnel post notification. 
-    ⚠️ On exclue volontairement les projets qui ont plusieurs évènements de calcul de date inconnu. 
+    `Corriger les streams d'achèvement en s'assurant d'avoir en premier évènement un calcul de date prévisionnel post notification.
+    ⚠️ On exclue volontairement les projets qui ont plusieurs évènements de calcul de date inconnu.
     Pour traiter ces cas, merci d'utiliser la commande dédiée. ⚠️`;
 
   async init() {
@@ -48,7 +72,7 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
       total: 0,
       succèsModification: [],
       succèsDéplacement: [],
-      erreurDéplacement: [],
+      erreursÉcart: [],
       erreurs: [],
     };
 
@@ -108,6 +132,13 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
 
           const { dateCorrecte, createdAt } = await getDonnéesCorrectes(identifiantProjet);
 
+          const écartJours = DateTime.convertirEnValueType(
+            datePrévisionnelleExistante,
+          ).nombreJoursÉcartAvec(DateTime.convertirEnValueType(dateCorrecte));
+
+          /**
+           * Si la version de l'event est 1, on a juste à transformer cet évènement raison "notification"
+           */
           if (eventVersion === 1) {
             await transformerEventInconnuEnEventNotification({
               identifiantProjet,
@@ -115,33 +146,44 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
               createdAt,
             });
 
-            stats.succèsModification.push({ identifiantProjet });
+            stats.succèsModification.push({
+              identifiantProjet,
+              datePrévisionnelleAvant: datePrévisionnelleExistante,
+              datePrévisionnelleAprès: dateCorrecte,
+              écartJours,
+              opération: 'transformation',
+            });
 
             continue;
           }
 
-          const estDansÉcart = await vérifierDateAchèvementPrévisionnelDansÉcart({
-            identifiantProjet,
-            dateÀVérifier: datePrévisionnelleExistante,
-          });
-
-          if (!estDansÉcart) {
-            throw new DateAvecÉcartDeJoursTropImportantError(identifiantProjet);
+          /**
+           * Si la version de l'event est > 1, on doit transformer l'event et le mettre en début de stream
+           */
+          if (écartJours > ECART_JOURS) {
+            stats.erreursÉcart.push({
+              identifiantProjet,
+              datePrévisionnelleExistante,
+              écartJoursAvecDateCorrecte: écartJours,
+            });
+            continue;
           }
 
           await déplacerEventEnPremierEtTransformerEnNotification({
             identifiantProjet,
             version: eventVersion,
             createdAt,
-            date: datePrévisionnelleExistante,
+            date: dateCorrecte,
           });
-          stats.succèsDéplacement.push({ identifiantProjet });
-        } catch (error) {
-          if (error instanceof DateAvecÉcartDeJoursTropImportantError) {
-            stats.erreurDéplacement.push({ identifiantProjet });
-            continue;
-          }
 
+          stats.succèsDéplacement.push({
+            identifiantProjet,
+            datePrévisionnelleAvant: datePrévisionnelleExistante,
+            datePrévisionnelleAprès: dateCorrecte,
+            écartJours,
+            opération: 'déplacement + transformation',
+          });
+        } catch (error) {
           stats.erreurs.push({
             identifiantProjet,
             raison: error instanceof Error ? error.message : String(error),
@@ -157,8 +199,9 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
         `);
     }
 
-    const totalSuccès = stats.succèsModification.length + stats.succèsDéplacement.length;
-    const totalErreurs = stats.erreurDéplacement.length + stats.erreurs.length;
+    const succès = [...stats.succèsModification, ...stats.succèsDéplacement];
+    const totalSuccès = succès.length;
+    const totalErreurs = stats.erreursÉcart.length + stats.erreurs.length;
 
     console.info(`\n📊 Résultat :`);
     console.info(`  ✅ ${totalSuccès} projets corrigés`);
@@ -168,12 +211,60 @@ export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extend
     console.info(
       `     - ${stats.succèsDéplacement.length} par déplacement en première position (version > 1)`,
     );
-
     console.info(`  ❌ ${totalErreurs} projets en erreur`);
     console.info(
-      `     - ${stats.erreurDéplacement.length} car la date contenue dans le payload ne respecte pas l'écart de ${ECART_JOURS} jours`,
+      `     - ${stats.erreursÉcart.length} car la date contenue dans le payload ne respecte pas l'écart de ${ECART_JOURS} jours`,
     );
     console.info(`     - ${stats.erreurs.length} pour erreurs autres`);
+
+    if (succès.length) {
+      await writeFile(
+        FICHIER_SUCCÈS,
+        await ExportCSV.toCSV({
+          data: succès,
+          fields: [
+            { label: 'Identifiant projet', value: 'identifiantProjet' },
+            { label: 'Date prévisionnelle avant', value: 'datePrévisionnelleAvant' },
+            { label: 'Date prévisionnelle après', value: 'datePrévisionnelleAprès' },
+            { label: 'Écart jours', value: 'écartJours' },
+            { label: 'Opération', value: 'opération' },
+          ],
+        }),
+        'utf-8',
+      );
+      console.info(`\n📄 Rapport des succès écrit dans ${FICHIER_SUCCÈS}`);
+    }
+
+    if (stats.erreursÉcart.length) {
+      await writeFile(
+        FICHIER_ERREUR_ÉCART,
+        await ExportCSV.toCSV({
+          data: stats.erreursÉcart,
+          fields: [
+            { label: 'Identifiant projet', value: 'identifiantProjet' },
+            { label: 'Date prévisionnelle existante', value: 'datePrévisionnelleExistante' },
+            { label: 'Écart jours avec date correcte', value: 'écartJoursAvecDateCorrecte' },
+          ],
+        }),
+        'utf-8',
+      );
+      console.info(`\n📄 Rapport des erreurs d'écart écrit dans ${FICHIER_ERREUR_ÉCART}`);
+    }
+
+    if (stats.erreurs.length) {
+      await writeFile(
+        FICHIER_ERREURS,
+        await ExportCSV.toCSV({
+          data: stats.erreurs,
+          fields: [
+            { label: 'Identifiant projet', value: 'identifiantProjet' },
+            { label: 'Raison', value: 'raison' },
+          ],
+        }),
+        'utf-8',
+      );
+      console.info(`\n📄 Rapport des erreurs écrit dans ${FICHIER_ERREURS}`);
+    }
 
     const checkEventRestant = await executeSelect<{ total: number }>(
       `
