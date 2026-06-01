@@ -53,11 +53,15 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
             results: {
               siren: string;
               nom_raison_sociale: string;
+              nom_complet: string;
             }[];
           }>,
       );
       if (data.results.length === 1) {
-        setProducteur({ value: data.results[0].nom_raison_sociale, fromAPI: true });
+        setProducteur({
+          value: data.results[0].nom_raison_sociale ?? data.results[0].nom_complet,
+          fromAPI: true,
+        });
         return;
       } else if (data.results.length === 0) {
         setSiretError('Aucun producteur trouvé pour ce SIRET');
