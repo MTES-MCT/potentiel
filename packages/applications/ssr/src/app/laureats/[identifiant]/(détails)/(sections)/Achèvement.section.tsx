@@ -39,6 +39,7 @@ export const AchèvementSection = ({
           <AchèvementDétails
             actions={achèvement.actions}
             value={mapToPlainObject(achèvement.value)}
+            garantiesFinancièresLevées={achèvement.garantiesFinancièresLevées}
           />
         </Section>
       );
@@ -65,7 +66,7 @@ const getAchèvementData = async (
     });
 
     if (!gfActuelles?.statut.estLevé()) {
-      if (Option.isNone(achèvement.attestation)) {
+      if (Option.isNone(achèvement.attestation) || Option.isNone(achèvement.rapportAssocié)) {
         actions.push({
           permission: 'achèvement.enregistrerAttestation',
           label: "Enregistrer l'attestation de conformité et le rapport",
@@ -74,7 +75,7 @@ const getAchèvementData = async (
       } else {
         actions.push({
           permission: 'achèvement.modifierAttestation',
-          label: "Modifier l'attestation de conformité",
+          label: "Modifier l'attestation de conformité et le rapport",
           url: Routes.Achèvement.modifierAttestationConformité(identifiantProjet),
         });
       }
@@ -96,5 +97,6 @@ const getAchèvementData = async (
   return {
     value: achèvement,
     actions: actions.filter((action) => rôle.aLaPermission(action.permission)),
+    garantiesFinancièresLevées: !!gfActuelles?.statut.estLevé(),
   };
 };
