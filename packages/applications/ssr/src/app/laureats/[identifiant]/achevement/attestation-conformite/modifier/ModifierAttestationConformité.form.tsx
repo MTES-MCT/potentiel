@@ -41,10 +41,18 @@ export const ModifierAttestationConformitéForm = ({
   });
 
   const shouldDisableButton = () => {
+    const aucuneModification =
+      documentModifié.attestation === undefined && documentModifié.rapportAssocie === undefined;
+
+    if (aucuneModification) {
+      return true;
+    }
+
     const attestationValide =
       documentModifié.attestation === undefined
         ? !!attestationConformité
         : documentModifié.attestation;
+
     const rapportValide =
       documentModifié.rapportAssocie === undefined
         ? !!rapportAssocié
