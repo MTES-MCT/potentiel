@@ -24,6 +24,8 @@ const FICHIER_SUCCÈS =
   './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_succès.csv';
 const FICHIER_AUCUN_MATCH =
   './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_aucun-match.csv';
+const FICHIER_DOUBLONS =
+  './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_doublons.csv';
 const FICHIER_ERREURS =
   './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_erreurs.csv';
 
@@ -34,22 +36,21 @@ type EventInconnu = {
   correspondance: boolean;
 };
 
-type LigneSuccès = {
+type LigneCommon = {
   identifiantProjet: IdentifiantProjet.RawType;
   eventVersion: number;
   datePrévisionnelleCorrecte: DateTime.RawType;
   datePrévisionnelleActuelle: DateTime.RawType;
   écartJours: number;
+};
+
+type LigneSuccès = LigneCommon & {
   opération: 'transformation' | 'déplacement + transformation';
 };
 
-type LigneAucunMatch = {
-  identifiantProjet: IdentifiantProjet.RawType;
-  datePrévisionnelleCorrecte: DateTime.RawType;
-  datePrévisionnelleActuelle: DateTime.RawType;
-  eventVersion: number;
-  écartJours: number;
-};
+type LigneAucunMatch = LigneCommon;
+
+type LigneDoublon = LigneCommon;
 
 type LigneErreur = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -95,6 +96,7 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
 
     const succès: Array<LigneSuccès> = [];
     const aucunMatch: Array<LigneAucunMatch> = [];
+    const doublons: Array<LigneDoublon> = [];
     const erreurs: Array<LigneErreur> = [];
 
     try {
@@ -146,6 +148,26 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
           const correspondances = évènementsAvecÉcart.filter(
             ({ correspondance }) => correspondance,
           );
+
+          const correspondancesDoublons = correspondances.filter((event, index) =>
+            correspondances.some(
+              (autreEvent, autreEventIndex) =>
+                autreEventIndex !== index &&
+                DateTime.convertirEnValueType(event.date).estÉgaleÀ(
+                  DateTime.convertirEnValueType(autreEvent.date),
+                ),
+            ),
+          );
+
+          for (const { version, date, écartJours } of correspondancesDoublons) {
+            doublons.push({
+              identifiantProjet,
+              datePrévisionnelleCorrecte,
+              datePrévisionnelleActuelle: date,
+              eventVersion: version,
+              écartJours,
+            });
+          }
 
           if (correspondances.length === 0) {
             for (const { version, date, écartJours } of évènementsAvecÉcart) {
@@ -255,6 +277,7 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
       console.info(`\n📊 Résultat :`);
       console.info(`  ✅ ${succès.length} projets corrigés`);
       console.info(`  ❓ ${aucunMatch.length} projets sans match`);
+      console.info(`  🔁 ${doublons.length} événements en doublon`);
       console.info(`  ❌ ${erreurs.length} erreurs`);
 
       if (succès.length) {
@@ -274,6 +297,24 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
           'utf-8',
         );
         console.info(`\n📄 Rapport des succès écrit dans ${FICHIER_SUCCÈS}`);
+      }
+
+      if (doublons.length) {
+        await writeFile(
+          FICHIER_DOUBLONS,
+          await ExportCSV.toCSV({
+            data: doublons,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              { label: 'Date prévisionnelle actuelle', value: 'datePrévisionnelleActuelle' },
+              { label: 'Date prévisionnelle correcte', value: 'datePrévisionnelleCorrecte' },
+              { label: 'Version event', value: 'eventVersion' },
+              { label: 'Écart jours', value: 'écartJours' },
+            ],
+          }),
+          'utf-8',
+        );
+        console.info(`\n📄 Rapport des doublons écrit dans ${FICHIER_DOUBLONS}`);
       }
 
       if (aucunMatch.length) {
