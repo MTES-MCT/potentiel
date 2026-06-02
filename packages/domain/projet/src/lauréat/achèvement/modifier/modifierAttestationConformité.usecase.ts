@@ -17,10 +17,12 @@ export type ModifierAttestationConformitéUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    estUneNouvelleAttestationValue: boolean;
     rapportAssociéValue: {
       content: ReadableStream;
       format: string;
     };
+    estUnNouveauRapportValue: boolean;
   }
 >;
 
@@ -28,7 +30,9 @@ export const registerModifierAttestationConformitéUseCase = () => {
   const runner: MessageHandler<ModifierAttestationConformitéUseCase> = async ({
     identifiantProjetValue,
     attestationValue,
+    estUneNouvelleAttestationValue,
     rapportAssociéValue,
+    estUnNouveauRapportValue,
     modifiéeLeValue,
     modifiéeParValue,
   }) => {
@@ -48,28 +52,34 @@ export const registerModifierAttestationConformitéUseCase = () => {
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content: attestationValue.content,
-        documentProjet: attestation,
-      },
-    });
+    if (estUneNouvelleAttestationValue) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: attestationValue.content,
+          documentProjet: attestation,
+        },
+      });
+    }
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content: rapportAssociéValue.content,
-        documentProjet: rapportAssocié,
-      },
-    });
+    if (estUnNouveauRapportValue) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: rapportAssociéValue.content,
+          documentProjet: rapportAssocié,
+        },
+      });
+    }
 
     await mediator.send<ModifierAttestationConformitéCommand>({
       type: 'Lauréat.Achèvement.Command.ModifierAttestationConformité',
       data: {
         identifiantProjet,
         attestation,
+        estUneNouvelleAttestation: estUneNouvelleAttestationValue,
         rapportAssocié,
+        estUnNouveauRapport: estUnNouveauRapportValue,
         modifiéeLe,
         modifiéePar,
       },
