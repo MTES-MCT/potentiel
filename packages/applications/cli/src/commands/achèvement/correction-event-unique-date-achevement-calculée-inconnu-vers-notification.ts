@@ -54,11 +54,14 @@ type EventInconnu = {
   datePrévisionnelleActuelle: DateTime.RawType;
 };
 
-const FICHIER_SUCCÈS = './rapport-simple_succès.csv';
-const FICHIER_ERREUR_ÉCART = './rapport-simple_erreur-écart.csv';
-const FICHIER_ERREURS = './rapport-simple_erreurs.csv';
+const FICHIER_SUCCÈS =
+  './correction-event-unique-date-achevement-calculée-inconnu-vers-notification_succès.csv';
+const FICHIER_ERREUR_ÉCART =
+  './correction-event-unique-date-achevement-calculée-inconnu-vers-notification_erreur-écart.csv';
+const FICHIER_ERREURS =
+  './correction-event-unique-date-achevement-calculée-inconnu-vers-notification_erreurs.csv';
 
-export class CorrigerCalculDatePrévisionnelleRaisonInconnueSimpleCommand extends Command {
+export class CorrectionEventUniqueDateAchèvementCalculéeInconnuVersNotificationCommand extends Command {
   static override description =
     `Corriger les streams d'achèvement en s'assurant d'avoir en premier évènement un calcul de date prévisionnel post notification.
     ⚠️ On exclue volontairement les projets qui ont plusieurs évènements de calcul de date inconnu.

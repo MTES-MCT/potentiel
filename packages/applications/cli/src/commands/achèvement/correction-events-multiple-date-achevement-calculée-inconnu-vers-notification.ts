@@ -20,9 +20,12 @@ const envSchema = z.object({
   ...dbSchema.shape,
 });
 
-const FICHIER_SUCCÈS = './rapport-multiple_succès.csv';
-const FICHIER_AUCUN_MATCH = './rapport-multiple_aucun-match.csv';
-const FICHIER_ERREURS = './rapport-multiple_erreurs.csv';
+const FICHIER_SUCCÈS =
+  './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_succès.csv';
+const FICHIER_AUCUN_MATCH =
+  './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_aucun-match.csv';
+const FICHIER_ERREURS =
+  './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_erreurs.csv';
 
 type EventInconnu = {
   version: number;
@@ -53,7 +56,7 @@ type LigneErreur = {
   raison: string;
 };
 
-export class CorrigerCalculDatePrévisionnelleRaisonInconnueMultipleCommand extends Command {
+export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificationCommand extends Command {
   static override description =
     `Analyser les projets avec plusieurs events DateAchèvementPrévisionnelCalculée-V1 à raison "inconnue" pour tenter un rapprochement avec la date post-notification (±${ECART_JOURS}j)`;
 
