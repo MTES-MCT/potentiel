@@ -34,17 +34,14 @@ SELECT proj.value->>'identifiantProjet' AS id,
     ELSE proj.value->>'statut'
   END AS statut,
   CASE
-    WHEN rac.value->>'désactivé' = 'true' THEN 'false'
+    WHEN rac.value->>'désactivé' = 'true' THEN false
     ELSE rac.value->>'miseEnService.date' is not null
   END AS "enService",
   CASE
     WHEN rac.value->>'désactivé' = 'true' THEN null
     ELSE CAST(rac.value->>'miseEnService.date' as timestamp)
   END AS "dateMiseEnService",
-  CASE
-    WHEN ppa.value->>'signaléLe' IS NOT NULL THEN 'true'
-    ELSE 'false'
-  END AS "PPA",
+  ppa.value->>'signaléLe' IS NOT NULL AS "PPA",
   cand.value->>'actionnariat' as "typeActionnariat",
   COALESCE(
     four.value->'évaluationCarboneSimplifiée',
@@ -79,7 +76,7 @@ FROM domain_views.projection proj
     'producteur|%s',
     proj.value->>'identifiantProjet'
   )
-    LEFT JOIN domain_views.projection ppa on ppa.key = format(
+  LEFT JOIN domain_views.projection ppa on ppa.key = format(
     'power-purchase-agreement|%s',
     proj.value->>'identifiantProjet'
   )
