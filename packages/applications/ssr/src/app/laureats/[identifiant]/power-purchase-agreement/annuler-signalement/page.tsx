@@ -6,7 +6,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -27,10 +26,6 @@ export default async function Page({ params }: IdentifiantParameter) {
       utilisateur.rôle.peutExécuterMessage<Lauréat.PowerPurchaseAgreement.AnnulerSignalementPowerPurchaseAgreementUseCase>(
         'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       );
-
-      if (!featureFlag.includes('PPA')) {
-        return notFound();
-      }
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),

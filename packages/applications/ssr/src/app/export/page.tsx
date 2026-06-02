@@ -16,7 +16,6 @@ import {
   optionalStringArray,
   transformToOptionalEnumArray,
 } from '../_helpers';
-import { featureFlag } from '../_helpers/getFeatureFlag';
 import { ExportPage, type ExportPageProps } from './export.page';
 
 export const metadata: Metadata = { title: 'Export de données' };
@@ -97,18 +96,15 @@ export default async function Page(props: PageProps) {
           options: getTypeActionnariatFilterOptions(appelOffresFiltré?.cycleAppelOffre),
           multiple: true,
         },
-      ];
-
-      if (featureFlag.includes('PPA')) {
-        filters.push({
+        {
           label: 'PPA',
           searchParamKey: 'PPA',
           options: [
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },
           ],
-        });
-      }
+        },
+      ];
 
       return (
         <ExportPage

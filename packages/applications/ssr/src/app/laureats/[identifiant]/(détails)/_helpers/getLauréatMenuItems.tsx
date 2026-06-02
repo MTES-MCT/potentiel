@@ -6,7 +6,6 @@ import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
@@ -99,9 +98,8 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
-  const powerPurchaseAgreementOnglet = !featureFlag.includes('PPA')
-    ? undefined
-    : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') && !lauréat.estPartiEnPPA
+  const powerPurchaseAgreementOnglet =
+    utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') && !lauréat.estPartiEnPPA
       ? linkToSection('PPA', 'power-purchase-agreement/signaler')
       : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.annulerSignalement') &&
           lauréat.estPartiEnPPA

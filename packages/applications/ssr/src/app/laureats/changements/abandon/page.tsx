@@ -10,7 +10,6 @@ import {
   optionalStringArray,
   transformToOptionalEnumArray,
 } from '@/app/_helpers';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
@@ -135,18 +134,15 @@ export default async function Page(props: PageProps) {
             value: autorité,
           })),
         },
-      ];
-
-      if (featureFlag.includes('PPA')) {
-        filters.push({
+        {
           label: 'PPA',
           searchParamKey: 'PPA',
           options: [
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },
           ],
-        });
-      }
+        },
+      ];
 
       return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
     }),

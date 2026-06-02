@@ -7,7 +7,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import type { Lauréat } from '@potentiel-domain/projet';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
@@ -122,18 +121,15 @@ export default async function Page(props: PageProps) {
             },
           ],
         },
-      ];
-
-      if (featureFlag.includes('PPA')) {
-        filters.push({
+        {
           label: 'PPA',
           searchParamKey: 'PPA',
           options: [
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },
           ],
-        });
-      }
+        },
+      ];
 
       const filteredFilters = filters.filter((filter) => filter.options.length);
 

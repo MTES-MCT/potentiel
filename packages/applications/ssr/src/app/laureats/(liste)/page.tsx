@@ -8,7 +8,6 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { redirigerPageProjet } from '@/app/_helpers/redirigerPageProjet';
@@ -119,18 +118,15 @@ export default async function Page(props: PageProps) {
           options: getTypeActionnariatFilterOptions(appelOffresFiltré?.cycleAppelOffre),
           multiple: true,
         },
-      ];
-
-      if (featureFlag.includes('PPA')) {
-        filters.push({
+        {
           label: 'PPA',
           searchParamKey: 'PPA',
           options: [
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },
           ],
-        });
-      }
+        },
+      ];
 
       return (
         <LauréatListPage
