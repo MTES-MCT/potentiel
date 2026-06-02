@@ -260,7 +260,7 @@ Quand(
 
 // #region Attestation de conformité
 Quand(
-  `le porteur modifie l'attestation de conformité avec son rapport associé`,
+  `le porteur modifie l'attestation de conformité et son rapport associé`,
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
@@ -275,7 +275,43 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: convertFixtureFileToReadableStream(attestation),
+          estUneNouvelleAttestationValue: true,
           rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
+          estUnNouveauRapportValue: true,
+          modifiéeLeValue: modifiéeLe,
+          modifiéeParValue: modifiéePar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le porteur modifie l'attestation de conformité et son rapport associé avec les mêmes documents`,
+  async function (this: PotentielWorld) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const { attestation, rapportAssocié, modifiéeLe, modifiéePar } =
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+          modifiéePar: this.utilisateurWorld.porteurFixture.email,
+          attestation:
+            this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.attestation,
+          rapportAssocié:
+            this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture
+              .rapportAssocié,
+        });
+
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: convertFixtureFileToReadableStream(attestation),
+          estUneNouvelleAttestationValue: false,
+          rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
+          estUnNouveauRapportValue: false,
           modifiéeLeValue: modifiéeLe,
           modifiéeParValue: modifiéePar,
         },
