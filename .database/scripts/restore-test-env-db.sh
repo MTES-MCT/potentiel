@@ -12,11 +12,17 @@ fi
 
 dbclient-fetcher pgsql 16
 
+DB_URL=$SCALINGO_POSTGRESQL_URL
+
+if [[ "$DB_URL" == *"sslmode=verify-full"* ]]; then
+  DB_URL="${DB_URL}&sslrootcert=system"
+fi
+
 if [ -f "./.database/potentiel-dev.dump" ]; then
   if [[ "${IS_REVIEW_APP:-}" == "true" ]]; then
-    pg_restore --no-acl --no-owner -d $SCALINGO_POSTGRESQL_URL < ./.database/potentiel-dev.dump
+    pg_restore --no-acl --no-owner -d $DB_URL < ./.database/potentiel-dev.dump
   else
-    pg_restore --clean --no-acl --no-owner -d $SCALINGO_POSTGRESQL_URL < ./.database/potentiel-dev.dump
+    pg_restore --clean --no-acl --no-owner -d $DB_URL < ./.database/potentiel-dev.dump
   fi
 	echo "✨ Potentiel Database has been restored with potentiel-dev dump file✨"
 else
