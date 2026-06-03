@@ -31,7 +31,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
       href={url}
       target="_blank"
       aria-label={ariaLabel}
-      download={download}
+      download={download ?? (extension(format) || format).toLowerCase() !== 'pdf'}
       prefetch={false}
     >
       {label}
