@@ -2,4 +2,6 @@ import NextLink from 'next/link';
 
 type LinkNoPrefetchProps = React.ComponentProps<typeof NextLink>;
 
-export const Link = (props: LinkNoPrefetchProps) => <NextLink prefetch={false} {...props} />;
+export const Link = (props: LinkNoPrefetchProps) => (
+  <NextLink prefetch={false} download={false} {...props} />
+);
