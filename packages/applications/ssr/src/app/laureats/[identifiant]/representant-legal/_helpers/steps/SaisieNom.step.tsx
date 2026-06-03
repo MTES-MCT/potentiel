@@ -18,8 +18,24 @@ export const SaisieNomStep: FC<SaisieNomProps> = ({
   nomReprésentantLégal,
   typeReprésentantLégal,
   validationErrors,
-}) => {
-  const label = match(typeReprésentantLégal)
+}) => (
+  <Input
+    label={getLabelFromType(typeReprésentantLégal)}
+    id="nomRepresentantLegal"
+    className="w-fit"
+    nativeInputProps={{
+      name: 'nomRepresentantLegal',
+      defaultValue: nomReprésentantLégal,
+    }}
+    state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
+    stateRelatedMessage={validationErrors['nomRepresentantLegal']}
+  />
+);
+
+const getLabelFromType = (
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType,
+) =>
+  match(typeReprésentantLégal)
     .returnType<string>()
     .with('personne-physique', () => 'Les nom et prénom(s) de la personne physique')
     .with('personne-morale', () => 'Le nom de la société')
@@ -27,18 +43,3 @@ export const SaisieNomStep: FC<SaisieNomProps> = ({
     .with('autre', () => `Le nom de l'organisme`)
     .with('inconnu', () => 'Le nom du nouveau représentant légal')
     .exhaustive();
-
-  return (
-    <Input
-      label={label}
-      id="nomRepresentantLegal"
-      className="w-fit"
-      nativeInputProps={{
-        name: 'nomRepresentantLegal',
-        defaultValue: nomReprésentantLégal,
-      }}
-      state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
-      stateRelatedMessage={validationErrors['nomRepresentantLegal']}
-    />
-  );
-};
