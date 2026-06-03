@@ -13,7 +13,12 @@ fi
 SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|backup-3-2-1|')
 MONITORING_URL="$SENTRY_URL?environment=$APPLICATION_STAGE"
 
-if [ -z $AWS_ACCESS_KEY_ID ] || [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $S3_ENDPOINT ] || [ -z $S3_BACKUP_BUCKET ]  || [ -z $SCALINGO_POSTGRESQL_URL ]
+DB_URL=$SCALINGO_POSTGRESQL_URL
+if [[ "$DB_URL" == *"sslmode=verify-full"* ]]; then
+  DB_URL="${DB_URL}&sslrootcert=system"
+fi
+
+if [ -z $AWS_ACCESS_KEY_ID ] || [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $S3_ENDPOINT ] || [ -z $S3_BACKUP_BUCKET ]  || [ -z $DB_URL ]
 then
     echo "An environment variable is missing !!"
     curl "${MONITORING_URL}&status=error"
@@ -42,16 +47,16 @@ echo "Today's date to use in file names is ${DATE}"
 
 echo "Creating compressed backup..."
 COMPRESSED_BACKUP_FILE_NAME=dump_${DATE}.pgsql
-pg_dump --clean --if-exists --format c --dbname "${SCALINGO_POSTGRESQL_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${COMPRESSED_BACKUP_FILE_NAME}
+pg_dump --clean --if-exists --format c --dbname "${DB_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${COMPRESSED_BACKUP_FILE_NAME}
 
 echo Creating plain backup...
 PLAIN_BACKUP_FILE_NAME=dump_${DATE}.sql
-pg_dump --clean --if-exists --format p --dbname "${SCALINGO_POSTGRESQL_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${PLAIN_BACKUP_FILE_NAME}
+pg_dump --clean --if-exists --format p --dbname "${DB_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${PLAIN_BACKUP_FILE_NAME}
 
 echo Creating gz archive backup...
 TAR_BACKUP_FILE_NAME=dump_${DATE}.tar
 GZ_BACKUP_FILE_NAME=${TAR_BACKUP_FILE_NAME}.gz
-pg_dump --clean --if-exists --format t --dbname "${SCALINGO_POSTGRESQL_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${TAR_BACKUP_FILE_NAME}
+pg_dump --clean --if-exists --format t --dbname "${DB_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${TAR_BACKUP_FILE_NAME}
 gzip ./${TAR_BACKUP_FILE_NAME}
 
 echo "Installing aws cli..."
