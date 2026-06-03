@@ -32,11 +32,10 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
       target="_blank"
       aria-label={ariaLabel}
       download={download}
-      data-fr-assess-file
       prefetch={false}
     >
       {label}
-      {!hideFormat && (
+      {!hideFormat && format && (
         <span className={fr.cx('fr-download__detail')}>
           {(extension(format) || format).toUpperCase()}
         </span>
