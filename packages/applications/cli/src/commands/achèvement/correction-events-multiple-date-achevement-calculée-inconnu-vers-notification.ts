@@ -28,6 +28,10 @@ const FICHIER_DOUBLONS =
   './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_doublons.csv';
 const FICHIER_ERREURS =
   './correction-events-multiple-date-achevement-calculée-inconnu-vers-notification_erreurs.csv';
+const FICHIER_DOUBLONS_CORRIGÉS_À_SUPPRIMER =
+  './doublons-event-inconnu-corrigé-à-supprimer.csv';
+const FICHIER_DOUBLONS_NON_ÉLIGIBLES =
+  './doublons-event-inconnu-non-eligible.csv';
 
 type EventInconnu = {
   version: number;
@@ -55,6 +59,22 @@ type LigneDoublon = LigneCommon;
 type LigneErreur = {
   identifiantProjet: IdentifiantProjet.RawType;
   raison: string;
+};
+
+type LigneDoublonCorrigéÀSupprimer = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  eventVersion: number;
+  datePrévisionnelleCorrecte: DateTime.RawType;
+  datePrévisionnelleActuelle: DateTime.RawType;
+  écartJours: number;
+};
+
+type LigneDoublonNonÉligible = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  eventVersion: number;
+  datePrévisionnelleCorrecte: DateTime.RawType;
+  datePrévisionnelleActuelle: DateTime.RawType;
+  écartJours: number;
 };
 
 export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificationCommand extends Command {
@@ -98,6 +118,8 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
     const aucunMatch: Array<LigneAucunMatch> = [];
     const doublons: Array<LigneDoublon> = [];
     const erreurs: Array<LigneErreur> = [];
+    const doublonsCorrigésÀSupprimer: Array<LigneDoublonCorrigéÀSupprimer> = [];
+    const doublonsNonÉligibles: Array<LigneDoublonNonÉligible> = [];
 
     try {
       const total = eventsAvecRaisonInconnuMultiple.length;
@@ -148,6 +170,26 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
           const correspondances = évènementsAvecÉcart.filter(
             ({ correspondance }) => correspondance,
           );
+
+          for (const { version, date, écartJours } of évènementsAvecÉcart.filter(
+            (event) =>
+              !event.correspondance &&
+              évènementsAvecÉcart.some(
+                (autreEvent) =>
+                  autreEvent.version !== event.version &&
+                  DateTime.convertirEnValueType(event.date).estÉgaleÀ(
+                    DateTime.convertirEnValueType(autreEvent.date),
+                  ),
+              ),
+          )) {
+            doublonsNonÉligibles.push({
+              identifiantProjet,
+              eventVersion: version,
+              datePrévisionnelleCorrecte,
+              datePrévisionnelleActuelle: date,
+              écartJours,
+            });
+          }
 
           const correspondancesDoublons = correspondances.filter((event, index) =>
             correspondances.some(
@@ -233,6 +275,18 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
             (a, b) => a.écartJours - b.écartJours || a.version - b.version,
           )[0];
 
+          for (const { version, date, écartJours } of correspondances.filter(
+            (e) => e.version !== plusAncienneCorrespondance.version,
+          )) {
+            doublonsCorrigésÀSupprimer.push({
+              identifiantProjet,
+              eventVersion: version,
+              datePrévisionnelleCorrecte,
+              datePrévisionnelleActuelle: date,
+              écartJours,
+            });
+          }
+
           if (plusAncienneCorrespondance.version === 1) {
             await transformerEventInconnuEnEventNotification({
               identifiantProjet,
@@ -278,6 +332,8 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
       console.info(`  ✅ ${succès.length} projets corrigés`);
       console.info(`  ❓ ${aucunMatch.length} projets sans match`);
       console.info(`  🔁 ${doublons.length} événements en doublon`);
+      console.info(`  🗑️  ${doublonsCorrigésÀSupprimer.length} events corrigés à supprimer`);
+      console.info(`  🚫 ${doublonsNonÉligibles.length} events inconnus non éligibles`);
       console.info(`  ❌ ${erreurs.length} erreurs`);
 
       if (succès.length) {
@@ -333,6 +389,42 @@ export class CorrectionEventMultipleDateAchèvementCalculéeInconnuVersNotificat
           'utf-8',
         );
         console.info(`\n📄 Rapport des aucun-match écrit dans ${FICHIER_AUCUN_MATCH}`);
+      }
+
+      if (doublonsCorrigésÀSupprimer.length) {
+        await writeFile(
+          FICHIER_DOUBLONS_CORRIGÉS_À_SUPPRIMER,
+          await ExportCSV.toCSV({
+            data: doublonsCorrigésÀSupprimer,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              { label: 'Version event', value: 'eventVersion' },
+              { label: 'Date prévisionnelle correcte', value: 'datePrévisionnelleCorrecte' },
+              { label: 'Date prévisionnelle actuelle', value: 'datePrévisionnelleActuelle' },
+              { label: 'Écart jours', value: 'écartJours' },
+            ],
+          }),
+          'utf-8',
+        );
+        console.info(`\n📄 Rapport des doublons corrigés à supprimer écrit dans ${FICHIER_DOUBLONS_CORRIGÉS_À_SUPPRIMER}`);
+      }
+
+      if (doublonsNonÉligibles.length) {
+        await writeFile(
+          FICHIER_DOUBLONS_NON_ÉLIGIBLES,
+          await ExportCSV.toCSV({
+            data: doublonsNonÉligibles,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              { label: 'Version event', value: 'eventVersion' },
+              { label: 'Date prévisionnelle correcte', value: 'datePrévisionnelleCorrecte' },
+              { label: 'Date prévisionnelle actuelle', value: 'datePrévisionnelleActuelle' },
+              { label: 'Écart jours', value: 'écartJours' },
+            ],
+          }),
+          'utf-8',
+        );
+        console.info(`\n📄 Rapport des doublons non éligibles écrit dans ${FICHIER_DOUBLONS_NON_ÉLIGIBLES}`);
       }
 
       if (erreurs.length) {

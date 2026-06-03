@@ -11,7 +11,5 @@ export const getDonnéesCorrectes = async (identifiantProjet: IdentifiantProjet.
       type: 'notification',
     });
 
-  const createdAt = projet.lauréat.notifiéLe.ajouterNombreDeMillisecondes(500).formatter();
-
-  return { datePrévisionnelleCorrecte, createdAt };
+  return { datePrévisionnelleCorrecte, createdAt: projet.lauréat.notifiéLe.formatter() };
 };
