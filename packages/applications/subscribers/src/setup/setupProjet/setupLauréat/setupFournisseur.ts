@@ -3,21 +3,20 @@ import { FournisseurProjector, type HistoriqueProjector } from '@potentiel-appli
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupFournisseur = async () => {
+export const setupFournisseur = () => {
   const fournisseur = createSubscriptionSetup('fournisseur');
 
   FournisseurProjector.register();
-  await fournisseur.setupSubscription<
-    FournisseurProjector.SubscriptionEvent,
-    FournisseurProjector.Execute
-  >({
-    name: 'projector',
-    eventType: 'all',
-    messageType: 'System.Projector.Lauréat.Fournisseur',
-  });
+  fournisseur.addSubscription<FournisseurProjector.SubscriptionEvent, FournisseurProjector.Execute>(
+    {
+      name: 'projector',
+      eventType: 'all',
+      messageType: 'System.Projector.Lauréat.Fournisseur',
+    },
+  );
 
   FournisseurNotification.register();
-  await fournisseur.setupSubscription<
+  fournisseur.addSubscription<
     FournisseurNotification.SubscriptionEvent,
     FournisseurNotification.Execute
   >({
@@ -30,14 +29,11 @@ export const setupFournisseur = async () => {
     messageType: 'System.Notification.Lauréat.Fournisseur',
   });
 
-  await fournisseur.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  fournisseur.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  return fournisseur.clearSubscriptions;
+  return fournisseur;
 };

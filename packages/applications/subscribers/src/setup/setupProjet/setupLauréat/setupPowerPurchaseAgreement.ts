@@ -6,11 +6,11 @@ import {
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupPowerPurchaseAgreement = async () => {
+export const setupPowerPurchaseAgreement = () => {
   const powerPurchaseAgreement = createSubscriptionSetup('power-purchase-agreement');
 
   PowerPurchaseAgreementProjector.register();
-  await powerPurchaseAgreement.setupSubscription<
+  powerPurchaseAgreement.addSubscription<
     PowerPurchaseAgreementProjector.SubscriptionEvent,
     PowerPurchaseAgreementProjector.Execute
   >({
@@ -24,7 +24,7 @@ export const setupPowerPurchaseAgreement = async () => {
   });
 
   PowerPurchaseAgreementNotification.register();
-  await powerPurchaseAgreement.setupSubscription<
+  powerPurchaseAgreement.addSubscription<
     PowerPurchaseAgreementNotification.SubscriptionEvent,
     PowerPurchaseAgreementNotification.Execute
   >({
@@ -33,7 +33,7 @@ export const setupPowerPurchaseAgreement = async () => {
     messageType: 'System.Notification.Lauréat.PowerPurchaseAgreement',
   });
 
-  await powerPurchaseAgreement.setupSubscription<
+  powerPurchaseAgreement.addSubscription<
     HistoriqueProjector.SubscriptionEvent,
     HistoriqueProjector.Execute
   >({
@@ -42,5 +42,5 @@ export const setupPowerPurchaseAgreement = async () => {
     messageType: 'System.Projector.Historique',
   });
 
-  return powerPurchaseAgreement.clearSubscriptions;
+  return powerPurchaseAgreement;
 };

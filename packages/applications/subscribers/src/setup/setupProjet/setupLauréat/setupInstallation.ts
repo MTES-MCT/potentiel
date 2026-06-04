@@ -6,12 +6,12 @@ import {
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupInstallation = async () => {
+export const setupInstallation = () => {
   const installation = createSubscriptionSetup('installation');
 
   InstallationProjector.register();
 
-  await installation.setupSubscription<
+  installation.addSubscription<
     InstallationProjector.SubscriptionEvent,
     InstallationProjector.Execute
   >({
@@ -21,7 +21,7 @@ export const setupInstallation = async () => {
   });
 
   InstallationNotification.register();
-  await installation.setupSubscription<
+  installation.addSubscription<
     InstallationNotification.SubscriptionEvent,
     InstallationNotification.Execute
   >({
@@ -36,14 +36,11 @@ export const setupInstallation = async () => {
     messageType: 'System.Notification.Lauréat.Installation',
   });
 
-  await installation.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  installation.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  return installation.clearSubscriptions;
+  return installation;
 };

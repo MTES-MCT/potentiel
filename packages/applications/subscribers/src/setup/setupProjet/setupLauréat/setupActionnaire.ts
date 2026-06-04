@@ -3,32 +3,31 @@ import { ActionnaireProjector, type HistoriqueProjector } from '@potentiel-appli
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupActionnaire = async () => {
+export const setupActionnaire = () => {
   const actionnaire = createSubscriptionSetup('actionnaire');
 
   ActionnaireProjector.register();
-  await actionnaire.setupSubscription<
-    ActionnaireProjector.SubscriptionEvent,
-    ActionnaireProjector.Execute
-  >({
-    name: 'projector',
-    eventType: [
-      'RebuildTriggered',
-      'ActionnaireImporté-V1',
-      'ActionnaireModifié-V1',
-      'ChangementActionnaireDemandé-V1',
-      'ChangementActionnaireAnnulé-V1',
-      'ChangementActionnaireSupprimé-V1',
-      'ChangementActionnaireEnregistré-V1',
-      'ChangementActionnaireAccordé-V1',
-      'ChangementActionnaireRejeté-V1',
-    ],
-    messageType: 'System.Projector.Lauréat.Actionnaire',
-  });
+  actionnaire.addSubscription<ActionnaireProjector.SubscriptionEvent, ActionnaireProjector.Execute>(
+    {
+      name: 'projector',
+      eventType: [
+        'RebuildTriggered',
+        'ActionnaireImporté-V1',
+        'ActionnaireModifié-V1',
+        'ChangementActionnaireDemandé-V1',
+        'ChangementActionnaireAnnulé-V1',
+        'ChangementActionnaireSupprimé-V1',
+        'ChangementActionnaireEnregistré-V1',
+        'ChangementActionnaireAccordé-V1',
+        'ChangementActionnaireRejeté-V1',
+      ],
+      messageType: 'System.Projector.Lauréat.Actionnaire',
+    },
+  );
 
   ActionnaireNotification.register();
 
-  await actionnaire.setupSubscription<
+  actionnaire.addSubscription<
     ActionnaireNotification.SubscriptionEvent,
     ActionnaireNotification.Execute
   >({
@@ -45,14 +44,11 @@ export const setupActionnaire = async () => {
     messageType: 'System.Notification.Lauréat.Actionnaire',
   });
 
-  await actionnaire.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  actionnaire.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  return actionnaire.clearSubscriptions;
+  return actionnaire;
 };

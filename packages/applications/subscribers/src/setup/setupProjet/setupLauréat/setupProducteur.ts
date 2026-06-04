@@ -3,14 +3,11 @@ import { type HistoriqueProjector, ProducteurProjector } from '@potentiel-applic
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupProducteur = async () => {
+export const setupProducteur = () => {
   const producteur = createSubscriptionSetup('producteur');
 
   ProducteurProjector.register();
-  await producteur.setupSubscription<
-    ProducteurProjector.SubscriptionEvent,
-    ProducteurProjector.Execute
-  >({
+  producteur.addSubscription<ProducteurProjector.SubscriptionEvent, ProducteurProjector.Execute>({
     name: 'projector',
     eventType: [
       'RebuildTriggered',
@@ -22,7 +19,7 @@ export const setupProducteur = async () => {
   });
 
   ProducteurNotification.register();
-  await producteur.setupSubscription<
+  producteur.addSubscription<
     ProducteurNotification.SubscriptionEvent,
     ProducteurNotification.Execute
   >({
@@ -31,14 +28,11 @@ export const setupProducteur = async () => {
     messageType: 'System.Notification.Lauréat.Producteur',
   });
 
-  await producteur.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  producteur.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  return producteur.clearSubscriptions;
+  return producteur;
 };

@@ -32,6 +32,7 @@
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/notifications": "*",
+    "@potentiel-applications/subscribers": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",

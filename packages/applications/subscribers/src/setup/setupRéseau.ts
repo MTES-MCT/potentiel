@@ -2,11 +2,11 @@ import { GestionnaireRéseauProjector } from '@potentiel-applications/projectors
 
 import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 
-export const setupRéseau = async () => {
+export const setupRéseau = () => {
   GestionnaireRéseauProjector.register();
   const gestionnaireRéseau = createSubscriptionSetup('gestionnaire-réseau');
 
-  await gestionnaireRéseau.setupSubscription<
+  gestionnaireRéseau.addSubscription<
     GestionnaireRéseauProjector.SubscriptionEvent,
     GestionnaireRéseauProjector.Execute
   >({
@@ -21,5 +21,5 @@ export const setupRéseau = async () => {
     messageType: 'System.Projector.Réseau.Gestionnaire',
   });
 
-  return gestionnaireRéseau.clearSubscriptions;
+  return gestionnaireRéseau;
 };

@@ -4,11 +4,11 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupAbandon = async () => {
+export const setupAbandon = () => {
   const abandon = createSubscriptionSetup('abandon');
 
   AbandonProjector.register();
-  await abandon.setupSubscription<AbandonProjector.SubscriptionEvent, AbandonProjector.Execute>({
+  abandon.addSubscription<AbandonProjector.SubscriptionEvent, AbandonProjector.Execute>({
     name: 'projector',
     eventType: [
       'AbandonDemandé-V1',
@@ -27,10 +27,7 @@ export const setupAbandon = async () => {
   });
 
   AbandonNotification.register();
-  await abandon.setupSubscription<
-    AbandonNotification.SubscriptionEvent,
-    AbandonNotification.Execute
-  >({
+  abandon.addSubscription<AbandonNotification.SubscriptionEvent, AbandonNotification.Execute>({
     name: 'notifications',
     eventType: [
       'AbandonDemandé-V1',
@@ -46,16 +43,13 @@ export const setupAbandon = async () => {
     messageType: 'System.Notification.Lauréat.Abandon',
   });
 
-  await abandon.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  abandon.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  await abandon.setupSubscription<
+  abandon.addSubscription<
     Lauréat.ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent,
     Lauréat.ReprésentantLégal.ReprésentantLégalSaga.Execute
   >({
@@ -64,5 +58,5 @@ export const setupAbandon = async () => {
     messageType: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
   });
 
-  return abandon.clearSubscriptions;
+  return abandon;
 };

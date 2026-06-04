@@ -3,11 +3,11 @@ import { type HistoriqueProjector, RecoursProjector } from '@potentiel-applicati
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupRecours = async () => {
+export const setupRecours = () => {
   const recours = createSubscriptionSetup('recours');
 
   RecoursProjector.register();
-  await recours.setupSubscription<RecoursProjector.SubscriptionEvent, RecoursProjector.Execute>({
+  recours.addSubscription<RecoursProjector.SubscriptionEvent, RecoursProjector.Execute>({
     name: 'projector',
     eventType: [
       'RecoursDemandé-V1',
@@ -21,10 +21,7 @@ export const setupRecours = async () => {
   });
 
   RecoursNotification.register();
-  await recours.setupSubscription<
-    RecoursNotification.SubscriptionEvent,
-    RecoursNotification.Execute
-  >({
+  recours.addSubscription<RecoursNotification.SubscriptionEvent, RecoursNotification.Execute>({
     name: 'notifications',
     eventType: [
       'RecoursDemandé-V1',
@@ -36,14 +33,11 @@ export const setupRecours = async () => {
     messageType: 'System.Notification.Eliminé.Recours',
   });
 
-  await recours.setupSubscription<
-    HistoriqueProjector.SubscriptionEvent,
-    HistoriqueProjector.Execute
-  >({
+  recours.addSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>({
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
   });
 
-  return recours.clearSubscriptions;
+  return recours;
 };
