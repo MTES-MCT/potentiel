@@ -22,7 +22,7 @@ export const SaisieNomStep: FC<SaisieNomProps> = ({
   <Input
     label={getLabelFromType(typeReprésentantLégal)}
     id="nomRepresentantLegal"
-    className="w-fit"
+    className="lg:w-1/2"
     nativeInputProps={{
       name: 'nomRepresentantLegal',
       defaultValue: nomReprésentantLégal,

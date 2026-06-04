@@ -11,7 +11,7 @@ import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from 
 import {
   SaisieNomStep,
   SaisiePièceJustificativeStep,
-  SaisieTypeStep,
+  SaisieTypeAndSociétéStep,
   type TypeSociété,
 } from '../../_helpers/steps';
 import { demanderChangementReprésentantLégalAction } from '../demander/demanderChangementReprésentantLégal.action';
@@ -58,8 +58,7 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <div className="flex flex-col gap-2">
-        <SaisieTypeStep
-          contexte="demander"
+        <SaisieTypeAndSociétéStep
           typeReprésentantLégal={state.typeReprésentantLégal}
           typeSociété={state.typeSociété}
           validationErrors={validationErrors}
@@ -85,7 +84,6 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
           typeSociété={state.typeSociété}
           validationErrors={validationErrors}
         />
-
         {estUneDemande && (
           <Notice
             title="Instruction"

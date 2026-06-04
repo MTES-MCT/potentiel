@@ -7,7 +7,7 @@ import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import { SaisieNomStep, SaisieTypeStep, type TypeSociété } from '../_helpers/steps';
+import { SaisieNomStep, SaisieTypeAndSociétéStep, type TypeSociété } from '../_helpers/steps';
 import type { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 import {
   type ModifierReprésentantLégalFormKeys,
@@ -52,8 +52,8 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         name="identifiantProjet"
       />
       <div className="flex flex-col gap-4">
-        <SaisieTypeStep
-          contexte="modifier"
+        <SaisieTypeAndSociétéStep
+          estUneModificationAdmin={true}
           typeReprésentantLégal={state.typeReprésentantLégal}
           typeSociété={state.typeSociété}
           validationErrors={validationErrors}

@@ -11,7 +11,7 @@ import type { ValidationErrors } from '@/utils/formAction';
 import {
   SaisieNomStep,
   SaisiePièceJustificativeStep,
-  SaisieTypeStep,
+  SaisieTypeAndSociétéStep,
   type TypeSociété,
 } from '../../../_helpers/steps';
 import {
@@ -71,8 +71,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
       />
 
       <div>
-        <SaisieTypeStep
-          contexte="corriger"
+        <SaisieTypeAndSociétéStep
           typeReprésentantLégal={state.typeReprésentantLégal}
           typeSociété={state.typeSociété}
           validationErrors={validationErrors}

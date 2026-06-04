@@ -1,13 +1,14 @@
 'use client';
 
+import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { type FC, useState } from 'react';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { ValidationErrors } from '@/utils/formAction';
 import type { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
+import { getPiècesJustificativesText } from '../getTypeReprésentantLégalLabel';
 import { TypeReprésentantLégalSelect } from '../TypeReprésentantLégalSelect';
-import { SaisieTypeSociétéStep, type TypeSociété } from './SaisieTypeSociété.step';
 
 type Contexte = 'demander' | 'modifier' | 'corriger';
 
@@ -16,8 +17,23 @@ type OnChangeProps = {
   typeSociété: TypeSociété;
 };
 
-export type SaisieTypeStepProps = {
-  contexte: Contexte;
+export type TypeSociété = 'constituée' | 'en cours de constitution' | 'non renseignée';
+
+const typesSociétéOptions = [
+  {
+    label: 'Société constituée',
+    value: 'constituée',
+    key: 'constituée',
+  },
+  {
+    label: 'Société en cours de constitution',
+    value: 'en cours de constitution',
+    key: 'en cours de constitution',
+  },
+];
+
+export type SaisieTypeAndSociétéStepProps = {
+  estUneModificationAdmin?: true;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
   onChange?: ({ typeReprésentantLégal, typeSociété }: OnChangeProps) => void;
@@ -29,7 +45,8 @@ type SaisieTypeState = {
   typeSociété: TypeSociété;
 };
 
-export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
+export const SaisieTypeAndSociétéStep: FC<SaisieTypeAndSociétéStepProps> = ({
+  estUneModificationAdmin,
   typeReprésentantLégal,
   typeSociété,
   onChange,
@@ -39,6 +56,10 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
     typeReprésentantLégal,
     typeSociété,
   });
+
+  const wordingInfosPiècesJustificatives = estUneModificationAdmin
+    ? `Pièces à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) : ${getPiècesJustificativesText(state.typeReprésentantLégal, state.typeSociété)}`
+    : '';
 
   return (
     <>
@@ -61,17 +82,24 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         }}
       />
       {typeReprésentantLégal === 'personne-morale' && (
-        <SaisieTypeSociétéStep
-          onChange={(typeSociété) => {
-            if (onChange) {
-              onChange({
-                typeReprésentantLégal: state.typeReprésentantLégal,
-                typeSociété,
-              });
-            }
-            setState({ ...state, typeSociété });
+        <Select
+          id="typeSociete"
+          label="Choisir le type de société"
+          nativeSelectProps={{
+            name: 'typeSociete',
+            required: true,
+            'aria-required': true,
+            onChange: (e) => {
+              setState({ ...state, typeSociété: e.currentTarget.value as TypeSociété });
+            },
           }}
+          className="lg:w-1/2"
+          placeholder="Sélectionnez le type de société"
+          options={typesSociétéOptions}
         />
+      )}
+      {wordingInfosPiècesJustificatives && (
+        <p className="fr-hint-text">{wordingInfosPiècesJustificatives}</p>
       )}
       {state.typeSociété === 'non renseignée' && (
         <input type={'hidden'} value={'non renseignée'} name="typeSociete" />
