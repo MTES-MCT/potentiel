@@ -16,7 +16,7 @@ export class RebuildProjectionCommand extends Command {
   static summary = 'Reconstruit une projection ou un stream, sans passer les notifiers DB.';
   static description =
     `Le rebuild est effectué dans le processus de la CLI, et non dans le container des subscribers.\n
-    Le parallelisme peut être controlé via la variable d'env REBUILD_CONCURRENCY.`;
+    Le parallélisme peut être controlé via la variable d'env REBUILD_CONCURRENCY.`;
 
   static args = {
     categoryOuStreamId: Args.string({
