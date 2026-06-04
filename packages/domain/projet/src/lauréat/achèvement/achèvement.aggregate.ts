@@ -195,12 +195,18 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async modifierAttestationConformité({
     attestation,
+    estUneNouvelleAttestation,
     rapportAssocié,
+    estUnNouveauRapport,
     modifiéeLe,
     modifiéePar,
   }: ModifierAttestationConformitéOptions) {
     if (!this.estAchevé) {
       throw new ProjetNonAchevéError();
+    }
+
+    if (!estUneNouvelleAttestation && !estUnNouveauRapport) {
+      throw new AttestationDeConformitéNonModifiéeError();
     }
 
     if (!this.attestationConformitéTransmise) {

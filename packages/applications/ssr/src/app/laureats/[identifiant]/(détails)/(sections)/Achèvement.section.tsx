@@ -47,6 +47,12 @@ export const AchèvementSection = ({
     sectionTitle,
   );
 
+type Action = {
+  label: string;
+  url: string;
+  permission: Role.Policy;
+};
+
 const getAchèvementData = async (
   identifiantProjet: IdentifiantProjet.RawType,
   rôle: Role.ValueType,
@@ -56,7 +62,7 @@ const getAchèvementData = async (
     ? (await getGarantiesFinancières(identifiantProjet)).actuelles
     : undefined;
 
-  const actions: { label: string; url: string; permission: Role.Policy }[] = [];
+  const actions: Action[] = [];
 
   if (achèvement.estAchevé) {
     actions.push({
@@ -69,7 +75,12 @@ const getAchèvementData = async (
       if (Option.isNone(achèvement.attestation) || Option.isNone(achèvement.rapportAssocié)) {
         actions.push({
           permission: 'achèvement.enregistrerAttestation',
-          label: "Enregistrer l'attestation de conformité et le rapport",
+          label:
+            Option.isNone(achèvement.attestation) && Option.isNone(achèvement.rapportAssocié)
+              ? "Enregistrer l'attestation de conformité et le rapport"
+              : Option.isNone(achèvement.attestation)
+                ? "Enregistrer l'attestation de conformité"
+                : 'Enregistrer le rapport',
           url: Routes.Achèvement.enregistrerAttestationConformité(identifiantProjet),
         });
       } else {

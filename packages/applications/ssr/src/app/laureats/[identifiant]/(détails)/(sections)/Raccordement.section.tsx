@@ -7,7 +7,7 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat, getRaccordement } from '../../_helpers';
+import { getAbandonInfos, getLauréatInfos, getRaccordement } from '../../_helpers';
 import { vérifierSiModificationRaccordementPossible } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { RaccordementDétails, type RaccordementDétailsProps } from './RaccordementDétails';
 
@@ -28,8 +28,11 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
 
       const raccordement = await getRaccordement(identifiantProjet);
 
-      const lauréat = await getLauréat(identifiantProjet);
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat);
+      const lauréat = await getLauréatInfos(identifiantProjet);
+      const abandon = rôle.aLaPermission('abandon.consulter.enCours')
+        ? await getAbandonInfos(identifiantProjet)
+        : undefined;
+      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat, abandon);
 
       if (!raccordement && !peutModifierRaccordement) {
         return null;
@@ -53,7 +56,7 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
                 !!cahierDesCharges.cahierDesChargesModificatif &&
                 cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
               raccordement,
-              dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
+              dcrAttendueAvantLe: lauréat.notifiéLe.ajouterNombreDeMois(
                 cahierDesCharges.période.delaiDcrEnMois.valeur,
               ),
               transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
