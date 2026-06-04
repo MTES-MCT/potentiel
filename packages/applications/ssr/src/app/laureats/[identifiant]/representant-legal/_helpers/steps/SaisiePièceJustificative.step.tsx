@@ -29,7 +29,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
   return (
     <div className="md:grid md:grid-cols-2 md:items-center gap-2">
       <UploadNewOrModifyExistingDocument
-        label={'Pièce justificative'}
+        label="Pièces justificatives"
         name="piecesJustificatives"
         hintText={`Pièces à joindre : ${hintText}`}
         required
@@ -45,7 +45,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
           filigrane.beta.gouv.fr
         </Link>
-        . ). Elles seront automatiquement supprimées après traitement de votre demande.
+        . ). Ces pièces seront automatiquement supprimées après traitement de votre demande.
       </Highlight>
     </div>
   );

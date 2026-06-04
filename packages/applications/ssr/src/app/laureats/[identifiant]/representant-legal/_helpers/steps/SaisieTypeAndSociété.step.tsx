@@ -1,7 +1,8 @@
 'use client';
 
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import { type FC, useState } from 'react';
+import type { FC } from 'react';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
@@ -9,8 +10,6 @@ import type { ValidationErrors } from '@/utils/formAction';
 import type { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
 import { getPiècesJustificativesText } from '../getTypeReprésentantLégalLabel';
 import { TypeReprésentantLégalSelect } from '../TypeReprésentantLégalSelect';
-
-type Contexte = 'demander' | 'modifier' | 'corriger';
 
 type OnChangeProps = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
@@ -36,13 +35,8 @@ export type SaisieTypeAndSociétéStepProps = {
   estUneModificationAdmin?: true;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
-  onChange?: ({ typeReprésentantLégal, typeSociété }: OnChangeProps) => void;
+  onChange: ({ typeReprésentantLégal, typeSociété }: OnChangeProps) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
-};
-
-type SaisieTypeState = {
-  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
 };
 
 export const SaisieTypeAndSociétéStep: FC<SaisieTypeAndSociétéStepProps> = ({
@@ -52,33 +46,25 @@ export const SaisieTypeAndSociétéStep: FC<SaisieTypeAndSociétéStepProps> = (
   onChange,
   validationErrors,
 }) => {
-  const [state, setState] = useState<SaisieTypeState>({
-    typeReprésentantLégal,
-    typeSociété,
-  });
-
   const wordingInfosPiècesJustificatives = estUneModificationAdmin
-    ? `Pièces à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) : ${getPiècesJustificativesText(state.typeReprésentantLégal, state.typeSociété)}`
+    ? `Pièces justificatives à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) : ${getPiècesJustificativesText(typeReprésentantLégal, typeSociété)}`
     : '';
 
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <TypeReprésentantLégalSelect
         id="typeReprésentantLégal"
         name="typeRepresentantLegal"
         label="Choisir le type de représentant légal"
         state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
-        typeReprésentantLégalActuel={state.typeReprésentantLégal}
+        typeReprésentantLégalActuel={typeReprésentantLégal}
         onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
-          if (onChange) {
-            onChange({
-              typeReprésentantLégal,
-              typeSociété:
-                typeReprésentantLégal === 'personne-morale' ? state.typeSociété : 'non renseignée',
-            });
-          }
-          setState((state) => ({ ...state, typeReprésentantLégal }));
+          onChange({
+            typeReprésentantLégal,
+            typeSociété:
+              typeReprésentantLégal === 'personne-morale' ? typeSociété : 'non renseignée',
+          });
         }}
       />
       {typeReprésentantLégal === 'personne-morale' && (
@@ -90,7 +76,13 @@ export const SaisieTypeAndSociétéStep: FC<SaisieTypeAndSociétéStepProps> = (
             required: true,
             'aria-required': true,
             onChange: (e) => {
-              setState({ ...state, typeSociété: e.currentTarget.value as TypeSociété });
+              onChange({
+                typeReprésentantLégal,
+                typeSociété:
+                  typeReprésentantLégal === 'personne-morale'
+                    ? (e.currentTarget.value as TypeSociété)
+                    : 'non renseignée',
+              });
             },
           }}
           className="lg:w-1/2"
@@ -99,11 +91,11 @@ export const SaisieTypeAndSociétéStep: FC<SaisieTypeAndSociétéStepProps> = (
         />
       )}
       {wordingInfosPiècesJustificatives && (
-        <p className="fr-hint-text">{wordingInfosPiècesJustificatives}</p>
+        <Notice title="" description={wordingInfosPiècesJustificatives} />
       )}
-      {state.typeSociété === 'non renseignée' && (
+      {typeSociété === 'non renseignée' && (
         <input type={'hidden'} value={'non renseignée'} name="typeSociete" />
       )}
-    </>
+    </div>
   );
 };

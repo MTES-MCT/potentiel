@@ -8,6 +8,7 @@ import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-dom
 
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
+import { DemandeInfosBox } from '../../../_helpers/DemandeInfosBox';
 import {
   SaisieNomStep,
   SaisiePièceJustificativeStep,
@@ -94,13 +95,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
           pièceJustificative={[DocumentProjet.bind(pièceJustificative).formatter()]}
           validationErrors={validationErrors}
         />
-        {/* <Notice */}
-        {/* //           message={`
-          //   Vous êtes sur le point de corriger la demande de changement du représentant légal du projet. 
-          //   Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct.
-          //   Ensuite votre demande sera alors instruite par le service de l'état en région de votre projet. 
-          //   À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
-          //   règles du cahier des charges en vigueur de votre projet.`} */}
+        <DemandeInfosBox />
       </div>
     </Form>
   );

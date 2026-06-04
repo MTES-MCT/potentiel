@@ -73,7 +73,6 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         />
 
         <Input
-          className="mt-4"
           label="Raison"
           id="raison"
           hintText="Veuillez préciser les raisons de ce changement"
