@@ -46,7 +46,7 @@ export class RebuildProjectionCommand extends Command {
       .find((x) => x.streamCategory === category && ['projector'].includes(x.name));
 
     if (!subscription) {
-      this.error(`Aucune subscription projector trouvée pour la catégorie ${category}`);
+      this.error(`Aucun subscriber trouvé pour la catégorie ${category}`);
     }
 
     logger.info('Starting inline rebuild', {
