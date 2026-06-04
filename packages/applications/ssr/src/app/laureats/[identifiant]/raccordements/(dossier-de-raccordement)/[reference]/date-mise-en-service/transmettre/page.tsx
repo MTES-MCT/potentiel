@@ -45,7 +45,7 @@ export default async function Page(props0: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
 
-      const { lauréat } = await getLauréatOrRedirect(identifiantProjet);
+      const lauréat = await getLauréatOrRedirect(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 

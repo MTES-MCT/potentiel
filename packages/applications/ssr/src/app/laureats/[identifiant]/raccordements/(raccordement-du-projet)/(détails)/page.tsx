@@ -47,7 +47,7 @@ export default async function Page(props: PageProps) {
         },
       });
 
-      const { lauréat } = await getLauréatOrRedirect(identifiantProjet.formatter());
+      const lauréat = await getLauréatOrRedirect(identifiantProjet.formatter());
 
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
