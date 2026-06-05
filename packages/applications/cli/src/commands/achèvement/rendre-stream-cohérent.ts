@@ -60,12 +60,12 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         identifiantProjet: IdentifiantProjet.RawType;
         dateNotification: DateTime.RawType;
         référenceCahierDesChargesActuel: AppelOffre.RéférenceCahierDesCharges.RawType;
-        datesMiseEnService: {
+        datesMiseEnService?: {
           dateMiseEnService: DateTime.RawType;
           transmiseLe: DateTime.RawType;
         }[];
         avecEventCovid: boolean;
-        délais: {
+        délais?: {
           nombreDeMois: string;
           accordéLe: DateTime.RawType;
         }[];
@@ -75,16 +75,16 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           laur.value->>'notifiéLe' as "dateNotification",
           laur.value->>'cahierDesCharges' as "référenceCahierDesChargesActuel",
           (covid.payload IS NOT NULL) as "avecEventCovid",
-          coalesce(array_agg(distinct jsonb_build_object(
-            'dateMiseEnService', racc.value->>'miseEnService.dateMiseEnService',
-            'transmiseLe', racc.value->>'miseEnService.transmiseLe'
+          array_agg(distinct jsonb_build_object(
+            'dateMiseEnService', racc.payload->>'dateMiseEnService',
+            'transmiseLe', racc.created_at
           ))
-            FILTER (WHERE racc.value->>'miseEnService.dateMiseEnService' IS NOT NULL), '{}') as "datesMiseEnService",
-          coalesce(array_agg(jsonb_build_object(
+            FILTER (WHERE racc.payload->>'dateMiseEnService' IS NOT NULL) as "datesMiseEnService",
+          array_agg(jsonb_build_object(
             'nombreDeMois', delai.value->>'accord.nombreDeMois',
             'accordéLe', delai.value->>'accord.accordéeLe'
           ))
-            FILTER (WHERE delai.value IS NOT NULL), '{}') as "délais"
+            FILTER (WHERE delai.value IS NOT NULL) as "délais"
       from
         domain_views.projection as laur
       inner join
@@ -93,9 +93,11 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             laur.value->>'identifiantProjet'
           )
       left join
-        domain_views.projection as racc on racc.key like 'dossier-raccordement|%'
-        and racc.value->>'identifiantProjet' = laur.value->>'identifiantProjet'
-        and racc.value->>'miseEnService.dateMiseEnService' is not null
+        event_store.event_stream as racc on racc.stream_id = format(
+          'raccordement|%s', 
+          laur.value->>'identifiantProjet'
+        ) 
+        and racc.type like 'DateMiseEnServiceTransmise-V%'
       left join
         domain_views.projection as delai on delai.key like 'demande-délai|%'
         and delai.value->>'identifiantProjet' = laur.value->>'identifiantProjet'
@@ -191,7 +193,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             dateAchèvementPrévisionnelleFinale = datePostCovid;
           }
 
-          if (datesMiseEnService.length > 0) {
+          if (datesMiseEnService && datesMiseEnService.length > 0) {
             /**
              * 3. Évènement CDC 30/08/2022 dépendant de la mise en service du projet
              */
@@ -244,12 +246,6 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                       if (bDate.estAntérieurÀ(aDate)) return 1;
                       return 0;
                     })[0];
-
-              /**
-               * TODO COMPRENDRE LE BUGGGGGG
-               */
-              if (!dateMiseEnServiceLaPlusAncienne) {
-              }
 
               const eventModificationCdc = await executeSelect<{
                 date: DateTime.RawType;
@@ -304,17 +300,20 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             }
           }
 
-          if (délais.length > 0) {
+          if (délais && délais.length > 0) {
             /***
              * 4. Évènements Délai accordé
              */
-            const sortedDélais = délais.sort((a, b) => {
-              const aDate = DateTime.convertirEnValueType(a.accordéLe);
-              const bDate = DateTime.convertirEnValueType(b.accordéLe);
-              if (aDate.estAntérieurÀ(bDate)) return -1;
-              if (bDate.estAntérieurÀ(aDate)) return 1;
-              return 0;
-            });
+            const sortedDélais =
+              délais.length === 1
+                ? délais
+                : délais.sort((a, b) => {
+                    const aDate = DateTime.convertirEnValueType(a.accordéLe);
+                    const bDate = DateTime.convertirEnValueType(b.accordéLe);
+                    if (aDate.estAntérieurÀ(bDate)) return -1;
+                    if (bDate.estAntérieurÀ(aDate)) return 1;
+                    return 0;
+                  });
 
             for (const délai of sortedDélais) {
               const datePostDélaiAccordé = DateTime.convertirEnValueType(
