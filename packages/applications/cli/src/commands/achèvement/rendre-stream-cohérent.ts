@@ -81,7 +81,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           MAX(cdc.payload->>'modifiéLe') as "cdcModifiéLe",
           array_agg(distinct jsonb_build_object(
             'dateMiseEnService', racc.payload->>'dateMiseEnService',
-            'transmiseLe', racc.created_at
+            'transmiseLe', COALESCE(racc.payload->>'transmiseLe', racc.created_at)
           ))
             FILTER (WHERE racc.payload->>'dateMiseEnService' IS NOT NULL) as "datesMiseEnService",
           array_agg(jsonb_build_object(
