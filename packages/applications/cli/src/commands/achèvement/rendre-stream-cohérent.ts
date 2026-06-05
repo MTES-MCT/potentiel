@@ -1,7 +1,6 @@
-/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
 import { writeFile } from 'node:fs/promises';
 
-import { Command } from '@oclif/core';
+import { Command, Flags } from '@oclif/core';
 import z from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -42,6 +41,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
   static override description =
     `Ce script a pour objectif de remplacer les évènements "DatePrévisionnelleCalculée-V1" pour insérer les évènements au bon moment du cycle de vie des projets`;
 
+  static override flags = {
+    dryRun: Flags.boolean({ name: 'dryRun' }),
+  };
+
   async init() {
     envSchema.parse(process.env);
 
@@ -55,6 +58,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
   }
 
   async run() {
+    const { flags } = await this.parse(RendreStreamAchèvementCohérentCommand);
     try {
       const projets = await executeSelect<{
         identifiantProjet: IdentifiantProjet.RawType;
@@ -126,12 +130,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         and covid.payload->>'raison' = 'covid'
       where 
         laur.key like 'lauréat|%'
-      group by
-        1,
-        2,
-        3,
-        4,
-        5;
+      group by 1, 2, 3, 4, 5;
     `);
 
       if (!projets.length) {
@@ -144,9 +143,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         errors: [],
       };
 
-      console.info(`ℹ️ ${stats.total} projets à traiter`);
+      console.info(`ℹ️  ${stats.total} projets à traiter`);
 
       let count = 0;
+      const all_events: Omit<AchèvementEventStream, 'version'>[] = [];
 
       for (const {
         identifiantProjet,
@@ -165,14 +165,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           const events: Omit<AchèvementEventStream, 'version'>[] = [];
 
           let dateAchèvementPrévisionnelFinale: DateTime.RawType;
-
-          /**
-           * 1. Évènement suite à la notification du projet
-           */
-
           const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
+          /** biome-ignore lint/style/noNonNullAssertion: static data*/
           const appelOffre = appelsOffreData.find((ao) => ao.id === idProjet.appelOffre)!;
+          /** biome-ignore lint/style/noNonNullAssertion: static data*/
           const période = appelOffre.periodes.find((p) => p.id === idProjet.période)!;
 
           const cahierDesChargesChoisi = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
@@ -191,6 +187,9 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             famille: undefined,
           });
 
+          /**
+           * 1. Évènement suite à la notification du projet
+           */
           const datePostNotification =
             Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(dateNotification)
               .ajouterDélai(cahierDesCharges.getDélaiRéalisationEnMois())
@@ -209,10 +208,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
           dateAchèvementPrévisionnelFinale = datePostNotification;
 
+          /**
+           * 2. Évènement covid
+           */
           if (avecEventCovid) {
-            /**
-             * 2. Évènement covid
-             */
             const datePostCovid = DateTime.convertirEnValueType(dateAchèvementPrévisionnelFinale)
               .ajouterNombreDeMois(7)
               .formatter();
@@ -230,11 +229,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             dateAchèvementPrévisionnelFinale = datePostCovid;
           }
 
+          /**
+           * 3. Évènement CDC 30/08/2022 dépendant de la mise en service du projet
+           */
           if (datesMiseEnService && datesMiseEnService.length > 0) {
-            /**
-             * 3. Évènement CDC 30/08/2022 dépendant de la mise en service du projet
-             */
-
             const délaiApplicable = cahierDesCharges.cahierDesChargesModificatif?.délaiApplicable;
 
             if (cahierDesChargesChoisi.estCDC2022() && délaiApplicable) {
@@ -292,10 +290,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             }
           }
 
+          /**
+           * 4. Évènements Délai accordé
+           */
           if (délais && délais.length > 0) {
-            /***
-             * 4. Évènements Délai accordé
-             */
             const sortedDélais = délais.sort((a, b) => {
               const aDate = DateTime.convertirEnValueType(a.accordéLe);
               const bDate = DateTime.convertirEnValueType(b.accordéLe);
@@ -326,6 +324,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           }
 
           stats.success.push({ identifiantProjet, dateAchèvementPrévisionnelFinale });
+          all_events.push(...events);
         } catch (error) {
           console.log(error);
 
@@ -342,41 +341,79 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       console.info(`  ✅ ${stats.success.length} projets ont un nouveau event stream achèvement`);
       console.info(`  ❌ ${stats.errors.length} projets en erreur`);
 
-      const FILE_SUCCESS = './rendre-stream-achèvement-cohérent_succès.csv';
-      const FILE_ERRORS = './rendre-stream-achèvement-cohérent_erreurs.csv';
+      await this.logResultsToFile(stats);
 
-      if (stats.success.length) {
-        await writeFile(
-          FILE_SUCCESS,
-          await ExportCSV.toCSV({
-            data: stats.success,
-            fields: [
-              { label: 'Identifiant projet', value: 'identifiantProjet' },
-              {
-                label: 'Date achèvement prévisionnel finale',
-                value: 'dateAchèvementPrévisionnelFinale',
-              },
-            ],
-          }),
-          'utf-8',
+      if (stats.success.length !== stats.total) {
+        console.warn(
+          "⚠️  Tous les projets n'ont pas été traités avec succès, les événements suivants n'ont pas été réinjectés dans le stream d'achèvement :",
         );
+        return;
       }
 
-      if (stats.errors.length) {
-        await writeFile(
-          FILE_ERRORS,
-          await ExportCSV.toCSV({
-            data: stats.errors,
-            fields: [
-              { label: 'Identifiant projet', value: 'identifiantProjet' },
-              { label: 'Raison', value: 'message' },
-            ],
-          }),
-          'utf-8',
+      if (flags.dryRun) {
+        console.info(
+          `\n💾 [dry-run] ${all_events.length} events auraient été réinjectés dans le stream achèvement`,
         );
+        console.log(
+          Object.entries(
+            Object.groupBy(
+              Object.values(Object.groupBy(all_events, (e) => e.payload.identifiantProjet)).map(
+                (events) => events?.length,
+              ),
+              (length) => length ?? 0,
+            ),
+          )
+            .map(
+              ([nombreEvents, projets]) =>
+                `  - ${projets?.length} projets ont ${nombreEvents} events`,
+            )
+            .join('\n'),
+        );
+
+        return;
       }
+
+      console.info(
+        '\n🎉 Tous les projets ont été traités avec succès, les événements vont être réinjectés dans le stream achèvement',
+      );
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  private async logResultsToFile(stats: Stats) {
+    const FILE_SUCCESS = './rendre-stream-achèvement-cohérent_succès.csv';
+    const FILE_ERRORS = './rendre-stream-achèvement-cohérent_erreurs.csv';
+
+    if (stats.success.length) {
+      await writeFile(
+        FILE_SUCCESS,
+        await ExportCSV.toCSV({
+          data: stats.success,
+          fields: [
+            { label: 'Identifiant projet', value: 'identifiantProjet' },
+            {
+              label: 'Date achèvement prévisionnel finale',
+              value: 'dateAchèvementPrévisionnelFinale',
+            },
+          ],
+        }),
+        'utf-8',
+      );
+    }
+
+    if (stats.errors.length) {
+      await writeFile(
+        FILE_ERRORS,
+        await ExportCSV.toCSV({
+          data: stats.errors,
+          fields: [
+            { label: 'Identifiant projet', value: 'identifiantProjet' },
+            { label: 'Raison', value: 'message' },
+          ],
+        }),
+        'utf-8',
+      );
     }
   }
 }
