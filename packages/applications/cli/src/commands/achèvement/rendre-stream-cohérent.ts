@@ -8,6 +8,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getScopeProjetUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
@@ -342,7 +343,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
       if (stats.success.length !== stats.total) {
         console.warn(
-          "⚠️  Tous les projets n'ont pas été traités avec succès, les événements suivants n'ont pas été réinjectés dans le stream d'achèvement :",
+          "⚠️  Tous les projets n'ont pas été traités avec succès, les événements suivants n'ont pas été réinjectés dans le stream achèvement :",
         );
         return;
       }
@@ -376,7 +377,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       );
 
       // Suppression des évènements existants
-      console.info(`\n🧹 Suppression des événements existants dans le stream d'achèvement...`);
+      console.info(`\n🧹 Suppression des événements existants dans le stream achèvement...`);
       await executeSelect(
         `
         delete from event_store.event_stream
@@ -384,6 +385,18 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           and type = 'DateAchèvementPrévisionnelCalculée-V1';
       `,
       );
+
+      console.info(`🔄 Réinjection des événements dans le stream achèvement...`);
+      count = 0;
+      for (const event of all_events) {
+        count++;
+        process.stdout.write(`\r⏳ [${count}/${all_events.length}]`);
+        await publish(`achevement|${event.payload.identifiantProjet}`, {
+          ...event,
+          created_at: event.payload.calculéeLe,
+        });
+      }
+      console.info('\n✅ Migration terminée');
     } catch (error) {
       console.error(error);
     }
