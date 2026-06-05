@@ -84,7 +84,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             'transmiseLe', COALESCE(racc.payload->>'transmiseLe', racc.created_at)
           ))
             FILTER (WHERE racc.payload->>'dateMiseEnService' IS NOT NULL) as "datesMiseEnService",
-          array_agg(jsonb_build_object(
+          array_agg(distinct jsonb_build_object(
             'nombreDeMois', delai.value->>'accord.nombreDeMois',
             'accordéLe', delai.value->>'accord.accordéeLe'
           ))
