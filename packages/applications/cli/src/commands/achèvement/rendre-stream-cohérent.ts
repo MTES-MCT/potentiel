@@ -1,16 +1,14 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
 import { writeFile } from 'node:fs/promises';
 
 import { Command } from '@oclif/core';
-import { mediator } from 'mediateur';
 import z from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import {
-  getScopeProjetUtilisateurAdapter,
-  ProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { getScopeProjetUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import {
   countProjection,
   findProjection,
@@ -18,7 +16,6 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { ExportCSV } from '@potentiel-libraries/csv';
-import { Option } from '@potentiel-libraries/monads';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
@@ -63,6 +60,8 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         identifiantProjet: IdentifiantProjet.RawType;
         dateNotification: DateTime.RawType;
         référenceCahierDesChargesActuel: AppelOffre.RéférenceCahierDesCharges.RawType;
+        technologie: AppelOffre.Technologie;
+        cdcModifiéLe?: DateTime.RawType;
         datesMiseEnService?: {
           dateMiseEnService: DateTime.RawType;
           transmiseLe: DateTime.RawType;
@@ -78,6 +77,8 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           laur.value->>'notifiéLe' as "dateNotification",
           laur.value->>'cahierDesCharges' as "référenceCahierDesChargesActuel",
           (covid.payload IS NOT NULL) as "avecEventCovid",
+          cand.value->>'technologieCalculée' as "technologie",
+          MAX(cdc.payload->>'modifiéLe') as "cdcModifiéLe",
           array_agg(distinct jsonb_build_object(
             'dateMiseEnService', racc.payload->>'dateMiseEnService',
             'transmiseLe', racc.created_at
@@ -91,10 +92,21 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       from
         domain_views.projection as laur
       inner join
+        domain_views.projection as cand on cand.key = format(
+          'candidature|%s',
+          laur.value->>'identifiantProjet'
+      )
+      inner join
         domain_views.projection as ach on ach.key = format(
             'achèvement|%s',
             laur.value->>'identifiantProjet'
           )
+      left join
+        event_store.event_stream as cdc on cdc.stream_id = format(
+          'lauréat|%s', 
+          laur.value->>'identifiantProjet'
+        ) 
+        and type = 'CahierDesChargesChoisi-V1'
       left join
         event_store.event_stream as racc on racc.stream_id = format(
           'raccordement|%s', 
@@ -118,7 +130,8 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         1,
         2,
         3,
-        4;
+        4,
+        5;
     `);
 
       if (!projets.length) {
@@ -139,6 +152,8 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         identifiantProjet,
         dateNotification,
         référenceCahierDesChargesActuel,
+        technologie,
+        cdcModifiéLe,
         datesMiseEnService,
         avecEventCovid,
         délais,
@@ -154,14 +169,33 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           /**
            * 1. Évènement suite à la notification du projet
            */
-          const projet = await ProjetAdapter.getProjetAggregateRootAdapter(
-            IdentifiantProjet.convertirEnValueType(identifiantProjet),
+
+          const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+          const appelOffre = appelsOffreData.find((ao) => ao.id === idProjet.appelOffre)!;
+          const période = appelOffre.periodes.find((p) => p.id === idProjet.période)!;
+
+          const cahierDesChargesChoisi = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
+            référenceCahierDesChargesActuel,
           );
 
+          const cahierDesChargesModificatif = période.cahiersDesChargesModifiésDisponibles.find(
+            (c) => cahierDesChargesChoisi.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.bind(c)),
+          );
+
+          const cahierDesCharges = CahierDesCharges.bind({
+            appelOffre,
+            période,
+            technologie,
+            cahierDesChargesModificatif,
+            famille: undefined,
+          });
+
           const datePostNotification =
-            await projet.lauréat.achèvement.getDateAchèvementPrévisionnelCalculée({
-              type: 'notification',
-            });
+            Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(dateNotification)
+              .ajouterDélai(cahierDesCharges.getDélaiRéalisationEnMois())
+              .dateTime.retirerNombreDeJours(1)
+              .formatter();
 
           events.push({
             type: 'DateAchèvementPrévisionnelCalculée-V1',
@@ -200,27 +234,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             /**
              * 3. Évènement CDC 30/08/2022 dépendant de la mise en service du projet
              */
-            const estÉligibleAux18mois = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
-              référenceCahierDesChargesActuel,
-            ).estCDC2022();
-
-            const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
-              type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
-              data: {
-                identifiantProjetValue: identifiantProjet,
-              },
-            });
-
-            if (Option.isNone(cahierDesCharges)) {
-              const message = `Impossible de récupérer le CDC`;
-              console.warn(`\n⚠️ [${identifiantProjet}] ${message}`);
-              stats.errors.push({ identifiantProjet, message });
-              continue;
-            }
 
             const délaiApplicable = cahierDesCharges.cahierDesChargesModificatif?.délaiApplicable;
 
-            if (estÉligibleAux18mois && délaiApplicable) {
+            if (cahierDesChargesChoisi.estCDC2022() && délaiApplicable) {
               const datesMiseServiceDansInterval = datesMiseEnService.filter(
                 ({ dateMiseEnService }) =>
                   DateTime.convertirEnValueType(dateMiseEnService).estDansIntervalle({
@@ -237,7 +254,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                * Si pas de date de mise en service, le projet n'est pas concerné par l'attribution des 18 mois
                * donc on peut skip
                */
-              if (datesMiseServiceDansInterval.length > 0) {
+              if (datesMiseServiceDansInterval.length > 0 && cdcModifiéLe) {
                 const dateMiseEnServiceLaPlusAncienne = datesMiseServiceDansInterval.sort(
                   (a, b) => {
                     const aDate = DateTime.convertirEnValueType(a.dateMiseEnService);
@@ -248,37 +265,11 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                   },
                 )[0];
 
-                const eventModificationCdc = await executeSelect<{
-                  date: DateTime.RawType;
-                }>(
-                  `
-                select 
-                  payload->>'modifiéLe' as date
-                from 
-                  event_store.event_stream es 
-                where 
-                  stream_id = 'lauréat|' || $1
-                  and type = 'CahierDesChargesChoisi-V1'
-                  and payload->>'cahierDesCharges' = '30/08/2022'
-                order by payload->>'modifiéLe' desc
-                limit 1
-              `,
-                  identifiantProjet,
-                );
-
-                if (!eventModificationCdc[0]?.date) {
-                  const message =
-                    'Impossible de récupérer la date de modification du CDC en 30/08/2022 la plus récente';
-                  console.warn(`\n⚠️ [${identifiantProjet}] ${message}`);
-                  stats.errors.push({ identifiantProjet, message });
-                  continue;
-                }
-
                 const dateQuiAProvoquéLes18Mois = DateTime.convertirEnValueType(
                   dateMiseEnServiceLaPlusAncienne.transmiseLe,
-                ).estUltérieureÀ(DateTime.convertirEnValueType(eventModificationCdc[0].date))
+                ).estUltérieureÀ(DateTime.convertirEnValueType(cdcModifiéLe))
                   ? dateMiseEnServiceLaPlusAncienne.transmiseLe
-                  : eventModificationCdc[0].date;
+                  : cdcModifiéLe;
 
                 const datePostChoixCdc = DateTime.convertirEnValueType(
                   dateAchèvementPrévisionnelFinale,
