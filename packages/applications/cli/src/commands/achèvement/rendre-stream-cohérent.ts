@@ -32,10 +32,7 @@ type Stats = {
   errors: { identifiantProjet: IdentifiantProjet.RawType; message: string }[];
 };
 
-type AchèvementEventStream = Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent & {
-  created_at: DateTime.RawType;
-  version: number;
-};
+type AchèvementEventStream = Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent;
 
 export class RendreStreamAchèvementCohérentCommand extends Command {
   static override description =
@@ -146,7 +143,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       console.info(`ℹ️  ${stats.total} projets à traiter`);
 
       let count = 0;
-      const all_events: Omit<AchèvementEventStream, 'version'>[] = [];
+      const all_events: AchèvementEventStream[] = [];
 
       for (const {
         identifiantProjet,
@@ -162,7 +159,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           count++;
           process.stdout.write(`\r⏳ [${count}/${stats.total}]`);
 
-          const events: Omit<AchèvementEventStream, 'version'>[] = [];
+          const events: AchèvementEventStream[] = [];
 
           let dateAchèvementPrévisionnelFinale: DateTime.RawType;
           const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -198,10 +195,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
           events.push({
             type: 'DateAchèvementPrévisionnelCalculée-V1',
-            created_at: dateNotification,
             payload: {
               identifiantProjet,
               date: datePostNotification,
+              calculéeLe: addMilliseconds(dateNotification, 1),
               raison: 'notification',
             },
           });
@@ -218,8 +215,8 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
             events.push({
               type: 'DateAchèvementPrévisionnelCalculée-V1',
-              created_at: '2020-09-25T12:00:00.000Z',
               payload: {
+                calculéeLe: '2020-09-25T12:00:00.000Z',
                 identifiantProjet,
                 date: datePostCovid,
                 raison: 'covid',
@@ -277,9 +274,9 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
                 events.push({
                   type: 'DateAchèvementPrévisionnelCalculée-V1',
-                  created_at: dateQuiAProvoquéLes18Mois,
                   payload: {
                     identifiantProjet,
+                    calculéeLe: addMilliseconds(dateQuiAProvoquéLes18Mois, 1),
                     date: datePostChoixCdc,
                     raison: 'ajout-délai-cdc-30_08_2022',
                   },
@@ -311,10 +308,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
               events.push({
                 type: 'DateAchèvementPrévisionnelCalculée-V1',
-                created_at: délai.accordéLe,
                 payload: {
                   identifiantProjet,
                   date: datePostDélaiAccordé,
+                  calculéeLe: addMilliseconds(délai.accordéLe, 1),
                   raison: 'délai-accordé',
                 },
               });
@@ -354,6 +351,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         console.info(
           `\n💾 [dry-run] ${all_events.length} events auraient été réinjectés dans le stream achèvement`,
         );
+        // stats sur le nombre d'évènements par projet
         console.log(
           Object.entries(
             Object.groupBy(
@@ -375,6 +373,16 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
       console.info(
         '\n🎉 Tous les projets ont été traités avec succès, les événements vont être réinjectés dans le stream achèvement',
+      );
+
+      // Suppression des évènements existants
+      console.info(`\n🧹 Suppression des événements existants dans le stream d'achèvement...`);
+      await executeSelect(
+        `
+        delete from event_store.event_stream
+        where stream_id like 'achevement|%'
+          and type = 'DateAchèvementPrévisionnelCalculée-V1';
+      `,
       );
     } catch (error) {
       console.error(error);
@@ -417,3 +425,9 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
     }
   }
 }
+
+const addMilliseconds = (date: Date | string, milliseconds: number): DateTime.RawType => {
+  const newDate = new Date(date);
+  newDate.setMilliseconds(newDate.getMilliseconds() + milliseconds);
+  return DateTime.convertirEnValueType(newDate).formatter();
+};

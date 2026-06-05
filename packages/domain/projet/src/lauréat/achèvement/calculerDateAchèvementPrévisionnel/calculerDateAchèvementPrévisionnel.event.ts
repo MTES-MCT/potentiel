@@ -8,6 +8,7 @@ export type DateAchèvementPrévisionnelCalculéeEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     date: DateTime.RawType;
+    calculéeLe: DateTime.RawType;
     raison:
       | 'notification'
       | 'covid'

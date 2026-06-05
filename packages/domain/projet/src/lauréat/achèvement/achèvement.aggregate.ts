@@ -138,6 +138,7 @@ export class AchèvementAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet,
         date,
+        calculéeLe: DateTime.now().formatter(),
         raison: options.type,
       },
     };

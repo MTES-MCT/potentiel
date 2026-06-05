@@ -9,10 +9,10 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 export const mapToDateAchèvementPrévisionnelCalculéeProps = (
   event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent,
 ): TimelineItemProps => {
-  const { date, raison } = event.payload;
+  const { date, calculéeLe, raison } = event.payload;
 
   return {
-    date,
+    date: calculéeLe,
     title: getTitleFromRaison(raison),
     details: (
       <div className="flex flex-col gap-2">
