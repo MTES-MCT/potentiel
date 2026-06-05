@@ -29,7 +29,10 @@ const envSchema = z.object({
 
 type Stats = {
   total: number;
-  success: IdentifiantProjet.RawType[];
+  success: {
+    identifiantProjet: IdentifiantProjet.RawType;
+    dateAchèvementPrévisionnelFinale: DateTime.RawType;
+  }[];
   errors: { identifiantProjet: IdentifiantProjet.RawType; message: string }[];
 };
 
@@ -146,7 +149,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
           const events: Omit<AchèvementEventStream, 'version'>[] = [];
 
-          let dateAchèvementPrévisionnelleFinale: DateTime.RawType;
+          let dateAchèvementPrévisionnelFinale: DateTime.RawType;
 
           /**
            * 1. Évènement suite à la notification du projet
@@ -170,13 +173,13 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             },
           });
 
-          dateAchèvementPrévisionnelleFinale = datePostNotification;
+          dateAchèvementPrévisionnelFinale = datePostNotification;
 
           if (avecEventCovid) {
             /**
              * 2. Évènement covid
              */
-            const datePostCovid = DateTime.convertirEnValueType(dateAchèvementPrévisionnelleFinale)
+            const datePostCovid = DateTime.convertirEnValueType(dateAchèvementPrévisionnelFinale)
               .ajouterNombreDeMois(7)
               .formatter();
 
@@ -190,7 +193,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
               },
             });
 
-            dateAchèvementPrévisionnelleFinale = datePostCovid;
+            dateAchèvementPrévisionnelFinale = datePostCovid;
           }
 
           if (datesMiseEnService && datesMiseEnService.length > 0) {
@@ -209,10 +212,9 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             });
 
             if (Option.isNone(cahierDesCharges)) {
-              stats.errors.push({
-                identifiantProjet,
-                message: `Impossible de récupérer le CDC`,
-              });
+              const message = `Impossible de récupérer le CDC`;
+              console.warn(`\n⚠️ [${identifiantProjet}] ${message}`);
+              stats.errors.push({ identifiantProjet, message });
               continue;
             }
 
@@ -231,8 +233,11 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                   }),
               );
 
+              /*
+               * Si pas de date de mise en service, le projet n'est pas concerné par l'attribution des 18 mois
+               * donc on peut skip
+               */
               if (datesMiseServiceDansInterval.length === 0) {
-                // On skip
                 continue;
               }
 
@@ -266,11 +271,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
               );
 
               if (!eventModificationCdc[0]?.date) {
-                stats.errors.push({
-                  identifiantProjet,
-                  message:
-                    'Impossible de récupérer la date de modification du CDC en 30/08/2022 la plus récente',
-                });
+                const message =
+                  'Impossible de récupérer la date de modification du CDC en 30/08/2022 la plus récente';
+                console.warn(`\n⚠️ [${identifiantProjet}] ${message}`);
+                stats.errors.push({ identifiantProjet, message });
                 continue;
               }
 
@@ -281,7 +285,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                 : eventModificationCdc[0].date;
 
               const datePostChoixCdc = DateTime.convertirEnValueType(
-                dateAchèvementPrévisionnelleFinale,
+                dateAchèvementPrévisionnelFinale,
               )
                 .ajouterNombreDeMois(délaiApplicable.délaiEnMois)
                 .formatter();
@@ -296,7 +300,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                 },
               });
 
-              dateAchèvementPrévisionnelleFinale = datePostChoixCdc;
+              dateAchèvementPrévisionnelFinale = datePostChoixCdc;
             }
           }
 
@@ -317,7 +321,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
             for (const délai of sortedDélais) {
               const datePostDélaiAccordé = DateTime.convertirEnValueType(
-                dateAchèvementPrévisionnelleFinale,
+                dateAchèvementPrévisionnelFinale,
               )
                 .ajouterNombreDeMois(Number(délai.nombreDeMois))
                 .formatter();
@@ -332,11 +336,11 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                 },
               });
 
-              dateAchèvementPrévisionnelleFinale = datePostDélaiAccordé;
+              dateAchèvementPrévisionnelFinale = datePostDélaiAccordé;
             }
           }
 
-          stats.success.push(identifiantProjet);
+          stats.success.push({ identifiantProjet, dateAchèvementPrévisionnelFinale });
         } catch (error) {
           console.log(error);
 
@@ -353,9 +357,29 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       console.info(`  ✅ ${stats.success.length} projets ont un nouveau event stream achèvement`);
       console.info(`  ❌ ${stats.errors.length} projets en erreur`);
 
+      const FILE_SUCCESS = './rendre-stream-achèvement-cohérent_succès.csv';
+      const FILE_ERRORS = './rendre-stream-achèvement-cohérent_erreurs.csv';
+
+      if (stats.success.length) {
+        await writeFile(
+          FILE_SUCCESS,
+          await ExportCSV.toCSV({
+            data: stats.success,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              {
+                label: 'Date achèvement prévisionnel finale',
+                value: 'dateAchèvementPrévisionnelFinale',
+              },
+            ],
+          }),
+          'utf-8',
+        );
+      }
+
       if (stats.errors.length) {
         await writeFile(
-          './rendre-stream-achèvement-cohérent_erreurs.csv',
+          FILE_ERRORS,
           await ExportCSV.toCSV({
             data: stats.errors,
             fields: [
