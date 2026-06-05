@@ -237,70 +237,67 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                * Si pas de date de mise en service, le projet n'est pas concerné par l'attribution des 18 mois
                * donc on peut skip
                */
-              if (datesMiseServiceDansInterval.length === 0) {
-                continue;
-              }
+              if (datesMiseServiceDansInterval.length > 0) {
+                const dateMiseEnServiceLaPlusAncienne = datesMiseServiceDansInterval.sort(
+                  (a, b) => {
+                    const aDate = DateTime.convertirEnValueType(a.dateMiseEnService);
+                    const bDate = DateTime.convertirEnValueType(b.dateMiseEnService);
+                    if (aDate.estAntérieurÀ(bDate)) return -1;
+                    if (bDate.estAntérieurÀ(aDate)) return 1;
+                    return 0;
+                  },
+                )[0];
 
-              const dateMiseEnServiceLaPlusAncienne =
-                datesMiseServiceDansInterval.length === 1
-                  ? datesMiseServiceDansInterval[0]
-                  : datesMiseServiceDansInterval.sort((a, b) => {
-                      const aDate = DateTime.convertirEnValueType(a.dateMiseEnService);
-                      const bDate = DateTime.convertirEnValueType(b.dateMiseEnService);
-                      if (aDate.estAntérieurÀ(bDate)) return -1;
-                      if (bDate.estAntérieurÀ(aDate)) return 1;
-                      return 0;
-                    })[0];
-
-              const eventModificationCdc = await executeSelect<{
-                date: DateTime.RawType;
-              }>(
-                `
-              select 
-                payload->>'modifiéLe' as date
-              from 
-                event_store.event_stream es 
-              where 
-                stream_id = 'lauréat|' || $1
-                and type = 'CahierDesChargesChoisi-V1'
-                and payload->>'cahierDesCharges' = '30/08/2022'
-              order by payload->>'modifiéLe' desc
-              limit 1
-            `,
-                identifiantProjet,
-              );
-
-              if (!eventModificationCdc[0]?.date) {
-                const message =
-                  'Impossible de récupérer la date de modification du CDC en 30/08/2022 la plus récente';
-                console.warn(`\n⚠️ [${identifiantProjet}] ${message}`);
-                stats.errors.push({ identifiantProjet, message });
-                continue;
-              }
-
-              const dateQuiAProvoquéLes18Mois = DateTime.convertirEnValueType(
-                dateMiseEnServiceLaPlusAncienne.transmiseLe,
-              ).estUltérieureÀ(DateTime.convertirEnValueType(eventModificationCdc[0].date))
-                ? dateMiseEnServiceLaPlusAncienne.transmiseLe
-                : eventModificationCdc[0].date;
-
-              const datePostChoixCdc = DateTime.convertirEnValueType(
-                dateAchèvementPrévisionnelFinale,
-              )
-                .ajouterNombreDeMois(délaiApplicable.délaiEnMois)
-                .formatter();
-
-              events.push({
-                type: 'DateAchèvementPrévisionnelCalculée-V1',
-                created_at: dateQuiAProvoquéLes18Mois,
-                payload: {
+                const eventModificationCdc = await executeSelect<{
+                  date: DateTime.RawType;
+                }>(
+                  `
+                select 
+                  payload->>'modifiéLe' as date
+                from 
+                  event_store.event_stream es 
+                where 
+                  stream_id = 'lauréat|' || $1
+                  and type = 'CahierDesChargesChoisi-V1'
+                  and payload->>'cahierDesCharges' = '30/08/2022'
+                order by payload->>'modifiéLe' desc
+                limit 1
+              `,
                   identifiantProjet,
-                  date: datePostChoixCdc,
-                  raison: 'ajout-délai-cdc-30_08_2022',
-                },
-              });
+                );
 
-              dateAchèvementPrévisionnelFinale = datePostChoixCdc;
+                if (!eventModificationCdc[0]?.date) {
+                  const message =
+                    'Impossible de récupérer la date de modification du CDC en 30/08/2022 la plus récente';
+                  console.warn(`\n⚠️ [${identifiantProjet}] ${message}`);
+                  stats.errors.push({ identifiantProjet, message });
+                  continue;
+                }
+
+                const dateQuiAProvoquéLes18Mois = DateTime.convertirEnValueType(
+                  dateMiseEnServiceLaPlusAncienne.transmiseLe,
+                ).estUltérieureÀ(DateTime.convertirEnValueType(eventModificationCdc[0].date))
+                  ? dateMiseEnServiceLaPlusAncienne.transmiseLe
+                  : eventModificationCdc[0].date;
+
+                const datePostChoixCdc = DateTime.convertirEnValueType(
+                  dateAchèvementPrévisionnelFinale,
+                )
+                  .ajouterNombreDeMois(délaiApplicable.délaiEnMois)
+                  .formatter();
+
+                events.push({
+                  type: 'DateAchèvementPrévisionnelCalculée-V1',
+                  created_at: dateQuiAProvoquéLes18Mois,
+                  payload: {
+                    identifiantProjet,
+                    date: datePostChoixCdc,
+                    raison: 'ajout-délai-cdc-30_08_2022',
+                  },
+                });
+
+                dateAchèvementPrévisionnelFinale = datePostChoixCdc;
+              }
             }
           }
 
@@ -308,16 +305,13 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             /***
              * 4. Évènements Délai accordé
              */
-            const sortedDélais =
-              délais.length === 1
-                ? délais
-                : délais.sort((a, b) => {
-                    const aDate = DateTime.convertirEnValueType(a.accordéLe);
-                    const bDate = DateTime.convertirEnValueType(b.accordéLe);
-                    if (aDate.estAntérieurÀ(bDate)) return -1;
-                    if (bDate.estAntérieurÀ(aDate)) return 1;
-                    return 0;
-                  });
+            const sortedDélais = délais.sort((a, b) => {
+              const aDate = DateTime.convertirEnValueType(a.accordéLe);
+              const bDate = DateTime.convertirEnValueType(b.accordéLe);
+              if (aDate.estAntérieurÀ(bDate)) return -1;
+              if (bDate.estAntérieurÀ(aDate)) return 1;
+              return 0;
+            });
 
             for (const délai of sortedDélais) {
               const datePostDélaiAccordé = DateTime.convertirEnValueType(
