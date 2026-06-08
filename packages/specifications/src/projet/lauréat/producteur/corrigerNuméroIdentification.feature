@@ -2,7 +2,6 @@
 @producteur
 Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
 
-  @select
   Scénario: Corriger le numéro d'identification d'un projet lauréat
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | appel d'offres | PPE2 - Bâtiment |
