@@ -162,7 +162,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
           const events: AchèvementEventStream[] = [];
 
-          let dateAchèvementPrévisionnelFinale: DateTime.RawType;
+          let dateAchèvementPrévisionnelFinale: DateTime.ValueType;
           const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
           /** biome-ignore lint/style/noNonNullAssertion: static data*/
           const appelOffre = appelsOffreData.find((ao) => ao.id === idProjet.appelOffre)!;
@@ -188,17 +188,16 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           /**
            * 1. Évènement suite à la notification du projet
            */
-          const datePostNotification =
-            Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(dateNotification)
-              .ajouterDélai(cahierDesCharges.getDélaiRéalisationEnMois())
-              .dateTime.retirerNombreDeJours(1)
-              .formatter();
+          const datePostNotification = calculerNouvelleDateAchèvement(
+            DateTime.convertirEnValueType(dateNotification),
+            cahierDesCharges.getDélaiRéalisationEnMois(),
+          ).retirerNombreDeJours(1);
 
           events.push({
             type: 'DateAchèvementPrévisionnelCalculée-V1',
             payload: {
               identifiantProjet,
-              date: datePostNotification,
+              date: datePostNotification.formatter(),
               calculéeLe: addMilliseconds(dateNotification, 1),
               raison: 'notification',
             },
@@ -210,16 +209,17 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
            * 2. Évènement covid
            */
           if (avecEventCovid) {
-            const datePostCovid = DateTime.convertirEnValueType(dateAchèvementPrévisionnelFinale)
-              .ajouterNombreDeMois(7)
-              .formatter();
+            const datePostCovid = calculerNouvelleDateAchèvement(
+              dateAchèvementPrévisionnelFinale,
+              7,
+            );
 
             events.push({
               type: 'DateAchèvementPrévisionnelCalculée-V1',
               payload: {
                 calculéeLe: '2020-09-25T12:00:00.000Z',
                 identifiantProjet,
-                date: datePostCovid,
+                date: datePostCovid.formatter(),
                 raison: 'covid',
               },
             });
@@ -267,18 +267,17 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
                   ? dateMiseEnServiceLaPlusAncienne.transmiseLe
                   : cdcModifiéLe;
 
-                const datePostChoixCdc = DateTime.convertirEnValueType(
+                const datePostChoixCdc = calculerNouvelleDateAchèvement(
                   dateAchèvementPrévisionnelFinale,
-                )
-                  .ajouterNombreDeMois(délaiApplicable.délaiEnMois)
-                  .formatter();
+                  délaiApplicable.délaiEnMois,
+                );
 
                 events.push({
                   type: 'DateAchèvementPrévisionnelCalculée-V1',
                   payload: {
                     identifiantProjet,
                     calculéeLe: addMilliseconds(dateQuiAProvoquéLes18Mois, 1),
-                    date: datePostChoixCdc,
+                    date: datePostChoixCdc.formatter(),
                     raison: 'ajout-délai-cdc-30_08_2022',
                   },
                 });
@@ -301,17 +300,16 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             });
 
             for (const délai of sortedDélais) {
-              const datePostDélaiAccordé = DateTime.convertirEnValueType(
+              const datePostDélaiAccordé = calculerNouvelleDateAchèvement(
                 dateAchèvementPrévisionnelFinale,
-              )
-                .ajouterNombreDeMois(Number(délai.nombreDeMois))
-                .formatter();
+                Number(délai.nombreDeMois),
+              );
 
               events.push({
                 type: 'DateAchèvementPrévisionnelCalculée-V1',
                 payload: {
                   identifiantProjet,
-                  date: datePostDélaiAccordé,
+                  date: datePostDélaiAccordé.formatter(),
                   calculéeLe: addMilliseconds(délai.accordéLe, 1),
                   raison: 'délai-accordé',
                 },
@@ -321,7 +319,10 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
             }
           }
 
-          stats.success.push({ identifiantProjet, dateAchèvementPrévisionnelFinale });
+          stats.success.push({
+            identifiantProjet,
+            dateAchèvementPrévisionnelFinale: dateAchèvementPrévisionnelFinale.formatter(),
+          });
           all_events.push(...events);
         } catch (error) {
           console.log(error);
@@ -444,3 +445,13 @@ const addMilliseconds = (date: Date | string, milliseconds: number): DateTime.Ra
   newDate.setMilliseconds(newDate.getMilliseconds() + milliseconds);
   return DateTime.convertirEnValueType(newDate).formatter();
 };
+
+const calculerNouvelleDateAchèvement = (
+  dateActuelle: DateTime.ValueType,
+  nombreDeMoisÀAjouter: number,
+): DateTime.ValueType =>
+  dateActuelle
+    // gestion des années bissextiles
+    .ajouterNombreDeJours(1)
+    .ajouterNombreDeMois(nombreDeMoisÀAjouter)
+    .retirerNombreDeJours(1);
