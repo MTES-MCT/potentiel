@@ -35,7 +35,7 @@ Quand(
   "le porteur corrige le numéro d'identification du projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await enregistrerChangementProducteur.call(this);
+      await corrigerNuméroIdentification.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -46,7 +46,7 @@ Quand(
   "le porteur corrige le numéro d'identification du projet lauréat avec une valeur identique",
   async function (this: PotentielWorld) {
     try {
-      await enregistrerChangementProducteur.call(this, {
+      await corrigerNuméroIdentification.call(this, {
         siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
       });
     } catch (error) {
@@ -134,17 +134,17 @@ async function corrigerNuméroIdentification(
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-  const { pièceJustificative, enregistréLe, enregistréPar, siret } =
-    this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
-      enregistréPar: this.utilisateurWorld.porteurFixture.email,
+  const { pièceJustificative, corrigéLe, corrigéPar, siret } =
+    this.lauréatWorld.producteurWorld.corrigerNuméroIdentificationFixture.créer({
+      corrigéPar: this.utilisateurWorld.porteurFixture.email,
       ...data,
     });
 
   await mediator.send<Lauréat.Producteur.CorrigerNuméroIdentificationUseCase>({
     type: 'Lauréat.Producteur.UseCase.CorrigerNuméroIdentification',
     data: {
-      dateChangementValue: enregistréLe,
-      identifiantUtilisateurValue: enregistréPar,
+      dateChangementValue: corrigéLe,
+      identifiantUtilisateurValue: corrigéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       numéroIdentificationValue: { siret },

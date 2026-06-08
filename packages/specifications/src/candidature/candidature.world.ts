@@ -13,6 +13,7 @@ import {
   instructionExempleMap,
   localitéExempleMap,
   natureDeLExploitationExempleMap,
+  numéroIdentificationExempleMap,
   raccordementExempleMap,
 } from './candidature.exempleMap.js';
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture.js';
@@ -46,6 +47,7 @@ export class CandidatureWorld {
     const natureDeLExploitation = mapToExemple(exemple, natureDeLExploitationExempleMap);
     const raccordement = mapToExemple(exemple, raccordementExempleMap);
     const coordonnées = mapToExemple(exemple, coordonnéesExempleMap);
+    const numéroIdentification = mapToExemple(exemple, numéroIdentificationExempleMap);
 
     return {
       identifiantProjet,
@@ -53,6 +55,7 @@ export class CandidatureWorld {
         ...dépôt,
         ...(Object.keys(coordonnées).length ? { coordonnées } : {}),
         ...(Object.keys(localité).length ? { localité } : {}),
+        ...(Object.keys(numéroIdentification).length ? { numéroIdentification } : {}),
         autorisation,
         attestationConstitutionGf,
         dispositifDeStockage,

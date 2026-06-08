@@ -2,7 +2,7 @@
 @producteur
 Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
 
-  # Rajouter la tâche
+  @select
   Scénario: Corriger le numéro d'identification d'un projet lauréat
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | appel d'offres | PPE2 - Bâtiment |
@@ -12,9 +12,9 @@ Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
 
   Scénario: Impossible de corriger le numéro d'identification d'un projet lauréat avec un numéro identique
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-      | appel d'offres | PPE2 - Bâtiment |
-      | période        | 1               |
-      | siret          | 34883190006428  |
+      | appel d'offres | PPE2 - Bâtiment   |
+      | période        | 1                 |
+      | numéro siret   | 110 090 016 00053 |
     Quand le porteur corrige le numéro d'identification du projet lauréat avec une valeur identique
     Alors le porteur devrait être informé que "Le nouveau numéro d'identification est identique à celui associé au projet"
 

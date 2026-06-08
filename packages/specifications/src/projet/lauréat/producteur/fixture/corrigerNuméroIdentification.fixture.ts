@@ -5,8 +5,8 @@ import { AbstractFixture } from '../../../../fixture.js';
 
 interface CorrigerNuméroIdentification {
   readonly pièceJustificative: PièceJustificative;
-  readonly enregistréLe: string;
-  readonly enregistréPar: string;
+  readonly corrigéLe: string;
+  readonly corrigéPar: string;
   readonly siret: string;
 }
 
@@ -20,16 +20,16 @@ export class CorrigerNuméroIdentificationFixture
     return this.#pièceJustificative;
   }
 
-  #enregistréLe!: string;
+  #corrigéLe!: string;
 
-  get enregistréLe(): string {
-    return this.#enregistréLe;
+  get corrigéLe(): string {
+    return this.#corrigéLe;
   }
 
-  #enregistréPar!: string;
+  #corrigéPar!: string;
 
-  get enregistréPar(): string {
-    return this.#enregistréPar;
+  get corrigéPar(): string {
+    return this.#corrigéPar;
   }
 
   #siret!: string;
@@ -42,15 +42,15 @@ export class CorrigerNuméroIdentificationFixture
     partialData?: Partial<CorrigerNuméroIdentification>,
   ): Readonly<CorrigerNuméroIdentification> {
     const fixture: CorrigerNuméroIdentification = {
-      enregistréLe: faker.date.recent().toISOString(),
-      enregistréPar: faker.internet.email(),
+      corrigéLe: faker.date.recent().toISOString(),
+      corrigéPar: faker.internet.email(),
       pièceJustificative: faker.potentiel.document(),
       siret: faker.potentiel.numéroIdentification().siret,
       ...partialData,
     };
 
-    this.#enregistréLe = fixture.enregistréLe;
-    this.#enregistréPar = fixture.enregistréPar;
+    this.#corrigéLe = fixture.corrigéLe;
+    this.#corrigéPar = fixture.corrigéPar;
     this.#pièceJustificative = fixture.pièceJustificative;
     this.#siret = fixture.siret;
 

@@ -1,7 +1,6 @@
 import type { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-// viovio voir si le updateone marche
 export const numéroIdentificationCorrigéProjector = async ({
   payload: { identifiantProjet, numéroIdentification, corrigéLe },
 }: Lauréat.Producteur.NuméroIdentificationCorrigéEvent) => {
