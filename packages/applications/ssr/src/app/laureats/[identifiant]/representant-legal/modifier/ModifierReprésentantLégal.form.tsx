@@ -7,7 +7,7 @@ import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import { SaisieNomStep, SaisieTypeAndSociétéStep, type TypeSociété } from '../_helpers/steps';
+import { SaisieNomStep, SaisieTypeStep } from '../_helpers/steps';
 import type { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 import {
   type ModifierReprésentantLégalFormKeys,
@@ -18,7 +18,7 @@ export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPa
 
 type ModifierReprésentantLégalState = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
+  estEnCoursDeConstitution: boolean;
 };
 
 export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalFormProps> = ({
@@ -32,7 +32,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
 
   const [state, setState] = useState<ModifierReprésentantLégalState>({
     typeReprésentantLégal: typeReprésentantLégal.type,
-    typeSociété: 'non renseignée',
+    estEnCoursDeConstitution: false,
   });
 
   return (
@@ -52,16 +52,16 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         name="identifiantProjet"
       />
       <div className="flex flex-col gap-4">
-        <SaisieTypeAndSociétéStep
+        <SaisieTypeStep
           estUneModificationAdmin={true}
           typeReprésentantLégal={state.typeReprésentantLégal}
-          typeSociété={state.typeSociété}
+          estEnCoursDeConstitution={state.estEnCoursDeConstitution}
           validationErrors={validationErrors}
-          onChange={({ typeReprésentantLégal, typeSociété }) => {
+          onChange={({ typeReprésentantLégal, estEnCoursDeConstitution }) => {
             setState((state) => ({
               ...state,
               typeReprésentantLégal,
-              typeSociété,
+              estEnCoursDeConstitution,
             }));
           }}
         />

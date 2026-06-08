@@ -1,8 +1,9 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
+import { Notice } from '@codegouvfr/react-dsfr/Notice';
 
 export const DemandeInfosBox = () => (
   <Notice
     title="Instruction"
+    className="lg:w-1/2"
     description={
       <span>
         Votre demande sera instruite par le service de l'état en région de votre projet. À défaut de

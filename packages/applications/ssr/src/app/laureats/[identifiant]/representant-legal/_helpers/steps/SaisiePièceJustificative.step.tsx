@@ -9,22 +9,21 @@ import { Link } from '@/components/atoms/LinkNoPrefetch';
 import type { ValidationErrors } from '@/utils/formAction';
 import { getPiècesJustificativesText } from '../getTypeReprésentantLégalLabel';
 import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
-import type { TypeSociété } from './SaisieTypeAndSociété.step';
 
 export type SaisiePièceJustificativeProps = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
+  estEnCoursDeConstitution: boolean;
   pièceJustificative?: Array<string>;
   validationErrors: ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>;
 };
 
 export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> = ({
   typeReprésentantLégal,
-  typeSociété,
+  estEnCoursDeConstitution,
   pièceJustificative,
   validationErrors,
 }) => {
-  const hintText = getPiècesJustificativesText(typeReprésentantLégal, typeSociété);
+  const hintText = getPiècesJustificativesText(typeReprésentantLégal, estEnCoursDeConstitution);
 
   return (
     <div className="md:grid md:grid-cols-2 md:items-center gap-2">
@@ -34,7 +33,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         hintText={`Pièces à joindre : ${hintText}`}
         required
         formats={['pdf']}
-        multiple={typeSociété !== 'constituée' ? true : undefined}
+        multiple={estEnCoursDeConstitution ? true : undefined}
         state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['piecesJustificatives']}
         documentKeys={pièceJustificative}

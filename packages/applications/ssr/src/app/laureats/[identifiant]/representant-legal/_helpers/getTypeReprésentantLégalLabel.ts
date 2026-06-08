@@ -2,8 +2,6 @@ import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import type { TypeSociété } from './steps';
-
 export const getTypeReprésentantLégalLabel = (
   type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType,
 ) =>
@@ -18,7 +16,7 @@ export const getTypeReprésentantLégalLabel = (
 
 export const getPiècesJustificativesText = (
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType,
-  typeSociété: TypeSociété,
+  estEnCoursDeConstitution: boolean,
 ): string =>
   match(typeReprésentantLégal)
     .returnType<string>()
@@ -27,19 +25,14 @@ export const getPiècesJustificativesText = (
       () => "Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité",
     )
     .with('personne-morale', () =>
-      match(typeSociété)
+      match(estEnCoursDeConstitution)
         .returnType<string>()
-        .with('constituée', () => 'un extrait Kbis')
         .with(
-          'en cours de constitution',
+          true,
           () =>
-            'Une copie des statuts de la société, une attestation de récépissé de dépôt de fonds pour constitution de capital social, une copie de l’acte désignant le représentant légal de la société',
+            "Une copie des statuts de la société, une attestation de récépissé de dépôt de fonds pour constitution de capital social, une copie de l'acte désignant le représentant légal de la société",
         )
-        .with(
-          'non renseignée',
-          () =>
-            'Veuillez sélectionner le type de société pour voir les pièces justificatives à fournir',
-        )
+        .with(false, () => 'un extrait Kbis')
         .exhaustive(),
     )
     .with('collectivité', () => 'Un extrait de délibération portant sur le projet')

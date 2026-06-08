@@ -52,6 +52,7 @@ export const TypeReprésentantLégalSelect = ({
         required,
         'aria-required': required,
         defaultValue,
+        className: 'mb-0',
         onChange: (e) => {
           const typeReprésentantLégalSélectionné = typesReprésentantLégalOptions.find(
             (type) => type.value === e.currentTarget.value,

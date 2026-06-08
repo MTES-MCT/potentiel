@@ -8,12 +8,7 @@ import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
 import { DemandeInfosBox } from '../../_helpers/DemandeInfosBox';
 import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../../_helpers/schema';
-import {
-  SaisieNomStep,
-  SaisiePièceJustificativeStep,
-  SaisieTypeAndSociétéStep,
-  type TypeSociété,
-} from '../../_helpers/steps';
+import { SaisieNomStep, SaisiePièceJustificativeStep, SaisieTypeStep } from '../../_helpers/steps';
 import { demanderChangementReprésentantLégalAction } from '../demander/demanderChangementReprésentantLégal.action';
 import { enregistrerChangementReprésentantLégalAction } from '../enregistrer/enregistrerChangementReprésentantLégal.action';
 
@@ -24,7 +19,7 @@ type DemanderOuEnregistrerChangementReprésentantLégalFormProps = {
 
 type DemanderOuEnregistrerChangementReprésentantLégalState = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
+  estEnCoursDeConstitution: boolean;
 };
 
 export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
@@ -36,7 +31,7 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
 
   const [state, setState] = useState<DemanderOuEnregistrerChangementReprésentantLégalState>({
     typeReprésentantLégal: 'inconnu',
-    typeSociété: 'non renseignée',
+    estEnCoursDeConstitution: false,
   });
 
   return (
@@ -57,12 +52,12 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
       }}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <div className="flex flex-col gap-2">
-        <SaisieTypeAndSociétéStep
+      <div className="flex flex-col gap-6">
+        <SaisieTypeStep
           typeReprésentantLégal={state.typeReprésentantLégal}
-          typeSociété={state.typeSociété}
+          estEnCoursDeConstitution={state.estEnCoursDeConstitution}
           validationErrors={validationErrors}
-          onChange={({ typeReprésentantLégal, typeSociété }) => {
+          onChange={({ typeReprésentantLégal, estEnCoursDeConstitution }) => {
             setValidationErrors((validationErrors) => ({
               ...validationErrors,
               typeRepresentantLegal: undefined,
@@ -70,7 +65,7 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
             setState((state) => ({
               ...state,
               typeReprésentantLégal,
-              typeSociété,
+              estEnCoursDeConstitution,
             }));
           }}
         />
@@ -81,11 +76,12 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
         />
         <SaisiePièceJustificativeStep
           typeReprésentantLégal={state.typeReprésentantLégal}
-          typeSociété={state.typeSociété}
+          estEnCoursDeConstitution={state.estEnCoursDeConstitution}
           validationErrors={validationErrors}
         />
         {estUneDemande && <DemandeInfosBox />}
       </div>
     </Form>
+    
   );
 };

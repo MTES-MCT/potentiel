@@ -12,8 +12,7 @@ import { DemandeInfosBox } from '../../../_helpers/DemandeInfosBox';
 import {
   SaisieNomStep,
   SaisiePièceJustificativeStep,
-  SaisieTypeAndSociétéStep,
-  type TypeSociété,
+  SaisieTypeStep,
 } from '../../../_helpers/steps';
 import {
   type CorrigerChangementReprésentantLégalFormKeys,
@@ -21,7 +20,7 @@ import {
 } from './corrigerChangementReprésentantLégal.action';
 
 export type CorrigerChangementReprésentantLégalFormProps = PlainType<{
-  identifiantProjet: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['identifiantProjet'];
+  identifiantProjet: IdentifiantProjet.ValueType;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['typeReprésentantLégal'];
   nomReprésentantLégal: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['nomReprésentantLégal'];
   pièceJustificative: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['pièceJustificative'];
@@ -30,7 +29,7 @@ export type CorrigerChangementReprésentantLégalFormProps = PlainType<{
 
 type CorrigerChangementReprésentantLégalState = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
+  estEnCoursDeConstitution: boolean;
 };
 
 export const CorrigerChangementReprésentantLégalForm: FC<
@@ -47,7 +46,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
   >({});
   const [state, setState] = useState<CorrigerChangementReprésentantLégalState>({
     typeReprésentantLégal: typeReprésentantLégal.type,
-    typeSociété: 'non renseignée',
+    estEnCoursDeConstitution: false,
   });
 
   return (
@@ -71,16 +70,16 @@ export const CorrigerChangementReprésentantLégalForm: FC<
         name="identifiantProjet"
       />
 
-      <div>
-        <SaisieTypeAndSociétéStep
+      <div className="flex flex-col gap-6">
+        <SaisieTypeStep
           typeReprésentantLégal={state.typeReprésentantLégal}
-          typeSociété={state.typeSociété}
+          estEnCoursDeConstitution={state.estEnCoursDeConstitution}
           validationErrors={validationErrors}
-          onChange={({ typeReprésentantLégal, typeSociété }) => {
+          onChange={({ typeReprésentantLégal, estEnCoursDeConstitution }) => {
             setState((state) => ({
               ...state,
               typeReprésentantLégal,
-              typeSociété,
+              estEnCoursDeConstitution,
             }));
           }}
         />
@@ -91,7 +90,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
         />
         <SaisiePièceJustificativeStep
           typeReprésentantLégal={state.typeReprésentantLégal}
-          typeSociété={state.typeSociété}
+          estEnCoursDeConstitution={state.estEnCoursDeConstitution}
           pièceJustificative={[DocumentProjet.bind(pièceJustificative).formatter()]}
           validationErrors={validationErrors}
         />
