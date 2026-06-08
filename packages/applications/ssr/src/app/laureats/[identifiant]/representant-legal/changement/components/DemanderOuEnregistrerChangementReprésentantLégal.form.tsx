@@ -28,7 +28,6 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>
   >({});
-
   const [state, setState] = useState<DemanderOuEnregistrerChangementReprésentantLégalState>({
     typeReprésentantLégal: 'inconnu',
     estEnCoursDeConstitution: false,

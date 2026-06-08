@@ -52,7 +52,6 @@ export const TypeReprésentantLégalSelect = ({
         required,
         'aria-required': required,
         defaultValue,
-        className: 'mb-0',
         onChange: (e) => {
           const typeReprésentantLégalSélectionné = typesReprésentantLégalOptions.find(
             (type) => type.value === e.currentTarget.value,
@@ -64,6 +63,7 @@ export const TypeReprésentantLégalSelect = ({
         },
       }}
       className="lg:w-1/2"
+      style={{ marginBottom: 0 }}
       placeholder="Sélectionnez le type du représentant légal"
       options={typesReprésentantLégalOptions}
       state={state}
