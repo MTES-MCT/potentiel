@@ -9,10 +9,19 @@ import type { ChangementProducteurEnregistréEvent } from './changement/enregist
 import type { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option.js';
 import type { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
 import type { ImporterOptions } from './importer/importerProducteur.option.js';
-import { DocumentProducteur, NuméroIdentification } from './index.js';
+import {
+  DocumentProducteur,
+  NuméroIdentification,
+  type NuméroIdentificationCorrigéEvent,
+} from './index.js';
 import type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
 import type { ModifierOptions } from './modifier/modifierProducteur.option.js';
-import { ProducteurDéjàTransmisError, ProducteurIdentiqueError } from './producteur.error.js';
+import type { CorrigerNuméroIdentificationOptions } from './numéroIdentification/corriger/corrigerNuméroIdentification.option.js';
+import {
+  NuméroIdentificationIdentiqueError,
+  ProducteurDéjàTransmisError,
+  ProducteurIdentiqueError,
+} from './producteur.error.js';
 import type { ProducteurEvent } from './producteur.event.js';
 
 export class ProducteurAggregate extends AbstractAggregate<
@@ -136,6 +145,35 @@ export class ProducteurAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async corrigerNuméroIdentification({
+    identifiantProjet,
+    dateChangement,
+    identifiantUtilisateur,
+    pièceJustificative,
+    raison,
+    numéroIdentification,
+  }: CorrigerNuméroIdentificationOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
+
+    if (this.#numéroIdentification?.estÉgaleÀ(numéroIdentification)) {
+      throw new NuméroIdentificationIdentiqueError();
+    }
+
+    const event: NuméroIdentificationCorrigéEvent = {
+      type: 'NuméroIdentificationCorrigé-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        corrigéLe: dateChangement.formatter(),
+        corrigéPar: identifiantUtilisateur.formatter(),
+        raison,
+        pièceJustificative,
+        numéroIdentification: numéroIdentification?.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async importer({
     producteur,
     dateImport,
@@ -173,6 +211,12 @@ export class ProducteurAggregate extends AbstractAggregate<
           type: 'ProducteurModifié-V1',
         },
         (event) => this.applyProducteurModifiéV1(event),
+      )
+      .with(
+        {
+          type: 'NuméroIdentificationCorrigé-V1',
+        },
+        (event) => this.applyNuméroIdentificationCorrigéV1(event),
       )
       .with(
         {
@@ -223,6 +267,12 @@ export class ProducteurAggregate extends AbstractAggregate<
     this.#numéroIdentification = numéroIdentification
       ? NuméroIdentification.convertirEnValueType(numéroIdentification)
       : undefined;
+  }
+
+  private applyNuméroIdentificationCorrigéV1({
+    payload: { numéroIdentification },
+  }: NuméroIdentificationCorrigéEvent) {
+    this.#numéroIdentification = NuméroIdentification.convertirEnValueType(numéroIdentification);
   }
 
   private applyProducteurImportéV1({

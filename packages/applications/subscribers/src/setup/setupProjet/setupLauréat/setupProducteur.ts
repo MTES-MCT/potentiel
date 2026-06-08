@@ -14,6 +14,7 @@ export const setupProducteur = () => {
       'ProducteurImporté-V1',
       'ProducteurModifié-V1',
       'ChangementProducteurEnregistré-V1',
+      'NuméroIdentificationCorrigé-V1',
     ],
     messageType: 'System.Projector.Lauréat.Producteur',
   });

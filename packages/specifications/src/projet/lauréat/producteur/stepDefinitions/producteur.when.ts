@@ -32,6 +32,30 @@ Quand(
 );
 
 Quand(
+  "le porteur corrige le numéro d'identification du projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementProducteur.call(this);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "le porteur corrige le numéro d'identification du projet lauréat avec une valeur identique",
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementProducteur.call(this, {
+        siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   'la DGEC modifie le producteur du projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
@@ -95,6 +119,30 @@ async function enregistrerChangementProducteur(
     type: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
     data: {
       producteurValue: producteur,
+      dateChangementValue: enregistréLe,
+      identifiantUtilisateurValue: enregistréPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+      numéroIdentificationValue: { siret },
+    },
+  });
+}
+
+async function corrigerNuméroIdentification(
+  this: PotentielWorld,
+  data?: Partial<ModifierProducteurProps>,
+) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+  const { pièceJustificative, enregistréLe, enregistréPar, siret } =
+    this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
+      enregistréPar: this.utilisateurWorld.porteurFixture.email,
+      ...data,
+    });
+
+  await mediator.send<Lauréat.Producteur.CorrigerNuméroIdentificationUseCase>({
+    type: 'Lauréat.Producteur.UseCase.CorrigerNuméroIdentification',
+    data: {
       dateChangementValue: enregistréLe,
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
