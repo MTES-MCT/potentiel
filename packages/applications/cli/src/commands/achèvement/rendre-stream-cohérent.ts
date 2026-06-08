@@ -201,9 +201,11 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
            * 1. Évènement suite à la notification du projet
            */
           const datePostNotification = calculerNouvelleDateAchèvement(
-            DateTime.convertirEnValueType(dateNotification),
+            Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
+              dateNotification,
+            ).dateTime.retirerNombreDeJours(1),
             cahierDesCharges.getDélaiRéalisationEnMois(),
-          ).retirerNombreDeJours(1);
+          );
 
           events.push({
             type: 'DateAchèvementPrévisionnelCalculée-V1',
@@ -462,8 +464,9 @@ const calculerNouvelleDateAchèvement = (
   dateActuelle: DateTime.ValueType,
   nombreDeMoisÀAjouter: number,
 ): DateTime.ValueType =>
-  dateActuelle
+  Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
     // gestion des années bissextiles
-    .ajouterNombreDeJours(1)
-    .ajouterNombreDeMois(nombreDeMoisÀAjouter)
-    .retirerNombreDeJours(1);
+    dateActuelle.ajouterNombreDeJours(1).date,
+  )
+    .ajouterDélai(nombreDeMoisÀAjouter)
+    .dateTime.retirerNombreDeJours(1);
