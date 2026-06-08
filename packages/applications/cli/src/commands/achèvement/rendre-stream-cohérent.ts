@@ -1,6 +1,6 @@
 import { writeFile } from 'node:fs/promises';
 
-import { Command, Flags } from '@oclif/core';
+import { Args, Command, Flags } from '@oclif/core';
 import z from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -42,6 +42,14 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
   static override flags = {
     dryRun: Flags.boolean({ name: 'dryRun' }),
   };
+  static override args = {
+    identifiantProjet: Args.string({
+      name: 'identifiantProjet',
+      description: "L'identifiant du projet à traiter (ex: 'Eolien#1##1')",
+      required: false,
+      multiple: true,
+    }),
+  };
 
   async init() {
     envSchema.parse(process.env);
@@ -56,7 +64,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
   }
 
   async run() {
-    const { flags } = await this.parse(RendreStreamAchèvementCohérentCommand);
+    const { flags, args } = await this.parse(RendreStreamAchèvementCohérentCommand);
     try {
       const projets = await executeSelect<{
         identifiantProjet: IdentifiantProjet.RawType;
@@ -73,7 +81,8 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           nombreDeMois: string;
           accordéLe: DateTime.RawType;
         }[];
-      }>(`
+      }>(
+        `
       select 
         laur.value->>'identifiantProjet' as "identifiantProjet",
           laur.value->>'notifiéLe' as "dateNotification",
@@ -128,8 +137,11 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
         and covid.payload->>'raison' = 'covid'
       where 
         laur.key like 'lauréat|%'
+        and (array_length($1::text[], 1) is null or laur.value->>'identifiantProjet' = ANY($1))
       group by 1, 2, 3, 4, 5;
-    `);
+    `,
+        args.identifiantProjet ?? [],
+      );
 
       if (!projets.length) {
         throw new Error('❌ Aucun projet concernés');
