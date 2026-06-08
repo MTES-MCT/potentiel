@@ -121,11 +121,6 @@ const getAlertesRaccordement = ({
     if (CDC2022Choisi) {
       alertes.push({ label: référenceDossierManquantePourDélaiCDC2022Alerte });
     }
-  } else {
-    if (!raccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception) {
-      alertes.push({ label: demandeComplèteRaccordementManquanteAlerte });
-    }
   }
-
   return alertes;
 };
