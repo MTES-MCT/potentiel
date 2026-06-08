@@ -81,6 +81,5 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
         {estUneDemande && <DemandeInfosBox />}
       </div>
     </Form>
-    
   );
 };
