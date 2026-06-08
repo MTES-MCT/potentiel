@@ -1,94 +1,51 @@
 'use client';
-import Notice from '@codegouvfr/react-dsfr/Notice';
+import { Highlight } from '@codegouvfr/react-dsfr/Highlight';
 import type { FC } from 'react';
-import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import type { ValidationErrors } from '@/utils/formAction';
+import { getPiècesJustificativesText } from '../getTypeReprésentantLégalLabel';
 import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
-import type { TypeSociété } from './SaisieTypeSociété.step';
 
 export type SaisiePièceJustificativeProps = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété?: TypeSociété;
+  estEnCoursDeConstitution: boolean;
   pièceJustificative?: Array<string>;
-  onChange?: (piècesJustificative: Array<string>) => void;
   validationErrors: ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>;
 };
 
 export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> = ({
   typeReprésentantLégal,
-  typeSociété,
+  estEnCoursDeConstitution,
   pièceJustificative,
   validationErrors,
-  onChange,
 }) => {
-  const getPièceJustificativeHintText = () =>
-    match({ typeReprésentantLégal, typeSociété })
-      .with(
-        { typeReprésentantLégal: 'personne-physique' },
-        () => `Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
-      )
-      .with(
-        { typeReprésentantLégal: 'personne-morale', typeSociété: 'constituée' },
-        () => `Un extrait Kbis`,
-      )
-      .with(
-        {
-          typeReprésentantLégal: 'personne-morale',
-          typeSociété: P.union('en cours de constitution', 'non renseignée'),
-        },
-        () =>
-          `Une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société`,
-      )
-      .with(
-        { typeReprésentantLégal: 'collectivité' },
-        () => `Un extrait de délibération portant sur le projet`,
-      )
-      .otherwise(
-        () =>
-          `Tout document officiel permettant d'attester de l'existence juridique de l'organisme`,
-      );
+  const hintText = getPiècesJustificativesText(typeReprésentantLégal, estEnCoursDeConstitution);
 
   return (
-    <>
+    <div className="md:grid md:grid-cols-2 md:items-center gap-2">
       <UploadNewOrModifyExistingDocument
-        label={'Pièce justificative'}
+        label="Pièces justificatives"
         name="piecesJustificatives"
-        hintText={getPièceJustificativeHintText()}
+        hintText={`Pièces à joindre : ${hintText}`}
         required
         formats={['pdf']}
-        multiple={typeSociété !== 'constituée' ? true : undefined}
+        multiple={estEnCoursDeConstitution ? true : undefined}
         state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['piecesJustificatives']}
-        onChange={(piècesJustificatives) => {
-          if (onChange) {
-            onChange(piècesJustificatives);
-          }
-        }}
         documentKeys={pièceJustificative}
       />
-      <Notice
-        title="Concernant la sécurité de vos données"
-        description={
-          <span className="inline-block">
-            <span className="inline-block">
-              Un filigrane sera automatiquement appliqué sur l'ensemble des pièces justificatives
-              transmises (nous utilisons le service de la plateforme d'état{' '}
-              <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
-                filigrane.beta.gouv.fr
-              </Link>
-              . ).
-            </span>
-            <span className="inline-block">
-              Les pièces seront automatiquement supprimées après traitement de votre demande.
-            </span>
-          </span>
-        }
-      />
-    </>
+      <Highlight size="sm" classes={{ root: 'fr-highlight--brown-caramel' }}>
+        Un filigrane sera appliqué sur l'ensemble des pièces transmises (nous utilisons le service
+        de la plateforme d'état{' '}
+        <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
+          filigrane.beta.gouv.fr
+        </Link>
+        . ). Ces pièces seront automatiquement supprimées après traitement de votre demande.
+      </Highlight>
+    </div>
   );
 };

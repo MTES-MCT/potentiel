@@ -1,178 +1,81 @@
 'use client';
 
-import { type FC, type ReactNode, useState } from 'react';
-import { match, P } from 'ts-pattern';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Notice from '@codegouvfr/react-dsfr/Notice';
+import type { FC } from 'react';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import { Heading3 } from '@/components/atoms/headings';
 import type { ValidationErrors } from '@/utils/formAction';
 import type { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
+import { getPiècesJustificativesText } from '../getTypeReprésentantLégalLabel';
 import { TypeReprésentantLégalSelect } from '../TypeReprésentantLégalSelect';
-import { SaisieTypeSociétéStep, type TypeSociété } from './SaisieTypeSociété.step';
-
-type Contexte = 'demander' | 'modifier' | 'corriger';
 
 type OnChangeProps = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
+  estEnCoursDeConstitution: boolean;
 };
 
 export type SaisieTypeStepProps = {
-  contexte: Contexte;
+  estUneModificationAdmin?: true;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
-  onChange?: ({ typeReprésentantLégal, typeSociété }: OnChangeProps) => void;
+  estEnCoursDeConstitution: boolean;
+  onChange: ({ typeReprésentantLégal, estEnCoursDeConstitution }: OnChangeProps) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
-type SaisieTypeState = {
-  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
-};
-
 export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
-  contexte,
+  estUneModificationAdmin,
   typeReprésentantLégal,
-  typeSociété,
+  estEnCoursDeConstitution,
   onChange,
   validationErrors,
 }) => {
-  const [state, setState] = useState<SaisieTypeState>({
-    typeReprésentantLégal,
-    typeSociété,
-  });
-
-  const component = match(state.typeReprésentantLégal)
-    .returnType<ReactNode | null>()
-    .with('personne-physique', () => (
-      <Situation
-        contexte={contexte}
-        nom="Une personne physique"
-        informationÀRemplir="les nom et prénom(s) de la personne"
-        piècesJustificatives={
-          <li>
-            Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
-          </li>
-        }
-      />
-    ))
-    .with('personne-morale', () => (
-      <>
-        <SaisieTypeSociétéStep
-          onChange={(typeSociété) => {
-            if (onChange) {
-              onChange({
-                typeReprésentantLégal: state.typeReprésentantLégal,
-                typeSociété,
-              });
-            }
-            setState({ ...state, typeSociété });
-          }}
-        />
-        <Situation
-          contexte={contexte}
-          nom="Une personne morale"
-          informationÀRemplir="le nom de la société"
-          piècesJustificatives={match(state.typeSociété)
-            .with('constituée', () => <li>un extrait Kbis</li>)
-            .with('en cours de constitution', () => (
-              <ul className="mt-2 ml-4 list-disc">
-                <li>une copie des statuts de la société</li>
-                <li>
-                  une attestation de récépissé de dépôt de fonds pour constitution de capital social
-                </li>
-                <li>une copie de l’acte désignant le représentant légal de la société</li>
-              </ul>
-            ))
-            .with('non renseignée', () => (
-              <li className="italic">
-                Veuillez sélectionner le type de société pour voir les pièces justificatives à
-                fournir
-              </li>
-            ))
-            .exhaustive()}
-        />
-      </>
-    ))
-    .with('collectivité', () => (
-      <Situation
-        contexte={contexte}
-        nom="Une collectivité"
-        informationÀRemplir="le nom de la collectivité"
-        piècesJustificatives={<li>Un extrait de délibération portant sur le projet</li>}
-      />
-    ))
-    .with('autre', () => (
-      <Situation
-        contexte={contexte}
-        nom="Un organisme ou autre"
-        informationÀRemplir="le nom de l'organisme"
-        piècesJustificatives={
-          <li>
-            Tout document officiel permettant d'attester de l'existence juridique de l'organisme
-          </li>
-        }
-      />
-    ))
-    .with('inconnu', () => null)
-    .exhaustive();
+  const wordingInfosPiècesJustificatives = estUneModificationAdmin
+    ? `Pièces justificatives à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) : ${getPiècesJustificativesText(typeReprésentantLégal, estEnCoursDeConstitution)}`
+    : `Pièces justificatives à fournir : ${getPiècesJustificativesText(typeReprésentantLégal, estEnCoursDeConstitution)}`;
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <TypeReprésentantLégalSelect
         id="typeReprésentantLégal"
         name="typeRepresentantLegal"
         label="Choisir le type de représentant légal"
         state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
-        typeReprésentantLégalActuel={state.typeReprésentantLégal}
+        typeReprésentantLégalActuel={typeReprésentantLégal}
         onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
-          if (onChange) {
-            onChange({
-              typeReprésentantLégal,
-              typeSociété:
-                typeReprésentantLégal === 'personne-morale' ? state.typeSociété : 'non renseignée',
-            });
-          }
-          setState((state) => ({ ...state, typeReprésentantLégal }));
+          onChange({
+            typeReprésentantLégal,
+            estEnCoursDeConstitution:
+              typeReprésentantLégal === 'personne-morale' ? estEnCoursDeConstitution : false,
+          });
         }}
       />
-      {state.typeSociété === 'non renseignée' && (
-        <input type={'hidden'} value={'non renseignée'} name="typeSociete" />
+      {typeReprésentantLégal === 'personne-morale' && (
+        <Checkbox
+          id="typeSociete"
+          className="mt-0"
+          options={[
+            {
+              label: 'La société est en cours de constitution',
+              nativeInputProps: {
+                value: 'true',
+                defaultChecked: false,
+                onChange: (e) => {
+                  onChange({
+                    typeReprésentantLégal,
+                    estEnCoursDeConstitution: e.currentTarget.checked,
+                  });
+                },
+              },
+            },
+          ]}
+        />
       )}
-      {component}
-    </>
-  );
-};
-
-const Situation: FC<{
-  nom: string;
-  contexte: Contexte;
-  informationÀRemplir: string;
-  piècesJustificatives: ReactNode;
-}> = ({ contexte, nom, informationÀRemplir, piècesJustificatives }) => {
-  const wordingPiècesJustificatives = match(contexte)
-    .with(P.union('demander', 'corriger'), () => `Pièces à joindre :`)
-    .with(
-      'modifier',
-      () =>
-        `Pièces à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) :`,
-    )
-    .exhaustive();
-
-  return (
-    <div>
-      <Heading3>{nom}</Heading3>
-      <div className="mt-4 flex flex-col gap-2">
-        <div>
-          <span className="font-semibold">Information du changement :</span> {informationÀRemplir}
-        </div>
-        <div>
-          <span className="font-semibold">{wordingPiècesJustificatives}</span>
-          <ul className="mt-2 ml-4 list-disc">{piècesJustificatives}</ul>
-        </div>
-      </div>
+      {wordingInfosPiècesJustificatives && (
+        <Notice title="" className="lg:w-1/2" description={wordingInfosPiècesJustificatives} />
+      )}
     </div>
   );
 };

@@ -11,10 +11,9 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   documentSelectionSchema,
   keepOrUpdateManyDocuments,
-  keepOrUpdateSingleDocument,
 } from '@/utils/zod/document/keepOrUpdateDocument';
 
-const commonSchema = zod.object({
+const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
     error: 'Ce type de représentant légal est invalide',
@@ -22,28 +21,11 @@ const commonSchema = zod.object({
   nomRepresentantLegal: zod.string().min(1),
   dateDemande: zod.string().min(1),
   piecesJustificativesDocumentSelection: documentSelectionSchema,
+  piecesJustificatives: keepOrUpdateManyDocuments({
+    acceptedFileTypes: ['application/pdf'],
+    applyWatermark: true,
+  }),
 });
-
-const schema = zod.discriminatedUnion('typeSociete', [
-  zod.object({
-    ...commonSchema.shape,
-    typeSociete: zod.literal('constituée', {
-      error: 'Le type de société est invalide',
-    }),
-    piecesJustificatives: keepOrUpdateSingleDocument({
-      acceptedFileTypes: ['application/pdf'],
-      applyWatermark: true,
-    }),
-  }),
-  zod.object({
-    ...commonSchema.shape,
-    typeSociete: zod.enum(['en cours de constitution', 'non renseignée']),
-    piecesJustificatives: keepOrUpdateManyDocuments({
-      acceptedFileTypes: ['application/pdf'],
-      applyWatermark: true,
-    }),
-  }),
-]);
 
 export type CorrigerChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
 

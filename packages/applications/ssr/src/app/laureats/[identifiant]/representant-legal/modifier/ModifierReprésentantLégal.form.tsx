@@ -1,15 +1,13 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import Stepper from '@codegouvfr/react-dsfr/Stepper';
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { type Step, Steps } from '@/components/molecules/step/Steps';
 import type { ValidationErrors } from '@/utils/formAction';
-import { SaisieNomStep, SaisieTypeStep, type TypeSociété, ValidationStep } from '../_helpers/steps';
+import { SaisieNomStep, SaisieTypeStep } from '../_helpers/steps';
 import type { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 import {
   type ModifierReprésentantLégalFormKeys,
@@ -19,11 +17,8 @@ import {
 export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPageProps;
 
 type ModifierReprésentantLégalState = {
-  step: number;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
-  typeSociété: TypeSociété;
-  nomReprésentantLégal: string;
-  raison: string;
+  estEnCoursDeConstitution: boolean;
 };
 
 export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalFormProps> = ({
@@ -36,166 +31,60 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
   >({});
 
   const [state, setState] = useState<ModifierReprésentantLégalState>({
-    step: 1,
-    nomReprésentantLégal,
     typeReprésentantLégal: typeReprésentantLégal.type,
-    typeSociété: 'non renseignée',
-    raison: '',
+    estEnCoursDeConstitution: false,
   });
 
-  const conditionDésactivationÉtape1 =
-    !state.typeReprésentantLégal ||
-    (state.typeReprésentantLégal === 'personne-morale' && state.typeSociété === 'non renseignée') ||
-    state.typeReprésentantLégal === 'inconnu';
-
-  const conditionDésactivationÉtape2 =
-    !state.nomReprésentantLégal ||
-    state.nomReprésentantLégal === nomReprésentantLégal ||
-    !state.raison;
-
-  const conditionDésactivationÉtape3 = !state.typeReprésentantLégal || !state.nomReprésentantLégal;
-
-  const steps: Array<Step> = [
-    {
-      index: 1,
-      name: `Description de la démarche`,
-      children: (
-        <div className="flex flex-col gap-4">
-          <p>
-            Pour effectuer une modification du représentant légal, vous devez tout d'abord
-            sélectionner le type du nouveau représentant légal pour prendre connaissance des
-            documents à fournir.
-          </p>
-          <SaisieTypeStep
-            contexte="modifier"
-            typeReprésentantLégal={state.typeReprésentantLégal}
-            typeSociété={state.typeSociété}
-            onChange={({ typeReprésentantLégal, typeSociété }) => {
-              setValidationErrors((validationErrors) => ({
-                ...validationErrors,
-                typeRepresentantLegal: undefined,
-              }));
-              setState((state) => ({
-                ...state,
-                typeReprésentantLégal,
-                typeSociété,
-              }));
-            }}
-            validationErrors={validationErrors}
-          />
-        </div>
-      ),
-      nextStep: {
-        type: 'link',
-        name: 'Commencer',
-        disabled: conditionDésactivationÉtape1,
-      },
-    },
-    {
-      index: 2,
-      name: `Renseigner les informations concernant le changement`,
-      children: (
-        <>
-          <SaisieNomStep
-            nomReprésentantLégal={state.nomReprésentantLégal}
-            typeReprésentantLégal={state.typeReprésentantLégal}
-            onChange={(nomReprésentantLégal) =>
-              setState((state) => ({
-                ...state,
-                nomReprésentantLégal,
-              }))
-            }
-            validationErrors={validationErrors}
-          />
-          <Input
-            className="mt-4"
-            label="Raison"
-            id="raison"
-            hintText="Veuillez préciser les raisons de ce changement"
-            state={validationErrors['raison'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['raison']}
-            nativeInputProps={{
-              name: 'raison',
-              required: true,
-              'aria-required': true,
-              onChange: ({ target: { value } }) => {
-                setValidationErrors((validationErrors) => ({
-                  ...validationErrors,
-                  raison: undefined,
-                }));
-                setState((state) => ({ ...state, raison: value }));
-              },
-            }}
-          />
-        </>
-      ),
-      previousStep: { name: 'Précédent' },
-      nextStep: {
-        type: 'link',
-        name: 'Suivant',
-        disabled: conditionDésactivationÉtape2,
-      },
-    },
-    {
-      index: 3,
-      name: `Confirmer la modification`,
-      children: (
-        <ValidationStep
-          typeReprésentantLégal={state.typeReprésentantLégal}
-          typeSociété={state.typeSociété}
-          nomReprésentantLégal={state.nomReprésentantLégal}
-          piècesJustificatives={[]}
-          raison={state.raison}
-          message="Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct."
-        />
-      ),
-      previousStep: { name: 'Précédent' },
-      nextStep: {
-        type: 'submit',
-        name: 'Modifier le représentant légal',
-        disabled: conditionDésactivationÉtape3,
-      },
-    },
-  ];
-
-  useEffect(() => {
-    if (validationErrors['typeRepresentantLegal']) {
-      setState((state) => ({ ...state, step: 1 }));
-    }
-
-    if (validationErrors['nomRepresentantLegal']) {
-      setState((state) => ({ ...state, step: 2 }));
-    }
-  }, [validationErrors]);
-
   return (
-    <>
-      <Stepper
-        className="my-10"
-        currentStep={state.step}
-        nextTitle={state.step < steps.length && steps[state.step].name}
-        stepCount={steps.length}
-        title={steps[state.step - 1].name}
+    <Form
+      action={modifierReprésentantLégalAction}
+      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actionButtons={{
+        submitLabel: 'Modifier',
+        secondaryAction: {
+          type: 'back',
+        },
+      }}
+    >
+      <input
+        type={'hidden'}
+        value={IdentifiantProjet.bind(identifiantProjet).formatter()}
+        name="identifiantProjet"
       />
+      <div className="flex flex-col gap-4">
+        <SaisieTypeStep
+          estUneModificationAdmin={true}
+          typeReprésentantLégal={state.typeReprésentantLégal}
+          estEnCoursDeConstitution={state.estEnCoursDeConstitution}
+          validationErrors={validationErrors}
+          onChange={({ typeReprésentantLégal, estEnCoursDeConstitution }) => {
+            setState((state) => ({
+              ...state,
+              typeReprésentantLégal,
+              estEnCoursDeConstitution,
+            }));
+          }}
+        />
 
-      <Form
-        action={modifierReprésentantLégalAction}
-        onInvalid={() => setState((state) => ({ ...state, step: 1 }))}
-        onError={() => setState((state) => ({ ...state, step: 1 }))}
-        onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-        omitMandatoryFieldsLegend={state.step === 3 ? undefined : true}
-      >
-        <input
-          type={'hidden'}
-          value={IdentifiantProjet.bind(identifiantProjet).formatter()}
-          name="identifiantProjet"
+        <SaisieNomStep
+          nomReprésentantLégal={nomReprésentantLégal}
+          typeReprésentantLégal={state.typeReprésentantLégal}
+          validationErrors={validationErrors}
         />
-        <Steps
-          steps={steps}
-          currentStep={state.step}
-          onStepSelected={(step) => setState((state) => ({ ...state, step }))}
+
+        <Input
+          label="Raison"
+          id="raison"
+          hintText="Veuillez préciser les raisons de ce changement"
+          state={validationErrors['raison'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['raison']}
+          nativeInputProps={{
+            name: 'raison',
+            required: true,
+            'aria-required': true,
+          }}
         />
-      </Form>
-    </>
+      </div>
+    </Form>
   );
 };

@@ -43,7 +43,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         value={IdentifiantProjet.bind(identifiantProjet).formatter()}
       />
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <Input
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
