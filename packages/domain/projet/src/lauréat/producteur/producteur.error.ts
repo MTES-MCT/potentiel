@@ -14,6 +14,6 @@ export class ProducteurIdentiqueError extends InvalidOperationError {
 
 export class NuméroIdentificationIdentiqueError extends InvalidOperationError {
   constructor() {
-    super('Le nouveau numéro d\'identification est identique à celui associé au projet');
+    super("Le nouveau numéro d'identification est identique à celui associé au projet");
   }
 }
