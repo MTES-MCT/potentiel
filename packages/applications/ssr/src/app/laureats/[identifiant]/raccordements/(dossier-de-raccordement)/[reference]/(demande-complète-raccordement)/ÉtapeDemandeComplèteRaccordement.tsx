@@ -65,11 +65,14 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
             <FormattedDate date={dateQualification} />
           ) : actions.transmettre ? (
             <Link
+              className="mt-4 w-fit mx-auto"
               href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
                 identifiantProjet,
                 référence,
               )}
+              aria-label={`Modifier la demande de raccordement ${référence}`}
             >
+              <Icon id="fr-icon-warning-fill" size="xs" className="mr-1" />
               Date de l'accusé de réception à renseigner
             </Link>
           ) : (
@@ -77,7 +80,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           )}
         </div>
 
-        {accuséRéception && (
+        {accuséRéception ? (
           <div>
             {accuséRéception.endsWith('.bin') && <FormatFichierInvalide />}
             <DownloadDocument
@@ -87,8 +90,21 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
               format="pdf"
             />
           </div>
+        ) : actions.transmettre ? (
+          <Link
+            className="mt-4 w-fit mx-auto"
+            href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
+              identifiantProjet,
+              référence,
+            )}
+            aria-label={`Modifier la demande de raccordement ${référence}`}
+          >
+            <Icon id="fr-icon-warning-fill" size="xs" className="mr-1" />
+            Accusé de réception à joindre
+          </Link>
+        ) : (
+          <p className="font-bold">Accusé de réception manquant</p>
         )}
-
         {actions.modifier && (
           <Link
             href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
