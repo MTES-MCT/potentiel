@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { Readable } from 'node:stream';
 import { before, beforeEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
@@ -33,20 +34,8 @@ describe(`copy folder`, () => {
     const targetFilePath1 = join(targetPath, 'file1.pdf');
     const targetFilePath2 = join(targetPath, 'file2.pdf');
 
-    const content1 = new ReadableStream({
-      start: async (controller) => {
-        controller.enqueue(Buffer.from(`Contenu du fichier 1`, 'utf-8'));
-        controller.close();
-      },
-    });
-
-    const content2 = new ReadableStream({
-      start: async (controller) => {
-        controller.enqueue(Buffer.from(`Contenu du fichier 2`, 'utf-8'));
-        controller.close();
-      },
-    });
-
+    const content1 = Readable.toWeb(Readable.from(`Contenu du fichier 1`));
+    const content2 = Readable.toWeb(Readable.from(`Contenu du fichier 2`));
     await upload(sourceFilePath1, content1);
     await upload(sourceFilePath2, content2);
 

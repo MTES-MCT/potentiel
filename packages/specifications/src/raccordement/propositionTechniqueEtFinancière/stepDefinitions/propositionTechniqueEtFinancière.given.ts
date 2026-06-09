@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import { convertStringToReadableStream } from '../../../helpers/index.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 import type { PotentielWorld } from '../../../potentiel.world.js';
 
 EtantDonné(
@@ -24,10 +24,9 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
         dateSignatureValue: dateSignature,
-        propositionTechniqueEtFinancièreSignéeValue: {
-          format: propositionTechniqueEtFinancièreSignée.format,
-          content: convertStringToReadableStream(propositionTechniqueEtFinancièreSignée.content),
-        },
+        propositionTechniqueEtFinancièreSignéeValue: convertFixtureFileToReadableStream(
+          propositionTechniqueEtFinancièreSignée,
+        ),
         transmiseLeValue: new Date().toISOString(),
         transmiseParValue: this.utilisateurWorld.porteurFixture.email,
       },

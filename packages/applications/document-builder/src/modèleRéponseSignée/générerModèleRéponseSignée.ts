@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { Readable } from 'node:stream';
 
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
@@ -79,12 +80,7 @@ export const générerModèleRéponseAdapter: GénérerModèleRéponsePort = asy
     compression: 'DEFLATE',
   });
 
-  return new ReadableStream({
-    start: async (controller) => {
-      controller.enqueue(buf);
-      controller.close();
-    },
-  });
+  return Readable.toWeb(Readable.from(buf));
 };
 
 const getModèleRéponseFilePath = (type: GénérerModèleRéponseOptions['type']) => {

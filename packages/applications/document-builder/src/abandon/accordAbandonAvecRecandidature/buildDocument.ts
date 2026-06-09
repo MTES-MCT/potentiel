@@ -1,9 +1,9 @@
 import path from 'node:path';
+import { Readable } from 'node:stream';
 
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
-import { mapToReadableStream } from '../../mapToReadableStream.js';
 import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature.js';
 
 Font.register({
@@ -64,7 +64,8 @@ const buildDocument: GénérerRéponseAccordAbandonAvecRecandidaturePort = async
 ): Promise<ReadableStream> => {
   const document = RéponseAbandonAvecRecandidature({ ...props, imagesFolderPath });
 
-  return await mapToReadableStream(await ReactPDF.renderToStream(document));
+  const buffer = await ReactPDF.renderToStream(document);
+  return Readable.toWeb(Readable.from(buffer));
 };
 
 export { buildDocument };
