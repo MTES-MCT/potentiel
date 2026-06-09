@@ -249,6 +249,9 @@ Fonctionnalité: Corriger une candidature
         Alors la dgec devrait être informé que "Le champ dispositif de stockage est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec dispositif de stockage si l'appel d'offres ne le propose pas
+        Etant donné la candidature lauréate "De la promenade des Anglais" avec :
+            | appel d'offres | PPE2 - Sol |
+            | période        | 8          |
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage | non |
         Alors la dgec devrait être informé que "Le champ dispositif de stockage ne peut être renseigné pour cet appel d'offres"
