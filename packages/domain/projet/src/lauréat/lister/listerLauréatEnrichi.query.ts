@@ -40,6 +40,7 @@ export type LauréatEnrichiListItemReadModel = {
   numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
   nomProjet: Dépôt.ValueType['nomProjet'];
   statut: StatutLauréat.ValueType;
+  technologie: AppelOffre.Technologie;
   estPartiEnPPA?: true;
 
   adresse1: Localité.ValueType['adresse1'];
@@ -276,8 +277,8 @@ const mapToReadModel: MapToReadModelProps = ({
       actionnariat,
       coefficientKChoisi,
       autorisation,
-      technologie,
       puissanceDuProjetInitial,
+      technologieCalculée,
     },
     achèvement,
     'power-purchase-agreement': powerPurchaseAgreement,
@@ -311,6 +312,7 @@ const mapToReadModel: MapToReadModelProps = ({
     nomProjet,
     statut: statutValueType,
     estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
+    technologie: technologieCalculée,
     ...localité,
     ...coordonnées,
     actionnaire: actionnaire.actionnaire.nom,
@@ -344,7 +346,7 @@ const mapToReadModel: MapToReadModelProps = ({
       référenceCDC: cahierDesCharges,
       appelOffre,
       coefficientKChoisi,
-      technologie: technologie === 'N/A' ? undefined : technologie,
+      technologie: technologieCalculée,
     }),
     numéroAutorisation: autorisation?.numéro,
 

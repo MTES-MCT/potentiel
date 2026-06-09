@@ -48,6 +48,7 @@ export const GET = async (request: Request) =>
           { value: 'famille', label: 'Famille' },
           { value: 'numéroCRE', label: 'Numéro CRE' },
           { value: 'nomProjet', label: 'Nom du projet' },
+          { value: 'technologie', label: 'Technologie' },
           { value: 'adresse1', label: 'Adresse 1' },
           { value: 'adresse2', label: 'Adresse 2' },
           { value: 'commune', label: 'Commune' },

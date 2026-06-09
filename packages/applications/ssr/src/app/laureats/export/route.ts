@@ -57,6 +57,7 @@ export const GET = async (request: Request) =>
           { value: 'numéroCRE', label: 'Numéro CRE' },
           { value: 'nomProjet', label: 'Nom du projet' },
           { value: 'statut', label: 'Statut du projet' },
+          { value: 'technologie', label: 'Technologie' },
           { value: 'estPartiEnPPA', label: 'PPA' },
           { value: 'adresse1', label: 'Adresse 1' },
           { value: 'adresse2', label: 'Adresse 2' },
