@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { formatDateToText } from '@/app/_helpers';
+import { FormattedSIRET } from '@/components/atoms/FormattedNuméroIdentification';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToNuméroIdentificationCorrigéTimelineItemProps = (
@@ -17,7 +18,8 @@ export const mapToNuméroIdentificationCorrigéTimelineItemProps = (
     },
     details: (
       <div>
-        Nouveau SIRET: <span className="font-semibold">{numéroIdentification.siret}</span>
+        Nouveau SIRET :{' '}
+        <FormattedSIRET className="font-semibold" value={numéroIdentification.siret} />
       </div>
     ),
     reason: raison,

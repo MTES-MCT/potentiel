@@ -1,16 +1,16 @@
 import type { PlainType } from '@potentiel-domain/core';
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
+import type { ChampAvecMultiplesActions } from '@/app/laureats/[identifiant]/_helpers';
 import { FormattedSIREN, FormattedSIRET } from '@/components/atoms/FormattedNuméroIdentification';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading6 } from '@/components/atoms/headings';
 
-export type ProducteurDétailsProps = ChampObligatoireAvecAction<
+export type ProducteurDétailsProps = ChampAvecMultiplesActions<
   PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>
 >;
 
-export const ProducteurDétails = ({ value, action }: ProducteurDétailsProps) => (
+export const ProducteurDétails = ({ value, actions }: ProducteurDétailsProps) => (
   <>
     <div className="flex flex-col gap-1">
       <div>
@@ -21,14 +21,18 @@ export const ProducteurDétails = ({ value, action }: ProducteurDétailsProps) =
         <Heading6>Numéro d'identification</Heading6>
         <div className="flex flex-col">
           <span>
-            Numéro SIRET : <FormattedSIRET siret={value.numéroIdentification?.siret} />
+            Numéro SIRET : <FormattedSIRET value={value.numéroIdentification?.siret} />
           </span>
           <span>
-            Numéro SIREN : <FormattedSIREN siren={value.numéroIdentification?.siren} />
+            Numéro SIREN : <FormattedSIREN value={value.numéroIdentification?.siren} />
           </span>
         </div>
       </div>
-      {action && <TertiaryLink href={action.url}>{action.label}</TertiaryLink>}
+      {actions?.map((action) => (
+        <TertiaryLink href={action.url} key={action.label}>
+          {action.label}
+        </TertiaryLink>
+      ))}
     </div>
   </>
 );

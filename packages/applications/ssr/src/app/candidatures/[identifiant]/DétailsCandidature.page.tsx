@@ -221,10 +221,10 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               <Field name="Nom du producteur">{dépôt.nomCandidat}</Field>
               <Field name="Numéro d'identification">
                 <span>
-                  Numéro SIRET : <FormattedSIRET siret={dépôt.numéroIdentification?.siret} />
+                  Numéro SIRET : <FormattedSIRET value={dépôt.numéroIdentification?.siret} />
                 </span>
                 <span>
-                  Numéro SIREN : <FormattedSIREN siren={dépôt.numéroIdentification?.siren} />
+                  Numéro SIREN : <FormattedSIREN value={dépôt.numéroIdentification?.siren} />
                 </span>
               </Field>
               <Field name="Nom du représentant légal">{dépôt.nomReprésentantLégal}</Field>

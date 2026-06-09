@@ -46,12 +46,6 @@ export const mapChangements: MapChangements = {
       label: 'Changer de producteur',
       labelMenu: 'Producteur',
     },
-    corrigerNuméroIdentification: {
-      permission: 'producteur.corrigerNuméroIdentification',
-      url: Routes.Producteur.numéroIdentification.corriger,
-      label: "Corriger le numéro d'identification",
-      labelMenu: 'SIRET',
-    },
   },
   représentantLégal: {
     modifier: {
