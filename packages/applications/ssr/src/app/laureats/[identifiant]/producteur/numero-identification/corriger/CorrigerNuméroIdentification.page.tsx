@@ -1,5 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -30,28 +29,24 @@ export const CorrigerNuméroIdentificationPage: FC<CorrigerNuméroIdentification
     }}
     rightColumn={{
       children: (
-        <Alert
+        <Notice
           severity="info"
-          small
+          title="Producteur"
           description={
-            <>
-              <p>
-                Cette correction ne modifiera pas le producteur, et ne révoquera pas les droits sur
-                ce projet.
-              </p>
-              <p>
-                Si vous souhaitez enregistrer un changement de producteur du projet,{' '}
-                <Link
-                  href={Routes.Producteur.changement.enregistrer(
-                    IdentifiantProjet.bind(identifiantProjet).formatter(),
-                  )}
-                >
-                  vous pouvez le faire ici
-                </Link>
-                .
-              </p>
-            </>
+            <div>
+              Si vous souhaitez modifier le producteur, veuillez vous rendre sur le formulaire
+              dédié.
+            </div>
           }
+          link={{
+            linkProps: {
+              href: Routes.Producteur.changement.enregistrer(
+                IdentifiantProjet.bind(identifiantProjet).formatter(),
+              ),
+              target: '_blank',
+            },
+            text: 'Changer le producteur',
+          }}
         />
       ),
     }}
