@@ -52,3 +52,5 @@ group by projection.value->>'identifiantProjet';
 CREATE INDEX idx_search_projects_fts ON domain_views.search_projects USING gin (search);
 
 CREATE INDEX idx_search_projects_fuzzy ON domain_views.search_projects USING gin (searchable_text gin_trgm_ops);
+
+GRANT SELECT ON domain_views.search_projects TO potentiel;
