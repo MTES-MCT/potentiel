@@ -369,12 +369,12 @@ const référencielPermissions = {
       usecase: {
         modifier: 'Lauréat.Producteur.UseCase.ModifierProducteur',
         enregistrerChangement: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
-        corrigerNuméroIdentification: 'Lauréat.Producteur.UseCase.NuméroIdentification',
+        corrigerNuméroIdentification: 'Lauréat.Producteur.UseCase.CorrigerNuméroIdentification',
       },
       command: {
         modifier: 'Lauréat.Producteur.Command.ModifierProducteur',
         enregistrerChangement: 'Lauréat.Producteur.Command.EnregistrerChangement',
-        corrigerNuméroIdentification: 'Lauréat.Producteur.Command.NuméroIdentification',
+        corrigerNuméroIdentification: 'Lauréat.Producteur.Command.CorrigerNuméroIdentification',
       },
     },
     installation: {

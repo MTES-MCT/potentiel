@@ -24,6 +24,12 @@ export const ProducteurSection = ({
       domain: 'producteur',
     });
 
+    const siretAction = {
+      url: demanderChangement.url(identifiantProjet.formatter()),
+      label: demanderChangement.label,
+      labelMenu: demanderChangement.labelMenu,
+    };
+
     return (
       <Section title="Producteur">
         <ProducteurDétails value={mapToPlainObject(producteur)} action={action} />

@@ -1,7 +1,8 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import { type FC, useEffect, useState } from 'react';
+import { debounce } from '@mui/material/utils';
+import { type FC, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
@@ -27,10 +28,9 @@ export const CorrigerNuméroIdentificationForm: FC<CorrigerNuméroIdentification
     ValidationErrors<CorrigerNuméroIdentificationFormKeys>
   >({});
 
-  const [siret, setSiret] = useState(numéroIdentification?.siret || '');
   const [siretError, setSiretError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const handleSiretUpdate = async (siret: string) => {
     setSiretError(null);
 
     if (!siret.replaceAll(/\s/g, '').match(/^\d{14}$/)) {
@@ -38,27 +38,26 @@ export const CorrigerNuméroIdentificationForm: FC<CorrigerNuméroIdentification
       return;
     }
 
-    const updateProducteurInfo = async (siret: string) => {
-      const searchParams = new URLSearchParams({ q: siret });
-      const data = await fetch(
-        `${process.env.NEXT_PUBLIC_ENTREPRISES_API_URL}/search?${searchParams.toString()}`,
-      ).then(
-        (response) =>
-          response.json() as Promise<{
-            results: {
-              siren: string;
-              nom_raison_sociale: string;
-              nom_complet: string;
-            }[];
-          }>,
-      );
-      if (data.results.length === 0) {
-        setSiretError('Aucun producteur trouvé pour ce SIRET');
-      }
-    };
+    const searchParams = new URLSearchParams({ q: siret });
+    const data = await fetch(
+      `${process.env.NEXT_PUBLIC_ENTREPRISES_API_URL}/search?${searchParams.toString()}`,
+    ).then(
+      (response) =>
+        response.json() as Promise<{
+          results: {
+            siren: string;
+            nom_raison_sociale: string;
+            nom_complet: string;
+          }[];
+        }>,
+    );
 
-    void updateProducteurInfo(siret);
-  }, [siret]);
+    if (data.results.length === 0) {
+      setSiretError('Aucun producteur trouvé pour ce SIRET');
+    }
+  };
+
+  const updateDelayed = debounce(handleSiretUpdate, 400);
 
   return (
     <Form
@@ -69,6 +68,7 @@ export const CorrigerNuméroIdentificationForm: FC<CorrigerNuméroIdentification
         secondaryAction: {
           type: 'back',
         },
+        submitDisabled: !!siretError,
       }}
     >
       <input
@@ -83,12 +83,13 @@ export const CorrigerNuméroIdentificationForm: FC<CorrigerNuméroIdentification
         label={'Numéro SIRET'}
         nativeInputProps={{
           name: 'siret',
-          value: siret,
-          onChange: (e) => setSiret(e.target.value),
+          defaultValue: numéroIdentification?.siret || '',
+          onChange: (e) => updateDelayed(e.target.value),
           required: true,
           'aria-required': true,
         }}
       />
+
       <Input
         textArea
         label="Raison (optionnel)"
