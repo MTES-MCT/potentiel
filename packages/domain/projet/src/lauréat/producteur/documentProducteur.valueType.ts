@@ -6,3 +6,10 @@ export const pièceJustificative = DocumentProjet.documentFactory({
   nomChampDate: 'enregistréLe',
   nomChampDocument: 'pièceJustificative',
 });
+
+export const numéroIdentificationCorrigé = DocumentProjet.documentFactory({
+  domaine: 'producteur',
+  typeDocument: 'numéro-identification-corrigé',
+  nomChampDate: 'corrigéLe',
+  nomChampDocument: 'pièceJustificative',
+});

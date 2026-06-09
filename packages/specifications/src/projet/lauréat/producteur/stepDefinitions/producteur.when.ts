@@ -32,6 +32,30 @@ Quand(
 );
 
 Quand(
+  "le porteur corrige le numéro d'identification du projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await corrigerNuméroIdentification.call(this);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "le porteur corrige le numéro d'identification du projet lauréat avec une valeur identique",
+  async function (this: PotentielWorld) {
+    try {
+      await corrigerNuméroIdentification.call(this, {
+        siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   'la DGEC modifie le producteur du projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
@@ -97,6 +121,30 @@ async function enregistrerChangementProducteur(
       producteurValue: producteur,
       dateChangementValue: enregistréLe,
       identifiantUtilisateurValue: enregistréPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+      numéroIdentificationValue: { siret },
+    },
+  });
+}
+
+async function corrigerNuméroIdentification(
+  this: PotentielWorld,
+  data?: Partial<ModifierProducteurProps>,
+) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+  const { pièceJustificative, corrigéLe, corrigéPar, siret } =
+    this.lauréatWorld.producteurWorld.corrigerNuméroIdentificationFixture.créer({
+      corrigéPar: this.utilisateurWorld.porteurFixture.email,
+      ...data,
+    });
+
+  await mediator.send<Lauréat.Producteur.CorrigerNuméroIdentificationUseCase>({
+    type: 'Lauréat.Producteur.UseCase.CorrigerNuméroIdentification',
+    data: {
+      dateChangementValue: corrigéLe,
+      identifiantUtilisateurValue: corrigéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       numéroIdentificationValue: { siret },

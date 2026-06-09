@@ -5,6 +5,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { changementProducteurEnregistréProjector } from './changementProducteurEnregistré.projector.js';
+import { numéroIdentificationCorrigéProjector } from './numéroIdentificationCorrigé.projector.js';
 import { producteurImportéProjector } from './producteurImporté.projector.js';
 import { producteurModifiéProjector } from './producteurModifié.projector.js';
 import { producteurRebuildTriggeredProjector } from './producteurRebuildTrigerred.projector.js';
@@ -20,6 +21,7 @@ export const register = () => {
       .with({ type: 'ChangementProducteurEnregistré-V1' }, changementProducteurEnregistréProjector)
       .with({ type: 'ProducteurModifié-V1' }, producteurModifiéProjector)
       .with({ type: 'ProducteurImporté-V1' }, producteurImportéProjector)
+      .with({ type: 'NuméroIdentificationCorrigé-V1' }, numéroIdentificationCorrigéProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Producteur', handler);

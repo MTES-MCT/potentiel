@@ -4,6 +4,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToChangementProducteurEnregistréTimelineItemProps } from './events/mapToChangementProducteurEnregistréTimelineItemProps';
+import { mapToNuméroIdentificationCorrigéTimelineItemProps } from './events/mapToNuméroIdentificationCorrigéTimelineItemProps';
 import { mapToProducteurImportéTimelineItemProps } from './events/mapToProducteurImportéTimelineItemProps';
 import { mapToProducteurModifiéTimelineItemsProps } from './events/mapToProducteurModifiéTimelineItemsProps';
 
@@ -21,5 +22,8 @@ export const mapToProducteurTimelineItemProps: MapToProducteurTimelineItemProps 
     )
     .with({ type: 'ChangementProducteurEnregistré-V1' }, (readmodel) =>
       mapToChangementProducteurEnregistréTimelineItemProps(readmodel),
+    )
+    .with({ type: 'NuméroIdentificationCorrigé-V1' }, (readmodel) =>
+      mapToNuméroIdentificationCorrigéTimelineItemProps(readmodel),
     )
     .exhaustive();

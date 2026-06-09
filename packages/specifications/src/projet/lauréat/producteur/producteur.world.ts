@@ -2,6 +2,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { mapToExemple } from '#helpers';
+import { CorrigerNuméroIdentificationFixture } from './fixture/corrigerNuméroIdentification.fixture.js';
 import { EnregistrerChangementProducteurFixture } from './fixture/enregistrerChangementProducteur.fixture.js';
 import { ModifierProducteurFixture } from './fixture/modifierProducteur.fixture.js';
 
@@ -16,9 +17,15 @@ export class ProducteurWorld {
     return this.#modifierProducteurFixture;
   }
 
+  #corrigerNuméroIdentificationFixture: CorrigerNuméroIdentificationFixture;
+  get corrigerNuméroIdentificationFixture() {
+    return this.#corrigerNuméroIdentificationFixture;
+  }
+
   constructor() {
     this.#enregistrerChangementProducteurFixture = new EnregistrerChangementProducteurFixture();
     this.#modifierProducteurFixture = new ModifierProducteurFixture();
+    this.#corrigerNuméroIdentificationFixture = new CorrigerNuméroIdentificationFixture();
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
@@ -37,7 +44,15 @@ export class ProducteurWorld {
       ? this.#modifierProducteurFixture
       : this.#enregistrerChangementProducteurFixture.aÉtéCréé
         ? this.#enregistrerChangementProducteurFixture
-        : undefined;
+        : this.#corrigerNuméroIdentificationFixture.aÉtéCréé
+          ? this.#corrigerNuméroIdentificationFixture
+          : undefined;
+
+    const référencielHasProducteur = référencielFixture && 'producteur' in référencielFixture;
+
+    const producteur = référencielHasProducteur
+      ? référencielFixture.producteur
+      : producteurÀLaCandidature;
 
     const numéro = référencielFixture
       ? { siret: référencielFixture.siret }
@@ -45,7 +60,7 @@ export class ProducteurWorld {
 
     const expected: Lauréat.Producteur.ConsulterProducteurReadModel = {
       identifiantProjet,
-      producteur: référencielFixture ? référencielFixture.producteur : producteurÀLaCandidature,
+      producteur,
       numéroIdentification: numéro
         ? Lauréat.Producteur.NuméroIdentification.bind(numéro)
         : undefined,

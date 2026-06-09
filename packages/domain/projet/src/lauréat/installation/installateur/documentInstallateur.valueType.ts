@@ -1,8 +1,7 @@
 import { DocumentProjet } from '#document-projet';
 
-const domaine = 'installateur';
 export const pièceJustificative = DocumentProjet.documentFactory({
-  domaine,
+  domaine: 'installateur',
   typeDocument: 'pièce-justificative',
   nomChampDocument: 'pièceJustificative',
   nomChampDate: 'enregistréLe',

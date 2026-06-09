@@ -19,6 +19,8 @@ import {
 } from './listerHistorique/listerHistoriqueProducteurProjet.query.js';
 import { registerModifierProducteurCommand } from './modifier/modifierProducteur.command.js';
 import { registerModifierProducteurUseCase } from './modifier/modifierProducteur.usecase.js';
+import { registerCorrigerNuméroIdentificationCommand } from './numéroIdentification/corriger/corrigerNuméroIdentification.command.js';
+import { registerCorrigerNuméroIdentificationUseCase } from './numéroIdentification/corriger/corrigerNuméroIdentification.usecase.js';
 
 export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
   ConsulterChangementProducteurDependencies &
@@ -34,6 +36,8 @@ export const registerProducteurUseCases = (dependencies: ProducteurCommandDepend
   registerEnregistrerChangementProducteurUseCase();
   registerModifierProducteurCommand(dependencies.getProjetAggregateRoot);
   registerModifierProducteurUseCase();
+  registerCorrigerNuméroIdentificationCommand(dependencies.getProjetAggregateRoot);
+  registerCorrigerNuméroIdentificationUseCase();
 };
 
 export const registerProducteurQueries = (dependencies: ProducteurQueryDependencies) => {

@@ -16,7 +16,7 @@ export const register = () => {
       .with({ type: 'ProducteurModifié-V1' }, handleProducteurModifié)
       .with(
         {
-          type: P.union('ProducteurImporté-V1'),
+          type: P.union('ProducteurImporté-V1', 'NuméroIdentificationCorrigé-V1'),
         },
         () => Promise.resolve(),
       )

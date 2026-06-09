@@ -77,6 +77,13 @@ export const localitéExempleMap: FieldToExempleMapper<Candidature.Localité.Raw
   département: ['département'],
 };
 
+export const numéroIdentificationExempleMap: FieldToExempleMapper<
+  PlainType<{ siret: string; siren: string }>
+> = {
+  siret: ['numéro siret'],
+  siren: ['numéro siren'],
+};
+
 export const coordonnéesExempleMap: FieldToExempleMapper<
   PlainType<Candidature.Coordonnées.ValueType>
 > = {

@@ -17,6 +17,7 @@ import type {
   ListerHistoriqueProducteurProjetReadModel,
 } from './listerHistorique/listerHistoriqueProducteurProjet.query.js';
 import type { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase.js';
+import type { CorrigerNuméroIdentificationUseCase } from './numéroIdentification/corriger/corrigerNuméroIdentification.usecase.js';
 
 // Query
 export type ProducteurQuery =
@@ -39,7 +40,10 @@ export type {
 };
 
 // UseCases
-export type ProducteurUseCase = EnregistrerChangementProducteurUseCase | ModifierProducteurUseCase;
+export type ProducteurUseCase =
+  | EnregistrerChangementProducteurUseCase
+  | ModifierProducteurUseCase
+  | CorrigerNuméroIdentificationUseCase;
 
 export type * from './changement/changementProducteur.entity.js';
 export type { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
@@ -47,6 +51,7 @@ export type { ChangementProducteurEnregistréEvent } from './changement/enregist
 export * as DocumentProducteur from './documentProducteur.valueType.js';
 export type { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
 export type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
+export type { NuméroIdentificationCorrigéEvent } from './numéroIdentification/corriger/corrigerNuméroIdentification.event.js';
 export * as NuméroIdentification from './numéroIdentification.valueType.js';
 // Entities
 export type * from './producteur.entity.js';
@@ -54,4 +59,8 @@ export type * from './producteur.entity.js';
 export type { ProducteurEvent } from './producteur.event.js';
 // Register
 export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register.js';
-export type { EnregistrerChangementProducteurUseCase, ModifierProducteurUseCase };
+export type {
+  CorrigerNuméroIdentificationUseCase,
+  EnregistrerChangementProducteurUseCase,
+  ModifierProducteurUseCase,
+};
