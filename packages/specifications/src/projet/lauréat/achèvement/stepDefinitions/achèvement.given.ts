@@ -16,8 +16,8 @@ EtantDonné(
     const {
       dateTransmissionAuCocontractant,
       date,
-      utilisateur,
       attestation,
+      utilisateur,
       rapportAssocié,
       preuve,
     } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
@@ -119,6 +119,7 @@ EtantDonné(
       payload: {
         identifiantProjet,
         date: dateAchèvementPrévisionnel,
+        calculéeLe: DateTime.now().formatter(),
         raison: 'inconnue',
       },
     };
