@@ -12,7 +12,7 @@ export type CorrigerNuméroIdentificationUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
-    dateChangementValue: string;
+    dateCorrectionValue: string;
     numéroIdentificationValue: { siren?: string; siret?: string };
     raisonValue?: string;
     pièceJustificativeValue: {
@@ -26,19 +26,19 @@ export const registerCorrigerNuméroIdentificationUseCase = () => {
   const handler: MessageHandler<CorrigerNuméroIdentificationUseCase> = async ({
     identifiantProjetValue,
     identifiantUtilisateurValue,
-    dateChangementValue,
+    dateCorrectionValue,
     pièceJustificativeValue,
     raisonValue,
     numéroIdentificationValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const dateChangement = DateTime.convertirEnValueType(dateChangementValue);
+    const dateCorrection = DateTime.convertirEnValueType(dateCorrectionValue);
     const numéroIdentification = NuméroIdentification.bind(numéroIdentificationValue);
 
     const pièceJustificative = DocumentProducteur.numéroIdentificationCorrigé({
       identifiantProjet: identifiantProjet.formatter(),
-      corrigéLe: dateChangement.formatter(),
+      corrigéLe: dateCorrection.formatter(),
       pièceJustificative: pièceJustificativeValue,
     });
 
@@ -47,7 +47,7 @@ export const registerCorrigerNuméroIdentificationUseCase = () => {
       data: {
         identifiantProjet,
         identifiantUtilisateur,
-        dateChangement,
+        dateCorrection,
         pièceJustificative,
         raison: raisonValue,
         numéroIdentification,

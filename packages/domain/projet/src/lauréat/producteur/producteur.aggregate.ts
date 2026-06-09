@@ -147,7 +147,7 @@ export class ProducteurAggregate extends AbstractAggregate<
 
   async corrigerNuméroIdentification({
     identifiantProjet,
-    dateChangement,
+    dateCorrection,
     identifiantUtilisateur,
     pièceJustificative,
     raison,
@@ -163,7 +163,7 @@ export class ProducteurAggregate extends AbstractAggregate<
       type: 'NuméroIdentificationCorrigé-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        corrigéLe: dateChangement.formatter(),
+        corrigéLe: dateCorrection.formatter(),
         corrigéPar: identifiantUtilisateur.formatter(),
         raison,
         pièceJustificative,

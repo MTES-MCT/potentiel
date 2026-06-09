@@ -369,10 +369,12 @@ const référencielPermissions = {
       usecase: {
         modifier: 'Lauréat.Producteur.UseCase.ModifierProducteur',
         enregistrerChangement: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
+        corrigerNuméroIdentification: 'Lauréat.Producteur.UseCase.NuméroIdentification',
       },
       command: {
         modifier: 'Lauréat.Producteur.Command.ModifierProducteur',
         enregistrerChangement: 'Lauréat.Producteur.Command.EnregistrerChangement',
+        corrigerNuméroIdentification: 'Lauréat.Producteur.Command.NuméroIdentification',
       },
     },
     installation: {
@@ -1359,6 +1361,11 @@ const policies = {
       référencielPermissions.lauréat.producteur.command.enregistrerChangement,
       référencielPermissions.lauréat.garantiesFinancières.usecase.renouveler,
     ],
+    corrigerNuméroIdentification: [
+      référencielPermissions.lauréat.producteur.query.consulter,
+      référencielPermissions.lauréat.producteur.usecase.corrigerNuméroIdentification,
+      référencielPermissions.lauréat.producteur.command.corrigerNuméroIdentification,
+    ],
   },
   fournisseur: {
     listerChangement: [référencielPermissions.lauréat.fournisseur.query.listerChangement],
@@ -2171,6 +2178,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'producteur.enregistrerChangement',
   'producteur.consulterChangement',
   'producteur.consulter',
+  'producteur.corrigerNuméroIdentification',
 
   // Fournisseur
   'fournisseur.enregistrerChangement',

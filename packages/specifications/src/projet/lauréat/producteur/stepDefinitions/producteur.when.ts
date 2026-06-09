@@ -143,7 +143,7 @@ async function corrigerNuméroIdentification(
   await mediator.send<Lauréat.Producteur.CorrigerNuméroIdentificationUseCase>({
     type: 'Lauréat.Producteur.UseCase.CorrigerNuméroIdentification',
     data: {
-      dateChangementValue: corrigéLe,
+      dateCorrectionValue: corrigéLe,
       identifiantUtilisateurValue: corrigéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
