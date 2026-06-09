@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { Readable } from 'node:stream';
 
 import { Font, renderToStream } from '@react-pdf/renderer';
 
@@ -7,7 +8,6 @@ import type { DateTime } from '@potentiel-domain/common';
 import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
-import { mapToReadableStream } from '../../mapToReadableStream.js';
 import type { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
 import { getDésignationCatégorie } from './helpers/getDésignationCatégorie.js';
 import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate.js';
@@ -68,7 +68,8 @@ export const buildCertificate = async ({
     imagesFolderPath,
   });
 
-  return await mapToReadableStream(await renderToStream(content));
+  const buffer = await renderToStream(content);
+  return Readable.toWeb(Readable.from(buffer));
 };
 
 type CertificateData = {

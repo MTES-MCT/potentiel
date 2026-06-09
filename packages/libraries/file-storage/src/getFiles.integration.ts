@@ -1,3 +1,4 @@
+import { Readable } from 'node:stream';
 import { before, beforeEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
@@ -23,12 +24,7 @@ describe(`get files`, () => {
     Alors sa clés d'accès ne devraient être récupérable depuis le bucket`, async () => {
     const pattern = 'path/to';
     const filePath = `${pattern}/file.pdf`;
-    const content = new ReadableStream({
-      start: async (controller) => {
-        controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
-        controller.close();
-      },
-    });
+    const content = Readable.toWeb(Readable.from(`Contenu d'un fichier`));
 
     await upload(filePath, content);
 

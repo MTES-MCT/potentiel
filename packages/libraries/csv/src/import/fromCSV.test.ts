@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { Readable } from 'node:stream';
 import { test } from 'node:test';
 
 import { expect } from 'chai';
@@ -17,12 +18,7 @@ const schema = z.object({
 const readFixture = (name: string) => {
   const data = readFileSync(`${import.meta.dirname}/fixtures/${name}`);
 
-  return new ReadableStream({
-    start(controller) {
-      controller.enqueue(data);
-      controller.close();
-    },
-  });
+  return Readable.toWeb(Readable.from(data));
 };
 
 ['utf8', 'windows1252'].forEach((encoding) => {

@@ -7,7 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import {
-  convertStringToReadableStream,
+  convertFixtureFileToReadableStream,
   getRôle,
   type RôleUtilisateur,
 } from '../../../helpers/index.js';
@@ -196,10 +196,8 @@ export async function transmettreDemandeComplèteRaccordement(
     await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
-        accuséRéceptionValue: accuséRéception && {
-          format: accuséRéception.format,
-          content: convertStringToReadableStream(accuséRéception.content),
-        },
+        accuséRéceptionValue:
+          accuséRéception && convertFixtureFileToReadableStream(accuséRéception),
         dateQualificationValue: dateQualification,
         identifiantProjetValue: identifiantProjet.formatter(),
         référenceDossierValue: référenceDossier,
@@ -229,10 +227,7 @@ export async function transmettreDemandeComplèteRaccordementSansAccuséRécepti
       identifiantProjetValue: identifiantProjet.formatter(),
       référenceDossierValue: référenceDossier,
       transmiseParValue: transmisePar.formatter(),
-      accuséRéceptionValue: accuséRéception && {
-        format: accuséRéception.format,
-        content: convertStringToReadableStream(accuséRéception.content),
-      },
+      accuséRéceptionValue: accuséRéception && convertFixtureFileToReadableStream(accuséRéception),
     },
   });
 }
@@ -283,10 +278,7 @@ async function modifierDemandeComplèteRaccordement(
       identifiantProjetValue: identifiantProjet,
       référenceDossierRaccordementValue: référenceDossier,
       dateQualificationValue: dateQualification,
-      accuséRéceptionValue: {
-        format: accuséRéception.format,
-        content: convertStringToReadableStream(accuséRéception.content),
-      },
+      accuséRéceptionValue: convertFixtureFileToReadableStream(accuséRéception),
       rôleValue: role,
       modifiéeLeValue: DateTime.now().formatter(),
       modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),

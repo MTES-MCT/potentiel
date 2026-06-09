@@ -1,3 +1,4 @@
+import { Readable } from 'node:stream';
 import { before, beforeEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
@@ -22,12 +23,7 @@ describe(`upload file`, () => {
     Quand un fichier est téléversé
     Alors il devrait être récupérable depuis le bucket`, async () => {
     const filePath = 'path/to/file.pdf';
-    const content = new ReadableStream({
-      start: async (controller) => {
-        controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
-        controller.close();
-      },
-    });
+    const content = Readable.toWeb(Readable.from(`Contenu d'un fichier`));
 
     await upload(filePath, content);
 

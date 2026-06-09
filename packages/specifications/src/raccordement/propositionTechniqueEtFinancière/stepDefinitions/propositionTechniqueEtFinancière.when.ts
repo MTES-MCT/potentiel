@@ -6,7 +6,7 @@ import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
 import {
-  convertStringToReadableStream,
+  convertFixtureFileToReadableStream,
   getRôle,
   type RôleUtilisateur,
 } from '../../../helpers/index.js';
@@ -135,10 +135,9 @@ async function transmettrePropositionTechniqueEtFinancière(
       dateSignatureValue: dateSignature,
       référenceDossierRaccordementValue: référenceDossier,
       identifiantProjetValue: identifiantProjet,
-      propositionTechniqueEtFinancièreSignéeValue: {
-        format: propositionTechniqueEtFinancièreSignée.format,
-        content: convertStringToReadableStream(propositionTechniqueEtFinancièreSignée.content),
-      },
+      propositionTechniqueEtFinancièreSignéeValue: convertFixtureFileToReadableStream(
+        propositionTechniqueEtFinancièreSignée,
+      ),
       transmiseLeValue: new Date().toISOString(),
       transmiseParValue: this.utilisateurWorld.porteurFixture.email,
     },
@@ -168,10 +167,9 @@ async function modifierPropositionTechniqueEtFinancière(
       dateSignatureValue: dateSignature,
       référenceDossierRaccordementValue: référenceDossier,
       identifiantProjetValue: identifiantProjet.formatter(),
-      propositionTechniqueEtFinancièreSignéeValue: {
-        format: propositionTechniqueEtFinancièreSignée.format,
-        content: convertStringToReadableStream(propositionTechniqueEtFinancièreSignée.content),
-      },
+      propositionTechniqueEtFinancièreSignéeValue: convertFixtureFileToReadableStream(
+        propositionTechniqueEtFinancièreSignée,
+      ),
       estUnNouveauDocumentValue: estUnNouveauDocument,
       rôleValue: role,
       modifiéeLeValue: DateTime.now().formatter(),

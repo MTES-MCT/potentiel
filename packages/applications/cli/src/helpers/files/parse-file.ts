@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import { Readable } from 'node:stream';
 
 import { Flags } from '@oclif/core';
 import type { z } from 'zod';
@@ -23,12 +24,7 @@ export const parseCsvFile = async <T extends z.ZodRawShape>(
 ) => {
   try {
     const buffer = await readFile(path);
-    const readableStream = new ReadableStream({
-      start: async (controller) => {
-        controller.enqueue(buffer);
-        controller.close();
-      },
-    });
+    const readableStream = Readable.toWeb(Readable.from(buffer));
     return await ImportCSV.fromCSV(readableStream, schema, options);
   } catch (error) {
     if (error instanceof ImportCSV.CsvLineValidationError) {

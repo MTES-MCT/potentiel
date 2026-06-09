@@ -1,3 +1,4 @@
+import { Readable } from 'node:stream';
 import { before, beforeEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
@@ -25,12 +26,7 @@ describe(`copy file`, () => {
     const sourcePath = 'path/to/file.pdf';
     const targetPath = 'path/to/another/file.pdf';
 
-    const content = new ReadableStream({
-      start: async (controller) => {
-        controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
-        controller.close();
-      },
-    });
+    const content = Readable.toWeb(Readable.from(`Contenu d'un fichier`));
 
     await upload(sourcePath, content);
     await copyFile(sourcePath, targetPath);

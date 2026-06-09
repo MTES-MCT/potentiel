@@ -1,7 +1,7 @@
 import type { DateTime } from '@potentiel-domain/common';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { convertStringToReadableStream } from '../helpers/convertStringToReadableStream.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 import type { PotentielWorld } from '../potentiel.world.js';
 
 export async function mockRécupererGarantiesFinancières(
@@ -12,12 +12,9 @@ export async function mockRécupererGarantiesFinancières(
     return;
   }
   return {
-    attestation: {
-      content: convertStringToReadableStream(
-        this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.attestation.content,
-      ),
-      format: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.attestation.format,
-    },
+    attestation: convertFixtureFileToReadableStream(
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.attestation,
+    ),
     dateConstitution: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer
       .dateConstitution as DateTime.RawType,
   };
