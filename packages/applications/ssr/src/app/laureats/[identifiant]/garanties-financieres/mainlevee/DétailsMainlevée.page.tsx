@@ -31,7 +31,7 @@ import { RejeterDemandeMainlevéeForm } from './rejeter/RejeterDemandeMainlevée
 
 export type DétailsMainlevéePageProps = MainlevéeEnCoursProps &
   ActionsMainlevéeProps & {
-    garantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+    garantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
     achèvement?: PlainType<Lauréat.Achèvement.ConsulterAchèvementReadModel>;
     abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
     mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];

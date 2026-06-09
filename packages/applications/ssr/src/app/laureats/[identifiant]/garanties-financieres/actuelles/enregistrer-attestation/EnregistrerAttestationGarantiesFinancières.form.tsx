@@ -18,7 +18,7 @@ import {
 
 export type EnregistrerAttestationGarantiesFinancièresFormProps = {
   identifiantProjet: string;
-  garantiesFinancièresActuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  garantiesFinancièresActuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
 };
 
 export const EnregistrerAttestationGarantiesFinancièresForm: FC<

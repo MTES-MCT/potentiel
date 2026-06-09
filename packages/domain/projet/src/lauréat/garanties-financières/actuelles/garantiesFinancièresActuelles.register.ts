@@ -2,7 +2,7 @@ import type { Find } from '@potentiel-domain/entity';
 
 import type { GetProjetAggregateRoot } from '../../../index.js';
 import { registerListerArchivesGarantiesFinancièresQuery } from './archives/lister/listerArchivesGarantiesFinancières.query.js';
-import { registerConsulterGarantiesFinancièresQuery } from './consulter/consulterGarantiesFinancières.query.js';
+import { registerConsulterGarantiesFinancièresActuellesQuery } from './consulter/consulterGarantiesFinancièresActuelles.query.js';
 import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command.js';
 import { registerEnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase.js';
 import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command.js';
@@ -40,6 +40,6 @@ export const registerGarantiesFinancièresActuellesUseCases = ({
 export const registerGarantiesFinancièresActuellesQueries = (
   dependencies: GarantiesFinancièresActuellesQueryDependencies,
 ) => {
-  registerConsulterGarantiesFinancièresQuery(dependencies);
+  registerConsulterGarantiesFinancièresActuellesQuery(dependencies);
   registerListerArchivesGarantiesFinancièresQuery(dependencies);
 };

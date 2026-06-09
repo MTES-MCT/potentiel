@@ -58,7 +58,7 @@ export default async function Page(props0: IdentifiantParameter) {
 }
 
 type MapToProps = (
-  garantiesFinancières: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
+  garantiesFinancières: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel,
   cahierDesCharges: CahierDesCharges.ValueType,
 ) => ModifierGarantiesFinancièresActuellesPageProps;
 

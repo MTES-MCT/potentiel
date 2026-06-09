@@ -18,7 +18,7 @@ import {
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {
   typesGarantiesFinancières: GarantiesFinancièresFormInputsProps['typesGarantiesFinancières'];
-  actuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  actuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
 };
 
 export const ModifierGarantiesFinancièresActuellesForm: FC<

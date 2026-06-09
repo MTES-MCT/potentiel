@@ -9,16 +9,13 @@ import type { GarantiesFinancièresEntity } from '../../garantiesFinancières.en
 import {
   DocumentGarantiesFinancières,
   GarantiesFinancières,
-  MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
 } from '../../index.js';
 
-export type ConsulterGarantiesFinancièresReadModel = {
+export type ConsulterGarantiesFinancièresActuellesReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: GarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
-  motifEnAttente?: MotifDemandeGarantiesFinancières.ValueType;
-  dateLimiteSoumission?: DateTime.ValueType;
   document?: DocumentProjet.ValueType;
   soumisLe?: DateTime.ValueType;
   validéLe?: DateTime.ValueType;
@@ -28,22 +25,22 @@ export type ConsulterGarantiesFinancièresReadModel = {
   };
 };
 
-export type ConsulterGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+export type ConsulterGarantiesFinancièresActuellesQuery = Message<
+  'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresActuelles',
   {
     identifiantProjetValue: string;
   },
-  Option.Type<ConsulterGarantiesFinancièresReadModel>
+  Option.Type<ConsulterGarantiesFinancièresActuellesReadModel>
 >;
 
-export type ConsulterGarantiesFinancièresDependencies = {
+export type ConsulterGarantiesFinancièresActuellesDependencies = {
   find: Find;
 };
 
-export const registerConsulterGarantiesFinancièresQuery = ({
+export const registerConsulterGarantiesFinancièresActuellesQuery = ({
   find,
-}: ConsulterGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ConsulterGarantiesFinancièresQuery> = async ({
+}: ConsulterGarantiesFinancièresActuellesDependencies) => {
+  const handler: MessageHandler<ConsulterGarantiesFinancièresActuellesQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -58,7 +55,10 @@ export const registerConsulterGarantiesFinancièresQuery = ({
 
     return mapToReadModel({ ...result, actuelles: result.actuelles });
   };
-  mediator.register('Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières', handler);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresActuelles',
+    handler,
+  );
 };
 
 type MapToReadModelProps = GarantiesFinancièresEntity & { actuelles: GarantiesFinancières.RawType };
@@ -66,10 +66,9 @@ export const mapToReadModel = ({
   identifiantProjet,
   dernièreMiseÀJour,
   statut,
-  enAttente,
   actuelles,
   soumisLe,
-}: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => {
+}: MapToReadModelProps): ConsulterGarantiesFinancièresActuellesReadModel => {
   const garantiesFinancières = GarantiesFinancières.convertirEnValueType(actuelles);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -88,11 +87,5 @@ export const mapToReadModel = ({
       date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
       par: dernièreMiseÀJour.par ? Email.convertirEnValueType(dernièreMiseÀJour.par) : undefined,
     },
-    motifEnAttente: enAttente
-      ? MotifDemandeGarantiesFinancières.convertirEnValueType(enAttente.motif)
-      : undefined,
-    dateLimiteSoumission: enAttente?.dateLimiteSoumission
-      ? DateTime.convertirEnValueType(enAttente.dateLimiteSoumission)
-      : undefined,
   };
 };

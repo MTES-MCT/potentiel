@@ -34,13 +34,15 @@ export const GET = async (
         IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
       );
 
-      const garantiesFinancières =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue,
+      const garantiesFinancièresEnAttente =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
+            data: {
+              identifiantProjetValue,
+            },
           },
-        });
+        );
 
       const garantieFinanciereEnMoisNumber =
         famille &&
@@ -86,8 +88,9 @@ export const GET = async (
               )
             : '!!! dateFinGarantieFinanciere non disponible !!!',
           dateLimiteDepotGF: formatDateForDocument(
-            Option.isSome(garantiesFinancières) && garantiesFinancières.dateLimiteSoumission
-              ? garantiesFinancières.dateLimiteSoumission.date
+            Option.isSome(garantiesFinancièresEnAttente) &&
+              garantiesFinancièresEnAttente.dateLimiteSoumission
+              ? garantiesFinancièresEnAttente.dateLimiteSoumission.date
               : undefined,
           ),
           // TODO vérifer

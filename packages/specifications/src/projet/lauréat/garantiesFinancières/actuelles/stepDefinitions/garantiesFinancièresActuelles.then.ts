@@ -15,12 +15,14 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresActuelles',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
 
@@ -49,12 +51,14 @@ Alors(
 
     await waitForExpect(async () => {
       const garantiesFinancièresActuelles =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresActuelles',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
       expect(Option.isNone(garantiesFinancièresActuelles)).to.be.true;
     });
   },
@@ -111,12 +115,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresActuelles',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       expect(Option.isSome(actualReadModel)).to.be.true;
       assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
@@ -133,12 +139,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresActuelles',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       expect(Option.isSome(actualReadModel)).to.be.true;
       assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');

@@ -3,6 +3,7 @@ import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../../../../potentiel.world.js';
@@ -47,13 +48,16 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
-      const actual = await récupérerGarantiesFinancièresEnAttente.call(this, identifiantProjet);
+      const actual = await récupérerGarantiesFinancièresEnAttenteDansLaListe.call(
+        this,
+        identifiantProjet,
+      );
       expect(actual).to.be.undefined;
     });
   },
 );
 
-async function récupérerGarantiesFinancièresEnAttente(
+async function récupérerGarantiesFinancièresEnAttenteDansLaListe(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
 ) {
@@ -75,22 +79,50 @@ async function vérifierGarantiesFinancièresAttendues(
   dateLimiteSoumission?: string,
 ) {
   await waitForExpect(async () => {
-    const actualReadModel = await récupérerGarantiesFinancièresEnAttente.call(
+    const actuelReadModelForLister = await récupérerGarantiesFinancièresEnAttenteDansLaListe.call(
       this,
       identifiantProjet,
     );
 
-    assert(actualReadModel, 'Aucune garantie financière en attente trouvée pour le projet');
-    assert(actualReadModel.motif, 'Le motif des garanties financières en attente doit être défini');
-    expect(actualReadModel.motif.formatter()).to.equal(motif);
+    assert(
+      actuelReadModelForLister,
+      'Aucune garantie financière en attente trouvée pour le projet',
+    );
+    assert(
+      actuelReadModelForLister.motif,
+      'Le motif des garanties financières en attente doit être défini',
+    );
+    expect(actuelReadModelForLister.motif.formatter()).to.equal(motif);
 
     if (dateLimiteSoumission) {
       assert(
-        actualReadModel.dateLimiteSoumission,
+        actuelReadModelForLister.dateLimiteSoumission,
         'La date limite de soumission des garanties financières en attente doit être définie',
       );
 
-      expect(actualReadModel.dateLimiteSoumission.formatter()).to.equal(
+      expect(actuelReadModelForLister.dateLimiteSoumission.formatter()).to.equal(
+        new Date(dateLimiteSoumission).toISOString(),
+      );
+    }
+
+    const actualReadModelForConsulter =
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
+        {
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        },
+      );
+
+    assert(
+      Option.isSome(actualReadModelForConsulter),
+      'Aucune garantie financière en attente trouvée pour le projet lors de la consultation',
+    );
+    expect(actualReadModelForConsulter.motifEnAttente.motif).to.equal(motif);
+
+    if (dateLimiteSoumission) {
+      expect(actualReadModelForConsulter.dateLimiteSoumission.formatter()).to.equal(
         new Date(dateLimiteSoumission).toISOString(),
       );
     }
