@@ -26,6 +26,8 @@ export const SaisieNomStep: FC<SaisieNomProps> = ({
     nativeInputProps={{
       name: 'nomRepresentantLegal',
       defaultValue: nomReprésentantLégal,
+      required: true,
+      'aria-disabled': true,
     }}
     state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
     stateRelatedMessage={validationErrors['nomRepresentantLegal']}
