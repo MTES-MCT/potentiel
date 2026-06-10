@@ -1,18 +1,18 @@
-import { faker } from '@faker-js/faker';
+import { Lauréat } from '@potentiel-domain/projet';
 
-const validSIRET = [
-  '42230076433245',
-  '93410977806891',
-  '44323366342016',
-  '37257709800224',
-  '19975065437594',
-  '20470387088231',
-];
+const generateRandomIdentifier = (length: number) =>
+  Math.trunc(Math.random() * 10 ** length)
+    .toString()
+    .padStart(length, '0');
+
+const addLuhnChecksum = (partial: string) => {
+  const checksum = Lauréat.Producteur.NuméroIdentification.computeLuhnChecksum(`${partial}0`);
+  const checkDigit = checksum === 0 ? 0 : 10 - checksum;
+  return `${partial}${checkDigit}`;
+};
 
 export const getFakeNuméroIdentification = (): { siret: string; siren: string } => {
-  const siret = faker.helpers.shuffle(validSIRET)[0];
-  return {
-    siret,
-    siren: siret.slice(0, 9),
-  };
+  const siren = addLuhnChecksum(generateRandomIdentifier(8));
+  const siret = addLuhnChecksum(siren + generateRandomIdentifier(4));
+  return { siret, siren };
 };
