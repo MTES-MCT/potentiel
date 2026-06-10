@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getÉliminé } from '@/app/_helpers/getÉliminé';
+import { getProjetLauréatOuÉliminé } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -24,9 +24,9 @@ export default async function ProjetPage(props: ProjetPageProps) {
   ).formatter();
 
   return PageWithErrorHandling(async () => {
-    const éliminé = await getÉliminé(identifiantProjet);
+    const projet = await getProjetLauréatOuÉliminé(identifiantProjet);
 
-    if (éliminé) {
+    if (!projet.recoursAccordé) {
       redirect(Routes.Éliminé.détails.tableauDeBord(identifiantProjet));
     }
 
