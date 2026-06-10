@@ -2,6 +2,7 @@ import type { GenericEndpointContext } from 'better-auth';
 
 import type { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
+import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import type { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
@@ -13,6 +14,14 @@ type BuildSendVerificationRequest = (props: {
   getUtilisateurFromEmail: GetUtilisateurFromEmail;
   isActifAgentsPublics: boolean;
 }) => (options: SendOptions, ctx?: GenericEndpointContext) => Promise<void>;
+
+const rôlesProconnectObligatoire: Role.RawType[] = [
+  'ademe',
+  'admin',
+  'cre',
+  'dgec',
+  'dgec-validateur',
+];
 
 export const buildSendMagicLink: BuildSendVerificationRequest = ({
   sendEmail,
@@ -28,11 +37,10 @@ export const buildSendMagicLink: BuildSendVerificationRequest = ({
       return;
     }
 
-    const isAgentPublic =
-      Option.isSome(utilisateur) &&
-      (utilisateur.rôle.estDreal() || utilisateur.rôle.estDGEC() || utilisateur.rôle.estAdmin());
+    const doitUtiliserProconnect =
+      Option.isSome(utilisateur) && rôlesProconnectObligatoire.includes(utilisateur.rôle.nom);
 
-    if (isAgentPublic && !isActifAgentsPublics) {
+    if (doitUtiliserProconnect && !isActifAgentsPublics) {
       await sendEmail({
         key: 'auth/proconnect-obligatoire',
         recipients: [email],
