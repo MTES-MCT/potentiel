@@ -18,10 +18,10 @@ export const mapToProducteurImportéTimelineItemProps = (
           </div>
           <div className="flex flex-col">
             <span>
-              Numéro SIRET : <FormattedSIRET siret={numéroIdentification?.siret} />
+              Numéro SIRET : <FormattedSIRET value={numéroIdentification?.siret} />
             </span>
             <span>
-              Numéro SIREN : <FormattedSIREN siren={numéroIdentification?.siren} />
+              Numéro SIREN : <FormattedSIREN value={numéroIdentification?.siren} />
             </span>
           </div>
         </div>

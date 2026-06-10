@@ -9,3 +9,7 @@ export const changement = {
 };
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/producteur/modifier`;
+export const numéroIdentification = {
+  corriger: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/producteur/numero-identification/corriger`,
+};

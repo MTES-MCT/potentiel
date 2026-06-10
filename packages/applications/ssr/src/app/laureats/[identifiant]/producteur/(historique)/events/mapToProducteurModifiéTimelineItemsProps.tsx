@@ -36,7 +36,8 @@ export const mapToProducteurModifiéTimelineItemsProps = (
         </div>
         <div>
           <span>
-            Numéro SIRET : <FormattedSIRET siret={numéroIdentification?.siret} />
+            Numéro SIRET :{' '}
+            <FormattedSIRET className="font-semibold" value={numéroIdentification?.siret} />
           </span>
         </div>
       </div>

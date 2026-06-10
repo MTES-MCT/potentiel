@@ -1,3 +1,4 @@
+import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
@@ -18,15 +19,29 @@ export const ProducteurSection = ({
 
     const producteur = await getProducteurInfos(identifiantProjet.formatter());
 
-    const action = await getAction({
+    const actions = [];
+
+    const actionProducteur = await getAction({
       identifiantProjet,
       rôle,
       domain: 'producteur',
     });
 
+    if (actionProducteur) {
+      actions.push(actionProducteur);
+    }
+
+    // cas particulier pour producteur pour le moment, à ne pas intégrer à getAction IMO
+    if (rôle.aLaPermission('producteur.corrigerNuméroIdentification')) {
+      actions.push({
+        url: Routes.Producteur.numéroIdentification.corriger(identifiantProjet.formatter()),
+        label: "Corriger le numéro d'identification",
+      });
+    }
+
     return (
       <Section title="Producteur">
-        <ProducteurDétails value={mapToPlainObject(producteur)} action={action} />
+        <ProducteurDétails value={mapToPlainObject(producteur)} actions={actions} />
       </Section>
     );
   });

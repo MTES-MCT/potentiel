@@ -1,18 +1,16 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { Heading6 } from '@/components/atoms/headings';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export const InfoBoxRévocationDesDroits: FC = () => (
-  <Alert
+  <Notice
     severity="warning"
-    small
+    title="Attention : révocation des droits sur le projet"
     description={
-      <div className="p-1">
-        <Heading6>Attention : révocation des droits sur le projet</Heading6>
+      <div>
         <span>
           Une fois ce changement confirmé, vous ne pourrez plus suivre ce projet sur Potentiel.
           <br />
@@ -29,14 +27,33 @@ export const InfoBoxRévocationDesDroits: FC = () => (
 );
 
 export const InfoBoxAprèsAchèvement: FC = () => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title="Achèvement"
     description={
       <div className="p-1">
         Un changement de producteur après achèvement du projet doit être fait auprès du
         cocontractant.
       </div>
     }
+  />
+);
+
+export const InfoBoxCorrection = ({ identifiantProjet }: { identifiantProjet: string }) => (
+  <Notice
+    severity="info"
+    title="SIRET / SIREN"
+    description={
+      <div>
+        Si vous souhaitez uniquement corriger votre numéro d'identification (SIRET / SIREN),
+        veuillez vous rendre sur le formulaire dédié.
+      </div>
+    }
+    link={{
+      linkProps: {
+        href: Routes.Producteur.numéroIdentification.corriger(identifiantProjet),
+      },
+      text: "Corriger le numéro d'identification",
+    }}
   />
 );

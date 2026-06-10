@@ -179,6 +179,12 @@ export const siretSchema = optionalStringSchema
     message: `Le numéro SIRET doit être composé de 14 chiffres`,
   });
 
+export const requiredSiretSchema = requiredStringSchema
+  .transform((value) => value.replace(/ /g, ''))
+  .refine((val) => val.length === 14, {
+    message: `Le numéro SIRET doit être composé de 14 chiffres`,
+  });
+
 export const sirenSchema = optionalStringSchema
   .transform((value) => value?.replace(/ /g, ''))
   .refine((val) => !val || val.length === 9, {
