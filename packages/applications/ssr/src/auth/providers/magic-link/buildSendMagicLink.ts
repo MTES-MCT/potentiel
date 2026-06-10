@@ -19,6 +19,7 @@ const rôlesProconnectObligatoire: Role.RawType[] = [
   'ademe',
   'admin',
   'cre',
+  'dreal',
   'dgec',
   'dgec-validateur',
 ];

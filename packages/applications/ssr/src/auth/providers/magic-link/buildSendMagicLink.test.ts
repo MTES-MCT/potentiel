@@ -42,6 +42,16 @@ const dreal: UtilisateurItem = {
   région: { nom: 'Corse' },
 };
 
+const cre: UtilisateurItem = {
+  rôle: { nom: 'cre' },
+  identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
+};
+
+const ademe: UtilisateurItem = {
+  rôle: { nom: 'cre' },
+  identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
+};
+
 const utilisateursExistants: ReadonlyArray<UtilisateurItem> = [
   porteurDeProjet,
   porteurDeProjetDésactivé,
@@ -130,6 +140,8 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       typeUtilisateur: 'un validateur DGEC',
     },
     { email: dreal.identifiantUtilisateur.email, typeUtilisateur: 'une DREAL' },
+    { email: cre.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateru CRE' },
+    { email: ademe.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur ADEME' },
   ];
 
   utilisateursNePouvantPasSeConnecterParEmail.forEach(({ email, typeUtilisateur }) => {
