@@ -92,7 +92,8 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
                   required={required}
                   hintText={hintText}
                   multiple={multiple}
-                  label=""
+                  label={label}
+                  hideLabel={true}
                   formats={formats}
                   onChange={onChange}
                 />
