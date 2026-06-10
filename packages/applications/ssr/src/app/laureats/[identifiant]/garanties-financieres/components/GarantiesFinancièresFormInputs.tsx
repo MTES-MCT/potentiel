@@ -16,7 +16,7 @@ export type GarantiesFinancièresFormInputsProps = {
   label?: string;
   validationErrors: ValidationErrors;
   actuelles?: Partial<
-    PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>
+    PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>
   >;
   typesGarantiesFinancières: Array<{
     label: string;

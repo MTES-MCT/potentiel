@@ -4,7 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { EnregistrerGarantiesFinancièresFixture } from './enregistrerGarantiesFinancières.fixture.js';
 
 export class EnregistrerAttestationGarantiesFinancièresFixture extends EnregistrerGarantiesFinancièresFixture {
-  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel {
     const expected = super.mapToExpected();
 
     const dépôtCandidature =

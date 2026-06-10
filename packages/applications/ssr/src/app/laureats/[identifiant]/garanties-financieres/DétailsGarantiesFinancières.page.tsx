@@ -34,7 +34,7 @@ export type AlerteGarantiesFinancières = (typeof alertesGarantiesFinancières)[
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
   actuelles: PlainType<
-    Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>
+    Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>
   >;
   archivesGarantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
   actions: (ActionGarantiesFinancières | AlerteGarantiesFinancières)[];

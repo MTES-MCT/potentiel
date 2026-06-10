@@ -10,13 +10,13 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 type GarantiesFinancièresData = {
-  actuelles?: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel> & {
+  actuelles?: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel> & {
     dateÉchéance?: DateTime.RawType;
   };
   dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel> & {
     dateÉchéance?: DateTime.RawType;
   };
-  motifGarantiesFinancièresEnAttente?: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
+  enAttente?: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteReadModel>;
 };
 
 type GarantiesFinancièresDétailsProps = {
@@ -30,16 +30,15 @@ export const GarantiesFinancièresDétails = ({
   garantiesFinancières,
   estAchevé,
 }: GarantiesFinancièresDétailsProps) => {
-  const { dépôt, actuelles } = garantiesFinancières;
-  const motifDemandeGarantiesFinancières =
-    actuelles?.motifEnAttente &&
-    getMotifGarantiesFinancièresEnAttente(actuelles.motifEnAttente.motif);
+  const { dépôt, actuelles, enAttente } = garantiesFinancières;
+  const motifGarantiesFinancièresEnAttente =
+    enAttente && getMotifGarantiesFinancièresEnAttente(enAttente.motifEnAttente.motif);
 
   return (
     <>
-      {!estAchevé && motifDemandeGarantiesFinancières && (
+      {!estAchevé && motifGarantiesFinancièresEnAttente && (
         <Notice
-          description={`Des garanties financières sont en attente pour ce projet (${motifDemandeGarantiesFinancières})`}
+          description={`Des garanties financières sont en attente pour ce projet (${motifGarantiesFinancièresEnAttente})`}
           title=""
           severity="info"
           className="print:hidden"

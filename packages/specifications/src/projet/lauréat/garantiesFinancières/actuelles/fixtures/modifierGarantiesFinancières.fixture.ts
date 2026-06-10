@@ -95,7 +95,7 @@ export class ModifierGarantiesFinancièresFixture extends AbstractFixture<Modifi
     return fixture;
   }
 
-  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel {
     return {
       identifiantProjet:
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
@@ -120,8 +120,6 @@ export class ModifierGarantiesFinancièresFixture extends AbstractFixture<Modifi
         par: Email.convertirEnValueType(this.enregistréPar),
       },
       validéLe: DateTime.convertirEnValueType(this.#enregistréLe),
-      dateLimiteSoumission: undefined,
-      motifEnAttente: undefined,
     };
   }
 }

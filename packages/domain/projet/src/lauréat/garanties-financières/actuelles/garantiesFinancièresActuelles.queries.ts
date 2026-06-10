@@ -4,23 +4,26 @@ import type {
   ListerArchivesGarantiesFinancièresReadModel,
 } from './archives/lister/listerArchivesGarantiesFinancières.query.js';
 import type {
-  ConsulterGarantiesFinancièresQuery,
-  ConsulterGarantiesFinancièresReadModel,
-} from './consulter/consulterGarantiesFinancières.query.js';
+  ConsulterGarantiesFinancièresActuellesQuery,
+  ConsulterGarantiesFinancièresActuellesReadModel,
+} from './consulter/consulterGarantiesFinancièresActuelles.query.js';
 
 export type GarantiesFinancièresActuellesQuery =
-  | ConsulterGarantiesFinancièresQuery
+  | ConsulterGarantiesFinancièresActuellesQuery
   | ListerArchivesGarantiesFinancièresQuery;
 
-export type { ConsulterGarantiesFinancièresQuery, ListerArchivesGarantiesFinancièresQuery };
+export type {
+  ConsulterGarantiesFinancièresActuellesQuery,
+  ListerArchivesGarantiesFinancièresQuery,
+};
 
 export type GarantiesFinancièresActuellesReadModel =
-  | ConsulterGarantiesFinancièresReadModel
+  | ConsulterGarantiesFinancièresActuellesReadModel
   | ListerArchivesGarantiesFinancièresReadModel
   | ArchiveGarantiesFinancièresListItemReadModel;
 
 export type {
   ArchiveGarantiesFinancièresListItemReadModel,
-  ConsulterGarantiesFinancièresReadModel,
+  ConsulterGarantiesFinancièresActuellesReadModel,
   ListerArchivesGarantiesFinancièresReadModel,
 };

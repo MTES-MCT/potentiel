@@ -84,7 +84,7 @@ export default async function Page(props0: IdentifiantParameter) {
 }
 
 type MapToActionsAndAlertesProps = {
-  actuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  actuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
   dépôtEnCours: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   mainlevée: Option.Type<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
   utilisateur: Utilisateur.ValueType;

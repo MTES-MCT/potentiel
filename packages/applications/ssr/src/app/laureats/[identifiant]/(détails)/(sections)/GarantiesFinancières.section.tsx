@@ -68,7 +68,9 @@ export const getGarantiesFinancièresData = async ({
     return undefined;
   }
 
-  const { actuelles, dépôt } = await getGarantiesFinancières(identifiantProjet.formatter());
+  const { actuelles, dépôt, enAttente } = await getGarantiesFinancières(
+    identifiantProjet.formatter(),
+  );
 
   return {
     actuelles: actuelles
@@ -87,5 +89,6 @@ export const getGarantiesFinancièresData = async ({
             : undefined,
         }
       : undefined,
+    enAttente,
   };
 };

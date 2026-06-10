@@ -58,7 +58,7 @@ export default async function Page(props0: IdentifiantParameter) {
 
 type MapToProps = (params: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  garantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  garantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
   notifiéLe: DateTime.ValueType;
 }) => TransmettreAttestationConformitéPageProps;
 

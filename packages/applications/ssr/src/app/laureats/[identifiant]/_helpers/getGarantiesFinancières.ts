@@ -7,10 +7,12 @@ import { Option } from '@potentiel-libraries/monads';
 export const getGarantiesFinancières = cache(
   async (identifiantProjet: IdentifiantProjet.RawType) => {
     const garantiesFinancièresActuelles =
-      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjet },
-      });
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesQuery>(
+        {
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresActuelles',
+          data: { identifiantProjetValue: identifiantProjet },
+        },
+      );
 
     const dépôt =
       await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
@@ -18,11 +20,20 @@ export const getGarantiesFinancières = cache(
         data: { identifiantProjetValue: identifiantProjet },
       });
 
+    const enAttente =
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
+        {
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
+          data: { identifiantProjetValue: identifiantProjet },
+        },
+      );
+
     return {
       actuelles: Option.isSome(garantiesFinancièresActuelles)
         ? garantiesFinancièresActuelles
         : undefined,
       dépôt: Option.isSome(dépôt) ? dépôt : undefined,
+      enAttente: Option.isSome(enAttente) ? enAttente : undefined,
     };
   },
 );

@@ -48,7 +48,7 @@ export class GarantiesFinancièresActuellesWorld {
     return mapToExemple(exemple, garantiesFinancièresMap);
   }
 
-  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
 
     const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
@@ -71,7 +71,7 @@ export class GarantiesFinancièresActuellesWorld {
       attestationConstitutionGf,
     } = candidatureInitiale.dépôtValue;
 
-    let gfReadModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel =
+    let gfReadModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel =
       typeGarantiesFinancières
         ? {
             identifiantProjet,
@@ -98,7 +98,7 @@ export class GarantiesFinancièresActuellesWorld {
             validéLe: DateTime.convertirEnValueType(notifiéLe),
             document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
           }
-        : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
+        : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel);
 
     for (const action of actions) {
       gfReadModel = action.mapToExpected();
@@ -111,9 +111,6 @@ export class GarantiesFinancièresActuellesWorld {
 
     if (sontÉchues && gfReadModel.garantiesFinancières.estAvecDateÉchéance()) {
       gfReadModel.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
-      gfReadModel.dateLimiteSoumission = gfReadModel.dernièreMiseÀJour.date.ajouterNombreDeMois(2);
-      gfReadModel.motifEnAttente =
-        Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.échéanceGarantiesFinancièresActuelles;
     }
 
     return gfReadModel;
