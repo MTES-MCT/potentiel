@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { before, describe, test } from 'node:test';
+import { before, describe, mock, test } from 'node:test';
 
 import type { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
@@ -71,6 +71,7 @@ const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
 
   return { ...Utilisateur.bind(utilisateur), désactivé: utilisateur.désactivé };
 };
+const url = 'verification-request-url';
 
 before(() => {
   process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
@@ -95,36 +96,26 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
         Alors un email avec un lien de connexion vers l'application devrait lui être envoyé
     `, async () => {
       // Given
-      let emailWasSent = false;
-      const url = 'verification-request-url';
-
-      const fakeSendEmail: SendEmail = async (actual) => {
-        const expected = {
-          key: 'auth/lien-magique',
-          recipients: [email],
-          values: {
-            url,
-          },
-        };
-
-        assert.deepStrictEqual(
-          actual,
-          expected,
-          `L'email avec le lien de connexion n'a pas été envoyé`,
-        );
-        emailWasSent = true;
-      };
+      const sendEmail = mock.fn<SendEmail>();
 
       // When
       const sendVerificationRequest = buildSendMagicLink({
-        sendEmail: fakeSendEmail,
+        sendEmail,
         getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
         isActifAgentsPublics: false,
       });
       await sendVerificationRequest({ email, url });
 
       // Then
-      assert.strictEqual(emailWasSent, true);
+      const expected = {
+        key: 'auth/lien-magique',
+        recipients: [email],
+        values: {
+          url,
+        },
+      };
+      assert.strictEqual(sendEmail.mock.callCount(), 1);
+      assert.deepEqual(sendEmail.mock.calls[0].arguments[0], expected);
     });
   });
 });
@@ -152,46 +143,26 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
             Mais aucun email avec un lien de connexion ne devrait être envoyé
         `, async () => {
       // Given
-      let emailWasSent = false;
-      const url = 'verification-request-url';
-
-      const fakeSendEmail: SendEmail = async (actual) => {
-        const envoiEmailAvecLienDeConnexion = {
-          key: 'auth/lien-magique',
-          recipients: [email],
-          values: {
-            url,
-          },
-        };
-
-        assert.notDeepStrictEqual(
-          actual,
-          envoiEmailAvecLienDeConnexion,
-          `L'email avec le lien de connexion n'aurait pas dû être envoyé`,
-        );
-
-        const expected = {
-          key: 'auth/proconnect-obligatoire',
-          recipients: [email],
-          values: {
-            url: process.env.BASE_URL + Routes.Auth.signIn({ forceProConnect: true }),
-          },
-        };
-
-        assert.deepStrictEqual(actual, expected);
-        emailWasSent = true;
-      };
+      const sendEmail = mock.fn<SendEmail>();
 
       // When
       const sendVerificationRequest = buildSendMagicLink({
-        sendEmail: fakeSendEmail,
+        sendEmail,
         getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
         isActifAgentsPublics: false,
       });
       await sendVerificationRequest({ email, url });
 
       // Then
-      assert.strictEqual(emailWasSent, true);
+      assert.strictEqual(sendEmail.mock.callCount(), 1);
+      const expected = {
+        key: 'auth/proconnect-obligatoire',
+        recipients: [email],
+        values: {
+          url: process.env.BASE_URL + Routes.Auth.signIn({ forceProConnect: true }),
+        },
+      };
+      assert.deepEqual(sendEmail.mock.calls[0].arguments[0], expected);
     });
   });
 
@@ -199,24 +170,21 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       Lorsque le système envoie un email de vérification
       Alors un email avec un lien de connexion vers l'application devrait lui être envoyé`, async () => {
     // Given
-    let emailWasSent = false;
-    const email = dreal.identifiantUtilisateur.email;
-    const url = 'verification-request-url';
-
-    const fakeSendEmail: SendEmail = async () => {
-      emailWasSent = true;
-    };
+    const sendEmail = mock.fn<SendEmail>();
 
     // When
     const sendVerificationRequest = buildSendMagicLink({
-      sendEmail: fakeSendEmail,
+      sendEmail,
       getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
       isActifAgentsPublics: true,
     });
-    await sendVerificationRequest({ email, url });
+    await sendVerificationRequest({
+      email: dreal.identifiantUtilisateur.email,
+      url,
+    });
 
     // Then
-    assert.strictEqual(emailWasSent, true, 'Un email devrait être envoyé');
+    assert.strictEqual(sendEmail.mock.callCount(), 1, 'Un email devrait être envoyé');
   });
 });
 
@@ -227,23 +195,19 @@ describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
             Alors aucun email ne devrait être envoyé
         `, async () => {
     // Given
-    let emailWasSent = false;
     const email = porteurDeProjetDésactivé.identifiantUtilisateur.email;
-    const url = 'verification-request-url';
 
-    const fakeSendEmail: SendEmail = async () => {
-      emailWasSent = true;
-    };
+    const sendEmail = mock.fn<SendEmail>();
 
     // When
     const sendVerificationRequest = buildSendMagicLink({
-      sendEmail: fakeSendEmail,
+      sendEmail,
       getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
       isActifAgentsPublics: false,
     });
     await sendVerificationRequest({ email, url });
 
     // Then
-    assert.strictEqual(emailWasSent, false, 'Aucun email ne devrait être envoyé');
+    assert.strictEqual(sendEmail.mock.callCount(), 0, 'Aucun email ne devrait être envoyé');
   });
 });
