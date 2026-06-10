@@ -52,7 +52,6 @@ export const InfoBoxCorrection = ({ identifiantProjet }: { identifiantProjet: st
     link={{
       linkProps: {
         href: Routes.Producteur.numéroIdentification.corriger(identifiantProjet),
-        target: '_blank',
       },
       text: "Corriger le numéro d'identification",
     }}

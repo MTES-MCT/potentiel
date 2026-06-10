@@ -14,7 +14,7 @@ import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   siret: requiredSiretSchema,
-  raison: zod.string().min(1).optional(),
+  raison: zod.string().optional(),
   piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
   }),
