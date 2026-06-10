@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import type { DateTime } from '@potentiel-domain/common';
-import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
@@ -29,7 +29,9 @@ export default async function Page(props0: IdentifiantParameter) {
         'Lauréat.Achèvement.UseCase.ModifierAchèvement',
       );
 
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
 
       const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 

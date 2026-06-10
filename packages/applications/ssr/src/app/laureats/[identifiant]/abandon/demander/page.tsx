@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import type { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges, récupérerLauréatSansAbandon } from '@/app/_helpers';
@@ -24,7 +24,9 @@ export default async function Page(props: IdentifiantParameter) {
         'Lauréat.Abandon.UseCase.DemanderAbandon',
       );
 
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
 
       const lauréat = await récupérerLauréatSansAbandon(identifiantProjet);
 

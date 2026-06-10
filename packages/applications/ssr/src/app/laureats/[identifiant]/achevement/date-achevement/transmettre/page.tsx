@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import type { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -22,9 +22,9 @@ export default async function Page(props: IdentifiantParameter) {
         'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
       );
 
-      const identifiantProjet = decodeParameter(identifiant);
-
-      const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+      const projet = await récupérerLauréatNonAbandonné(
+        IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant)).formatter(),
+      );
 
       return (
         <TransmettreDateAchèvementPage

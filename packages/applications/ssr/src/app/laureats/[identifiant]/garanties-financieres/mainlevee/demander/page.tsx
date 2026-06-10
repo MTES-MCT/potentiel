@@ -1,3 +1,4 @@
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { récupérerLauréat } from '@/app/_helpers';
@@ -12,7 +13,10 @@ export default async function Page({ params }: IdentifiantParameter) {
   const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async () => {
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
+
       const lauréat = await récupérerLauréat(identifiantProjet);
 
       const { actuelles, dépôt } = await getGarantiesFinancières(

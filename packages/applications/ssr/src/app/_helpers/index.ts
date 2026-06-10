@@ -7,6 +7,7 @@ export * from './getAutoritéCompétenteLabel';
 export * from './getCahierDesCharges';
 export * from './getCandidature';
 export * from './getFiltresActifs';
+export * from './getLauréat';
 export * from './getNatureDeLExploitationTypeLabel';
 export * from './getPériodeAppelOffres';
 export * from './getRecours';

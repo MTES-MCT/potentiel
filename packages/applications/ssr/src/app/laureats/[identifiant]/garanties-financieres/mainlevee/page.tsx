@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -20,8 +20,9 @@ export default async function Page({ params }: IdentifiantParameter) {
   const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
-      const lauréat = await récupérerLauréat(identifiantProjet);
+      const lauréat = await récupérerLauréat(
+        IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant)).formatter(),
+      );
 
       const mainlevée = await getMainlevéeGarantiesFinancières(
         lauréat.identifiantProjet.formatter(),
