@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges, récupérerLauréatSansAbandon } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatSansAbandon } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -28,7 +28,7 @@ export default async function Page(props: IdentifiantParameter) {
         decodeParameter(identifiant),
       ).formatter();
 
-      const lauréat = await récupérerLauréatSansAbandon(identifiantProjet);
+      const lauréat = await getLauréatSansAbandon(identifiantProjet);
 
       const powerPurchaseAgreement =
         await mediator.send<Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementQuery>({

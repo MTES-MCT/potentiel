@@ -6,7 +6,7 @@ import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 
 type Props = IdentifiantProjet.RawType;
 
@@ -42,24 +42,6 @@ export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLa
     powerPurchaseAgreement: powerPurchaseAgreementInfo,
     lauréat,
   };
-});
-
-export const getLauréatInfos = cache(async (identifiantProjet: Props) => {
-  const logger = getLogger('getLauréatInfos');
-
-  const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-    type: 'Lauréat.Query.ConsulterLauréat',
-    data: {
-      identifiantProjet,
-    },
-  });
-
-  if (Option.isNone(lauréat)) {
-    logger.warn('Projet lauréat non trouvé', { identifiantProjet });
-    return notFound();
-  }
-
-  return lauréat;
 });
 
 export const getActionnaireInfos = async (identifiantProjet: Props) => {

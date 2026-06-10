@@ -5,9 +5,9 @@ import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
-import { getAction, getLauréatInfos } from '../../_helpers';
+import { getAction } from '../../_helpers';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
 import { BadgeDemandesEnCours, BadgeTâches } from './Badges';
 

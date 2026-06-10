@@ -11,9 +11,8 @@ import {
   type Lauréat,
 } from '@potentiel-domain/projet';
 
-import { getCandidature } from '@/app/_helpers';
+import { getCandidature, getLauréatInfos } from '@/app/_helpers';
 import {
-  getLauréatInfos,
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from '@/app/laureats/[identifiant]/_helpers/getLauréat';

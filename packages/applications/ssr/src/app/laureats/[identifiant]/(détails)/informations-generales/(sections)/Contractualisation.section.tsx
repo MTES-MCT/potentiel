@@ -3,11 +3,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import {
-  getAction,
-  getLauréatInfos,
-  getPuissanceInfos,
-} from '@/app/laureats/[identifiant]/_helpers';
+import { getLauréatInfos } from '@/app/_helpers';
+import { getAction, getPuissanceInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';

@@ -8,7 +8,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
-  récupérerLauréatSansAbandon,
+  getLauréatSansAbandon,
   vérifierQueLeCahierDesChargesPermetUnChangement,
 } from '@/app/_helpers';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
@@ -35,7 +35,7 @@ export default async function Page(props: IdentifiantParameter) {
         decodeParameter(identifiant),
       );
 
-      const lauréat = await récupérerLauréatSansAbandon(identifiantProjet.formatter());
+      const lauréat = await getLauréatSansAbandon(identifiantProjet.formatter());
 
       await vérifierQueLeCahierDesChargesPermetUnChangement(
         lauréat.identifiantProjet,

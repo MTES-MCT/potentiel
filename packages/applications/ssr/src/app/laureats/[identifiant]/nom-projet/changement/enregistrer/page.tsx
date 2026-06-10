@@ -3,8 +3,7 @@ import type { Metadata } from 'next';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
-import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
+import { getLauréatInfos, vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
