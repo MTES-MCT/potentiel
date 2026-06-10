@@ -42,7 +42,13 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
         payload: {
-          raison: P.union('ajout-délai-cdc-30_08_2022', 'retrait-délai-cdc-30_08_2022', 'covid'),
+          raison: P.union(
+            'notification',
+            'délai-accordé',
+            'covid',
+            'ajout-délai-cdc-30_08_2022',
+            'retrait-délai-cdc-30_08_2022',
+          ),
         },
       },
       mapToDateAchèvementPrévisionnelCalculéeProps,
@@ -51,7 +57,7 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
         payload: {
-          raison: P.union('inconnue', 'délai-accordé', 'notification'),
+          raison: 'inconnue',
         },
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
