@@ -30,7 +30,7 @@ export default async function Page(props: IdentifiantParameter) {
       const identifiantProjetValue = decodeParameter(identifiant);
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-      await récupérerLauréat(identifiantProjetValue);
+      await récupérerLauréat(identifiantProjet.formatter());
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);

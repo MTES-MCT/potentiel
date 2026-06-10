@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import type { DateTime } from '@potentiel-domain/common';
-import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
@@ -31,9 +31,9 @@ export default async function Page(props0: IdentifiantParameter) {
         'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
       );
 
-      const identifiantProjet = decodeParameter(identifiant);
-
-      const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+      const projet = await récupérerLauréatNonAbandonné(
+        IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant)).formatter(),
+      );
 
       const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
         projet.identifiantProjet.formatter(),

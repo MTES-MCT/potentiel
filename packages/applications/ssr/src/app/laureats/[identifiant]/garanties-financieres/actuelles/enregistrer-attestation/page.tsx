@@ -28,10 +28,11 @@ export default async function Page(props: IdentifiantParameter) {
         'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
       );
 
-      const identifiantProjetValue = decodeParameter(identifiant);
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-      await récupérerLauréat(identifiantProjetValue);
+      await récupérerLauréat(identifiantProjet.formatter());
 
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
@@ -45,7 +46,7 @@ export default async function Page(props: IdentifiantParameter) {
 
       return (
         <EnregistrerAttestationGarantiesFinancièresPage
-          identifiantProjet={identifiantProjetValue}
+          identifiantProjet={identifiantProjet.formatter()}
           garantiesFinancièresActuelles={mapToPlainObject(garantiesFinancières)}
         />
       );
