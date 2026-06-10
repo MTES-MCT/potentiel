@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
-import { applyLuhnCheck } from './numéroIdentification.valueType.js';
+import { isValidLuhn } from './numéroIdentification.valueType.js';
 
 describe('Appliquer la vérification de Luhn sur des numéro SIRET et SIREN', () => {
   describe('SIREN (9 chiffres)', () => {
@@ -10,7 +10,7 @@ describe('Appliquer la vérification de Luhn sur des numéro SIRET et SIREN', ()
       const validSiren = ['534721097', '552049447'];
 
       validSiren.forEach((siren) => {
-        expect(applyLuhnCheck(siren)).to.equal(true);
+        expect(isValidLuhn(siren)).to.equal(true);
       });
     });
 
@@ -18,7 +18,7 @@ describe('Appliquer la vérification de Luhn sur des numéro SIRET et SIREN', ()
       const invalidSiren = ['732829321', '552100550', '123456789'];
 
       invalidSiren.forEach((siren) => {
-        expect(applyLuhnCheck(siren)).to.equal(false);
+        expect(isValidLuhn(siren)).to.equal(false);
       });
     });
   });
@@ -28,7 +28,7 @@ describe('Appliquer la vérification de Luhn sur des numéro SIRET et SIREN', ()
       const validSiret = ['73282932000074', '55210055400013'];
 
       validSiret.forEach((siret) => {
-        expect(applyLuhnCheck(siret)).to.equal(true);
+        expect(isValidLuhn(siret)).to.equal(true);
       });
     });
 
@@ -36,20 +36,20 @@ describe('Appliquer la vérification de Luhn sur des numéro SIRET et SIREN', ()
       const invalidSiret = ['73282932000075', '55210055400010', '12345678901234'];
 
       invalidSiret.forEach((siret) => {
-        expect(applyLuhnCheck(siret)).to.equal(false);
+        expect(isValidLuhn(siret)).to.equal(false);
       });
     });
   });
 
   describe('Cas limites', () => {
     it('Doit invalider si la longueur est incorrecte', () => {
-      expect(applyLuhnCheck('12345678')).to.equal(false);
-      expect(applyLuhnCheck('123456789012345')).to.equal(false);
+      expect(isValidLuhn('12345678')).to.equal(false);
+      expect(isValidLuhn('123456789012345')).to.equal(false);
     });
 
     it('Doit invalider si contient des caractères non numériques', () => {
-      expect(applyLuhnCheck('73282932A')).to.equal(false);
-      expect(applyLuhnCheck('5521005540001A')).to.equal(false);
+      expect(isValidLuhn('73282932A')).to.equal(false);
+      expect(isValidLuhn('5521005540001A')).to.equal(false);
     });
   });
 });

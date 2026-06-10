@@ -13,7 +13,7 @@ export type ValueType = ReadonlyValueType<{
 }>;
 
 // L’algorithme de Luhn est une formule simple de somme de contrôle utilisée pour valider des numéros d’identification
-export const applyLuhnCheck = (value: string): boolean => {
+export const computeLuhnChecksum = (value: string): number => {
   const digits = value.split('').map(Number).reverse();
   let sum = 0;
 
@@ -25,9 +25,9 @@ export const applyLuhnCheck = (value: string): boolean => {
       sum += digit;
     }
   }
-
-  return sum % 10 === 0;
+  return sum % 10;
 };
+export const isValidLuhn = (value: string): boolean => computeLuhnChecksum(value) === 0;
 
 export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
   estValide({ siret, siren });
@@ -51,7 +51,7 @@ export const estValideSiret = (value: string): boolean => {
     throw new ChaîneSiretInvalideError(value);
   }
 
-  if (!applyLuhnCheck(value)) {
+  if (!isValidLuhn(value)) {
     throw new SiretInvalideError(value);
   }
 
@@ -63,7 +63,7 @@ export const estValideSiren = (value: string): boolean => {
     throw new ChaîneSirenInvalideError(value);
   }
 
-  if (!applyLuhnCheck(value)) {
+  if (!isValidLuhn(value)) {
     throw new SirenInvalideError(value);
   }
 
