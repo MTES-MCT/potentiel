@@ -120,7 +120,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     }
 
     if (numéroIdentification) {
-      this.#tâcheRenseignerNuméroIdentification.achever();
+      await this.#tâcheRenseignerNuméroIdentification.achever();
     }
   }
 
@@ -160,7 +160,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     await this.publish(event);
 
     if (numéroIdentification) {
-      this.#tâcheRenseignerNuméroIdentification.achever();
+      await this.#tâcheRenseignerNuméroIdentification.achever();
     }
   }
 
@@ -190,9 +190,9 @@ export class ProducteurAggregate extends AbstractAggregate<
       },
     };
 
-    this.#tâcheRenseignerNuméroIdentification.achever();
-
     await this.publish(event);
+
+    await this.#tâcheRenseignerNuméroIdentification.achever();
   }
 
   async importer({
@@ -218,8 +218,8 @@ export class ProducteurAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    if (!numéroIdentification) {
-      this.#tâcheRenseignerNuméroIdentification.ajouter();
+    if (!numéroIdentification || numéroIdentification.estInconnu()) {
+      await this.#tâcheRenseignerNuméroIdentification.ajouter();
     }
   }
 

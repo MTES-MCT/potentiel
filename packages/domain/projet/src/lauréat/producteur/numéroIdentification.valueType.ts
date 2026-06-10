@@ -10,6 +10,7 @@ export type ValueType = ReadonlyValueType<{
   siret?: string;
   siren?: string;
   formatter: () => RawType;
+  estInconnu(): boolean;
 }>;
 
 // L’algorithme de Luhn est une formule simple de somme de contrôle utilisée pour valider des numéros d’identification
@@ -40,13 +41,16 @@ export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
     estÉgaleÀ({ siret, siren }: ValueType) {
       return this.siret === siret && this.siren === siren;
     },
+    estInconnu() {
+      return !this.siret && !this.siren;
+    },
   };
 };
 
 const regexSiret = /^\d{14}$/;
 const regexSiren = /^\d{9}$/;
 
-export const estValideSiret = (value: string): boolean => {
+const estValideSiret = (value: string): boolean => {
   if (!regexSiret.test(value)) {
     throw new ChaîneSiretInvalideError(value);
   }
@@ -58,7 +62,7 @@ export const estValideSiret = (value: string): boolean => {
   return true;
 };
 
-export const estValideSiren = (value: string): boolean => {
+const estValideSiren = (value: string): boolean => {
   if (!regexSiren.test(value)) {
     throw new ChaîneSirenInvalideError(value);
   }

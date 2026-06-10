@@ -164,20 +164,19 @@ export class LauréatAggregate extends AbstractAggregate<
       AbandonAggregate,
       `abandon|${this.projet.identifiantProjet.formatter()}`,
     );
-
     await this.#abandon.init();
 
     this.#achèvement = await this.loadAggregate(
       AchèvementAggregate,
       `achevement|${this.projet.identifiantProjet.formatter()}`,
     );
-
     await this.#achèvement.init();
 
     this.#producteur = await this.loadAggregate(
       ProducteurAggregate,
       `producteur|${this.projet.identifiantProjet.formatter()}`,
     );
+    await this.#producteur.init();
 
     this.#puissance = await this.loadAggregate(
       PuissanceAggregate,

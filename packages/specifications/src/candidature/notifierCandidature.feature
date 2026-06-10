@@ -71,6 +71,13 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet lauréat devrait être consultable
 
+    Scénario: Notifier une candidature importée sans numéro d'identification
+        Etant donné la candidature lauréate "La petite laverie de Paris" avec :
+            | numéro siret |  |
+            | numéro siren |  |
+        Quand le DGEC validateur notifie la candidature lauréate
+        Et une tâche indiquant de "renseigner le numéro d'identification" est consultable dans la liste des tâches du porteur pour le projet
+
     Scénario: Notifier un candidat éliminé
         Etant donné la candidature éliminée "Du boulodrome de Marseille"
         Quand le DGEC validateur notifie la candidature éliminée
