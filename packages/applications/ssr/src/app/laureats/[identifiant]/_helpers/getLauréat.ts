@@ -2,13 +2,13 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
-import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 
-type Props = IdentifiantProjet.RawType;
+type Props = string;
 
 export type GetLauréat = {
   actionnaire: Lauréat.Actionnaire.ConsulterActionnaireReadModel;
@@ -17,9 +17,6 @@ export type GetLauréat = {
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
-  abandon?: Lauréat.Abandon.ConsulterAbandonReadModel;
-  demandeDélai?: Lauréat.Délai.ConsulterDemandeDélaiReadModel;
-  powerPurchaseAgreement?: Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementReadModel;
 };
 
 export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLauréat> => {
@@ -29,8 +26,6 @@ export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLa
   const puissanceInfos = await getPuissanceInfos(identifiantProjet);
   const producteurInfos = await getProducteurInfos(identifiantProjet);
   const fournisseurInfos = await getFournisseurInfos(identifiantProjet);
-  const abandonInfo = await getAbandonInfos(identifiantProjet);
-  const powerPurchaseAgreementInfo = await getPowerPurchaseAgreementInfos(identifiantProjet);
 
   return {
     actionnaire: actionnaireInfos,
@@ -38,8 +33,6 @@ export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLa
     puissance: puissanceInfos,
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
-    abandon: abandonInfo,
-    powerPurchaseAgreement: powerPurchaseAgreementInfo,
     lauréat,
   };
 });
@@ -141,7 +134,7 @@ export const getFournisseurInfos = cache(async (identifiantProjet: Props) => {
   return fournisseur;
 });
 
-export const getAbandonInfos = cache(async (identifiantProjet: Props) => {
+export const getOptionalAbandon = cache(async (identifiantProjet: Props) => {
   const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
     type: 'Lauréat.Abandon.Query.ConsulterAbandon',
     data: {
@@ -151,6 +144,31 @@ export const getAbandonInfos = cache(async (identifiantProjet: Props) => {
 
   return Option.isSome(abandon) ? abandon : undefined;
 });
+
+export const getOptionalDemandeAbandon = cache(
+  async (identifiantProjet: Props, demandéLe: string) => {
+    const demandeAbandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
+      type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        demandéLeValue: demandéLe,
+      },
+    });
+
+    return Option.isSome(demandeAbandon) ? demandeAbandon : undefined;
+  },
+);
+
+export const getOptionalDemandeAbandonEnCours = cache(async (identifiantProjet: Props) => {
+  const abandon = await getOptionalAbandon(identifiantProjet);
+  if (!abandon) {
+    return;
+  }
+  return getOptionalDemandeAbandon(identifiantProjet, abandon.demandéLe.formatter());
+});
+
+export const getDemandeAbandonEnCours = makeRequired(getOptionalDemandeAbandonEnCours);
+export const getAbandon = makeRequired(getOptionalAbandon);
 
 export const getNatureDeLExploitationInfos = cache(async (identifiantProjet: Props) => {
   const natureDeLExploitation =
@@ -197,3 +215,15 @@ export const getPowerPurchaseAgreementInfos = cache(async (identifiantProjet: Pr
 
   return Option.isSome(powerPurchaseAgreement) ? powerPurchaseAgreement : undefined;
 });
+
+function makeRequired<TReturn, TParams extends Array<string>>(
+  getOptionalValue: (...params: TParams) => Promise<TReturn | undefined>,
+): (...params: TParams) => Promise<TReturn> {
+  return cache(async (...params: TParams) => {
+    const value = await getOptionalValue(...params);
+    if (!value) {
+      return notFound();
+    }
+    return value;
+  });
+}

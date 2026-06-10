@@ -1,21 +1,20 @@
-import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
-
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat } from '../../_helpers/getLauréat';
+import {
+  getDemandeAbandonEnCours,
+  getPuissanceInfos,
+  getReprésentantLégalInfos,
+} from '../../_helpers/getLauréat';
 
 export const GET = async (
   _: Request,
@@ -25,31 +24,12 @@ export const GET = async (
     withUtilisateur(async (utilisateur) => {
       const { identifiant } = await ctx.params;
       const identifiantProjet = decodeParameter(identifiant);
+      const abandon = await getDemandeAbandonEnCours(identifiantProjet);
 
-      const {
-        lauréat,
-        puissance,
-        représentantLégal,
-        abandon: abandonInfo,
-      } = await getLauréat(IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter());
-
-      if (!abandonInfo) {
-        return notFound();
-      }
-
-      const abandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
-        type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          demandéLeValue: abandonInfo.demandéLe.formatter(),
-        },
-      });
-
-      if (Option.isNone(abandon)) {
-        return notFound();
-      }
-
-      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
+      const lauréat = await getLauréatInfos(identifiantProjet);
+      const puissance = await getPuissanceInfos(identifiantProjet);
+      const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
       const { logo, data } = mapLauréatToModèleRéponsePayload({
         identifiantProjet,

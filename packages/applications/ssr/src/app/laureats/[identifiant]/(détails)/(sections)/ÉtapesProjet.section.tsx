@@ -5,7 +5,7 @@ import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRecours } from '../../../../_helpers/getRecours';
-import { getAbandonInfos, getAchèvement, getRaccordement } from '../../_helpers';
+import { getAchèvement, getOptionalAbandon, getRaccordement } from '../../_helpers';
 import { EtapesProjet, type ÉtapeProjet } from './ÉtapesProjet';
 
 type ÉtapesProjetSectionProps = {
@@ -22,7 +22,7 @@ export const ÉtapesProjetSection = ({
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
       const achèvement = await getAchèvement(identifiantProjet.formatter());
-      const abandon = await getAbandonInfos(identifiantProjet.formatter());
+      const abandon = await getOptionalAbandon(identifiantProjet.formatter());
       const recours = await getRecours(identifiantProjet.formatter());
       const lauréat = await getLauréatInfos(identifiantProjet.formatter());
       const raccordement = await getRaccordement(identifiantProjet.formatter());

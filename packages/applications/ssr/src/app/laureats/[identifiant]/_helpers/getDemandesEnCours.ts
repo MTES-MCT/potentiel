@@ -4,8 +4,8 @@ import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getDemandeDélaiEnCoursInfos } from './getDélai';
 import {
-  getAbandonInfos,
   getActionnaireInfos,
+  getOptionalAbandon,
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from './getLauréat';
@@ -58,7 +58,7 @@ export const getDemandesEnCours = async ({
   }
 
   if (utilisateur.rôle.aLaPermission('abandon.consulter.demande')) {
-    const abandon = await getAbandonInfos(identifiantProjet.formatter());
+    const abandon = await getOptionalAbandon(identifiantProjet.formatter());
     if (abandon?.demandeEnCours) {
       demandes.push({
         text: 'Abandon',

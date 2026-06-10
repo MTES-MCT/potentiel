@@ -1,16 +1,14 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getLauréatInfos } from '@/app/_helpers';
 import {
-  getAbandonInfos,
   getAchèvement,
   getGarantiesFinancières,
+  getOptionalDemandeAbandonEnCours,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import type { DocumentItem } from '@/components/organisms/document/DocumentListItem';
@@ -51,21 +49,9 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       // ABANDON
-      const abandon = await getAbandonInfos(identifiantProjet);
+      const demandeAbandon = await getOptionalDemandeAbandonEnCours(identifiantProjet);
 
-      if (abandon) {
-        const demandeAbandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
-          type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            demandéLeValue: abandon.demandéLe.formatter(),
-          },
-        });
-
-        if (Option.isNone(demandeAbandon)) {
-          return notFound();
-        }
-
+      if (demandeAbandon) {
         if (demandeAbandon.demande.accord) {
           documents.push({
             type: "Réponse signée de l'accord de la demande d'abandon",

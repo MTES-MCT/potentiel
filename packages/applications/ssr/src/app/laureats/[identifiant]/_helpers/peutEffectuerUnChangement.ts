@@ -3,14 +3,14 @@ import { cache } from 'react';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getAchèvement } from './getAchèvement';
-import { getAbandonInfos } from './getLauréat';
+import { getOptionalAbandon } from './getLauréat';
 
 /**
  * Le projet n'est pas abandonné, en cours d'abandon, ou achevé
  */
 export const peutEffectuerUnChangement = cache(
   async (identifiantProjet: IdentifiantProjet.ValueType) => {
-    const abandon = await getAbandonInfos(identifiantProjet.formatter());
+    const abandon = await getOptionalAbandon(identifiantProjet.formatter());
 
     if (abandon?.demandeEnCours || abandon?.estAbandonné) {
       return false;

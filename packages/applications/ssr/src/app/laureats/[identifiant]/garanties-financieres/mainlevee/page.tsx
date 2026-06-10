@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAbandonInfos, getAchèvement, getGarantiesFinancières } from '../../_helpers';
+import { getAchèvement, getGarantiesFinancières, getOptionalAbandon } from '../../_helpers';
 import { getMainlevéeGarantiesFinancières } from '../../_helpers/getMainlevéeGarantiesFinancières';
 import { DétailsMainlevéePage, type DétailsMainlevéePageProps } from './DétailsMainlevée.page';
 
@@ -43,7 +43,7 @@ export default async function Page({ params }: IdentifiantParameter) {
         : undefined;
 
       const abandon = lauréat.statut.estAbandonné()
-        ? await getAbandonInfos(lauréat.identifiantProjet.formatter())
+        ? await getOptionalAbandon(lauréat.identifiantProjet.formatter())
         : undefined;
 
       const mainlevéesRejetées =

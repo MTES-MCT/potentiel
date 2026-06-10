@@ -7,7 +7,7 @@ import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAbandonInfos, getRaccordement } from '../../_helpers';
+import { getOptionalAbandon, getRaccordement } from '../../_helpers';
 import { vérifierSiModificationRaccordementPossible } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { RaccordementDétails, type RaccordementDétailsProps } from './RaccordementDétails';
 
@@ -30,7 +30,7 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
 
       const lauréat = await getLauréatInfos(identifiantProjet);
       const abandon = rôle.aLaPermission('abandon.consulter.enCours')
-        ? await getAbandonInfos(identifiantProjet)
+        ? await getOptionalAbandon(identifiantProjet)
         : undefined;
       const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat, abandon);
 
