@@ -1,5 +1,6 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
 import { type Joined, type List, Where } from '@potentiel-domain/entity';
 
@@ -27,6 +28,7 @@ export type ÉliminéEnrichiListItemReadModel = {
   période: IdentifiantProjet.ValueType['période'];
   famille: IdentifiantProjet.ValueType['famille'] | undefined;
   numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
+  technologie: AppelOffre.Technologie;
   nomProjet: Dépôt.ValueType['nomProjet'];
 
   adresse1: Localité.ValueType['adresse1'];
@@ -172,6 +174,7 @@ const mapToReadModel: MapToReadModelProps = ({
   natureDeLExploitation,
   coordonnées,
   puissanceDuProjetInitial,
+  technologieCalculée,
 
   'détail-candidature': détailCandidature,
 }) => {
@@ -188,6 +191,7 @@ const mapToReadModel: MapToReadModelProps = ({
     famille: identifiantProjetValueType.famille,
     numéroCRE: identifiantProjetValueType.numéroCRE,
     nomProjet,
+    technologie: technologieCalculée,
     ...localité,
     ...coordonnées,
 
