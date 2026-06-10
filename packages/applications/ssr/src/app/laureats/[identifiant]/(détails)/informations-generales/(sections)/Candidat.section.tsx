@@ -1,7 +1,8 @@
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getAction, getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
+import { getLauréatInfos } from '@/app/_helpers';
+import { getAction } from '@/app/laureats/[identifiant]/_helpers';
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';

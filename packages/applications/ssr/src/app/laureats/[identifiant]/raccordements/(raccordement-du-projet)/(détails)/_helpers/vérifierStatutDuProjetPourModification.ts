@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getAbandonInfos, getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
+import { getLauréatInfos } from '@/app/_helpers';
+import { getAbandonInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const getLauréatOrRedirect = async (identifiantProjet: IdentifiantProjet.RawType) =>

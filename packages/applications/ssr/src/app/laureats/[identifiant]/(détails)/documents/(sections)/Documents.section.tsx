@@ -6,11 +6,11 @@ import { Routes } from '@potentiel-applications/routes';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getLauréatInfos } from '@/app/_helpers';
 import {
   getAbandonInfos,
   getAchèvement,
   getGarantiesFinancières,
-  getLauréatInfos,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import type { DocumentItem } from '@/components/organisms/document/DocumentListItem';

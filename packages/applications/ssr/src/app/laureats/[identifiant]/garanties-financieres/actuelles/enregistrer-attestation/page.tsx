@@ -4,7 +4,7 @@ import { InvalidOperationError, mapToPlainObject } from '@potentiel-domain/core'
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { récupérerLauréat } from '@/app/_helpers';
+import { getLauréatInfos } from '@/app/_helpers';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -32,7 +32,7 @@ export default async function Page(props: IdentifiantParameter) {
         decodeParameter(identifiant),
       );
 
-      await récupérerLauréat(identifiantProjet.formatter());
+      await getLauréatInfos(identifiantProjet.formatter());
 
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 

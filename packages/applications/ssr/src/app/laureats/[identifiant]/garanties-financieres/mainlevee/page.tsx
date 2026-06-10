@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -20,7 +20,7 @@ export default async function Page({ params }: IdentifiantParameter) {
   const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const lauréat = await récupérerLauréat(
+      const lauréat = await getLauréatInfos(
         IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant)).formatter(),
       );
 
