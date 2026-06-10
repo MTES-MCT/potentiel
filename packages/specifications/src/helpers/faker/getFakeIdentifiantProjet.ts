@@ -10,9 +10,9 @@ export const getFakeIdentifiantProjet = (props: GetFakeIdentifiantProjetProps = 
 
   const appelOffre = props.appelOffre
     ? appelsOffreData.find((ao) => ao.id === props.appelOffre)
-    : // L'AO Petit PV Bâtiment (AO Simplifié) a des règles trop différentes pour être choisi aléatoirement (GF par exemple).
+    : // Les AOs simplifiés (Petit PV) sont trop spécifiques pour être choisi aléatoirement (GF par exemple).
       faker.helpers.arrayElement(
-        appelsOffreData.filter((x) => x.id !== 'PPE2 - Petit PV Bâtiment'),
+        appelsOffreData.filter((x) => x.typeAppelOffre !== 'appel-d-offres-simplifié'),
       );
 
   if (!appelOffre) {

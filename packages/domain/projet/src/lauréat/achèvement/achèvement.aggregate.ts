@@ -352,7 +352,8 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async planifierTâchesRappelsÉchéance(dateAchèvementPrévisionnelle: DateTime.ValueType) {
     if (
-      this.lauréat.projet.cahierDesChargesActuel.appelOffre.id !== 'PPE2 - Petit PV Bâtiment' ||
+      this.lauréat.projet.cahierDesChargesActuel.appelOffre.typeAppelOffre !==
+        'appel-d-offres-simplifié' ||
       this.#estAchevé ||
       this.lauréat.abandon.statut.estEnCours() ||
       this.lauréat.statut.estAbandonné()

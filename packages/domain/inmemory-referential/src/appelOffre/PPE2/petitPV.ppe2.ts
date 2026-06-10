@@ -1,11 +1,11 @@
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
-  id: 'PPE2 - Petit PV Bâtiment',
+export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
+  id: 'PPE2 - Petit PV',
   typeAppelOffre: 'appel-d-offres-simplifié',
   cycleAppelOffre: 'PPE2',
-  title: `portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments ou ombrières de puissance supérieure à 100 kWc et inférieure à 500 kWc »`,
-  shortTitle: 'PPE2 - Petit PV Bâtiment',
+  title: `portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments ou ombrières ou au sol de puissance supérieure à 100 kWc et inférieure à 500 kWc »`,
+  shortTitle: 'PPE2 - Petit PV',
   launchDate: 'Septembre 2025',
   cahiersDesChargesUrl: `https://www.cre.fr/documents/appels-doffres/appel-doffres-portant-sur-la-realisation-et-lexploitation-dinstallations-de-production-delectricite-a-partir-de-lenergie-solaire-centrales-sur-batiments-ou-ombrieres-de-puissance-superieure-a-100-kwc-et-inferieure-a-500-kwc.html`,
   technologie: 'pv',
@@ -135,13 +135,14 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
     typologieInstallation: { type: 'requis' },
   },
   periodes: [
+    // cet appel d'offres démarre avec la période 2 car fait suite à la première période de l'appel d'offres "PPE2 - Petit PV Bâtiment"
     {
-      id: '1',
-      title: 'première',
+      id: '2',
+      title: 'deuxième',
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
-        référence: '2025/S 513616-2025',
+        référence: '🦺 A COMPLETER 🦺',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
@@ -156,6 +157,5 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
       },
       typeImport: 'démarche-simplifiée',
     },
-    // première et dernière période de cet appel d'offres, les suivantes seront sur l'AO "PPE2 - Petit PV"
   ],
 };

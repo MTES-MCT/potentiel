@@ -10,7 +10,8 @@ type AppelOffreTypes =
   | 'neutre'
   | 'sol'
   | 'zni'
-  | 'autre';
+  | 'autre'
+  | 'appel-d-offres-simplifié';
 
 export type Ratios = {
   min: number;

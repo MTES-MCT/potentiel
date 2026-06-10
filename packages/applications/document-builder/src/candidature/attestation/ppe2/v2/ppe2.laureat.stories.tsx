@@ -7,6 +7,7 @@ import { makeCertificate } from './makeCertificate.js';
 
 const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;
 const petitPVBâtimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Petit PV Bâtiment')!;
+const petitPVPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Petit PV')!;
 const eolienPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Eolien')!;
 const neutrePPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Neutre')!;
 const solPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Sol')!;
@@ -147,12 +148,23 @@ export const LaureatPPE2BatimentAvecCoefficientK: Story = {
   },
 };
 
-export const LaureatPPE2PetitPVP1: Story = {
+export const LaureatPPE2PetitPvBatimentP1: Story = {
   args: {
     projet: {
       ...fakeProject,
       appelOffre: petitPVBâtimentPPE2,
       période: petitPVBâtimentPPE2.periodes[0],
+      autorisation: { numéro: 'URB-12345', date: new Date('2024-01-01') },
+    },
+  },
+};
+
+export const LaureatPPE2PetitPvP1: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      appelOffre: petitPVPPE2,
+      période: petitPVPPE2.periodes[0],
       autorisation: { numéro: 'URB-12345', date: new Date('2024-01-01') },
     },
   },

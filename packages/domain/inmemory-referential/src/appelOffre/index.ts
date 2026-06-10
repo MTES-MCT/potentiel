@@ -19,6 +19,7 @@ import {
   innovationPPE2,
   neutrePPE2,
   petitPVBâtimentPPE2,
+  petitPVPPE2,
   solPPE2,
   zniPPE2,
 } from './PPE2/index.js';
@@ -44,4 +45,5 @@ export const appelsOffreData = [
   autoconsommationMetropolePPE2,
   zniPPE2,
   petitPVBâtimentPPE2,
+  petitPVPPE2,
 ];
