@@ -194,6 +194,30 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       assert.strictEqual(emailWasSent, true);
     });
   });
+
+  test(`Étant donné que le lien magique est actif pour les agents publics
+      Lorsque le système envoie un email de vérification
+      Alors un email avec un lien de connexion vers l'application devrait lui être envoyé`, async () => {
+    // Given
+    let emailWasSent = false;
+    const email = dreal.identifiantUtilisateur.email;
+    const url = 'verification-request-url';
+
+    const fakeSendEmail: SendEmail = async () => {
+      emailWasSent = true;
+    };
+
+    // When
+    const sendVerificationRequest = buildSendMagicLink({
+      sendEmail: fakeSendEmail,
+      getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
+      isActifAgentsPublics: true,
+    });
+    await sendVerificationRequest({ email, url });
+
+    // Then
+    assert.strictEqual(emailWasSent, true, 'Un email devrait être envoyé');
+  });
 });
 
 describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
