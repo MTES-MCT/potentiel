@@ -1,13 +1,20 @@
+import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 
+import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésentantLégalLabel';
 
 export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
   event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalEnregistréEvent,
 ): TimelineItemProps => {
-  const { enregistréLe, enregistréPar, nomReprésentantLégal, typeReprésentantLégal } =
-    event.payload;
+  const {
+    enregistréLe,
+    enregistréPar,
+    nomReprésentantLégal,
+    typeReprésentantLégal,
+    identifiantProjet,
+  } = event.payload;
 
   return {
     date: enregistréLe,
@@ -26,5 +33,10 @@ export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
         </div>
       </div>
     ),
+    link: {
+      url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, enregistréLe),
+      label: 'Détail du changement',
+      ariaLabel: `Voir le détail du changement de représentant légal enregistré le ${formatDateToText(enregistréLe)}`,
+    },
   };
 };
