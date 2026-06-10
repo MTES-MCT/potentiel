@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getLauréatInfos } from '@/app/_helpers';
+import { getProjetLauréatOuÉliminé } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -21,9 +21,9 @@ export default async function Page(props: PageProps) {
       decodeParameter(identifiant),
     ).formatter();
 
-    const estLauréat = await getLauréatInfos(identifiantProjet);
+    const projet = await getProjetLauréatOuÉliminé(identifiantProjet);
 
-    if (estLauréat) {
+    if (projet.recoursAccordé) {
       return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
     }
 

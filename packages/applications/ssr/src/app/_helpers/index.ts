@@ -8,6 +8,7 @@ export * from './getCahierDesCharges';
 export * from './getCandidature';
 export * from './getFiltresActifs';
 export * from './getNatureDeLExploitationTypeLabel';
+export * from './getProjetLauréatOuÉliminé';
 export * from './getPériodeAppelOffres';
 export * from './getRecours';
 export * from './getStatutLauréatLabel';
