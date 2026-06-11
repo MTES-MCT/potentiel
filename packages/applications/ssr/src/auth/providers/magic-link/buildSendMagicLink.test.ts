@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import { before, describe, mock, test } from 'node:test';
+import { before, beforeEach, describe, mock, test } from 'node:test';
 
 import type { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
@@ -73,10 +73,15 @@ const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
 
   return { ...Utilisateur.bind(utilisateur), désactivé: utilisateur.désactivé };
 };
+const sendEmail = mock.fn<SendEmail>();
 const url = 'verification-request-url';
 
 before(() => {
   process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
+});
+
+beforeEach(() => {
+  sendEmail.mock.resetCalls();
 });
 
 describe(`Envoyer un email avec un lien de connexion`, () => {
@@ -97,9 +102,6 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
         Lorsque le système envoie un email de vérification
         Alors un email avec un lien de connexion vers l'application devrait lui être envoyé
     `, async () => {
-      // Given
-      const sendEmail = mock.fn<SendEmail>();
-
       // When
       const sendVerificationRequest = buildSendMagicLink({
         sendEmail,
@@ -144,9 +146,6 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
             Alors un email expliquant qu'il faut se connecter avec ProConnect devrait être envoyé
             Mais aucun email avec un lien de connexion ne devrait être envoyé
         `, async () => {
-      // Given
-      const sendEmail = mock.fn<SendEmail>();
-
       // When
       const sendVerificationRequest = buildSendMagicLink({
         sendEmail,
@@ -171,8 +170,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
   test(`Étant donné que le lien magique est actif pour les agents publics
       Lorsque le système envoie un email de vérification
       Alors un email avec un lien de connexion vers l'application devrait lui être envoyé`, async () => {
-    // Given
-    const sendEmail = mock.fn<SendEmail>();
+    const email = dreal.identifiantUtilisateur.email;
 
     // When
     const sendVerificationRequest = buildSendMagicLink({
@@ -180,10 +178,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
       isActifAgentsPublics: true,
     });
-    await sendVerificationRequest({
-      email: dreal.identifiantUtilisateur.email,
-      url,
-    });
+    await sendVerificationRequest({ email, url });
 
     // Then
     assert.strictEqual(sendEmail.mock.callCount(), 1, 'Un email devrait être envoyé');
@@ -198,8 +193,6 @@ describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
         `, async () => {
     // Given
     const email = porteurDeProjetDésactivé.identifiantUtilisateur.email;
-
-    const sendEmail = mock.fn<SendEmail>();
 
     // When
     const sendVerificationRequest = buildSendMagicLink({
