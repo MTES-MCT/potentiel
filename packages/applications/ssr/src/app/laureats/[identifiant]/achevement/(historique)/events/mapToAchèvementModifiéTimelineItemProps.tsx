@@ -71,7 +71,7 @@ export const mapToAchèvementModifiéTimelineItemProps = (
           />
         )}
         <div>
-          Date de transmission au Cocontractant :{' '}
+          Date d'achèvement réel :{' '}
           <span className="font-semibold">
             {<FormattedDate date={dateTransmissionAuCocontractant} />}
           </span>

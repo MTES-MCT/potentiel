@@ -1,14 +1,12 @@
-import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { formatDateToText } from '@/app/_helpers';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDélaiAccordéTimelineItemProps = (
   event: Lauréat.Délai.DélaiAccordéEvent,
 ): TimelineItemProps => {
-  const { accordéPar, accordéLe, nombreDeMois, dateAchèvementPrévisionnelCalculée } = event.payload;
+  const { accordéPar, accordéLe, nombreDeMois } = event.payload;
 
   return {
     date: accordéLe,
@@ -23,13 +21,6 @@ export const mapToDélaiAccordéTimelineItemProps = (
       <div className="flex flex-col gap-2">
         <div>
           Durée : <span className="font-semibold">{nombreDeMois} mois</span>
-        </div>
-        <div>
-          Date d'achèvement prévisionnel accordée :{' '}
-          <FormattedDate
-            className="font-semibold"
-            date={DateTime.convertirEnValueType(dateAchèvementPrévisionnelCalculée).formatter()}
-          />
         </div>
       </div>
     ),

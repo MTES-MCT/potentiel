@@ -11,16 +11,24 @@ export const mapToDateAchèvementPrévisionnelCalculéeProps = (
 ): TimelineItemProps => {
   const { date, calculéeLe, raison } = event.payload;
 
+  const nombreDeMois = getNombreDeMois(raison);
+  const contexte = getContexteFromRaison(raison);
+
   return {
     date: calculéeLe,
-    title: getTitleFromRaison(raison),
+    title: 'Achèvement prévisionnel mis à jour',
     details: (
       <div className="flex flex-col gap-2">
         <div>
-          Durée : <span className="font-semibold">{getNombreDeMois(raison)} mois</span>
+          Contexte : <span className="font-semibold">{contexte}</span>
         </div>
+        {nombreDeMois && (
+          <div>
+            Durée : <span className="font-semibold">{getNombreDeMois(raison)} mois</span>
+          </div>
+        )}
         <div>
-          Date d'achèvement prévisionnel :{' '}
+          Nouvelle date :{' '}
           <FormattedDate
             className="font-semibold"
             date={DateTime.convertirEnValueType(date).formatter()}
@@ -40,10 +48,12 @@ const getNombreDeMois = (
     .with('covid', () => 7)
     .otherwise(() => undefined);
 
-const getTitleFromRaison = (
+const getContexteFromRaison = (
   raison: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent['payload']['raison'],
 ) =>
   match(raison)
+    .with('notification', () => <>Date d'achèvement initiale</>)
+    .with('délai-accordé', () => <>Délai de force majeure</>)
     .with('ajout-délai-cdc-30_08_2022', () => (
       <>
         Attribution d'un délai supplémentaire prévu dans le{' '}

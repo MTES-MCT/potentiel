@@ -220,117 +220,114 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
           dateAchèvementPrévisionnelFinale = datePostNotification;
 
           /**
-           * 2. Évènement covid
+           * 2. Récupération des évènements (covid, CDC, délais accordés) qui prolonge la date d'achèvement prévisionnel calculée,
+           *    triés chronologiquement pour respecter l'ordre réel du cycle de vie.
            */
+          type EventSupplémentaireProps = {
+            raison: Exclude<
+              Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent['payload']['raison'],
+              'notification'
+            >;
+            calculéeLe: DateTime.RawType;
+            moisÀAjouter: number;
+          };
+
+          const eventsSupplémentaire: EventSupplémentaireProps[] = [];
+
           if (avecEventCovid) {
-            const datePostCovid = calculerNouvelleDateAchèvement(
+            eventsSupplémentaire.push({
+              raison: 'covid',
+              calculéeLe: '2020-09-25T12:00:00.000Z',
+              moisÀAjouter: 7,
+            });
+          }
+
+          const délaiApplicable = cahierDesCharges.cahierDesChargesModificatif?.délaiApplicable;
+          if (
+            datesMiseEnService?.length &&
+            cahierDesChargesChoisi.estCDC2022() &&
+            délaiApplicable
+          ) {
+            const datesMiseServiceDansInterval = datesMiseEnService.filter(
+              ({ dateMiseEnService }) =>
+                DateTime.convertirEnValueType(dateMiseEnService).estDansIntervalle({
+                  min: DateTime.convertirEnValueType(
+                    délaiApplicable.intervaleDateMiseEnService.min,
+                  ),
+                  max: DateTime.convertirEnValueType(
+                    délaiApplicable.intervaleDateMiseEnService.max,
+                  ),
+                }),
+            );
+
+            /*
+             * Si pas de date de mise en service, le projet n'est pas concerné par l'attribution des 18 mois
+             * donc on peut skip
+             */
+            if (datesMiseServiceDansInterval.length > 0 && cdcModifiéLe) {
+              const dateMiseEnServiceLaPlusAncienne = datesMiseServiceDansInterval.sort((a, b) => {
+                const aDate = DateTime.convertirEnValueType(a.dateMiseEnService);
+                const bDate = DateTime.convertirEnValueType(b.dateMiseEnService);
+                if (aDate.estAntérieurÀ(bDate)) return -1;
+                if (bDate.estAntérieurÀ(aDate)) return 1;
+                return 0;
+              })[0];
+
+              const dateQuiAProvoquéLes18Mois = DateTime.convertirEnValueType(
+                dateMiseEnServiceLaPlusAncienne.transmiseLe,
+              ).estUltérieureÀ(DateTime.convertirEnValueType(cdcModifiéLe))
+                ? dateMiseEnServiceLaPlusAncienne.transmiseLe
+                : cdcModifiéLe;
+
+              eventsSupplémentaire.push({
+                raison: 'ajout-délai-cdc-30_08_2022',
+                calculéeLe: addMilliseconds(dateQuiAProvoquéLes18Mois, 1),
+                moisÀAjouter: délaiApplicable.délaiEnMois,
+              });
+            }
+          }
+
+          if (délais?.length) {
+            for (const délai of délais) {
+              eventsSupplémentaire.push({
+                raison: 'délai-accordé',
+                calculéeLe: addMilliseconds(délai.accordéLe, 1),
+                moisÀAjouter: Number(délai.nombreDeMois),
+              });
+            }
+          }
+
+          /**
+           * 3. Trier les évènements par la date "calculéeLe"
+           */
+          const sortedEvents = eventsSupplémentaire.sort((a, b) => {
+            const aDate = DateTime.convertirEnValueType(a.calculéeLe);
+            const bDate = DateTime.convertirEnValueType(b.calculéeLe);
+            if (aDate.estAntérieurÀ(bDate)) return -1;
+            if (bDate.estAntérieurÀ(aDate)) return 1;
+            return 0;
+          });
+
+          /**
+           * 4. Ajouter les events triés à la liste complète des events à insérer
+           */
+          for (const { raison, calculéeLe, moisÀAjouter } of sortedEvents) {
+            const nouvelleDate = calculerNouvelleDateAchèvement(
               dateAchèvementPrévisionnelFinale,
-              7,
+              moisÀAjouter,
             );
 
             events.push({
               type: 'DateAchèvementPrévisionnelCalculée-V1',
               payload: {
-                calculéeLe: '2020-09-25T12:00:00.000Z',
                 identifiantProjet,
-                date: datePostCovid.formatter(),
-                raison: 'covid',
+                date: nouvelleDate.formatter(),
+                calculéeLe,
+                raison,
               },
             });
 
-            dateAchèvementPrévisionnelFinale = datePostCovid;
-          }
-
-          /**
-           * 3. Évènement CDC 30/08/2022 dépendant de la mise en service du projet
-           */
-          if (datesMiseEnService && datesMiseEnService.length > 0) {
-            const délaiApplicable = cahierDesCharges.cahierDesChargesModificatif?.délaiApplicable;
-
-            if (cahierDesChargesChoisi.estCDC2022() && délaiApplicable) {
-              const datesMiseServiceDansInterval = datesMiseEnService.filter(
-                ({ dateMiseEnService }) =>
-                  DateTime.convertirEnValueType(dateMiseEnService).estDansIntervalle({
-                    min: DateTime.convertirEnValueType(
-                      délaiApplicable.intervaleDateMiseEnService.min,
-                    ),
-                    max: DateTime.convertirEnValueType(
-                      délaiApplicable.intervaleDateMiseEnService.max,
-                    ),
-                  }),
-              );
-
-              /*
-               * Si pas de date de mise en service, le projet n'est pas concerné par l'attribution des 18 mois
-               * donc on peut skip
-               */
-              if (datesMiseServiceDansInterval.length > 0 && cdcModifiéLe) {
-                const dateMiseEnServiceLaPlusAncienne = datesMiseServiceDansInterval.sort(
-                  (a, b) => {
-                    const aDate = DateTime.convertirEnValueType(a.dateMiseEnService);
-                    const bDate = DateTime.convertirEnValueType(b.dateMiseEnService);
-                    if (aDate.estAntérieurÀ(bDate)) return -1;
-                    if (bDate.estAntérieurÀ(aDate)) return 1;
-                    return 0;
-                  },
-                )[0];
-
-                const dateQuiAProvoquéLes18Mois = DateTime.convertirEnValueType(
-                  dateMiseEnServiceLaPlusAncienne.transmiseLe,
-                ).estUltérieureÀ(DateTime.convertirEnValueType(cdcModifiéLe))
-                  ? dateMiseEnServiceLaPlusAncienne.transmiseLe
-                  : cdcModifiéLe;
-
-                const datePostChoixCdc = calculerNouvelleDateAchèvement(
-                  dateAchèvementPrévisionnelFinale,
-                  délaiApplicable.délaiEnMois,
-                );
-
-                events.push({
-                  type: 'DateAchèvementPrévisionnelCalculée-V1',
-                  payload: {
-                    identifiantProjet,
-                    calculéeLe: addMilliseconds(dateQuiAProvoquéLes18Mois, 1),
-                    date: datePostChoixCdc.formatter(),
-                    raison: 'ajout-délai-cdc-30_08_2022',
-                  },
-                });
-
-                dateAchèvementPrévisionnelFinale = datePostChoixCdc;
-              }
-            }
-          }
-
-          /**
-           * 4. Évènements Délai accordé
-           */
-          if (délais && délais.length > 0) {
-            const sortedDélais = délais.sort((a, b) => {
-              const aDate = DateTime.convertirEnValueType(a.accordéLe);
-              const bDate = DateTime.convertirEnValueType(b.accordéLe);
-              if (aDate.estAntérieurÀ(bDate)) return -1;
-              if (bDate.estAntérieurÀ(aDate)) return 1;
-              return 0;
-            });
-
-            for (const délai of sortedDélais) {
-              const datePostDélaiAccordé = calculerNouvelleDateAchèvement(
-                dateAchèvementPrévisionnelFinale,
-                Number(délai.nombreDeMois),
-              );
-
-              events.push({
-                type: 'DateAchèvementPrévisionnelCalculée-V1',
-                payload: {
-                  identifiantProjet,
-                  date: datePostDélaiAccordé.formatter(),
-                  calculéeLe: addMilliseconds(délai.accordéLe, 1),
-                  raison: 'délai-accordé',
-                },
-              });
-
-              dateAchèvementPrévisionnelFinale = datePostDélaiAccordé;
-            }
+            dateAchèvementPrévisionnelFinale = nouvelleDate;
           }
 
           stats.success.push({
@@ -354,14 +351,19 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       console.info(`  ✅ ${stats.success.length} projets ont un nouveau event stream achèvement`);
       console.info(`  ❌ ${stats.errors.length} projets en erreur`);
 
-      await this.logResultsToFile(stats);
-
-      if (stats.success.length !== stats.total) {
-        console.warn(
-          "⚠️  Tous les projets n'ont pas été traités avec succès, les événements suivants n'ont pas été réinjectés dans le stream achèvement :",
+      if (stats.success.length === stats.total) {
+        console.info(
+          `\n🎉 Les ${stats.total} projets ont été traités avec succès, les événements vont être réinjectés dans le stream achèvement`,
         );
-        return;
+      } else {
+        console.warn(
+          `⚠️  Seul ${stats.success.length} projets ont été traités avec succès et vont être réinjectés dans le stream achèvement.
+          ${stats.errors.length} projets restent en erreur
+          `,
+        );
       }
+
+      await this.logResultsToFile(stats);
 
       if (flags.dryRun) {
         console.info(
@@ -386,10 +388,6 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
 
         return;
       }
-
-      console.info(
-        '\n🎉 Tous les projets ont été traités avec succès, les événements vont être réinjectés dans le stream achèvement',
-      );
 
       // Suppression des évènements existants
       console.info(`\n🧹 Suppression des événements existants dans le stream achèvement...`);
