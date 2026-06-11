@@ -16,7 +16,7 @@ export const mapToDateAchèvementPrévisionnelCalculéeProps = (
 
   return {
     date: calculéeLe,
-    title: "Date d'achèvement prévisionnel mise à jour",
+    title: 'Achèvement prévisionnel mis à jour',
     details: (
       <div className="flex flex-col gap-2">
         <div>
