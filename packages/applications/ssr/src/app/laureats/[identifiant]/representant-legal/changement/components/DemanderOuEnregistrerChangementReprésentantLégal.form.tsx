@@ -17,6 +17,7 @@ type DemanderOuEnregistrerChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
   estUneDemande: boolean;
   règlesInstructionAutomatique?: AppelOffre.RègleInstructionAutomatique;
+  nomReprésentantLégal: string;
 };
 
 type DemanderOuEnregistrerChangementReprésentantLégalState = {
@@ -26,7 +27,7 @@ type DemanderOuEnregistrerChangementReprésentantLégalState = {
 
 export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
   DemanderOuEnregistrerChangementReprésentantLégalFormProps
-> = ({ identifiantProjet, estUneDemande, règlesInstructionAutomatique }) => {
+> = ({ identifiantProjet, estUneDemande, nomReprésentantLégal, règlesInstructionAutomatique }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>
   >({});
@@ -73,7 +74,7 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
         />
         <SaisieNomStep
           typeReprésentantLégal={state.typeReprésentantLégal}
-          nomReprésentantLégal=""
+          nomReprésentantLégal={nomReprésentantLégal}
           validationErrors={validationErrors}
         />
         <SaisiePièceJustificativeStep

@@ -3,7 +3,7 @@
 import Input from '@codegouvfr/react-dsfr/Input';
 import { type FC, useState } from 'react';
 
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
@@ -24,14 +24,13 @@ type ModifierReprésentantLégalState = {
 export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalFormProps> = ({
   identifiantProjet,
   nomReprésentantLégal,
-  typeReprésentantLégal,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierReprésentantLégalFormKeys>
   >({});
 
   const [state, setState] = useState<ModifierReprésentantLégalState>({
-    typeReprésentantLégal: typeReprésentantLégal.type,
+    typeReprésentantLégal: 'inconnu',
     estEnCoursDeConstitution: false,
   });
 
@@ -46,11 +45,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         },
       }}
     >
-      <input
-        type={'hidden'}
-        value={IdentifiantProjet.bind(identifiantProjet).formatter()}
-        name="identifiantProjet"
-      />
+      <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <div className="flex flex-col gap-4">
         <SaisieTypeStep
           estUneModificationAdmin={true}

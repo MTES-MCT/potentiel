@@ -52,6 +52,7 @@ export default async function Page(props: IdentifiantParameter) {
       return (
         <EnregistrerChangementReprésentantLégalPage
           identifiantProjet={identifiantProjet.formatter()}
+          nomReprésentantLégal={représentantLégal.nomReprésentantLégal}
         />
       );
     }),

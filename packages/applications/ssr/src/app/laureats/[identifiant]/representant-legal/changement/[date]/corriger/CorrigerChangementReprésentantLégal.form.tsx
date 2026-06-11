@@ -47,6 +47,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerChangementReprésentantLégalFormKeys>
   >({});
+
   const [state, setState] = useState<CorrigerChangementReprésentantLégalState>({
     typeReprésentantLégal: typeReprésentantLégal.type,
     estEnCoursDeConstitution: false,
