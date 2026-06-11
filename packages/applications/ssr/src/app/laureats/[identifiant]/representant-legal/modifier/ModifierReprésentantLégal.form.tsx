@@ -43,6 +43,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         secondaryAction: {
           type: 'back',
         },
+        submitDisabled: state.typeReprésentantLégal === 'inconnu',
       }}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
