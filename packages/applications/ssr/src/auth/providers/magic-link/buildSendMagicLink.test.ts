@@ -44,12 +44,12 @@ const dreal: UtilisateurItem = {
 
 const cre: UtilisateurItem = {
   rôle: { nom: 'cre' },
-  identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
+  identifiantUtilisateur: Email.convertirEnValueType('cre@test.test'),
 };
 
 const ademe: UtilisateurItem = {
-  rôle: { nom: 'cre' },
-  identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
+  rôle: { nom: 'ademe' },
+  identifiantUtilisateur: Email.convertirEnValueType('ademe@test.test'),
 };
 
 const utilisateursExistants: ReadonlyArray<UtilisateurItem> = [
@@ -58,6 +58,8 @@ const utilisateursExistants: ReadonlyArray<UtilisateurItem> = [
   dgec,
   dgecValidateur,
   dreal,
+  ademe,
+  cre,
 ];
 
 const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
@@ -131,7 +133,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       typeUtilisateur: 'un validateur DGEC',
     },
     { email: dreal.identifiantUtilisateur.email, typeUtilisateur: 'une DREAL' },
-    { email: cre.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateru CRE' },
+    { email: cre.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur CRE' },
     { email: ademe.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur ADEME' },
   ];
 
