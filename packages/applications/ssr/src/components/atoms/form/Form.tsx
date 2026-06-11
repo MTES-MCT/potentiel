@@ -1,7 +1,14 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { type FC, type FormHTMLAttributes, type ReactNode, useActionState, useEffect } from 'react';
+import {
+  type FC,
+  type FormHTMLAttributes,
+  type ReactNode,
+  startTransition,
+  useActionState,
+  useEffect,
+} from 'react';
 
 import type { formAction, ValidationErrors } from '@/utils/formAction';
 import { Heading2 } from '../headings';
@@ -58,7 +65,19 @@ export const Form: FC<FormProps> = ({
   }, [state.status, onValidationError, state]);
 
   return (
-    <form id={id} action={formAction} onInvalid={onInvalid} onError={onError} className={className}>
+    <form
+      id={id}
+      // use onSubmit instead of action to keep the form
+      onSubmit={(e) => {
+        e.preventDefault();
+        startTransition(() => {
+          formAction(new FormData(e.currentTarget));
+        });
+      }}
+      onInvalid={onInvalid}
+      onError={onError}
+      className={className}
+    >
       <FormCsrfInput />
       {retourUrl && (
         <input
