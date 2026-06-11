@@ -352,8 +352,7 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async planifierTâchesRappelsÉchéance(dateAchèvementPrévisionnelle: DateTime.ValueType) {
     if (
-      this.lauréat.projet.cahierDesChargesActuel.appelOffre.typeAppelOffre !==
-        'appel-d-offres-simplifié' ||
+      !this.lauréat.projet.cahierDesChargesActuel.appelOffre.activerRappelsEchéanceAchèvement ||
       this.#estAchevé ||
       this.lauréat.abandon.statut.estEnCours() ||
       this.lauréat.statut.estAbandonné()

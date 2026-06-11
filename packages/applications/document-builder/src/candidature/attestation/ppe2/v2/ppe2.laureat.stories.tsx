@@ -159,7 +159,7 @@ export const LaureatPPE2PetitPvBatimentP1: Story = {
   },
 };
 
-export const LaureatPPE2PetitPvP1: Story = {
+export const LaureatPPE2PetitPvP2: Story = {
   args: {
     projet: {
       ...fakeProject,
