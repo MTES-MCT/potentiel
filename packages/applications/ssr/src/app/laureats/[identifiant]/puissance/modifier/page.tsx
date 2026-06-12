@@ -4,15 +4,13 @@ import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
+import { getCahierDesCharges } from '@/app/_helpers';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  getCahierDesChargesPuissanceDeSiteInfos,
-  getPuissanceInfos,
-} from '../../_helpers/getLauréat';
+import { getPuissanceInfos } from '../../_helpers/getLauréat';
 import { ModifierPuissancePage } from './ModifierPuissance.page';
 
 export const metadata: Metadata = { title: 'Modifier la puissance' };
@@ -33,9 +31,9 @@ export default async function Page(props: IdentifiantParameter) {
       );
 
       const puissance = await getPuissanceInfos(identifiantProjet.formatter());
-      const infosCahierDesChargesPuissanceDeSite = await getCahierDesChargesPuissanceDeSiteInfos(
-        identifiantProjet.formatter(),
-      );
+      const infosCahierDesChargesPuissanceDeSite = (
+        await getCahierDesCharges(identifiantProjet.formatter())
+      ).getChampsSupplémentaires().puissanceDeSite;
 
       if (puissance.aUneDemandeEnCours && puissance.dateDernièreDemande) {
         return (

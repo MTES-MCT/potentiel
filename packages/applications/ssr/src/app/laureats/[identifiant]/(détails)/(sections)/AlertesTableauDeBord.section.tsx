@@ -3,7 +3,7 @@ import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAbandonInfos, getAchèvement } from '../../_helpers';
+import { getAchèvement, getOptionalAbandon } from '../../_helpers';
 import { type Alerte, AlertesTableauDeBord } from './AlertesTableauDeBord';
 
 type AlertesTableauDeBordSectionProps = {
@@ -16,7 +16,7 @@ export const AlertesTableauDeBordSection = ({
   withUtilisateur(async ({ rôle }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const abandon = await getAbandonInfos(identifiantProjet.formatter());
+    const abandon = await getOptionalAbandon(identifiantProjet.formatter());
     const achèvement = await getAchèvement(identifiantProjet.formatter());
 
     const abandonAlertes = mapToAbandonAlert({ identifiantProjet, rôle, abandon });

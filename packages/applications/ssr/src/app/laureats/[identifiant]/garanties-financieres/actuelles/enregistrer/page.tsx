@@ -4,7 +4,7 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { EnregistrerGarantiesFinancièresPage } from '@/app/laureats/[identifiant]/garanties-financieres/actuelles/enregistrer/EnregistrerGarantiesFinancières.page';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -30,7 +30,7 @@ export default async function Page(props: IdentifiantParameter) {
       const identifiantProjetValue = decodeParameter(identifiant);
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-      await récupérerLauréat(identifiantProjetValue);
+      await getLauréatInfos(identifiantProjet.formatter());
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);

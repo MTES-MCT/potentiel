@@ -3,14 +3,14 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAbandonInfos, getAchèvement, getGarantiesFinancières } from '../../_helpers';
+import { getAchèvement, getGarantiesFinancières, getOptionalAbandon } from '../../_helpers';
 import { getMainlevéeGarantiesFinancières } from '../../_helpers/getMainlevéeGarantiesFinancières';
 import { DétailsMainlevéePage, type DétailsMainlevéePageProps } from './DétailsMainlevée.page';
 
@@ -20,8 +20,9 @@ export default async function Page({ params }: IdentifiantParameter) {
   const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
-      const lauréat = await récupérerLauréat(identifiantProjet);
+      const lauréat = await getLauréatInfos(
+        IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant)).formatter(),
+      );
 
       const mainlevée = await getMainlevéeGarantiesFinancières(
         lauréat.identifiantProjet.formatter(),
@@ -42,7 +43,7 @@ export default async function Page({ params }: IdentifiantParameter) {
         : undefined;
 
       const abandon = lauréat.statut.estAbandonné()
-        ? await getAbandonInfos(lauréat.identifiantProjet.formatter())
+        ? await getOptionalAbandon(lauréat.identifiantProjet.formatter())
         : undefined;
 
       const mainlevéesRejetées =

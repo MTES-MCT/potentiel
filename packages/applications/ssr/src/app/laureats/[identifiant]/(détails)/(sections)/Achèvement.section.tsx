@@ -4,10 +4,11 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getLauréatInfos } from '@/app/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAchèvement, getGarantiesFinancières, getLauréatInfos } from '../../_helpers';
+import { getAchèvement, getGarantiesFinancières } from '../../_helpers';
 import { AchèvementDétails } from './AchèvementDétails';
 
 type AchèvementSectionProps = {

@@ -3,12 +3,12 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { getLauréatInfos } from '@/app/_helpers';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getLauréatInfos } from './_helpers/getLauréat';
 
 type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;
