@@ -3,17 +3,21 @@ import { notFound } from 'next/navigation';
 import type { NextRequest } from 'next/server';
 
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat } from '../../../_helpers/getLauréat';
+import {
+  getActionnaireInfos,
+  getPuissanceInfos,
+  getReprésentantLégalInfos,
+} from '../../../_helpers';
 
 export const GET = async (
   request: NextRequest,
@@ -25,13 +29,13 @@ export const GET = async (
       const identifiantProjet = decodeParameter(identifiant);
       const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
-      const { actionnaire, lauréat, puissance, représentantLégal } = await getLauréat(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-      );
+      const lauréat = await getLauréatInfos(identifiantProjet);
+      const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
+      const puissance = await getPuissanceInfos(identifiantProjet);
+      const actionnaire = await getActionnaireInfos(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
-      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
-
-      if (Option.isNone(actionnaire) || !actionnaire.dateDernièreDemande) {
+      if (!actionnaire.dateDernièreDemande) {
         return notFound();
       }
 

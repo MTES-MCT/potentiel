@@ -7,31 +7,31 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-export const getPériodeAppelOffres = cache(async (identifiantProjet: IdentifiantProjet.RawType) => {
+export const getPériodeAppelOffres = cache(async (identifiantProjetValue: string) => {
   const logger = getLogger('getPériodeAppelOffres');
 
-  const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
   const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
     type: 'AppelOffre.Query.ConsulterAppelOffre',
     data: {
-      identifiantAppelOffre: identifiantProjetValueType.appelOffre,
+      identifiantAppelOffre: identifiantProjet.appelOffre,
     },
   });
 
   if (Option.isNone(appelOffres)) {
-    logger.warn(`Appel d'offres non trouvé`, { identifiantProjet });
+    logger.warn(`Appel d'offres non trouvé`, { identifiantProjet: identifiantProjetValue });
     return notFound();
   }
 
-  const période = appelOffres.periodes.find((p) => p.id === identifiantProjetValueType.période);
+  const période = appelOffres.periodes.find((p) => p.id === identifiantProjet.période);
 
   if (!période) {
-    logger.warn(`Période non trouvée`, { identifiantProjet });
+    logger.warn(`Période non trouvée`, { identifiantProjet: identifiantProjetValue });
     return notFound();
   }
 
-  const famille = période.familles?.find((f) => f.id === identifiantProjetValueType.famille);
+  const famille = période.familles?.find((f) => f.id === identifiantProjet.famille);
 
   return { appelOffres, période, famille };
 });

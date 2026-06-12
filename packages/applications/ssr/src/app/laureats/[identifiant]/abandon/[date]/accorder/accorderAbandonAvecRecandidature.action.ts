@@ -9,8 +9,11 @@ import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
+import { getCandidature, getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
+import {
+  getPuissanceInfos,
+  getReprésentantLégalInfos,
+} from '@/app/laureats/[identifiant]/_helpers';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -68,7 +71,10 @@ const buildReponseSignee = async ({
   Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']
 > => {
   const candidature = await getCandidature(identifiantProjet.formatter());
-  const { lauréat, représentantLégal, puissance } = await getLauréat(identifiantProjet.formatter());
+  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+  const représentantLégal = await getReprésentantLégalInfos(identifiantProjet.formatter());
+  const puissance = await getPuissanceInfos(identifiantProjet.formatter());
+
   const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet.formatter());
 
   const props: DonnéesDocument = {
