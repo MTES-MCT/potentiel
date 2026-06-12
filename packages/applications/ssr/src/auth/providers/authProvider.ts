@@ -17,7 +17,7 @@ const authProviderEnvSchema = z
 const envSchema = z.object({
   AUTH_PROVIDERS: authProviderEnvSchema.default(['proconnect', 'magic-link']),
   AUTH_PROVIDERS_KO: authProviderEnvSchema.default([]),
-  AUTH_PROVIDERS_DREAL_DGEC: authProviderEnvSchema.default(['proconnect']),
+  AUTH_ENFORCE_PROCONNECT: z.stringbool().default(true),
 });
 
 type ProviderProps = {
@@ -35,15 +35,14 @@ export const getProviders = (): ProviderConfigurationMap => {
     throw new Error(`Invalid environment variables: ${result.error.message}`);
   }
 
-  const { AUTH_PROVIDERS, AUTH_PROVIDERS_KO, AUTH_PROVIDERS_DREAL_DGEC } = result.data;
+  const { AUTH_PROVIDERS, AUTH_PROVIDERS_KO, AUTH_ENFORCE_PROCONNECT } = result.data;
 
   const koProviders = new Set(AUTH_PROVIDERS_KO);
-  const enabledAgentsPublicsProviders = new Set(AUTH_PROVIDERS_DREAL_DGEC);
 
   const providers = AUTH_PROVIDERS.map((provider) => ({
     id: provider,
     isKO: koProviders.has(provider),
-    isActifAgentsPublics: enabledAgentsPublicsProviders.has(provider),
+    isActifAgentsPublics: provider === 'proconnect' || !AUTH_ENFORCE_PROCONNECT,
   }));
 
   return Object.fromEntries(providers.map((provider) => [provider.id, provider]));
