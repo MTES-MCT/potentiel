@@ -6,16 +6,16 @@ import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat } from '../../../_helpers/getLauréat';
+import { getAchèvement, getPuissanceInfos, getReprésentantLégalInfos } from '../../../_helpers';
 
 export const GET = async (
   _: NextRequest,
@@ -26,19 +26,11 @@ export const GET = async (
     const identifiantProjet = decodeParameter(identifiant);
     const demandéLe = decodeParameter(date);
 
-    const { lauréat, représentantLégal, puissance } = await getLauréat(
-      IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-    );
-    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
-
-    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-      data: { identifiantProjetValue: identifiantProjet },
-    });
-
-    if (Option.isNone(achèvement)) {
-      return notFound();
-    }
+    const lauréat = await getLauréatInfos(identifiantProjet);
+    const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
+    const puissance = await getPuissanceInfos(identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+    const achèvement = await getAchèvement(identifiantProjet);
 
     const demandeDélai = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',

@@ -6,16 +6,16 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getPériodeAppelOffres } from '@/app/_helpers';
+import { getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat } from '../../../_helpers/getLauréat';
+import { getPuissanceInfos, getReprésentantLégalInfos } from '../../../_helpers/getLauréat';
 
 export const GET = async (
   _: NextRequest,
@@ -24,22 +24,20 @@ export const GET = async (
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
       const { identifiant } = await ctx.params;
-      const identifiantProjetValue = decodeParameter(identifiant);
+      const identifiantProjet = decodeParameter(identifiant);
 
-      const { lauréat, puissance, représentantLégal } = await getLauréat(
-        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
-      );
+      const lauréat = await getLauréatInfos(identifiantProjet);
+      const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
+      const puissance = await getPuissanceInfos(identifiantProjet);
 
-      const { appelOffres, période, famille } = await getPériodeAppelOffres(
-        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
-      );
+      const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
 
       const garantiesFinancièresEnAttente =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
           {
             type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
             data: {
-              identifiantProjetValue,
+              identifiantProjetValue: identifiantProjet,
             },
           },
         );
@@ -53,7 +51,7 @@ export const GET = async (
             : undefined;
 
       const { logo, data } = mapLauréatToModèleRéponsePayload({
-        identifiantProjet: identifiantProjetValue,
+        identifiantProjet,
         lauréat,
         puissance,
         représentantLégal,
@@ -101,7 +99,7 @@ export const GET = async (
 
       return new NextResponse(content, {
         headers: getDocxDocumentHeader({
-          identifiantProjet: identifiantProjetValue,
+          identifiantProjet,
           nomProjet: lauréat.nomProjet,
           type,
         }),

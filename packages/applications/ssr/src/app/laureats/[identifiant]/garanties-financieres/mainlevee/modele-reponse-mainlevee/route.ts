@@ -9,13 +9,13 @@ import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getPériodeAppelOffres } from '@/app/_helpers';
+import { getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréat } from '../../../_helpers/getLauréat';
+import { getPuissanceInfos, getReprésentantLégalInfos } from '../../../_helpers/getLauréat';
 import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
 export const GET = async (
@@ -29,9 +29,9 @@ export const GET = async (
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
       const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';
 
-      const { lauréat, puissance, représentantLégal } = await getLauréat(
-        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
-      );
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+      const représentantLégal = await getReprésentantLégalInfos(identifiantProjet.formatter());
+      const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
         identifiantProjet.formatter(),
