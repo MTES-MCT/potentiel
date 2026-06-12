@@ -12,6 +12,7 @@ export const types = [
   'raccordement.gestionnaire-réseau-inconnu-attribué',
   'raccordement.renseigner-accusé-réception-demande-complète-raccordement',
   'garanties-financières.demander',
+  'producteur.renseigner-numéro-identification',
 ] as const;
 
 export type RawType = (typeof types)[number];
@@ -70,6 +71,10 @@ export const raccordementGestionnaireRéseauInconnuAttribué =
 export const raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement =
   convertirEnValueType<'raccordement.renseigner-accusé-réception-demande-complète-raccordement'>(
     'raccordement.renseigner-accusé-réception-demande-complète-raccordement',
+  );
+export const producteurRenseignerNuméroIdentification =
+  convertirEnValueType<'producteur.renseigner-numéro-identification'>(
+    'producteur.renseigner-numéro-identification',
   );
 
 export const garantiesFinancièresDemander = convertirEnValueType<'garanties-financières.demander'>(

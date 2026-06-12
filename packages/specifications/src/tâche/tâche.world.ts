@@ -8,7 +8,8 @@ export type RechercherTypeTâche =
   | 'transmettre les garanties financières'
   | 'mettre à jour le gestionnaire de réseau'
   | 'transmettre une référence de raccordement'
-  | "renseigner l'accusé de réception de la demande complète de raccordement";
+  | "renseigner l'accusé de réception de la demande complète de raccordement"
+  | "renseigner le numéro d'identification";
 
 export class TâcheWorld {
   rechercherTypeTâche(value: RechercherTypeTâche): Lauréat.Tâche.TypeTâche.ValueType {
@@ -34,6 +35,10 @@ export class TâcheWorld {
         "renseigner l'accusé de réception de la demande complète de raccordement",
         () =>
           Lauréat.Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+      )
+      .with(
+        "renseigner le numéro d'identification",
+        () => Lauréat.Tâche.TypeTâche.producteurRenseignerNuméroIdentification,
       )
       .exhaustive();
   }

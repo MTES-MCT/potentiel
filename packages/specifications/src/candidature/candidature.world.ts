@@ -55,7 +55,11 @@ export class CandidatureWorld {
         ...dépôt,
         ...(Object.keys(coordonnées).length ? { coordonnées } : {}),
         ...(Object.keys(localité).length ? { localité } : {}),
-        ...(Object.keys(numéroIdentification).length ? { numéroIdentification } : {}),
+        ...(Object.keys(numéroIdentification).length
+          ? !numéroIdentification.siren && !numéroIdentification.siret
+            ? { numéroIdentification: undefined }
+            : { numéroIdentification }
+          : {}),
         autorisation,
         attestationConstitutionGf,
         dispositifDeStockage,
