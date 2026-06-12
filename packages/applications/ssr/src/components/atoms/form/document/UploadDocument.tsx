@@ -12,6 +12,7 @@ import { Link } from '../../LinkNoPrefetch';
 export type UploadDocumentProps = {
   className?: string;
   label: React.ReactNode;
+  hideLabel?: true;
   name: string;
   formats: Array<'pdf' | 'jpg' | 'jpeg' | 'png' | 'csv'>;
   required?: boolean;
@@ -32,6 +33,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   state,
   stateRelatedMessage,
   label,
+  hideLabel,
   name,
   formats,
   hintText,
@@ -127,7 +129,16 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   return (
     <div className={clsx('fr-input-group', className)}>
       {label && (
-        <div className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</div>
+        <label
+          className={clsx(
+            'fr-label',
+            state === 'error' && 'text-theme-error',
+            hideLabel && 'fr-sr-only',
+          )}
+          htmlFor={name}
+        >
+          {label}
+        </label>
       )}
       <div className="fr-hint-text">
         Taille maximale : <span className="font-semibold">{fileSizeLimitInMegaBytes} Mo</span>,
@@ -139,6 +150,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
       <div className="flex flex-row mt-3 gap-3 items-center">
         <input
           name={name}
+          id={name}
           required={required}
           ref={hiddenFileInput}
           type="file"
