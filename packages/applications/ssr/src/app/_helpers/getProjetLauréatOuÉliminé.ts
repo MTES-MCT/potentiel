@@ -6,11 +6,11 @@ import { getLauréatInfos } from './lauréat';
 type GetProjetLauréatOuÉliminéResult =
   | {
       lauréat: Lauréat.ConsulterLauréatReadModel;
-      recoursAccordé: true;
+      éliminé?: undefined;
     }
   | {
       éliminé: Éliminé.ConsulterÉliminéReadModel;
-      recoursAccordé: false;
+      lauréat?: undefined;
     };
 
 // dans le cas d'un recours accordé, le projet devient lauréat
@@ -24,10 +24,10 @@ export const getProjetLauréatOuÉliminé: GetProjetLauréatOuÉliminé = async 
   const éliminé = await getÉliminé(identifiantProjet);
 
   if (éliminé) {
-    return { éliminé, recoursAccordé: false };
+    return { éliminé };
   }
 
   const lauréat = await getLauréatInfos(identifiantProjet);
 
-  return { lauréat, recoursAccordé: true };
+  return { lauréat };
 };

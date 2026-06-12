@@ -23,7 +23,7 @@ export default async function Page(props: PageProps) {
 
     const projet = await getProjetLauréatOuÉliminé(identifiantProjet);
 
-    if (projet.recoursAccordé) {
+    if (projet.lauréat) {
       return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
     }
 

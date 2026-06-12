@@ -59,7 +59,7 @@ export default async function ÉliminéLayout(props: LayoutProps) {
     return (
       <PageTemplate
         banner={
-          projet.recoursAccordé ? (
+          projet.lauréat ? (
             <ProjetLauréatBanner
               identifiantProjet={identifiantProjet}
               projet={mapToPlainObject(projet.lauréat)}
