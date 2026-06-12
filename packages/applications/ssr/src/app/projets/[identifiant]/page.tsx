@@ -26,7 +26,7 @@ export default async function ProjetPage(props: ProjetPageProps) {
   return PageWithErrorHandling(async () => {
     const projet = await getProjetLauréatOuÉliminé(identifiantProjet);
 
-    if (!projet.recoursAccordé) {
+    if (projet.éliminé) {
       redirect(Routes.Éliminé.détails.tableauDeBord(identifiantProjet));
     }
 
