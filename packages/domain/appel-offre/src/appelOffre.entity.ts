@@ -10,7 +10,8 @@ type AppelOffreTypes =
   | 'neutre'
   | 'sol'
   | 'zni'
-  | 'autre';
+  | 'autre'
+  | 'simplifié';
 
 export type Ratios = {
   min: number;
@@ -351,6 +352,7 @@ export type AppelOffreReadModel = {
   launchDate: string;
   cahiersDesChargesUrl: string;
   delaiRealisationTexte: string;
+  activerRappelsEchéanceAchèvement?: true;
   paragraphePrixReference: string;
   paragrapheDelaiDerogatoire: string;
   paragrapheAttestationConformite: string;
@@ -375,6 +377,7 @@ export type AppelOffreReadModel = {
   miseÀJour: RèglesMiseÀJour;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
+  puissanceInitialeCandidatureEnKWc?: true;
 } & TechnologieAppelOffre;
 
 export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

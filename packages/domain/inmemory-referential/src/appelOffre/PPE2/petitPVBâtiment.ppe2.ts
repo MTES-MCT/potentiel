@@ -1,8 +1,14 @@
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
+  /**
+   * Appel d'offres de la première période d'appel d'offres simplifié.
+   * Il prend fin après sa première période
+   * pour être élargi à la technologie Sol dès la période 2 avec l'appel d'offres "PPE2 - Petit PV".
+   */
+
   id: 'PPE2 - Petit PV Bâtiment',
-  typeAppelOffre: 'batiment',
+  typeAppelOffre: 'simplifié',
   cycleAppelOffre: 'PPE2',
   title: `portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments ou ombrières de puissance supérieure à 100 kWc et inférieure à 500 kWc »`,
   shortTitle: 'PPE2 - Petit PV Bâtiment',
@@ -10,8 +16,10 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   cahiersDesChargesUrl: `https://www.cre.fr/documents/appels-doffres/appel-doffres-portant-sur-la-realisation-et-lexploitation-dinstallations-de-production-delectricite-a-partir-de-lenergie-solaire-centrales-sur-batiments-ou-ombrieres-de-puissance-superieure-a-100-kwc-et-inferieure-a-500-kwc.html`,
   technologie: 'pv',
   unitePuissance: 'MWc',
+  puissanceInitialeCandidatureEnKWc: true,
   délaiRéalisationEnMois: 34,
   delaiRealisationTexte: 'trente-quatre (34) mois',
+  activerRappelsEchéanceAchèvement: true,
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: true,
   miseÀJour: {
     changement: {
@@ -156,5 +164,6 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
       },
       typeImport: 'démarche-simplifiée',
     },
+    // première et dernière période de cet appel d'offres, les suivantes seront sur l'AO "PPE2 - Petit PV"
   ],
 };

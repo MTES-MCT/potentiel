@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { DomainError, InvalidOperationError } from '@potentiel-domain/core';
 import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -40,9 +41,6 @@ const instructionCsvSchema = zod.object({
   motifElimination: instructionSchema.shape.motifÉlimination,
 });
 
-/**
- * Cette méthode s'applique uniquement à l'appel d'offres PPE2 - Petit PV Bâtiment car la puissance initiale sur Démarches Simplifiées est renseignées en kWc
- */
 const convertirKWcEnMWc = (value: number) => Number((value / 1000).toFixed(6));
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -74,6 +72,15 @@ const action: FormAction<FormState, typeof schema> = async (
       throw new InvalidOperationError(
         `La démarche associée au dossier ${numeroDossierDS} est introuvable`,
       );
+    }
+
+    const détailAppelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: { identifiantAppelOffre: appelOffre },
+    });
+
+    if (Option.isNone(détailAppelOffres)) {
+      throw new InvalidOperationError(`L'appel d'offres ${appelOffre} est introuvable`);
     }
 
     const candidatures: Omit<
@@ -131,13 +138,12 @@ const action: FormAction<FormState, typeof schema> = async (
             raccordements: undefined,
             coordonnées: undefined,
             ...dépôt,
-            puissance:
-              appelOffre === 'PPE2 - Petit PV Bâtiment'
-                ? convertirKWcEnMWc(dépôt.puissance)
-                : dépôt.puissance,
+            puissance: détailAppelOffres.puissanceInitialeCandidatureEnKWc
+              ? convertirKWcEnMWc(dépôt.puissance)
+              : dépôt.puissance,
             puissanceDeSite:
               dépôt.puissanceDeSite !== undefined
-                ? appelOffre === 'PPE2 - Petit PV Bâtiment'
+                ? détailAppelOffres.puissanceInitialeCandidatureEnKWc
                   ? convertirKWcEnMWc(dépôt.puissanceDeSite)
                   : dépôt.puissanceDeSite
                 : undefined,
