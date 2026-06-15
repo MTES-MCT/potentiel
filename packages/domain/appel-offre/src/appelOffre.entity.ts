@@ -88,6 +88,8 @@ type ChangementPuissance =
       paragrapheAlerte?: string;
     } & RatiosChangementPuissance);
 
+export type RègleInstructionAutomatique = 'accord' | 'rejet';
+
 type ChangementReprésentantLégal =
   | {
       informationEnregistrée?: undefined;
@@ -102,7 +104,7 @@ type ChangementReprésentantLégal =
   | {
       informationEnregistrée?: undefined;
       demande: true;
-      instructionAutomatique: 'accord' | 'rejet';
+      instructionAutomatique: RègleInstructionAutomatique;
     };
 
 export type RèglesMiseÀJourPorteur = {
