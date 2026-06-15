@@ -18,6 +18,7 @@ import type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursE
 import type { InstruireOptions } from './instruire/passerRecoursEnInstruction.options.js';
 import {
   AucunRecoursEnCours,
+  DateRecoursDansLeFuturError,
   RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
   ÉliminéInexistantError,
 } from './recours.error.js';
@@ -44,6 +45,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     réponseSignée,
   }: AccorderOptions) {
     this.vérifierQueDemandeRecoursExiste();
+
+    if (dateAccord.estDansLeFutur()) {
+      throw new DateRecoursDansLeFuturError();
+    }
 
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
