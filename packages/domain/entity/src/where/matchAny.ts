@@ -11,5 +11,6 @@ export const matchAny = <T>(
   return {
     operator: 'matchAny' as const,
     value,
+    multiple: true,
   } satisfies MatchAnyWhereCondition<T>;
 };
