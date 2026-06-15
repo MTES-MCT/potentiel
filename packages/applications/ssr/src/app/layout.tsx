@@ -53,7 +53,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
                 label: 'Accéder au contenu',
               },
               {
-                anchor: '#header-navigation',
+                anchor: '#main-navigation',
                 label: 'Accéder au menu',
               },
               {
