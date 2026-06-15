@@ -3,15 +3,15 @@ import type { Metadata } from 'next';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
+import {
+  getCahierDesCharges,
+  vérifierQueLeCahierDesChargesPermetUnChangement,
+} from '@/app/_helpers';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  getCahierDesCharges,
-  vérifierQueLeCahierDesChargesPermetUnChangement,
-} from '../../../../../_helpers';
 import { getReprésentantLégalInfos } from '../../../_helpers';
 import { DemanderChangementReprésentantLégalPage } from './DemanderChangementReprésentantLégal.page';
 
