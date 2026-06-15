@@ -1,6 +1,6 @@
 # Démarche Numérique
 
-L'application [Démarche Numérique](https://demarche.numerique.gouv.fr/) est utilisée par la CRE pour recevoir les candidatures des Porteurs de Projet à la période de l'appel d'offre `PPE2 - Petit PV Bâtiment` (S2 2025, d'autres AO devraient suivre).
+L'application [Démarche Numérique](https://demarche.numerique.gouv.fr/) est utilisée par la CRE pour recevoir les candidatures des Porteurs de Projet depuis la première période de l'appel d'offres `PPE2 - Petit PV Bâtiment` (S2 2025). L'objectif est d'ouvrir 100% des périodes aux candidature via cette application. 
 
 ## Description du parcours
 
