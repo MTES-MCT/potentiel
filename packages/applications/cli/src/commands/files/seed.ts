@@ -168,6 +168,7 @@ type EventWithDocument =
   | Lauréat.Achèvement.AchèvementModifiéEventV1
   | Lauréat.Achèvement.AchèvementModifiéEvent
   | Éliminé.Recours.RecoursDemandéEvent
+  | Éliminé.Recours.RecoursAccordéV1Event
   | Éliminé.Recours.RecoursAccordéEvent;
 
 type DocumentRecord<K extends EventWithDocument['type'] = EventWithDocument['type']> = {
@@ -365,6 +366,7 @@ const map: DocumentRecord = {
   // Recours
   'RecoursDemandé-V1': Éliminé.Recours.DocumentRecours.pièceJustificative,
   'RecoursAccordé-V1': Éliminé.Recours.DocumentRecours.recoursAccordé,
+  'RecoursAccordé-V2': Éliminé.Recours.DocumentRecours.recoursAccordé,
 };
 
 const isEventWithDocument = (event: Event): event is EventWithDocument & Event => event.type in map;

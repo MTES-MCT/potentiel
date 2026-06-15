@@ -12,6 +12,7 @@ export type AccorderRecoursCommand = Message<
   'Éliminé.Recours.Command.AccorderRecours',
   {
     dateAccord: DateTime.ValueType;
+    accordéLe: DateTime.ValueType;
     identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
@@ -21,6 +22,7 @@ export type AccorderRecoursCommand = Message<
 export const registerAccorderRecoursCommand = (getProjetAggregateRoot: GetProjetAggregateRoot) => {
   const handler: MessageHandler<AccorderRecoursCommand> = async ({
     dateAccord,
+    accordéLe,
     identifiantUtilisateur,
     identifiantProjet,
     réponseSignée,
@@ -29,6 +31,7 @@ export const registerAccorderRecoursCommand = (getProjetAggregateRoot: GetProjet
 
     await projet.éliminé.recours.accorder({
       dateAccord,
+      accordéLe,
       identifiantUtilisateur,
       réponseSignée,
     });

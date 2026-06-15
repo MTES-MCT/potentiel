@@ -4,6 +4,7 @@ import type { DocumentProjet } from '#document-projet';
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;
+  accordéLe: DateTime.ValueType;
   identifiantUtilisateur: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };

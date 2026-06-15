@@ -4,11 +4,12 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import type { DateTime } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { InputDate } from '@/components/atoms/form/InputDate';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
 import { type AccorderRecoursFormKeys, accorderRecoursAction } from './accorderRecours.action';
@@ -46,6 +47,15 @@ export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursForm
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+
+              <InputDate
+                label={`Date de l'accord du recours`}
+                name="dateAccord"
+                hintText={`Saisir la date à laquelle le recours a réellement été accordé (cette date figure sur le document justificatif)`}
+                max={DateTime.now().formatter()}
+                state={validationErrors['dateAccord'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['dateAccord']}
+              />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

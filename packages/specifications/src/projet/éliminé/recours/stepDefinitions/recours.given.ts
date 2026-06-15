@@ -72,6 +72,7 @@ async function créerAccordRecours(this: PotentielWorld) {
     accordéLe: accordéeLe,
     accordéPar: accordéePar,
     réponseSignée,
+    dateAccord,
   } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
     accordéPar: this.utilisateurWorld.validateurFixture.email,
   });
@@ -89,7 +90,8 @@ async function créerAccordRecours(this: PotentielWorld) {
     data: {
       identifiantProjetValue: identifiantProjet,
       réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
-      dateAccordValue: accordéeLe,
+      dateAccordValue: dateAccord,
+      accordéLeValue: accordéeLe,
       identifiantUtilisateurValue: accordéePar,
     },
   });

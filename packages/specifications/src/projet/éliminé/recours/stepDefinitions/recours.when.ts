@@ -83,18 +83,21 @@ Quand(`la dgec accorde le recours pour le projet éliminé`, async function (thi
     const { identifiantProjet } = this.éliminéWorld;
 
     const {
-      accordéLe: accordéeLe,
+      accordéLe,
       accordéPar: accordéePar,
+      dateAccord,
+
       réponseSignée,
     } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
       accordéPar: this.utilisateurWorld.validateurFixture.email,
     });
 
-    await mediator.send<Éliminé.Recours.RecoursUseCase>({
+    await mediator.send<Éliminé.Recours.AccorderRecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.AccorderRecours',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        dateAccordValue: accordéeLe,
+        dateAccordValue: dateAccord,
+        accordéLeValue: accordéLe,
         réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         identifiantUtilisateurValue: accordéePar,
       },
@@ -102,7 +105,7 @@ Quand(`la dgec accorde le recours pour le projet éliminé`, async function (thi
 
     this.lauréatWorld.notifier({
       identifiantProjet: identifiantProjet.formatter(),
-      notifiéLe: accordéeLe,
+      notifiéLe: accordéLe,
       notifiéPar: accordéePar,
       localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
       nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
