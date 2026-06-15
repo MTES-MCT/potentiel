@@ -3,12 +3,15 @@ import type { Metadata } from 'next';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
+import {
+  getCahierDesCharges,
+  vérifierQueLeCahierDesChargesPermetUnChangement,
+} from '@/app/_helpers';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
 import { getReprésentantLégalInfos } from '../../../_helpers';
 import { DemanderChangementReprésentantLégalPage } from './DemanderChangementReprésentantLégal.page';
 
@@ -43,6 +46,11 @@ export default async function Page(props: IdentifiantParameter) {
     );
   }
 
+  const cdc = await getCahierDesCharges(identifiantProjet.formatter());
+  // Si le changement est une demande, les règles d'instruction automatique sont obligatoires
+  const règlesInstructionAutomatiqueEnCasDeDemande =
+    cdc.getRèglesChangements('représentantLégal').instructionAutomatique;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>(
@@ -52,6 +60,7 @@ export default async function Page(props: IdentifiantParameter) {
       return (
         <DemanderChangementReprésentantLégalPage
           identifiantProjet={identifiantProjet.formatter()}
+          règlesInstructionAutomatique={règlesInstructionAutomatiqueEnCasDeDemande}
         />
       );
     }),

@@ -2,6 +2,7 @@
 
 import { type FC, useState } from 'react';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -15,6 +16,7 @@ import { enregistrerChangementReprésentantLégalAction } from '../enregistrer/e
 type DemanderOuEnregistrerChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
   estUneDemande: boolean;
+  règlesInstructionAutomatique?: AppelOffre.RègleInstructionAutomatique;
 };
 
 type DemanderOuEnregistrerChangementReprésentantLégalState = {
@@ -24,7 +26,7 @@ type DemanderOuEnregistrerChangementReprésentantLégalState = {
 
 export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
   DemanderOuEnregistrerChangementReprésentantLégalFormProps
-> = ({ identifiantProjet, estUneDemande }) => {
+> = ({ identifiantProjet, estUneDemande, règlesInstructionAutomatique }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>
   >({});
@@ -79,7 +81,9 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
           estEnCoursDeConstitution={state.estEnCoursDeConstitution}
           validationErrors={validationErrors}
         />
-        {estUneDemande && <DemandeInfosBox />}
+        {estUneDemande && règlesInstructionAutomatique && (
+          <DemandeInfosBox règlesInstructionAutomatique={règlesInstructionAutomatique} />
+        )}
       </div>
     </Form>
   );

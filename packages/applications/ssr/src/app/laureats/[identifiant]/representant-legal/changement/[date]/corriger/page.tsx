@@ -6,6 +6,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getCahierDesCharges } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -51,6 +52,10 @@ export default async function Page(props: PageProps) {
         return notFound();
       }
 
+      const cdc = await getCahierDesCharges(identifiantProjet.formatter());
+      const règlesInstructionAutomatiqueEnCasDeDemande =
+        cdc.getRèglesChangements('représentantLégal').instructionAutomatique;
+
       return (
         <CorrigerChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
@@ -58,6 +63,7 @@ export default async function Page(props: PageProps) {
           nomReprésentantLégal={changement.demande.nomReprésentantLégal}
           typeReprésentantLégal={mapToPlainObject(changement.demande.typeReprésentantLégal)}
           pièceJustificative={mapToPlainObject(changement.demande.pièceJustificative)}
+          règlesInstructionautomatique={règlesInstructionAutomatiqueEnCasDeDemande}
         />
       );
     }),

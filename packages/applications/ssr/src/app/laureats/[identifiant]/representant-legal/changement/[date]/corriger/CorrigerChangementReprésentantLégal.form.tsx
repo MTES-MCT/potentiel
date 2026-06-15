@@ -2,6 +2,7 @@
 
 import { type FC, useState } from 'react';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
@@ -25,6 +26,7 @@ export type CorrigerChangementReprésentantLégalFormProps = PlainType<{
   nomReprésentantLégal: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['nomReprésentantLégal'];
   pièceJustificative: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['pièceJustificative'];
   dateDemande: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['demandéeLe'];
+  règlesInstructionautomatique?: AppelOffre.RègleInstructionAutomatique;
 }>;
 
 type CorrigerChangementReprésentantLégalState = {
@@ -40,6 +42,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
   nomReprésentantLégal,
   pièceJustificative,
   dateDemande,
+  règlesInstructionautomatique,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerChangementReprésentantLégalFormKeys>
@@ -94,7 +97,9 @@ export const CorrigerChangementReprésentantLégalForm: FC<
           pièceJustificative={[DocumentProjet.bind(pièceJustificative).formatter()]}
           validationErrors={validationErrors}
         />
-        <DemandeInfosBox />
+        {règlesInstructionautomatique && (
+          <DemandeInfosBox règlesInstructionAutomatique={règlesInstructionautomatique} />
+        )}
       </div>
     </Form>
   );

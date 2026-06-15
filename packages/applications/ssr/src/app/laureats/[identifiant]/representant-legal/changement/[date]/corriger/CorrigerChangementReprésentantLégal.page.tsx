@@ -17,6 +17,7 @@ export const CorrigerChangementReprésentantLégalPage: FC<
   nomReprésentantLégal,
   pièceJustificative,
   dateDemande,
+  règlesInstructionautomatique,
 }) => (
   <>
     <Heading1>Corriger une demande de changement de représentant légal</Heading1>
@@ -26,6 +27,7 @@ export const CorrigerChangementReprésentantLégalPage: FC<
       nomReprésentantLégal={nomReprésentantLégal}
       pièceJustificative={pièceJustificative}
       dateDemande={dateDemande}
+      règlesInstructionautomatique={règlesInstructionautomatique}
     />
   </>
 );
