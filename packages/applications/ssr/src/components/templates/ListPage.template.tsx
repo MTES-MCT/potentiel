@@ -1,3 +1,4 @@
+import SkipLinks from '@codegouvfr/react-dsfr/SkipLinks';
 import clsx from 'clsx';
 import type { FC } from 'react';
 
@@ -39,6 +40,16 @@ export const ListPageTemplate = <TItem,>({
 }: ListPageTemplateProps<TItem>) => (
   <PageTemplate feature={feature} banner={<Heading1>{heading}</Heading1>}>
     <div className="flex flex-col gap-5 md:gap-10">
+      <SkipLinks
+        className="w-fit"
+        style={{ background: 'none' }}
+        links={[
+          {
+            anchor: '#contenu-liste',
+            label: 'Accéder directement aux éléments de la liste',
+          },
+        ]}
+      />
       {search && (
         <div className="w-full justify-end md:w-1/3 ml-auto">
           <Search label={search.label} params={search.params} />
@@ -53,6 +64,7 @@ export const ListPageTemplate = <TItem,>({
         </div>
 
         <div
+          id="contenu-liste"
           className={clsx(
             (actions.length || filters.length || legend.symbols.length) && 'md:w-3/4',
             'flex flex-col gap-3 flex-grow',
