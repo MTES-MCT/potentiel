@@ -14,7 +14,7 @@ import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 type SignInPageProps = {
-  providers: Partial<Record<AuthProvider, ProviderProps>>;
+  providers: Partial<Record<AuthProvider, ProviderProps & { isActifAgentsPublics: boolean }>>;
   callbackUrl: string;
   forceProConnect?: boolean;
 };
@@ -36,7 +36,11 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="ProConnect"
               provider={providers.proconnect}
-              profiles={{ porteurs: true, dreal: true, admin: true, dgec: true, autres: true }}
+              profiles={{
+                porteurs: true,
+                agents: providers.proconnect.isActifAgentsPublics,
+                autres: true,
+              }}
               description={"Connectez-vous facilement à l'aide de votre adresse professionnelle"}
               action={
                 <ProConnectButton
@@ -53,7 +57,11 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="Lien magique"
               provider={providers['magic-link']}
-              profiles={{ porteurs: true, dreal: true, admin: true, dgec: true, autres: true }}
+              profiles={{
+                porteurs: true,
+                agents: providers['magic-link'].isActifAgentsPublics,
+                autres: true,
+              }}
               description={
                 "Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
               }
@@ -73,7 +81,11 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="Mot de passe"
               provider={providers.keycloak}
-              profiles={{ porteurs: true, dreal: false, dgec: false, admin: true, autres: true }}
+              profiles={{
+                porteurs: true,
+                agents: providers.keycloak.isActifAgentsPublics,
+                autres: true,
+              }}
               description={
                 "Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
               }
@@ -93,7 +105,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
         </div>
       </div>
       <div className="text-right italic mt-2">
-        * Autres Partenaires : CRE, Ademe, Caisse des dépôts, Gestionnaire de Réseau, Cocontractant
+        * Autres Partenaires : Caisse des dépôts, Gestionnaire de Réseau, Cocontractant
       </div>
     </PageTemplate>
   );
