@@ -1,11 +1,14 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { GarantiesFinancières } from '../../lauréat/index.js';
 import type { ÉliminéAggregate } from '../éliminé.aggregate.js';
-import type { RecoursAccordéEvent } from './accorder/recoursAccordé.event.js';
+import type {
+  RecoursAccordéEvent,
+  RecoursAccordéV1Event,
+} from './accorder/recoursAccordé.event.js';
 import type { AccorderOptions } from './accorder/recoursAccordé.options.js';
 import type { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
 import type { AnnulerOptions } from './annuler/annulerRecours.options.js';
@@ -34,19 +37,25 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     return this.parent;
   }
 
-  async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
+  async accorder({
+    dateAccord,
+    accordéLe,
+    identifiantUtilisateur,
+    réponseSignée,
+  }: AccorderOptions) {
     this.vérifierQueDemandeRecoursExiste();
 
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
     const event: RecoursAccordéEvent = {
-      type: 'RecoursAccordé-V1',
+      type: 'RecoursAccordé-V2',
       payload: {
         identifiantProjet: this.éliminé.projet.identifiantProjet.formatter(),
         réponseSignée: {
           format: réponseSignée.format,
         },
-        accordéLe: dateAccord.formatter(),
+        dateAccord: dateAccord.formatter(),
+        accordéLe: accordéLe.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
       },
     };
@@ -55,20 +64,20 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     await this.éliminé.projet.lauréat.notifier({
       attestation: { format: réponseSignée.format },
-      notifiéLe: dateAccord,
+      notifiéLe: accordéLe,
       notifiéPar: identifiantUtilisateur,
     });
 
     if (this.éliminé.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
       await this.éliminé.projet.lauréat.garantiesFinancières.demander({
-        demandéLe: dateAccord,
+        demandéLe: accordéLe,
         motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
         dateLimiteSoumission: dateAccord.ajouterNombreDeMois(2),
       });
     }
 
     await this.éliminé.archiver({
-      dateArchive: dateAccord,
+      dateArchive: accordéLe,
       identifiantUtilisateur,
     });
   }
@@ -166,9 +175,9 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     match(event)
       .with(
         {
-          type: 'RecoursAccordé-V1',
+          type: P.union('RecoursAccordé-V1', 'RecoursAccordé-V2'),
         },
-        (event) => this.applyRecoursAccordéV1(event),
+        (event) => this.applyRecoursAccordé(event),
       )
       .with(
         {
@@ -197,7 +206,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       .exhaustive();
   }
 
-  private applyRecoursAccordéV1(_: RecoursAccordéEvent) {
+  private applyRecoursAccordé(_: RecoursAccordéV1Event | RecoursAccordéEvent) {
     this.#statut = StatutRecours.accordé;
     this.instruction = undefined;
   }

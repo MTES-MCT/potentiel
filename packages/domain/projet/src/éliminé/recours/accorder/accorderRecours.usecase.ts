@@ -13,6 +13,7 @@ export type AccorderRecoursUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     dateAccordValue: string;
+    accordéLeValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -24,16 +25,18 @@ export const registerAccorderRecoursUseCase = () => {
   const runner: MessageHandler<AccorderRecoursUseCase> = async ({
     identifiantUtilisateurValue,
     dateAccordValue,
+    accordéLeValue,
     réponseSignéeValue: { content, format },
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
+    const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     const réponseSignée = DocumentRecours.recoursAccordé({
       identifiantProjet: identifiantProjet.formatter(),
-      accordéLe: dateAccord.formatter(),
+      accordéLe: accordéLe.formatter(),
       réponseSignée: { format },
     });
 
@@ -52,6 +55,7 @@ export const registerAccorderRecoursUseCase = () => {
         identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
+        accordéLe,
       },
     });
   };
