@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import type { DocumentItem } from '@/components/organisms/document/DocumentListItem';
 import { DocumentsList } from '@/components/organisms/document/DocumentsList';
 import { withUtilisateur } from '@/utils/withUtilisateur';

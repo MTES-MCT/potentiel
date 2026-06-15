@@ -18,7 +18,9 @@ export const Section = ({ title, children, className = '' }: SectionProps) => (
       className,
     )}
   >
-    <Heading3 className="flex items-center mb-1">{title}</Heading3>
+    <Heading3 as="h2" className="flex items-center mb-1">
+      {title}
+    </Heading3>
     {children}
   </section>
 );

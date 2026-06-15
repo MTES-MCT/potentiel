@@ -4,8 +4,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { Section } from '@/components/atoms/menu/Section';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/section/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAbandonInfos, getLauréatInfos, getRaccordement } from '../../_helpers';
 import { vérifierSiModificationRaccordementPossible } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';

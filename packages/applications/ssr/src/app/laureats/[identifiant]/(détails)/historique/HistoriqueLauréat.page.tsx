@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { ImprimerButton } from '@/components/atoms/ImprimerButton';
-import { SectionPage } from '@/components/atoms/menu/SectionPage';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import type { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { ListFilters } from '@/components/molecules/ListFilters';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';

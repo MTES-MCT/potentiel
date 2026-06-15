@@ -1,6 +1,6 @@
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SectionPage } from '@/components/atoms/menu/SectionPage';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import { DocumentsSection } from './(sections)/Documents.section';
 
 type Props = {

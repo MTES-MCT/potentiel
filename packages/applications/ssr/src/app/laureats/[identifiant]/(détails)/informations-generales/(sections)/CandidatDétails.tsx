@@ -3,8 +3,8 @@ import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Heading6 } from '@/components/atoms/headings';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
+import { TitreChamp } from '@/components/atoms/section/TitreChamp';
 
 export type CandidatDétailsProps = {
   localité: ChampObligatoireAvecAction<PlainType<Lauréat.ConsulterLauréatReadModel['localité']>>;
@@ -15,7 +15,7 @@ export type CandidatDétailsProps = {
 export const CandidatDétails = ({ localité, emailContact, coordonnées }: CandidatDétailsProps) => (
   <>
     <div className="flex flex-col gap-1">
-      <Heading6>Site de Production</Heading6>
+      <TitreChamp>Site de Production</TitreChamp>
       <span>{localité.value.adresse1}</span>
       {localité.value.adresse2 && <span>{localité.value.adresse2}</span>}
       <span>
@@ -45,7 +45,7 @@ export const CandidatDétails = ({ localité, emailContact, coordonnées }: Cand
     </div>
 
     <div className="flex flex-col gap-1">
-      <Heading6>Adresse email de candidature</Heading6>
+      <TitreChamp>Adresse email de candidature</TitreChamp>
       <span>{emailContact}</span>
     </div>
   </>

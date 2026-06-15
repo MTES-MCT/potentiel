@@ -7,6 +7,7 @@ import { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { Heading3 } from '@/components/atoms/headings';
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
@@ -41,7 +42,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
         </Button>
       }
     >
-      <h3 className="font-bold">{descriptionTâche.titre}</h3>
+      <Heading3 as="h2">{descriptionTâche.titre}</Heading3>
       <p className="m-0 text-sm">{descriptionTâche.description}</p>
     </ListItem>
   );

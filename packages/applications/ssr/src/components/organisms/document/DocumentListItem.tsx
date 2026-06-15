@@ -27,7 +27,7 @@ export const DocumentListItem: FC<DocumentItem> = ({
 }) => {
   return (
     <ListItem
-      heading={<Heading3>{type}</Heading3>}
+      heading={<Heading3 as="h2">{type}</Heading3>}
       actions={
         url && (
           <DownloadDocument

@@ -2,7 +2,7 @@ import { DateTime } from '@potentiel-domain/common';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Section } from '@/components/atoms/menu/Section';
+import { Section } from '@/components/atoms/section/Section';
 import { ÉvaluationCarbonePage } from '../evaluation-carbone/ÉvaluationCarbone.page';
 import { InformationsGénéralesPage } from '../informations-generales/InformationsGénérales.page';
 import { InstallationPage } from '../installation/Installation.page';

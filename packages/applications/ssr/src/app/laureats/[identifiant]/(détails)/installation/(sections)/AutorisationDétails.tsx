@@ -2,7 +2,7 @@ import type { PlainType } from '@potentiel-domain/core';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { ChampAvecAction } from '@/app/laureats/[identifiant]/_helpers';
-import { Champ } from '@/components/atoms/menu/Champ';
+import { Champ } from '@/components/atoms/section/Champ';
 
 export type AutorisationDétailsProps = ChampAvecAction<
   PlainType<Lauréat.ConsulterLauréatReadModel['autorisation']>

@@ -21,11 +21,7 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
 
   return (
     <ListItem
-      heading={
-        <h2 className="leading-4">
-          <span className="font-bold">{raisonSociale}</span>
-        </h2>
-      }
+      heading={<span className="font-bold leading-4">{raisonSociale}</span>}
       actions={
         <Link
           href={Routes.Gestionnaire.détail(identifiantGestionnaireReseauValue.formatter())}

@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Heading6 } from '@/components/atoms/headings';
+import { TitreChamp } from '@/components/atoms/section/TitreChamp';
 
 export type ContractualisationDétailsProps = {
   puissance: ChampObligatoireAvecAction<PlainType<Lauréat.Puissance.ConsulterPuissanceReadModel>>;
@@ -19,7 +19,7 @@ export const ContractualisationDétails = ({
 }: ContractualisationDétailsProps) => (
   <>
     <div className="flex flex-col gap-1">
-      <Heading6>Performances</Heading6>
+      <TitreChamp>Performances</TitreChamp>
       <span>
         Puissance installée : {puissance.value.puissance} {puissance.value.unitéPuissance.unité}
       </span>
@@ -35,13 +35,13 @@ export const ContractualisationDétails = ({
     </div>
     {Option.isSome(prixRéférence) && (
       <div className="flex flex-col gap-1">
-        <Heading6>Prix</Heading6>
+        <TitreChamp>Prix</TitreChamp>
         <span>{prixRéférence} €/MWh</span>
       </div>
     )}
     {coefficientKChoisi !== undefined && (
       <div className="flex flex-col gap-1">
-        <Heading6>Coefficient K</Heading6>
+        <TitreChamp>Coefficient K</TitreChamp>
         <span>{coefficientKChoisi ? 'Oui' : 'Non'}</span>
       </div>
     )}

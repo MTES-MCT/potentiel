@@ -3,8 +3,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { Section } from '@/components/atoms/menu/Section';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/section/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAchèvement, getGarantiesFinancières } from '../../_helpers';
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
