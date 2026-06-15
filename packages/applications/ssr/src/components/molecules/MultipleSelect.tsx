@@ -4,14 +4,14 @@ import { fr } from '@codegouvfr/react-dsfr';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 
 type Option = {
   value: string;
   label: string;
 };
 
-export type MultipleSelectProps = MultipleSelectPopoverProps & {
+export type MultipleSelectProps = Omit<MultipleSelectPopoverProps, 'id'> & {
   id?: string;
   label: string;
   options: Array<Option>;
@@ -30,47 +30,74 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLFieldSetElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const popoverId = useId();
 
-  // Close when clicking outside
-  useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
+  const closePopover = (refocusButton = false) => {
+    setOpen(false);
 
-    if (open) {
-      document.addEventListener('mousedown', onClickOutside);
-    } else {
-      document.removeEventListener('mousedown', onClickOutside);
+    if (refocusButton) {
+      buttonRef.current?.focus();
     }
-    return () => {
-      document.removeEventListener('mousedown', onClickOutside);
-    };
-  }, [open]);
+  };
+
+  const openPopover = () => {
+    setOpen(true);
+  };
+
+  const handleBlurCapture = (event: React.FocusEvent<HTMLFieldSetElement>) => {
+    const nextFocusedElement = event.relatedTarget;
+
+    if (containerRef.current && nextFocusedElement instanceof Node) {
+      if (containerRef.current.contains(nextFocusedElement)) {
+        return;
+      }
+    }
+
+    setOpen(false);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLFieldSetElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closePopover(true);
+    }
+  };
 
   return (
-    <div
+    <fieldset
       ref={containerRef}
-      className={clsx('relative mb-6 fr-select--group', disabled && 'fr-select-group--disabled')}
+      className={clsx(
+        'relative mb-6 fr-select--group border-0 p-0 m-0 min-w-0',
+        disabled && 'fr-select-group--disabled',
+      )}
+      onBlurCapture={handleBlurCapture}
+      onKeyDown={handleKeyDown}
     >
-      <label htmlFor={id} className={clsx(fr.cx('fr-label', disabled && 'fr-label--disabled'))}>
-        {label}
-      </label>
+      <legend className={clsx(fr.cx('fr-label', disabled && 'fr-label--disabled'))}>{label}</legend>
       {disabled ? (
-        <select disabled className="fr-select">
-          <option value="" disabled selected>
+        <select id={id} disabled className="fr-select" defaultValue="">
+          <option value="" disabled>
             Sélectionner une option
           </option>
         </select>
       ) : (
         <button
+          ref={buttonRef}
+          id={id}
           type="button"
           className="fr-select cursor-pointer text-left"
-          onClick={() => setOpen((o) => !o)}
-          aria-haspopup="listbox"
+          onClick={() => {
+            if (open) {
+              closePopover();
+              return;
+            }
+
+            openPopover();
+          }}
           aria-expanded={open}
+          aria-controls={open ? popoverId : undefined}
         >
           {selected.length > 0
             ? selected.length === 1
@@ -81,6 +108,7 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
       )}
       {open && (
         <MultipleSelectPopover
+          id={popoverId}
           options={options}
           selected={selected}
           onChange={onChange}
@@ -88,11 +116,12 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
           noSelectAll={noSelectAll}
         />
       )}
-    </div>
+    </fieldset>
   );
 };
 
 type MultipleSelectPopoverProps = {
+  id: string;
   options: Array<Option>;
   selected: string[];
   onChange: (selected: Array<string>) => void;
@@ -101,6 +130,7 @@ type MultipleSelectPopoverProps = {
 };
 
 const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
+  id,
   options,
   selected,
   onChange,
@@ -137,8 +167,9 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
 
   return (
     <div
+      id={id}
       className="flex flex-col align-center gap-4 fr-mt-1 p-4 shadow-lg rounded-b-sm absolute bg-theme-white z-10 w-full"
-      role="listbox"
+      role="presentation"
     >
       {!noSelectAll && (
         <div className="flex justify-center fr-p-1">
@@ -164,7 +195,7 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
           />
         </div>
       )}
-      <ul className="flex flex-col gap-2 m-0 max-h-[430px] overflow-y-auto">
+      <ul className="flex flex-col gap-2 m-0 max-h-[430px] overflow-y-auto" tabIndex={-1}>
         {visibleOptions.length === 0 ? (
           <li className="">Aucun résultat</li>
         ) : (
