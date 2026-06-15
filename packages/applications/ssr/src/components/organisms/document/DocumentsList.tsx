@@ -12,7 +12,7 @@ export const DocumentsList = ({ documents }: DocumentListItemProps) => {
         </div>
       ) : (
         <div>
-          <div className="flex flex-col gap-4 mt-4 list-none">
+          <ul className="flex flex-col gap-4 mt-4 list-none">
             {documents.map(({ type, url, date, format, demande, ariaLabel }) => (
               <li key={type + date}>
                 <Tile className="flex flex-col md:flex-row md:justify-between">
@@ -27,7 +27,7 @@ export const DocumentsList = ({ documents }: DocumentListItemProps) => {
                 </Tile>
               </li>
             ))}
-          </div>
+          </ul>
         </div>
       )}
     </>
