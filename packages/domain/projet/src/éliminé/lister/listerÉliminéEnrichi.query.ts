@@ -2,13 +2,14 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
-import { type Joined, type List, Where } from '@potentiel-domain/entity';
+import { type Joined, type LeftJoin, type List, Where } from '@potentiel-domain/entity';
 
 import {
   type CandidatureEntity,
   type Coordonnées,
   type Dépôt,
   type DétailCandidatureEntity,
+  type DétailCandidatureVérifiéEntity,
   type Localité,
   TypeActionnariat,
   TypologieInstallation,
@@ -68,6 +69,8 @@ export type ÉliminéEnrichiListItemReadModel = {
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
   tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
 
+  composantsRésilients: string | undefined;
+
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
@@ -115,34 +118,35 @@ export const registerListerÉliminéEnrichiQuery = ({
       identifiantProjets: identifiantProjet && [identifiantProjet],
     });
 
-    const éliminés = await list<CandidatureEntity, [ÉliminéEntity, DétailCandidatureEntity]>(
-      'candidature',
-      {
-        orderBy: {
-          identifiantProjet: 'ascending',
-        },
-        where: {
-          identifiantProjet: Where.matchAny(scope.identifiantProjets),
-          appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
-          période: Where.equal(periode),
-          famille: Where.equal(famille),
-          localité: { région: Where.matchAny(scope.régions) },
-          actionnariat: Where.matchAny(
-            TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
-          ),
-        },
-        join: [
-          {
-            entity: 'éliminé',
-            on: 'identifiantProjet',
-          },
-          {
-            entity: 'détail-candidature',
-            on: 'identifiantProjet',
-          },
-        ],
+    const éliminés = await list<
+      CandidatureEntity,
+      [ÉliminéEntity, DétailCandidatureEntity, LeftJoin<DétailCandidatureVérifiéEntity>]
+    >('candidature', {
+      orderBy: {
+        identifiantProjet: 'ascending',
       },
-    );
+      where: {
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
+        période: Where.equal(periode),
+        famille: Where.equal(famille),
+        localité: { région: Where.matchAny(scope.régions) },
+        actionnariat: Where.matchAny(
+          TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
+        ),
+      },
+      join: [
+        {
+          entity: 'éliminé',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'détail-candidature',
+          on: 'identifiantProjet',
+        },
+        { entity: 'détail-candidature-vérifié', on: 'identifiantProjet', type: 'left' },
+      ],
+    });
 
     return {
       items: éliminés.items.map((éliminé) => mapToReadModel(éliminé)),
@@ -153,7 +157,8 @@ export const registerListerÉliminéEnrichiQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: CandidatureEntity & Joined<[ÉliminéEntity, DétailCandidatureEntity]>,
+  args: CandidatureEntity &
+    Joined<[ÉliminéEntity, DétailCandidatureEntity, LeftJoin<DétailCandidatureVérifiéEntity>]>,
 ) => ÉliminéEnrichiListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -177,6 +182,7 @@ const mapToReadModel: MapToReadModelProps = ({
   technologieCalculée,
 
   'détail-candidature': détailCandidature,
+  'détail-candidature-vérifié': détailCandidatureVérifié,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -226,9 +232,11 @@ const mapToReadModel: MapToReadModelProps = ({
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
 
-    technologieÉolien:
-      détailCandidature.détail['Technologie (AO éolien)'] ??
-      détailCandidature.détail['Technologie'],
+    // champ spécifique Sol importé depuis DN
+    composantsRésilients: détailCandidatureVérifié?.détail.composantsRésilients,
+
+    // champs spécifiques Eolien
+    technologieÉolien: détailCandidatureVérifié?.détail.technologieAoÉolien,
     diamètreRotorEnMètres:
       détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'] ??
       détailCandidature.détail['Diamètre du rotor'],

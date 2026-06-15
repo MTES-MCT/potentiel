@@ -10,6 +10,7 @@ import {
   type Coordonnées,
   type Dépôt,
   type DétailCandidatureEntity,
+  type DétailCandidatureVérifiéEntity,
   type Localité,
   TypeActionnariat,
   TypologieInstallation,
@@ -94,6 +95,8 @@ export type LauréatEnrichiListItemReadModel = {
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
   tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
 
+  composantsRésilients: string | undefined;
+
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
@@ -134,6 +137,7 @@ type LauréatEnrichiJoins = [
   AchèvementEntity,
   ProducteurEntity,
   DétailCandidatureEntity,
+  LeftJoin<DétailCandidatureVérifiéEntity>,
   LeftJoin<RaccordementEntity>,
   LeftJoin<InstallationEntity>,
   LeftJoin<NatureDeLExploitationEntity>,
@@ -202,6 +206,7 @@ export const registerListerLauréatEnrichiQuery = ({
           entity: 'détail-candidature',
           on: 'identifiantProjet',
         },
+        { entity: 'détail-candidature-vérifié', on: 'identifiantProjet', type: 'left' },
         { entity: 'raccordement', on: 'identifiantProjet', type: 'left' },
         {
           entity: 'installation',
@@ -284,6 +289,7 @@ const mapToReadModel: MapToReadModelProps = ({
     'power-purchase-agreement': powerPurchaseAgreement,
     actionnaire,
     'détail-candidature': détailCandidature,
+    'détail-candidature-vérifié': détailCandidatureVérifié,
     installation,
     'nature-de-l-exploitation': natureDeLExploitation,
     raccordement,
@@ -376,9 +382,11 @@ const mapToReadModel: MapToReadModelProps = ({
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
 
-    technologieÉolien:
-      détailCandidature.détail['Technologie (AO éolien)'] ??
-      détailCandidature.détail['Technologie'],
+    // champ spécifique Sol importé depuis DN
+    composantsRésilients: détailCandidatureVérifié?.détail?.composantsRésilients,
+
+    // champs spécifiques Eolien
+    technologieÉolien: détailCandidatureVérifié?.détail?.technologieAoÉolien,
     diamètreRotorEnMètres:
       détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'] ??
       détailCandidature.détail['Diamètre du rotor'],
