@@ -42,11 +42,6 @@ const nextConfig: NextConfig = {
   ],
   async redirects() {
     return [
-      {
-        source: '/projet/:guid/details.html',
-        destination: '/legacy/:guid',
-        permanent: true,
-      },
       // Redirection pour les anciens chemins d'accès aux garanties financières
       // à supprimer ~octobre 2026
       {
