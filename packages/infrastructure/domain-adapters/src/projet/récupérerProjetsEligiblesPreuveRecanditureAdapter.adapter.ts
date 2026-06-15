@@ -9,25 +9,28 @@ type ProjetPourRecandidatureReadModel = {
 };
 
 const selectProjetsEligiblesPreuveRecanditureQuery = `
-   select json_build_object(
-    'nom', p."nomProjet",
-    'identifiantProjet', format('%s#%s#%s#%s', p."appelOffreId",p."periodeId",p."familleId",p."numeroCRE"),
-    'email', p."email",
-    'dateDésignation', to_char(to_timestamp(p."notifiedOn" / 1000)::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
+  select json_build_object(
+    'nom', cand.value->>'nomProjet',
+    'identifiantProjet', cand.value->>'identifiantProjet',
+    'email', cand.value->>'emailContact',
+    'dateDésignation', cand.value->>'notification.notifiéeLe'
   ) as value
-  from "projects" p
-  inner join domain_views.projection acc on acc.key=format('accès|%s#%s#%s#%s', p."appelOffreId",p."periodeId",p."familleId",p."numeroCRE")
-  left join domain_views.projection recandidature on 
-    recandidature.key like 'abandon|%' 
-    and recandidature.value->>'demande.recandidature.preuve.identifiantProjet' 
-      = format('%s#%s#%s#%s',p."appelOffreId",p."periodeId",p."familleId",p."numeroCRE")
-  where 
-        p."notifiedOn" > 1702598400000 
-    and p."notifiedOn"< 1743379200000 
-    and p."abandonedOn" = 0 
-    and acc.value->'utilisateursAyantAccès' ? $1
+  from domain_views.projection cand 
+  inner join domain_views.projection acces 
+    on acces.key = format('accès|%s', cand.value->>'identifiantProjet')
+  left join domain_views.projection recandidature 
+    on recandidature.key like 'abandon|%' 
+    and recandidature.value->>'demande.recandidature.preuve.identifiantProjet' = cand.value->>'identifiantProjet'
+  left join domain_views.projection abandon 
+    on abandon.key = format('abandon|%s', cand.value->>'identifiantProjet')
+  where
+    cand.key like 'candidature|%'
+    and (cand.value->>'notification.notifiéeLe') > '2023-12-15T00:00:00.000Z'
+    and (cand.value->>'notification.notifiéeLe') < '2025-03-30T00:00:00.000Z'
+    and (abandon.key is null or abandon.value->>'estAbandonné' = 'false')
+    and acces.value->'utilisateursAyantAccès' ? $1
     and recandidature.key is null
-  order by "nomProjet"
+  order by cand.value->>'nomProjet';
 `;
 
 export const récupérerProjetsEligiblesPreuveRecanditureAdapter: Candidature.RécupérerProjetsEligiblesPreuveRecanditurePort =
