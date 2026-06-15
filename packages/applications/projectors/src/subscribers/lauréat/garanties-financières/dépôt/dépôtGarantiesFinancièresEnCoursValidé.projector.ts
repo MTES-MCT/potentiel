@@ -64,24 +64,35 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         },
       };
     })
-    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => ({
-      identifiantProjet: payload.identifiantProjet,
-      statut: 'validé',
-      actuelles: {
-        ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
-          payload,
-        ).formatter(),
+    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => {
+      const constitution =
+        payload.attestation && payload.dateConstitution
+          ? {
+              attestation: payload.attestation,
+              date: payload.dateConstitution,
+            }
+          : undefined;
+
+      return {
+        identifiantProjet: payload.identifiantProjet,
+        statut: 'validé',
+        actuelles: {
+          ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+            ...payload,
+            constitution,
+          }).formatter(),
+          validéLe: payload.validéLe,
+        },
+        dépôt: undefined,
+        soumisLe: payload.soumisLe,
         validéLe: payload.validéLe,
-      },
-      dépôt: undefined,
-      soumisLe: payload.soumisLe,
-      validéLe: payload.validéLe,
-      dernièreMiseÀJour: {
-        date: payload.validéLe,
-        par: payload.validéPar,
-      },
-      archives,
-    }))
+        dernièreMiseÀJour: {
+          date: payload.validéLe,
+          par: payload.validéPar,
+        },
+        archives,
+      };
+    })
     .exhaustive();
 
   await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
