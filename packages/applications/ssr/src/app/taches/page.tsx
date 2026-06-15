@@ -38,6 +38,7 @@ const catégoriesTâchesFilters = {
   abandon: "Demandes d'abandon",
   'garanties-financières': 'Garanties financières',
   raccordement: 'Raccordements',
+  producteur: 'Producteur',
 };
 
 export default async function Page(props: IdentifiantParameter & PageProps) {

@@ -8,6 +8,7 @@ Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
     Et la dreal "Dreal du sud" associée à la région du projet
     Quand le porteur corrige le numéro d'identification du projet lauréat
     Alors le producteur du projet lauréat devrait être mis à jour
+    Et une tâche indiquant de "renseigner le numéro d'identification" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
   Scénario: Impossible de corriger le numéro d'identification d'un projet lauréat avec un numéro identique
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

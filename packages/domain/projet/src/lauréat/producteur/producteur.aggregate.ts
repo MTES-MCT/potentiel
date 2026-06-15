@@ -1,10 +1,12 @@
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import { GarantiesFinancières } from '../index.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import { TypeTâche } from '../tâche/index.js';
+import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
 import type { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
 import type { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option.js';
 import type { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
@@ -45,6 +47,15 @@ export class ProducteurAggregate extends AbstractAggregate<
       };
     }
   > = new Map();
+
+  // Tâches
+  #tâcheRenseignerNuméroIdentification!: AggregateType<TâcheAggregate>;
+
+  async init() {
+    this.#tâcheRenseignerNuméroIdentification = await this.lauréat.loadTâche(
+      TypeTâche.producteurRenseignerNuméroIdentification.type,
+    );
+  }
 
   get lauréat() {
     return this.parent;
@@ -107,6 +118,10 @@ export class ProducteurAggregate extends AbstractAggregate<
         dateLimiteSoumission: dateChangement.ajouterNombreDeMois(2),
       });
     }
+
+    if (numéroIdentification) {
+      await this.#tâcheRenseignerNuméroIdentification.achever();
+    }
   }
 
   async modifier({
@@ -143,6 +158,10 @@ export class ProducteurAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    if (numéroIdentification) {
+      await this.#tâcheRenseignerNuméroIdentification.achever();
+    }
   }
 
   async corrigerNuméroIdentification({
@@ -172,6 +191,8 @@ export class ProducteurAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâcheRenseignerNuméroIdentification.achever();
   }
 
   async importer({
@@ -196,6 +217,10 @@ export class ProducteurAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    if (!numéroIdentification || numéroIdentification.estInconnu()) {
+      await this.#tâcheRenseignerNuméroIdentification.ajouter();
+    }
   }
 
   apply(event: ProducteurEvent): void {

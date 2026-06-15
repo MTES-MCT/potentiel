@@ -4,7 +4,6 @@ export type TâcheEntity = Entity<
   'tâche',
   {
     identifiantProjet: string;
-
     typeTâche: string;
     miseÀJourLe: string;
   }

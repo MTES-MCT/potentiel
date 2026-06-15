@@ -98,6 +98,13 @@ export const getDescriptionTâche = (
       action: 'Voir le raccordement',
       ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
     }))
+    .with('producteur.renseigner-numéro-identification', () => ({
+      titre: "Numéro d'identification manquant",
+      description: `Le numéro d'identification (SIRET / SIREN) du producteur est manquant pour ce projet`,
+      lien: Routes.Producteur.numéroIdentification.corriger(identifiant),
+      action: "Ajouter le numéro d'identification",
+      ariaLabel: `Ajouter le numéro d'identification du projet ${nomProjet}`,
+    }))
     .with('inconnue', () => ({
       titre: '',
       description: '',
