@@ -11,5 +11,6 @@ export const notMatchAny = <T>(
   return {
     operator: 'notMatchAny' as const,
     value,
+    multiple: true,
   } satisfies NotMatchAnyWhereCondition<T>;
 };

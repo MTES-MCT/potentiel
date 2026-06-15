@@ -516,6 +516,46 @@ describe('listProjection', () => {
     actual.items.should.have.deep.members(expected.items);
   });
 
+  it('should find projections by their key and filter them according to a between condition option', async () => {
+    const fakeDataExcludedBefore = {
+      data: {
+        value: '2023-11-26T00:00:00.000Z',
+        name: 'lessThanTest',
+      },
+    };
+    const fakeDataExcludedAfter = {
+      data: {
+        value: '2023-11-30T00:00:00.000Z',
+        name: 'lessThanTest',
+      },
+    };
+
+    const betweenCaseFakeData = {
+      data: {
+        value: '2023-11-28T00:00:00.000Z',
+        name: 'lessThanTest',
+      },
+    };
+
+    await insertFakeData(betweenCaseFakeData);
+    await insertFakeData(fakeDataExcludedBefore);
+    await insertFakeData(fakeDataExcludedAfter);
+
+    const actual = await listProjection<FakeProjection1>(category1, {
+      where: {
+        data: {
+          value: Where.between(['2023-11-27T00:00:00.000Z', '2023-11-29T00:00:00.000Z']),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems([betweenCaseFakeData]);
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
+  });
+
   it('should find projections by their key and filter them according to a is not null condition option', async () => {
     const nullCaseFakeData = {
       data: {

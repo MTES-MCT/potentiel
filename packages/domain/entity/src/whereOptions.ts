@@ -3,10 +3,12 @@ export type NotEqualWhereCondition<T> = { operator: 'notEqual'; value: T };
 
 export type MatchAnyWhereCondition<T> = {
   operator: 'matchAny';
+  multiple: true;
   value: Array<T> | ReadonlyArray<T>;
 };
 export type NotMatchAnyWhereCondition<T> = {
   operator: 'notMatchAny';
+  multiple: true;
   value: Array<T> | ReadonlyArray<T>;
 };
 
@@ -28,6 +30,7 @@ export type NotEqualNullWhereCondition = { operator: 'notEqualNull' };
 
 export type LessOrEqualCondition<T> = { operator: 'lessOrEqual'; value: T };
 export type GreaterOrEqualCondition<T> = { operator: 'greaterOrEqual'; value: T };
+export type BetweenCondition<T> = { operator: 'between'; value: [T, T] };
 
 export type EmptyArrayCondition = { operator: 'emptyArray' };
 
@@ -42,6 +45,7 @@ export type WhereCondition<T = unknown> =
   | NotEqualNullWhereCondition
   | LessOrEqualCondition<T>
   | GreaterOrEqualCondition<T>
+  | BetweenCondition<T>
   | IncludeWhereCondition<T>
   | NotIncludeWhereCondition<T>
   | EmptyArrayCondition;

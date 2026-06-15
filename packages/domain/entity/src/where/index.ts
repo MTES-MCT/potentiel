@@ -1,3 +1,4 @@
+export * from './between.js';
 export * from './equal.js';
 export * from './equalNull.js';
 export * from './greaterOrEqual.js';

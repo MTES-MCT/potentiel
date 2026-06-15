@@ -11,7 +11,7 @@ import type {
   WhereOptions,
 } from '@potentiel-domain/entity';
 
-type Condition = { name: string; value?: unknown; operator: WhereOperator };
+type Condition = { name: string; value: unknown; operator: WhereOperator; multiple?: boolean };
 
 type GetWhereClauseOptions = {
   key: EqualWhereCondition<string> | LikeWhereCondition;
@@ -63,7 +63,17 @@ const buildWhereClause = (
     // - the key always being the first where condition
     ['', 2 + startIndex] as [string, number],
   );
-  return [sqlClause, conditions.map(({ value }) => value).filter((value) => value !== undefined)];
+  const values = conditions.reduce((prev, { value, multiple }) => {
+    if (value) {
+      if (Array.isArray(value) && !multiple) {
+        prev.push(...value);
+      } else {
+        prev.push(value);
+      }
+    }
+    return prev;
+  }, [] as unknown[]);
+  return [sqlClause, values];
 };
 
 const buildJoinWhereClause = (
@@ -102,6 +112,10 @@ const mapToConditions = (flattenWhere: Record<string, unknown>): Array<Condition
           const name = key.replace('.operator', '');
           prev[name] ??= { name };
           prev[name].operator = value as WhereOperator | undefined;
+        } else if (key.endsWith('.multiple')) {
+          const name = key.replace('.multiple', '');
+          prev[name] ??= { name };
+          prev[name].multiple = value as boolean;
         } else {
           const name = key.replace('.value', '');
           prev[name] ??= { name };
@@ -138,6 +152,7 @@ const mapOperatorToSqlCondition = (
     .with('notMatchAny', () => [`${field} <> ALL($${index})`, index + 1])
     .with('lessOrEqual', () => [`${field} <= $${index}`, index + 1])
     .with('greaterOrEqual', () => [`${field} >= $${index}`, index + 1])
+    .with('between', () => [`${field} BETWEEN $${index} AND $${index + 1}`, index + 2])
     .with('equalNull', () => [`${field} IS NULL`, index])
     .with('notEqualNull', () => [`${field} IS NOT NULL`, index])
     .with('include', () => [`${objectField} ? $${index}`, index])
