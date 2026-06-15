@@ -1,29 +1,24 @@
 import type { FC } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
-import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ModifierReprésentantLégalForm } from './ModifierReprésentantLégal.form';
 
-export type ModifierReprésentantLégalPageProps = PlainType<
-  Omit<
-    Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel,
-    'aUneDemandeEnCours' | 'dateDernièreDemande'
-  >
->;
+export type ModifierReprésentantLégalPageProps = PlainType<{
+  nomReprésentantLégal: string;
+  identifiantProjet: string;
+}>;
 
 export const ModifierReprésentantLégalPage: FC<ModifierReprésentantLégalPageProps> = ({
   identifiantProjet,
   nomReprésentantLégal,
-  typeReprésentantLégal,
 }) => (
   <>
     <Heading1>Modifier le représentant légal</Heading1>
     <ModifierReprésentantLégalForm
       identifiantProjet={identifiantProjet}
       nomReprésentantLégal={nomReprésentantLégal}
-      typeReprésentantLégal={typeReprésentantLégal}
     />
   </>
 );

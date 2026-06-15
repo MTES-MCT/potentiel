@@ -8,17 +8,19 @@ import { DemanderOuEnregistrerChangementReprésentantLégalForm } from '../compo
 export type DemanderChangementReprésentantLégalPageProps = {
   identifiantProjet: string;
   règlesInstructionAutomatique?: AppelOffre.RègleInstructionAutomatique;
+  nomReprésentantLégal: string;
 };
 
 export const DemanderChangementReprésentantLégalPage: FC<
   DemanderChangementReprésentantLégalPageProps
-> = ({ identifiantProjet, règlesInstructionAutomatique }) => (
+> = ({ identifiantProjet, règlesInstructionAutomatique, nomReprésentantLégal }) => (
   <>
     <Heading1>Demander un changement de représentant légal</Heading1>
     <DemanderOuEnregistrerChangementReprésentantLégalForm
       identifiantProjet={identifiantProjet}
       estUneDemande={true}
       règlesInstructionAutomatique={règlesInstructionAutomatique}
+      nomReprésentantLégal={nomReprésentantLégal}
     />
   </>
 );

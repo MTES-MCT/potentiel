@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -59,9 +58,8 @@ export default async function Page(props: IdentifiantParameter) {
 
       return (
         <ModifierReprésentantLégalPage
-          identifiantProjet={mapToPlainObject(représentantLégal.identifiantProjet)}
+          identifiantProjet={identifiantProjet.formatter()}
           nomReprésentantLégal={représentantLégal.nomReprésentantLégal}
-          typeReprésentantLégal={mapToPlainObject(représentantLégal.typeReprésentantLégal)}
         />
       );
     }),
