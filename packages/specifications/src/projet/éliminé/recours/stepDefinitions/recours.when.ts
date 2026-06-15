@@ -54,69 +54,63 @@ Quand(`le porteur annule le recours pour le projet éliminé`, async function (t
   }
 });
 
-Quand(
-  `le DGEC validateur rejette le recours pour le projet éliminé`,
-  async function (this: PotentielWorld) {
-    try {
-      const {
-        rejetéLe: rejetéeLe,
-        rejetéPar: rejetéePar,
-        réponseSignée,
-      } = this.éliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
-        rejetéPar: this.utilisateurWorld.validateurFixture.email,
-      });
+Quand(`la dgec rejette le recours pour le projet éliminé`, async function (this: PotentielWorld) {
+  try {
+    const {
+      rejetéLe: rejetéeLe,
+      rejetéPar: rejetéePar,
+      réponseSignée,
+    } = this.éliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
+      rejetéPar: this.utilisateurWorld.validateurFixture.email,
+    });
 
-      await mediator.send<Éliminé.Recours.RecoursUseCase>({
-        type: 'Éliminé.Recours.UseCase.RejeterRecours',
-        data: {
-          identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
-          dateRejetValue: rejetéeLe,
-          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
-          identifiantUtilisateurValue: rejetéePar,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
+    await mediator.send<Éliminé.Recours.RecoursUseCase>({
+      type: 'Éliminé.Recours.UseCase.RejeterRecours',
+      data: {
+        identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
+        dateRejetValue: rejetéeLe,
+        réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
+        identifiantUtilisateurValue: rejetéePar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
 
-Quand(
-  `le DGEC validateur accorde le recours pour le projet éliminé`,
-  async function (this: PotentielWorld) {
-    try {
-      const { identifiantProjet } = this.éliminéWorld;
+Quand(`la dgec accorde le recours pour le projet éliminé`, async function (this: PotentielWorld) {
+  try {
+    const { identifiantProjet } = this.éliminéWorld;
 
-      const {
-        accordéLe: accordéeLe,
-        accordéPar: accordéePar,
-        réponseSignée,
-      } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
-        accordéPar: this.utilisateurWorld.validateurFixture.email,
-      });
+    const {
+      accordéLe: accordéeLe,
+      accordéPar: accordéePar,
+      réponseSignée,
+    } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
+      accordéPar: this.utilisateurWorld.validateurFixture.email,
+    });
 
-      await mediator.send<Éliminé.Recours.RecoursUseCase>({
-        type: 'Éliminé.Recours.UseCase.AccorderRecours',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          dateAccordValue: accordéeLe,
-          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
-          identifiantUtilisateurValue: accordéePar,
-        },
-      });
+    await mediator.send<Éliminé.Recours.RecoursUseCase>({
+      type: 'Éliminé.Recours.UseCase.AccorderRecours',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        dateAccordValue: accordéeLe,
+        réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
+        identifiantUtilisateurValue: accordéePar,
+      },
+    });
 
-      this.lauréatWorld.notifier({
-        identifiantProjet: identifiantProjet.formatter(),
-        notifiéLe: accordéeLe,
-        notifiéPar: accordéePar,
-        localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
-        nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
+    this.lauréatWorld.notifier({
+      identifiantProjet: identifiantProjet.formatter(),
+      notifiéLe: accordéeLe,
+      notifiéPar: accordéePar,
+      localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
+      nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
 
 Quand(
   /(.*) dgec passe en instruction le recours pour le projet éliminé/,
