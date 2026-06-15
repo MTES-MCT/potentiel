@@ -1,6 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
+import { DateTime } from '@potentiel-domain/common';
 import type { Éliminé } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
@@ -41,7 +42,7 @@ Quand(`le porteur annule le recours pour le projet éliminé`, async function (t
         annuléPar: this.utilisateurWorld.porteurFixture.email,
       });
 
-    await mediator.send<Éliminé.Recours.RecoursUseCase>({
+    await mediator.send<Éliminé.Recours.AnnulerRecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.AnnulerRecours',
       data: {
         identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
@@ -64,7 +65,7 @@ Quand(`la dgec rejette le recours pour le projet éliminé`, async function (thi
       rejetéPar: this.utilisateurWorld.validateurFixture.email,
     });
 
-    await mediator.send<Éliminé.Recours.RecoursUseCase>({
+    await mediator.send<Éliminé.Recours.RejeterRecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.RejeterRecours',
       data: {
         identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
@@ -80,43 +81,28 @@ Quand(`la dgec rejette le recours pour le projet éliminé`, async function (thi
 
 Quand(`la dgec accorde le recours pour le projet éliminé`, async function (this: PotentielWorld) {
   try {
-    const { identifiantProjet } = this.éliminéWorld;
-
-    const {
-      accordéLe,
-      accordéPar: accordéePar,
-      dateAccord,
-
-      réponseSignée,
-    } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
-      accordéPar: this.utilisateurWorld.validateurFixture.email,
-    });
-
-    await mediator.send<Éliminé.Recours.AccorderRecoursUseCase>({
-      type: 'Éliminé.Recours.UseCase.AccorderRecours',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        dateAccordValue: dateAccord,
-        accordéLeValue: accordéLe,
-        réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
-        identifiantUtilisateurValue: accordéePar,
-      },
-    });
-
-    this.lauréatWorld.notifier({
-      identifiantProjet: identifiantProjet.formatter(),
-      notifiéLe: accordéLe,
-      notifiéPar: accordéePar,
-      localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
-      nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
-    });
+    await accorderRecours.call(this);
   } catch (error) {
     this.error = error as Error;
   }
 });
 
 Quand(
-  /(.*) dgec passe en instruction le recours pour le projet éliminé/,
+  `la dgec accorde le recours pour le projet éliminé avec une date d'accord dans le futur`,
+  async function (this: PotentielWorld) {
+    try {
+      await accorderRecours.call(
+        this,
+        DateTime.convertirEnValueType(new Date('2100-01-01')).formatter(),
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  /(.*)la dgec passe en instruction le recours pour le projet éliminé/,
   async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
       const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
@@ -129,7 +115,7 @@ Quand(
           passéEnInstructionPar: this.utilisateurWorld.dgecFixture.email,
         });
 
-      await mediator.send<Éliminé.Recours.RecoursUseCase>({
+      await mediator.send<Éliminé.Recours.PasserEnInstructionRecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
         data: {
           identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
@@ -142,3 +128,36 @@ Quand(
     }
   },
 );
+
+async function accorderRecours(this: PotentielWorld, dateAccordSpécifique?: string) {
+  const {
+    accordéLe,
+    accordéPar: accordéePar,
+    dateAccord,
+    réponseSignée,
+  } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
+    accordéPar: this.utilisateurWorld.validateurFixture.email,
+    ...(dateAccordSpécifique && {
+      dateAccord: dateAccordSpécifique,
+    }),
+  });
+
+  await mediator.send<Éliminé.Recours.AccorderRecoursUseCase>({
+    type: 'Éliminé.Recours.UseCase.AccorderRecours',
+    data: {
+      identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
+      dateAccordValue: dateAccord,
+      accordéLeValue: accordéLe,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
+      identifiantUtilisateurValue: accordéePar,
+    },
+  });
+
+  this.lauréatWorld.notifier({
+    identifiantProjet: this.éliminéWorld.identifiantProjet.formatter(),
+    notifiéLe: accordéLe,
+    notifiéPar: accordéePar,
+    localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
+    nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+  });
+}

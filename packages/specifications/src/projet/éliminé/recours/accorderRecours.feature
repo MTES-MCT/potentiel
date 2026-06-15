@@ -46,6 +46,11 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | motif | recours-accordé |
         Et les garanties financières actuelles ne devraient pas être consultables
 
+    Scénario: Impossible d'accorder le recours d'un projet éliminé avec une date d'accord dans le futur
+        Etant donné une demande de recours en cours pour le projet éliminé
+        Quand la dgec accorde le recours pour le projet éliminé avec une date d'accord dans le futur
+        Alors la dgec devrait être informé que "La date d'accord du recours ne peut pas être dans le futur"
+
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été accordé
         Etant donné une demande de recours accordée pour le projet éliminé
         Quand la dgec accorde le recours pour le projet éliminé
