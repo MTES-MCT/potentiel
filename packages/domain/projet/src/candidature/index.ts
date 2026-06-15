@@ -30,7 +30,6 @@ import type {
 import type {
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
-  RécupérerProjetsEligiblesPreuveRecanditurePort,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query.js';
 import type {
   CandidatureNotifiéeEvent,
@@ -61,7 +60,6 @@ export type {
   ListerDétailsFournisseurReadModel,
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
-  RécupérerProjetsEligiblesPreuveRecanditurePort,
 };
 
 // UseCases

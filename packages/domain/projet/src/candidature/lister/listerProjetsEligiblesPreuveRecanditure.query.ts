@@ -1,8 +1,11 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import type { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { type LeftJoin, type List, Where } from '@potentiel-domain/entity';
 
-import type { IdentifiantProjet } from '../../index.js';
+import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import type { AbandonEntity } from '../../lauréat/abandon/abandon.entity.js';
+import type { CandidatureEntity } from '../candidature.entity.js';
 
 export type ListerProjetsEligiblesPreuveRecanditureReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -10,12 +13,9 @@ export type ListerProjetsEligiblesPreuveRecanditureReadModel = Array<{
   dateDésignation: DateTime.ValueType;
 }>;
 
-export type RécupérerProjetsEligiblesPreuveRecanditurePort = (
-  identifiantUtilisateur: string,
-) => Promise<ListerProjetsEligiblesPreuveRecanditureReadModel>;
-
 export type ListerProjetsEligiblesPreuveRecanditureDependencies = {
-  récupérerProjetsEligiblesPreuveRecanditure: RécupérerProjetsEligiblesPreuveRecanditurePort;
+  list: List;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export type ListerProjetsEligiblesPreuveRecanditureQuery = Message<
@@ -27,13 +27,40 @@ export type ListerProjetsEligiblesPreuveRecanditureQuery = Message<
 >;
 
 export const registerProjetsEligiblesPreuveRecanditureQuery = ({
-  récupérerProjetsEligiblesPreuveRecanditure,
+  list,
+  getScopeProjetUtilisateur,
 }: ListerProjetsEligiblesPreuveRecanditureDependencies) => {
   const handler: MessageHandler<ListerProjetsEligiblesPreuveRecanditureQuery> = async ({
     identifiantUtilisateur,
   }) => {
-    return récupérerProjetsEligiblesPreuveRecanditure(identifiantUtilisateur);
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(identifiantUtilisateur),
+    );
+    const { items } = await list<CandidatureEntity, [LeftJoin<AbandonEntity>]>('candidature', {
+      join: [
+        {
+          entity: 'abandon',
+          on: 'identifiantProjet',
+          type: 'left',
+          where: { identifiantProjet: Where.equalNull() },
+        },
+      ],
+      where: {
+        identifiantProjet: Where.matchAny(scope.identifiantProjets ?? []),
+        notification: {
+          notifiéeLe: Where.between(['2023-12-15T00:00:00.000Z', '2025-03-31T00:00:00.000Z']),
+        },
+      },
+    });
+    return items.map(mapToReadModel);
   };
 
   mediator.register('Candidature.Query.ListerProjetsEligiblesPreuveRecandidature', handler);
 };
+
+const mapToReadModel = (item: CandidatureEntity) => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(item.identifiantProjet),
+  nom: item.nomProjet,
+  // biome-ignore lint/style/noNonNullAssertion: spécifié dans la query
+  dateDésignation: DateTime.convertirEnValueType(item.notification!.notifiéeLe),
+});

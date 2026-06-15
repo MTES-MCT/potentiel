@@ -23,7 +23,5 @@ export const setupProjet = () => {
     count: countProjection,
     listHistory: listHistoryProjection,
     getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
-    récupérerProjetsEligiblesPreuveRecanditure:
-      ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
   });
 };
