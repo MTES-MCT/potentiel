@@ -57,7 +57,6 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             <div>
               {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && <FormatFichierInvalide />}
               <DownloadDocument
-                className="flex items-center"
                 url={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
                 label="Télécharger la proposition technique et financière"
                 format="pdf"
