@@ -136,6 +136,9 @@ export class RecoursWord {
       dateAccord: this.#accorderRecoursFixture.accordéLe
         ? DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéLe)
         : undefined,
+      dateRéponseSignée: this.#accorderRecoursFixture.dateAccord
+        ? DateTime.convertirEnValueType(this.#accorderRecoursFixture.dateAccord)
+        : undefined,
     };
 
     return expected;

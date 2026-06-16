@@ -204,6 +204,7 @@ export class LauréatWorld {
       ...this.modifierSiteDeProductionFixture.mapToExpected(),
       ...this.modifierNomProjetFixture.mapToExpected(),
       ...this.enregistrerChangementNomProjetFixture.mapToExpected(),
+      ...this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture.mapToExpectedLauréat(),
       actionnariat,
       emailContact,
       nomCandidat,
