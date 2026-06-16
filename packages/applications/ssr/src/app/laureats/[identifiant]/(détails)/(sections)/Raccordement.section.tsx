@@ -3,11 +3,11 @@ import type { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAbandonInfos, getLauréatInfos, getRaccordement } from '../../_helpers';
+import { getOptionalAbandon, getRaccordement } from '../../_helpers';
 import { vérifierSiModificationRaccordementPossible } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { RaccordementDétails, type RaccordementDétailsProps } from './RaccordementDétails';
 
@@ -30,7 +30,7 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
 
       const lauréat = await getLauréatInfos(identifiantProjet);
       const abandon = rôle.aLaPermission('abandon.consulter.enCours')
-        ? await getAbandonInfos(identifiantProjet)
+        ? await getOptionalAbandon(identifiantProjet)
         : undefined;
       const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat, abandon);
 

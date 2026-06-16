@@ -3,8 +3,9 @@ import { cache } from 'react';
 import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { getGarantiesFinancières, getLauréatInfos } from '../laureats/[identifiant]/_helpers';
+import { getGarantiesFinancières } from '../laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from './getCahierDesCharges';
+import { getLauréatInfos } from './lauréat';
 
 export const changementActionnaireNécessiteInstruction = cache(
   async (identifiantProjet: IdentifiantProjet.RawType, rôle: Role.RawType) => {

@@ -7,6 +7,7 @@ import type { HistoryRecord } from '@potentiel-domain/entity';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
+import { getLauréatInfos } from '@/app/_helpers';
 import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
@@ -14,7 +15,6 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréatInfos } from '../../_helpers/getLauréat';
 import { mapToLauréatTimelineItemProps } from '../../(historique)/mapToLauréatTimelineItemProps';
 import { mapToAbandonTimelineItemProps } from '../../abandon/(historique)/mapToAbandonTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '../../achevement/(historique)/mapToAchèvementTimelineItemProps';

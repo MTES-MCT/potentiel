@@ -2,10 +2,10 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, type Lauréat, type Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { getProjetLauréatOuÉliminé } from '@/app/_helpers';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
-import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -59,7 +59,7 @@ export default async function ÉliminéLayout(props: LayoutProps) {
     return (
       <PageTemplate
         banner={
-          projet.recoursAccordé ? (
+          projet.lauréat ? (
             <ProjetLauréatBanner
               identifiantProjet={identifiantProjet}
               projet={mapToPlainObject(projet.lauréat)}
@@ -77,32 +77,3 @@ export default async function ÉliminéLayout(props: LayoutProps) {
     );
   });
 }
-
-type GetProjetLauréatOuÉliminéResult =
-  | {
-      lauréat: Lauréat.ConsulterLauréatReadModel;
-      recoursAccordé: true;
-    }
-  | {
-      éliminé: Éliminé.ConsulterÉliminéReadModel;
-      recoursAccordé: false;
-    };
-
-// dans le cas d'un recours accordé, le projet devient lauréat
-type GetProjetLauréatOuÉliminé = (
-  identifiantProjet: IdentifiantProjet.RawType,
-) => Promise<GetProjetLauréatOuÉliminéResult>;
-
-const getProjetLauréatOuÉliminé: GetProjetLauréatOuÉliminé = async (
-  identifiantProjet,
-): Promise<GetProjetLauréatOuÉliminéResult> => {
-  const éliminé = await getÉliminé(identifiantProjet);
-
-  if (éliminé) {
-    return { éliminé, recoursAccordé: false };
-  }
-  const lauréat = await getLauréatInfos(
-    IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-  );
-  return { lauréat, recoursAccordé: true };
-};

@@ -3,10 +3,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import type { DateTime } from '@potentiel-domain/common';
-import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -29,9 +29,11 @@ export default async function Page(props0: IdentifiantParameter) {
         'Lauréat.Achèvement.UseCase.ModifierAchèvement',
       );
 
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
 
-      const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+      const projet = await getLauréatNonAbandonné(identifiantProjet);
 
       const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
         type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',

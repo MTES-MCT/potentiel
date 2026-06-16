@@ -1,18 +1,20 @@
 import type { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import {
-  type CahierDesCharges,
-  type Candidature,
-  IdentifiantProjet,
-} from '@potentiel-domain/projet';
+import type { CahierDesCharges, Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { getCahierDesCharges, getCandidature } from '@/app/_helpers';
+import { getCahierDesCharges, getCandidature, getLauréatInfos } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { type GetLauréat, getLauréat } from '../../_helpers/getLauréat';
+import {
+  getActionnaireInfos,
+  getFournisseurInfos,
+  getProducteurInfos,
+  getPuissanceInfos,
+  getReprésentantLégalInfos,
+} from '../../_helpers';
 import { ModifierLauréatPage, type ModifierLauréatPageProps } from './ModifierLauréat.page';
 
 export const metadata: Metadata = { title: 'Modifier le projet' };
@@ -26,13 +28,24 @@ export default async function Page(props0: IdentifiantParameter) {
     withUtilisateur(async () => {
       const identifiantProjet = decodeParameter(identifiant);
       const candidature = await getCandidature(identifiantProjet);
+      const lauréat = await getLauréatInfos(identifiantProjet);
+      const actionnaire = await getActionnaireInfos(identifiantProjet);
+      const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
+      const puissance = await getPuissanceInfos(identifiantProjet);
+      const producteur = await getProducteurInfos(identifiantProjet);
+      const fournisseur = await getFournisseurInfos(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
-      const lauréat = await getLauréat(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-      );
-      const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet.formatter());
-
-      const props = mapToProps({ candidature, lauréat, cahierDesCharges });
+      const props = mapToProps({
+        candidature,
+        lauréat,
+        actionnaire,
+        représentantLégal,
+        puissance,
+        producteur,
+        fournisseur,
+        cahierDesCharges,
+      });
 
       return (
         <ModifierLauréatPage
@@ -49,11 +62,25 @@ export default async function Page(props0: IdentifiantParameter) {
 
 type MapToProps = (args: {
   candidature: Candidature.ConsulterCandidatureReadModel;
-  lauréat: GetLauréat;
+  actionnaire: Lauréat.Actionnaire.ConsulterActionnaireReadModel;
+  représentantLégal: Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel;
+  puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
+  producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
+  lauréat: Lauréat.ConsulterLauréatReadModel;
+  fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   cahierDesCharges: CahierDesCharges.ValueType;
 }) => ModifierLauréatPageProps;
 
-const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => ({
+const mapToProps: MapToProps = ({
+  candidature,
+  lauréat,
+  actionnaire,
+  représentantLégal,
+  puissance,
+  producteur,
+  fournisseur,
+  cahierDesCharges,
+}) => ({
   candidature: {
     sociétéMère: candidature.dépôt.sociétéMère,
     nomReprésentantLégal: candidature.dépôt.nomReprésentantLégal,
@@ -80,57 +107,57 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
     installateur: candidature.dépôt.installateur,
   },
   lauréat: {
-    statut: mapToPlainObject(lauréat.lauréat.statut),
+    statut: mapToPlainObject(lauréat.statut),
     sociétéMère: {
-      currentValue: lauréat.actionnaire.actionnaire,
-      estEnCoursDeModification: lauréat.actionnaire.aUneDemandeEnCours,
+      currentValue: actionnaire.actionnaire,
+      estEnCoursDeModification: actionnaire.aUneDemandeEnCours,
     },
     nomReprésentantLégal: {
-      currentValue: lauréat.représentantLégal.nomReprésentantLégal,
-      estEnCoursDeModification: lauréat.représentantLégal.aUneDemandeEnCours,
+      currentValue: représentantLégal.nomReprésentantLégal,
+      estEnCoursDeModification: représentantLégal.aUneDemandeEnCours,
     },
     nomProjet: {
-      currentValue: lauréat.lauréat.nomProjet,
+      currentValue: lauréat.nomProjet,
       estEnCoursDeModification: false,
     },
     adresse1: {
-      currentValue: lauréat.lauréat.localité.adresse1,
+      currentValue: lauréat.localité.adresse1,
       estEnCoursDeModification: false,
     },
     adresse2: {
-      currentValue: lauréat.lauréat.localité.adresse2,
+      currentValue: lauréat.localité.adresse2,
       estEnCoursDeModification: false,
     },
     codePostal: {
-      currentValue: lauréat.lauréat.localité.codePostal,
+      currentValue: lauréat.localité.codePostal,
       estEnCoursDeModification: false,
     },
     commune: {
-      currentValue: lauréat.lauréat.localité.commune,
+      currentValue: lauréat.localité.commune,
       estEnCoursDeModification: false,
     },
     département: {
-      currentValue: lauréat.lauréat.localité.département,
+      currentValue: lauréat.localité.département,
       estEnCoursDeModification: false,
     },
     région: {
-      currentValue: lauréat.lauréat.localité.région,
+      currentValue: lauréat.localité.région,
       estEnCoursDeModification: false,
     },
     puissance: {
-      currentValue: lauréat.puissance.puissance,
-      estEnCoursDeModification: lauréat.puissance.aUneDemandeEnCours,
+      currentValue: puissance.puissance,
+      estEnCoursDeModification: puissance.aUneDemandeEnCours,
     },
     puissanceDeSite: {
-      currentValue: lauréat.puissance.puissanceDeSite,
-      estEnCoursDeModification: lauréat.puissance.aUneDemandeEnCours,
+      currentValue: puissance.puissanceDeSite,
+      estEnCoursDeModification: puissance.aUneDemandeEnCours,
     },
     nomCandidat: {
-      currentValue: lauréat.producteur.producteur,
+      currentValue: producteur.producteur,
       estEnCoursDeModification: false,
     },
     evaluationCarboneSimplifiée: {
-      currentValue: lauréat.fournisseur.évaluationCarboneSimplifiée,
+      currentValue: fournisseur.évaluationCarboneSimplifiée,
       estEnCoursDeModification: false,
     },
   },
