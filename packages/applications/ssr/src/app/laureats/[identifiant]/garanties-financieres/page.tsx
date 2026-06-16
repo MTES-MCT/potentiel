@@ -99,7 +99,15 @@ const mapToActionsAndAlertes = ({
   const actions: DétailsGarantiesFinancièresPageProps['actions'] = [];
 
   if (Option.isSome(mainlevée)) {
-    return ['garantiesFinancières.mainlevée.consulter'];
+    actions.push('garantiesFinancières.mainlevée.consulter');
+
+    const mainlevéeEnCours = mainlevée.statut.estDemandé() || mainlevée.statut.estEnInstruction();
+
+    if (mainlevéeEnCours) {
+      actions.push('garantiesFinancières.actuelles.modifier');
+    }
+
+    return actions.filter((action) => utilisateur.rôle.aLaPermission(action));
   }
 
   if (Option.isSome(actuelles) && actuelles.garantiesFinancières.estExemption()) {
