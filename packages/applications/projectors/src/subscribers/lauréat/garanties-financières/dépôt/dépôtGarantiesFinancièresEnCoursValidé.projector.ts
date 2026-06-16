@@ -64,35 +64,31 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         },
       };
     })
-    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => {
-      const constitution =
-        payload.attestation && payload.dateConstitution
-          ? {
+    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => ({
+      identifiantProjet: payload.identifiantProjet,
+      statut: 'validé',
+      actuelles: {
+        ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+          type: payload.type,
+          dateÉchéance: payload.dateÉchéance,
+          ...(payload.attestation && {
+            constitution: {
               attestation: payload.attestation,
               date: payload.dateConstitution,
-            }
-          : undefined;
-
-      return {
-        identifiantProjet: payload.identifiantProjet,
-        statut: 'validé',
-        actuelles: {
-          ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-            ...payload,
-            constitution,
-          }).formatter(),
-          validéLe: payload.validéLe,
-        },
-        dépôt: undefined,
-        soumisLe: payload.soumisLe,
+            },
+          }),
+        }).formatter(),
         validéLe: payload.validéLe,
-        dernièreMiseÀJour: {
-          date: payload.validéLe,
-          par: payload.validéPar,
-        },
-        archives,
-      };
-    })
+      },
+      dépôt: undefined,
+      soumisLe: payload.soumisLe,
+      validéLe: payload.validéLe,
+      dernièreMiseÀJour: {
+        date: payload.validéLe,
+        par: payload.validéPar,
+      },
+      archives,
+    }))
     .exhaustive();
 
   await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
