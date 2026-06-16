@@ -14,6 +14,7 @@ export type AccèsListPageProps = {
   accès: PorteurListItemProps[];
   nombreDeProjets?: number;
   peutInviter: boolean;
+  statutProjet: 'classé' | 'éliminé';
 };
 
 export const AccèsListPage: FC<AccèsListPageProps> = ({
@@ -21,6 +22,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
   identifiantProjet,
   nombreDeProjets,
   peutInviter,
+  statutProjet,
 }) => (
   <SectionPage title="Utilisateurs">
     <div className="flex flex-col md:flex-row gap-4">
@@ -51,6 +53,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
           identifiantProjet={identifiantProjet}
           nombreDeProjets={nombreDeProjets}
           peutInviter={peutInviter}
+          statutProjet={statutProjet}
         />
         <Button
           iconId="fr-icon-mail-line"
