@@ -22,7 +22,7 @@ export const recoursAccordéProjector = async ({
           accordéPar: payload.accordéPar,
           réponseSignée: payload.réponseSignée,
           ...(type === 'RecoursAccordé-V2' && {
-            dateAccord: payload.dateAccord,
+            dateRéponseSignée: payload.dateRéponseSignée,
           }),
         },
       },

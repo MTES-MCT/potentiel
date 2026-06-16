@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { DateTime, Email } from '@potentiel-domain/common';
+
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../fixture.js';
 
@@ -38,9 +40,8 @@ export class AccorderRecoursFixture
     return this.#accordéPar;
   }
 
-  créer(partialData?: Partial<AccorderRecours>): Readonly<AccorderRecours> {
+  créer(partialData: Partial<AccorderRecours> & { dateAccord: string }): Readonly<AccorderRecours> {
     const fixture: AccorderRecours = {
-      dateAccord: faker.date.past().toISOString(),
       accordéLe: faker.date.soon().toISOString(),
       accordéPar: faker.internet.email(),
       réponseSignée: faker.potentiel.document(),
@@ -54,5 +55,14 @@ export class AccorderRecoursFixture
 
     this.aÉtéCréé = true;
     return fixture;
+  }
+  mapToExpectedLauréat() {
+    if (!this.aÉtéCréé) {
+      return {};
+    }
+    return {
+      notifiéLe: DateTime.convertirEnValueType(this.dateAccord),
+      notifiéPar: Email.convertirEnValueType(this.accordéPar),
+    };
   }
 }
