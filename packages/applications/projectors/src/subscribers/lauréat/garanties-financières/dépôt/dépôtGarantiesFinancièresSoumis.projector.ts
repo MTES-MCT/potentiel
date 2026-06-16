@@ -23,11 +23,11 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
         ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
           type,
           dateÉchéance,
+          constitution: {
+            date: dateConstitution,
+            attestation,
+          },
         }).formatter(),
-        constitution: {
-          date: dateConstitution,
-          attestation,
-        },
         soumisLe,
         soumisPar,
         dernièreMiseÀJour: {
