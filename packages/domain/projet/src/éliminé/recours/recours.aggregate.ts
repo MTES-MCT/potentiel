@@ -18,6 +18,7 @@ import type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursE
 import type { InstruireOptions } from './instruire/passerRecoursEnInstruction.options.js';
 import {
   AucunRecoursEnCours,
+  DateRecoursAvantDateNotificationError,
   DateRecoursDansLeFuturError,
   RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
   ÉliminéInexistantError,
@@ -50,6 +51,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       throw new DateRecoursDansLeFuturError();
     }
 
+    if (dateAccord.estAntérieurÀ(this.éliminé.notifiéLe)) {
+      throw new DateRecoursAvantDateNotificationError();
+    }
+
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
     const event: RecoursAccordéEvent = {
@@ -69,7 +74,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     await this.éliminé.projet.lauréat.notifier({
       attestation: { format: réponseSignée.format },
-      notifiéLe: accordéLe,
+      notifiéLe: dateAccord,
       notifiéPar: identifiantUtilisateur,
     });
 

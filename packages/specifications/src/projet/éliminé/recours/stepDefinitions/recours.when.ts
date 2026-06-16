@@ -1,4 +1,4 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
@@ -88,12 +88,16 @@ Quand(`la dgec accorde le recours pour le projet éliminé`, async function (thi
 });
 
 Quand(
-  `la dgec accorde le recours pour le projet éliminé avec une date d'accord dans le futur`,
-  async function (this: PotentielWorld) {
+  `la dgec accorde le recours pour le projet éliminé avec :`,
+  async function (this: PotentielWorld, datatable: DataTable) {
     try {
+      const exemple = datatable.rowsHash();
+
       await accorderRecours.call(
         this,
-        DateTime.convertirEnValueType(new Date('2100-01-01')).formatter(),
+        exemple["date d'accord du recours"]
+          ? DateTime.convertirEnValueType(new Date(exemple["date d'accord du recours"])).formatter()
+          : undefined,
       );
     } catch (error) {
       this.error = error as Error;

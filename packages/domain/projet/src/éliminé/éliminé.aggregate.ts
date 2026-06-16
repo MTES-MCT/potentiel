@@ -1,5 +1,6 @@
 import { match } from 'ts-pattern';
 
+import { DateTime } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import type { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
@@ -8,6 +9,7 @@ import type { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event.
 import type { NotifierÉliminéOptions } from './notifier/notifierÉliminé.option.js';
 import type { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event.js';
 import { RecoursAggregate } from './recours/recours.aggregate.js';
+import { ÉliminéNonNotifiéError } from './éliminé.error.js';
 import type { ÉliminéEvent } from './éliminé.event.js';
 
 export class ÉliminéAggregate extends AbstractAggregate<
@@ -22,6 +24,15 @@ export class ÉliminéAggregate extends AbstractAggregate<
   #recours!: AggregateType<RecoursAggregate>;
   get recours() {
     return this.#recours;
+  }
+
+  #notifiéLe?: DateTime.ValueType;
+  get notifiéLe() {
+    if (!this.#notifiéLe) {
+      throw new ÉliminéNonNotifiéError();
+    }
+
+    return this.#notifiéLe;
   }
 
   #estNotifié: boolean = false;
@@ -93,7 +104,8 @@ export class ÉliminéAggregate extends AbstractAggregate<
     this.#estArchivé = true;
   }
 
-  private applyÉliminéNotifiéV1(_: ÉliminéNotifiéEvent) {
+  private applyÉliminéNotifiéV1({ payload: { notifiéLe } }: ÉliminéNotifiéEvent) {
     this.#estNotifié = true;
+    this.#notifiéLe = DateTime.convertirEnValueType(notifiéLe);
   }
 }
