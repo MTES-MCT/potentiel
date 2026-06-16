@@ -51,7 +51,7 @@ export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursForm
               <InputDate
                 label={`Date de l'accord du recours`}
                 name="dateAccord"
-                hintText={`Saisir la date à laquelle le recours a réellement été accordé (cette date figure sur le document justificatif)`}
+                hintText={`Saisir la date à laquelle le recours a réellement été accordé (date de la réponse signée). Elle tiendra lieu de date de désignation du lauréat.`}
                 max={DateTime.now().formatter()}
                 state={validationErrors['dateAccord'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['dateAccord']}
