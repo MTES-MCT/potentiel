@@ -11,7 +11,7 @@ export const mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps =
 
   return {
     date: validéLe,
-    title: 'Les nouvelles garanties financières (soumise à instruction) ont été validées',
+    title: 'Les nouvelles garanties financières (soumises à instruction) ont été validées',
     actor: validéPar,
   };
 };
