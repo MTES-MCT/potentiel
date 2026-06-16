@@ -9,7 +9,6 @@ import {
   type CandidatureEntity,
   type Coordonnées,
   type Dépôt,
-  type DétailCandidatureEntity,
   type DétailCandidatureVérifiéEntity,
   type Localité,
   TypeActionnariat,
@@ -31,7 +30,6 @@ import type { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/p
 import type { ProducteurEntity } from '../producteur/producteur.entity.js';
 import type { PuissanceEntity } from '../puissance/index.js';
 import { type RaccordementEntity, RéférenceDossierRaccordement } from '../raccordement/index.js';
-import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
 export type LauréatEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -79,7 +77,7 @@ export type LauréatEnrichiListItemReadModel = {
   unitéPuissance: UnitéPuissance.ValueType;
 
   coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
-  typeTerrainImplantation: string;
+  typeTerrainImplantation: string | undefined;
   typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage:
@@ -136,7 +134,6 @@ type LauréatEnrichiJoins = [
   ActionnaireEntity,
   AchèvementEntity,
   ProducteurEntity,
-  DétailCandidatureEntity,
   LeftJoin<DétailCandidatureVérifiéEntity>,
   LeftJoin<RaccordementEntity>,
   LeftJoin<InstallationEntity>,
@@ -200,10 +197,6 @@ export const registerListerLauréatEnrichiQuery = ({
         },
         {
           entity: 'producteur',
-          on: 'identifiantProjet',
-        },
-        {
-          entity: 'détail-candidature',
           on: 'identifiantProjet',
         },
         { entity: 'détail-candidature-vérifié', on: 'identifiantProjet', type: 'left' },
@@ -288,7 +281,6 @@ const mapToReadModel: MapToReadModelProps = ({
     achèvement,
     'power-purchase-agreement': powerPurchaseAgreement,
     actionnaire,
-    'détail-candidature': détailCandidature,
     'détail-candidature-vérifié': détailCandidatureVérifié,
     installation,
     'nature-de-l-exploitation': natureDeLExploitation,
@@ -371,40 +363,21 @@ const mapToReadModel: MapToReadModelProps = ({
     typologieInstallation: installation?.typologieInstallation
       ? installation.typologieInstallation.map(TypologieInstallation.convertirEnValueType)
       : undefined,
-    typeTerrainImplantation: mapDétailsToTypeTerrainImplantation(
-      détailCandidature.détail["Type de terrain d'implantation (pièce n°3)"],
-    ),
     typeNatureDeLExploitation: natureDeLExploitation
       ? TypeDeNatureDeLExploitation.convertirEnValueType(
           natureDeLExploitation.typeNatureDeLExploitation,
         )
       : undefined,
+    typeTerrainImplantation: détailCandidatureVérifié?.typeTerrainImplantation,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
-
-    // champ spécifique Sol importé depuis DN
     composantsRésilients: détailCandidatureVérifié?.composantsRésilients,
-
-    // champs spécifiques Eolien
     technologieÉolien: détailCandidatureVérifié?.technologieAoÉolien,
-    diamètreRotorEnMètres:
-      détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'] ??
-      détailCandidature.détail['Diamètre du rotor'],
-    hauteurBoutDePâleEnMètres:
-      détailCandidature.détail['Hauteur bout de pâle (m) (AO éolien)'] ??
-      détailCandidature.détail['Hauteur en bout de pale'],
-    installationRenouvelée: détailCandidature.détail['Installation renouvellée (AO éolien)']
-      ? détailCandidature.détail['Installation renouvellée (AO éolien)']
-      : détailCandidature.détail["L'installation est-elle renouvelée ?"] === 'true'
-        ? 'Oui'
-        : détailCandidature.détail["L'installation est-elle renouvelée ?"] === 'false'
-          ? 'Non'
-          : undefined,
-    nombreDAérogénérateurs:
-      détailCandidature.détail["Nb d'aérogénérateurs (AO éolien)"] ??
-      détailCandidature.détail["Nombre d'aérogénérateurs"],
+    diamètreRotorEnMètres: détailCandidatureVérifié?.diamètreRotorEnMètres,
+    hauteurBoutDePâleEnMètres: détailCandidatureVérifié?.hauteurBoutDePâleEnMètres,
+    installationRenouvelée: détailCandidatureVérifié?.installationRenouvelée,
+    nombreDAérogénérateurs: détailCandidatureVérifié?.nombreDAérogénérateurs,
     puissanceUnitaireDesAérogénérateurs:
-      détailCandidature.détail['Puissance unitaire des aérogénérateurs (AO éolien)'] ??
-      détailCandidature.détail['Puissance unitaire des aérogénérateurs'],
+      détailCandidatureVérifié?.puissanceUnitaireDesAérogénérateurs,
   };
 };

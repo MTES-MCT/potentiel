@@ -8,7 +8,6 @@ import {
   type CandidatureEntity,
   type Coordonnées,
   type Dépôt,
-  type DétailCandidatureEntity,
   type DétailCandidatureVérifiéEntity,
   type Localité,
   TypeActionnariat,
@@ -120,7 +119,7 @@ export const registerListerÉliminéEnrichiQuery = ({
 
     const éliminés = await list<
       CandidatureEntity,
-      [ÉliminéEntity, DétailCandidatureEntity, LeftJoin<DétailCandidatureVérifiéEntity>]
+      [ÉliminéEntity, LeftJoin<DétailCandidatureVérifiéEntity>]
     >('candidature', {
       orderBy: {
         identifiantProjet: 'ascending',
@@ -140,10 +139,6 @@ export const registerListerÉliminéEnrichiQuery = ({
           entity: 'éliminé',
           on: 'identifiantProjet',
         },
-        {
-          entity: 'détail-candidature',
-          on: 'identifiantProjet',
-        },
         { entity: 'détail-candidature-vérifié', on: 'identifiantProjet', type: 'left' },
       ],
     });
@@ -157,8 +152,7 @@ export const registerListerÉliminéEnrichiQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: CandidatureEntity &
-    Joined<[ÉliminéEntity, DétailCandidatureEntity, LeftJoin<DétailCandidatureVérifiéEntity>]>,
+  args: CandidatureEntity & Joined<[ÉliminéEntity, LeftJoin<DétailCandidatureVérifiéEntity>]>,
 ) => ÉliminéEnrichiListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -181,7 +175,6 @@ const mapToReadModel: MapToReadModelProps = ({
   puissanceDuProjetInitial,
   technologieCalculée,
 
-  'détail-candidature': détailCandidature,
   'détail-candidature-vérifié': détailCandidatureVérifié,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -231,30 +224,14 @@ const mapToReadModel: MapToReadModelProps = ({
       : undefined,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
-
-    // champ spécifique Sol importé depuis DN
+    typeTerrainImplantation: détailCandidatureVérifié?.typeTerrainImplantation,
     composantsRésilients: détailCandidatureVérifié?.composantsRésilients,
-
-    // champs spécifiques Eolien
     technologieÉolien: détailCandidatureVérifié?.technologieAoÉolien,
-    diamètreRotorEnMètres:
-      détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'] ??
-      détailCandidature.détail['Diamètre du rotor'],
-    hauteurBoutDePâleEnMètres:
-      détailCandidature.détail['Hauteur bout de pâle (m) (AO éolien)'] ??
-      détailCandidature.détail['Hauteur en bout de pale'],
-    installationRenouvelée: détailCandidature.détail['Installation renouvellée (AO éolien)']
-      ? détailCandidature.détail['Installation renouvellée (AO éolien)']
-      : détailCandidature.détail["L'installation est-elle renouvelée ?"] === 'true'
-        ? 'Oui'
-        : détailCandidature.détail["L'installation est-elle renouvelée ?"] === 'false'
-          ? 'Non'
-          : undefined,
-    nombreDAérogénérateurs:
-      détailCandidature.détail["Nb d'aérogénérateurs (AO éolien)"] ??
-      détailCandidature.détail["Nombre d'aérogénérateurs"],
+    diamètreRotorEnMètres: détailCandidatureVérifié?.diamètreRotorEnMètres,
+    hauteurBoutDePâleEnMètres: détailCandidatureVérifié?.hauteurBoutDePâleEnMètres,
+    installationRenouvelée: détailCandidatureVérifié?.installationRenouvelée,
+    nombreDAérogénérateurs: détailCandidatureVérifié?.nombreDAérogénérateurs,
     puissanceUnitaireDesAérogénérateurs:
-      détailCandidature.détail['Puissance unitaire des aérogénérateurs (AO éolien)'] ??
-      détailCandidature.détail['Puissance unitaire des aérogénérateurs'],
+      détailCandidatureVérifié?.puissanceUnitaireDesAérogénérateurs,
   };
 };
