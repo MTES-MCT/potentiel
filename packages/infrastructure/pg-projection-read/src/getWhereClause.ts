@@ -64,7 +64,7 @@ const buildWhereClause = (
     ['', 2 + startIndex] as [string, number],
   );
   const values = conditions.reduce((prev, { value, multiple }) => {
-    if (value) {
+    if (value !== undefined && value !== null) {
       if (Array.isArray(value) && !multiple) {
         prev.push(...value);
       } else {
