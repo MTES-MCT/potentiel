@@ -13,6 +13,7 @@ import { type InviterPorteurFormKeys, inviterPorteurAction } from './inviterPort
 
 export type InviterPorteurFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
+  statutProjet: 'classé' | 'éliminé';
   nombreDeProjets?: number;
   peutInviter: boolean;
 };
@@ -21,6 +22,7 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
   identifiantProjet,
   nombreDeProjets,
   peutInviter,
+  statutProjet,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
@@ -48,6 +50,7 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
           children: (
             <>
               <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+              <input name="statutProjet" type="hidden" value={statutProjet} />
 
               <div className="flex flex-col gap-5">
                 <div>

@@ -16,13 +16,14 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   identifiantUtilisateurInvite: zod.email().min(1),
   inviterATousSesProjets: zod.literal('true').optional(),
+  statutProjet: zod.enum(['classé', 'éliminé']).optional(),
 });
 
 export type InviterPorteurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, identifiantUtilisateurInvite, inviterATousSesProjets },
+  { identifiantProjet, identifiantUtilisateurInvite, inviterATousSesProjets, statutProjet },
 ) =>
   withUtilisateur(async (utilisateur) => {
     if (inviterATousSesProjets === 'true') {
@@ -93,7 +94,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         message: 'Utilisateur invité avec succès',
-        url: Routes.Accès.lister(identifiantProjet, 'classé'),
+        url: Routes.Accès.lister(identifiantProjet, statutProjet ?? 'classé'),
       },
     };
   });
