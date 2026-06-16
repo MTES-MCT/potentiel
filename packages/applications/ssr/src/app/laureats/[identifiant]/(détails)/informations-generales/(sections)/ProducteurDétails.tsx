@@ -4,7 +4,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import type { ChampAvecMultiplesActions } from '@/app/laureats/[identifiant]/_helpers';
 import { FormattedSIREN, FormattedSIRET } from '@/components/atoms/FormattedNuméroIdentification';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Heading6 } from '@/components/atoms/headings';
+import { TitreChamp } from '@/components/atoms/section/TitreChamp';
 
 export type ProducteurDétailsProps = ChampAvecMultiplesActions<
   PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>
@@ -14,11 +14,11 @@ export const ProducteurDétails = ({ value, actions }: ProducteurDétailsProps) 
   <>
     <div className="flex flex-col gap-1">
       <div>
-        <Heading6>Nom du producteur</Heading6>
+        <TitreChamp>Nom du producteur</TitreChamp>
         <span>{value.producteur || 'Champ non renseigné'}</span>
       </div>
       <div>
-        <Heading6>Numéro d'identification</Heading6>
+        <TitreChamp>Numéro d'identification</TitreChamp>
         <div className="flex flex-col">
           <span>
             Numéro SIRET : <FormattedSIRET value={value.numéroIdentification?.siret} />

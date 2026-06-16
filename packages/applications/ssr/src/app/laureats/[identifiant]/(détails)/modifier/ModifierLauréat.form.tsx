@@ -12,7 +12,6 @@ import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helper
 import { Form } from '@/components/atoms/form/Form';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 import { FormRow } from '@/components/atoms/form/FormRow';
-import { Heading3 } from '@/components/atoms/headings';
 import { Icon } from '@/components/atoms/Icon';
 import type {
   ModifierCandidatureNotifiéeFormEntries,
@@ -66,7 +65,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
     <Form
       omitMandatoryFieldsLegend
       action={modifierLauréatAction}
-      heading="Modifier le projet lauréat"
       onValidationError={setValidationErrors}
       pendingModal={{
         id: 'form-modifier-lauréat',
@@ -94,15 +92,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
       )}
       <div className="flex flex-col gap-4">
         <FormRow>
-          <div className="flex-1">
-            <Heading3>Champs à modifier</Heading3>
-          </div>
-          <div className="flex-[2] text-center">
-            <Heading3>Valeur à la candidature</Heading3>
-          </div>
-          <div className="flex-[2] text-center">
-            <Heading3>Valeur actuelle (lauréat)</Heading3>
-          </div>
+          <div className="flex-1 text-lg font-bold">Champs à modifier</div>
+          <div className="flex-[2] text-center text-lg font-bold">Valeur à la candidature</div>
+          <div className="flex-[2] text-center text-lg font-bold">Valeur actuelle (lauréat)</div>
         </FormRow>
         <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
         {validationErrors['identifiantProjet'] && (

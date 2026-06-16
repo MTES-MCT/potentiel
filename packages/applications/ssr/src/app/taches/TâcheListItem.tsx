@@ -41,7 +41,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
         </Button>
       }
     >
-      <h3 className="font-bold">{descriptionTâche.titre}</h3>
+      <div className="text-lg font-bold">{descriptionTâche.titre}</div>
       <p className="m-0 text-sm">{descriptionTâche.description}</p>
     </ListItem>
   );

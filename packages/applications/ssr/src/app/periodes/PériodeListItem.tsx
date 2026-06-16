@@ -53,10 +53,10 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
   <div className={`relative ${peutÊtreNotifiée ? 'pb-16' : ''} md:pb-0 flex flex-1 flex-col gap-6`}>
     <div className={`flex flex-col ${peutÊtreNotifiée ? '' : 'gap-2'}`}>
       <div className="flex items-center">
-        <h2 className="leading-5">
+        <div className="leading-5">
           Période <span className="font-bold">{période}</span> de l'appel d'offres{' '}
           <span className="font-bold">{appelOffre}</span>
-        </h2>
+        </div>
 
         {peutÊtreNotifiée && (
           <div className="absolute bottom-0 md:relative md:flex items-center ml-auto gap-4">

@@ -4,8 +4,8 @@ import type { FC } from 'react';
 import type { PlainType } from '@potentiel-domain/core';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { Section } from '../../atoms/menu/Section';
-import { SectionPage } from '../../atoms/menu/SectionPage';
+import { Section } from '../../atoms/section/Section';
+import { SectionPage } from '../../atoms/section/SectionPage';
 import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';
 import { PorteurListItem, type PorteurListItemProps } from './AccèsListItem';
 

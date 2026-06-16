@@ -4,7 +4,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import { getActionnariatTypeLabel } from '@/app/_helpers';
 import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Heading6 } from '@/components/atoms/headings';
+import { TitreChamp } from '@/components/atoms/section/TitreChamp';
 
 export type ActionnariatDétailsProps = {
   actionnaire: ChampObligatoireAvecAction<
@@ -16,7 +16,7 @@ export type ActionnariatDétailsProps = {
 export const ActionnariatDétails = ({ actionnaire, actionnariat }: ActionnariatDétailsProps) => (
   <>
     <div className="flex flex-col gap-1">
-      <Heading6>Actionnaire (société mère)</Heading6>
+      <TitreChamp>Actionnaire (société mère)</TitreChamp>
       <span>{actionnaire.value.actionnaire || 'Champ non renseigné'}</span>
       {actionnaire.action && (
         <TertiaryLink href={actionnaire.action.url}>{actionnaire.action.label}</TertiaryLink>
@@ -24,7 +24,7 @@ export const ActionnariatDétails = ({ actionnaire, actionnariat }: Actionnariat
     </div>
     {actionnariat && (
       <div className="flex flex-col gap-1">
-        <Heading6>Type d'actionnariat</Heading6>
+        <TitreChamp>Type d'actionnariat</TitreChamp>
         <span>{getActionnariatTypeLabel(actionnariat.type)}</span>
       </div>
     )}

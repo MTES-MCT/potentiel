@@ -92,6 +92,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                     />
                   }
                   title={label}
+                  titleAs="h2"
                   desc={description}
                   linkProps={
                     isLoading

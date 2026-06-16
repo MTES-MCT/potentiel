@@ -4,8 +4,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { Section } from '@/components/atoms/menu/Section';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/section/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAchèvement, getGarantiesFinancières, getLauréatInfos } from '../../_helpers';
 import { AchèvementDétails } from './AchèvementDétails';

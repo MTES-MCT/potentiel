@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { IdentifiantProjetSection } from '@/app/laureats/[identifiant]/(détails)/(sections)/IdentifiantProjet.section';
-import { SectionPage } from '@/components/atoms/menu/SectionPage';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import { ChiffresClésSection } from './_sections/ChiffresClés.section';
 import { DonnéesCandidatureSection } from './_sections/DonnéesCandidature.section';
 import { ÉtapesProjetSection } from './_sections/ÉtapesProjet.section';

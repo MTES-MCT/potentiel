@@ -8,8 +8,8 @@ import {
   getLauréatInfos,
   getPuissanceInfos,
 } from '@/app/laureats/[identifiant]/_helpers';
-import { Section } from '@/components/atoms/menu/Section';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/section/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ContractualisationDétails } from './ContractualisationDétails';
 

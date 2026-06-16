@@ -5,7 +5,6 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Heading3 } from '@/components/atoms/headings';
 import { ListItem } from '@/components/molecules/ListItem';
 
 export type DocumentItem = {
@@ -27,7 +26,7 @@ export const DocumentListItem: FC<DocumentItem> = ({
 }) => {
   return (
     <ListItem
-      heading={<Heading3>{type}</Heading3>}
+      heading={<div className="text-lg font-bold">{type}</div>}
       actions={
         url && (
           <DownloadDocument

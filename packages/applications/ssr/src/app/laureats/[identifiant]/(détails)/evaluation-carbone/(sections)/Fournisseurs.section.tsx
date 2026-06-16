@@ -1,8 +1,8 @@
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { Section } from '@/components/atoms/menu/Section';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/section/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAction, getFournisseurInfos } from '../../../_helpers';
 import { FournisseursDétails } from './FournisseursDétails';

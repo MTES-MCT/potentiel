@@ -12,7 +12,7 @@ import {
   getGarantiesFinancières,
   getLauréatInfos,
 } from '@/app/laureats/[identifiant]/_helpers';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import type { DocumentItem } from '@/components/organisms/document/DocumentListItem';
 import { DocumentsList } from '@/components/organisms/document/DocumentsList';
 import { withUtilisateur } from '@/utils/withUtilisateur';

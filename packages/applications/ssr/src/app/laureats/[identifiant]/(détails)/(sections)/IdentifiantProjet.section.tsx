@@ -3,8 +3,8 @@ import Tooltip from '@mui/material/Tooltip';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
-import { Section } from '@/components/atoms/menu/Section';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/section/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 

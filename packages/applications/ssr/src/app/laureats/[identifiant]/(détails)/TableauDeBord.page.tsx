@@ -1,6 +1,6 @@
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SectionPage } from '@/components/atoms/menu/SectionPage';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import { AchèvementSection } from './(sections)/Achèvement.section';
 import { AlertesTableauDeBordSection } from './(sections)/AlertesTableauDeBord.section';
 import { CahierDesChargesSection } from './(sections)/CahierDesCharges.section';
