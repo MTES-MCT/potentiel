@@ -51,7 +51,7 @@ test('Template PPE2 EOLIEN DN', () => {
 
   const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
     appelOffre: 'PPE2 - Eolien',
-    typeImport: 'démarche-simplifiée',
+    typeImport: 'démarches-simplifiées',
   });
 
   expect(actual).to.deep.equal(expected);
@@ -69,7 +69,7 @@ test('PPE2 Sol DN', () => {
   };
   const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
     appelOffre: 'PPE2 - Sol',
-    typeImport: 'démarche-simplifiée',
+    typeImport: 'démarches-simplifiées',
   });
 
   expect(actual).to.deep.equal(expected);
