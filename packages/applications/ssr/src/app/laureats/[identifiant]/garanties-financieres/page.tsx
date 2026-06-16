@@ -103,14 +103,11 @@ const mapToActionsAndAlertes = ({
 
     const mainlevéeEnCours = mainlevée.statut.estDemandé() || mainlevée.statut.estEnInstruction();
 
-    if (
-      mainlevéeEnCours &&
-      utilisateur.rôle.aLaPermission('garantiesFinancières.actuelles.modifier')
-    ) {
+    if (mainlevéeEnCours) {
       actions.push('garantiesFinancières.actuelles.modifier');
     }
 
-    return actions;
+    return actions.filter((action) => utilisateur.rôle.aLaPermission(action));
   }
 
   if (Option.isSome(actuelles) && actuelles.garantiesFinancières.estExemption()) {
