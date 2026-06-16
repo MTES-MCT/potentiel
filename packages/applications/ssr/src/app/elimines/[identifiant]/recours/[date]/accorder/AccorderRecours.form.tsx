@@ -17,9 +17,14 @@ import { type AccorderRecoursFormKeys, accorderRecoursAction } from './accorderR
 type AccorderRecoursFormProps = {
   identifiantProjet: string;
   date: PlainType<DateTime.ValueType>;
+  dateNotification: DateTime.RawType;
 };
 
-export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursFormProps) => {
+export const AccorderRecours = ({
+  identifiantProjet,
+  date,
+  dateNotification,
+}: AccorderRecoursFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderRecoursFormKeys>
   >({});
@@ -52,6 +57,7 @@ export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursForm
                 label={`Date de l'accord du recours`}
                 name="dateAccord"
                 hintText={`Saisir la date à laquelle le recours a réellement été accordé (date de la réponse signée). Elle tiendra lieu de date de désignation du lauréat.`}
+                min={dateNotification}
                 max={DateTime.now().formatter()}
                 state={validationErrors['dateAccord'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['dateAccord']}
