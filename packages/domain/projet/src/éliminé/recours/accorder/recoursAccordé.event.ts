@@ -22,7 +22,7 @@ export type RecoursAccordéEvent = DomainEvent<
   {
     accordéLe: DateTime.RawType;
     accordéPar: Email.RawType;
-    dateAccord: DateTime.RawType;
+    dateRéponseSignée: DateTime.RawType;
     identifiantProjet: Email.RawType;
     réponseSignée: {
       format: string;

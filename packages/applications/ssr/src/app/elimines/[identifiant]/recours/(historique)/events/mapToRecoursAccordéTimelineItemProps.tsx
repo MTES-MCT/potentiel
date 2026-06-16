@@ -9,11 +9,11 @@ export const mapToRecoursAccordéTimelineItemProps = ({
 }:
   | Éliminé.Recours.RecoursAccordéV1Event
   | Éliminé.Recours.RecoursAccordéEvent): TimelineItemProps => {
-  const date = type === 'RecoursAccordé-V1' ? payload.accordéLe : payload.dateAccord;
+  const date = type === 'RecoursAccordé-V1' ? payload.accordéLe : payload.dateRéponseSignée;
 
   return {
-    date,
-    title: 'Demande de recours accordée',
+    date: payload.accordéLe,
+    title: `Demande de recours accordée${type === 'RecoursAccordé-V1' ? '' : ` à la date du ${formatDateToText(date)}`}`,
     actor: payload.accordéPar,
     file: {
       document: Éliminé.Recours.DocumentRecours.recoursAccordé({
