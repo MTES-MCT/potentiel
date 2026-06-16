@@ -34,7 +34,14 @@ export default async function Page({ params }: IdentifiantParameter) {
         throw new InvalidOperationError("Le projet n'est pas achevé");
       }
 
-      return <EnregistrerAttestationConformitéPage identifiantProjet={identifiantProjet} />;
+      return (
+        <EnregistrerAttestationConformitéPage
+          identifiantProjet={identifiantProjet}
+          attestationConformité={
+            Option.isSome(achèvement.attestation) ? achèvement.attestation.formatter() : undefined
+          }
+        />
+      );
     }),
   );
 }

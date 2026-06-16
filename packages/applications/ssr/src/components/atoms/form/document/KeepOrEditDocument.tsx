@@ -62,9 +62,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
                     key={documentKey}
                     name={name}
                     required={required}
-                    aria-required={required}
-                    type="text"
-                    hidden
+                    type="hidden"
                     value={documentKey}
                   />
                 ))}

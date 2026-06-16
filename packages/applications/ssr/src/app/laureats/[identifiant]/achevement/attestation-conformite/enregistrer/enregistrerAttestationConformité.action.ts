@@ -8,11 +8,12 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   rapportAssocie: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
