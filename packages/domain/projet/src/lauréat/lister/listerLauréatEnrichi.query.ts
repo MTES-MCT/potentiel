@@ -383,10 +383,10 @@ const mapToReadModel: MapToReadModelProps = ({
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
 
     // champ spécifique Sol importé depuis DN
-    composantsRésilients: détailCandidatureVérifié?.détail?.composantsRésilients,
+    composantsRésilients: détailCandidatureVérifié?.composantsRésilients,
 
     // champs spécifiques Eolien
-    technologieÉolien: détailCandidatureVérifié?.détail?.technologieAoÉolien,
+    technologieÉolien: détailCandidatureVérifié?.technologieAoÉolien,
     diamètreRotorEnMètres:
       détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'] ??
       détailCandidature.détail['Diamètre du rotor'],

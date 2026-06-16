@@ -4,7 +4,7 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 import { applyTemplateToPayload } from './_helpers/applyTemplateToPayload.js';
 import { mapDNDétailToDétailFournisseur } from './_helpers/mapDNDétailToDétailFournisseur.js';
 import { mapDétailToDétailFournisseur } from './_helpers/mapDétailToDétailFournisseur.js';
-import { getTemplateDétailCandidatureVérifié } from './_helpers/templatesVérificationDétailCandidature.js';
+import { templateVérificationDétailCandidature } from './_helpers/templatesVérificationDétailCandidature.js';
 
 export const détailCandidatureImportéProjector = async ({
   payload: { identifiantProjet, détail },
@@ -32,19 +32,18 @@ export const détailCandidatureImportéProjector = async ({
 
   const { appelOffre } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-  const template = getTemplateDétailCandidatureVérifié(
-    appelOffre,
-    détail.typeImport === 'démarches-simplifiées',
-  );
-
-  const détailVérifié: Candidature.DétailCandidatureVérifiéEntity['détail'] =
-    applyTemplateToPayload<Candidature.DétailCandidatureVérifiéEntity['détail']>(détail, template);
+  const détailVérifié: Candidature.DétailCandidatureVérifié =
+    applyTemplateToPayload<Candidature.DétailCandidatureVérifié>(
+      détail,
+      templateVérificationDétailCandidature,
+      { appelOffre, typeImport: détail.typeImport ?? 'csv' },
+    );
 
   await upsertProjection<Candidature.DétailCandidatureVérifiéEntity>(
     `détail-candidature-vérifié|${identifiantProjet}`,
     {
       identifiantProjet,
-      détail: détailVérifié,
+      ...détailVérifié,
     },
   );
 };

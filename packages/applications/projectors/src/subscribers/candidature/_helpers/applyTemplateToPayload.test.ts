@@ -5,19 +5,20 @@ import { expect } from 'chai';
 import type { Candidature } from '@potentiel-domain/projet';
 
 import { applyTemplateToPayload } from './applyTemplateToPayload.js';
-import { getTemplateDétailCandidatureVérifié } from './templatesVérificationDétailCandidature.js';
+import { templateVérificationDétailCandidature } from './templatesVérificationDétailCandidature.js';
 
 test('Template PPE2 EOLIEN csv', () => {
   const payload = { 'Technologie (AO éolien)': 'Asynchrone' };
 
-  const expected: Candidature.DétailCandidatureVérifiéEntity['détail'] = {
+  const expected: Candidature.DétailCandidatureVérifié = {
     technologieAoÉolien: 'asynchrone',
     composantsRésilients: undefined,
   };
 
-  const template = getTemplateDétailCandidatureVérifié('PPE2 - Eolien', false);
-
-  const actual = applyTemplateToPayload(payload, template);
+  const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
+    appelOffre: 'PPE2 - Eolien',
+    typeImport: 'csv',
+  });
 
   expect(actual).to.deep.equal(expected);
 });
@@ -27,14 +28,15 @@ test('Template CRE4 EOLIEN csv', () => {
     'Technologie (Modules ou films)': 'Axe horizontal - machines asynchrones',
   };
 
-  const expected: Candidature.DétailCandidatureVérifiéEntity['détail'] = {
+  const expected: Candidature.DétailCandidatureVérifié = {
     technologieAoÉolien: 'asynchrone',
     composantsRésilients: undefined,
   };
 
-  const template = getTemplateDétailCandidatureVérifié('Eolien', false);
-
-  const actual = applyTemplateToPayload(payload, template);
+  const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
+    appelOffre: 'Eolien',
+    typeImport: 'csv',
+  });
 
   expect(actual).to.deep.equal(expected);
 });
@@ -42,14 +44,15 @@ test('Template CRE4 EOLIEN csv', () => {
 test('Template PPE2 EOLIEN DN', () => {
   const payload = { Technologie: 'Asynchrone' };
 
-  const expected: Candidature.DétailCandidatureVérifiéEntity['détail'] = {
+  const expected: Candidature.DétailCandidatureVérifié = {
     technologieAoÉolien: 'asynchrone',
     composantsRésilients: undefined,
   };
 
-  const template = getTemplateDétailCandidatureVérifié('PPE2 - Eolien', true);
-
-  const actual = applyTemplateToPayload(payload, template);
+  const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
+    appelOffre: 'PPE2 - Eolien',
+    typeImport: 'démarche-simplifiée',
+  });
 
   expect(actual).to.deep.equal(expected);
 });
@@ -60,14 +63,14 @@ test('PPE2 Sol DN', () => {
     'Technologie (AO éolien)': 'eolien',
   };
 
-  const expected: Candidature.DétailCandidatureVérifiéEntity['détail'] = {
+  const expected: Candidature.DétailCandidatureVérifié = {
     composantsRésilients: 'Polysilicium de qualité photovoltaïque',
     technologieAoÉolien: undefined,
   };
-
-  const template = getTemplateDétailCandidatureVérifié('PPE2 - Sol', true);
-
-  const actual = applyTemplateToPayload(payload, template);
+  const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
+    appelOffre: 'PPE2 - Sol',
+    typeImport: 'démarche-simplifiée',
+  });
 
   expect(actual).to.deep.equal(expected);
 });
@@ -77,14 +80,15 @@ test('Autre AO', () => {
     'autre clé': 'autre valeur',
   };
 
-  const expected: Candidature.DétailCandidatureVérifiéEntity['détail'] = {
+  const expected: Candidature.DétailCandidatureVérifié = {
     composantsRésilients: undefined,
     technologieAoÉolien: undefined,
   };
 
-  const template = getTemplateDétailCandidatureVérifié('PPE2 - Sol', false);
-
-  const actual = applyTemplateToPayload(payload, template);
+  const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
+    appelOffre: 'PPE2 - Sol',
+    typeImport: 'csv',
+  });
 
   expect(actual).to.deep.equal(expected);
 });
