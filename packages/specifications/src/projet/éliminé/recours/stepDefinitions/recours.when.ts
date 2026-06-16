@@ -150,7 +150,7 @@ async function accorderRecours(this: PotentielWorld, dateAccordSpécifique?: str
     type: 'Éliminé.Recours.UseCase.AccorderRecours',
     data: {
       identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
-      dateAccordValue: dateAccord,
+      dateRéponseSignéeValue: dateAccord,
       accordéLeValue: accordéLe,
       réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       identifiantUtilisateurValue: accordéePar,

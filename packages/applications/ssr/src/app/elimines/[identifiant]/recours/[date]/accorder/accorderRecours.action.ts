@@ -12,7 +12,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateAccord: zod.string().min(1),
+  dateRéponseSignée: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
@@ -20,7 +20,7 @@ export type AccorderRecoursFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, dateAccord },
+  { identifiantProjet, reponseSignee, dateRéponseSignée },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Éliminé.Recours.AccorderRecoursUseCase>({
@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateAccordValue: new Date(dateAccord).toISOString(),
+        dateRéponseSignéeValue: new Date(dateRéponseSignée).toISOString(),
         accordéLeValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
       },

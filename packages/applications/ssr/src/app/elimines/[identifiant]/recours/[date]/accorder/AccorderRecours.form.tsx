@@ -55,12 +55,12 @@ export const AccorderRecours = ({
 
               <InputDate
                 label={`Date de l'accord du recours`}
-                name="dateAccord"
+                name="dateRéponseSignée"
                 hintText={`Saisir la date à laquelle le recours a réellement été accordé (date de la réponse signée). Elle tiendra lieu de date de désignation du lauréat.`}
                 min={dateNotification}
                 max={DateTime.now().formatter()}
-                state={validationErrors['dateAccord'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['dateAccord']}
+                state={validationErrors['dateRéponseSignée'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['dateRéponseSignée']}
               />
 
               <UploadNewOrModifyExistingDocument

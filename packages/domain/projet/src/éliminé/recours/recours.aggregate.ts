@@ -40,18 +40,18 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   }
 
   async accorder({
-    dateAccord,
+    dateRéponseSignée,
     accordéLe,
     identifiantUtilisateur,
     réponseSignée,
   }: AccorderOptions) {
     this.vérifierQueDemandeRecoursExiste();
 
-    if (dateAccord.estDansLeFutur()) {
+    if (dateRéponseSignée.estDansLeFutur()) {
       throw new DateRecoursDansLeFuturError();
     }
 
-    if (dateAccord.estAntérieurÀ(this.éliminé.notifiéLe)) {
+    if (dateRéponseSignée.estAntérieurÀ(this.éliminé.notifiéLe)) {
       throw new DateRecoursAvantDateNotificationError();
     }
 
@@ -64,7 +64,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
         réponseSignée: {
           format: réponseSignée.format,
         },
-        dateAccord: dateAccord.formatter(),
+        dateRéponseSignée: dateRéponseSignée.formatter(),
         accordéLe: accordéLe.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
       },
@@ -74,7 +74,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     await this.éliminé.projet.lauréat.notifier({
       attestation: { format: réponseSignée.format },
-      notifiéLe: dateAccord,
+      notifiéLe: dateRéponseSignée,
       notifiéPar: identifiantUtilisateur,
     });
 
@@ -82,7 +82,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       await this.éliminé.projet.lauréat.garantiesFinancières.demander({
         demandéLe: accordéLe,
         motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
-        dateLimiteSoumission: dateAccord.ajouterNombreDeMois(2),
+        dateLimiteSoumission: dateRéponseSignée.ajouterNombreDeMois(2),
       });
     }
 
