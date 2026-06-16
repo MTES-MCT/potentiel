@@ -17,7 +17,7 @@ Fonctionnalité: Passer la demande d'abandon d'un projet lauréat en instruction
 
     Scénario: la dgec reprend l'instruction de la demande d'abandon du projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
-        Quand la dgec passe la demande d'abandon du projet lauréat en instruction
+        Quand un nouvel utilisateur dgec passe la demande d'abandon du projet lauréat en instruction
         Alors la demande d'abandon du projet lauréat devrait être en instruction
 
     Scénario: Une dreal peut passer une demande d'abandon en instruction si elle en a l'autorité
@@ -64,7 +64,7 @@ Fonctionnalité: Passer la demande d'abandon d'un projet lauréat en instruction
 
     Scénario: Impossible de reprendre l'instruction d'une demande d'abandon que l'on instruit déjà
         Etant donné une demande d'abandon en instruction pour le projet lauréat
-        Quand le même la dgec passe la demande d'abandon du projet lauréat en instruction
+        Quand le même utilisateur dgec passe la demande d'abandon du projet lauréat en instruction
         Alors l'utilisateur devrait être informé que "La demande d'abandon est déjà en instruction avec le même utilisateur dgec"
 
     Scénario: Impossible pour une Dreal de passer une demande d'abandon en instruction si l'autorité compétente est la dgec

@@ -17,7 +17,7 @@ Fonctionnalité: Passer la demande de recours d'un projet éliminé en instructi
 
     Scénario: la dgec reprend l'instruction du recours du projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé
-        Quand un nouvel la dgec passe en instruction le recours pour le projet éliminé
+        Quand un nouvel utilisateur dgec passe en instruction le recours pour le projet éliminé
         Alors la demande de recours du projet éliminé devrait être en instruction
 
     Scénario: Impossible de passer le recours d'un projet éliminé en instruction si le recours a déjà été accordé
@@ -36,7 +36,7 @@ Fonctionnalité: Passer la demande de recours d'un projet éliminé en instructi
 
     Scénario: Impossible de reprendre le recours d'un projet éliminé en instruction si on instruit déjà le recours
         Etant donné une demande de recours en instruction pour le projet éliminé
-        Quand le même la dgec passe en instruction le recours pour le projet éliminé
+        Quand le même utilisateur dgec passe en instruction le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Le recours est déjà en instruction avec le même utilisateur dgec"
 
     Scénario: Impossible de passer le recours d'un projet éliminé en instruction si le recours a déjà été annulé
