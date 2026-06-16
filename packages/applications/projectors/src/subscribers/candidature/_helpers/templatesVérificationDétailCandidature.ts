@@ -35,6 +35,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       labels: [
         [{ appelOffre: 'Eolien' }, 'Technologie (Modules ou films)'],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Technologie (AO éolien)'],
+        [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Technologie (AO éolien)'],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' }, 'Technologie'],
       ],
       mapper: getTechnologieEolien,
@@ -43,6 +44,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       labels: [
         [{ appelOffre: 'Eolien' }, 'Diamètre du rotor (m) (AO éolien)'],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
+        [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' }, 'Diamètre du rotor'],
       ],
       mapper: noop,
@@ -52,6 +54,10 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         [{ appelOffre: 'Eolien' }, 'Hauteur bout de pâle (m) (AO éolien)'],
         [
           { appelOffre: 'PPE2 - Eolien', typeImport: 'csv' },
+          'Hauteur bout de pâle (m) (AO éolien)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Neutre', typeImport: 'csv' },
           'Hauteur bout de pâle (m) (AO éolien)',
         ],
         [
@@ -65,6 +71,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       labels: [
         [{ appelOffre: 'Eolien' }, "Nb d'aérogénérateurs (AO éolien)"],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, "Nb d'aérogénérateurs (AO éolien)"],
+        [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, "Nb d'aérogénérateurs (AO éolien)"],
         [
           { appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' },
           "Nombre d'aérogénérateurs",
@@ -79,6 +86,10 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           'Puissance unitaire des aérogénérateurs (AO éolien)',
         ],
         [
+          { appelOffre: 'PPE2 - Neutre', typeImport: 'csv' },
+          'Puissance unitaire des aérogénérateurs (AO éolien)',
+        ],
+        [
           { appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' },
           'Puissance unitaire des aérogénérateurs',
         ],
@@ -89,6 +100,10 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       labels: [
         [
           { appelOffre: 'PPE2 - Eolien', typeImport: 'csv' },
+          'Installation renouvellée (AO éolien)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Neutre', typeImport: 'csv' },
           'Installation renouvellée (AO éolien)',
         ],
         [
@@ -118,10 +133,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         ],
         [
           { appelOffre: 'CRE4 - Sol', typeImport: 'csv' },
-          "Type de terrain d'implantation (pièce n°3)",
-        ],
-        [
-          { appelOffre: 'CRE4 - Autoconsommation ZNI', typeImport: 'csv' },
           "Type de terrain d'implantation (pièce n°3)",
         ],
         [
