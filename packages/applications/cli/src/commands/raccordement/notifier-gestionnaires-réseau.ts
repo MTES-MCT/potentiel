@@ -44,9 +44,6 @@ export class NotifierGestionnaireRéseau extends Command {
       count: countProjection,
       find: findProjection,
       listHistory: listHistoryProjection,
-      récupérerProjetsEligiblesPreuveRecanditure: () => {
-        throw new Error('not implemented');
-      },
       getScopeProjetUtilisateur: () => {
         throw new Error('not implemented');
       },

@@ -45,9 +45,6 @@ export class Executer extends Command {
       getScopeProjetUtilisateur: () => {
         throw new Error('notImplemented');
       },
-      récupérerProjetsEligiblesPreuveRecanditure: () => {
-        throw new Error('notImplemented');
-      },
     });
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,

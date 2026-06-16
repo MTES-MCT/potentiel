@@ -51,7 +51,6 @@ export class NotifierCandidatures extends Command {
       list: listProjection,
       listHistory: listHistoryProjection,
       getScopeProjetUtilisateur: async () => ({}),
-      récupérerProjetsEligiblesPreuveRecanditure: async () => [],
     });
 
     registerUtilisateurUseCases({
