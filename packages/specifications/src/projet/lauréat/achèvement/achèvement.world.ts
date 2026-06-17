@@ -104,6 +104,7 @@ export class AchèvementWorld {
         estAchevé: true,
         dateAchèvementRéel: result.dateAchèvementRéel,
         ...this.enregistrerAttestationConformitéFixture.mapToExpected(),
+        preuveTransmissionAuCocontractant: result.preuveTransmissionAuCocontractant,
       };
     }
     if (this.modifierAchèvementFixture.aÉtéCréé) {

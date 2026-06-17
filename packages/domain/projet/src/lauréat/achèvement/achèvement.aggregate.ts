@@ -8,7 +8,7 @@ import { ProjetAbandonnéError } from '../abandon/abandon.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import {
-  AttestationConformitéDéjàEnregistréeError,
+  AttestationConformitéEtRapportAssociésDéjàEnregistrésError,
   AttestationConformitéNonTransmiseError,
   AttestationDeConformitéNonModifiéeError,
   DateAchèvementAntérieureÀDateNotificationError,
@@ -18,7 +18,11 @@ import {
   ProjetDéjàAchevéError,
   ProjetNonAchevéError,
 } from './achèvement.error.js';
-import type { AchèvementEvent, AttestationConformitéEnregistréeEvent } from './achèvement.event.js';
+import type {
+  AchèvementEvent,
+  AttestationConformitéEnregistréeEvent,
+  AttestationConformitéEnregistréeEventV1,
+} from './achèvement.event.js';
 import type { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event.js';
 import type { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option.js';
 import type { EnregistrerAttestationConformitéOptions } from './enregistrer/enregistrerAttestationConformité.option.js';
@@ -80,6 +84,10 @@ export class AchèvementAggregate extends AbstractAggregate<
   #attestationConformitéTransmise = false;
   get attestationConformitéTransmise() {
     return this.#attestationConformitéTransmise;
+  }
+  #rapportAssociéTransmis = false;
+  get rapportAssociéTransmis() {
+    return this.#rapportAssociéTransmis;
   }
 
   async init() {
@@ -290,8 +298,8 @@ export class AchèvementAggregate extends AbstractAggregate<
       throw new ProjetNonAchevéError();
     }
 
-    if (this.attestationConformitéTransmise) {
-      throw new AttestationConformitéDéjàEnregistréeError();
+    if (this.attestationConformitéTransmise && this.rapportAssociéTransmis) {
+      throw new AttestationConformitéEtRapportAssociésDéjàEnregistrésError();
     }
 
     const event: AttestationConformitéEnregistréeEvent = {
@@ -388,25 +396,26 @@ export class AchèvementAggregate extends AbstractAggregate<
   apply(event: AchèvementEvent): void {
     match(event)
       .with(
-        { type: P.union('AttestationConformitéTransmise-V1', 'AttestationConformitéTransmise-V2') },
-        this.applyAttestationConformitéTransmise.bind(this),
+        { type: 'AttestationConformitéTransmise-V1' },
+        this.applyAttestationConformitéTransmiseV1.bind(this),
       )
       .with(
-        { type: P.union('AchèvementModifié-V1', 'AchèvementModifié-V2') },
-        this.applyAchèvementModifié.bind(this),
+        { type: 'AttestationConformitéTransmise-V2' },
+        this.applyAttestationConformitéTransmise.bind(this),
       )
+      .with({ type: 'AchèvementModifié-V1' }, this.applyAchèvementModifiéV1.bind(this))
+      .with({ type: 'AchèvementModifié-V2' }, this.applyAchèvementModifié.bind(this))
       .with(
         { type: 'DateAchèvementPrévisionnelCalculée-V1' },
         this.applyDateAchèvementPrévisionnelCalculéeV1.bind(this),
       )
       .with({ type: 'DateAchèvementTransmise-V1' }, this.applyDateAchèvementTransmiseV1.bind(this))
       .with(
-        {
-          type: P.union(
-            'AttestationConformitéEnregistrée-V1',
-            'AttestationConformitéEnregistrée-V2',
-          ),
-        },
+        { type: 'AttestationConformitéEnregistrée-V1' },
+        this.applyAttestationConformitéEnregistréeV1.bind(this),
+      )
+      .with(
+        { type: 'AttestationConformitéEnregistrée-V2' },
         this.applyAttestationConformitéEnregistrée.bind(this),
       )
       .with(
@@ -416,26 +425,52 @@ export class AchèvementAggregate extends AbstractAggregate<
       .exhaustive();
   }
 
-  private applyAttestationConformitéTransmise({
+  private applyAttestationConformitéTransmiseV1({
     payload: { dateTransmissionAuCocontractant },
-  }: AttestationConformitéTransmiseEventV1 | AttestationConformitéTransmiseEvent) {
+  }: AttestationConformitéTransmiseEventV1) {
     this.#estAchevé = true;
 
     this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
     this.#attestationConformitéTransmise = true;
   }
+  private applyAttestationConformitéTransmise({
+    payload: { dateTransmissionAuCocontractant },
+  }: AttestationConformitéTransmiseEvent) {
+    this.#estAchevé = true;
 
-  private applyAchèvementModifié({
+    this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
+    this.#attestationConformitéTransmise = true;
+    this.#rapportAssociéTransmis = true;
+  }
+
+  private applyAchèvementModifiéV1({
     payload: { dateTransmissionAuCocontractant, attestation },
-  }: AchèvementModifiéEventV1 | AchèvementModifiéEvent) {
+  }: AchèvementModifiéEventV1) {
     this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
     if (attestation) {
       this.#attestationConformitéTransmise = true;
     }
   }
 
+  private applyAchèvementModifié({
+    payload: { dateTransmissionAuCocontractant, attestation, rapportAssocié },
+  }: AchèvementModifiéEvent) {
+    this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
+    if (attestation) {
+      this.#attestationConformitéTransmise = true;
+    }
+    if (rapportAssocié) {
+      this.#rapportAssociéTransmis = true;
+    }
+  }
+
+  private applyAttestationConformitéEnregistréeV1(_: AttestationConformitéEnregistréeEventV1) {
+    this.#attestationConformitéTransmise = true;
+  }
+
   private applyAttestationConformitéEnregistrée(_: AttestationConformitéEnregistréeEvent) {
     this.#attestationConformitéTransmise = true;
+    this.#rapportAssociéTransmis = true;
   }
 
   private applyAttestationConformitéModifiée(

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import type { DocumentProjet } from '@potentiel-domain/projet';
+
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
@@ -15,10 +17,12 @@ import {
 
 export type EnregistrerAttestationConformitéFormProps = {
   identifiantProjet: string;
+  attestationConformité?: DocumentProjet.RawType;
 };
 
 export const EnregistrerAttestationConformitéForm = ({
   identifiantProjet,
+  attestationConformité,
 }: EnregistrerAttestationConformitéFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerAttestationConformitéFormKeys>
@@ -34,7 +38,10 @@ export const EnregistrerAttestationConformitéForm = ({
       }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
-      <AttestationConformitéFormInput validationErrors={validationErrors} />
+      <AttestationConformitéFormInput
+        validationErrors={validationErrors}
+        attestationConformité={attestationConformité}
+      />
       <RapportAssociéFormInput validationErrors={validationErrors} />
     </Form>
   );

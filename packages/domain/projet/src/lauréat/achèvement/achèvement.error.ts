@@ -50,9 +50,9 @@ export class ProjetNonAchevéError extends InvalidOperationError {
   }
 }
 
-export class AttestationConformitéDéjàEnregistréeError extends InvalidOperationError {
+export class AttestationConformitéEtRapportAssociésDéjàEnregistrésError extends InvalidOperationError {
   constructor() {
-    super(`Une attestation de conformité est déjà présente pour ce projet`);
+    super(`Une attestation de conformité et un rapport associé sont déjà présents pour ce projet`);
   }
 }
 
