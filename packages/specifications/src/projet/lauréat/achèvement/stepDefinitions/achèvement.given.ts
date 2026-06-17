@@ -1,9 +1,10 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { upload } from '@potentiel-libraries/file-storage';
 
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
@@ -34,6 +35,49 @@ EtantDonné(
         preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
       },
     });
+  },
+);
+
+// scénario possible avant la mise en place du rapport associé
+EtantDonné(
+  `l'achèvement réel transmis sans rapport associé pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { dateTransmissionAuCocontractant, date, attestation, utilisateur, preuve } =
+      this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
+
+    await upload(
+      Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+        enregistréLe: dateTransmissionAuCocontractant,
+        identifiantProjet: identifiantProjet.formatter(),
+        attestation,
+      }).formatter(),
+      convertFixtureFileToReadableStream(preuve).content,
+    );
+
+    await upload(
+      Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
+        dateTransmissionAuCocontractant,
+        identifiantProjet: identifiantProjet.formatter(),
+        preuveTransmissionAuCocontractant: preuve,
+      }).formatter(),
+      convertFixtureFileToReadableStream(preuve).content,
+    );
+
+    await publish(`achevement|${identifiantProjet.formatter()}`, {
+      type: 'AttestationConformitéTransmise-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
+          dateTransmissionAuCocontractant,
+        ).formatter(),
+        date: DateTime.convertirEnValueType(date).formatter(),
+        utilisateur: Email.convertirEnValueType(utilisateur).formatter(),
+        attestation: { format: attestation.format },
+        preuveTransmissionAuCocontractant: { format: preuve.format },
+      },
+    } satisfies Lauréat.Achèvement.AttestationConformitéTransmiseEventV1);
   },
 );
 

@@ -28,7 +28,7 @@ export const expectFileContent = async (
     },
   });
 
-  assert(Option.isSome(result), `Pièce justificative non trouvée !`);
+  assert(Option.isSome(result), `Pièce justificative non trouvée ! ${actual.formatter()}`);
 
   // cas particulier, car `contentType(extension('application/x-msdownload'))` retourne 'application/x-msdos-program'
   const expectedFormat =
