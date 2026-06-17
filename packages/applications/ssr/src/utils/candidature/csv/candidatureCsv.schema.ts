@@ -246,21 +246,6 @@ const candidatureCsvRowSchema = z
       );
     }
   })
-  // on ne peut pas avoir financement collectif et gouvernance partagée
-  .refine(
-    (val) =>
-      !(
-        val[candidatureCsvHeadersMapping.financementCollectif] &&
-        val[candidatureCsvHeadersMapping.gouvernancePartagée]
-      ),
-    {
-      message: `Seule l'une des deux colonnes "${candidatureCsvHeadersMapping.financementCollectif}" et "${candidatureCsvHeadersMapping.gouvernancePartagée}" peut avoir la valeur "Oui"`,
-      path: [
-        candidatureCsvHeadersMapping.financementCollectif,
-        candidatureCsvHeadersMapping.gouvernancePartagée,
-      ],
-    },
-  )
   // on doit avoir au minimum adresse1 ou adresse2
   .refine(
     (val) =>
@@ -336,11 +321,14 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
       technologie: technologie[val.technologie],
       dateÉchéanceGf: val.dateÉchéanceGf,
-      actionnariat: financementCollectif
-        ? Candidature.TypeActionnariat.financementCollectif.formatter()
-        : gouvernancePartagée
-          ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
-          : undefined,
+      actionnariat:
+        financementCollectif && gouvernancePartagée
+          ? Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée.formatter()
+          : financementCollectif
+            ? Candidature.TypeActionnariat.financementCollectif.formatter()
+            : gouvernancePartagée
+              ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+              : undefined,
       autorisation:
         dateDAutorisation && numéroDAutorisation
           ? {
