@@ -68,7 +68,7 @@ const mapToÉtapesData = ({
     ? [
         {
           type: 'recours',
-          date: recours.dateAccord.formatter(),
+          date: (recours.dateRéponseSignée ?? recours.dateAccord).formatter(),
           dateDemande: recours.dateDemande.formatter(),
         },
       ]
