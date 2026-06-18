@@ -7,8 +7,8 @@ import type { DateTime } from '@potentiel-domain/common';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { Heading3 } from '@/components/atoms/headings';
 
-// voir pour affiner ce type
 type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service';
 
 export type DossierEtape = {
@@ -25,11 +25,13 @@ export type DossierEtape = {
 
 export type DossierProps = {
   dossierEtapes: Array<DossierEtape>;
+  référence: string;
 };
 
-export const Dossier: FC<DossierProps> = ({ dossierEtapes }) => {
+export const Dossier: FC<DossierProps> = ({ dossierEtapes, référence }) => {
   return (
-    <section className="w-fit h-fit flex flex-col items-center gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px]">
+    <section className="w-fit h-fit flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px]">
+      <Heading3>Dossier avec la référence {référence}</Heading3>
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {dossierEtapes.map((étape) => (
           <DossierEtape

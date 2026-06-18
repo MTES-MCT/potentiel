@@ -1,14 +1,16 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
+import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréatOrRedirect } from '../(raccordement-du-projet)/(détails)/_helpers';
-import { DétailsRaccordementDuProjetPageTest } from './DétailsRaccordementDuProjetPageTest';
+import { DétailsRaccordementDuProjetPage } from './DétailsRaccordementDuProjetPage';
 
 type PageProps = IdentifiantParameter;
 
@@ -32,30 +34,25 @@ export default async function Page(props: PageProps) {
         },
       });
 
-      const lauréat = await getLauréatOrRedirect(identifiantProjet.formatter());
+      if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
+        return redirect(
+          utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
+            ? Routes.Raccordement.transmettreDemandeComplèteRaccordement(
+                identifiantProjet.formatter(),
+              )
+            : Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()),
+        );
+      }
 
-      // if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
-      //   return redirect(
-      //     utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
-      //       ? Routes.Raccordement.transmettreDemandeComplèteRaccordement(
-      //           identifiantProjet.formatter(),
-      //         )
-      //       : Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()),
-      //   );
-      // }
-
-      // const lienRetour = utilisateur.estGrd()
-      //   ? {
-      //       label: 'Retour vers les raccordements',
-      //       href: Routes.Raccordement.lister,
-      //     }
-      //   : {
-      //       label: 'Retour vers le projet',
-      //       href: Routes.Projet.details(identifiantProjet.formatter()),
-      //     };
+      const lienRetour = utilisateur.estGrd()
+        ? Routes.Raccordement.lister
+        : Routes.Projet.details(identifiantProjet.formatter());
 
       return (
-        <DétailsRaccordementDuProjetPageTest identifiantProjet={identifiantProjet.formatter()} />
+        <DétailsRaccordementDuProjetPage
+          identifiantProjet={identifiantProjet.formatter()}
+          lienRetour={lienRetour}
+        />
       );
     }),
   );
@@ -121,14 +118,5 @@ export default async function Page(props: PageProps) {
 //   identifiantGestionnaireActuel,
 //   dossiers,
 // }) => ({
-//   gestionnaireRéseau: {
-//     modifier: getModificationGestionnaireRéseauAction({
-//       rôle,
-//       statutLauréat,
-//       identifiantGestionnaireActuel,
-//       aUnDossierEnService:
-//         dossiers.filter((dossier) => !!dossier.miseEnService?.dateMiseEnService?.date).length > 0,
-//     }),
-//   },
 //   créerNouveauDossier: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
 // });

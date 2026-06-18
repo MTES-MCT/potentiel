@@ -1,11 +1,12 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getRaccordement } from '../../_helpers';
+import { getRaccordement } from '../../../_helpers';
 import { Dossier, type DossierEtape } from './Dossier';
 
 type DossierSectionProps = {
@@ -18,7 +19,7 @@ export const DossiersRaccordementSection = ({
   identifiantProjet: identifiantProjetValue,
 }: DossierSectionProps) =>
   SectionWithErrorHandling(
-    withUtilisateur(async () => {
+    withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
       const raccordement = await getRaccordement(identifiantProjet.formatter());
@@ -39,12 +40,15 @@ export const DossiersRaccordementSection = ({
           >
             Ajouter un dossier de raccordement
           </Button>
-          {raccordement.dossiers.map((dossier) => (
-            <Dossier
-              key={dossier.référence.formatter()}
-              dossierEtapes={mapToDossierData({ dossier })}
-            />
-          ))}
+          <div className="flex flex-wrap gap-4">
+            {raccordement.dossiers.map((dossier) => (
+              <Dossier
+                key={dossier.référence.formatter()}
+                dossierEtapes={mapToDossierData({ dossier, rôle: utilisateur.rôle })}
+                référence={dossier.référence.formatter()}
+              />
+            ))}
+          </div>
         </Section>
       );
     }),
@@ -53,17 +57,17 @@ export const DossiersRaccordementSection = ({
 
 type GetDossierData = {
   dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
+  rôle: Role.ValueType;
 };
 
 const mapToDossierData = ({
   dossier: {
-    identifiantGestionnaireRéseau,
     identifiantProjet,
-    référence,
     demandeComplèteRaccordement,
     propositionTechniqueEtFinancière,
     miseEnService,
   },
+  rôle,
 }: GetDossierData) => {
   const étapes: Array<DossierEtape> = [];
 
@@ -77,6 +81,12 @@ const mapToDossierData = ({
       document: {
         url: DocumentProjet.bind(demandeComplèteRaccordement.accuséRéception).formatter(),
       },
+      action: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
+        ? {
+            href: '',
+            label: 'Modifier',
+          }
+        : undefined,
     });
   }
 
@@ -92,6 +102,27 @@ const mapToDossierData = ({
       action: {
         href: '',
         label: 'Modifier',
+      },
+    });
+
+    étapes.push({
+      type: 'cr',
+      date: undefined,
+      action: {
+        href: '',
+        label: 'Transmettre la convention de raccordement',
+      },
+    });
+  }
+
+  if (!propositionTechniqueEtFinancière) {
+    étapes.push({
+      type: 'ptf',
+      date: undefined,
+      document: undefined,
+      action: {
+        href: '',
+        label: 'Transmettre la proposition technique et financière',
       },
     });
 
