@@ -34,9 +34,13 @@ export default async function Page(props: PageProps) {
         },
       });
 
+      const peutCréerNouveauDossier = utilisateur.rôle.aLaPermission(
+        'raccordement.demande-complète-raccordement.transmettre',
+      );
+
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
-          utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
+          peutCréerNouveauDossier
             ? Routes.Raccordement.transmettreDemandeComplèteRaccordement(
                 identifiantProjet.formatter(),
               )
@@ -52,71 +56,9 @@ export default async function Page(props: PageProps) {
         <DétailsRaccordementDuProjetPage
           identifiantProjet={identifiantProjet.formatter()}
           lienRetour={lienRetour}
+          peutCréerNouveauDossier={peutCréerNouveauDossier}
         />
       );
     }),
   );
 }
-
-// type MapToDossierActions = (args: {
-//   rôle: Role.ValueType;
-//   dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
-//   statutLauréat: Lauréat.StatutLauréat.ValueType;
-// }) => DétailsRaccordementPageProps['dossiers'];
-
-// const mapToDossierActions: MapToDossierActions = ({ rôle, dossiers, statutLauréat }) =>
-//   dossiers.map((dossier) =>
-//     mapToPlainObject({
-//       ...dossier,
-//       actions: {
-//         supprimer: getSupprimerDossierAction({
-//           rôle,
-//           statutLauréat,
-//           dossierEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
-//         }),
-
-//         demandeComplèteRaccordement: {
-//           transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-//           modifier: getModificationDCRAction({
-//             rôle,
-//             dossier,
-//             statutLauréat,
-//           }),
-//           modifierRéférence:
-//             rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
-//             !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
-//         },
-
-//         propositionTechniqueEtFinancière: {
-//           transmettre: rôle.aLaPermission(
-//             'raccordement.proposition-technique-et-financière.transmettre',
-//           ),
-//           modifier: getModificationPTFAction({
-//             rôle,
-//             dossier,
-//             statutLauréat,
-//           }),
-//         },
-//         miseEnService: {
-//           transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
-//           modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
-//         },
-//       },
-//     }),
-//   );
-
-// type MapToRaccordementActions = (args: {
-//   rôle: Role.ValueType;
-//   statutLauréat: Lauréat.StatutLauréat.ValueType;
-//   identifiantGestionnaireActuel: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
-//   dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
-// }) => DétailsRaccordementPageProps['actions'];
-
-// const mapToRaccordementActions: MapToRaccordementActions = ({
-//   rôle,
-//   statutLauréat,
-//   identifiantGestionnaireActuel,
-//   dossiers,
-// }) => ({
-//   créerNouveauDossier: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-// });

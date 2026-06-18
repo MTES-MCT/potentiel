@@ -151,3 +151,51 @@ const mapToDossierData = ({
       .concat(étapes.filter((a) => !a.date))
   );
 };
+
+// actions à retranscrire
+// type MapToDossierActions = (args: {
+//   rôle: Role.ValueType;
+//   dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
+//   statutLauréat: Lauréat.StatutLauréat.ValueType;
+// }) => DétailsRaccordementPageProps['dossiers'];
+
+// const mapToDossierActions: MapToDossierActions = ({ rôle, dossiers, statutLauréat }) =>
+//   dossiers.map((dossier) =>
+//     mapToPlainObject({
+//       ...dossier,
+//       actions: {
+//         supprimer: getSupprimerDossierAction({
+//           rôle,
+//           statutLauréat,
+//           dossierEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
+//         }),
+
+//         demandeComplèteRaccordement: {
+//           transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
+//           modifier: getModificationDCRAction({
+//             rôle,
+//             dossier,
+//             statutLauréat,
+//           }),
+//           modifierRéférence:
+//             rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
+//             !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+//         },
+
+//         propositionTechniqueEtFinancière: {
+//           transmettre: rôle.aLaPermission(
+//             'raccordement.proposition-technique-et-financière.transmettre',
+//           ),
+//           modifier: getModificationPTFAction({
+//             rôle,
+//             dossier,
+//             statutLauréat,
+//           }),
+//         },
+//         miseEnService: {
+//           transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
+//           modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
+//         },
+//       },
+//     }),
+//   );
