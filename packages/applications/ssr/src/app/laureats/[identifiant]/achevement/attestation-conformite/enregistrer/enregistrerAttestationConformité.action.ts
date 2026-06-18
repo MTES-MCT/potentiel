@@ -4,8 +4,9 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
+import { getCahierDesCharges } from '@/app/_helpers';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
@@ -24,6 +25,9 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, attestation, rapportAssocie },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    const cahierDesCharges = await getCahierDesCharges(
+      IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+    );
     await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.UseCase.EnregistrerAttestationConformité',
       data: {
@@ -38,7 +42,9 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.GarantiesFinancières.détail(identifiantProjet),
+        url: cahierDesCharges.estSoumisAuxGarantiesFinancières()
+          ? Routes.GarantiesFinancières.détail(identifiantProjet)
+          : Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
         message: 'Votre attestation de conformité et son rapport associé ont bien été enregistrés',
       },
     };
