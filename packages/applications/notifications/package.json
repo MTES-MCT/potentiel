@@ -34,6 +34,6 @@
     "@types/markdown-it": "14.1.2",
     "gray-matter": "4.0.3",
     "juice": "8.0.0",
-    "markdown-it": "14.1.1"
+    "markdown-it": "14.2.0"
   }
 }
