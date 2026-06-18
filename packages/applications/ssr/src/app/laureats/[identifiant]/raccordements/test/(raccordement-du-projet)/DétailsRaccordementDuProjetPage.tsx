@@ -10,19 +10,21 @@ import { GestionnaireRéseauSection } from './GestionnaireRéseau.section';
 type Props = {
   identifiantProjet: IdentifiantProjet.RawType;
   lienRetour: string;
+  peutCréerNouveauDossier: boolean;
 };
 
-export const DétailsRaccordementDuProjetPage = ({ identifiantProjet, lienRetour }: Props) => {
-  // FAKE PROPS
-  const créerNouveauDossier = true;
-
+export const DétailsRaccordementDuProjetPage = ({
+  identifiantProjet,
+  lienRetour,
+  peutCréerNouveauDossier,
+}: Props) => {
   return (
     <>
       <TitrePageRaccordement />
       <div className="my-2 md:my-4 flex flex-col gap-4">
         <div className="flex flex-row items-start gap-8">
           <GestionnaireRéseauSection identifiantProjet={identifiantProjet} />
-          {créerNouveauDossier && (
+          {peutCréerNouveauDossier && (
             <Alert
               severity="info"
               small
