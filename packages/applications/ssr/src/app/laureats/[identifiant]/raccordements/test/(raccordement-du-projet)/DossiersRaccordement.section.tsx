@@ -24,11 +24,6 @@ export const DossiersRaccordementSection = ({
 
       const raccordement = await getRaccordement(identifiantProjet.formatter());
 
-      if (!raccordement?.dossiers.length) {
-        // a voir, alerte ? Selon les actions
-        return null;
-      }
-
       return (
         <Section title={sectionTitle} className="min-w-0">
           <Button
@@ -39,9 +34,9 @@ export const DossiersRaccordementSection = ({
             }}
           >
             Ajouter un dossier de raccordement
-          </Button>
+          </Button>{' '}
           <div className="flex flex-wrap gap-4">
-            {raccordement.dossiers.map((dossier) => (
+            {raccordement?.dossiers.map((dossier) => (
               <Dossier
                 key={dossier.référence.formatter()}
                 dossierEtapes={mapToDossierData({ dossier, rôle: utilisateur.rôle })}
