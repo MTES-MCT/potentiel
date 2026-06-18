@@ -389,6 +389,15 @@ describe('Schema candidature CSV', () => {
   });
 
   describe('Règles métier', () => {
+    test("Les types d'actionnariat financement collectif et gouvernance partagée sont cumulables", () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesEliminé,
+        'Financement collectif (Oui/Non)': 'Oui',
+        'Gouvernance partagée (Oui/Non)': 'Oui',
+      });
+      assertNoError(result);
+      expect(result.data.actionnariat).to.equal('financement-collectif-et-gouvernance-partagée');
+    });
     test("Motif d'élimination n'est pas obligatoire si classé", () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
@@ -454,20 +463,6 @@ describe('Schema candidature CSV', () => {
         code: 'invalid_type',
         path: ['notifiedOn'],
         message: 'Le champ notifiedOn ne peut pas être présent',
-      });
-    });
-
-    test('financement collectif et gouvernance partagée sont exclusifs', () => {
-      const result = candidatureCsvSchema.safeParse({
-        ...minimumValuesEliminé,
-        'Financement collectif (Oui/Non)': 'Oui',
-        'Gouvernance partagée (Oui/Non)': 'Oui',
-      });
-      assert(!result.success);
-      expect(result.error.issues[0]).to.deep.eq({
-        code: 'custom',
-        message: `Seule l'une des deux colonnes "Financement collectif (Oui/Non)" et "Gouvernance partagée (Oui/Non)" peut avoir la valeur "Oui"`,
-        path: ['Financement collectif (Oui/Non)', 'Gouvernance partagée (Oui/Non)'],
       });
     });
 
