@@ -375,7 +375,12 @@ const mapToReadModel: MapToReadModelProps = ({
     technologieÉolien: détailCandidatureVérifié?.technologieAoÉolien,
     diamètreRotorEnMètres: détailCandidatureVérifié?.diamètreRotorEnMètres?.toString(),
     hauteurBoutDePâleEnMètres: détailCandidatureVérifié?.hauteurBoutDePâleEnMètres?.toString(),
-    installationRenouvelée: détailCandidatureVérifié?.installationRenouvelée,
+    installationRenouvelée:
+      détailCandidatureVérifié?.installationRenouvelée === true
+        ? 'oui'
+        : détailCandidatureVérifié?.installationRenouvelée === false
+          ? 'non'
+          : undefined,
     nombreDAérogénérateurs: détailCandidatureVérifié?.nombreDAérogénérateurs?.toString(),
     puissanceUnitaireDesAérogénérateurs:
       détailCandidatureVérifié?.puissanceUnitaireDesAérogénérateurs?.toString(),

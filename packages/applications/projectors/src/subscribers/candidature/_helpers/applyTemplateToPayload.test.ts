@@ -40,7 +40,7 @@ test('Doit récupérer les données du payload correspondant au template', () =>
     technologieAoÉolien: 'asynchrone',
     diamètreRotorEnMètres: 30.9,
     hauteurBoutDePâleEnMètres: 120.22,
-    installationRenouvelée: 'oui',
+    installationRenouvelée: true,
     nombreDAérogénérateurs: 2,
     puissanceUnitaireDesAérogénérateurs: 1,
   };

@@ -7,10 +7,17 @@ export type DétailsCandidature = {
   technologieAoÉolien: 'asynchrone' | 'synchrone' | undefined;
   diamètreRotorEnMètres: number | undefined;
   hauteurBoutDePâleEnMètres: number | undefined;
-  installationRenouvelée: 'oui' | 'non' | undefined;
+  installationRenouvelée: boolean | undefined;
   nombreDAérogénérateurs: number | undefined;
   puissanceUnitaireDesAérogénérateurs: number | undefined;
-  typeTerrainImplantation: string | undefined;
+  typeTerrainImplantation:
+    | 'cas 1'
+    | 'cas 2'
+    | 'cas 2 bis'
+    | 'cas 3'
+    | 'cas 4'
+    | 'cas mixte'
+    | undefined;
   notePrix: number | undefined;
   noteInnovation: number | undefined;
   noteDegréInnovationSur20: number | undefined;

@@ -1,24 +1,28 @@
-export const mapDétailsToTypeTerrainImplantation = (input?: string): string | undefined => {
-  if (!input) return undefined;
+import type { Candidature } from '@potentiel-domain/projet';
 
-  const cleaned = input
-    .replace(/\(.*?\)|\[.*?\]/g, '')
-    .trim()
-    .toLowerCase();
+export const mapDétailsToTypeTerrainImplantation = (
+  value?: string | undefined,
+): Candidature.DétailsCandidature['typeTerrainImplantation'] => {
+  if (!value) return undefined;
+  const v = value.toLowerCase();
+  if (['1', 'cas 1'].includes(v)) {
+    return 'cas 1';
+  }
+  if (['2', 'cas 2'].includes(v)) {
+    return 'cas 2';
+  }
+  if (['2 bis', '2 bis'].includes(v)) {
+    return 'cas 2 bis';
+  }
+  if (['3', 'cas 3'].includes(v)) {
+    return 'cas 3';
+  }
+  if (['4', 'cas 4', 'cas 4 (ao innovant)'].includes(v)) {
+    return 'cas 4';
+  }
 
-  const withoutCas = cleaned.startsWith('cas ') ? cleaned.slice(4).trim() : cleaned;
-
-  if (!withoutCas) return undefined;
-
-  const tokens = withoutCas
-    .split(/\s*(?:\+|et)\s*/i)
-    .map((t) => t.trim())
-    .filter((t) => /^\d+(\s*bis)?$/i.test(t))
-    .map((t) => t.replace(/\s+/g, ' '));
-
-  if (tokens.length === 0) return undefined;
-
-  if (tokens.length > 1) return 'cas mixte';
-
-  return `cas ${tokens[0]}`;
+  // Deux cas ou "cas mixte"
+  if (/^cas\s+\d+\s*(?:et|\+)\s*\d+.*$/.test(v) || v === 'cas mixte') {
+    return 'cas mixte';
+  }
 };

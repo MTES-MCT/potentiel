@@ -30,7 +30,7 @@ export const détailCandidatureImportéProjector = async ({
       templateVérificationDétailCandidature,
       {
         appelOffre,
-        typeImport: détail.typeImport === 'démarches-simplifiées' ? 'démarches-simplifiées' : 'csv',
+        typeImport: détail.typeImport === 'démarches-simplifiées' ? 'démarche-simplifiée' : 'csv',
       },
     );
 

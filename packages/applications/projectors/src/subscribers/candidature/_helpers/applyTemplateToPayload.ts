@@ -1,27 +1,25 @@
-type TemplateContext = {
-  appelOffre?: string;
-  typeImport?: 'csv' | 'démarches-simplifiées';
-};
+import { match } from 'ts-pattern';
 
-type TemplateLabel = [TemplateContext, string];
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+
+type Props = {
+  appelOffre: string;
+  typeImport: AppelOffre.Periode['typeImport'];
+};
 
 export type Template<T> = {
   [K in keyof T]:
     | {
-        labels: TemplateLabel[];
-        mapper: (value: string) => T[K];
+        label: Array<[Partial<Props>, string]>;
+        mapper: (value: string, props: Props) => T[K];
       }
     | undefined;
 };
 
-const matchesContext = (conditions: Partial<TemplateContext>, context: TemplateContext): boolean =>
-  (conditions.appelOffre === undefined || conditions.appelOffre === context.appelOffre) &&
-  (conditions.typeImport === undefined || conditions.typeImport === context.typeImport);
-
 export const applyTemplateToPayload = <T>(
   payload: Record<string, string>,
   template: Template<T>,
-  context: TemplateContext,
+  props: Props,
 ): T => {
   const result = {} as T;
 
@@ -35,18 +33,14 @@ export const applyTemplateToPayload = <T>(
       continue;
     }
 
-    const { labels, mapper } = field;
+    const { label: labelOptions, mapper } = field;
 
-    const matchingLabel = labels.find(([conditions]) => matchesContext(conditions, context))?.[1];
-
-    if (!matchingLabel) {
-      result[key] = undefined as T[keyof T];
-      continue;
+    let matcher = match<Props>(props).returnType<string | undefined>();
+    for (const [matchCondition, labelValue] of labelOptions) {
+      matcher = matcher.with(matchCondition, () => labelValue);
     }
-
-    const value = payload[matchingLabel];
-
-    result[key] = mapper(value);
+    const label = matcher.otherwise(() => undefined);
+    result[key] = label ? mapper(payload[label], props) : (undefined as T[keyof T]);
   }
 
   return result;

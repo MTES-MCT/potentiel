@@ -4,19 +4,17 @@ import type { Template } from './applyTemplateToPayload.js';
 import { getTechnologieEolien } from './getTechnologieEolien.js';
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
-const getOuiNon = (value?: string): 'oui' | 'non' | undefined => {
+const getBoolean = (value: string | undefined): boolean | undefined => {
   if (!value) return undefined;
   const v = value.toLowerCase();
 
-  if (v.includes('oui')) return 'oui';
-  if (v.includes('non')) return 'non';
-  if (v.includes('true')) return 'oui';
-  if (v.includes('false')) return 'non';
+  if (v === 'oui' || v === 'true') return true;
+  if (v === 'non' || v === 'false') false;
 
   return undefined;
 };
 
-const getNumber = (value?: string): number | undefined => {
+const getNumber = (value: string | undefined): number | undefined => {
   if (!value) {
     return undefined;
   }
@@ -28,49 +26,49 @@ const noop = <T>(value: T) => value;
 
 export const templateVérificationDétailCandidature: Template<Candidature.DétailsCandidature> = {
   technologieAoÉolien: {
-    labels: [
+    label: [
       [{ appelOffre: 'Eolien' }, 'Technologie (Modules ou films)'],
       [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Technologie (AO éolien)'],
       [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Technologie (AO éolien)'],
-      [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' }, 'Technologie'],
+      [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' }, 'Technologie'],
     ],
     mapper: getTechnologieEolien,
   },
   diamètreRotorEnMètres: {
-    labels: [
+    label: [
       [{ appelOffre: 'Eolien' }, 'Diamètre du rotor (m) (AO éolien)'],
       [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
       [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
-      [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' }, 'Diamètre du rotor'],
+      [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' }, 'Diamètre du rotor'],
     ],
     mapper: getNumber,
   },
   hauteurBoutDePâleEnMètres: {
-    labels: [
+    label: [
       [{ appelOffre: 'Eolien' }, 'Hauteur bout de pâle (m) (AO éolien)'],
       [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Hauteur bout de pâle (m) (AO éolien)'],
       [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Hauteur bout de pâle (m) (AO éolien)'],
       [
-        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' },
+        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
         'Hauteur en bout de pale',
       ],
     ],
     mapper: getNumber,
   },
   nombreDAérogénérateurs: {
-    labels: [
+    label: [
       [{ appelOffre: 'Eolien' }, "Nb d'aérogénérateurs (AO éolien)"],
       [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, "Nb d'aérogénérateurs (AO éolien)"],
       [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, "Nb d'aérogénérateurs (AO éolien)"],
       [
-        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' },
+        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
         "Nombre d'aérogénérateurs",
       ],
     ],
     mapper: getNumber,
   },
   puissanceUnitaireDesAérogénérateurs: {
-    labels: [
+    label: [
       [
         { appelOffre: 'PPE2 - Eolien', typeImport: 'csv' },
         'Puissance unitaire des aérogénérateurs (AO éolien)',
@@ -80,25 +78,25 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         'Puissance unitaire des aérogénérateurs (AO éolien)',
       ],
       [
-        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' },
+        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
         'Puissance unitaire des aérogénérateurs',
       ],
     ],
     mapper: getNumber,
   },
   installationRenouvelée: {
-    labels: [
+    label: [
       [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Installation renouvellée (AO éolien)'],
       [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Installation renouvellée (AO éolien)'],
       [
-        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' },
+        { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
         "L'installation est-elle renouvelée ?",
       ],
     ],
-    mapper: getOuiNon,
+    mapper: getBoolean,
   },
   typeTerrainImplantation: {
-    labels: [
+    label: [
       [
         { appelOffre: 'Fessenheim', typeImport: 'csv' },
         "Type de terrain d'implantation (pièce n°3)",
@@ -144,26 +142,26 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         "Type de terrain d'implantation (pièce n°3)",
       ],
       [
-        { appelOffre: 'PPE2 - Sol', typeImport: 'démarches-simplifiées' },
+        { appelOffre: 'PPE2 - Sol', typeImport: 'démarche-simplifiée' },
         "Type de cas du terrain d'implantation",
       ],
     ],
     mapper: mapDétailsToTypeTerrainImplantation,
   },
   composantsRésilients: {
-    labels: [
-      [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarches-simplifiées' }, 'Composants résilients'],
+    label: [
+      [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarche-simplifiée' }, 'Composants résilients'],
     ],
     mapper: noop,
   },
   noteInnovation: {
-    labels: [
+    label: [
       [{ appelOffre: 'CRE4 - Innovation', typeImport: 'csv' }, 'Note innovation (AO innovation)'],
     ],
     mapper: getNumber,
   },
   noteDegréInnovationSur20: {
-    labels: [
+    label: [
       [
         { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
         'Note degré d’innovation (/20pt) (AO innovation)',
@@ -176,7 +174,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     mapper: getNumber,
   },
   noteInnovationAdéquationAmbitionsIndustriellesSur5: {
-    labels: [
+    label: [
       [
         { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
         'Note adéquation du projet avec les ambitions industrielles (/5pt) (AO innovation)',
@@ -189,7 +187,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     mapper: getNumber,
   },
   noteInnovationAspectsEnvironnementauxEtSociauxSur5: {
-    labels: [
+    label: [
       [
         { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
         'Note aspects environnementaux et sociaux (/5pt) (AO innovation)',
@@ -202,7 +200,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     mapper: getNumber,
   },
   noteInnovationPositionnementSurLeMarchéSur10: {
-    labels: [
+    label: [
       [
         { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
         'Note positionnement sur le marché (/10pt) (AO innovation)',
@@ -215,7 +213,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     mapper: getNumber,
   },
   noteInnovationQualitéTechniqueSur5: {
-    labels: [
+    label: [
       [
         { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
         'Note qualité technique (/5pt) (AO innovation)',
@@ -228,7 +226,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     mapper: getNumber,
   },
   notePrix: {
-    labels: [
+    label: [
       [{ appelOffre: 'CRE4 - Innovation', typeImport: 'csv' }, 'Note prix'],
       [{ appelOffre: 'PPE2 - Innovation', typeImport: 'csv' }, 'Note prix'],
     ],
