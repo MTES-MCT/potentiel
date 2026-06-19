@@ -1,6 +1,7 @@
 'use client';
 import { MainNavigation, type MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 const mapToActiveLink = <TLink extends MainNavigationProps.Item>(
   item: TLink,
@@ -26,6 +27,15 @@ const mapToActiveLink = <TLink extends MainNavigationProps.Item>(
 
 export function NavLinks({ items }: MainNavigationProps) {
   const pathname = usePathname();
+  const ref = useRef<string>(undefined);
+
+  // Reset focus on navigation, to improve keyboard navigation
+  useEffect(() => {
+    if (ref) {
+      document.documentElement.focus({ preventScroll: true });
+    }
+    ref.current = pathname;
+  }, [pathname]);
 
   return (
     <MainNavigation
