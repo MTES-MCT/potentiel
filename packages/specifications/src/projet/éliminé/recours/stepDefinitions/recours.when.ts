@@ -107,10 +107,10 @@ Quand(
 );
 
 Quand(
-  /(.*)la dgec passe en instruction le recours pour le projet éliminé/,
+  /(.*) dgec passe en instruction le recours pour le projet éliminé/,
   async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
-      const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
+      const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel utilisateur');
       if (estUnNouvelAdmin) {
         this.utilisateurWorld.dgecFixture.créer();
       }

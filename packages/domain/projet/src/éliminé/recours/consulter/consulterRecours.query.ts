@@ -64,7 +64,7 @@ const mapToReadModel = (
       ? DateTime.convertirEnValueType(entity.demande?.accord?.accordéLe)
       : undefined,
     dateRéponseSignée: entity.demande?.accord?.dateRéponseSignée
-      ? DateTime.convertirEnValueType(entity.demande?.accord?.dateRéponseSignée)
+      ? DateTime.convertirEnValueType(entity.demande.accord.dateRéponseSignée)
       : undefined,
   };
 };
