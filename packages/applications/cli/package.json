@@ -48,6 +48,7 @@
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-statistiques/statistiques-publiques": "*",
     "mediateur": "0.3.0",
+    "pdfjs-dist": "^6.0.227",
     "winston": "^3.19.0",
     "zod": "4.1.9"
   },
