@@ -1,6 +1,6 @@
 type TemplateContext = {
   appelOffre?: string;
-  typeImport?: string;
+  typeImport?: 'csv' | 'démarches-simplifiées';
 };
 
 type TemplateLabel = [TemplateContext, string];

@@ -24,15 +24,18 @@ export const détailCandidatureImportéProjector = async ({
 
   const { appelOffre } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-  const détailVérifié: Candidature.DétailCandidatureVérifié =
-    applyTemplateToPayload<Candidature.DétailCandidatureVérifié>(
+  const détailVérifié: Candidature.DétailsCandidature =
+    applyTemplateToPayload<Candidature.DétailsCandidature>(
       détail,
       templateVérificationDétailCandidature,
-      { appelOffre, typeImport: détail.typeImport ?? 'csv' },
+      {
+        appelOffre,
+        typeImport: détail.typeImport === 'démarches-simplifiées' ? 'démarches-simplifiées' : 'csv',
+      },
     );
 
-  await upsertProjection<Candidature.DétailCandidatureVérifiéEntity>(
-    `détail-candidature-vérifié|${identifiantProjet}`,
+  await upsertProjection<Candidature.DétailCandidatureEntity>(
+    `détail-candidature|${identifiantProjet}`,
     {
       identifiantProjet,
       ...détailVérifié,

@@ -8,7 +8,7 @@ import {
   type CandidatureEntity,
   type Coordonnées,
   type Dépôt,
-  type DétailCandidatureVérifiéEntity,
+  type DétailCandidatureEntity,
   type Localité,
   TypeActionnariat,
   TypologieInstallation,
@@ -119,7 +119,7 @@ export const registerListerÉliminéEnrichiQuery = ({
 
     const éliminés = await list<
       CandidatureEntity,
-      [ÉliminéEntity, LeftJoin<DétailCandidatureVérifiéEntity>]
+      [ÉliminéEntity, LeftJoin<DétailCandidatureEntity>]
     >('candidature', {
       orderBy: {
         identifiantProjet: 'ascending',
@@ -139,7 +139,7 @@ export const registerListerÉliminéEnrichiQuery = ({
           entity: 'éliminé',
           on: 'identifiantProjet',
         },
-        { entity: 'détail-candidature-vérifié', on: 'identifiantProjet', type: 'left' },
+        { entity: 'détail-candidature', on: 'identifiantProjet', type: 'left' },
       ],
     });
 
@@ -152,7 +152,7 @@ export const registerListerÉliminéEnrichiQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: CandidatureEntity & Joined<[ÉliminéEntity, LeftJoin<DétailCandidatureVérifiéEntity>]>,
+  args: CandidatureEntity & Joined<[ÉliminéEntity, LeftJoin<DétailCandidatureEntity>]>,
 ) => ÉliminéEnrichiListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -175,7 +175,7 @@ const mapToReadModel: MapToReadModelProps = ({
   puissanceDuProjetInitial,
   technologieCalculée,
 
-  'détail-candidature-vérifié': détailCandidatureVérifié,
+  'détail-candidature': détailCandidatureVérifié,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 

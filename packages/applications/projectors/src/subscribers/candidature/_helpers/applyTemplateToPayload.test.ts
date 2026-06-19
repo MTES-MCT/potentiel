@@ -7,7 +7,7 @@ import type { Candidature } from '@potentiel-domain/projet';
 import { applyTemplateToPayload } from './applyTemplateToPayload.js';
 import { templateVérificationDétailCandidature } from './templatesVérificationDétailCandidature.js';
 
-const commonExpected: Candidature.DétailCandidatureVérifié = {
+const commonExpected: Candidature.DétailsCandidature = {
   composantsRésilients: undefined,
   technologieAoÉolien: undefined,
   diamètreRotorEnMètres: undefined,
@@ -35,7 +35,7 @@ test('Doit récupérer les données du payload correspondant au template', () =>
     'Installation renouvellée (AO éolien)': 'Oui',
   };
 
-  const expected: Candidature.DétailCandidatureVérifié = {
+  const expected: Candidature.DétailsCandidature = {
     ...commonExpected,
     technologieAoÉolien: 'asynchrone',
     diamètreRotorEnMètres: 30.9,
@@ -59,7 +59,7 @@ test("Appel d'offres non concerné par des données de détail vérifiées : ne 
     'autre clé': 'autre valeur',
   };
 
-  const expected: Candidature.DétailCandidatureVérifié = {
+  const expected: Candidature.DétailsCandidature = {
     ...commonExpected,
   };
 

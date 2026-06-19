@@ -2,7 +2,7 @@ import type { Entity } from '@potentiel-domain/entity';
 
 import type { IdentifiantProjet } from '../../index.js';
 
-export type DétailCandidatureVérifié = {
+export type DétailsCandidature = {
   composantsRésilients: string | undefined;
   technologieAoÉolien: 'asynchrone' | 'synchrone' | undefined;
   diamètreRotorEnMètres: number | undefined;
@@ -20,9 +20,9 @@ export type DétailCandidatureVérifié = {
   noteInnovationAspectsEnvironnementauxEtSociauxSur5: number | undefined;
 };
 
-export type DétailCandidatureVérifiéEntity = Entity<
-  'détail-candidature-vérifié',
+export type DétailCandidatureEntity = Entity<
+  'détail-candidature',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-  } & DétailCandidatureVérifié
+  } & DétailsCandidature
 >;

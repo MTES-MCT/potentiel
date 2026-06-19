@@ -4,11 +4,11 @@ import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantProjet } from '../../../index.js';
-import type { DétailCandidatureVérifié, DétailCandidatureVérifiéEntity } from '../../index.js';
+import type { DétailCandidatureEntity, DétailsCandidature } from '../../index.js';
 
 export type ConsulterDétailCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  détail: DétailCandidatureVérifié;
+  détail: DétailsCandidature;
 };
 
 export type ConsulterDétailCandidatureQuery = Message<
@@ -29,8 +29,8 @@ export const registerConsulterDétailCandidatureQuery = ({
   const handler: MessageHandler<ConsulterDétailCandidatureQuery> = async ({
     identifiantProjet,
   }) => {
-    const détailCandidature = await find<DétailCandidatureVérifiéEntity>(
-      `détail-candidature-vérifié|${identifiantProjet}`,
+    const détailCandidature = await find<DétailCandidatureEntity>(
+      `détail-candidature|${identifiantProjet}`,
     );
 
     if (Option.isNone(détailCandidature)) {
@@ -44,7 +44,7 @@ export const registerConsulterDétailCandidatureQuery = ({
 };
 
 type MapToReadModel = (
-  candidature: Omit<DétailCandidatureVérifiéEntity, 'type'>,
+  candidature: Omit<DétailCandidatureEntity, 'type'>,
 ) => ConsulterDétailCandidatureReadModel;
 
 export const mapToReadModel: MapToReadModel = (détail): ConsulterDétailCandidatureReadModel => ({
