@@ -227,11 +227,11 @@ const mapToReadModel: MapToReadModelProps = ({
     typeTerrainImplantation: détailCandidatureVérifié?.typeTerrainImplantation,
     composantsRésilients: détailCandidatureVérifié?.composantsRésilients,
     technologieÉolien: détailCandidatureVérifié?.technologieAoÉolien,
-    diamètreRotorEnMètres: détailCandidatureVérifié?.diamètreRotorEnMètres,
-    hauteurBoutDePâleEnMètres: détailCandidatureVérifié?.hauteurBoutDePâleEnMètres,
+    diamètreRotorEnMètres: détailCandidatureVérifié?.diamètreRotorEnMètres?.toString(),
+    hauteurBoutDePâleEnMètres: détailCandidatureVérifié?.hauteurBoutDePâleEnMètres?.toString(),
     installationRenouvelée: détailCandidatureVérifié?.installationRenouvelée,
-    nombreDAérogénérateurs: détailCandidatureVérifié?.nombreDAérogénérateurs,
+    nombreDAérogénérateurs: détailCandidatureVérifié?.nombreDAérogénérateurs?.toString(),
     puissanceUnitaireDesAérogénérateurs:
-      détailCandidatureVérifié?.puissanceUnitaireDesAérogénérateurs,
+      détailCandidatureVérifié?.puissanceUnitaireDesAérogénérateurs?.toString(),
   };
 };

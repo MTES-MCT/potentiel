@@ -9,14 +9,6 @@ import { templateVérificationDétailCandidature } from './_helpers/templatesVé
 export const détailCandidatureImportéProjector = async ({
   payload: { identifiantProjet, détail },
 }: Candidature.DétailCandidatureImportéEvent) => {
-  await upsertProjection<Candidature.DétailCandidatureEntity>(
-    `détail-candidature|${identifiantProjet}`,
-    {
-      identifiantProjet,
-      détail,
-    },
-  );
-
   const fournisseurs =
     détail.typeImport === 'démarches-simplifiées'
       ? mapDNDétailToDétailFournisseur(détail)

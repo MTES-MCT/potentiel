@@ -27,6 +27,14 @@ const getOuiNon = (value?: string): 'oui' | 'non' | undefined => {
   return undefined;
 };
 
+const getNumber = (value?: string): number | undefined => {
+  if (!value) {
+    return undefined;
+  }
+  const number = Number(value.replace(',', '.'));
+  return Number.isNaN(number) ? undefined : number;
+};
+
 const noop = <T>(value: T) => value;
 
 export const templateVérificationDétailCandidature: Template<Candidature.DétailCandidatureVérifié> =
@@ -47,7 +55,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarches-simplifiées' }, 'Diamètre du rotor'],
       ],
-      mapper: noop,
+      mapper: getNumber,
     },
     hauteurBoutDePâleEnMètres: {
       labels: [
@@ -65,7 +73,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           'Hauteur en bout de pale',
         ],
       ],
-      mapper: noop,
+      mapper: getNumber,
     },
     nombreDAérogénérateurs: {
       labels: [
@@ -77,7 +85,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           "Nombre d'aérogénérateurs",
         ],
       ],
-      mapper: noop,
+      mapper: getNumber,
     },
     puissanceUnitaireDesAérogénérateurs: {
       labels: [
@@ -94,7 +102,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           'Puissance unitaire des aérogénérateurs',
         ],
       ],
-      mapper: noop,
+      mapper: getNumber,
     },
     installationRenouvelée: {
       labels: [
@@ -174,5 +182,83 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         ],
       ],
       mapper: noop,
+    },
+    noteInnovation: {
+      labels: [
+        [{ appelOffre: 'CRE4 - Innovation', typeImport: 'csv' }, 'Note innovation (AO innovation)'],
+      ],
+      mapper: getNumber,
+    },
+    noteDegréInnovationSur20: {
+      labels: [
+        [
+          { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+          'Note degré d’innovation (/20pt) (AO innovation)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
+          'Note degré d’innovation (/20pt) (AO innovation)',
+        ],
+      ],
+      mapper: getNumber,
+    },
+    noteInnovationAdéquationAmbitionsIndustriellesSur5: {
+      labels: [
+        [
+          { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+          'Note adéquation du projet avec les ambitions industrielles (/5pt) (AO innovation)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
+          'Note adéquation du projet avec les ambitions industrielles (/5pt) (AO innovation)',
+        ],
+      ],
+      mapper: getNumber,
+    },
+    noteInnovationAspectsEnvironnementauxEtSociauxSur5: {
+      labels: [
+        [
+          { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+          'Note aspects environnementaux et sociaux (/5pt) (AO innovation)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
+          'Note aspects environnementaux et sociaux (/5pt) (AO innovation)',
+        ],
+      ],
+      mapper: getNumber,
+    },
+    noteInnovationPositionnementSurLeMarchéSur10: {
+      labels: [
+        [
+          { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+          'Note positionnement sur le marché (/10pt) (AO innovation)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
+          'Note positionnement sur le marché (/10pt) (AO innovation)',
+        ],
+      ],
+      mapper: getNumber,
+    },
+    noteInnovationQualitéTechniqueSur5: {
+      labels: [
+        [
+          { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+          'Note qualité technique (/5pt) (AO innovation)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
+          'Note qualité technique (/5pt) (AO innovation)',
+        ],
+      ],
+      mapper: getNumber,
+    },
+    notePrix: {
+      labels: [
+        [{ appelOffre: 'CRE4 - Innovation', typeImport: 'csv' }, 'Note prix'],
+        [{ appelOffre: 'PPE2 - Innovation', typeImport: 'csv' }, 'Note prix'],
+      ],
+      mapper: getNumber,
     },
   };

@@ -77,7 +77,6 @@ export * from './candidature.register.js';
 export * as Coordonnées from './coordonnées.valueType.js';
 export * as DocumentCandidature from './documentCandidature.valueType.js';
 export * as Dépôt from './dépôt.valueType.js';
-export type * from './détail/détailCandidature.entity.js';
 export type * as DétailCandidature from './détail/détailCandidature.valueType.js';
 // Type
 export type * from './détail/détailCandidature.valueType.js';

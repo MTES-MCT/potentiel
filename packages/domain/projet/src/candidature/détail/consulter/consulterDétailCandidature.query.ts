@@ -4,12 +4,11 @@ import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantProjet } from '../../../index.js';
-import type { DétailCandidature } from '../../index.js';
-import type { DétailCandidatureEntity } from '../détailCandidature.entity.js';
+import type { DétailCandidatureVérifié, DétailCandidatureVérifiéEntity } from '../../index.js';
 
 export type ConsulterDétailCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  détail: DétailCandidature.RawType;
+  détail: DétailCandidatureVérifié;
 };
 
 export type ConsulterDétailCandidatureQuery = Message<
@@ -30,8 +29,8 @@ export const registerConsulterDétailCandidatureQuery = ({
   const handler: MessageHandler<ConsulterDétailCandidatureQuery> = async ({
     identifiantProjet,
   }) => {
-    const détailCandidature = await find<DétailCandidatureEntity>(
-      `détail-candidature|${identifiantProjet}`,
+    const détailCandidature = await find<DétailCandidatureVérifiéEntity>(
+      `détail-candidature-vérifié|${identifiantProjet}`,
     );
 
     if (Option.isNone(détailCandidature)) {
@@ -45,13 +44,10 @@ export const registerConsulterDétailCandidatureQuery = ({
 };
 
 type MapToReadModel = (
-  candidature: Omit<DétailCandidatureEntity, 'type'>,
+  candidature: Omit<DétailCandidatureVérifiéEntity, 'type'>,
 ) => ConsulterDétailCandidatureReadModel;
 
-export const mapToReadModel: MapToReadModel = ({
-  identifiantProjet,
-  détail,
-}): ConsulterDétailCandidatureReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+export const mapToReadModel: MapToReadModel = (détail): ConsulterDétailCandidatureReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(détail.identifiantProjet),
   détail,
 });

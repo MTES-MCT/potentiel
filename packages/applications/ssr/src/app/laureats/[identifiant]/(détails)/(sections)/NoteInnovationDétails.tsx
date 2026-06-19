@@ -1,5 +1,5 @@
 type NotesInnovationDétails = {
-  noteTotale: number;
+  noteTotale: string;
   notePrix: string;
   notesInnovation: {
     note: string;
@@ -18,7 +18,7 @@ export const NoteInnovationDétails = ({
 }: NotesInnovationDétails) => {
   return (
     <ul className="list-disc pl-4">
-      <li className="mb-3">Note totale: {noteTotale}</li>
+      <li className="mb-3">Note totale : {noteTotale}</li>
       <li>Note prix : {notePrix}</li>
       <li>
         Note innovation : {notesInnovation.note}
