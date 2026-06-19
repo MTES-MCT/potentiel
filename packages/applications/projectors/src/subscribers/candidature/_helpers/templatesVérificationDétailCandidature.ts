@@ -1,19 +1,8 @@
 import type { Candidature } from '@potentiel-domain/projet';
 
 import type { Template } from './applyTemplateToPayload.js';
+import { getTechnologieEolien } from './getTechnologieEolien.js';
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
-
-const getTechnologieEolien = (
-  value?: string,
-): Candidature.DétailsCandidature['technologieAoÉolien'] => {
-  if (!value) return undefined;
-  const v = value.toLowerCase();
-
-  if (v.includes('asynchrone')) return 'asynchrone';
-  if (v.includes('synchrone')) return 'synchrone';
-
-  return undefined;
-};
 
 const getOuiNon = (value?: string): 'oui' | 'non' | undefined => {
   if (!value) return undefined;
