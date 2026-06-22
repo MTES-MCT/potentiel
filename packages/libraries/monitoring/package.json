@@ -11,9 +11,9 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@sentry/core": "10.41.0",
-    "@sentry/node": "10.41.0",
-    "winston": "3.17.0"
+    "@sentry/core": "10.57.0",
+    "@sentry/node": "10.57.0",
+    "winston": "3.19.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

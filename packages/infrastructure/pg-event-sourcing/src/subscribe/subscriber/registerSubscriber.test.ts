@@ -1,6 +1,6 @@
 import { after, before, beforeEach, describe, it } from 'node:test';
 
-import { assert, expect, should } from 'chai';
+import { assert, expect } from 'chai';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
@@ -8,8 +8,6 @@ import { WrongSubscriberNameError } from './checkSubscriberName.js';
 import { getSubscriber } from './getSubscriber.js';
 import { registerSubscriber } from './registerSubscriber.js';
 import type { SubscriberConfiguration } from './subscriberConfiguration.js';
-
-should();
 
 describe('register-subscription', () => {
   const streamCategory = 'category';
@@ -55,7 +53,7 @@ describe('register-subscription', () => {
       streamCategory,
     };
 
-    actual.should.be.deep.equal(expected);
+    expect(actual).to.deep.equal(expected);
   });
 
   it(`
@@ -81,7 +79,7 @@ describe('register-subscription', () => {
       name: subscriberName,
       streamCategory,
     };
-    actual.should.be.deep.equal(expected);
+    expect(actual).to.deep.equal(expected);
   });
 
   it(`
@@ -107,7 +105,7 @@ describe('register-subscription', () => {
       name: subscriberName,
       streamCategory,
     };
-    actual.should.be.deep.equal(expected);
+    expect(actual).to.deep.equal(expected);
   });
 
   it(`

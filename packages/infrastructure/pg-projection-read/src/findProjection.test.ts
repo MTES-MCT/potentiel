@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
-import { should } from 'chai';
+import 'chai/register-should.js';
 import { flatten } from 'flat';
 
 import type { Entity } from '@potentiel-domain/entity';
@@ -9,8 +9,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { findProjection } from './findProjection.js';
-
-should();
 
 describe('findProjection', () => {
   let category1 = '';

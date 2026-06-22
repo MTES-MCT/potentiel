@@ -1,0 +1,655 @@
+exports[`Valeurs d'instruction de représentant légal 1`] = `
+[
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "3",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "4",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "5",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "6",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "7",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "8",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "9",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "10",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "11",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "12",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Bâtiment",
+    "période": "13",
+    "initial": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "Fessenheim",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "Fessenheim",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "Fessenheim",
+    "période": "3",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "3",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "4",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "5",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "6",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "7",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "8",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "9",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Sol",
+    "période": "10",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Innovation",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Innovation",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Innovation",
+    "période": "3",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - ZNI",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord",
+    "30/08/2022-alternatif": "accord",
+    "07/02/2023": "accord",
+    "07/02/2023-alternatif": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - ZNI",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord",
+    "30/08/2022-alternatif": "accord",
+    "07/02/2023": "accord",
+    "07/02/2023-alternatif": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - ZNI",
+    "période": "3",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord",
+    "30/08/2022-alternatif": "accord",
+    "07/02/2023": "accord",
+    "07/02/2023-alternatif": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - ZNI",
+    "période": "4",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord",
+    "30/08/2022-alternatif": "accord",
+    "07/02/2023": "accord",
+    "07/02/2023-alternatif": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - ZNI",
+    "période": "5",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord",
+    "30/08/2022-alternatif": "accord",
+    "07/02/2023": "accord",
+    "07/02/2023-alternatif": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - ZNI",
+    "période": "6",
+    "initial": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - ZNI 2017",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "3",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "4",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "5",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "6",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "7",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "8",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "9",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole",
+    "période": "10",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole 2016",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation métropole 2016",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation ZNI",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation ZNI",
+    "période": "2",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "CRE4 - Autoconsommation ZNI 2017",
+    "période": "1",
+    "initial": "indisponible",
+    "30/07/2021": "accord",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "1",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "2",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "3",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "4",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "5",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "6",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "7",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "Eolien",
+    "période": "8",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PV - Eolien",
+    "période": "1",
+    "initial": "indisponible",
+    "30/08/2022": "accord"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "1",
+    "initial": "__MANQUANT__",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "2",
+    "initial": "__MANQUANT__",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "3",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "4",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "5",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "6",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "7",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Sol",
+    "période": "8",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "1",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "2",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "3",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "4",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "5",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "6",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "7",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "8",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "9",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "10",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Eolien",
+    "période": "11",
+    "initial": "accord"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "1",
+    "initial": "__MANQUANT__",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "2",
+    "initial": "__MANQUANT__",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "3",
+    "initial": "__MANQUANT__",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "4",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "5",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "6",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "7",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "8",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "9",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "10",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "11",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Bâtiment",
+    "période": "12",
+    "initial": "accord"
+  },
+  {
+    "appelOffre": "PPE2 - Neutre",
+    "période": "1",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Neutre",
+    "période": "2",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Neutre",
+    "période": "3",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Neutre",
+    "période": "4",
+    "initial": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Innovation",
+    "période": "1",
+    "initial": "accord",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Autoconsommation métropole",
+    "période": "1",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Autoconsommation métropole",
+    "période": "2",
+    "initial": "rejet",
+    "30/08/2022": "__MANQUANT__"
+  },
+  {
+    "appelOffre": "PPE2 - Autoconsommation métropole",
+    "période": "3",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - Autoconsommation métropole",
+    "période": "4",
+    "initial": "rejet"
+  },
+  {
+    "appelOffre": "PPE2 - ZNI",
+    "période": "1",
+    "initial": "accord"
+  },
+  {
+    "appelOffre": "PPE2 - ZNI",
+    "période": "2",
+    "initial": "accord"
+  },
+  {
+    "appelOffre": "PPE2 - ZNI",
+    "période": "3",
+    "initial": "accord"
+  },
+  {
+    "appelOffre": "PPE2 - ZNI",
+    "période": "4",
+    "initial": "accord"
+  },
+  {
+    "appelOffre": "PPE2 - Petit PV Bâtiment",
+    "période": "1",
+    "initial": "information-enregistrée"
+  },
+  {
+    "appelOffre": "PPE2 - Petit PV",
+    "période": "2",
+    "initial": "information-enregistrée"
+  }
+]
+`;

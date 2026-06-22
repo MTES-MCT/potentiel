@@ -1,15 +1,13 @@
 import { randomBytes } from 'node:crypto';
 import { after, before, beforeEach, describe, it } from 'node:test';
 
-import { should } from 'chai';
+import 'chai/register-should.js';
 
 import { AbstractAggregate, type DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { publish } from '../publish/publish.js';
 import { loadAggregate } from './loadAggregate.js';
-
-should();
 
 type CustomEvent1 = DomainEvent<'event-1', { propriété: string }>;
 type CustomEvent2 = DomainEvent<'event-2', { secondePropriété: string }>;

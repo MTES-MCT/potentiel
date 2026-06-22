@@ -1,15 +1,14 @@
 import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
-import { expect, should } from 'chai';
+import { expect } from 'chai';
+import 'chai/register-should.js';
 import { flatten } from 'flat';
 
 import { type Entity, Where } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { countProjection } from './countProjection.js';
-
-should();
 
 describe('countProjection', () => {
   let category = '';

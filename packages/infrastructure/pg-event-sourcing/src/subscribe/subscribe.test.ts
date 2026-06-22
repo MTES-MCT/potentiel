@@ -1,6 +1,7 @@
 import { after, afterEach, before, beforeEach, describe, it, mock } from 'node:test';
 
-import { expect, should } from 'chai';
+import { expect } from 'chai';
+import 'chai/register-should.js';
 import waitForExpectLib from 'wait-for-expect';
 
 import type { DomainEvent } from '@potentiel-domain/core';
@@ -17,8 +18,6 @@ import { registerSubscriber } from './subscriber/registerSubscriber.js';
 import type { Unsubscribe } from './subscriber/subscriber.js';
 
 export const waitForExpect = waitForExpectLib.default;
-
-should();
 
 describe(`subscribe`, () => {
   const logMock = mock.fn();

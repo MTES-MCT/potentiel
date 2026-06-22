@@ -9,7 +9,7 @@ import {
   setDefaultTimeout,
   setWorldConstructor,
 } from '@cucumber/cucumber';
-import { should } from 'chai';
+import 'chai/register-should.js';
 import { clear } from 'mediateur';
 
 import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
@@ -29,7 +29,6 @@ import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitF
 import { PotentielWorld } from './potentiel.world.js';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given.js';
 
-should();
 setWorldConstructor(PotentielWorld);
 setDefaultTimeout(5000);
 waitForExpect.defaults.timeout = Number(process.env.WAIT_FOR_EXPECT_TIMEOUT_MS) || 300;

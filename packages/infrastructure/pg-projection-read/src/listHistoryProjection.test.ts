@@ -2,14 +2,12 @@ import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { faker } from '@faker-js/faker';
-import { should } from 'chai';
+import { expect } from 'chai';
 
 import type { HistoryRecord, ListHistoryResult } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { listHistoryProjection } from './listHistoryProjection.js';
-
-should();
 
 describe('listHistoryProjection', () => {
   let category = '';
@@ -130,7 +128,7 @@ describe('listHistoryProjection', () => {
 
     const expected = mapToListResultItems(fakeData);
 
-    actual.should.be.deep.equal(expected);
+    expect(actual).to.deep.equal(expected);
   });
 
   it('should find history records by category ordered by created_at', async () => {
@@ -143,7 +141,7 @@ describe('listHistoryProjection', () => {
       ...fakeDataWithCategoryAndId.filter((record) => record.category === category),
     ]);
 
-    actual.should.be.deep.equal(expected);
+    expect(actual).to.deep.equal(expected);
   });
 
   it('should find history records by id', async () => {
@@ -156,7 +154,7 @@ describe('listHistoryProjection', () => {
       ...fakeDataWithCategoryAndId.filter((record) => record.id === id),
     ]);
 
-    actual.should.be.deep.equal(expected);
+    expect(actual).to.deep.equal(expected);
   });
 
   it('should find history records by id and category', async () => {
@@ -167,6 +165,6 @@ describe('listHistoryProjection', () => {
 
     const expected = mapToListResultItems(fakeDataWithCategoryAndId);
 
-    actual.should.be.deep.equal(expected);
+    expect(actual).to.deep.equal(expected);
   });
 });

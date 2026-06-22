@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
-import { should } from 'chai';
+import 'chai/register-should.js';
 import { flatten, unflatten } from 'flat';
 
 import {
@@ -20,8 +20,6 @@ import {
   StartPositionGreaterThanEndPositionError,
 } from './getRangeClause.js';
 import { listProjection } from './listProjection.js';
-
-should();
 
 describe('listProjection', () => {
   let category1 = '';

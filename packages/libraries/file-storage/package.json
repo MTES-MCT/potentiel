@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
-    "@aws-sdk/client-s3": "3.997.0",
-    "@aws-sdk/lib-storage": "3.997.0"
+    "@aws-sdk/client-s3": "3.1068.0",
+    "@aws-sdk/lib-storage": "3.1068.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "tsx": "4.20.4"
+    "tsx": "4.22.4"
   }
 }

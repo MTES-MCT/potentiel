@@ -53,28 +53,26 @@
   },
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "devDependencies": {
-    "@biomejs/biome": "2.4.15",
-    "@faker-js/faker": "9.6.0",
-    "@types/chai": "4.3.20",
-    "chai": "4.5.0",
+    "@biomejs/biome": "2.5.0",
+    "@faker-js/faker": "10.4.0",
+    "chai": "6.2.2",
     "foreman": "3.0.1",
     "gitmoji-cli": "9.7.0",
     "husky": "9.1.7",
-    "lint-staged": "15.5.0",
-    "tsx": "4.20.4",
-    "turbo": "2.9.14",
-    "typescript": "5.9.3",
-    "update-ts-references": "4.0.0",
-    "wait-for-expect": "3.0.2"
+    "lint-staged": "17.0.7",
+    "tsx": "4.22.4",
+    "turbo": "2.9.18",
+    "typescript": "6.0.3",
+    "update-ts-references": "6.0.0",
+    "wait-for-expect": "4.0.0"
   },
   "engines": {
     "node": "^24.14.0"
   },
   "dependencies": {
-    "isomorphic-dompurify": "2.23.0",
-    "ts-pattern": "5.7.0"
+    "ts-pattern": "5.9.0"
   },
-  "packageManager": "npm@11.11.0",
+  "packageManager": "npm@11.17.0",
   "gitmoji": {
     "autoAdd": false,
     "emojiFormat": "emoji",

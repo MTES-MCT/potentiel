@@ -18,8 +18,8 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@react-pdf/renderer": "4.5.1",
-    "docxtemplater": "3.61.0",
-    "pizzip": "3.1.8"
+    "docxtemplater": "3.68.7",
+    "pizzip": "3.2.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",

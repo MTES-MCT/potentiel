@@ -1,6 +1,6 @@
 import { after, before, beforeEach, describe, it } from 'node:test';
 
-import { expect, should } from 'chai';
+import { expect } from 'chai';
 
 import type { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
@@ -9,8 +9,6 @@ import { publish } from '../../publish/publish.js';
 import { registerSubscriber } from '../subscriber/registerSubscriber.js';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement.js';
 import { retryPendingAcknowledgement } from './retryPendingAcknowledgement.js';
-
-should();
 
 describe('acknowledgement', () => {
   const streamCategory = 'category';
@@ -127,11 +125,11 @@ describe('acknowledgement', () => {
 
     // Act
     const actual = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
-    actual.length.should.be.equal(1);
+    expect(actual.length).to.equal(1);
     const [actual1] = actual;
 
     // Assert
-    actual1.type.should.be.equal(event2.type);
-    actual1.payload.should.be.deep.equal(event2.payload);
+    expect(actual1.type).to.equal(event2.type);
+    expect(actual1.payload).to.deep.equal(event2.payload);
   });
 });

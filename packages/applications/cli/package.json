@@ -28,7 +28,7 @@
     }
   },
   "dependencies": {
-    "@oclif/core": "4.11.0",
+    "@oclif/core": "4.11.4",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/notifications": "*",
@@ -49,12 +49,12 @@
     "@potentiel-statistiques/statistiques-publiques": "*",
     "mediateur": "0.3.0",
     "winston": "^3.19.0",
-    "zod": "4.1.9"
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "diff": "8.0.4",
-    "oclif": "4.23.0",
-    "tsx": "4.20.4"
+    "diff": "9.0.0",
+    "oclif": "4.23.16",
+    "tsx": "4.22.4"
   }
 }

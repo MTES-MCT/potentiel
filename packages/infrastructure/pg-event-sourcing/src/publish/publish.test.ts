@@ -1,15 +1,13 @@
 import { randomBytes } from 'node:crypto';
 import { after, before, beforeEach, describe, it } from 'node:test';
 
-import { should } from 'chai';
+import 'chai/register-should.js';
 
 import type { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { loadFromStream } from '../load/loadFromStream.js';
 import { type PublishEvent, publish } from './publish.js';
-
-should();
 
 describe(`publish`, () => {
   const streamId = `aggregateCategory|${randomBytes(6).toString('hex')}` as const;

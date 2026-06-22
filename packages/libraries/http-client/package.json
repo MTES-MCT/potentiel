@@ -10,7 +10,7 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "cockatiel": "3.2.1"
+    "cockatiel": "4.0.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
