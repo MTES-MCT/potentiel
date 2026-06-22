@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "1.32.0",
+    "@codegouvfr/react-dsfr": "1.32.4",
     "@emotion/react": "11.14.0",
     "@emotion/server": "11.11.0",
     "@emotion/styled": "11.14.0",
