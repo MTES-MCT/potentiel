@@ -130,10 +130,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         "Type de terrain d'implantation (pièce n°3)",
       ],
       [
-        { appelOffre: 'PPE2 - Eolien', typeImport: 'csv' },
-        "Type de terrain d'implantation (pièce n°3)",
-      ],
-      [
         { appelOffre: 'PPE2 - Autoconsommation métropole', typeImport: 'csv' },
         "Type de terrain d'implantation (pièce n°3)",
       ],
