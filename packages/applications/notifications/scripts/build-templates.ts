@@ -24,25 +24,27 @@ const outDirRoot = path.join(__dirname, '../dist/templates');
 const layoutPath = path.join(__dirname, '../src/templates/layouts/email.layout.html');
 
 const extractVariables = (template: string) => {
-  const { body } = Handlebars.parse(template);
-
-  return body.reduce((acc, curr) => {
-    const node = curr as hbs.AST.MustacheStatement;
-    if (node.type !== 'MustacheStatement') {
+  const extractVariablesFromBody = (body: hbs.AST.Statement[]): string[] =>
+    body.reduce((acc, curr) => {
+      const node = curr as hbs.AST.MustacheStatement | hbs.AST.BlockStatement;
+      if (node.type === 'BlockStatement') {
+        acc.push(...extractVariablesFromBody(node.program.body));
+      } else if (node.type !== 'MustacheStatement') {
+        return acc;
+      }
+      if (node.params.length > 0) {
+        acc.push(
+          ...node.params
+            .filter((p) => p.type === 'PathExpression')
+            .map((p) => (p as hbs.AST.PathExpression).original),
+        );
+      } else if (node.path.type === 'PathExpression') {
+        acc.push((node.path as hbs.AST.PathExpression).original);
+      }
       return acc;
-    }
+    }, [] as string[]);
 
-    if (node.params.length > 0) {
-      acc.push(
-        ...node.params
-          .filter((p) => p.type === 'PathExpression')
-          .map((p) => (p as hbs.AST.PathExpression).original),
-      );
-    } else if (node.path.type === 'PathExpression') {
-      acc.push((node.path as hbs.AST.PathExpression).original);
-    }
-    return acc;
-  }, [] as string[]);
+  return extractVariablesFromBody(Handlebars.parse(template).body);
 };
 
 const extractTemplates = (name: string, layout?: string) => {

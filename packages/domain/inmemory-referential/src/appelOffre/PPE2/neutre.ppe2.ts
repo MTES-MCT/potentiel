@@ -124,6 +124,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -135,7 +136,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 100-276861',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -179,7 +179,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2023 S 147-469153',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -222,7 +221,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2024/S 489025-2024',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -263,7 +261,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2025/S 125-430892',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {

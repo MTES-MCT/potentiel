@@ -181,6 +181,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -191,7 +192,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 18.79,
@@ -222,7 +222,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 12.9244110177221,
@@ -254,7 +253,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 11.72,
@@ -291,7 +289,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 7.14,
@@ -322,7 +319,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 16.69,
@@ -364,7 +360,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 23.45,
@@ -406,7 +401,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 90.08,
@@ -449,7 +443,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 27.31,
@@ -493,7 +486,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 40.32,
@@ -536,7 +528,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 21.6,
@@ -573,7 +564,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2025/S 93-00311732',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 35.77,
@@ -610,7 +600,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2026/S 33-110771',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 55.99,

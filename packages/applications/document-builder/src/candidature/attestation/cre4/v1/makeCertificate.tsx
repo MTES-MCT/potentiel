@@ -3,15 +3,16 @@ import type React from 'react';
 import type { JSX } from 'react';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
 
 import type { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
-import { formatNumber } from '../../helpers/index.js';
+import { formatNumber, formatterEnToutesLettres } from '../../helpers/index.js';
 import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 const Laureat = (project: AttestationCRE4Options) => {
   const { appelOffre, période, famille } = project;
-  const { delaiDcrEnMois } = période;
+  const délaiDcrEnMois = période.délaiDCR || appelOffre.délaiDCR;
   const objet = `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
 
   const soumisAuxGarantiesFinancieres =
@@ -99,10 +100,10 @@ const Laureat = (project: AttestationCRE4Options) => {
         }}
       >
         - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
-        {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente notification
+        {formatterEnToutesLettres(délaiDcrEnMois.grd)} mois à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
         {appelOffre.typeAppelOffre === 'eolien'
-          ? ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`
+          ? ` ou dans les ${nombresEnToutesLettres[délaiDcrEnMois.grd]} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`
           : ''}
         ;
       </Text>
@@ -117,12 +118,12 @@ const Laureat = (project: AttestationCRE4Options) => {
           }}
         >
           - constituer une garantie {appelOffre.typeAppelOffre === 'eolien' ? 'bancaire ' : ''}
-          d’exécution dans un délai de deux (2) mois à compter de la présente notification. Les
-          candidats retenus n’ayant pas adressé au préfet de région du site d’implantation
-          l’attestation de constitution de garantie financière dans le délai prévu feront l’objet
-          d’une procédure de mise en demeure. En l’absence d’exécution dans un délai d’un mois après
-          réception de la mise en demeure, le candidat pourra faire l’objet d’un retrait de la
-          présente décision le désignant lauréat
+          d’exécution dans un délai de {formatterEnToutesLettres(2)} mois à compter de la présente
+          notification. Les candidats retenus n’ayant pas adressé au préfet de région du site
+          d’implantation l’attestation de constitution de garantie financière dans le délai prévu
+          feront l’objet d’une procédure de mise en demeure. En l’absence d’exécution dans un délai
+          d’un mois après réception de la mise en demeure, le candidat pourra faire l’objet d’un
+          retrait de la présente décision le désignant lauréat
           <Text>
             {addFootNote(
               appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres,

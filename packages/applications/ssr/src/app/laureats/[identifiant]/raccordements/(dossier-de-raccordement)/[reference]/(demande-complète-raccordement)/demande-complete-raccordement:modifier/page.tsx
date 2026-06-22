@@ -2,14 +2,14 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
+import { type CahierDesCharges, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -52,7 +52,7 @@ export default async function Page(props0: PageProps) {
 
       const referenceDossierRaccordement = decodeParameter(reference);
 
-      const { période } = await getPériodeAppelOffres(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
       const gestionnaireRéseau =
         await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
@@ -82,7 +82,7 @@ export default async function Page(props0: PageProps) {
 
       const props = mapToProps({
         role: utilisateur.rôle,
-        période,
+        cahierDesCharges,
         gestionnaireRéseau: Option.isSome(gestionnaireRéseau) ? gestionnaireRéseau : undefined,
         identifiantProjet,
         dossierRaccordement,
@@ -103,17 +103,17 @@ export default async function Page(props0: PageProps) {
 }
 
 type MapToProps = (args: {
-  période: AppelOffre.Periode;
   role: Role.ValueType;
   gestionnaireRéseau?: Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: IdentifiantProjet.RawType;
   listeGestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel | undefined;
+  cahierDesCharges: CahierDesCharges.ValueType;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
   role,
-  période,
+  cahierDesCharges,
   gestionnaireRéseau,
   dossierRaccordement,
   identifiantProjet,
@@ -138,7 +138,10 @@ const mapToProps: MapToProps = ({
           dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
       },
     },
-    delaiDemandeDeRaccordementEnMois: période.delaiDcrEnMois,
+    delaiDemandeDeRaccordementEnMois: {
+      valeur: cahierDesCharges.getDélaiDCR().grd,
+      texte: nombresEnToutesLettres[cahierDesCharges.getDélaiDCR().grd],
+    },
     gestionnaireRéseauActuel: gestionnaireRéseau && {
       identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
       raisonSociale: gestionnaireRéseau.raisonSociale,

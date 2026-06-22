@@ -1,9 +1,10 @@
 import { Text, View } from '@react-pdf/renderer';
 
+import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
 import type { CahierDesCharges } from '@potentiel-domain/projet';
 
 import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
-import { formatNumber } from '../../helpers/index.js';
+import { formatNumber, formatterEnToutesLettres } from '../../helpers/index.js';
 import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 type MakeLaureatProps = {
@@ -14,7 +15,7 @@ type MakeLaureatProps = {
 export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) => {
   const { appelOffre, période } = project;
   const { soumisAuxGarantiesFinancieres } = appelOffre.garantiesFinancières || {};
-  const { delaiDcrEnMois } = période;
+  const délaiDCREnMois = cahierDesCharges.getDélaiDCR();
   const footnotes: Array<Footnote> = [];
   const addFootNote = makeAddFootnote(footnotes);
 
@@ -86,11 +87,11 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
             }}
           >
             - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
-            {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente
+            {formatterEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
             notification
             {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
             {appelOffre.typeAppelOffre === 'eolien' &&
-              ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
+              ` ou dans les ${nombresEnToutesLettres[délaiDCREnMois.grd]} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
             ;
           </Text>
 
