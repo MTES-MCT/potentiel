@@ -20,7 +20,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 34,
   delaiRealisationTexte: 'trente-quatre (34) mois',
   activerRappelsEchéanceAchèvement: true,
-  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: true,
+  délaiDCR: { grd: 3, potentiel: 4 },
   miseÀJour: {
     changement: {
       typologieInstallation: {},
@@ -151,7 +151,6 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
       cahierDesCharges: {
         référence: '2025/S 513616-2025',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
       // si CDC modifié ajouté, vérifier si retour au CDC initial possible

@@ -181,6 +181,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -191,7 +192,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -228,7 +228,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -266,7 +265,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -309,7 +307,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -346,7 +343,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -394,7 +390,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -442,7 +437,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -490,7 +484,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -540,7 +533,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -589,7 +581,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -632,7 +623,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2025/S 93-00311732',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -675,7 +665,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2026/S 33-110771',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {

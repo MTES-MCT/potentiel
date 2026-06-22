@@ -295,6 +295,14 @@ export type ChampsSupplémentairesCandidature = Partial<
   Record<ChampCandidature, TypeChampSupplémentaire>
 >;
 
+export type Nombres = 1 | 2 | 3 | 4;
+export type DélaiDCR = {
+  /** Auprès du GRD, en mois */
+  grd: Nombres;
+  /** Auprès du GRD, en mois. Omis si non requis par le CDC. */
+  potentiel?: Nombres;
+};
+
 export type Periode = {
   id: string;
   title: string;
@@ -307,10 +315,7 @@ export type Periode = {
    **/
   paragrapheEngagementIPFPGPFC?: string;
   cahierDesCharges: { référence: string };
-  delaiDcrEnMois: {
-    valeur: number;
-    texte: string;
-  };
+  délaiDCR?: DélaiDCR;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
@@ -375,7 +380,7 @@ export type AppelOffreReadModel = {
   dépôtDCRPossibleSeulementAprèsDésignation?: true;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
-  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant?: true;
+  délaiDCR: DélaiDCR;
   miseÀJour: RèglesMiseÀJour;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;

@@ -170,6 +170,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -180,7 +181,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021 S 203-530267',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [
         {
           id: '1',

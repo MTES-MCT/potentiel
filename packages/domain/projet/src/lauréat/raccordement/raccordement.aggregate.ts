@@ -194,24 +194,6 @@ export class RaccordementAggregate extends AbstractAggregate<
     return false;
   }
 
-  //#endregion helpers
-
-  private async planifierRelanceDemandeComplèteRaccordement(àExécuterLe: DateTime.ValueType) {
-    if (
-      !this.lauréat.parent.appelOffre
-        .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
-    ) {
-      return;
-    }
-    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.ajouter({
-      àExécuterLe,
-    });
-  }
-
-  private async annulerTâchePlanifiéeRelanceDCR() {
-    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
-  }
-
   async annulerTâchesEtTâchesPlanifiées() {
     await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
     await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
@@ -220,25 +202,33 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   async ajouterTâchesEtTâchesPlanifiées() {
-    const demandeComplèteDeRaccordementManquante = this.#dossiers.size === 0;
-    if (demandeComplèteDeRaccordementManquante) {
+    const dossiersRaccordements = [...this.#dossiers.values()];
+    if (dossiersRaccordements.length === 0) {
       await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
-      await this.planifierRelanceDemandeComplèteRaccordement(
-        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
-      );
+
+      let àExécuterLe = this.lauréat.notifiéLe.ajouterNombreDeMois(2);
+      if (this.lauréat.notifiéLe.estPassée()) {
+        àExécuterLe = DateTime.now().ajouterNombreDeJours(1);
+      }
+      await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.ajouter({
+        àExécuterLe,
+      });
     }
 
-    const dossierRaccordementSansAccuséDeRéception = [...this.#dossiers.values()].filter(
-      (dossier) => Option.isNone(dossier.demandeComplèteRaccordement.format),
+    const dossierRaccordementSansAccuséDeRéception = dossiersRaccordements.filter((dossier) =>
+      Option.isNone(dossier.demandeComplèteRaccordement.format),
     );
     if (dossierRaccordementSansAccuséDeRéception.length > 0) {
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
+    } else {
+      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
     }
 
     if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
     }
   }
+  //#endregion helpers
 
   //#region gestionnaire de réseau
 
@@ -285,16 +275,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
       await this.publish(event);
     }
-    await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
-
-    if (
-      this.parent.projet.appelOffre
-        .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
-    ) {
-      await this.planifierRelanceDemandeComplèteRaccordement(
-        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
-      );
-    }
+    await this.ajouterTâchesEtTâchesPlanifiées();
   }
   private applyGestionnaireRéseauRaccordemenInconnuEventV1(
     _: GestionnaireRéseauInconnuAttribuéEvent,
@@ -485,20 +466,9 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(dossierDuRaccordementSupprimé);
-
-    const dossiersRestants = [...this.#dossiers.values()];
-
-    if (dossiersRestants.length === 0) {
-      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
-    }
-    const dossiersSansAccuséDeRéception = dossiersRestants.filter((dossier) =>
-      Option.isSome(dossier.demandeComplèteRaccordement.format),
-    );
-
-    if (dossiersSansAccuséDeRéception.length > 0) {
-      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
-    }
+    await this.ajouterTâchesEtTâchesPlanifiées();
   }
+
   private applyDossierDuRaccordementSuppriméEventV1({
     payload,
   }: DossierDuRaccordementSuppriméEventV1) {
@@ -785,7 +755,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     }
 
-    await this.annulerTâchePlanifiéeRelanceDCR();
+    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
   }
   private applyDemandeComplèteDeRaccordementTransmiseEventV1({
     payload: { identifiantGestionnaireRéseau, référenceDossierRaccordement, dateQualification },
@@ -1157,7 +1127,6 @@ export class RaccordementAggregate extends AbstractAggregate<
 
   //#endregion date de mise en service
 
-  //#region apply
   apply(event: RaccordementEvent) {
     return match(event)
       .with(

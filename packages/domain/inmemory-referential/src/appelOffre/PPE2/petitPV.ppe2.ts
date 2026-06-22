@@ -17,7 +17,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       cahierDesCharges: {
         référence: '🦺 A COMPLETER 🦺',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
       // si CDC modifié ajouté, vérifier si retour au CDC initial possible

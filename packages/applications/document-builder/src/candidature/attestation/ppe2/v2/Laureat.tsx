@@ -1,9 +1,10 @@
 import { Text, View } from '@react-pdf/renderer';
 
+import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
 import type { CahierDesCharges } from '@potentiel-domain/projet';
 
 import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
-import { formatNumber } from '../../helpers/index.js';
+import { formatNumber, formatterEnToutesLettres } from '../../helpers/formatNumber.js';
 
 type LaureatProps = {
   project: AttestationPPE2Options;
@@ -12,7 +13,7 @@ type LaureatProps = {
 
 export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
   const { appelOffre, période } = project;
-  const { delaiDcrEnMois } = période;
+  const délaiDCREnMois = cahierDesCharges.getDélaiDCR();
 
   const paragrapheEngagementIPFPGPFC =
     période.paragrapheEngagementIPFPGPFC ?? appelOffre.paragrapheEngagementIPFPGPFC;
@@ -118,20 +119,22 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             }}
           >
             - {!appelOffre.dépôtDCRPossibleSeulementAprèsDésignation && `si ce n’est déjà fait, `}
-            déposer une demande complète de raccordement dans les {delaiDcrEnMois.texte} (
-            {delaiDcrEnMois.valeur}) mois à compter de la présente notification
+            déposer une demande complète de raccordement dans les{' '}
+            {formatterEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
+            notification
             {appelOffre.typeAppelOffre === 'eolien' &&
-              ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
+              ` ou dans les ${nombresEnToutesLettres[délaiDCREnMois.grd]} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
             &thinsp;;
           </Text>
-          {appelOffre.transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant && (
+          {délaiDCREnMois.potentiel && (
             <Text
               style={{
                 marginTop: 10,
               }}
             >
               - renseigner dans votre espace Potentiel la référence de l’affaire de raccordement
-              dans les quatre (4) mois à compter de la présente notification&thinsp;;
+              dans les {formatterEnToutesLettres(délaiDCREnMois.potentiel)} mois à compter de la
+              présente notification&thinsp;;
             </Text>
           )}
           {afficherObligationGarantiesFinancières6MoisAprèsAchèvement && (
@@ -177,8 +180,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             }}
           >
             - fournir à EDF
-            {appelOffre.transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant &&
-              `, par voie dématérialisée dans votre espace Potentiel,`}{' '}
+            {!!délaiDCREnMois.potentiel && `, par voie dématérialisée dans votre espace Potentiel,`}{' '}
             l’attestation de conformité de l’installation prévue au paragraphe{' '}
             {appelOffre.paragrapheAttestationConformite} du cahier des charges&thinsp;;
           </Text>
