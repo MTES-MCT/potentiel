@@ -9,20 +9,24 @@ import { templateVérificationDétailCandidature } from './templatesVérificatio
 
 const commonExpected: Candidature.DétailsCandidature = {
   composantsRésilients: undefined,
-  technologieAoÉolien: undefined,
-  diamètreRotorEnMètres: undefined,
-  hauteurBoutDePâleEnMètres: undefined,
-  installationRenouvelée: undefined,
-  nombreDAérogénérateurs: undefined,
-  puissanceUnitaireDesAérogénérateurs: undefined,
-  typeTerrainImplantation: undefined,
-  noteDegréInnovationSur20: undefined,
-  noteInnovation: undefined,
-  noteInnovationAdéquationAmbitionsIndustriellesSur5: undefined,
-  noteInnovationAspectsEnvironnementauxEtSociauxSur5: undefined,
-  noteInnovationPositionnementSurLeMarchéSur10: undefined,
-  noteInnovationQualitéTechniqueSur5: undefined,
   notePrix: undefined,
+  pv: { typeTerrainImplantation: undefined },
+  innovation: {
+    noteDegréInnovationSur20: undefined,
+    note: undefined,
+    noteAdéquationAmbitionsIndustriellesSur5: undefined,
+    noteAspectsEnvironnementauxEtSociauxSur5: undefined,
+    notePositionnementSurLeMarchéSur10: undefined,
+    noteQualitéTechniqueSur5: undefined,
+  },
+  éolien: {
+    technologie: undefined,
+    diamètreRotorEnMètres: undefined,
+    hauteurBoutDePâleEnMètres: undefined,
+    installationRenouvelée: undefined,
+    nombreDAérogénérateurs: undefined,
+    puissanceUnitaireDesAérogénérateurs: undefined,
+  },
 };
 
 test('Doit récupérer les données du payload correspondant au template', () => {
@@ -37,12 +41,14 @@ test('Doit récupérer les données du payload correspondant au template', () =>
 
   const expected: Candidature.DétailsCandidature = {
     ...commonExpected,
-    technologieAoÉolien: 'asynchrone',
-    diamètreRotorEnMètres: 30.9,
-    hauteurBoutDePâleEnMètres: 120.22,
-    installationRenouvelée: true,
-    nombreDAérogénérateurs: 2,
-    puissanceUnitaireDesAérogénérateurs: 1,
+    éolien: {
+      technologie: 'asynchrone',
+      diamètreRotorEnMètres: 30.9,
+      hauteurBoutDePâleEnMètres: 120.22,
+      installationRenouvelée: true,
+      nombreDAérogénérateurs: 2,
+      puissanceUnitaireDesAérogénérateurs: 1,
+    },
   };
 
   const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
@@ -55,7 +61,7 @@ test('Doit récupérer les données du payload correspondant au template', () =>
 
 test("Appel d'offres non concerné par des données de détail vérifiées : ne pas retourner de valeurs non attendues", () => {
   const payload = {
-    'Diamètre du rotor (m) (AO éolien)': '30', // propre à l'AO éolien
+    'Diamètre du rotor (m) (AO éolien)': '30', // propre à l'AO éolien donc à ignorer pour les autres AOs
     'autre clé': 'autre valeur',
   };
 

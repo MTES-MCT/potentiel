@@ -175,7 +175,7 @@ const mapToReadModel: MapToReadModelProps = ({
   puissanceDuProjetInitial,
   technologieCalculée,
 
-  'détail-candidature': détailCandidatureVérifié,
+  'détail-candidature': détail,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -224,19 +224,19 @@ const mapToReadModel: MapToReadModelProps = ({
       : undefined,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
-    typeTerrainImplantation: détailCandidatureVérifié?.typeTerrainImplantation,
-    composantsRésilients: détailCandidatureVérifié?.composantsRésilients,
-    technologieÉolien: détailCandidatureVérifié?.technologieAoÉolien,
-    diamètreRotorEnMètres: détailCandidatureVérifié?.diamètreRotorEnMètres?.toString(),
-    hauteurBoutDePâleEnMètres: détailCandidatureVérifié?.hauteurBoutDePâleEnMètres?.toString(),
+    typeTerrainImplantation: détail?.pv?.typeTerrainImplantation,
+    composantsRésilients: détail?.composantsRésilients,
+    technologieÉolien: détail?.éolien?.technologie,
+    diamètreRotorEnMètres: détail?.éolien?.diamètreRotorEnMètres?.toString(),
+    hauteurBoutDePâleEnMètres: détail?.éolien?.hauteurBoutDePâleEnMètres?.toString(),
     installationRenouvelée:
-      détailCandidatureVérifié?.installationRenouvelée === true
+      détail?.éolien?.installationRenouvelée === true
         ? 'oui'
-        : détailCandidatureVérifié?.installationRenouvelée === false
+        : détail?.éolien?.installationRenouvelée === false
           ? 'non'
           : undefined,
-    nombreDAérogénérateurs: détailCandidatureVérifié?.nombreDAérogénérateurs?.toString(),
+    nombreDAérogénérateurs: détail?.éolien?.nombreDAérogénérateurs?.toString(),
     puissanceUnitaireDesAérogénérateurs:
-      détailCandidatureVérifié?.puissanceUnitaireDesAérogénérateurs?.toString(),
+      détail?.éolien?.puissanceUnitaireDesAérogénérateurs?.toString(),
   };
 };

@@ -2,7 +2,7 @@ import type { Candidature } from '@potentiel-domain/projet';
 
 export const mapDétailsToTypeTerrainImplantation = (
   value?: string | undefined,
-): Candidature.DétailsCandidature['typeTerrainImplantation'] => {
+): Candidature.TypeDeTerrainDImplantation | undefined => {
   if (!value) return undefined;
   const v = value.toLowerCase();
   if (['1', 'cas 1'].includes(v)) {

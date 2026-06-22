@@ -1,8 +1,4 @@
-import type { Candidature } from '@potentiel-domain/projet';
-
-export const getTechnologieEolien = (
-  value?: string,
-): Candidature.DétailsCandidature['technologieAoÉolien'] => {
+export const getTechnologieEolien = (value?: string): 'asynchrone' | 'synchrone' | undefined => {
   if (!value) return undefined;
 
   const v = value

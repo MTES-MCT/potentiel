@@ -7,13 +7,31 @@ type Props = {
   typeImport: AppelOffre.Periode['typeImport'];
 };
 
+type Field<T> = {
+  type: 'field';
+  label: Array<[Partial<Props>, string]>;
+  mapper: (value: string | undefined, props: Props) => T;
+};
+
+type Group<T> = {
+  type: 'group';
+  fields: Template<T>;
+};
+
 export type Template<T> = {
-  [K in keyof T]:
-    | {
-        label: Array<[Partial<Props>, string]>;
-        mapper: (value: string, props: Props) => T[K];
-      }
-    | undefined;
+  [K in keyof T]: TemplateNode<T[K]>;
+};
+
+type TemplateNode<T> = NonNullable<T> extends object ? Group<NonNullable<T>> | Field<T> : Field<T>;
+
+export const getLabel = (labelOptions: Array<[Partial<Props>, string]>, props: Props) => {
+  let matcher = match(props).returnType<string | undefined>();
+
+  for (const [condition, label] of labelOptions) {
+    matcher = matcher.with(condition as Partial<Props>, () => label);
+  }
+
+  return matcher.otherwise(() => undefined);
 };
 
 export const applyTemplateToPayload = <T>(
@@ -23,24 +41,18 @@ export const applyTemplateToPayload = <T>(
 ): T => {
   const result = {} as T;
 
-  const keys = Object.keys(template) as Array<keyof T>;
+  for (const key of Object.keys(template) as Array<keyof T>) {
+    const node = template[key];
 
-  for (const key of keys) {
-    const field = template[key];
+    if (node.type === 'group') {
+      result[key] = applyTemplateToPayload(payload, node.fields, props) as T[keyof T];
 
-    if (!field) {
-      result[key] = undefined as T[keyof T];
       continue;
     }
 
-    const { label: labelOptions, mapper } = field;
+    const label = getLabel(node.label, props);
 
-    let matcher = match<Props>(props).returnType<string | undefined>();
-    for (const [matchCondition, labelValue] of labelOptions) {
-      matcher = matcher.with(matchCondition, () => labelValue);
-    }
-    const label = matcher.otherwise(() => undefined);
-    result[key] = label ? mapper(payload[label], props) : (undefined as T[keyof T]);
+    result[key] = node.mapper(label ? payload[label] : undefined, props) as T[keyof T];
   }
 
   return result;

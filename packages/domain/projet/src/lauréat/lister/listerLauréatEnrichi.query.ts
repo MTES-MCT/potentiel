@@ -281,7 +281,7 @@ const mapToReadModel: MapToReadModelProps = ({
     achèvement,
     'power-purchase-agreement': powerPurchaseAgreement,
     actionnaire,
-    'détail-candidature': détailCandidatureVérifié,
+    'détail-candidature': détail,
     installation,
     'nature-de-l-exploitation': natureDeLExploitation,
     raccordement,
@@ -368,21 +368,21 @@ const mapToReadModel: MapToReadModelProps = ({
           natureDeLExploitation.typeNatureDeLExploitation,
         )
       : undefined,
-    typeTerrainImplantation: détailCandidatureVérifié?.typeTerrainImplantation,
+    typeTerrainImplantation: détail?.pv?.typeTerrainImplantation,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
-    composantsRésilients: détailCandidatureVérifié?.composantsRésilients,
-    technologieÉolien: détailCandidatureVérifié?.technologieAoÉolien,
-    diamètreRotorEnMètres: détailCandidatureVérifié?.diamètreRotorEnMètres?.toString(),
-    hauteurBoutDePâleEnMètres: détailCandidatureVérifié?.hauteurBoutDePâleEnMètres?.toString(),
+    composantsRésilients: détail?.composantsRésilients,
+    technologieÉolien: détail?.éolien?.technologie,
+    diamètreRotorEnMètres: détail?.éolien?.diamètreRotorEnMètres?.toString(),
+    hauteurBoutDePâleEnMètres: détail?.éolien?.hauteurBoutDePâleEnMètres?.toString(),
     installationRenouvelée:
-      détailCandidatureVérifié?.installationRenouvelée === true
+      détail?.éolien?.installationRenouvelée === true
         ? 'oui'
-        : détailCandidatureVérifié?.installationRenouvelée === false
+        : détail?.éolien?.installationRenouvelée === false
           ? 'non'
           : undefined,
-    nombreDAérogénérateurs: détailCandidatureVérifié?.nombreDAérogénérateurs?.toString(),
+    nombreDAérogénérateurs: détail?.éolien?.nombreDAérogénérateurs?.toString(),
     puissanceUnitaireDesAérogénérateurs:
-      détailCandidatureVérifié?.puissanceUnitaireDesAérogénérateurs?.toString(),
+      détail?.éolien?.puissanceUnitaireDesAérogénérateurs?.toString(),
   };
 };

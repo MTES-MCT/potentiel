@@ -73,17 +73,21 @@ const getNotes = async (identifiantProjet: IdentifiantProjet.RawType) => {
     noteTotale: formatterNote(candidature.instruction.noteTotale),
     notePrix: formatterNote(détailsCandidature.détail.notePrix),
     notesInnovation: {
-      note: formatterNote(détailsCandidature.détail.noteInnovation),
-      degréInnovation: formatterNote(détailsCandidature.détail.noteDegréInnovationSur20),
-      positionnement: formatterNote(
-        détailsCandidature.détail.noteInnovationPositionnementSurLeMarchéSur10,
+      note: formatterNote(détailsCandidature.détail.innovation?.note),
+      degréInnovation: formatterNote(
+        détailsCandidature.détail.innovation?.noteDegréInnovationSur20,
       ),
-      qualitéTechnique: formatterNote(détailsCandidature.détail.noteInnovationQualitéTechniqueSur5),
+      positionnement: formatterNote(
+        détailsCandidature.détail.innovation?.notePositionnementSurLeMarchéSur10,
+      ),
+      qualitéTechnique: formatterNote(
+        détailsCandidature.détail.innovation?.noteQualitéTechniqueSur5,
+      ),
       adéquationAmbitionsIndustrielles: formatterNote(
-        détailsCandidature.détail.noteInnovationAdéquationAmbitionsIndustriellesSur5,
+        détailsCandidature.détail.innovation?.noteAdéquationAmbitionsIndustriellesSur5,
       ),
       aspectsEnvironnementauxEtSociaux: formatterNote(
-        détailsCandidature.détail.noteInnovationAspectsEnvironnementauxEtSociauxSur5,
+        détailsCandidature.détail.innovation?.noteAspectsEnvironnementauxEtSociauxSur5,
       ),
     },
   };
