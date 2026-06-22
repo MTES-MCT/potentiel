@@ -34,6 +34,9 @@ export type ListerTâchesPlanifiéesQueryDependencies = {
   list: List;
 };
 
+/**
+ * Cette query n'a pas de scope d'accès car elle est destinée au système pour lister les tâches planifiées à exécuter.
+ */
 export const registerListerTâchesPlanifiéesQuery = ({
   list,
 }: ListerTâchesPlanifiéesQueryDependencies) => {
