@@ -6,7 +6,7 @@ Madame, Monsieur,
 
 La demande complète de raccordement du projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**, est en attente de transmission.
 
-{{#if délai_transmission_dcr_grd}}
+{{#if délai_transmission_dcr_potentiel}}
 **Pour rappel**, vous disposez à compter de la désignation ou de l’accord de recours, d’un délai de :
 
 - **{{délai_transmission_dcr_grd}} mois pour transmettre une demande complète de raccordement** au gestionnaire de réseau (sous peine de risque de prélèvement des garanties financières ou à défaut une sanction pécuniaire au titre de l'article L311-15 du code de l'énergie).
