@@ -54,12 +54,14 @@ export class Executer extends Command {
 
   async run() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
-    if (!['production'].includes(APPLICATION_STAGE)) {
-      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
+    const { flags } = await this.parse(Executer);
+    if (!flags.date && APPLICATION_STAGE !== 'production') {
+      console.log(
+        `This job only runs in production. For other environments, please specify a date with the --date flag.`,
+      );
       return;
     }
 
-    const { flags } = await this.parse(Executer);
     const àExécuterLe = DateTime.convertirEnValueType(new Date(flags.date));
     const logger = getLogger('Scheduler');
     logger.info('Lancement du script...');
