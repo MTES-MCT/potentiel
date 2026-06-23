@@ -6,7 +6,6 @@ Fonctionnalité: Importer une candidature
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut | <Statut> |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
         Exemples:
             | Statut  |
@@ -18,7 +17,6 @@ Fonctionnalité: Importer une candidature
             | statut                     | classé |
             | obligation de solarisation | oui    |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Importer une candidature avec un champ optionnel "installateur"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -26,7 +24,6 @@ Fonctionnalité: Importer une candidature
             | installateur   | Installateur.Inc         |
             | statut         | classé                   |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une information sur le couplage avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -35,7 +32,6 @@ Fonctionnalité: Importer une candidature
             | puissance du dispositif                  | 3                        |
             | capacité du dispositif                   | 4                        |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Importer une candidature avec un champ requis "nature de l'exploitation"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -43,14 +39,12 @@ Fonctionnalité: Importer une candidature
             | type de nature de l'exploitation | vente-avec-injection-en-totalité |
             | statut                           | classé                           |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres    | PPE2 - Petit PV Bâtiment |
             | puissance de site | 100                      |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une autorisation pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -58,7 +52,6 @@ Fonctionnalité: Importer une candidature
             | numéro de l'autorisation           | 123                      |
             | date d'obtention de l'autorisation | 01/08/2025               |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Importer une candidature sans technologie si l'AO a une seule technologie
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -66,7 +59,6 @@ Fonctionnalité: Importer une candidature
             | appel d'offres | PPE2 - Sol |
             | technologie    | N/A        |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Importer une candidature avec des coordonnées géodésiques
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
