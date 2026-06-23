@@ -36,7 +36,7 @@ test('Doit récupérer les données du payload correspondant au template', () =>
     'Hauteur bout de pâle (m) (AO éolien)': '120,22',
     "Nb d'aérogénérateurs (AO éolien)": '2',
     'Puissance unitaire des aérogénérateurs (AO éolien)': '1',
-    'Installation renouvellée (AO éolien)': 'Oui',
+    'Installation renouvellée (AO éolien)': 'Non',
   };
 
   const expected: Candidature.DétailsCandidature = {
@@ -45,7 +45,7 @@ test('Doit récupérer les données du payload correspondant au template', () =>
       technologie: 'asynchrone',
       diamètreRotorEnMètres: 30.9,
       hauteurBoutDePâleEnMètres: 120.22,
-      installationRenouvelée: true,
+      installationRenouvelée: false,
       nombreDAérogénérateurs: 2,
       puissanceUnitaireDesAérogénérateurs: 1,
     },

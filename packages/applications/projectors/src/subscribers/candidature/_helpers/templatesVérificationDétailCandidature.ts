@@ -9,9 +9,7 @@ const getBoolean = (value: string | undefined): boolean | undefined => {
   const v = value.toLowerCase();
 
   if (v === 'oui' || v === 'true') return true;
-  if (v === 'non' || v === 'false') false;
-
-  return undefined;
+  if (v === 'non' || v === 'false') return false;
 };
 
 const getNumber = (value: string | undefined): number | undefined => {
