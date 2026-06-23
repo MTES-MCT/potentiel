@@ -269,6 +269,27 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
   }
 >;
 
+export type DocumentConventionRaccordementTransmisEventV1 = DomainEvent<
+  'DocumentConventionRaccordementTransmis-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    // sera un value type
+    type:
+      | 'proposition-technique-et-financière'
+      | 'convention-de-raccordement'
+      | 'convention-directe-de-racordement'
+      | 'inconnu';
+    dateSignature?: DateTime.RawType;
+    document: {
+      format: string;
+    };
+  }
+>;
+
+/**
+ * @deprecated Utilisez PropositionTechniqueEtFinancièreModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
 export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée-V3',
   {

@@ -1,3 +1,4 @@
+// biome-ignore assist/source/organizeImports: organized by hand for this index
 import type {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
@@ -93,18 +94,6 @@ export type RaccordementUseCase =
   | TransmettrePropositionTechniqueEtFinancièreUseCase
   | SupprimerDossierDuRaccordementUseCase
   | SupprimerDateMiseEnServiceUseCase;
-
-export * as DocumentRaccordement from './documentRaccordement.valueType.js';
-export type * from './dossierRaccordement.entity.js';
-// Entities
-export type * from './raccordement.entity.js';
-// Events
-export type * from './raccordement.event.js';
-// Value types
-export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType.js';
-// Saga
-export * as RaccordementSaga from './saga/raccordement.saga.js';
-export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType.js';
 export type {
   ModifierDateMiseEnServiceUseCase,
   ModifierDemandeComplèteRaccordementUseCase,
@@ -117,3 +106,16 @@ export type {
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
 };
+
+// Entities
+export type * from './raccordement.entity.js';
+export type * from './dossierRaccordement.entity.js';
+// Events
+export type * from './raccordement.event.js';
+// Value types
+export * as DocumentRaccordement from './documentRaccordement.valueType.js';
+export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType.js';
+export * as TypeDocumentConventionRaccordement from './typeDocumentConventionRaccordement.valueType.js';
+export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType.js';
+// Saga
+export * as RaccordementSaga from './saga/raccordement.saga.js';
