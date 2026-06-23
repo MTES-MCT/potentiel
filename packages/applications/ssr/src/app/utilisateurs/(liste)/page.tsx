@@ -59,17 +59,21 @@ export default async function Page(props: PageProps) {
         actif,
       } = paramsSchema.parse(searchParams);
 
+      const filtresUtilisateurs = {
+        roles: role ? [Role.convertirEnValueType(role).nom] : undefined,
+        identifiantUtilisateur,
+        identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
+        région: region,
+        zones: zone ? [zone] : undefined,
+        zni,
+        actif,
+      };
+
       const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
-          roles: role ? [Role.convertirEnValueType(role).nom] : undefined,
-          identifiantUtilisateur,
+          ...filtresUtilisateurs,
           range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
-          identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
-          région: region,
-          zones: zone ? [zone] : undefined,
-          zni,
-          actif,
         },
       });
       const filters: ListFilterItem<keyof z.infer<typeof paramsSchema>>[] = [
@@ -168,14 +172,7 @@ export default async function Page(props: PageProps) {
         if (role && role !== Role.porteur.nom) {
           const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
             type: 'Utilisateur.Query.ListerUtilisateurs',
-            data: {
-              roles: [Role.convertirEnValueType(role).nom],
-              identifiantUtilisateur,
-              identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
-              région: region,
-              zni,
-              actif,
-            },
+            data: { ...filtresUtilisateurs, actif: true },
           });
           actions.push({
             label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
