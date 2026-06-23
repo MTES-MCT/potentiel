@@ -4,6 +4,7 @@ import type { JSX } from 'react';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
+import { CahierDesCharges } from '@potentiel-domain/projet';
 
 import type { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
@@ -12,7 +13,13 @@ import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.j
 
 const Laureat = (project: AttestationCRE4Options) => {
   const { appelOffre, période, famille } = project;
-  const délaiDcrEnMois = période.délaiDCR || appelOffre.délaiDCR;
+  const cahierDesCharges = CahierDesCharges.bind({
+    ...project,
+    // pas de CDC modificatif possible à la désignation
+    cahierDesChargesModificatif: undefined,
+  });
+  const délaiDCREnMois = cahierDesCharges.getDélaiDCR();
+
   const objet = `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
 
   const soumisAuxGarantiesFinancieres =

@@ -281,7 +281,7 @@ export type Nombres = 1 | 2 | 3 | 4;
 export type DélaiDCR = {
   /** Auprès du GRD, en mois */
   grd: Nombres;
-  /** Auprès du GRD, en mois. Omis si non requis par le CDC. */
+  /** Dans Potentiel, en mois. Omis si non requis par le CDC. */
   potentiel?: Nombres;
 };
 
