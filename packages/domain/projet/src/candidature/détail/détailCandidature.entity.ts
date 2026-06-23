@@ -10,6 +10,8 @@ export type TypeDeTerrainDImplantation =
   | 'cas 4'
   | 'cas mixte';
 
+export type TechnologieEolien = 'asynchrone' | 'synchrone';
+
 export type DétailsCandidature = {
   composantsRésilients: string | undefined;
   notePrix: number | undefined;
@@ -25,7 +27,7 @@ export type DétailsCandidature = {
     noteAspectsEnvironnementauxEtSociauxSur5: number | undefined;
   };
   éolien?: {
-    technologie: 'asynchrone' | 'synchrone' | undefined;
+    technologie: TechnologieEolien | undefined;
     diamètreRotorEnMètres: number | undefined;
     hauteurBoutDePâleEnMètres: number | undefined;
     installationRenouvelée: boolean | undefined;

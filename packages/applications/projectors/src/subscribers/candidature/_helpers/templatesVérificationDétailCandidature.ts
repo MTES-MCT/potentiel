@@ -29,26 +29,11 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       typeTerrainImplantation: {
         type: 'field',
         label: [
-          [
-            { appelOffre: 'Fessenheim', typeImport: 'csv' },
-            "Type de terrain d'implantation (pièce n°3)",
-          ],
-          [
-            { appelOffre: 'CRE4 - ZNI 2017', typeImport: 'csv' },
-            "Type de terrain d'implantation (pièce n°3)",
-          ],
-          [
-            { appelOffre: 'CRE4 - ZNI', typeImport: 'csv' },
-            "Type de terrain d'implantation (pièce n°3)",
-          ],
-          [
-            { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
-            "Type de terrain d'implantation (pièce n°3)",
-          ],
-          [
-            { appelOffre: 'CRE4 - Sol', typeImport: 'csv' },
-            "Type de terrain d'implantation (pièce n°3)",
-          ],
+          [{ appelOffre: 'Fessenheim' }, "Type de terrain d'implantation (pièce n°3)"],
+          [{ appelOffre: 'CRE4 - ZNI 2017' }, "Type de terrain d'implantation (pièce n°3)"],
+          [{ appelOffre: 'CRE4 - ZNI' }, "Type de terrain d'implantation (pièce n°3)"],
+          [{ appelOffre: 'CRE4 - Innovation' }, "Type de terrain d'implantation (pièce n°3)"],
+          [{ appelOffre: 'CRE4 - Sol' }, "Type de terrain d'implantation (pièce n°3)"],
           [
             { appelOffre: 'PPE2 - Sol', typeImport: 'csv' },
             "Type de terrain d'implantation (pièce n°3)",
@@ -184,21 +169,13 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     fields: {
       note: {
         type: 'field',
-        label: [
-          [
-            { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
-            'Note innovation (AO innovation)',
-          ],
-        ],
+        label: [[{ appelOffre: 'CRE4 - Innovation' }, 'Note innovation (AO innovation)']],
         mapper: getNumber,
       },
       noteDegréInnovationSur20: {
         type: 'field',
         label: [
-          [
-            { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
-            'Note degré d’innovation (/20pt) (AO innovation)',
-          ],
+          [{ appelOffre: 'CRE4 - Innovation' }, 'Note degré d’innovation (/20pt) (AO innovation)'],
           [
             { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
             'Note degré d’innovation (/20pt) (AO innovation)',
@@ -210,7 +187,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         type: 'field',
         label: [
           [
-            { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+            { appelOffre: 'CRE4 - Innovation' },
             'Note adéquation du projet avec les ambitions industrielles (/5pt) (AO innovation)',
           ],
           [
@@ -224,7 +201,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         type: 'field',
         label: [
           [
-            { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+            { appelOffre: 'CRE4 - Innovation' },
             'Note aspects environnementaux et sociaux (/5pt) (AO innovation)',
           ],
           [
@@ -238,7 +215,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         type: 'field',
         label: [
           [
-            { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+            { appelOffre: 'CRE4 - Innovation' },
             'Note positionnement sur le marché (/10pt) (AO innovation)',
           ],
           [
@@ -251,10 +228,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       noteQualitéTechniqueSur5: {
         type: 'field',
         label: [
-          [
-            { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
-            'Note qualité technique (/5pt) (AO innovation)',
-          ],
+          [{ appelOffre: 'CRE4 - Innovation' }, 'Note qualité technique (/5pt) (AO innovation)'],
           [
             { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
             'Note qualité technique (/5pt) (AO innovation)',
@@ -267,7 +241,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
   notePrix: {
     type: 'field',
     label: [
-      [{ appelOffre: 'CRE4 - Innovation', typeImport: 'csv' }, 'Note prix'],
+      [{ appelOffre: 'CRE4 - Innovation' }, 'Note prix'],
       [{ appelOffre: 'PPE2 - Innovation', typeImport: 'csv' }, 'Note prix'],
     ],
     mapper: getNumber,

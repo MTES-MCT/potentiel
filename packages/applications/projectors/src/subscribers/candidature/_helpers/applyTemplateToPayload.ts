@@ -45,14 +45,14 @@ export const applyTemplateToPayload = <T>(
     const node = template[key];
 
     if (node.type === 'group') {
-      result[key] = applyTemplateToPayload(payload, node.fields, props) as T[keyof T];
+      result[key] = applyTemplateToPayload(payload, node.fields, props);
 
       continue;
     }
 
     const label = getLabel(node.label, props);
 
-    result[key] = node.mapper(label ? payload[label] : undefined, props) as T[keyof T];
+    result[key] = node.mapper(label ? payload[label] : undefined, props);
   }
 
   return result;

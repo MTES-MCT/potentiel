@@ -1,4 +1,6 @@
-export const getTechnologieEolien = (value?: string): 'asynchrone' | 'synchrone' | undefined => {
+import type { Candidature } from '@potentiel-domain/projet';
+
+export const getTechnologieEolien = (value?: string): Candidature.TechnologieEolien | undefined => {
   if (!value) return undefined;
 
   const v = value

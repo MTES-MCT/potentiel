@@ -65,9 +65,7 @@ test("Appel d'offres non concerné par des données de détail vérifiées : ne 
     'autre clé': 'autre valeur',
   };
 
-  const expected: Candidature.DétailsCandidature = {
-    ...commonExpected,
-  };
+  const expected: Candidature.DétailsCandidature = commonExpected;
 
   const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
     appelOffre: 'PPE2 - Sol',
