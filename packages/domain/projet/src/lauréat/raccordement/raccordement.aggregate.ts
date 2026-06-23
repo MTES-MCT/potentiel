@@ -581,6 +581,42 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
   }
+
+  async transmettreDocumentRaccordement({
+    dateSignature,
+    référenceDossierRaccordement,
+    formatDocument,
+    transmisLe,
+    transmisPar,
+  }: TransmettreDocumentRaccordementOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.vérifierStatutDuLauréat();
+
+    if (dateSignature.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
+    if (!this.contientLeDossier(référenceDossierRaccordement)) {
+      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
+    }
+
+    const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
+      type: 'PropositionTechniqueEtFinancièreTransmise-V3',
+      payload: {
+        dateSignature: dateSignature.formatter(),
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        propositionTechniqueEtFinancièreSignée: {
+          format: formatPropositionTechniqueEtFinancièreSignée,
+        },
+        transmiseLe: transmiseLe.formatter(),
+        transmisePar: transmisePar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   private applyPropositionTechniqueEtFinancièreTransmiseEventV1({
     payload: { dateSignature, référenceDossierRaccordement },
   }: PropositionTechniqueEtFinancièreTransmiseEventV1) {

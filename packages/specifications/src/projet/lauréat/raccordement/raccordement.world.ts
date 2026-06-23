@@ -5,8 +5,11 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import type { LauréatWorld } from '../lauréat.world.js';
 import { DateMiseEnServiceWorld } from './dateDeMiseEnService/dateMiseEnService.world.js';
 import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
+import {
+  DocumentRaccordementWorld,
+  PropositionTechniqueEtFinancièreWorld,
+} from './documentConventionDeRaccordement/documentRaccordement.world.js';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
-import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
 
 export class RaccordementWorld {
   readonly modifierRéférenceDossierRaccordementFixture =
@@ -14,6 +17,7 @@ export class RaccordementWorld {
 
   readonly demandeComplèteDeRaccordement = new DemandeComplèteRaccordementWorld();
   readonly propositionTechniqueEtFinancière = new PropositionTechniqueEtFinancièreWorld();
+  readonly documentRaccordement = new DocumentRaccordementWorld();
   readonly dateMiseEnService: DateMiseEnServiceWorld;
 
   constructor(public lauréatWorld: LauréatWorld) {
