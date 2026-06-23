@@ -9,11 +9,12 @@ import { makeCertificate } from './makeCertificate.js';
 
 const meta = {
   title: 'Attestations PDF',
-  component: ({ appelOffre, isClasse, periode }) => {
+  component: ({ appelOffre, isClasse, periode, typeActionnariat }) => {
     const data: AttestationCandidatureOptions = {
-      ...fakeProject(appelOffre, periode),
+      ...fakeProject(appelOffre, periode, typeActionnariat),
       isClasse,
     };
+
     return makeCertificate({
       data,
       validateur,
@@ -25,6 +26,7 @@ const meta = {
       control: 'select',
       options: appelsOffreData.map((x) => x.id),
     },
+
     periode: {
       control: 'select',
       options: [...new Set(appelsOffreData.flatMap((x) => x.periodes.map((p) => p.id)))],
@@ -45,11 +47,18 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCandidatureOptions => {
+const fakeProject = (
+  appelOffreId: string,
+  périodeId: string | undefined,
+  typeActionnariat: Candidature.TypeActionnariat.RawType | undefined,
+): AttestationCandidatureOptions => {
   const appelOffre = appelsOffreData.find((x) => x.id === appelOffreId)!;
   const période =
     appelOffre.periodes.find((x) => x.id === périodeId) ??
     appelOffre.periodes[appelOffre.periodes.length - 1];
+  const actionnariat = typeActionnariat
+    ? Candidature.TypeActionnariat.convertirEnValueType(typeActionnariat)
+    : undefined;
 
   const data = {
     appelOffre,
@@ -58,10 +67,6 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     isClasse: true,
     prixReference: 42,
     evaluationCarbone: 42,
-    isFinancementParticipatif: true,
-    isInvestissementParticipatif: true,
-    isGouvernancePartagée: true,
-    isFinancementCollectif: true,
     engagementFournitureDePuissanceAlaPointe: true,
     motifsElimination: 'motifsElimination',
     notifiedOn: Date.now(),
@@ -80,15 +85,20 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     autorisation: undefined,
   } satisfies Partial<AttestationCandidatureOptions>;
 
-  if (!période.certificateTemplate || période.certificateTemplate === 'ppe2.v2') {
+  if (période.certificateTemplate === 'cre4.v0' || période.certificateTemplate === 'cre4.v1') {
     return {
-      template: 'ppe2.v2',
-      logo: période.certificateTemplate === 'ppe2.v2' ? période.logo : 'MCE',
+      template: période.certificateTemplate,
+      isFinancementParticipatif: actionnariat?.estFinancementParticipatif() ?? false,
+      isInvestissementParticipatif: actionnariat?.estInvestissementParticipatif() ?? false,
       ...data,
     };
   }
+
   return {
-    template: période.certificateTemplate,
+    template: période.certificateTemplate ?? 'ppe2.v2',
+    logo: période.certificateTemplate === 'ppe2.v2' ? période.logo : 'MCE',
+    isFinancementCollectif: actionnariat?.estFinancementCollectif() ?? false,
+    isGouvernancePartagée: actionnariat?.estGouvernancePartagée() ?? false,
     ...data,
   };
 };
