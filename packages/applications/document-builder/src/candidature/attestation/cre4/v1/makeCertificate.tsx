@@ -107,10 +107,10 @@ const Laureat = (project: AttestationCRE4Options) => {
         }}
       >
         - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
-        {formatterEnToutesLettres(délaiDcrEnMois.grd)} mois à compter de la présente notification
+        {formatterEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
         {appelOffre.typeAppelOffre === 'eolien'
-          ? ` ou dans les ${nombresEnToutesLettres[délaiDcrEnMois.grd]} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`
+          ? ` ou dans les ${nombresEnToutesLettres[délaiDCREnMois.grd]} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`
           : ''}
         ;
       </Text>
