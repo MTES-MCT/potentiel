@@ -1,13 +1,12 @@
 import { type IWorldOptions, World } from '@cucumber/cucumber';
 
-import { AccèsWorld } from './accès/accès.world.js';
 import { CandidatureWorld } from './candidature/candidature.world.js';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world.js';
 import { NotificationWorld } from './notification/notification.world.js';
+import { AccèsWorld } from './projet/accès/accès.world.js';
 import { LauréatWorld } from './projet/lauréat/lauréat.world.js';
 import { ÉliminéWorld } from './projet/éliminé/éliminé.world.js';
 import { PériodeWorld } from './période/période.world.js';
-import { RaccordementWorld } from './raccordement/raccordement.world.js';
 import { TâcheWorld } from './tâche/tâche.world.js';
 import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.world.js';
 import { UtilisateurWorld } from './utilisateur/utilisateur.world.js';
@@ -41,12 +40,6 @@ export class PotentielWorld extends World {
 
   get éliminéWorld() {
     return this.#éliminéWorld;
-  }
-
-  #raccordementWorld!: RaccordementWorld;
-
-  get raccordementWorld() {
-    return this.#raccordementWorld;
   }
 
   #tâcheWorld!: TâcheWorld;
@@ -104,7 +97,6 @@ export class PotentielWorld extends World {
     this.#gestionnaireRéseauWorld = new GestionnaireRéseauWorld();
     this.#lauréatWorld = new LauréatWorld(this);
     this.#éliminéWorld = new ÉliminéWorld(this);
-    this.#raccordementWorld = new RaccordementWorld(this.lauréatWorld);
     this.#tâcheWorld = new TâcheWorld();
     this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();
     this.#accèsWorld = new AccèsWorld();
