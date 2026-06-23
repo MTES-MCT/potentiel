@@ -13,6 +13,8 @@ export type ConsulterAbandonReadModel = {
   demandéLe: DateTime.ValueType;
   demandeEnCours: boolean;
   estAbandonné: boolean;
+  demandeConfirmée: boolean;
+  demandeEnAttenteDeConfirmation: boolean;
   accordéLe?: DateTime.ValueType;
 };
 
@@ -64,5 +66,7 @@ const mapToReadModel = (
     estAbandonné: result.estAbandonné,
     demandéLe: DateTime.convertirEnValueType(result.dernièreDemande.date),
     accordéLe: result.accordéLe ? DateTime.convertirEnValueType(result.accordéLe) : undefined,
+    demandeConfirmée: statutAbandon.estConfirmé(),
+    demandeEnAttenteDeConfirmation: statutAbandon.estConfirmationDemandée(),
   };
 };
