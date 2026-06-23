@@ -24,10 +24,8 @@ const noop = <T>(value: T) => value;
 
 export const templateVérificationDétailCandidature: Template<Candidature.DétailsCandidature> = {
   pv: {
-    type: 'group',
     fields: {
       typeTerrainImplantation: {
-        type: 'field',
         label: [
           [{ appelOffre: 'Fessenheim' }, "Type de terrain d'implantation (pièce n°3)"],
           [{ appelOffre: 'CRE4 - ZNI 2017' }, "Type de terrain d'implantation (pièce n°3)"],
@@ -64,10 +62,8 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     },
   },
   éolien: {
-    type: 'group',
     fields: {
       technologie: {
-        type: 'field',
         label: [
           [{ appelOffre: 'Eolien' }, 'Technologie (Modules ou films)'],
           [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Technologie (AO éolien)'],
@@ -77,8 +73,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getTechnologieEolien,
       },
       diamètreRotorEnMètres: {
-        type: 'field',
-
         label: [
           [{ appelOffre: 'Eolien' }, 'Diamètre du rotor (m) (AO éolien)'],
           [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
@@ -88,7 +82,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       hauteurBoutDePâleEnMètres: {
-        type: 'field',
         label: [
           [{ appelOffre: 'Eolien' }, 'Hauteur bout de pâle (m) (AO éolien)'],
           [
@@ -107,7 +100,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       nombreDAérogénérateurs: {
-        type: 'field',
         label: [
           [{ appelOffre: 'Eolien' }, "Nb d'aérogénérateurs (AO éolien)"],
           [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, "Nb d'aérogénérateurs (AO éolien)"],
@@ -120,7 +112,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       puissanceUnitaireDesAérogénérateurs: {
-        type: 'field',
         label: [
           [
             { appelOffre: 'PPE2 - Eolien', typeImport: 'csv' },
@@ -138,7 +129,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       installationRenouvelée: {
-        type: 'field',
         label: [
           [
             { appelOffre: 'PPE2 - Eolien', typeImport: 'csv' },
@@ -158,22 +148,18 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     },
   },
   composantsRésilients: {
-    type: 'field',
     label: [
       [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarche-simplifiée' }, 'Composants résilients'],
     ],
     mapper: noop,
   },
   innovation: {
-    type: 'group',
     fields: {
       note: {
-        type: 'field',
         label: [[{ appelOffre: 'CRE4 - Innovation' }, 'Note innovation (AO innovation)']],
         mapper: getNumber,
       },
       noteDegréInnovationSur20: {
-        type: 'field',
         label: [
           [{ appelOffre: 'CRE4 - Innovation' }, 'Note degré d’innovation (/20pt) (AO innovation)'],
           [
@@ -184,7 +170,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       noteAdéquationAmbitionsIndustriellesSur5: {
-        type: 'field',
         label: [
           [
             { appelOffre: 'CRE4 - Innovation' },
@@ -198,7 +183,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       noteAspectsEnvironnementauxEtSociauxSur5: {
-        type: 'field',
         label: [
           [
             { appelOffre: 'CRE4 - Innovation' },
@@ -212,7 +196,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       notePositionnementSurLeMarchéSur10: {
-        type: 'field',
         label: [
           [
             { appelOffre: 'CRE4 - Innovation' },
@@ -226,7 +209,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         mapper: getNumber,
       },
       noteQualitéTechniqueSur5: {
-        type: 'field',
         label: [
           [{ appelOffre: 'CRE4 - Innovation' }, 'Note qualité technique (/5pt) (AO innovation)'],
           [
@@ -239,7 +221,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
     },
   },
   notePrix: {
-    type: 'field',
     label: [
       [{ appelOffre: 'CRE4 - Innovation' }, 'Note prix'],
       [{ appelOffre: 'PPE2 - Innovation', typeImport: 'csv' }, 'Note prix'],

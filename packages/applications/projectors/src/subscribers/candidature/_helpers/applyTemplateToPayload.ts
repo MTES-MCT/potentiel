@@ -8,13 +8,11 @@ type Props = {
 };
 
 type Field<T> = {
-  type: 'field';
   label: Array<[Partial<Props>, string]>;
   mapper: (value: string | undefined, props: Props) => T;
 };
 
 type Group<T> = {
-  type: 'group';
   fields: Template<T>;
 };
 
@@ -44,7 +42,7 @@ export const applyTemplateToPayload = <T>(
   for (const key of Object.keys(template) as Array<keyof T>) {
     const node = template[key];
 
-    if (node.type === 'group') {
+    if ('fields' in node) {
       result[key] = applyTemplateToPayload(payload, node.fields, props);
 
       continue;
