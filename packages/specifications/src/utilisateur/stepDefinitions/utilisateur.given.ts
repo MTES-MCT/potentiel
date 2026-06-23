@@ -185,7 +185,8 @@ export function getPayloadForRôle(this: PotentielWorld, rôle: string) {
     }))
     .with(Role.grd.nom, () => ({
       rôle,
-      identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
+      identifiantGestionnaireRéseau:
+        this.lauréatWorld.raccordementWorld.identifiantGestionnaireRéseau,
     }))
     .with(Role.cocontractant.nom, () => ({
       rôle,

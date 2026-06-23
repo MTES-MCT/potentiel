@@ -28,6 +28,7 @@ import { EnregistrerChangementNomProjetFixture } from './nom-projet/fixture/enre
 import { ModifierNomProjetFixture } from './nom-projet/fixture/modifierNomProjet.fixture.js';
 import { ProducteurWorld } from './producteur/producteur.world.js';
 import { PuissanceWorld } from './puissance/puissance.world.js';
+import { RaccordementWorld } from './raccordement/raccordement.world.js';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world.js';
 
 export class LauréatWorld {
@@ -70,6 +71,12 @@ export class LauréatWorld {
 
   get abandonWorld() {
     return this.#abandonWorld;
+  }
+
+  #raccordementWorld!: RaccordementWorld;
+
+  get raccordementWorld() {
+    return this.#raccordementWorld;
   }
 
   #représentantLégalWorld!: ReprésentantLégalWorld;
@@ -162,6 +169,7 @@ export class LauréatWorld {
 
   constructor(public readonly potentielWorld: PotentielWorld) {
     this.#abandonWorld = new AbandonWord();
+    this.#raccordementWorld = new RaccordementWorld(this);
     this.#représentantLégalWorld = new ReprésentantLégalWorld(this);
     this.#actionnaireWorld = new ActionnaireWorld();
     this.#puissanceWorld = new PuissanceWorld();
