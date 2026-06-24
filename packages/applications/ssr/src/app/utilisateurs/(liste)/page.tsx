@@ -154,16 +154,13 @@ export default async function Page(props: PageProps) {
 
       let redirectRequired = false;
       const newSearchParams = new URLSearchParams(searchParams);
-      console.log(activeFilters);
       for (const activeFilter of Object.keys(activeFilters)) {
         // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
         if (activeFilter !== 'page' && !filters.find((x) => x.searchParamKey === activeFilter)) {
           newSearchParams.delete(activeFilter);
           redirectRequired = true;
-          console.log('delete searchParamKey: ', activeFilter);
         }
       }
-      console.log('newSearchParams!!! ', newSearchParams.toString(), redirectRequired);
       if (redirectRequired) {
         redirect(`${Routes.Utilisateur.lister()}?${newSearchParams}`, RedirectType.replace);
       }
