@@ -22,7 +22,7 @@ export const computepourcentageProjetAvecDCRQuiOntUnePTF = async () => {
               r.value->>'désactivé' IS NULL
               AND d.key LIKE 'dossier-raccordement|%'
               AND d.value ->> 'demandeComplèteRaccordement.accuséRéception.format' IS NOT NULL
-              AND d.value ->> 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' IS NOT NULL
+              AND d.value ->> 'propositionTechniqueEtFinancière.document.format' IS NOT NULL
           )::decimal / (
             SELECT
               count(distinct d.value->>'identifiantProjet')

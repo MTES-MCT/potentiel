@@ -94,7 +94,7 @@ const mapToProps: MapToProps = ({
     propositionTechniqueEtFinancière: {
       dateSignature: propositionTechniqueEtFinancière.dateSignature.formatter(),
       propositionTechniqueEtFinancièreSignée:
-        propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
+        propositionTechniqueEtFinancière.document.formatter(),
     },
   },
 });

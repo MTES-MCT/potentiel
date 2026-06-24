@@ -146,9 +146,6 @@ export function vérifierDossierRaccordement(
 
   const actualDossierRaccordement = mapToPlainObject(dossierRaccordement);
 
-  console.log(expectedDossier);
-  console.log('ACTUAL VIOVIO', actualDossierRaccordement);
-
   if (Option.isSome(actualDossierRaccordement)) {
     const { miseÀJourLe: _, ...restDossier } = actualDossierRaccordement;
 

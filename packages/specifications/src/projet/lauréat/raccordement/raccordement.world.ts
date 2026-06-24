@@ -5,12 +5,9 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import type { LauréatWorld } from '../lauréat.world.js';
 import { DateMiseEnServiceWorld } from './dateDeMiseEnService/dateMiseEnService.world.js';
 import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
-import {
-  DocumentRaccordementWorld,
-} from './documentsRaccordement/documentRaccordement.world.js';
+import { DocumentRaccordementWorld } from './documentsRaccordement/documentRaccordement.world.js';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
 import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
-
 
 export class RaccordementWorld {
   readonly modifierRéférenceDossierRaccordementFixture =
@@ -63,7 +60,19 @@ export class RaccordementWorld {
       miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
         ? this.dateMiseEnService.modifierFixture.mapToExpected()
         : this.dateMiseEnService.transmettreFixture.mapToExpected(),
-      propositionTechniqueEtFinancière: this.propositionTechniqueEtFinancière.mapToExpected(
+      propositionTechniqueEtFinancière: this.propositionTechniqueEtFinancière.transmettreFixture
+        .aÉtéCréé
+        ? this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier)
+        : this.documentRaccordement.mapToExpected(
+            Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
+            nouvelleRéférenceDossier,
+          ),
+      conventionDeRaccordement: this.documentRaccordement.mapToExpected(
+        Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordement.type,
+        nouvelleRéférenceDossier,
+      ),
+      conventionDirectDeRaccordement: this.documentRaccordement.mapToExpected(
+        Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDirecteDeRaccordement.type,
         nouvelleRéférenceDossier,
       ),
     };

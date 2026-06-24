@@ -9,8 +9,8 @@ import {
 export class DocumentRaccordementWorld {
   readonly transmettreFixture = new TransmettreDocumentRaccordementFixture();
 
-  mapToExpected(nouvelleRéférenceDossier: string | undefined) {
-    return this.transmettreFixture.mapToExpected(nouvelleRéférenceDossier);
+  mapToExpected(type: string, nouvelleRéférenceDossier: string | undefined) {
+    return this.transmettreFixture.mapToExpected(type, nouvelleRéférenceDossier);
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {

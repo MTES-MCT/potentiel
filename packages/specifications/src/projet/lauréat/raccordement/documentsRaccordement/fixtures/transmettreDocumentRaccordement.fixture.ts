@@ -65,8 +65,11 @@ export class TransmettreDocumentRaccordementFixture
     return fixture;
   }
 
-  mapToExpected(référenceDossier?: string) {
-    if (!this.aÉtéCréé) return;
+  mapToExpected(
+    type: string,
+    référenceDossier?: string,
+  ) {
+    if (!this.aÉtéCréé || this.#type !== type) return;
 
     return {
       dateSignature: DateTime.convertirEnValueType(this.dateSignature),

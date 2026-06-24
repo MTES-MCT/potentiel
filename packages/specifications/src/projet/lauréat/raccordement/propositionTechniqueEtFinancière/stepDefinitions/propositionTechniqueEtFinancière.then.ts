@@ -37,7 +37,7 @@ Alors(
         : this.lauréatWorld.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture;
 
       await expectFileContent(
-        propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
+        propositionTechniqueEtFinancière.document,
         propositionTechniqueEtFinancièreSignée,
       );
     });

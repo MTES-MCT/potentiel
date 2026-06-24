@@ -9,7 +9,6 @@ Fonctionnalité: Transmettre un document de raccordement
     Et un cahier des charges permettant la modification du projet
     Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-  @select
   Scénario: Un porteur de projet transmet un document de raccordement pour ce dossier de raccordement
     Etant donné une demande complète de raccordement pour le projet lauréat
     Quand le porteur transmet un document de raccordement pour le projet lauréat
