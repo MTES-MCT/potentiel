@@ -4,8 +4,9 @@ import Tag from '@codegouvfr/react-dsfr/Tag';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
+import { FiltersSearchParams } from '@potentiel-applications/routes';
+
 import type { ListFiltersProps } from '@/components/molecules/ListFilters';
-import { FiltersSearchParams } from '@/utils/searchParams';
 
 export type FiltersTagListProps = {
   filters: ListFiltersProps['filters'];

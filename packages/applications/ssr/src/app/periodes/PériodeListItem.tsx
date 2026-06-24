@@ -217,7 +217,7 @@ const Stat: FC<StatProps> = ({
           <Link
             href={Routes.Candidature.lister({
               appelOffre,
-              période,
+              periode: période,
               statut,
             })}
           >
@@ -227,9 +227,9 @@ const Stat: FC<StatProps> = ({
             <Link
               href={Routes.Candidature.lister({
                 appelOffre,
-                période,
+                periode: période,
                 statut,
-                estNotifié: false,
+                notifie: 'a-notifier',
               })}
               className="italic"
             >

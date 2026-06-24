@@ -1,18 +1,18 @@
+import { FiltersSearchParams } from './filterSearchParams.js';
+
 export const withFilters =
-  <TFilters extends Record<string, string[] | string | undefined>>(base: string) =>
+  <TFilters extends Record<string, string[] | string | boolean | undefined>>(base: string) =>
   (filters?: TFilters) => {
-    const searchParams = new URLSearchParams();
+    const searchParams = new FiltersSearchParams();
     filters ??= {} as TFilters;
     for (const key of Object.keys(filters)) {
       const value = filters[key];
-      if (value) {
-        if (Array.isArray(value)) {
-          for (const v of value) {
-            searchParams.append(key, v);
-          }
-        } else {
-          searchParams.set(key, value);
+      if (Array.isArray(value)) {
+        for (const v of value) {
+          searchParams.append(key, v);
         }
+      } else if (value) {
+        searchParams.set(key, value.toString());
       }
     }
 

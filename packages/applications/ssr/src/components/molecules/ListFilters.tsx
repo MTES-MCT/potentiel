@@ -3,7 +3,8 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
-import { FiltersSearchParams } from '@/utils/searchParams';
+import { FiltersSearchParams } from '@potentiel-applications/routes';
+
 import { Filter } from './Filter';
 import { MultipleSelect } from './MultipleSelect';
 
@@ -66,7 +67,6 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
         }
       }
     }
-
     return router.push(buildUrl(pathname, newSearchParams), { scroll: false });
   };
 
@@ -90,13 +90,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             options={options}
             selected={activeFilters}
             disabled={disabled}
-            onChange={(value) =>
-              handleOnChange({
-                value: value.length > 0 ? value : [],
-                searchParamKey,
-                affects,
-              })
-            }
+            onChange={(value) => handleOnChange({ value, searchParamKey, affects })}
           />
         ) : (
           <Filter
@@ -108,11 +102,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             value={searchParams.get(searchParamKey) ?? ''}
             canUnselect={canUnselect}
             onChange={(value) =>
-              handleOnChange({
-                value: value ? [value] : [],
-                searchParamKey,
-                affects,
-              })
+              handleOnChange({ value: value ? [value] : [], searchParamKey, affects })
             }
           />
         );

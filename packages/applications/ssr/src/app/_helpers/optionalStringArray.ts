@@ -1,6 +1,6 @@
 import z from 'zod';
 
-import { FiltersSearchParams } from '@/utils/searchParams';
+import { FiltersSearchParams } from '@potentiel-applications/routes';
 
 export const parseToArray = (value: unknown) =>
   Array.isArray(value)

@@ -2,7 +2,7 @@ import it, { describe } from 'node:test';
 
 import { expect } from 'chai';
 
-import { FiltersSearchParams } from './filterSearchParams';
+import { FiltersSearchParams } from './filterSearchParams.js';
 
 describe(FiltersSearchParams.name, () => {
   describe('constructor', () => {
