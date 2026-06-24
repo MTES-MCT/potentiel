@@ -46,13 +46,14 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    const propositionTechniqueEtFinancièreSignée =
-      DocumentRaccordement.propositionTechniqueEtFinancière({
-        identifiantProjet: identifiantProjetValue,
-        référenceDossierRaccordement: référenceDossierRaccordementValue,
-        dateSignature: dateSignatureValue,
-        propositionTechniqueEtFinancièreSignée: propositionTechniqueEtFinancièreSignéeValue,
-      });
+    const propositionTechniqueEtFinancièreSignée = DocumentRaccordement.documentRaccordement(
+      'proposition-technique-et-financière',
+    )({
+      identifiantProjet: identifiantProjetValue,
+      référenceDossierRaccordement: référenceDossierRaccordementValue,
+      dateSignature: dateSignatureValue,
+      propositionTechniqueEtFinancièreSignée: propositionTechniqueEtFinancièreSignéeValue,
+    });
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {

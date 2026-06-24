@@ -45,6 +45,7 @@ import type { SupprimerDateMiseEnServiceUseCase } from './supprimer/dateMiseEnSe
 import type { SupprimerDossierDuRaccordementUseCase } from './supprimer/dossier/supprimerDossierDuRaccordement.usecase.js';
 import type { TransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase.js';
 import type { TransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase.js';
+import type { TransmettreDocumentRaccordementUseCase } from './transmettre/documentRaccordement/transmettreDocumentRaccordement.usecase.js';
 import type { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase.js';
 
 // Query
@@ -93,7 +94,8 @@ export type RaccordementUseCase =
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
   | SupprimerDossierDuRaccordementUseCase
-  | SupprimerDateMiseEnServiceUseCase;
+  | SupprimerDateMiseEnServiceUseCase
+  | TransmettreDocumentRaccordementUseCase;
 export type {
   ModifierDateMiseEnServiceUseCase,
   ModifierDemandeComplèteRaccordementUseCase,
@@ -105,6 +107,7 @@ export type {
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
+  TransmettreDocumentRaccordementUseCase,
 };
 
 // Entities

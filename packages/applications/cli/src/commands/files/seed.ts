@@ -292,9 +292,13 @@ const map: DocumentRecord = {
   'DemandeComplèteRaccordementModifiée-V4':
     Lauréat.Raccordement.DocumentRaccordement.accuséRéception,
   'PropositionTechniqueEtFinancièreTransmise-V1':
-    Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
+    Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(
+      'proposition-technique-et-financière',
+    ),
   'PropositionTechniqueEtFinancièreTransmise-V2':
-    Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
+    Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(
+      'proposition-technique-et-financière',
+    ),
   'PropositionTechniqueEtFinancièreTransmise-V3':
     Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
   'PropositionTechniqueEtFinancièreModifiée-V2':

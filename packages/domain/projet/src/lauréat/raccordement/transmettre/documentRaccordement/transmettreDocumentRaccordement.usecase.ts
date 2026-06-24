@@ -19,8 +19,8 @@ export type TransmettreDocumentRaccordementUseCase = Message<
       content: ReadableStream;
       format: string;
     };
-    transmiseLeValue: string;
-    transmiseParValue: string;
+    transmisLeValue: string;
+    transmisParValue: string;
   }
 >;
 
@@ -31,8 +31,8 @@ export const registerTransmettreDocumentRaccordementUseCase = () => {
     référenceDossierRaccordementValue,
     documentRaccordementValue: { format, content },
     type,
-    transmiseLeValue,
-    transmiseParValue,
+    transmisLeValue,
+    transmisParValue,
   }) => {
     const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(type);
 
@@ -64,8 +64,8 @@ export const registerTransmettreDocumentRaccordementUseCase = () => {
         identifiantProjet,
         référenceDossierRaccordement,
         formatDocumentRaccordement: format,
-        transmiseLe: DateTime.convertirEnValueType(transmiseLeValue),
-        transmisePar: Email.convertirEnValueType(transmiseParValue),
+        transmisLe: DateTime.convertirEnValueType(transmisLeValue),
+        transmisPar: Email.convertirEnValueType(transmisParValue),
         type: typeDocument,
       },
     });

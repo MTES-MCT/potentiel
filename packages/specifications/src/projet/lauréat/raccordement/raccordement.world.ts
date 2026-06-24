@@ -7,9 +7,10 @@ import { DateMiseEnServiceWorld } from './dateDeMiseEnService/dateMiseEnService.
 import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
 import {
   DocumentRaccordementWorld,
-  PropositionTechniqueEtFinancièreWorld,
-} from './documentConventionDeRaccordement/documentRaccordement.world.js';
+} from './documentsRaccordement/documentRaccordement.world.js';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
+import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
+
 
 export class RaccordementWorld {
   readonly modifierRéférenceDossierRaccordementFixture =

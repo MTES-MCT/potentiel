@@ -1,8 +1,6 @@
-import { mapDateTime, mapToExemple } from '#helpers';
-import {
-  type ModifierDocumentRaccordement,
-  ModifierDocumentRaccordementFixture,
-} from './fixtures/modifierDocumentRaccordement.fixture.js';
+import { Lauréat } from '@potentiel-domain/projet';
+
+import { mapDateTime, mapToExemple, mapValueType } from '#helpers';
 import {
   type TransmettreDocumentRaccordement,
   TransmettreDocumentRaccordementFixture,
@@ -10,18 +8,19 @@ import {
 
 export class DocumentRaccordementWorld {
   readonly transmettreFixture = new TransmettreDocumentRaccordementFixture();
-  readonly modifierFixture = new ModifierDocumentRaccordementFixture();
 
   mapToExpected(nouvelleRéférenceDossier: string | undefined) {
-    return (
-      this.modifierFixture.mapToExpected(nouvelleRéférenceDossier) ??
-      this.transmettreFixture.mapToExpected(nouvelleRéférenceDossier)
-    );
+    return this.transmettreFixture.mapToExpected(nouvelleRéférenceDossier);
   }
+
   mapExempleToFixtureValues(exemple: Record<string, string>) {
-    return mapToExemple<TransmettreDocumentRaccordement & ModifierDocumentRaccordement>(exemple, {
+    return mapToExemple<TransmettreDocumentRaccordement>(exemple, {
       dateSignature: ['La date de signature', mapDateTime],
       référenceDossier: ['La référence du dossier de raccordement'],
+      type: [
+        'type de document',
+        mapValueType(Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType),
+      ],
     });
   }
 }

@@ -23,7 +23,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
         TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
       ),
     }),
-    conventionDeRaccordemet: DossierProjet.convertirEnValueType({
+    conventionDeRaccordement: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
@@ -50,6 +50,7 @@ export const accuséRéception = DocumentProjet.documentFactory({
   nomChampDate: 'dateQualification',
 });
 
+// viovio : vérifier si ça fonctionne bien
 export const documentRaccordement = (type: TypeDocumentsRaccordement.RawType) => {
   const commonPayload = {
     domaine,

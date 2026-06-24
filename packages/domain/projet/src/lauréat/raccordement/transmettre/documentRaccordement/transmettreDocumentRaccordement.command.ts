@@ -14,8 +14,8 @@ export type TransmettreDocumentRaccordementCommand = Message<
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     formatDocumentRaccordement: string;
-    transmiseLe: DateTime.ValueType;
-    transmisePar: Email.ValueType;
+    transmisLe: DateTime.ValueType;
+    transmisPar: Email.ValueType;
   }
 >;
 
@@ -28,8 +28,8 @@ export const registerTransmettreDocumentRaccordementCommand = (
     référenceDossierRaccordement,
     identifiantProjet,
     formatDocumentRaccordement,
-    transmiseLe,
-    transmisePar,
+    transmisLe,
+    transmisPar,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -38,8 +38,8 @@ export const registerTransmettreDocumentRaccordementCommand = (
       dateSignature,
       référenceDossierRaccordement,
       formatDocumentRaccordement,
-      transmiseLe,
-      transmisePar,
+      transmisLe,
+      transmisPar,
     });
   };
 

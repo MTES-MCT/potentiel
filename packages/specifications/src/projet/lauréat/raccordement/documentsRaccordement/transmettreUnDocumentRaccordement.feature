@@ -1,6 +1,7 @@
 # language: fr
 @raccordement
 @document-raccordement
+@select
 Fonctionnalité: Transmettre un document raccordement
 
   Contexte:
@@ -33,19 +34,19 @@ Fonctionnalité: Transmettre un document raccordement
     Alors le document raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
   Scénario: Impossible de transmettre un document raccordement pour un projet sans dossier de raccordement
-    Quand le porteur transmet un document raccordement pour le projet lauréat avec :
+    Quand le porteur transmet un document raccordement transmis pour le projet lauréat avec :
       | La référence du dossier de raccordement | OUE-RP-2022-000033 |
     Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
   Scénario: Impossible de transmettre un document raccordement pour un dossier n'étant pas référencé dans le raccordement du projet
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Quand le porteur transmet un document raccordement pour le projet lauréat avec :
+    Quand le porteur transmet un document raccordement transmis pour le projet lauréat avec :
       | La référence du dossier de raccordement | OUE-RP-2022-000034 |
     Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
   Scénario: Impossible de transmettre un document raccordement avec une date de signature dans le futur
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Quand le porteur transmet un document raccordement pour le projet lauréat avec :
+    Quand le porteur transmet un document raccordement transmis pour le projet lauréat avec :
       | La date de signature | 2999-12-31 |
     Alors le porteur devrait être informé que "La date ne peut pas être une date future"
 
@@ -69,9 +70,9 @@ Fonctionnalité: Transmettre un document raccordement
 
   Scénario: Impossible de transmettre une convention de type "proposition technique et financière" si une convention de type "convention directe de raccordement" a déjà été transmise
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document raccordement pour le projet lauréat avec :
+    Et un document raccordement transmis pour le projet lauréat avec :
       | type | convention-directe-de-raccordement |
-    Quand le porteur transmet un document raccordement pour le projet lauréat avec :
+    Quand le porteur transmet un document raccordement transmis pour le projet lauréat avec :
       | type | proposition-technique-et-financière |
     Alors le porteur devrait être informé que "Impossible de transmettre ce document"
 
@@ -79,7 +80,7 @@ Fonctionnalité: Transmettre un document raccordement
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document raccordement transmise pour le projet lauréat avec :
       | type | convention-directe-de-raccordement |
-    Quand le porteur transmet un document raccordement pour le projet lauréat avec :
+    Quand le porteur transmet un document raccordement transmis pour le projet lauréat avec :
       | type | convention-de-raccordement |
     Alors le porteur devrait être informé que "Impossible de transmettre ce document"
 
@@ -87,7 +88,7 @@ Fonctionnalité: Transmettre un document raccordement
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document raccordement transmise pour le projet lauréat avec :
       | type | convention-de-raccordement |
-    Quand le porteur transmet un document raccordement pour le projet lauréat avec :
+    Quand le porteur transmet un document raccordement transmis pour le projet lauréat avec :
       | type | convention-directe-de-raccordement |
     Alors le porteur devrait être informé que "Impossible de transmettre ce document"
 
@@ -95,6 +96,6 @@ Fonctionnalité: Transmettre un document raccordement
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document raccordement transmise pour le projet lauréat avec :
       | type | proposition-technique-et-financière |
-    Quand le porteur transmet un document raccordement pour le projet lauréat avec :
+    Quand le porteur transmet un document raccordement transmis pour le projet lauréat avec :
       | type | proposition-technique-et-financière |
     Alors le porteur devrait être informé que "Impossible de transmettre ce document"
