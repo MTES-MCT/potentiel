@@ -152,16 +152,14 @@ export default async function Page(props: PageProps) {
         ],
       });
 
-      let redirectRequired = false;
-      const newSearchParams = new URLSearchParams(searchParams);
-      for (const activeFilter of Object.keys(activeFilters)) {
-        // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
-        if (activeFilter !== 'page' && !filters.find((x) => x.searchParamKey === activeFilter)) {
-          newSearchParams.delete(activeFilter);
-          redirectRequired = true;
+      const orphansFilters = Object.keys(activeFilters).filter(
+        (key) => !filters.find((x) => x.searchParamKey === key) && key !== 'page',
+      );
+      if (orphansFilters.length > 0) {
+        const newSearchParams = new URLSearchParams(searchParams);
+        for (const orphanFilter of orphansFilters) {
+          newSearchParams.delete(orphanFilter);
         }
-      }
-      if (redirectRequired) {
         redirect(`${Routes.Utilisateur.lister()}?${newSearchParams}`, RedirectType.replace);
       }
 
