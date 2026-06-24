@@ -65,10 +65,7 @@ export class TransmettreDocumentRaccordementFixture
     return fixture;
   }
 
-  mapToExpected(
-    type: string,
-    référenceDossier?: string,
-  ) {
+  mapToExpected(type: string, référenceDossier?: string) {
     if (!this.aÉtéCréé || this.#type !== type) return;
 
     return {

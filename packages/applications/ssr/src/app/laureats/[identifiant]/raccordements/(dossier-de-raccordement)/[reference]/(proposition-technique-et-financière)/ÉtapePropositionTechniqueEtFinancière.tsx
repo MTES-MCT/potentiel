@@ -24,9 +24,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
   ÉtapePropositionTechniqueEtFinancièreProps
 > = ({ identifiantProjet, référence, propositionTechniqueEtFinancière, actions }) => {
   const propositionTechniqueEtFinancièreSignée = propositionTechniqueEtFinancière
-    ? DocumentProjet.bind(
-        propositionTechniqueEtFinancière.document,
-      ).formatter()
+    ? DocumentProjet.bind(propositionTechniqueEtFinancière.document).formatter()
     : undefined;
 
   const dateSignature = propositionTechniqueEtFinancière
