@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { RedirectType, redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -48,6 +49,7 @@ export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      const activeFilters = paramsSchema.parse(searchParams);
       const {
         page,
         identifiantUtilisateur,
@@ -57,7 +59,7 @@ export default async function Page(props: PageProps) {
         zone,
         zni,
         actif,
-      } = paramsSchema.parse(searchParams);
+      } = activeFilters;
 
       const filtresUtilisateurs = {
         roles: role ? [Role.convertirEnValueType(role).nom] : undefined,
@@ -113,6 +115,7 @@ export default async function Page(props: PageProps) {
         filters.push({
           label: 'Région',
           searchParamKey: 'region',
+          mutuallyExclusiveWith: ['zni'],
           options: régions
             .map((nom) => ({
               label: nom,
@@ -127,6 +130,7 @@ export default async function Page(props: PageProps) {
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },
           ],
+          mutuallyExclusiveWith: ['region'],
         });
       }
       if (role === Role.cocontractant.nom) {
@@ -147,6 +151,22 @@ export default async function Page(props: PageProps) {
           { label: 'Non', value: 'false' },
         ],
       });
+
+      let redirectRequired = false;
+      const newSearchParams = new URLSearchParams(searchParams);
+      console.log(activeFilters);
+      for (const activeFilter of Object.keys(activeFilters)) {
+        // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
+        if (activeFilter !== 'page' && !filters.find((x) => x.searchParamKey === activeFilter)) {
+          newSearchParams.delete(activeFilter);
+          redirectRequired = true;
+          console.log('delete searchParamKey: ', activeFilter);
+        }
+      }
+      console.log('newSearchParams!!! ', newSearchParams.toString(), redirectRequired);
+      if (redirectRequired) {
+        redirect(`${Routes.Utilisateur.lister()}?${newSearchParams}`, RedirectType.replace);
+      }
 
       const identifiantsGestionnaireRéseau = new Set(
         utilisateurs.items.map((u) => u.identifiantGestionnaireRéseau).filter(Option.isSome),

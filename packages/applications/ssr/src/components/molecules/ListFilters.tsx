@@ -1,18 +1,14 @@
 'use client';
-
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
-import { FiltersSearchParams } from '@potentiel-applications/routes';
-
-import { Filter } from './Filter';
+import { Filter } from './filters/Filter';
+import { useFilter } from './filters/useFilters';
 import { MultipleSelect } from './MultipleSelect';
 
 export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
   searchParamKey: TSearchParamKey;
   multiple?: true;
-  canUnselect?: true;
   title?: string;
   options: Array<{
     label: string;
@@ -24,92 +20,60 @@ export type ListFilterItem<TSearchParamKey = string> = {
    *  - the affected filter will be removed when current changes
    **/
   affects?: TSearchParamKey[];
+  /** The other filter(s) will be disabled if the current has a value  */
+  mutuallyExclusiveWith?: TSearchParamKey[];
 };
 
 export type ListFiltersProps = {
   filters: Array<ListFilterItem>;
 };
 
-type HandleOnChangeProps = {
-  value: Array<string>;
-  searchParamKey: ListFilterItem['searchParamKey'];
-  affects?: ListFilterItem['affects'];
-};
-
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
-  const pathname = usePathname();
-  const searchParams = new FiltersSearchParams(useSearchParams());
-  const router = useRouter();
-
-  const handleOnChange = ({ value, searchParamKey, affects }: HandleOnChangeProps) => {
-    const newSearchParams = new FiltersSearchParams(searchParams);
-
-    newSearchParams.delete(searchParamKey);
-
-    if (value.length) {
-      newSearchParams.delete('page');
-      for (const v of value) {
-        newSearchParams.append(searchParamKey, v);
-      }
-    }
-
-    if (!value.length) {
-      for (const affected of affects ?? []) {
-        newSearchParams.delete(affected);
-      }
-    }
-
-    // cas spécifique pour appel d'offre, période et famille
-    if (value.length > 1 && searchParamKey === 'appelOffre') {
-      for (const affected of affects ?? []) {
-        if (affected === 'periode' || affected === 'famille') {
-          newSearchParams.delete(affected);
-        }
-      }
-    }
-    return router.push(buildUrl(pathname, newSearchParams), { scroll: false });
-  };
-
+  const { handleOnChange, searchParams } = useFilter();
   return (
     <div className="flex flex-col">
-      {filters.map(({ label, searchParamKey, options, affects, multiple, title, canUnselect }) => {
-        const disabled =
-          filters.some(
-            (f) =>
-              f.affects?.includes(searchParamKey) &&
-              searchParams.getAll(f.searchParamKey)?.length !== 1,
-          ) || options.length === 0;
-        const activeFilters = searchParams.getAll(searchParamKey);
+      {filters.map(
+        ({ label, searchParamKey, options, affects, mutuallyExclusiveWith, multiple, title }) => {
+          const disabled =
+            filters.some(
+              (f) =>
+                f.affects?.includes(searchParamKey) &&
+                searchParams.getAll(f.searchParamKey)?.length !== 1,
+            ) ||
+            options.length === 0 ||
+            filters.some(
+              (f) =>
+                mutuallyExclusiveWith?.includes(f.searchParamKey) &&
+                !!searchParams.get(f.searchParamKey),
+            );
+          const activeFilters = searchParams.getAll(searchParamKey);
 
-        return multiple ? (
-          <MultipleSelect
-            key={`filter-${searchParamKey}`}
-            noSearch
-            noSelectAll
-            label={label}
-            options={options}
-            selected={activeFilters}
-            disabled={disabled}
-            onChange={(value) => handleOnChange({ value, searchParamKey, affects })}
-          />
-        ) : (
-          <Filter
-            key={`filter-${searchParamKey}`}
-            disabled={disabled}
-            label={label}
-            title={title}
-            options={options}
-            value={searchParams.get(searchParamKey) ?? ''}
-            canUnselect={canUnselect}
-            onChange={(value) =>
-              handleOnChange({ value: value ? [value] : [], searchParamKey, affects })
-            }
-          />
-        );
-      })}
+          return multiple ? (
+            <MultipleSelect
+              key={`filter-${searchParamKey}`}
+              noSearch
+              noSelectAll
+              label={label}
+              options={options}
+              selected={activeFilters}
+              disabled={disabled}
+              onChange={(value) => handleOnChange({ value, searchParamKey, affects })}
+            />
+          ) : (
+            <Filter
+              key={`filter-${searchParamKey}`}
+              disabled={disabled}
+              label={label}
+              title={title}
+              options={options}
+              value={searchParams.get(searchParamKey) ?? ''}
+              onChange={(value) =>
+                handleOnChange({ value: value ? [value] : [], searchParamKey, affects })
+              }
+            />
+          );
+        },
+      )}
     </div>
   );
 };
-
-const buildUrl = (pathname: string, searchParams: FiltersSearchParams) =>
-  `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;

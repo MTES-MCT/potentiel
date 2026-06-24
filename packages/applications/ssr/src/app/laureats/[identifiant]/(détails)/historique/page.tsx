@@ -94,7 +94,7 @@ export default async function Page(props: PageProps) {
       const doitAfficherLienAttestationDésignation =
         !aUnRecoursAccordé && !!lauréat.attestationDésignation;
 
-      const options = categoriesDisponibles
+      const catégories = categoriesDisponibles
         .map((categorie) => ({
           label: mapCatégorieToLabel(categorie),
           value: categorie,
@@ -118,15 +118,7 @@ export default async function Page(props: PageProps) {
         <HistoriqueLauréatPage
           identifiantProjet={identifiantProjet}
           actions={mapToActions(utilisateur.rôle)}
-          filters={[
-            {
-              label: 'Catégorie',
-              title: '',
-              searchParamKey: 'categorie',
-              options,
-              canUnselect: true,
-            },
-          ]}
+          catégories={catégories}
           historique={historiqueFilteredAndSorted}
         />
       );
