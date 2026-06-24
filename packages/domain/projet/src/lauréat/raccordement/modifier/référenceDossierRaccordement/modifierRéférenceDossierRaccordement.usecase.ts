@@ -67,7 +67,21 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
       },
     });
 
-    // viovio ajouter les autres type de document ici
+    await mediator.send<DéplacerDossierProjetCommand>({
+      type: 'Document.Command.DéplacerDossierProjet',
+      data: {
+        dossierProjetSource: dossierProjetActuelRaccordement.conventionDeRaccordement,
+        dossierProjetTarget: nouveauDossierProjetRaccordement.conventionDeRaccordement,
+      },
+    });
+
+    await mediator.send<DéplacerDossierProjetCommand>({
+      type: 'Document.Command.DéplacerDossierProjet',
+      data: {
+        dossierProjetSource: dossierProjetActuelRaccordement.conventionDirecteDeRaccordement,
+        dossierProjetTarget: nouveauDossierProjetRaccordement.conventionDirecteDeRaccordement,
+      },
+    });
 
     await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
       type: 'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',

@@ -766,7 +766,6 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (type.estConventionDirecteDeRaccordement()) {
-      console.log('viovio dossier', dossier);
       if (dossier.conventionDirecteDeRaccordement) {
         throw new DocumentRaccordementDéjàTransmisError();
       }

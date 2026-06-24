@@ -1,6 +1,7 @@
 # language: fr
 @raccordement
 @proposition-technique-financière
+@select
 Fonctionnalité: Modifier une proposition technique et financière
 
     Contexte:
