@@ -126,6 +126,8 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
           'GestionnaireRéseauInconnuAttribué-V1',
           'RaccordementSupprimé-V1',
           'RaccordementRéactivé-V1',
+          // viovio temp
+          'DocumentRaccordementTransmis-V1',
         ),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,

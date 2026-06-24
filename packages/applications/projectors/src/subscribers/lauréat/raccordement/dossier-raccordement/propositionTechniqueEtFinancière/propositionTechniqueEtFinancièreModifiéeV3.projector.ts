@@ -17,7 +17,7 @@ export const propositionTechniqueEtFinancièreModifiéeV3Projector = async ({
       propositionTechniqueEtFinancière: {
         dateSignature,
         ...(propositionTechniqueEtFinancièreSignée && {
-          propositionTechniqueEtFinancièreSignée,
+          document: { format: propositionTechniqueEtFinancièreSignée.format },
         }),
       },
       miseÀJourLe: DateTime.convertirEnValueType(modifiéeLe).formatter(),

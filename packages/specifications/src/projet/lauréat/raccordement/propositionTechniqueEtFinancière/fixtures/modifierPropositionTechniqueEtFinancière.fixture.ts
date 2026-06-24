@@ -74,7 +74,7 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
           identifiantProjet: this.identifiantProjet,
           référenceDossierRaccordement: référenceDossier ?? this.référenceDossier,
           dateSignature: this.#dateSignature,
-          document: this.#propositionTechniqueEtFinancièreSignée.format,
+          document: this.#propositionTechniqueEtFinancièreSignée,
         }),
     };
   }

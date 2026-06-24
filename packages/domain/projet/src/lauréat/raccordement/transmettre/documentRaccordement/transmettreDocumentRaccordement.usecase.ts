@@ -40,7 +40,7 @@ export const registerTransmettreDocumentRaccordementUseCase = () => {
       identifiantProjet: identifiantProjetValue,
       référenceDossierRaccordement: référenceDossierRaccordementValue,
       dateSignature: dateSignatureValue,
-      documentRaccordement: format,
+      document: { format },
     });
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);

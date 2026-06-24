@@ -32,13 +32,14 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
     transmiseLeValue,
     transmiseParValue,
   }) => {
-    const propositionTechniqueEtFinancièreSignée =
-      DocumentRaccordement.propositionTechniqueEtFinancière({
-        identifiantProjet: identifiantProjetValue,
-        référenceDossierRaccordement: référenceDossierRaccordementValue,
-        dateSignature: dateSignatureValue,
-        propositionTechniqueEtFinancièreSignée: { format },
-      });
+    const propositionTechniqueEtFinancièreSignée = DocumentRaccordement.documentRaccordement(
+      'proposition-technique-et-financière',
+    )({
+      identifiantProjet: identifiantProjetValue,
+      référenceDossierRaccordement: référenceDossierRaccordementValue,
+      dateSignature: dateSignatureValue,
+      document: { format },
+    });
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateSignature = DateTime.convertirEnValueType(dateSignatureValue);

@@ -1,7 +1,5 @@
 import { join } from 'node:path';
 
-import { match } from 'ts-pattern';
-
 import { DocumentProjet, DossierProjet } from '#document-projet';
 import { TypeDocumentsRaccordement } from './index.js';
 
@@ -50,33 +48,20 @@ export const accuséRéception = DocumentProjet.documentFactory({
   nomChampDate: 'dateQualification',
 });
 
-// viovio : vérifier si ça fonctionne bien
-export const documentRaccordement = (type: TypeDocumentsRaccordement.RawType) => {
-  const commonPayload = {
+// Juste pour gagner du temps sur le seed
+export const propositionTechniqueEtFinancière = DocumentProjet.documentFactory({
+  domaine,
+  nomCléDocument: 'référenceDossierRaccordement',
+  typeDocument: 'proposition-technique-et-financière',
+  nomChampDate: 'dateSignature',
+  nomChampDocument: 'propositionTechniqueEtFinancièreSignée',
+});
+
+export const documentRaccordement = (type: TypeDocumentsRaccordement.RawType) =>
+  DocumentProjet.documentFactory({
     domaine,
     nomCléDocument: 'référenceDossierRaccordement',
     typeDocument: type,
     nomChampDate: 'dateSignature',
-  };
-
-  return match(type)
-    .with('proposition-technique-et-financière', () =>
-      DocumentProjet.documentFactory({
-        ...commonPayload,
-        nomChampDocument: 'propositionTechniqueEtFinancièreSignée',
-      }),
-    )
-    .with('convention-de-raccordement', () =>
-      DocumentProjet.documentFactory({
-        ...commonPayload,
-        nomChampDocument: 'conventionDeRaccordement',
-      }),
-    )
-    .with('convention-directe-de-raccordement', () =>
-      DocumentProjet.documentFactory({
-        ...commonPayload,
-        nomChampDocument: 'conventionDirecteDeRaccordement',
-      }),
-    )
-    .exhaustive();
-};
+    nomChampDocument: 'document',
+  });

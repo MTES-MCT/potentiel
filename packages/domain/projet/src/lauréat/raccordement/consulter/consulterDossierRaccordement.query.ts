@@ -21,7 +21,16 @@ export type ConsulterDossierRaccordementReadModel = {
   };
   propositionTechniqueEtFinancière?: {
     dateSignature: DateTime.ValueType;
+    // TODO: sur la refacto front, changer ce naming
     propositionTechniqueEtFinancièreSignée: DocumentProjet.ValueType;
+  };
+  conventionDeRaccordement?: {
+    dateSignature: DateTime.ValueType;
+    document: DocumentProjet.ValueType;
+  };
+  conventionDirecteDeRaccordement?: {
+    dateSignature: DateTime.ValueType;
+    document: DocumentProjet.ValueType;
   };
   miseEnService?: {
     dateMiseEnService?: DateTime.ValueType;
@@ -111,14 +120,14 @@ export const mapToReadModel = ({
           dateSignature: DateTime.convertirEnValueType(
             propositionTechniqueEtFinancière.dateSignature,
           ),
-          propositionTechniqueEtFinancièreSignée:
-            DocumentRaccordement.propositionTechniqueEtFinancière({
-              identifiantProjet,
-              référenceDossierRaccordement: référence,
-              dateSignature: propositionTechniqueEtFinancière.dateSignature,
-              propositionTechniqueEtFinancièreSignée:
-                propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
-            }),
+          propositionTechniqueEtFinancièreSignée: DocumentRaccordement.documentRaccordement(
+            'proposition-technique-et-financière',
+          )({
+            identifiantProjet,
+            référenceDossierRaccordement: référence,
+            dateSignature: propositionTechniqueEtFinancière.dateSignature,
+            document: propositionTechniqueEtFinancière.document,
+          }),
         }
       : undefined,
     miseEnService: miseEnService?.dateMiseEnService

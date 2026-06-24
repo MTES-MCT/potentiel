@@ -59,11 +59,13 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
     return {
       dateSignature: DateTime.convertirEnValueType(this.dateSignature),
       propositionTechniqueEtFinancièreSignée:
-        Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière({
+        Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(
+          'proposition-technique-et-financière',
+        )({
           identifiantProjet: this.#identifiantProjet,
           référenceDossierRaccordement: référenceDossier ?? this.#référenceDossier,
           dateSignature: this.#dateSignature,
-          propositionTechniqueEtFinancièreSignée: this.#propositionTechniqueEtFinancièreSignée,
+          document: this.#propositionTechniqueEtFinancièreSignée,
         }),
     };
   }

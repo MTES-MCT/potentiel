@@ -52,8 +52,9 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
       identifiantProjet: identifiantProjetValue,
       référenceDossierRaccordement: référenceDossierRaccordementValue,
       dateSignature: dateSignatureValue,
-      propositionTechniqueEtFinancièreSignée: propositionTechniqueEtFinancièreSignéeValue,
+      document: propositionTechniqueEtFinancièreSignéeValue,
     });
+
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {

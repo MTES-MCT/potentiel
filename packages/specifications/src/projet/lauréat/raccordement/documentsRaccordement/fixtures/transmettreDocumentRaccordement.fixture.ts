@@ -74,7 +74,7 @@ export class TransmettreDocumentRaccordementFixture
         identifiantProjet: this.#identifiantProjet,
         référenceDossierRaccordement: référenceDossier ?? this.#référenceDossier,
         dateSignature: this.#dateSignature,
-        document: this.#document.format,
+        document: this.#document,
       }),
     };
   }

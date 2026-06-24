@@ -757,6 +757,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (type.estConventionDirecteDeRaccordement()) {
+      console.log('viovio dossier', dossier);
       if (dossier.conventionDirecteDeRaccordement) {
         throw new DocumentRaccordementDéjàTransmisError();
       }
@@ -811,35 +812,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       dossier.conventionDirecteDeRaccordement = document;
     }
   }
-
-  // TODO: modifier
-  // private applyDocumentRaccordementModifiéEventV1({
-  //   payload: {
-  //     dateSignature,
-  //     référenceDossierRaccordement,
-  //     document: { format },
-  //     type,
-  //   },
-  // }: DocumentRaccordementTransmisEventV1) {
-  //   const dossier = this.récupérerDossier(référenceDossierRaccordement);
-
-  //   const document = {
-  //     dateSignature: DateTime.convertirEnValueType(dateSignature),
-  //     format,
-  //   };
-
-  //   if (type === 'proposition-technique-et-financière') {
-  //     dossier.propositionTechniqueEtFinancière = document;
-  //   }
-
-  //   if (type === 'convention-de-raccordement') {
-  //     dossier.conventionDeRaccordement = document;
-  //   }
-
-  //   if (type === 'convention-directe-de-raccordement') {
-  //     dossier.conventionDirecteDeRaccordement = document;
-  //   }
-  // }
 
   //#endregion Document Raccordement
 
