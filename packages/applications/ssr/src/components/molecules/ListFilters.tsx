@@ -57,7 +57,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
               options={options}
               selected={activeFilters}
               disabled={disabled}
-              onChange={(value) => handleOnChange({ value, searchParamKey, affects })}
+              onChange={(value) => handleOnChange({ value, searchParamKey, affects, multiple })}
             />
           ) : (
             <Filter
