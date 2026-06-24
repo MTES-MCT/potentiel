@@ -24,8 +24,8 @@ Alors(
           },
         });
 
-      vérifierDossierRaccordement.call(this, dossierRaccordement);
       assert(Option.isSome(dossierRaccordement));
+      vérifierDossierRaccordement.call(this, dossierRaccordement);
 
       // const { propositionTechniqueEtFinancière } = dossierRaccordement;
 

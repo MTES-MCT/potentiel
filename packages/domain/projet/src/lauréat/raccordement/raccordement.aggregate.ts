@@ -89,9 +89,9 @@ type DossierRaccordement = {
   miseEnService: {
     dateMiseEnService: Option.Type<DateTime.ValueType>;
   };
-  propositionTechniqueEtFinancière: {
-    dateSignature: Option.Type<DateTime.ValueType>;
-    format: Option.Type<string>;
+  propositionTechniqueEtFinancière?: {
+    dateSignature?: DateTime.ValueType;
+    format?: string;
   };
   conventionDeRaccordement?: {
     dateSignature: DateTime.ValueType;
@@ -598,15 +598,20 @@ export class RaccordementAggregate extends AbstractAggregate<
     payload: { dateSignature, référenceDossierRaccordement },
   }: PropositionTechniqueEtFinancièreTransmiseEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
-    dossier.propositionTechniqueEtFinancière.dateSignature =
-      DateTime.convertirEnValueType(dateSignature);
+    dossier.propositionTechniqueEtFinancière = {
+      ...dossier.propositionTechniqueEtFinancière,
+      dateSignature: DateTime.convertirEnValueType(dateSignature),
+    };
   }
 
   private applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1({
     payload: { référenceDossierRaccordement, format },
   }: PropositionTechniqueEtFinancièreSignéeTransmiseEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
-    dossier.propositionTechniqueEtFinancière.format = format;
+    dossier.propositionTechniqueEtFinancière = {
+      ...dossier.propositionTechniqueEtFinancière,
+      format,
+    };
   }
 
   private applyPropositionTechniqueEtFinancièreTransmiseEvent({
@@ -619,9 +624,10 @@ export class RaccordementAggregate extends AbstractAggregate<
     | PropositionTechniqueEtFinancièreTransmiseEventV2
     | PropositionTechniqueEtFinancièreTransmiseEvent) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
-    dossier.propositionTechniqueEtFinancière.dateSignature =
-      DateTime.convertirEnValueType(dateSignature);
-    dossier.propositionTechniqueEtFinancière.format = format;
+    dossier.propositionTechniqueEtFinancière = {
+      dateSignature: DateTime.convertirEnValueType(dateSignature),
+      format,
+    };
   }
 
   async modifierPropositionTechniqueEtFinancière({
@@ -649,7 +655,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     if (
       dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
       !estUnNouveauDocument &&
-      Option.isSome(dossier.propositionTechniqueEtFinancière.dateSignature) &&
+      dossier.propositionTechniqueEtFinancière?.dateSignature &&
       dateSignature.estÉgaleÀ(dossier.propositionTechniqueEtFinancière.dateSignature)
     ) {
       throw new PropositionTechniqueEtFinancièreNonModifiéeError();
@@ -694,8 +700,10 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: PropositionTechniqueEtFinancièreModifiéeEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier.propositionTechniqueEtFinancière.dateSignature =
-      DateTime.convertirEnValueType(dateSignature);
+    dossier.propositionTechniqueEtFinancière = {
+      ...dossier.propositionTechniqueEtFinancière,
+      dateSignature: DateTime.convertirEnValueType(dateSignature),
+    };
   }
 
   private applyPropositionTechniqueEtFinancièreModifiéeEvent({
@@ -707,12 +715,13 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: PropositionTechniqueEtFinancièreModifiéeEventV2) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier.propositionTechniqueEtFinancière.dateSignature =
-      DateTime.convertirEnValueType(dateSignature);
-    if (propositionTechniqueEtFinancièreSignée) {
-      dossier.propositionTechniqueEtFinancière.format =
-        propositionTechniqueEtFinancièreSignée.format;
-    }
+    dossier.propositionTechniqueEtFinancière = {
+      ...dossier.propositionTechniqueEtFinancière,
+      dateSignature: DateTime.convertirEnValueType(dateSignature),
+      ...(propositionTechniqueEtFinancièreSignée && {
+        format: propositionTechniqueEtFinancièreSignée.format,
+      }),
+    };
   }
 
   //#endregion PTF
@@ -885,10 +894,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       miseEnService: {
         dateMiseEnService: Option.none,
       },
-      propositionTechniqueEtFinancière: {
-        dateSignature: Option.none,
-        format: Option.none,
-      },
+      propositionTechniqueEtFinancière: undefined,
       référence: référenceDossierRaccordement
         ? RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement)
         : RéférenceDossierRaccordement.référenceNonTransmise,
