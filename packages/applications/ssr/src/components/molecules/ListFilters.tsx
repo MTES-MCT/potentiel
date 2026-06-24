@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
+import { FiltersSearchParams } from '@/utils/searchParams';
 import { Filter } from './Filter';
 import { MultipleSelect } from './MultipleSelect';
 
@@ -36,11 +37,11 @@ type HandleOnChangeProps = {
 
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = new FiltersSearchParams(useSearchParams());
   const router = useRouter();
 
   const handleOnChange = ({ value, searchParamKey, affects }: HandleOnChangeProps) => {
-    const newSearchParams = new URLSearchParams(searchParams);
+    const newSearchParams = new FiltersSearchParams(searchParams);
 
     newSearchParams.delete(searchParamKey);
 
@@ -74,15 +75,10 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
       {filters.map(({ label, searchParamKey, options, affects, multiple, title, canUnselect }) => {
         const disabled =
           filters.some(
-            (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
-          ) ||
-          filters.some(
             (f) =>
               f.affects?.includes(searchParamKey) &&
-              searchParams.getAll(f.searchParamKey) &&
-              searchParams.getAll(f.searchParamKey).length > 1,
-          ) ||
-          options.length === 0;
+              searchParams.getAll(f.searchParamKey)?.length !== 1,
+          ) || options.length === 0;
         const activeFilters = searchParams.getAll(searchParamKey);
 
         return multiple ? (
@@ -125,5 +121,5 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   );
 };
 
-const buildUrl = (pathname: string, searchParams: URLSearchParams) =>
+const buildUrl = (pathname: string, searchParams: FiltersSearchParams) =>
   `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;
