@@ -1,9 +1,6 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 
-import type {
-  RéférenceDossierRaccordement,
-  TypeDocumentConventionRaccordement,
-} from '../../index.js';
+import type { RéférenceDossierRaccordement, TypeDocumentsRaccordement } from '../../index.js';
 
 export type TransmettreDocumentRaccordementOptions = {
   dateSignature: DateTime.ValueType;
@@ -11,5 +8,5 @@ export type TransmettreDocumentRaccordementOptions = {
   formatDocumentRaccordement: string;
   transmisLe: DateTime.ValueType;
   transmisPar: Email.ValueType;
-  type: TypeDocumentConventionRaccordement.ValueType;
+  type: TypeDocumentsRaccordement.ValueType;
 };

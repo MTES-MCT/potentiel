@@ -45,6 +45,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
       identifiantProjetValue,
       référenceDossierRaccordementActuelleValue,
     );
+
     const nouveauDossierProjetRaccordement = DocumentRaccordement.dossierProjetRaccordement(
       identifiantProjetValue,
       nouvelleRéférenceDossierRaccordementValue,
@@ -65,6 +66,8 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
         dossierProjetTarget: nouveauDossierProjetRaccordement.propositionTechniqueEtFinancière,
       },
     });
+
+    // viovio ajouter les autres type de document ici
 
     await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
       type: 'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',

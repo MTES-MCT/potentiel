@@ -27,6 +27,20 @@ export class DemandeComplèteDeRaccordementNonModifiéeError extends InvalidOper
   }
 }
 
+export class DocumentRaccordementDéjàTransmisError extends InvalidOperationError {
+  constructor() {
+    super(`Ce document a déjà été transmis pour ce dossier de raccordement`);
+  }
+}
+
+export class TypeDeDocumentRaccordementIncompatibleError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Ce type document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement`,
+    );
+  }
+}
+
 export class PropositionTechniqueEtFinancièreNonModifiéeError extends InvalidOperationError {
   constructor() {
     super("Aucune modification n'a été apportée à la proposition technique et financière");

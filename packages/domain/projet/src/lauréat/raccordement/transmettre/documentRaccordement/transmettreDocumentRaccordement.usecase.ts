@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { DocumentRaccordement, TypeDocumentConventionRaccordement } from '../../index.js';
+import { DocumentRaccordement, TypeDocumentsRaccordement } from '../../index.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 import type { TransmettreDocumentRaccordementCommand } from './transmettreDocumentRaccordement.command.js';
 
@@ -34,13 +34,13 @@ export const registerTransmettreDocumentRaccordementUseCase = () => {
     transmiseLeValue,
     transmiseParValue,
   }) => {
-    const typeDocument = TypeDocumentConventionRaccordement.convertirEnValueType(type);
+    const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(type);
 
-    const documentRaccordement = DocumentRaccordement.documentRaccordement({
+    const documentRaccordement = DocumentRaccordement.documentRaccordement(typeDocument.type)({
       identifiantProjet: identifiantProjetValue,
       référenceDossierRaccordement: référenceDossierRaccordementValue,
       dateSignature: dateSignatureValue,
-      documentRaccordement: { format },
+      documentRaccordement: format,
     });
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -66,6 +66,7 @@ export const registerTransmettreDocumentRaccordementUseCase = () => {
         formatDocumentRaccordement: format,
         transmiseLe: DateTime.convertirEnValueType(transmiseLeValue),
         transmisePar: Email.convertirEnValueType(transmiseParValue),
+        type: typeDocument,
       },
     });
   };

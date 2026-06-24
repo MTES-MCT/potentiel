@@ -1,7 +1,9 @@
 import { join } from 'node:path';
 
+import { match } from 'ts-pattern';
+
 import { DocumentProjet, DossierProjet } from '#document-projet';
-import { TypeDocumentConventionRaccordement } from './index.js';
+import { TypeDocumentsRaccordement } from './index.js';
 
 const domaine = 'raccordement';
 
@@ -18,7 +20,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
         référence,
-        TypeDocumentConventionRaccordement.propositionTechniqueEtFinancière.type,
+        TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
       ),
     }),
     conventionDeRaccordemet: DossierProjet.convertirEnValueType({
@@ -26,7 +28,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
         référence,
-        TypeDocumentConventionRaccordement.conventionDeRaccordement.type,
+        TypeDocumentsRaccordement.conventionDeRaccordement.type,
       ),
     }),
     conventionDirecteDeRaccordement: DossierProjet.convertirEnValueType({
@@ -34,7 +36,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
         référence,
-        TypeDocumentConventionRaccordement.conventionDirecteDeRaccordement.type,
+        TypeDocumentsRaccordement.conventionDirecteDeRaccordement.type,
       ),
     }),
   };
@@ -48,26 +50,32 @@ export const accuséRéception = DocumentProjet.documentFactory({
   nomChampDate: 'dateQualification',
 });
 
-export const propositionTechniqueEtFinancière = DocumentProjet.documentFactory({
-  domaine,
-  nomCléDocument: 'référenceDossierRaccordement',
-  typeDocument: TypeDocumentConventionRaccordement.propositionTechniqueEtFinancière.type,
-  nomChampDocument: 'propositionTechniqueEtFinancièreSignée',
-  nomChampDate: 'dateSignature',
-});
+export const documentRaccordement = (type: TypeDocumentsRaccordement.RawType) => {
+  const commonPayload = {
+    domaine,
+    nomCléDocument: 'référenceDossierRaccordement',
+    typeDocument: type,
+    nomChampDate: 'dateSignature',
+  };
 
-export const conventionDeRaccordement = DocumentProjet.documentFactory({
-  domaine,
-  nomCléDocument: 'référenceDossierRaccordement',
-  typeDocument: TypeDocumentConventionRaccordement.conventionDeRaccordement.type,
-  nomChampDocument: 'conventionDeRaccordement',
-  nomChampDate: 'dateSignature',
-});
-
-export const conventionDirecteDeRaccordement = DocumentProjet.documentFactory({
-  domaine,
-  nomCléDocument: 'référenceDossierRaccordement',
-  typeDocument: TypeDocumentConventionRaccordement.conventionDirecteDeRaccordement.type,
-  nomChampDocument: 'conventionDirecteDeRaccordement',
-  nomChampDate: 'dateSignature',
-});
+  return match(type)
+    .with('proposition-technique-et-financière', () =>
+      DocumentProjet.documentFactory({
+        ...commonPayload,
+        nomChampDocument: 'propositionTechniqueEtFinancièreSignée',
+      }),
+    )
+    .with('convention-de-raccordement', () =>
+      DocumentProjet.documentFactory({
+        ...commonPayload,
+        nomChampDocument: 'conventionDeRaccordement',
+      }),
+    )
+    .with('convention-directe-de-raccordement', () =>
+      DocumentProjet.documentFactory({
+        ...commonPayload,
+        nomChampDocument: 'conventionDirecteDeRaccordement',
+      }),
+    )
+    .exhaustive();
+};

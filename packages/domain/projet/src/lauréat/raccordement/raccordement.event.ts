@@ -3,7 +3,7 @@ import type { DomainEvent } from '@potentiel-domain/core';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import type { IdentifiantProjet } from '../../index.js';
-import type { RéférenceDossierRaccordement } from './index.js';
+import type { RéférenceDossierRaccordement, TypeDocumentsRaccordement } from './index.js';
 
 //#region Raccordement projet
 export type RaccordementSuppriméEvent = DomainEvent<
@@ -269,21 +269,18 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
   }
 >;
 
-export type DocumentConventionRaccordementTransmisEventV1 = DomainEvent<
-  'DocumentConventionRaccordementTransmis-V1',
+export type DocumentRaccordementTransmisEventV1 = DomainEvent<
+  'DocumentRaccordementTransmis-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    // sera un value type
-    type:
-      | 'proposition-technique-et-financière'
-      | 'convention-de-raccordement'
-      | 'convention-directe-de-racordement'
-      | 'inconnu';
-    dateSignature?: DateTime.RawType;
+    type: TypeDocumentsRaccordement.RawType;
+    dateSignature: DateTime.RawType;
     document: {
       format: string;
     };
+    transmisLe: DateTime.RawType;
+    transmisPar: Email.RawType;
   }
 >;
 
@@ -445,4 +442,5 @@ export type RaccordementEvent =
   | GestionnaireRéseauAttribuéEvent
   | DossierDuRaccordementSuppriméEvent
   | RaccordementSuppriméEvent
-  | RaccordementRéactivéEvent;
+  | RaccordementRéactivéEvent
+  | DocumentRaccordementTransmisEventV1;

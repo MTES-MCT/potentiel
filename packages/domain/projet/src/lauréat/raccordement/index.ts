@@ -115,7 +115,7 @@ export type * from './raccordement.event.js';
 // Value types
 export * as DocumentRaccordement from './documentRaccordement.valueType.js';
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType.js';
-export * as TypeDocumentConventionRaccordement from './typeDocumentConventionRaccordement.valueType.js';
+export * as TypeDocumentsRaccordement from './typeDocumentsRaccordement.valueType.js';
 export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType.js';
 // Saga
 export * as RaccordementSaga from './saga/raccordement.saga.js';

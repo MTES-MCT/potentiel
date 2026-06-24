@@ -55,7 +55,7 @@ function estValide(value: string): asserts value is RawType {
   const isValid = type.includes(value as RawType);
 
   if (!isValid) {
-    throw new TypeDocumentConventionRaccordementError(value);
+    throw new TypeDocumentsRaccordementError(value);
   }
 }
 
@@ -69,7 +69,7 @@ export const conventionDeRaccordement = convertirEnValueType<'convention-de-racc
 export const conventionDirecteDeRaccordement =
   convertirEnValueType<'convention-directe-de-raccordement'>('convention-directe-de-raccordement');
 
-class TypeDocumentConventionRaccordementError extends InvalidOperationError {
+class TypeDocumentsRaccordementError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type de document est inconnu`, {
       value,
