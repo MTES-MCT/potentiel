@@ -9,7 +9,7 @@ import type { ValidationErrors } from '@/utils/formAction';
 import type { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
 
 export type SaisieNomProps = {
-  nomReprésentantLégal: string;
+  nomReprésentantLégal?: string;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   validationErrors: ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>;
 };

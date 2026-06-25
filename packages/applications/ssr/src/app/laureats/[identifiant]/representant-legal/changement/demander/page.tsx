@@ -61,7 +61,6 @@ export default async function Page(props: IdentifiantParameter) {
         <DemanderChangementReprésentantLégalPage
           identifiantProjet={identifiantProjet.formatter()}
           règlesInstructionAutomatique={règlesInstructionAutomatiqueEnCasDeDemande}
-          nomReprésentantLégal={représentantLégal.nomReprésentantLégal}
         />
       );
     }),

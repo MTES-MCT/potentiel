@@ -5,18 +5,16 @@ import { DemanderOuEnregistrerChangementReprésentantLégalForm } from '../compo
 
 export type EnregistrerChangementReprésentantLégalPageProps = {
   identifiantProjet: string;
-  nomReprésentantLégal: string;
 };
 
 export const EnregistrerChangementReprésentantLégalPage: FC<
   EnregistrerChangementReprésentantLégalPageProps
-> = ({ identifiantProjet, nomReprésentantLégal }) => (
+> = ({ identifiantProjet }) => (
   <>
     <Heading1>Déclarer un changement de représentant légal</Heading1>
     <DemanderOuEnregistrerChangementReprésentantLégalForm
       identifiantProjet={identifiantProjet}
       estUneDemande={false}
-      nomReprésentantLégal={nomReprésentantLégal}
     />
   </>
 );
