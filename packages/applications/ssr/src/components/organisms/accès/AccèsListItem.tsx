@@ -23,7 +23,12 @@ export const PorteurListItem: FC<PorteurListItemProps> = ({
   return (
     <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 last:border-none pb-2 pt-1">
       <span className="font-semibold">
-        <CopyButton textToCopy={identifiantUtilisateur}>{identifiantUtilisateur}</CopyButton>
+        <CopyButton
+          textToCopy={identifiantUtilisateur}
+          aria-label="Copier l'adresse email de l'utilisateur"
+        >
+          {identifiantUtilisateur}
+        </CopyButton>
       </span>
       <div className="flex flex-row gap-3">
         <RetirerAccèsProjetButton

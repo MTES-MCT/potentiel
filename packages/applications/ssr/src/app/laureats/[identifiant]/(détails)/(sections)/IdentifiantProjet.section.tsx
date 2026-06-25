@@ -33,7 +33,11 @@ export const IdentifiantProjetSection = ({
                   <Icon id="ri-information-line" size="sm" />
                 </Tooltip>
               </span>
-              <CopyButton textToCopy={identifiantProjet.formatterMétier()} className="text-sm" />
+              <CopyButton
+                textToCopy={identifiantProjet.formatterMétier()}
+                className="text-sm"
+                aria-label="Copier l'identifiant métier Potentiel"
+              />
             </li>
             <li className="flex flex-col">
               <span>
@@ -43,7 +47,11 @@ export const IdentifiantProjetSection = ({
                 </Tooltip>
               </span>
 
-              <CopyButton textToCopy={identifiantProjet.formatter()} className="text-sm" />
+              <CopyButton
+                textToCopy={identifiantProjet.formatter()}
+                className="text-sm"
+                aria-label="Copier l'identifiant technique Potentiel"
+              />
             </li>
           </ul>
         </Section>
