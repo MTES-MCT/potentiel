@@ -4,7 +4,7 @@ import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
 import type { CahierDesCharges } from '@potentiel-domain/projet';
 
 import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
-import { formatNumber, formatterEnToutesLettres } from '../../helpers/formatNumber.js';
+import { formatNumber, formatterNombreEnToutesLettres } from '../../helpers/formatNumber.js';
 
 type LaureatProps = {
   project: AttestationPPE2Options;
@@ -103,7 +103,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
           <Text>
             - {!appelOffre.dépôtDCRPossibleSeulementAprèsDésignation && `si ce n’est déjà fait, `}
             déposer une demande complète de raccordement dans les{' '}
-            {formatterEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
+            {formatterNombreEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
             notification
             {appelOffre.typeAppelOffre === 'eolien' &&
               ` ou dans les ${nombresEnToutesLettres[délaiDCREnMois.grd]} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
@@ -112,8 +112,8 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
           {délaiDCREnMois.potentiel && (
             <Text>
               - renseigner dans votre espace Potentiel la référence de l’affaire de raccordement
-              dans les {formatterEnToutesLettres(délaiDCREnMois.potentiel)} mois à compter de la
-              présente notification&thinsp;;
+              dans les {formatterNombreEnToutesLettres(délaiDCREnMois.potentiel)} mois à compter de
+              la présente notification&thinsp;;
             </Text>
           )}
           {afficherObligationGarantiesFinancières6MoisAprèsAchèvement && (

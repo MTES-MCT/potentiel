@@ -4,7 +4,7 @@ import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
 import type { CahierDesCharges } from '@potentiel-domain/projet';
 
 import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
-import { formatNumber, formatterEnToutesLettres } from '../../helpers/index.js';
+import { formatNumber, formatterNombreEnToutesLettres } from '../../helpers/index.js';
 import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 type MakeLaureatProps = {
@@ -87,7 +87,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
             }}
           >
             - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
-            {formatterEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
+            {formatterNombreEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
             notification
             {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
             {appelOffre.typeAppelOffre === 'eolien' &&

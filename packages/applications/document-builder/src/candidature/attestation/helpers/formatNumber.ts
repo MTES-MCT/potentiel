@@ -7,5 +7,5 @@ export const formatNumber = (n: number, precisionOverride?: number) => {
 };
 
 // Retourne le nombre en toutes lettres, suivi de sa valeur entre parenthèses
-export const formatterEnToutesLettres = (value: AppelOffre.Nombres) =>
+export const formatterNombreEnToutesLettres = (value: AppelOffre.Nombres) =>
   `${nombresEnToutesLettres[value]} (${value})`;
