@@ -680,11 +680,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
-          noteThreshold: 55.99,
+          noteThreshold: 45.245,
           puissanceMax: 1,
         },
         autres: {
-          noteThreshold: 45.25,
+          noteThreshold: 45.354,
         },
       },
       donnéesCourriersRéponse: {
