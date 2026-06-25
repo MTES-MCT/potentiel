@@ -15,8 +15,10 @@ export class DocumentRaccordementWorld {
     type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType,
     nouvelleRéférenceDossier: string | undefined,
   ) {
-    this.modifierFixture.mapToExpected(type, nouvelleRéférenceDossier) ??
-      this.transmettreFixture.mapToExpected(type, nouvelleRéférenceDossier);
+    return (
+      this.modifierFixture.mapToExpected(type, nouvelleRéférenceDossier) ??
+      this.transmettreFixture.mapToExpected(type, nouvelleRéférenceDossier)
+    );
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {

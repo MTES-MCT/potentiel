@@ -10,6 +10,7 @@ export type ModifierDocumentRaccordement = {
   dateSignature: string;
   référenceDossier: string;
   document: PièceJustificative;
+  estUnNouveauDocument: boolean;
 };
 
 export class ModifierDocumentRaccordementFixture
@@ -36,6 +37,11 @@ export class ModifierDocumentRaccordementFixture
     return this.#référenceDossier;
   }
 
+  #estUnNouveauDocument!: boolean;
+  get estUnNouveauDocument(): boolean {
+    return this.#estUnNouveauDocument;
+  }
+
   créer(
     partialFixture: Partial<Readonly<ModifierDocumentRaccordement>> & {
       référenceDossier: string;
@@ -45,6 +51,7 @@ export class ModifierDocumentRaccordementFixture
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
       document: faker.potentiel.document(),
+      estUnNouveauDocument: true,
       ...partialFixture,
     };
 
@@ -52,6 +59,7 @@ export class ModifierDocumentRaccordementFixture
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
     this.#document = fixture.document;
+    this.#estUnNouveauDocument = fixture.estUnNouveauDocument;
     this.aÉtéCréé = true;
 
     return fixture;

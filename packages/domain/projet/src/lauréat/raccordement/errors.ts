@@ -36,7 +36,7 @@ export class DocumentRaccordementDéjàTransmisError extends InvalidOperationErr
 export class TypeDeDocumentRaccordementIncompatibleError extends InvalidOperationError {
   constructor() {
     super(
-      `Ce type document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement`,
+      `Ce type de document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement`,
     );
   }
 }

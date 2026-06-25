@@ -41,9 +41,6 @@ export const registerModifierDocumentRaccordementUseCase = () => {
   }) => {
     const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(type);
 
-    // viovio : voir si en cas de changement de type, on modifie également le document ?
-    console.log(estUnNouveauDocumentValue);
-
     const documentRaccordement = DocumentRaccordement.documentRaccordement(typeDocument.type)({
       identifiantProjet: identifiantProjetValue,
       référenceDossierRaccordement: référenceDossierRaccordementValue,
