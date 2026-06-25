@@ -41,6 +41,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
                     identifiantProjet={identifiantProjet}
                     identifiantUtilisateur={identifiantUtilisateur}
                     peutRetirerAccès={peutRetirerAccès}
+                    statutProjet={statutProjet}
                   />
                 ))}
               </div>

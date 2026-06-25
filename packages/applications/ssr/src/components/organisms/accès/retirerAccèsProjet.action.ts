@@ -13,11 +13,12 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   identifiantUtilisateurRetire: zod.string().min(1),
+  statutProjet: zod.enum(['classé', 'éliminé']).optional(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, identifiantUtilisateurRetire },
+  { identifiantProjet, identifiantUtilisateurRetire, statutProjet },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Accès.RetirerAccèsProjetUseCase>({
@@ -33,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Accès.lister(identifiantProjet, 'classé'),
+        url: Routes.Accès.lister(identifiantProjet, statutProjet ?? 'classé'),
         message: "L'accès au projet a été retiré avec succès",
       },
     };
