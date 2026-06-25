@@ -12,47 +12,48 @@ import {
 } from './CorrigerNuméroIdentification.form';
 
 export type CorrigerNuméroIdentificationPageProps = CorrigerNuméroIdentificationFormProps;
+
 export const CorrigerNuméroIdentificationPage: FC<CorrigerNuméroIdentificationPageProps> = ({
   identifiantProjet,
   numéroIdentification,
-  numéroIdentificationÀRenseigner,
-}) => (
-  <ColumnPageTemplate
-    heading={
-      <Heading1>
-        {numéroIdentificationÀRenseigner ? 'Renseigner' : 'Corriger'} le numéro d'identification
-      </Heading1>
-    }
-    leftColumn={{
-      children: (
-        <CorrigerNuméroIdentificationForm
-          identifiantProjet={identifiantProjet}
-          numéroIdentification={numéroIdentification}
-          numéroIdentificationÀRenseigner={numéroIdentificationÀRenseigner}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <Notice
-          severity="info"
-          title="Producteur"
-          description={
-            <div>
-              Si vous souhaitez modifier le producteur, veuillez vous rendre sur le formulaire
-              dédié.
-            </div>
-          }
-          link={{
-            linkProps: {
-              href: Routes.Producteur.changement.enregistrer(
-                IdentifiantProjet.bind(identifiantProjet).formatter(),
-              ),
-            },
-            text: 'Changer le producteur',
-          }}
-        />
-      ),
-    }}
-  />
-);
+}) => {
+  return (
+    <ColumnPageTemplate
+      heading={
+        <Heading1>
+          {numéroIdentification ? 'Corriger' : 'Renseigner'} le numéro d'identification
+        </Heading1>
+      }
+      leftColumn={{
+        children: (
+          <CorrigerNuméroIdentificationForm
+            identifiantProjet={identifiantProjet}
+            numéroIdentification={numéroIdentification}
+          />
+        ),
+      }}
+      rightColumn={{
+        children: (
+          <Notice
+            severity="info"
+            title="Producteur"
+            description={
+              <div>
+                Si vous souhaitez modifier le producteur, veuillez vous rendre sur le formulaire
+                dédié.
+              </div>
+            }
+            link={{
+              linkProps: {
+                href: Routes.Producteur.changement.enregistrer(
+                  IdentifiantProjet.bind(identifiantProjet).formatter(),
+                ),
+              },
+              text: 'Changer le producteur',
+            }}
+          />
+        ),
+      }}
+    />
+  );
+};

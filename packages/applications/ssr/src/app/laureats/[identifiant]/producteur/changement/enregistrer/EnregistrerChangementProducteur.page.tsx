@@ -14,15 +14,12 @@ import {
   InfoBoxRévocationDesDroits,
 } from './InfoBoxProducteur';
 
-export type EnregistrerChangementProducteurPageProps = EnregistrerChangementProducteurFormProps & {
-  numéroIdentificationÀRenseigner: boolean;
-};
+export type EnregistrerChangementProducteurPageProps = EnregistrerChangementProducteurFormProps;
 
 export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProducteurPageProps> = ({
   identifiantProjet,
   producteur,
   numéroIdentification,
-  numéroIdentificationÀRenseigner,
 }) => (
   <ColumnPageTemplate
     heading={<Heading1>Changer de producteur</Heading1>}
@@ -43,7 +40,7 @@ export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProduc
         <div className="flex flex-col gap-2">
           <InfoBoxRenseignerOuCorrigerNuméroImmatriculation
             identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-            numéroIdentificationÀRenseigner={numéroIdentificationÀRenseigner}
+            numéroIdentification={numéroIdentification}
           />
           <InfoBoxAprèsAchèvement />
         </div>

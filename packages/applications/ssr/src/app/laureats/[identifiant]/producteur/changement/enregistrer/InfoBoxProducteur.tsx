@@ -4,6 +4,7 @@ import type { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
+import type { EnregistrerChangementProducteurFormProps } from './EnregistrerChangementProducteur.form';
 
 export const InfoBoxRévocationDesDroits: FC = () => (
   <Notice
@@ -41,27 +42,27 @@ export const InfoBoxAprèsAchèvement: FC = () => (
 
 type InfoBoxRenseignerOuCorrigerNuméroImmatriculationProps = {
   identifiantProjet: string;
-  numéroIdentificationÀRenseigner: boolean;
+  numéroIdentification: EnregistrerChangementProducteurFormProps['numéroIdentification'];
 };
 
 export const InfoBoxRenseignerOuCorrigerNuméroImmatriculation = ({
   identifiantProjet,
-  numéroIdentificationÀRenseigner,
+  numéroIdentification,
 }: InfoBoxRenseignerOuCorrigerNuméroImmatriculationProps) => (
   <Notice
     severity="info"
     title="SIRET / SIREN"
     description={
       <div>
-        Si vous souhaitez uniquement corriger votre numéro d'identification (SIRET / SIREN),
-        veuillez vous rendre sur le formulaire dédié.
+        Si vous souhaitez uniquement {numéroIdentification ? 'corriger' : 'renseigner'} votre numéro
+        d'identification (SIRET / SIREN), veuillez vous rendre sur le formulaire dédié.
       </div>
     }
     link={{
       linkProps: {
         href: Routes.Producteur.numéroIdentification.corriger(identifiantProjet),
       },
-      text: `${numéroIdentificationÀRenseigner ? 'Renseigner' : 'Corriger'} le numéro d'identification`,
+      text: `${numéroIdentification ? 'Corriger' : 'Renseigner'} le numéro d'identification`,
     }}
   />
 );

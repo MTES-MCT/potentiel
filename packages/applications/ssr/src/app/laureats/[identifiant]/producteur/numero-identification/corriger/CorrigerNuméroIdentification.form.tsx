@@ -18,13 +18,11 @@ import {
 export type CorrigerNuméroIdentificationFormProps = PlainType<{
   identifiantProjet: IdentifiantProjet.ValueType;
   numéroIdentification?: Lauréat.Producteur.NuméroIdentification.ValueType;
-  numéroIdentificationÀRenseigner: boolean;
 }>;
 
 export const CorrigerNuméroIdentificationForm: FC<CorrigerNuméroIdentificationFormProps> = ({
   identifiantProjet,
   numéroIdentification,
-  numéroIdentificationÀRenseigner,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerNuméroIdentificationFormKeys>
@@ -66,7 +64,7 @@ export const CorrigerNuméroIdentificationForm: FC<CorrigerNuméroIdentification
       action={corrigerNuméroIdentificationAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitLabel: numéroIdentificationÀRenseigner ? 'Renseigner' : 'Corriger',
+        submitLabel: numéroIdentification ? 'Corriger' : 'Renseigner',
         secondaryAction: {
           type: 'back',
         },
