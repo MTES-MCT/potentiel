@@ -39,7 +39,15 @@ export const InfoBoxAprèsAchèvement: FC = () => (
   />
 );
 
-export const InfoBoxCorrection = ({ identifiantProjet }: { identifiantProjet: string }) => (
+type InfoBoxRenseignerOuCorrigerNuméroImmatriculationProps = {
+  identifiantProjet: string;
+  numéroIdentificationÀRenseigner: boolean;
+};
+
+export const InfoBoxRenseignerOuCorrigerNuméroImmatriculation = ({
+  identifiantProjet,
+  numéroIdentificationÀRenseigner,
+}: InfoBoxRenseignerOuCorrigerNuméroImmatriculationProps) => (
   <Notice
     severity="info"
     title="SIRET / SIREN"
@@ -53,7 +61,7 @@ export const InfoBoxCorrection = ({ identifiantProjet }: { identifiantProjet: st
       linkProps: {
         href: Routes.Producteur.numéroIdentification.corriger(identifiantProjet),
       },
-      text: "Corriger le numéro d'identification",
+      text: `${numéroIdentificationÀRenseigner ? 'Renseigner' : 'Corriger'} le numéro d'identification`,
     }}
   />
 );

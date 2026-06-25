@@ -1,24 +1,28 @@
 import type { FC } from 'react';
 
-import type { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { EnregistrerChangementProducteurForm } from './EnregistrerChangementProducteur.form';
+import {
+  EnregistrerChangementProducteurForm,
+  type EnregistrerChangementProducteurFormProps,
+} from './EnregistrerChangementProducteur.form';
 import {
   InfoBoxAprèsAchèvement,
-  InfoBoxCorrection,
+  InfoBoxRenseignerOuCorrigerNuméroImmatriculation,
   InfoBoxRévocationDesDroits,
 } from './InfoBoxProducteur';
 
-export type EnregistrerChangementProducteurPageProps =
-  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>;
+export type EnregistrerChangementProducteurPageProps = EnregistrerChangementProducteurFormProps & {
+  numéroIdentificationÀRenseigner: boolean;
+};
 
 export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProducteurPageProps> = ({
   identifiantProjet,
   producteur,
   numéroIdentification,
+  numéroIdentificationÀRenseigner,
 }) => (
   <ColumnPageTemplate
     heading={<Heading1>Changer de producteur</Heading1>}
@@ -37,8 +41,9 @@ export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProduc
     rightColumn={{
       children: (
         <div className="flex flex-col gap-2">
-          <InfoBoxCorrection
+          <InfoBoxRenseignerOuCorrigerNuméroImmatriculation
             identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+            numéroIdentificationÀRenseigner={numéroIdentificationÀRenseigner}
           />
           <InfoBoxAprèsAchèvement />
         </div>

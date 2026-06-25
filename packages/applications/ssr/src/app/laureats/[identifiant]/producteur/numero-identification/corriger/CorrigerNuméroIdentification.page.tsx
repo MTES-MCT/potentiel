@@ -12,18 +12,23 @@ import {
 } from './CorrigerNuméroIdentification.form';
 
 export type CorrigerNuméroIdentificationPageProps = CorrigerNuméroIdentificationFormProps;
-
 export const CorrigerNuméroIdentificationPage: FC<CorrigerNuméroIdentificationPageProps> = ({
   identifiantProjet,
   numéroIdentification,
+  numéroIdentificationÀRenseigner,
 }) => (
   <ColumnPageTemplate
-    heading={<Heading1>Corriger le numéro d'identification</Heading1>}
+    heading={
+      <Heading1>
+        {numéroIdentificationÀRenseigner ? 'Renseigner' : 'Corriger'} le numéro d'identification
+      </Heading1>
+    }
     leftColumn={{
       children: (
         <CorrigerNuméroIdentificationForm
           identifiantProjet={identifiantProjet}
           numéroIdentification={numéroIdentification}
+          numéroIdentificationÀRenseigner={numéroIdentificationÀRenseigner}
         />
       ),
     }}

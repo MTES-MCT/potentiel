@@ -56,6 +56,9 @@ export default async function Page(props: IdentifiantParameter) {
               ? mapToPlainObject(producteurActuel.numéroIdentification)
               : undefined
           }
+          numéroIdentificationÀRenseigner={
+            producteurActuel.numéroIdentification?.estInconnu() ?? true
+          }
         />
       );
     }),
