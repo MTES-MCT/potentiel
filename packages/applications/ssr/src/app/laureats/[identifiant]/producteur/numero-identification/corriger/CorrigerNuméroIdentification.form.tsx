@@ -64,7 +64,7 @@ export const CorrigerNuméroIdentificationForm: FC<CorrigerNuméroIdentification
       action={corrigerNuméroIdentificationAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitLabel: 'Corriger',
+        submitLabel: numéroIdentification ? 'Corriger' : 'Renseigner',
         secondaryAction: {
           type: 'back',
         },

@@ -613,7 +613,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
-        noteMin: 55.99,
+        noteMin: 45.245,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {

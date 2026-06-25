@@ -35,7 +35,7 @@ export const ProducteurSection = ({
     if (rôle.aLaPermission('producteur.corrigerNuméroIdentification')) {
       actions.push({
         url: Routes.Producteur.numéroIdentification.corriger(identifiantProjet.formatter()),
-        label: "Corriger le numéro d'identification",
+        label: `${producteur.numéroIdentification ? 'Corriger' : 'Renseigner'} le numéro d'identification`,
       });
     }
 
