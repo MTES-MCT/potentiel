@@ -16,7 +16,7 @@ export const getLauréatSansAbandon = async (identifiantProjet: IdentifiantProje
     },
   });
 
-  if (Option.isSome(abandon) && (abandon.estAbandonné || abandon.demandeEnCours)) {
+  if (Option.isSome(abandon) && (abandon.statut.estAccordé() || abandon.statut.estEnCours())) {
     return notFound();
   }
 

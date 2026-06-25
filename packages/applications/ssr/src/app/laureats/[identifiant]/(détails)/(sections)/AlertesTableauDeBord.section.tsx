@@ -36,13 +36,13 @@ const mapToAbandonAlert = ({
   rôle,
   abandon,
 }: MapToAbandonAlertProps): Alerte | undefined => {
-  if (abandon?.estAbandonné) {
+  if (abandon?.statut.estAccordé()) {
     return {
       label: 'Ce projet a été abandonné.',
     };
   }
 
-  if (!abandon?.demandeEnCours) {
+  if (!abandon?.statut.estEnCours()) {
     return undefined;
   }
 
@@ -50,8 +50,8 @@ const mapToAbandonAlert = ({
     return {
       label: `
         Vous ne pouvez pas faire de demande ou de déclaration sur Potentiel car vous avez une demande d'abandon en cours pour ce projet.
-        ${abandon.demandeEnAttenteDeConfirmation ? " Votre demande est en attente d'une confirmation de votre part." : ''}
-        ${!abandon.demandeConfirmée ? " Si celle-ci n'est plus d'actualité, merci de l'annuler." : ''}
+        ${abandon.statut.estConfirmationDemandée() ? " Votre demande est en attente d'une confirmation de votre part." : ''}
+        ${!abandon.statut.estConfirmé() ? " Si celle-ci n'est plus d'actualité, merci de l'annuler." : ''}
       `,
       url: Routes.Abandon.détail(identifiantProjet.formatter(), abandon.demandéLe.formatter()),
     };
