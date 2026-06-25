@@ -79,6 +79,7 @@ const mapToProps: MapToProps = ({
       peutRetirerAccès:
         !identifiantUtilisateur.estÉgaleÀ(utilisateurQuiInvite.identifiantUtilisateur) &&
         utilisateurQuiInvite.rôle.aLaPermission('accès.retirerAccèsProjet'),
+      statutProjet: 'éliminé' as const,
     })),
     identifiantProjet: identifiantProjet.formatter(),
     nombreDeProjets,
