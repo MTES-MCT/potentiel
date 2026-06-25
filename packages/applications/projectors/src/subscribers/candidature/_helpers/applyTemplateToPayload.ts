@@ -7,20 +7,14 @@ type Props = {
   typeImport: AppelOffre.Periode['typeImport'];
 };
 
-type Field<T> = {
+type Field<T, K extends keyof T = keyof T> = {
   label: Array<[Partial<Props>, string]>;
-  mapper: (value: string | undefined, props: Props) => T;
-};
-
-type Group<T> = {
-  fields: Template<T>;
+  mapper: (value: string | undefined, props: Props) => T[K];
 };
 
 export type Template<T> = {
-  [K in keyof T]: TemplateNode<T[K]>;
+  [K in keyof T]: Template<T[K]> | Field<T>;
 };
-
-type TemplateNode<T> = NonNullable<T> extends object ? Group<NonNullable<T>> | Field<T> : Field<T>;
 
 export const getLabel = (labelOptions: Array<[Partial<Props>, string]>, props: Props) => {
   let matcher = match(props).returnType<string | undefined>();
@@ -32,6 +26,10 @@ export const getLabel = (labelOptions: Array<[Partial<Props>, string]>, props: P
   return matcher.otherwise(() => undefined);
 };
 
+const isField = <T>(node: Template<T> | Field<T>): node is Field<T> => {
+  return 'label' in node && 'mapper' in node;
+};
+
 export const applyTemplateToPayload = <T>(
   payload: Record<string, string>,
   template: Template<T>,
@@ -40,17 +38,15 @@ export const applyTemplateToPayload = <T>(
   const result = {} as T;
 
   for (const key of Object.keys(template) as Array<keyof T>) {
-    const node = template[key];
+    const node = template[key] as Template<T> | Field<T>;
 
-    if ('fields' in node) {
-      result[key] = applyTemplateToPayload(payload, node.fields, props);
+    if (isField(node)) {
+      const label = getLabel(node.label, props);
 
-      continue;
+      result[key] = node.mapper(label ? payload[label] : undefined, props);
+    } else {
+      result[key] = applyTemplateToPayload(payload, node, props) as T[keyof T];
     }
-
-    const label = getLabel(node.label, props);
-
-    result[key] = node.mapper(label ? payload[label] : undefined, props);
   }
 
   return result;
