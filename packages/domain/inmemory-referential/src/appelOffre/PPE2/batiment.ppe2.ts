@@ -193,15 +193,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 18.79,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 26.46,
-        },
+      volumeRéservé: {
+        noteMin: 18.79,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -230,15 +224,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 12.9244110177221,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 11.4362187267599,
-        },
+      volumeRéservé: {
+        noteMin: 12.9244110177221,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -268,15 +256,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 11.72,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 13.82,
-        },
+      volumeRéservé: {
+        noteMin: 11.72,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [
         {
@@ -311,15 +293,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 7.14,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 7.14,
-        },
+      volumeRéservé: {
+        noteMin: 7.14,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
@@ -348,15 +324,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 16.69,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 15.09,
-        },
+      volumeRéservé: {
+        noteMin: 16.69,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -396,15 +366,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 23.45,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 23.45,
-        },
+      volumeRéservé: {
+        noteMin: 23.45,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -444,16 +408,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 90.08,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 29.84,
-        },
+      volumeRéservé: {
+        noteMin: 90.08,
+        puissanceMax: 1,
       },
+
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: '6.2',
@@ -492,15 +451,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 27.31,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 24.12,
-        },
+      volumeRéservé: {
+        noteMin: 27.31,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -542,15 +495,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 40.32,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 31.6,
-        },
+      volumeRéservé: {
+        noteMin: 40.32,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -591,15 +538,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 21.6,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 21.6,
-        },
+      volumeRéservé: {
+        noteMin: 21.6,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -634,15 +575,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 35.77,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 35.77,
-        },
+      volumeRéservé: {
+        noteMin: 35.77,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -677,15 +612,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 55.99,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 45.25,
-        },
+      volumeRéservé: {
+        noteMin: 55.99,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {

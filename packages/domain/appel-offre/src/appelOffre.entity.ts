@@ -216,38 +216,20 @@ export type Famille = {
   garantiesFinancières: GarantiesFinancièresFamille;
 };
 
-type NoteThresholdByCategory = {
-  volumeReserve: {
-    noteThreshold: number;
-    puissanceMax: number;
-  };
-  autres: {
-    noteThreshold: number;
-  };
-};
-
 export type Validateur = {
   nomComplet: string;
   fonction: string;
 };
 
-export type NotifiedPeriode = { type?: undefined } & (
-  | {
-      noteThresholdBy: 'category';
-      noteThreshold: NoteThresholdByCategory;
-    }
-  | {
-      noteThresholdBy?: undefined;
-    }
-) &
-  CertificateTemplateProps;
+/** Représente une période notifiée via Potentiel */
+export type NotifiedPeriode = {
+  type?: undefined;
+} & CertificateTemplateProps;
 
 /** Représente une période notifiée hors Potentiel */
 type LegacyPeriode = {
   type: 'legacy';
   certificateTemplate?: undefined;
-  noteThresholdBy?: undefined;
-  noteThreshold?: undefined;
 };
 
 type CertificateTemplateProps =
@@ -331,6 +313,11 @@ export type Periode = {
   };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   typeImport: 'démarche-simplifiée' | 'csv';
+  /**  */
+  volumeRéservé?: {
+    noteMin: number;
+    puissanceMax: number;
+  };
 } & (NotifiedPeriode | LegacyPeriode);
 
 // Territoire

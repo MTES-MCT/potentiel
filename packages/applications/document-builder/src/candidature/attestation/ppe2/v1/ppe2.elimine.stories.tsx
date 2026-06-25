@@ -75,14 +75,9 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves: 
       appelOffre: batimentPPE2,
       période: {
         ...batimentPPE2.periodes[0],
-        noteThreshold: {
-          volumeReserve: {
-            noteThreshold: 99,
-            puissanceMax: 1,
-          },
-          autres: {
-            noteThreshold: 89,
-          },
+        volumeRéservé: {
+          noteMin: 99,
+          puissanceMax: 1,
         },
       } as AppelOffre.Periode,
     },
@@ -99,14 +94,9 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves: 
       appelOffre: batimentPPE2,
       période: {
         ...batimentPPE2.periodes[0],
-        noteThreshold: {
-          volumeReserve: {
-            noteThreshold: 99,
-            puissanceMax: 1,
-          },
-          autres: {
-            noteThreshold: 89,
-          },
+        volumeRéservé: {
+          noteMin: 99,
+          puissanceMax: 1,
         },
       } as AppelOffre.Periode,
     },

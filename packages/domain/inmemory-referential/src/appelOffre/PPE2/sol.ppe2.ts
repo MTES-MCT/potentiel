@@ -187,15 +187,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 46.95,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 54.9,
-        },
+      volumeRéservé: {
+        noteMin: 46.95,
+        puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -224,15 +218,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 35.25,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 46.74,
-        },
+      volumeRéservé: {
+        noteMin: 35.25,
+        puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [
         {
@@ -267,15 +255,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 33.95,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 14.16,
-        },
+      volumeRéservé: {
+        noteMin: 33.95,
+        puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
@@ -304,15 +286,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 17.96,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 17.34,
-        },
+      volumeRéservé: {
+        noteMin: 17.96,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -352,15 +328,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 15.57,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 15.57,
-        },
+      volumeRéservé: {
+        noteMin: 15.57,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -400,15 +370,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 18.97,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 26.98,
-        },
+      volumeRéservé: {
+        noteMin: 18.97,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -448,15 +412,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 25.98,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 25.98,
-        },
+      volumeRéservé: {
+        noteMin: 25.98,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -494,15 +452,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 25.08,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 23.02,
-        },
+      volumeRéservé: {
+        noteMin: 25.08,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
