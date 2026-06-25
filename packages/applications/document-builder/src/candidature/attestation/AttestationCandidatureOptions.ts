@@ -21,7 +21,7 @@ export type Common = {
   puissance: number;
   potentielId: string;
   technologie: AppelOffre.Technologie;
-  désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
+  estDansLeVolumeRéservé?: boolean;
   coefficientKChoisi: boolean | undefined;
   autorisation: { date: Date; numéro: string } | undefined;
 

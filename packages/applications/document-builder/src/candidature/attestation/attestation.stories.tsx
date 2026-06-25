@@ -9,9 +9,10 @@ import { makeCertificate } from './makeCertificate.js';
 
 const meta = {
   title: 'Attestations PDF',
-  component: ({ appelOffre, isClasse, periode }) => {
+  component: ({ appelOffre, isClasse, periode, ...customData }) => {
     const data: AttestationCandidatureOptions = {
       ...fakeProject(appelOffre, periode),
+      ...customData,
       isClasse,
     };
     return makeCertificate({
@@ -39,6 +40,7 @@ const meta = {
   periode?: string;
   isClasse: boolean;
   typeActionnariat?: Candidature.TypeActionnariat.RawType;
+  estDansLeVolumeRéservé?: boolean;
 }>;
 
 export default meta;
@@ -78,6 +80,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     unitePuissance: 'MW',
     coefficientKChoisi: undefined,
     autorisation: undefined,
+    estDansLeVolumeRéservé: undefined,
   } satisfies Partial<AttestationCandidatureOptions>;
 
   if (!période.certificateTemplate || période.certificateTemplate === 'ppe2.v2') {
@@ -104,5 +107,6 @@ export const Générique: Story = {
     isClasse: true,
     periode: undefined,
     typeActionnariat: undefined,
+    estDansLeVolumeRéservé: false,
   },
 };

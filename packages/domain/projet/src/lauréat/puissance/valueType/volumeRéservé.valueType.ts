@@ -28,12 +28,10 @@ type DéterminerProps = {
 };
 
 export const déterminer = ({ note, puissanceInitiale, période }: DéterminerProps) => {
-  if (période.noteThresholdBy !== 'category') {
+  if (!période.volumeRéservé) {
     return;
   }
-  const { noteThreshold, puissanceMax } = période.noteThreshold.volumeReserve;
-  return bind({
-    puissanceMax,
-    estDansLeVolumeRéservé: puissanceInitiale <= puissanceMax && note >= noteThreshold,
-  });
+  const { noteMin, puissanceMax } = période.volumeRéservé;
+  const estDansLeVolumeRéservé = puissanceInitiale <= puissanceMax && note >= noteMin;
+  return bind({ puissanceMax, estDansLeVolumeRéservé });
 };
