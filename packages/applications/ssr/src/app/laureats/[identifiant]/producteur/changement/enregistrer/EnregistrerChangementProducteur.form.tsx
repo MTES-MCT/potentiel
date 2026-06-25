@@ -4,18 +4,19 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { type FC, useEffect, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import type { EnregistrerChangementProducteurPageProps } from './EnregistrerChangementProducteur.page';
 import {
   type EnregistrerChangementProducteurFormKeys,
   enregistrerChangementProducteurAction,
 } from './enregistrerChangementProducteur.action';
 
-export type EnregistrerChangementProducteurFormProps = EnregistrerChangementProducteurPageProps;
+export type EnregistrerChangementProducteurFormProps =
+  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>;
 
 export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProducteurFormProps> = ({
   identifiantProjet,

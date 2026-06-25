@@ -1,19 +1,20 @@
 import type { FC } from 'react';
 
-import type { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { EnregistrerChangementProducteurForm } from './EnregistrerChangementProducteur.form';
+import {
+  EnregistrerChangementProducteurForm,
+  type EnregistrerChangementProducteurFormProps,
+} from './EnregistrerChangementProducteur.form';
 import {
   InfoBoxAprèsAchèvement,
-  InfoBoxCorrection,
+  InfoBoxRenseignerOuCorrigerNuméroImmatriculation,
   InfoBoxRévocationDesDroits,
 } from './InfoBoxProducteur';
 
-export type EnregistrerChangementProducteurPageProps =
-  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>;
+export type EnregistrerChangementProducteurPageProps = EnregistrerChangementProducteurFormProps;
 
 export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProducteurPageProps> = ({
   identifiantProjet,
@@ -37,8 +38,9 @@ export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProduc
     rightColumn={{
       children: (
         <div className="flex flex-col gap-2">
-          <InfoBoxCorrection
+          <InfoBoxRenseignerOuCorrigerNuméroImmatriculation
             identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+            numéroIdentification={numéroIdentification}
           />
           <InfoBoxAprèsAchèvement />
         </div>
