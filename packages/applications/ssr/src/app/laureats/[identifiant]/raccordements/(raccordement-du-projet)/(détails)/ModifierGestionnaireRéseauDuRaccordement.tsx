@@ -68,7 +68,11 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
       </div>
       {gestionnaireRéseau.contactEmail && (
         <div className="flex items-center gap-2 mt-2">
-          Contact : <CopyButton textToCopy={gestionnaireRéseau.contactEmail.email} />
+          Contact :{' '}
+          <CopyButton
+            aria-label="Copier l'email de contact du gestionnaire de réseau"
+            textToCopy={gestionnaireRéseau.contactEmail.email}
+          />
         </div>
       )}
     </div>
