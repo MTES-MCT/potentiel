@@ -94,6 +94,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
         <CopyButton
           textToCopy={identifiantProjet.formatterMétier()}
           priority="primary"
+          aria-label="Copier l'identifiant du projet"
           noChildren
         />
       </div>
