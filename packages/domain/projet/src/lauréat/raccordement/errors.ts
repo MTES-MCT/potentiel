@@ -41,9 +41,9 @@ export class TypeDeDocumentRaccordementIncompatibleError extends InvalidOperatio
   }
 }
 
-export class PropositionTechniqueEtFinancièreNonModifiéeError extends InvalidOperationError {
+export class DocumentRaccordementNonModifiéError extends InvalidOperationError {
   constructor() {
-    super("Aucune modification n'a été apportée à la proposition technique et financière");
+    super("Aucune modification n'a été apportée au document");
   }
 }
 
@@ -63,7 +63,7 @@ export class RéférenceDossierRaccordementDéjàExistantePourLeProjetError exte
   }
 }
 
-export class DossierAvecDateDeMiseEnServiceNonSupprimableError extends InvalidOperationError {
+export class DossierMisEnServiceNonSupprimableError extends InvalidOperationError {
   constructor() {
     super(`Un dossier avec une date de mise en service ne peut pas être supprimé`);
   }
@@ -111,23 +111,23 @@ export class DateDeMiseEnServiceNonModifiéeError extends InvalidOperationError 
   }
 }
 
-export class DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
-  constructor(public référenceDossier: string) {
+export class DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError extends InvalidOperationError {
+  constructor() {
     super(
       `La demande complète de raccordement du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service`,
     );
   }
 }
 
-export class PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
-  constructor(public référenceDossier: string) {
+export class DocumentNonModifiableCarDossierMisEnServiceError extends InvalidOperationError {
+  constructor() {
     super(
-      `La proposition technique et financière du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service`,
+      `Ce document du dossier de raccordement ne peut pas être modifié car celui-ci est déjà mis en service`,
     );
   }
 }
 
-export class RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
+export class RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError extends InvalidOperationError {
   constructor(référenceDossier: string) {
     super(
       `La référence du dossier de raccordement ${référenceDossier} ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service`,
@@ -143,5 +143,21 @@ export class RéférencesDossierRaccordementIdentiquesError extends InvalidOpera
 export class DossierRaccordementPasEnServiceError extends InvalidOperationError {
   constructor() {
     super(`Le dossier de raccordement n'est pas en service`);
+  }
+}
+
+// OLD
+
+export class PropositionTechniqueEtFinancièreNonModifiableCarDossierMisEnServiceError extends InvalidOperationError {
+  constructor() {
+    super(
+      `La proposition technique et financière du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service`,
+    );
+  }
+}
+
+export class PropositionTechniqueEtFinancièreNonModifiéeError extends InvalidOperationError {
+  constructor() {
+    super("Aucune modification n'a été apportée à la proposition technique et financière");
   }
 }

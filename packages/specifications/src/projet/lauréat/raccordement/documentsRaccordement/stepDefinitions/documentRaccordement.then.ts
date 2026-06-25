@@ -10,7 +10,7 @@ import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
 
 Alors(
-  `le document de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat`,
+  `le document raccordement devrait être consultable dans le dossier de raccordement du projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;

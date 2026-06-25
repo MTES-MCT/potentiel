@@ -19,25 +19,28 @@ import {
   DateMiseEnServiceAntérieureDateDésignationProjetError,
   DateMiseEnServiceDéjàTransmiseError,
   DemandeComplèteDeRaccordementNonModifiéeError,
-  DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
+  DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError,
+  DocumentNonModifiableCarDossierMisEnServiceError,
   DocumentRaccordementDéjàTransmisError,
-  DossierAvecDateDeMiseEnServiceNonSupprimableError,
+  DocumentRaccordementNonModifiéError,
+  DossierMisEnServiceNonSupprimableError,
   DossierNonRéférencéPourLeRaccordementDuProjetError,
   DossierRaccordementPasEnServiceError,
   FormatRéférenceDossierRaccordementInvalideError,
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauIdentiqueError,
   GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError,
-  PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError,
+  PropositionTechniqueEtFinancièreNonModifiableCarDossierMisEnServiceError,
   PropositionTechniqueEtFinancièreNonModifiéeError,
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
-  RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
+  RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
   TypeDeDocumentRaccordementIncompatibleError,
 } from './errors.js';
 import { RéférenceDossierRaccordement, TypeTâchePlanifiéeRaccordement } from './index.js';
 import type { ModifierDateMiseEnServiceOptions } from './modifier/dateMiseEnService/modifierDateMiseEnService.options.js';
 import type { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
+import type { ModifierDocumentRaccordementOptions } from './modifier/documentsRaccordement/modifierDocumentRaccordement.options.js';
 import type { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseau.options.js';
 import type { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.options.js';
 import type { ModifierRéférenceDossierRaccordementOptions } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.options.js';
@@ -53,6 +56,7 @@ import type {
   DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseEventV1,
   DemandeComplèteRaccordementTransmiseEventV2,
+  DocumentRaccordementModifiéEventV1,
   DocumentRaccordementTransmisEventV1,
   DossierDuRaccordementSuppriméEvent,
   DossierDuRaccordementSuppriméEventV1,
@@ -77,7 +81,7 @@ import type { SupprimerDateMiseEnServiceOptions } from './supprimer/dateMiseEnSe
 import type { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options.js';
 import type { TransmettreDateMiseEnServiceOptions } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.options.js';
 import type { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
-import type { TransmettreDocumentRaccordementOptions } from './transmettre/documentRaccordement/transmettreDocumentRaccordement.options.js';
+import type { TransmettreDocumentRaccordementOptions } from './transmettre/documentsRaccordement/transmettreDocumentRaccordement.options.js';
 import type { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options.js';
 
 type DossierRaccordement = {
@@ -429,7 +433,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
       Option.isSome(dossier.miseEnService.dateMiseEnService)
     ) {
-      throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
+      throw new RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError(
         référenceDossierRaccordementActuelle.formatter(),
       );
     }
@@ -476,7 +480,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       Option.isSome(dossierActuel.miseEnService.dateMiseEnService) &&
       !rôle.aLaPermission('raccordement.dossier.supprimer-après-mise-en-service')
     ) {
-      throw new DossierAvecDateDeMiseEnServiceNonSupprimableError();
+      throw new DossierMisEnServiceNonSupprimableError();
     }
 
     if (
@@ -667,9 +671,7 @@ export class RaccordementAggregate extends AbstractAggregate<
         'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
       )
     ) {
-      throw new PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError(
-        référenceDossierRaccordement.formatter(),
-      );
+      throw new PropositionTechniqueEtFinancièreNonModifiableCarDossierMisEnServiceError();
     }
 
     if (
@@ -793,6 +795,75 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async modifierDocumentRaccordement({
+    dateSignature,
+    référenceDossierRaccordement,
+    formatDocumentRaccordement,
+    estUnNouveauDocument,
+    rôle,
+    modifiéLe,
+    modifiéPar,
+    type,
+  }: ModifierDocumentRaccordementOptions) {
+    this.vérifierStatutDuLauréat();
+
+    if (!rôle.estDGEC()) {
+      this.lauréat.vérifierNonAchevé();
+    }
+
+    if (dateSignature.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
+    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
+    const dossierEstEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
+    const document = type.estPropositionTechniqueEtFinancière()
+      ? dossier.propositionTechniqueEtFinancière
+      : type.estConventionDeRaccordement()
+        ? dossier.conventionDeRaccordement
+        : dossier.conventionDirecteDeRaccordement;
+
+    if (
+      dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
+      !estUnNouveauDocument &&
+      document?.dateSignature &&
+      dateSignature.estÉgaleÀ(document.dateSignature)
+    ) {
+      throw new DocumentRaccordementNonModifiéError();
+    }
+
+    if (
+      dossierEstEnService &&
+      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-mise-en-service')
+    ) {
+      throw new DocumentNonModifiableCarDossierMisEnServiceError();
+    }
+
+    if (
+      this.lauréat.statut.estAchevé() &&
+      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-achèvement')
+    ) {
+      throw new ChangementImpossibleCarProjetAchevéError();
+    }
+
+    const event: DocumentRaccordementModifiéEventV1 = {
+      type: 'DocumentRaccordementModifié-V1',
+      payload: {
+        dateSignature: dateSignature.formatter(),
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        document: {
+          format: formatDocumentRaccordement,
+        },
+        type: type.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   private applyDocumentRaccordementTransmisEventV1({
     payload: {
       dateSignature,
@@ -801,6 +872,34 @@ export class RaccordementAggregate extends AbstractAggregate<
       type,
     },
   }: DocumentRaccordementTransmisEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    const document = {
+      dateSignature: DateTime.convertirEnValueType(dateSignature),
+      format,
+    };
+
+    if (type === 'proposition-technique-et-financière') {
+      dossier.propositionTechniqueEtFinancière = document;
+    }
+
+    if (type === 'convention-de-raccordement') {
+      dossier.conventionDeRaccordement = document;
+    }
+
+    if (type === 'convention-directe-de-raccordement') {
+      dossier.conventionDirecteDeRaccordement = document;
+    }
+  }
+
+  private applyDocumentRaccordementModifiéEventV1({
+    payload: {
+      dateSignature,
+      référenceDossierRaccordement,
+      document: { format },
+      type,
+    },
+  }: DocumentRaccordementModifiéEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
     const document = {
@@ -1006,9 +1105,7 @@ export class RaccordementAggregate extends AbstractAggregate<
         'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
       )
     ) {
-      throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
-        référenceDossierRaccordement.formatter(),
-      );
+      throw new DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError();
     }
 
     if (
@@ -1320,6 +1417,12 @@ export class RaccordementAggregate extends AbstractAggregate<
           type: 'DocumentRaccordementTransmis-V1',
         },
         this.applyDocumentRaccordementTransmisEventV1.bind(this),
+      )
+      .with(
+        {
+          type: 'DocumentRaccordementModifié-V1',
+        },
+        this.applyDocumentRaccordementModifiéEventV1.bind(this),
       )
       .with(
         { type: 'DateMiseEnServiceTransmise-V1' },

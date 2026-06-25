@@ -180,6 +180,9 @@ const référencielPermissions = {
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
+        transmettreDocumentRaccordement:
+          'Lauréat.Raccordement.UseCase.TransmettreDocumentRaccordement',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.UseCase.ModifierDocumentRaccordement',
       },
       command: {
         modifierDemandeComplète: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
@@ -198,6 +201,9 @@ const référencielPermissions = {
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.Command.SupprimerDateMiseEnService',
+        transmettreDocumentRaccordement:
+          'Lauréat.Raccordement.Command.TransmettreDocumentRaccordement',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.Command.ModifierDocumentRaccordement',
       },
     },
     garantiesFinancières: {
@@ -1225,6 +1231,22 @@ const policies = {
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
         référencielPermissions.lauréat.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
         référencielPermissions.lauréat.raccordement.command.modifierPropostionTechniqueEtFinancière,
+      ],
+      'modifier-après-mise-en-service': [],
+      'modifier-après-achèvement': [],
+    },
+    'document-raccordement': {
+      transmettre: [
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.command.transmettreDocumentRaccordement,
+      ],
+      modifier: [
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.modifierDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.command.modifierDocumentRaccordement,
       ],
       'modifier-après-mise-en-service': [],
       'modifier-après-achèvement': [],
