@@ -13,33 +13,47 @@ import type { CréerCorrectionChangementReprésentantLégalFixture } from '../fi
 import type { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture.js';
 
 Quand(
-  'le porteur demande le changement de représentant pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    await demanderChangement.call(this, {});
+  /le porteur (demande|enregistre) un changement de représentant légal$/,
+  async function (this: PotentielWorld, typeAction: 'demande' | 'enregistre') {
+    if (typeAction === 'demande') {
+      await demanderChangement.call(this, {});
+      return;
+    }
+
+    await enregistrerChangement.call(this, {});
   },
 );
 
 Quand(
-  'le porteur demande le changement de représentant pour le projet lauréat avec les mêmes valeurs',
-  async function (this: PotentielWorld) {
+  /le porteur (demande|enregistre) un changement de représentant légal avec les mêmes valeurs$/,
+  async function (this: PotentielWorld, typeAction: 'demande' | 'enregistre') {
     const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
     const { nomReprésentantLégal, typeReprésentantLégal } =
       this.lauréatWorld.représentantLégalWorld.mapToExpected(
         identifiantProjet,
         this.candidatureWorld.importerCandidature.dépôtValue.nomReprésentantLégal,
       );
-    await demanderChangement.call(this, {
-      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      nomReprésentantLégal,
+
+    if (typeAction === 'demande') {
+      await demanderChangement.call(this, {
+        nomReprésentantLégal,
+        typeReprésentantLégal,
+        demandéPar: this.utilisateurWorld.porteurFixture.email,
+      });
+      return;
+    }
+
+    await enregistrerChangement.call(this, {
       typeReprésentantLégal,
-      demandéPar: this.utilisateurWorld.porteurFixture.email,
+      nomReprésentantLégal,
     });
   },
 );
 
 Quand(
-  'le porteur demande le changement de représentant pour le projet lauréat avec le même nom',
-  async function (this: PotentielWorld) {
+  /le porteur (demande|enregistre) un changement de représentant légal avec le même nom$/,
+  async function (this: PotentielWorld, typeAction: 'demande' | 'enregistre') {
     const identifiantProjet = this.lauréatWorld.identifiantProjet;
     const { nomReprésentantLégal } = this.lauréatWorld.représentantLégalWorld.mapToExpected(
       identifiantProjet,
@@ -50,28 +64,43 @@ Quand(
         {},
       );
 
-    await demanderChangement.call(this, {
-      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      nomReprésentantLégal,
+    if (typeAction === 'demande') {
+      await demanderChangement.call(this, {
+        nomReprésentantLégal,
+        typeReprésentantLégal,
+        demandéPar: this.utilisateurWorld.porteurFixture.email,
+      });
+      return;
+    }
+
+    await enregistrerChangement.call(this, {
       typeReprésentantLégal,
-      demandéPar: this.utilisateurWorld.porteurFixture.email,
+      nomReprésentantLégal,
     });
   },
 );
 
 Quand(
-  'le porteur demande le changement de représentant pour le projet lauréat avec un type inconnu',
-  async function (this: PotentielWorld) {
-    await demanderChangement.call(this, {
-      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      typeReprésentantLégal:
-        Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
+  /le porteur (demande|enregistre) un changement de représentant légal avec un type inconnu$/,
+  async function (this: PotentielWorld, typeAction: 'demande' | 'enregistre') {
+    const typeReprésentantLégal =
+      Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu');
+
+    if (typeAction === 'demande') {
+      await demanderChangement.call(this, {
+        typeReprésentantLégal,
+      });
+      return;
+    }
+
+    await enregistrerChangement.call(this, {
+      typeReprésentantLégal,
     });
   },
 );
 
 Quand(
-  'le porteur demande le changement de représentant pour le projet lauréat le {string}',
+  'le porteur demande un changement de représentant légal le {string}',
   async function (this: PotentielWorld, dateDemande: string) {
     await demanderChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
@@ -81,7 +110,7 @@ Quand(
 );
 
 Quand(
-  /le porteur annule la demande de changement de représentant légal pour le projet lauréat/,
+  /le porteur annule la demande de changement de représentant légal pour le projet lauréat$/,
   async function (this: PotentielWorld) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
@@ -141,81 +170,58 @@ Quand(
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) accorde la demande de changement de représentant légal pour le projet lauréat/,
+  /(le DGEC validateur|la DREAL associée au projet) accorde la demande de changement de représentant légal pour le projet lauréat$/,
   async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
     await instruireChangement.call(this, 'accord');
   },
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) corrige puis accorde la demande de changement de représentant légal pour le projet lauréat/,
+  /(le DGEC validateur|la DREAL associée au projet) corrige puis accorde la demande de changement de représentant légal pour le projet lauréat$/,
   async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
     await instruireChangement.call(this, 'accord', 'Nom de représentant légal corrigé');
   },
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) rejette la demande de changement de représentant légal pour le projet lauréat/,
+  /(le DGEC validateur|la DREAL associée au projet) rejette la demande de changement de représentant légal pour le projet lauréat$/,
   async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
     await instruireChangement.call(this, 'rejet');
   },
 );
 
 Quand(
-  /le système accorde automatiquement la demande de changement de représentant légal pour le projet lauréat/,
+  /le système accorde automatiquement la demande de changement de représentant légal$/,
   async function (this: PotentielWorld) {
     await instruireAutomatiquementChangement.call(this, 'accord');
   },
 );
 
 Quand(
-  /le système rejette automatiquement la demande de changement de représentant légal pour le projet lauréat/,
+  /le système rejette automatiquement la demande de changement de représentant légal$/,
   async function (this: PotentielWorld) {
     await instruireAutomatiquementChangement.call(this, 'rejet');
   },
 );
 
 Quand(
-  /le système relance automatiquement la dreal pour faire (l'accord|le rejet) de la demande de changement de représentant légal pour le projet lauréat/,
+  /le système relance automatiquement la dreal pour faire (l'accord|le rejet) de la demande de changement de représentant légal$/,
   async function (this: PotentielWorld, _: "l'accord" | 'le rejet') {
     await relancerAutomatiquementDreal.call(this);
   },
 );
 
 Quand(
-  'le porteur enregistre un changement de représentant légal avec les mêmes valeurs',
-  async function (this: PotentielWorld) {
-    const { nomReprésentantLégal, typeReprésentantLégal } =
-      this.lauréatWorld.représentantLégalWorld.mapToExpected(
-        this.lauréatWorld.identifiantProjet,
-        this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
-      );
-
-    await enregistrerChangementReprésentantLégal.call(this, {
-      typeReprésentantLégal,
-      nomReprésentantLégal,
-    });
-  },
-);
-
-Quand(
-  'le porteur enregistre un changement de représentant légal',
-  async function (this: PotentielWorld) {
-    await enregistrerChangementReprésentantLégal.call(this, {});
-  },
-);
-
-Quand(
   'le porteur enregistre un changement de représentant légal le {string}',
   async function (this: PotentielWorld, dateDemande: string) {
-    await enregistrerChangementReprésentantLégal.call(this, {
+    await enregistrerChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
       demandéLe: DateTime.convertirEnValueType(new Date(dateDemande)).formatter(),
     });
   },
 );
 
-async function enregistrerChangementReprésentantLégal(
+async function enregistrerChangement(
   this: PotentielWorld,
   partialFixture: CréerDemandeChangementReprésentantLégalFixture,
 ) {
