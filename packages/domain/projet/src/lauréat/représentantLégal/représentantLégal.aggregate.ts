@@ -31,6 +31,7 @@ import {
   DemandeDeChangementEnCoursError,
   ReprésentantLégalDéjàImportéError,
   ReprésentantLégalIdentiqueError,
+  ReprésentantLégalMêmeNomError,
   ReprésentantLégalTypeInconnuError,
 } from './représentantLégal.errors.js';
 import type {
@@ -171,6 +172,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     typeReprésentantLégal,
   }: DemanderChangementOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('demande', 'représentantLégal');
+
+    if (nomReprésentantLégal === this.#représentantLégal?.nom) {
+      throw new ReprésentantLégalMêmeNomError();
+    }
 
     this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
 

@@ -26,8 +26,30 @@ Quand(
     const { nomReprésentantLégal, typeReprésentantLégal } =
       this.lauréatWorld.représentantLégalWorld.mapToExpected(
         identifiantProjet,
-        this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+        this.candidatureWorld.importerCandidature.dépôtValue.nomReprésentantLégal,
       );
+    await demanderChangement.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      demandéPar: this.utilisateurWorld.porteurFixture.email,
+    });
+  },
+);
+
+Quand(
+  'le porteur demande le changement de représentant pour le projet lauréat avec le même nom',
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
+    const { nomReprésentantLégal } = this.lauréatWorld.représentantLégalWorld.mapToExpected(
+      identifiantProjet,
+      this.candidatureWorld.importerCandidature.dépôtValue.nomReprésentantLégal,
+    );
+    const { typeReprésentantLégal } =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
+        {},
+      );
+
     await demanderChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
       nomReprésentantLégal,
