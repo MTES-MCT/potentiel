@@ -33,6 +33,9 @@ Fonctionnalité: Enregistrer un changement de représentant légal
         Quand le porteur enregistre un changement de représentant légal avec les mêmes valeurs
         Alors le porteur devrait être informé que "Le représentant légal est identique à celui déjà associé au projet"
 
+    Scénario: Impossible d'enregistrer un changement de représentant légal d'un projet lauréat s'il a les même nom que l'actuel
+        Quand le porteur enregistre un changement de représentant légal avec le même nom
+        Alors le porteur devrait être informé que "Le représentant légal a le même nom que celui associé au projet"
     Scénario: Impossible d'enregistrer un changement de représentant légal d'un projet lauréat abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur enregistre un changement de représentant légal

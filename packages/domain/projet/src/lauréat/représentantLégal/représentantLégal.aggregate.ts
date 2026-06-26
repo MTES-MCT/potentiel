@@ -222,6 +222,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 
     this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
 
+    if (nomReprésentantLégal === this.#représentantLégal?.nom) {
+      throw new ReprésentantLégalMêmeNomError();
+    }
+
     if (typeReprésentantLégal.estInconnu()) {
       throw new ReprésentantLégalTypeInconnuError();
     }
