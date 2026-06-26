@@ -42,7 +42,7 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         name="typeRepresentantLegal"
         label="Choisir le type de représentant légal"
         state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
-        stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
+        stateRelatedMessage={validationErrors.typeRepresentantLegal}
         typeReprésentantLégalActuel={typeReprésentantLégal}
         onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
           onChange({
