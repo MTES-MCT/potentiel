@@ -16,7 +16,10 @@
   },
   "addons": [
     {
-      "plan": "postgresql:postgresql-sandbox"
+      "plan": "postgresql:postgresql-sandbox",
+      "options": {
+        "version": "16"
+      }
     }
   ],
   "env": {
