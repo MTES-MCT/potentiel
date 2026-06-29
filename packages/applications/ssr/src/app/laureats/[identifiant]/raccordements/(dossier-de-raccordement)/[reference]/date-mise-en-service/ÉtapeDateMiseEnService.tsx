@@ -67,7 +67,7 @@ export const ÉtapeDateMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
           Transmettre
         </Link>
       ) : (
-        <p>La date de mise en service sera renseignée par la DGEC.</p>
+        <p>La date de mise en service sera renseignée par le gestionnaire de réseau.</p>
       )}
     </Etape>
   );
