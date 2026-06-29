@@ -7,7 +7,7 @@ import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 export const demanderOuEnregistrerChangementSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
-    error: 'Le type de personne pour le représentant légal est obligatoire',
+    error: 'Le type de représentant légal est obligatoire',
   }),
   nomRepresentantLegal: zod.string().min(1),
   piecesJustificatives: manyDocuments({
