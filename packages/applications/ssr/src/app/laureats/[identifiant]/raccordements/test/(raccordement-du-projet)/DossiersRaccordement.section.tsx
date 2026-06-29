@@ -1,5 +1,6 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
+import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
@@ -21,25 +22,31 @@ export const DossiersRaccordementSection = ({
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      const rôle = utilisateur.rôle;
+      const peutAjouterUnDossier = rôle.aLaPermission(
+        'raccordement.demande-complète-raccordement.transmettre',
+      );
 
       const raccordement = await getRaccordement(identifiantProjet.formatter());
 
       return (
         <Section title={sectionTitle} className="min-w-0">
-          <Button
-            priority="secondary"
-            iconId="fr-icon-add-circle-line"
-            linkProps={{
-              href: '',
-            }}
-          >
-            Ajouter un dossier de raccordement
-          </Button>{' '}
+          {peutAjouterUnDossier && (
+            <Button
+              priority="secondary"
+              iconId="fr-icon-add-circle-line"
+              linkProps={{
+                href: '',
+              }}
+            >
+              Ajouter un dossier de raccordement
+            </Button>
+          )}
           <div className="flex flex-wrap gap-4">
             {raccordement?.dossiers.map((dossier) => (
               <Dossier
                 key={dossier.référence.formatter()}
-                dossierEtapes={mapToDossierData({ dossier, rôle: utilisateur.rôle })}
+                dossierEtapes={mapToDossierData({ dossier, rôle })}
                 référence={dossier.référence.formatter()}
               />
             ))}
@@ -57,6 +64,7 @@ type GetDossierData = {
 
 const mapToDossierData = ({
   dossier: {
+    référence,
     identifiantProjet,
     demandeComplèteRaccordement,
     propositionTechniqueEtFinancière,
@@ -78,7 +86,10 @@ const mapToDossierData = ({
       },
       action: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
         ? {
-            href: '',
+            href: Routes.Raccordement.modifierDemandeComplèteRaccordement(
+              identifiantProjet.formatter(),
+              référence.formatter(),
+            ),
             label: 'Modifier',
           }
         : undefined,
@@ -94,39 +105,27 @@ const mapToDossierData = ({
           propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
         ).formatter(),
       },
-      action: {
-        href: '',
-        label: 'Modifier',
-      },
+      action: rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier')
+        ? {
+            href: Routes.Raccordement.modifierPropositionTechniqueEtFinancière(
+              identifiantProjet.formatter(),
+              référence.formatter(),
+            ),
+            label: 'Modifier',
+          }
+        : undefined,
     });
-
-    étapes.push({
-      type: 'cr',
-      date: undefined,
-      action: {
-        href: '',
-        label: 'Transmettre la convention de raccordement',
-      },
-    });
-  }
-
-  if (!propositionTechniqueEtFinancière) {
+  } else {
     étapes.push({
       type: 'ptf',
       date: undefined,
       document: undefined,
       action: {
-        href: '',
+        href: Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
+          identifiantProjet.formatter(),
+          référence.formatter(),
+        ),
         label: 'Transmettre la proposition technique et financière',
-      },
-    });
-
-    étapes.push({
-      type: 'cr',
-      date: undefined,
-      action: {
-        href: '',
-        label: 'Transmettre la convention de raccordement',
       },
     });
   }
@@ -135,11 +134,29 @@ const mapToDossierData = ({
     étapes.push({
       type: 'mise-en-service',
       date: miseEnService.dateMiseEnService.formatter(),
+      action: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
+        ? {
+            href: Routes.Raccordement.modifierDateMiseEnService(
+              identifiantProjet.formatter(),
+              référence.formatter(),
+            ),
+            label: 'Transmettre la proposition technique et financière',
+          }
+        : undefined,
     });
   } else {
     étapes.push({
       type: 'mise-en-service',
       date: undefined,
+      action: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
+        ? {
+            href: Routes.Raccordement.transmettreDateMiseEnService(
+              identifiantProjet.formatter(),
+              référence.formatter(),
+            ),
+            label: 'Transmettre la proposition technique et financière',
+          }
+        : undefined,
     });
   }
 
