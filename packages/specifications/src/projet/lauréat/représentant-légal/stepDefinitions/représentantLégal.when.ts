@@ -6,31 +6,52 @@ import { Lauréat } from '@potentiel-domain/projet';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
-  /le DGEC validateur modifie le nom et le type du représentant légal(.*) pour le projet lauréat/,
-  async function (this: PotentielWorld, avecLesMêmesValeurs?: string) {
+  'le DGEC validateur modifie le nom et le type du représentant légal',
+  async function (this: PotentielWorld) {
+    const { nomReprésentantLégal } =
+      this.lauréatWorld.représentantLégalWorld.modifierReprésentantLégalFixture.créer({});
+
+    await modifierReprésentantLégal.call(this, {
+      nom: nomReprésentantLégal,
+      type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
+    });
+  },
+);
+
+Quand(
+  'le DGEC validateur modifie le nom et le type du représentant légal avec les mêmes valeurs',
+  async function (this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet;
     const { nomReprésentantLégal, typeReprésentantLégal } =
       this.lauréatWorld.représentantLégalWorld.mapToExpected(
         identifiantProjet,
         this.candidatureWorld.importerCandidature.aÉtéCréé
-          ? this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue
+          ? this.candidatureWorld.importerCandidature.dépôtValue.nomReprésentantLégal
           : '',
       );
-    try {
-      const options = avecLesMêmesValeurs?.includes('avec les mêmes valeurs')
-        ? {
-            nom: nomReprésentantLégal,
-            type: typeReprésentantLégal,
-          }
-        : {
-            nom: nomReprésentantLégal,
-            type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
-          };
 
-      await modifierReprésentantLégal.call(this, options);
-    } catch (error) {
-      this.error = error as Error;
-    }
+    await modifierReprésentantLégal.call(this, {
+      nom: nomReprésentantLégal,
+      type: typeReprésentantLégal,
+    });
+  },
+);
+
+Quand(
+  'le DGEC validateur modifie le représentant légal avec le même nom',
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
+    const { nomReprésentantLégal } = this.lauréatWorld.représentantLégalWorld.mapToExpected(
+      identifiantProjet,
+      this.candidatureWorld.importerCandidature.aÉtéCréé
+        ? this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue
+        : '',
+    );
+
+    await modifierReprésentantLégal.call(this, {
+      nom: nomReprésentantLégal,
+      type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
+    });
   },
 );
 
@@ -42,27 +63,31 @@ async function modifierReprésentantLégal(
   this: PotentielWorld,
   { nom, type }: ModifierReprésentantLégalOptions,
 ) {
-  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { nomReprésentantLégal, typeReprésentantLégal, dateModification, raison } =
-    this.lauréatWorld.représentantLégalWorld.modifierReprésentantLégalFixture.créer(
-      nom && type
-        ? {
-            nomReprésentantLégal: nom,
-            typeReprésentantLégal: type,
-          }
-        : {},
-    );
+    const { nomReprésentantLégal, typeReprésentantLégal, dateModification, raison } =
+      this.lauréatWorld.représentantLégalWorld.modifierReprésentantLégalFixture.créer(
+        nom && type
+          ? {
+              nomReprésentantLégal: nom,
+              typeReprésentantLégal: type,
+            }
+          : {},
+      );
 
-  await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
-    type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: this.utilisateurWorld.dgecFixture.email,
-      nomReprésentantLégalValue: nomReprésentantLégal,
-      typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-      dateModificationValue: dateModification,
-      raisonValue: raison,
-    },
-  });
+    await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: this.utilisateurWorld.dgecFixture.email,
+        nomReprésentantLégalValue: nomReprésentantLégal,
+        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+        dateModificationValue: dateModification,
+        raisonValue: raison,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
 }

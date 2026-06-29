@@ -51,7 +51,6 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
         secondaryAction: {
           type: 'back',
         },
-        submitDisabled: state.typeReprésentantLégal === 'inconnu',
       }}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />

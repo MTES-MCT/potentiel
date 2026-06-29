@@ -31,6 +31,7 @@ import {
   DemandeDeChangementEnCoursError,
   ReprésentantLégalDéjàImportéError,
   ReprésentantLégalIdentiqueError,
+  ReprésentantLégalMêmeNomError,
   ReprésentantLégalTypeInconnuError,
 } from './représentantLégal.errors.js';
 import type {
@@ -375,11 +376,12 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     nomReprésentantLégal: string,
     typeReprésentantLégal: TypeReprésentantLégal.ValueType,
   ) {
-    if (
-      this.#représentantLégal?.nom === nomReprésentantLégal &&
-      this.#représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
-    ) {
-      throw new ReprésentantLégalIdentiqueError();
+    if (this.#représentantLégal?.nom === nomReprésentantLégal) {
+      if (this.#représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)) {
+        throw new ReprésentantLégalIdentiqueError();
+      }
+
+      throw new ReprésentantLégalMêmeNomError();
     }
   }
 
