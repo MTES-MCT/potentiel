@@ -7,7 +7,7 @@ import { type FC, useState } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { Spinner } from '@/components/atoms/Spinner';
-import { FiltersTagList } from '@/components/molecules/FiltersTagList';
+import { FiltersTagList } from '@/components/molecules/filters/FiltersTagList';
 import { ListFilters, type ListFiltersProps } from '@/components/molecules/ListFilters';
 import { PageTemplate } from '@/components/templates/Page.template';
 

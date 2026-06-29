@@ -4,6 +4,8 @@ import Tag from '@codegouvfr/react-dsfr/Tag';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
+import { FiltersSearchParams } from '@potentiel-applications/routes';
+
 import type { ListFiltersProps } from '@/components/molecules/ListFilters';
 
 export type FiltersTagListProps = {
@@ -14,7 +16,7 @@ export type FiltersTagListProps = {
 type TagFilter = { searchParamKey: string; label: string; value: string; affects?: string[] };
 
 export const FiltersTagList: FC<FiltersTagListProps> = ({ filters, searchBarParams }) => {
-  const searchParams = useSearchParams();
+  const searchParams = new FiltersSearchParams(useSearchParams());
   const pathname = usePathname();
   const router = useRouter();
 
@@ -38,24 +40,17 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters, searchBarPara
   }, [] as TagFilter[]);
 
   const onClick = (tagName: string, value: string, affects: string[]) => {
-    const existingTagValues = searchParams.getAll(tagName);
+    const newSearchParams = new FiltersSearchParams(searchParams.toString());
+    newSearchParams.deleteOne(tagName, value);
+    newSearchParams.delete('page');
 
-    if (existingTagValues.length > 0) {
-      const newTagValues = existingTagValues.filter((v) => v !== value);
-
-      const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.delete(tagName, value);
-      newSearchParams.delete('page');
-
-      if (newTagValues.length === 0) {
-        for (const affected of affects) {
-          newSearchParams.delete(affected);
-        }
+    if (newSearchParams.getAll(tagName).length === 0) {
+      for (const affected of affects) {
+        newSearchParams.delete(affected);
       }
-
-      const url = `${pathname}?${newSearchParams.toString()}`;
-      return router.push(url);
     }
+    const url = `${pathname}?${newSearchParams.toString()}`;
+    return router.push(url);
   };
   const onDelete = () => {
     const newSearchParams = new URLSearchParams();

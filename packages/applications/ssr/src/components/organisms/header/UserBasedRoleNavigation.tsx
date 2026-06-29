@@ -164,7 +164,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
     },
     {
       label: 'Tous les candidats',
-      url: Routes.Candidature.lister({ estNotifié: false }),
+      url: Routes.Candidature.lister({ notifie: 'a-notifier' }),
       permission: 'candidature.lister',
     },
   ];

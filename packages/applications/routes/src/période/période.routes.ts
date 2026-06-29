@@ -1,8 +1,6 @@
 import { withFilters } from '../_helpers/withFilters.js';
 
-type ListerFilters = {
+export const lister = withFilters<{
   appelOffre?: string;
   statut?: 'notifiee' | 'a-notifier';
-};
-
-export const lister = withFilters<ListerFilters>(`/periodes`);
+}>(`/periodes`);

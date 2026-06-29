@@ -1,3 +1,4 @@
+import { withFilters } from '../_helpers/withFilters.js';
 import { encodeParameter } from '../encodeParameter.js';
 
 export const lister = `/reseaux/raccordements`;
@@ -63,40 +64,11 @@ export const modifierDateMiseEnService = (
     référenceDossierRaccordement,
   )}/date-mise-en-service/modifier`;
 
-export const exporter = (filters: {
+export const exporter = withFilters<{
   appelOffre?: string[];
   periode?: string;
   famille?: string;
   statut?: string[];
   typeActionnariat?: string[];
   PPA?: boolean;
-}) => {
-  const searchParams = new URLSearchParams();
-
-  if (filters.appelOffre?.length) {
-    filters.appelOffre.forEach((value) => {
-      searchParams.append('appelOffre', value);
-    });
-  }
-  if (filters.periode) {
-    searchParams.append('periode', filters.periode);
-  }
-  if (filters.famille) {
-    searchParams.append('famille', filters.famille);
-  }
-  if (filters.statut?.length) {
-    filters.statut.forEach((value) => {
-      searchParams.append('statut', value);
-    });
-  }
-  if (filters.typeActionnariat?.length) {
-    filters.typeActionnariat.forEach((value) => {
-      searchParams.append('typeActionnariat', value);
-    });
-  }
-  if (filters.PPA !== undefined) {
-    searchParams.append('PPA', filters.PPA.toString());
-  }
-
-  return `/reseaux/raccordements/exporter${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
-};
+}>(`/reseaux/raccordements/exporter`);

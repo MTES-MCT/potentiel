@@ -252,8 +252,8 @@ const action: FormAction<FormState, typeof schema> = async (
             ? {
                 url: Routes.Candidature.lister({
                   appelOffre,
-                  période: periode,
-                  estNotifié: false,
+                  periode,
+                  notifie: 'a-notifier',
                 }),
                 label: 'Voir les candidatures importées',
               }
