@@ -7,14 +7,12 @@ import { DateMiseEnServiceWorld } from './dateDeMiseEnService/dateMiseEnService.
 import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
 import { DocumentRaccordementWorld } from './documentsRaccordement/documentRaccordement.world.js';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
-import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
 
 export class RaccordementWorld {
   readonly modifierRéférenceDossierRaccordementFixture =
     new ModifierRéférenceDossierRaccordementFixture();
 
   readonly demandeComplèteDeRaccordement = new DemandeComplèteRaccordementWorld();
-  readonly propositionTechniqueEtFinancière = new PropositionTechniqueEtFinancièreWorld();
   readonly documentRaccordement = new DocumentRaccordementWorld();
   readonly dateMiseEnService: DateMiseEnServiceWorld;
 
@@ -60,13 +58,10 @@ export class RaccordementWorld {
       miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
         ? this.dateMiseEnService.modifierFixture.mapToExpected()
         : this.dateMiseEnService.transmettreFixture.mapToExpected(),
-      propositionTechniqueEtFinancière: this.propositionTechniqueEtFinancière.transmettreFixture
-        .aÉtéCréé
-        ? this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier)
-        : this.documentRaccordement.mapToExpected(
-            Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
-            nouvelleRéférenceDossier,
-          ),
+      propositionTechniqueEtFinancière: this.documentRaccordement.mapToExpected(
+        Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
+        nouvelleRéférenceDossier,
+      ),
       conventionDeRaccordement: this.documentRaccordement.mapToExpected(
         Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordement.type,
         nouvelleRéférenceDossier,

@@ -29,3 +29,15 @@ EtantDonné(
     );
   },
 );
+
+EtantDonné(
+  'une proposition technique et financière pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet, référenceDossier } =
+      this.lauréatWorld.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
+
+    await transmettreDocumentRaccordement.call(this, identifiantProjet, référenceDossier, {
+      type: 'proposition-technique-et-financière',
+    });
+  },
+);
