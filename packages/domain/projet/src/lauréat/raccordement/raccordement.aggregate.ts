@@ -20,8 +20,8 @@ import {
   DateMiseEnServiceDéjàTransmiseError,
   DemandeComplèteDeRaccordementNonModifiéeError,
   DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError,
+  DocumentDuMêmeTypeDéjàTransmisError,
   DocumentNonModifiableCarDossierMisEnServiceError,
-  DocumentRaccordementDéjàTransmisError,
   DocumentRaccordementNonExistantError,
   DocumentRaccordementNonModifiéError,
   DossierMisEnServiceNonSupprimableError,
@@ -750,31 +750,31 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (type.estPropositionTechniqueEtFinancière()) {
       if (dossier.propositionTechniqueEtFinancière) {
-        throw new DocumentRaccordementDéjàTransmisError();
+        throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
       }
 
       if (dossier.conventionDirecteDeRaccordement) {
-        throw new TypeDeDocumentRaccordementIncompatibleError();
+        throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
       }
     }
 
     if (type.estConventionDeRaccordement()) {
       if (dossier.conventionDeRaccordement) {
-        throw new DocumentRaccordementDéjàTransmisError();
+        throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
       }
 
       if (dossier.conventionDirecteDeRaccordement) {
-        throw new TypeDeDocumentRaccordementIncompatibleError();
+        throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
       }
     }
 
     if (type.estConventionDirecteDeRaccordement()) {
       if (dossier.conventionDirecteDeRaccordement) {
-        throw new DocumentRaccordementDéjàTransmisError();
+        throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
       }
 
       if (dossier.propositionTechniqueEtFinancière || dossier.conventionDeRaccordement) {
-        throw new TypeDeDocumentRaccordementIncompatibleError();
+        throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
       }
     }
 

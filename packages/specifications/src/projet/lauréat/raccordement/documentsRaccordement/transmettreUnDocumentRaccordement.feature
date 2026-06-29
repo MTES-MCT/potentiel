@@ -1,6 +1,7 @@
 # language: fr
 @raccordement
 @document-raccordement
+@select
 Fonctionnalité: Transmettre un document raccordement
 
   Contexte:
@@ -67,7 +68,7 @@ Fonctionnalité: Transmettre un document raccordement
       | type de document | <type> |
     Quand le porteur transmet un document raccordement pour le projet lauréat avec :
       | type de document | <type> |
-    Alors le porteur devrait être informé que "Ce document a déjà été transmis pour ce dossier de raccordement"
+    Alors le porteur devrait être informé que "Un document de type <type> a déjà été transmis pour ce dossier de raccordement"
 
     Exemples:
       | type                                |
@@ -81,7 +82,7 @@ Fonctionnalité: Transmettre un document raccordement
       | type de document | convention-directe-de-raccordement |
     Quand le porteur transmet un document raccordement pour le projet lauréat avec :
       | type de document | proposition-technique-et-financière |
-    Alors le porteur devrait être informé que "Ce type de document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement"
+    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type proposition-technique-et-financière pour ce dossier de raccordement"
 
   Scénario: Impossible de transmettre une convention de type "convention de raccordement" si une convention de type "convention directe de raccordement" a déjà été transmise
     Etant donné une demande complète de raccordement pour le projet lauréat
@@ -89,7 +90,7 @@ Fonctionnalité: Transmettre un document raccordement
       | type de document | convention-directe-de-raccordement |
     Quand le porteur transmet un document raccordement pour le projet lauréat avec :
       | type de document | convention-de-raccordement |
-    Alors le porteur devrait être informé que "Ce type de document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement"
+    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type convention-de-raccordement pour ce dossier de raccordement"
 
   Scénario: Impossible de transmettre une convention de type "convention directe de raccordement" si une convention de type "convention de raccordement" a déjà été transmise
     Etant donné une demande complète de raccordement pour le projet lauréat
@@ -97,7 +98,7 @@ Fonctionnalité: Transmettre un document raccordement
       | type de document | convention-de-raccordement |
     Quand le porteur transmet un document raccordement pour le projet lauréat avec :
       | type de document | convention-directe-de-raccordement |
-    Alors le porteur devrait être informé que "Ce type de document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement"
+    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type convention-directe-de-raccordement pour ce dossier de raccordement"
 
   Scénario: Impossible de transmettre une convention de type "convention directe de raccordement" si une convention de type "proposition technique et financière" a déjà été transmise
     Etant donné une demande complète de raccordement pour le projet lauréat
@@ -105,4 +106,4 @@ Fonctionnalité: Transmettre un document raccordement
       | type de document | proposition-technique-et-financière |
     Quand le porteur transmet un document raccordement pour le projet lauréat avec :
       | type de document | convention-directe-de-raccordement |
-    Alors le porteur devrait être informé que "Ce type de document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement"
+    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type convention-directe-de-raccordement pour ce dossier de raccordement"

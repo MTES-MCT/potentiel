@@ -38,21 +38,20 @@ Fonctionnalité: Modifier un document raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et le document raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Plan du scénario: Modifier un document raccordement pour un projet abandonné avec PPA
+    Scénario: Modifier un document raccordement pour un projet abandonné avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document raccordement transmis pour le projet lauréat
         Et une demande d'abandon accordée avec déclaration de PPA
         Quand le porteur modifie le document raccordement
         Alors le document raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Plan du scénario: Modifier un document raccordement pour un projet en cours d'abandon avec PPA
+    Scénario: Modifier un document raccordement pour un projet en cours d'abandon avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document raccordement transmis pour le projet lauréat
         Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand le porteur modifie le document raccordement
         Alors le document raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    @select
     Scénario: Impossible de modifier un document raccordement qui n'a pas été transmis
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document raccordement transmis pour le projet lauréat avec :
@@ -81,7 +80,7 @@ Fonctionnalité: Modifier un document raccordement
         Quand le porteur modifie le document raccordement
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
-    Plan du scénario: Impossible pour un rôle hors dgec de modifier une PTF si le projet est déjà en service
+    Scénario: Impossible pour un rôle hors dgec de modifier une PTF si le projet est déjà en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document raccordement transmis pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
@@ -93,7 +92,7 @@ Fonctionnalité: Modifier un document raccordement
             | le porteur |
             | la dreal   |
 
-    Plan du scénario: Impossible pour un rôle hors dgec de modifier un document raccordement si le projet est achevé
+    Scénario: Impossible pour un rôle hors dgec de modifier un document raccordement si le projet est achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document raccordement transmis pour le projet lauréat
         Et l'achèvement réel transmis pour le projet lauréat

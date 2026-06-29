@@ -27,9 +27,9 @@ export class DemandeComplèteDeRaccordementNonModifiéeError extends InvalidOper
   }
 }
 
-export class DocumentRaccordementDéjàTransmisError extends InvalidOperationError {
-  constructor() {
-    super(`Ce document a déjà été transmis pour ce dossier de raccordement`);
+export class DocumentDuMêmeTypeDéjàTransmisError extends InvalidOperationError {
+  constructor(type: string) {
+    super(`Un document de type ${type} a déjà été transmis pour ce dossier de raccordement`);
   }
 }
 
@@ -40,9 +40,9 @@ export class DocumentRaccordementNonExistantError extends InvalidOperationError 
 }
 
 export class TypeDeDocumentRaccordementIncompatibleError extends InvalidOperationError {
-  constructor() {
+  constructor(type: string) {
     super(
-      `Ce type de document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement`,
+      `Il est impossible de transmettre un document de type ${type} pour ce dossier de raccordement`,
     );
   }
 }
