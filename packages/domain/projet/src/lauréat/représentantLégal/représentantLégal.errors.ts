@@ -6,6 +6,12 @@ export class ReprésentantLégalIdentiqueError extends InvalidOperationError {
   }
 }
 
+export class ReprésentantLégalMêmeNomError extends InvalidOperationError {
+  constructor() {
+    super('Le représentant légal a le même nom que celui associé au projet');
+  }
+}
+
 export class ReprésentantLégalTypeInconnuError extends InvalidOperationError {
   constructor() {
     super('Le représentant légal ne peut pas avoir de type inconnu');

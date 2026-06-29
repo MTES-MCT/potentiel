@@ -8,7 +8,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Et un cahier des charges permettant la modification du projet
 
     Plan du scénario: Accorder la demande de changement de représentant légal d'un projet lauréat
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Etant donné une demande de changement de représentant légal en cours
         Quand <l'utilisateur autorisé> accorde la demande de changement de représentant légal pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat devrait être consultable
         Et le représentant légal du projet lauréat devrait être mis à jour
@@ -25,7 +25,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
             | la DREAL associée au projet |
 
     Plan du scénario: Corriger et accorder la demande de changement de représentant légal d'un projet lauréat
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Etant donné une demande de changement de représentant légal en cours
         Quand <l'utilisateur autorisé> corrige puis accorde la demande de changement de représentant légal pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat devrait être consultable
         Et le représentant légal du projet lauréat devrait être mis à jour
@@ -42,8 +42,8 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
     Scénario: Accord automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offres avec accord automatique du changement de représentant légal
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
-        Et une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand le système accorde automatiquement la demande de changement de représentant légal pour le projet lauréat
+        Et une demande de changement de représentant légal en cours
+        Quand le système accorde automatiquement la demande de changement de représentant légal
         Alors la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
