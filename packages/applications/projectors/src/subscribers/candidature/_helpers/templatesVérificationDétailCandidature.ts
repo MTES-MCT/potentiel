@@ -58,6 +58,130 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       ],
       mapper: mapDétailsToTypeTerrainImplantation,
     },
+    natureExacteDuTerrain: {
+      label: [
+        [
+          { appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' },
+          'Nature exacte du terrain',
+        ],
+      ],
+      mapper: mapToString,
+    },
+    dateObtentionCETI: {
+      label: [
+        [{ appelOffre: 'PPE2 - Sol' }, "Date d'obtention du CETI"],
+        [{ appelOffre: 'PPE2 - Innovation' }, "Date d'obtention du CETI"],
+        [{ appelOffre: 'PPE2 - Neutre' }, "Date d'obtention du CETI"],
+        [{ appelOffre: 'PPE2 - Autoconsommation métropole' }, "Date d'obtention du CETI"],
+        [{ appelOffre: 'PPE2 - ZNI' }, "Date d'obtention du CETI"],
+      ],
+      mapper: mapToString,
+    },
+    surfaceProjetéeAuSol: {
+      label: [
+        [
+          { appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' },
+          "Surface projetée au sol de l'ensemble des capteurs solaires",
+        ],
+        [
+          { appelOffre: 'PPE2 - Sol', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Bâtiment', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Neutre', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - ZNI', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Autoconsommation métropole', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - ZNI', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'CRE4 - ZNI 2017', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'CRE4 - ZNI', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'Fessenheim', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'CRE4 - Sol', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+        [
+          { appelOffre: 'CRE4 - Bâtiment', typeImport: 'csv' },
+          'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+        ],
+      ],
+      mapper: mapToString,
+    },
+    surfaceTotaleTerrainImplantation: {
+      label: [
+        [
+          { appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' },
+          "Surface totale du terrain d'implantation",
+        ],
+        [{ appelOffre: 'PPE2 - Sol', typeImport: 'csv' }, 'Surface du Terrain d’implantation (ha)'],
+        [
+          { appelOffre: 'PPE2 - Bâtiment', typeImport: 'csv' },
+          'Surface du Terrain d’implantation (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
+          'Surface du Terrain d’implantation (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Neutre', typeImport: 'csv' },
+          'Surface du Terrain d’implantation (ha)',
+        ],
+        [
+          { appelOffre: 'PPE2 - Autoconsommation métropole', typeImport: 'csv' },
+          'Surface du Terrain d’implantation (ha)',
+        ],
+        [{ appelOffre: 'PPE2 - ZNI', typeImport: 'csv' }, 'Surface du Terrain d’implantation (ha)'],
+        [
+          { appelOffre: 'CRE4 - ZNI 2017', typeImport: 'csv' },
+          'Surface du Terrain d’implantation (ha)',
+        ],
+        [{ appelOffre: 'CRE4 - ZNI', typeImport: 'csv' }, 'Surface du Terrain d’implantation (ha)'],
+        [{ appelOffre: 'Fessenheim', typeImport: 'csv' }, 'Surface du Terrain d’implantation (ha)'],
+        [{ appelOffre: 'CRE4 - Sol', typeImport: 'csv' }, 'Surface du Terrain d’implantation (ha)'],
+        [
+          { appelOffre: 'CRE4 - Innovation', typeImport: 'csv' },
+          'Surface du Terrain d’implantation (ha)',
+        ],
+      ],
+      mapper: mapToString,
+    },
+    composantsRésilients: {
+      label: [
+        [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' }, 'Composants résilients'],
+      ],
+      mapper: mapToString,
+    },
   },
   éolien: {
     technologie: {
@@ -142,12 +266,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       ],
       mapper: mapToBoolean,
     },
-  },
-  composantsRésilients: {
-    label: [
-      [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' }, 'Composants résilients'],
-    ],
-    mapper: mapToString,
   },
   innovation: {
     note: {

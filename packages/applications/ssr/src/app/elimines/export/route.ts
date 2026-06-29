@@ -110,6 +110,26 @@ export const GET = async (request: Request) =>
             label: 'Taux prévisionnel ACC (%)',
           },
           { value: 'composantsRésilients', label: 'Composants résilients' },
+          {
+            value: 'typeTerrainImplantation',
+            label: "Type de terrain d'implantation",
+          },
+          {
+            value: 'natureExacteDuTerrain',
+            label: 'Nature exacte du terrain',
+          },
+          {
+            value: 'dateObtentionCETI',
+            label: 'Date obtention CETI',
+          },
+          {
+            value: 'surfaceProjetéeAuSol',
+            label: 'Surface projetée au sol (ha)',
+          },
+          {
+            value: 'surfaceTotaleTerrainImplantation',
+            label: 'Surface terrain implantation (ha)',
+          },
           { value: 'technologieÉolien', label: 'Technologie (éolien)' },
           { value: 'diamètreRotorEnMètres', label: 'Diamètre rotor (m)' },
           { value: 'hauteurBoutDePâleEnMètres', label: 'Hauteur bout de pâle (m)' },
