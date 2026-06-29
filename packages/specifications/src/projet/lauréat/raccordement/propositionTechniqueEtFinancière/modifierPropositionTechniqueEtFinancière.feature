@@ -1,5 +1,4 @@
 # language: fr
-@raccordement
 @proposition-technique-financière
 Fonctionnalité: Modifier une proposition technique et financière
 

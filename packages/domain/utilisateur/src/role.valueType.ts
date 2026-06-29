@@ -1701,6 +1701,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
   'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
+  'raccordement.document-raccordement.transmettre',
+  'raccordement.document-raccordement.modifier',
+  'raccordement.document-raccordement.modifier-après-mise-en-service',
+  'raccordement.document-raccordement.modifier-après-achèvement',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
@@ -1984,6 +1988,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.proposition-technique-et-financière.transmettre',
   'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.document-raccordement.transmettre',
+  'raccordement.document-raccordement.modifier',
   'raccordement.gestionnaire.modifier',
 
   // Garanties financières
@@ -2127,6 +2133,8 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.proposition-technique-et-financière.transmettre',
   'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.document-raccordement.transmettre',
+  'raccordement.document-raccordement.modifier',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
 

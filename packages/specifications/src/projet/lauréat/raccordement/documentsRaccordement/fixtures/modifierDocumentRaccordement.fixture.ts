@@ -11,6 +11,7 @@ export type ModifierDocumentRaccordement = {
   référenceDossier: string;
   document: PièceJustificative;
   estUnNouveauDocument: boolean;
+  type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
 };
 
 export class ModifierDocumentRaccordementFixture
@@ -42,9 +43,15 @@ export class ModifierDocumentRaccordementFixture
     return this.#estUnNouveauDocument;
   }
 
+  #type!: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
+  get type(): Lauréat.Raccordement.TypeDocumentsRaccordement.RawType {
+    return this.#type;
+  }
+
   créer(
     partialFixture: Partial<Readonly<ModifierDocumentRaccordement>> & {
       référenceDossier: string;
+      type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
       identifiantProjet: string;
     },
   ): Readonly<ModifierDocumentRaccordement> {
@@ -60,6 +67,7 @@ export class ModifierDocumentRaccordementFixture
     this.#référenceDossier = fixture.référenceDossier;
     this.#document = fixture.document;
     this.#estUnNouveauDocument = fixture.estUnNouveauDocument;
+    this.#type = fixture.type;
     this.aÉtéCréé = true;
 
     return fixture;
@@ -69,7 +77,7 @@ export class ModifierDocumentRaccordementFixture
     type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType,
     référenceDossier?: string,
   ) {
-    if (!this.aÉtéCréé) return;
+    if (!this.aÉtéCréé || this.#type !== type) return undefined;
 
     return {
       dateSignature: DateTime.convertirEnValueType(this.dateSignature),

@@ -52,17 +52,14 @@ Fonctionnalité: Modifier un document raccordement
         Quand le porteur modifie le document raccordement
         Alors le document raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Scénario: Impossible de modifier un document raccordement pour un projet sans dossier de raccordement
+    @select
+    Scénario: Impossible de modifier un document raccordement qui n'a pas été transmis
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et un document raccordement transmis pour le projet lauréat avec :
+            | type de document | proposition-technique-et-financière |
         Quand le porteur modifie le document raccordement avec :
-            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
-        Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
-
-    Scénario: Impossible de modifier un document raccordement pour un dossier n'étant pas référencé dans le raccordement du projet
-        Etant donné une demande complète de raccordement pour le projet lauréat avec :
-            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
-        Quand le porteur modifie le document raccordement avec :
-            | La référence du dossier de raccordement | OUE-RP-2022-000034 |
-        Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
+            | type de document | convention-de-raccordement |
+        Alors le porteur devrait être informé que "Il n'existe pas de document de ce type à modifier dans ce dossier de raccordement"
 
     Scénario: Impossible de modifier un document raccordement avec une date de signature dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat

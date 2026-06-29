@@ -105,6 +105,7 @@ Quand(
         dateSignature,
         document,
         estUnNouveauDocument: false,
+        type: this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.type,
       } satisfies ModifierDocumentRaccordement);
     } catch (e) {
       this.error = e as Error;
@@ -145,10 +146,11 @@ async function modifierDocumentRaccordement(
   role: Role.RawType,
   data: Partial<ModifierDocumentRaccordement>,
 ) {
-  const { dateSignature, document, référenceDossier, estUnNouveauDocument } =
+  const { dateSignature, document, référenceDossier, estUnNouveauDocument, type } =
     this.lauréatWorld.raccordementWorld.documentRaccordement.modifierFixture.créer({
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier: this.lauréatWorld.raccordementWorld.référenceDossier,
+      type: this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.type,
       ...data,
     });
 
@@ -161,7 +163,7 @@ async function modifierDocumentRaccordement(
       documentRaccordementValue: convertFixtureFileToReadableStream(document),
       estUnNouveauDocumentValue: estUnNouveauDocument,
       rôleValue: role,
-      type: this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.type,
+      type,
       modifiéLeValue: DateTime.now().formatter(),
       modifiéParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
     },

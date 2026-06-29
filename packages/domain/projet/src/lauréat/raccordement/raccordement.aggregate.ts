@@ -22,6 +22,7 @@ import {
   DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError,
   DocumentNonModifiableCarDossierMisEnServiceError,
   DocumentRaccordementDéjàTransmisError,
+  DocumentRaccordementNonExistantError,
   DocumentRaccordementNonModifiéError,
   DossierMisEnServiceNonSupprimableError,
   DossierNonRéférencéPourLeRaccordementDuProjetError,
@@ -822,6 +823,10 @@ export class RaccordementAggregate extends AbstractAggregate<
       : type.estConventionDeRaccordement()
         ? dossier.conventionDeRaccordement
         : dossier.conventionDirecteDeRaccordement;
+
+    if (!document) {
+      throw new DocumentRaccordementNonExistantError();
+    }
 
     if (
       dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&

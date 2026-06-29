@@ -26,20 +26,6 @@ Alors(
 
       assert(Option.isSome(dossierRaccordement));
       vérifierDossierRaccordement.call(this, dossierRaccordement);
-
-      // const { propositionTechniqueEtFinancière } = dossierRaccordement;
-
-      // assert(propositionTechniqueEtFinancière, 'propositionTechniqueEtFinancière is undefined');
-
-      // const { documentRaccordement } = this.lauréatWorld.raccordementWorld
-      //   .propositionTechniqueEtFinancière.modifierFixture.aÉtéCréé
-      //   ? this.lauréatWorld.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture
-      //   : this.lauréatWorld.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture;
-
-      // await expectFileContent(
-      //   propositionTechniqueEtFinancière.documentRaccordement,
-      //   documentRaccordement,
-      // );
     });
   },
 );

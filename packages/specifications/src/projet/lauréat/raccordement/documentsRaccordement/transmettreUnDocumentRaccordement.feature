@@ -102,7 +102,7 @@ Fonctionnalité: Transmettre un document raccordement
   Scénario: Impossible de transmettre une convention de type "convention directe de raccordement" si une convention de type "proposition technique et financière" a déjà été transmise
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document raccordement transmis pour le projet lauréat avec :
-      | type | proposition-technique-et-financière |
+      | type de document | proposition-technique-et-financière |
     Quand le porteur transmet un document raccordement pour le projet lauréat avec :
-      | type | convention-directe-de-raccordement |
+      | type de document | convention-directe-de-raccordement |
     Alors le porteur devrait être informé que "Ce type de document est incompatible avec celui ou ceux déjà transmis pour ce dossier de raccordement"
