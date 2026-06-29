@@ -15,12 +15,9 @@ import type { CréerDemandeChangementReprésentantLégalFixture } from '../fixtu
 Quand(
   /le porteur (demande|enregistre) un changement de représentant légal$/,
   async function (this: PotentielWorld, typeAction: 'demande' | 'enregistre') {
-    if (typeAction === 'demande') {
-      await demanderChangement.call(this, {});
-      return;
-    }
-
-    await enregistrerChangement.call(this, {});
+    return typeAction === 'demande'
+      ? await demanderChangement.call(this, {})
+      : await enregistrerChangement.call(this, {});
   },
 );
 
@@ -35,19 +32,16 @@ Quand(
         this.candidatureWorld.importerCandidature.dépôtValue.nomReprésentantLégal,
       );
 
-    if (typeAction === 'demande') {
-      await demanderChangement.call(this, {
-        nomReprésentantLégal,
-        typeReprésentantLégal,
-        demandéPar: this.utilisateurWorld.porteurFixture.email,
-      });
-      return;
-    }
-
-    await enregistrerChangement.call(this, {
-      typeReprésentantLégal,
-      nomReprésentantLégal,
-    });
+    return typeAction === 'demande'
+      ? await demanderChangement.call(this, {
+          nomReprésentantLégal,
+          typeReprésentantLégal,
+          demandéPar: this.utilisateurWorld.porteurFixture.email,
+        })
+      : await enregistrerChangement.call(this, {
+          typeReprésentantLégal,
+          nomReprésentantLégal,
+        });
   },
 );
 
@@ -64,19 +58,16 @@ Quand(
         {},
       );
 
-    if (typeAction === 'demande') {
-      await demanderChangement.call(this, {
-        nomReprésentantLégal,
-        typeReprésentantLégal,
-        demandéPar: this.utilisateurWorld.porteurFixture.email,
-      });
-      return;
-    }
-
-    await enregistrerChangement.call(this, {
-      typeReprésentantLégal,
-      nomReprésentantLégal,
-    });
+    return typeAction === 'demande'
+      ? await demanderChangement.call(this, {
+          nomReprésentantLégal,
+          typeReprésentantLégal,
+          demandéPar: this.utilisateurWorld.porteurFixture.email,
+        })
+      : await enregistrerChangement.call(this, {
+          typeReprésentantLégal,
+          nomReprésentantLégal,
+        });
   },
 );
 
@@ -86,16 +77,13 @@ Quand(
     const typeReprésentantLégal =
       Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu');
 
-    if (typeAction === 'demande') {
-      await demanderChangement.call(this, {
-        typeReprésentantLégal,
-      });
-      return;
-    }
-
-    await enregistrerChangement.call(this, {
-      typeReprésentantLégal,
-    });
+    return typeAction === 'demande'
+      ? await demanderChangement.call(this, {
+          typeReprésentantLégal,
+        })
+      : await enregistrerChangement.call(this, {
+          typeReprésentantLégal,
+        });
   },
 );
 
@@ -191,16 +179,11 @@ Quand(
 );
 
 Quand(
-  /le système accorde automatiquement la demande de changement de représentant légal$/,
-  async function (this: PotentielWorld) {
-    await instruireAutomatiquementChangement.call(this, 'accord');
-  },
-);
-
-Quand(
-  /le système rejette automatiquement la demande de changement de représentant légal$/,
-  async function (this: PotentielWorld) {
-    await instruireAutomatiquementChangement.call(this, 'rejet');
+  /le système (accorde|rejette) automatiquement la demande de changement de représentant légal$/,
+  async function (this: PotentielWorld, typeAction: 'accorde' | 'rejette') {
+    return typeAction === 'accorde'
+      ? await instruireAutomatiquementChangement.call(this, 'accord')
+      : await instruireAutomatiquementChangement.call(this, 'rejet');
   },
 );
 
