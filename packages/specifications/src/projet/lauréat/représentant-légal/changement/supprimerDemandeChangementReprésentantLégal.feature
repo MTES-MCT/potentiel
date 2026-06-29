@@ -8,7 +8,7 @@ Fonctionnalité: Supprimer la demande de changement de représentant légal
         Et un cahier des charges permettant la modification du projet
 
     Scénario: Le système supprime la demande de changement de représentant légal ainsi que la tâche planifiée d'instruction automatique d'un projet si celui-ci est abandonné
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Etant donné une demande de changement de représentant légal en cours
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable

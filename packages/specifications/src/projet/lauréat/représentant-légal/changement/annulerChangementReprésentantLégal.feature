@@ -8,7 +8,7 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
         Et un cahier des charges permettant la modification du projet
 
     Scénario: Un porteur annule la demande de changement de représentant légal d'un projet lauréat
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Etant donné une demande de changement de représentant légal en cours
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat devrait être consultable
         Et il n'y a pas de tâche "gestion automatique de la demande de changement de représentant légal" planifiée pour le projet lauréat

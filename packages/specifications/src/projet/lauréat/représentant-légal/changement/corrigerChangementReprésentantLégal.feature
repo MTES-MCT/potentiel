@@ -8,7 +8,7 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
         Et un cahier des charges permettant la modification du projet
 
     Scénario: Un porteur corrige sa demande de changement de représentant légal
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Etant donné une demande de changement de représentant légal en cours
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat
         Alors la demande corrigée de changement de représentant légal du projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
@@ -31,6 +31,6 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
         Alors le porteur devrait être informé que "Le changement de représentant légal a déjà été rejeté"
 
     Scénario: Impossible de corriger le changement de représentant légal d'un projet lauréat sans modification
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Etant donné une demande de changement de représentant légal en cours
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat avec les mêmes valeurs
         Alors le porteur devrait être informé que "La correction de la demande ne contient aucune modification"

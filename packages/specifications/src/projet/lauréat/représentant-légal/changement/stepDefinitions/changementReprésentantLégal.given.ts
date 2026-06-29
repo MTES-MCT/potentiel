@@ -11,7 +11,7 @@ import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import { notifierLauréat } from '../../../stepDefinitions/lauréat.given.js';
 
 EtantDonné(
-  /une demande de changement de représentant légal en cours pour le projet lauréat/,
+  /une demande de changement de représentant légal en cours/,
   async function (this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
