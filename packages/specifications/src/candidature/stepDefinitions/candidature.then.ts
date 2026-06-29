@@ -20,7 +20,15 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
       },
     });
 
+    const détailCandidature = await mediator.send<Candidature.ConsulterDétailCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterDétailCandidature',
+      data: {
+        identifiantProjet,
+      },
+    });
+
     assert(Option.isSome(candidature), 'Candidature non trouvée');
+    assert(Option.isSome(détailCandidature), 'Détail candidature non trouvée');
 
     const actual = mapToPlainObject(candidature);
     const expected = mapToPlainObject(this.candidatureWorld.mapToExpected());
