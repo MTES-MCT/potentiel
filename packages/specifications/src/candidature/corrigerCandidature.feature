@@ -9,7 +9,6 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat | abcd |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
         Et aucun email n'a été envoyé au porteur
 
     Scénario: Corriger une candidature et ses détails (typiquement, par CSV)
@@ -17,13 +16,11 @@ Fonctionnalité: Corriger une candidature
             | nom candidat | abcd                  |
             | détails      | {"Note carbone": "1"} |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
     Scénario: Corriger une candidature avec des champs de localité uniquement
         Quand le DGEC validateur corrige la candidature avec :
             | adresse 1 | ma nouvelle adresse |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
         Et aucun email n'a été envoyé au porteur
 
     Scénario: Corriger une candidature avec des coordonnées géodésiques
@@ -31,7 +28,6 @@ Fonctionnalité: Corriger une candidature
             | latitude  | 43.2965 |
             | longitude | 5.3698  |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
         Et aucun email n'a été envoyé au porteur
 
     Scénario: Corriger une candidature notifiée en régénérant l'attestation
@@ -42,7 +38,6 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être régénérée
-        Et le détail de la candidature devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Boulodrome Sainte Livrade - Nouvelle attestation disponible |
             | url   | https://potentiel.beta.gouv.fr/projets/.*                               |
@@ -55,7 +50,6 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature ne devrait pas être régénérée
-        Et le détail de la candidature devrait être consultable
         Et aucun email n'a été envoyé au porteur
 
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
