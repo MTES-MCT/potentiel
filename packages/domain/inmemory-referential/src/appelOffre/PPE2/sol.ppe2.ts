@@ -175,6 +175,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     typologieInstallation: { type: 'optionnel' as const },
     ...champsSupplémentairesAPartirDeP8,
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -185,7 +186,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021 S 211-553136',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 46.95,
@@ -216,7 +216,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022/S 061-160516',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 35.25,
@@ -253,7 +252,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 214-614411',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 33.95,
@@ -284,7 +282,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2023 S 063-187860',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 17.96,
@@ -326,7 +323,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2023/S 217-681379',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 15.57,
@@ -368,7 +364,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2024/S 422369-2024',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 18.97,
@@ -410,7 +405,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2021/S 146-385911',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 25.98,
@@ -450,7 +444,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2025/S 059-190628',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       volumeRéservé: {
         noteMin: 25.08,

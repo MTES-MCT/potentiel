@@ -173,6 +173,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
 `,
     },
   },
+  délaiDCR: { grd: 2 },
   periodes: [
     {
       id: '1',
@@ -181,7 +182,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -248,7 +248,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -315,7 +314,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -382,7 +380,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -449,7 +446,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -516,7 +512,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -582,7 +577,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -648,7 +642,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -714,7 +707,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',
@@ -780,7 +772,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [
         {
           id: '1',

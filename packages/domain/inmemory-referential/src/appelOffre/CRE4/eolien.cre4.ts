@@ -144,6 +144,7 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
 Après constitution des garanties financières, si le Candidat n’a pas joint à son offre la lettre d’engagement du 3.3.6, les modifications de la structure du Capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat a joint à son offre la lettre d’engagement du 3.3.6, les modifications de la structure du Capital du Candidat doivent être autorisées par le Préfet.`,
     },
   },
+  délaiDCR: { grd: 2 },
   periodes: [
     {
       id: '1',
@@ -152,7 +153,6 @@ Après constitution des garanties financières, si le Candidat n’a pas joint �
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -205,7 +205,6 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -257,7 +256,6 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -308,7 +306,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -359,7 +356,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -410,7 +406,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -461,7 +456,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -512,7 +506,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       cahierDesCharges: {
         référence: '2017/S 083-161855',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {

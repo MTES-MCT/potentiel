@@ -13,6 +13,7 @@
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
+    "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-libraries/monads": "*",
