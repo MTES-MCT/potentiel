@@ -1,7 +1,6 @@
 # language: fr
 @raccordement
 @document-raccordement
-@select
 Fonctionnalité: Transmettre un document raccordement
 
   Contexte:
