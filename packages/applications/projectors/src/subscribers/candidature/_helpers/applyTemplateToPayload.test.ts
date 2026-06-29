@@ -8,9 +8,15 @@ import { applyTemplateToPayload } from './applyTemplateToPayload.js';
 import { templateVérificationDétailCandidature } from './templatesVérificationDétailCandidature.js';
 
 const commonExpected: Candidature.DétailsCandidature = {
-  composantsRésilients: undefined,
   notePrix: undefined,
-  pv: { typeTerrainImplantation: undefined },
+  pv: {
+    typeTerrainImplantation: undefined,
+    dateObtentionCETI: undefined,
+    natureExacteDuTerrain: undefined,
+    surfaceProjetéeAuSol: undefined,
+    surfaceTotaleTerrainImplantation: undefined,
+    composantsRésilients: undefined,
+  },
   innovation: {
     noteDegréInnovationSur20: undefined,
     note: undefined,

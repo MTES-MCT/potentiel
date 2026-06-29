@@ -69,6 +69,11 @@ export type ÉliminéEnrichiListItemReadModel = {
   tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
 
   composantsRésilients: string | undefined;
+  typeTerrainImplantation: string | undefined;
+  surfaceProjetéeAuSol: string | undefined;
+  surfaceTotaleTerrainImplantation: string | undefined;
+  natureExacteDuTerrain: string | undefined;
+  dateObtentionCETI: string | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
@@ -225,7 +230,11 @@ const mapToReadModel: MapToReadModelProps = ({
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
     typeTerrainImplantation: détail?.pv?.typeTerrainImplantation,
-    composantsRésilients: détail?.composantsRésilients,
+    composantsRésilients: détail?.pv?.composantsRésilients,
+    surfaceProjetéeAuSol: détail?.pv?.surfaceProjetéeAuSol,
+    surfaceTotaleTerrainImplantation: détail?.pv?.surfaceTotaleTerrainImplantation,
+    natureExacteDuTerrain: détail?.pv?.natureExacteDuTerrain,
+    dateObtentionCETI: détail?.pv?.dateObtentionCETI,
     technologieÉolien: détail?.éolien?.technologie,
     diamètreRotorEnMètres: détail?.éolien?.diamètreRotorEnMètres?.toString(),
     hauteurBoutDePâleEnMètres: détail?.éolien?.hauteurBoutDePâleEnMètres?.toString(),

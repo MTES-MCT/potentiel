@@ -77,7 +77,6 @@ export type LauréatEnrichiListItemReadModel = {
   unitéPuissance: UnitéPuissance.ValueType;
 
   coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
-  typeTerrainImplantation: string | undefined;
   typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage:
@@ -94,6 +93,11 @@ export type LauréatEnrichiListItemReadModel = {
   tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
 
   composantsRésilients: string | undefined;
+  typeTerrainImplantation: string | undefined;
+  surfaceProjetéeAuSol: string | undefined;
+  surfaceTotaleTerrainImplantation: string | undefined;
+  natureExacteDuTerrain: string | undefined;
+  dateObtentionCETI: string | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
@@ -371,7 +375,11 @@ const mapToReadModel: MapToReadModelProps = ({
     typeTerrainImplantation: détail?.pv?.typeTerrainImplantation,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
-    composantsRésilients: détail?.composantsRésilients,
+    composantsRésilients: détail?.pv?.composantsRésilients,
+    surfaceProjetéeAuSol: détail?.pv?.surfaceProjetéeAuSol,
+    surfaceTotaleTerrainImplantation: détail?.pv?.surfaceTotaleTerrainImplantation,
+    natureExacteDuTerrain: détail?.pv?.natureExacteDuTerrain,
+    dateObtentionCETI: détail?.pv?.dateObtentionCETI,
     technologieÉolien: détail?.éolien?.technologie,
     diamètreRotorEnMètres: détail?.éolien?.diamètreRotorEnMètres?.toString(),
     hauteurBoutDePâleEnMètres: détail?.éolien?.hauteurBoutDePâleEnMètres?.toString(),
