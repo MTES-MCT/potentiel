@@ -175,10 +175,6 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 
     this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
 
-    if (nomReprésentantLégal === this.#représentantLégal?.nom) {
-      throw new ReprésentantLégalMêmeNomError();
-    }
-
     if (typeReprésentantLégal.estInconnu()) {
       throw new ReprésentantLégalTypeInconnuError();
     }
@@ -221,10 +217,6 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'représentantLégal');
 
     this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
-
-    if (nomReprésentantLégal === this.#représentantLégal?.nom) {
-      throw new ReprésentantLégalMêmeNomError();
-    }
 
     if (typeReprésentantLégal.estInconnu()) {
       throw new ReprésentantLégalTypeInconnuError();
@@ -384,11 +376,12 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     nomReprésentantLégal: string,
     typeReprésentantLégal: TypeReprésentantLégal.ValueType,
   ) {
-    if (
-      this.#représentantLégal?.nom === nomReprésentantLégal &&
-      this.#représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
-    ) {
-      throw new ReprésentantLégalIdentiqueError();
+    if (this.#représentantLégal?.nom === nomReprésentantLégal) {
+      if (this.#représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)) {
+        throw new ReprésentantLégalIdentiqueError();
+      }
+
+      throw new ReprésentantLégalMêmeNomError();
     }
   }
 
