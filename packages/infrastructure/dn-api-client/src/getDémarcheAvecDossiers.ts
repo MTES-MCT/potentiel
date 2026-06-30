@@ -41,7 +41,7 @@ export const getDémarcheAvecDossiers = async (démarcheId: number) => {
         const { champs } = dossier;
 
         return {
-          numeroDS: dossier.number,
+          numeroDN: dossier.number,
           dépôt: mapApiResponseToDépôt({ champs }),
           détails: mapApiResponseToDétails({ champs }),
         };

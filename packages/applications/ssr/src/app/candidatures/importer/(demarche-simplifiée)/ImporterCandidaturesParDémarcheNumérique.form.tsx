@@ -93,8 +93,8 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
                 className="lg:mx-4 my-4 border-spacing-0"
                 headers={['Colonne', 'Format', 'Optionnel']}
                 data={[
-                  ['numeroDossierDémarcheNumérique', 'chaîne de caractères', 'non'],
-                  ['statut', 'classé ou éliminé', 'non'],
+                  ['numeroDossierDN', 'chaîne de caractères', 'non'],
+                  ['statut', 'retenu ou éliminé', 'non'],
                   ['note', 'nombre', 'non'],
                   [
                     'motifElimination',

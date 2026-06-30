@@ -40,7 +40,7 @@ export class ListerDossiersCandidatureCommand extends Command {
         const data = dossiers.map((dossier) => {
           const statut = faker.helpers.arrayElement(['retenu', 'éliminé']);
           return {
-            numeroDossierDS: dossier.numeroDS,
+            numeroDossierDN: dossier.numeroDN,
             statut,
             motifElimination:
               statut === 'éliminé' ? faker.lorem.words({ min: 8, max: 16 }) : undefined,
@@ -49,7 +49,7 @@ export class ListerDossiersCandidatureCommand extends Command {
         });
         const csv = await ExportCSV.toCSV({
           data,
-          fields: ['numeroDossierDS', 'statut', 'motifElimination', 'note'],
+          fields: ['numeroDossierDN', 'statut', 'motifElimination', 'note'],
         });
 
         await writeFile('instruction-ds-cre.csv', csv);

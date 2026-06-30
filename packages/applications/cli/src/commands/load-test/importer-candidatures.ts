@@ -75,7 +75,7 @@ export class ImporterCandidatures extends Command {
 
     console.log(`--- Début du job d'import de candidatures (Import ${importId}) ---`);
     const { flags } = await this.parse(ImporterCandidatures);
-    const { occurrences, appelOffre, periode, dossier: numeroDossierDS, reuse } = flags;
+    const { occurrences, appelOffre, periode, dossier: numeroDossierDN, reuse } = flags;
     const candidatures: Omit<
       Candidature.ImporterCandidatureUseCase['data'],
       'importéLe' | 'importéPar'
@@ -84,12 +84,12 @@ export class ImporterCandidatures extends Command {
     const instructions = Array(occurrences)
       .fill(null)
       .map((_, i) => ({
-        numeroDossierDS,
+        numeroDossierDN,
         identifiantProjet: IdentifiantProjet.bind({
           appelOffre,
           période: String(periode),
           famille: '',
-          numéroCRE: `${numeroDossierDS}_${importId}_${i}`,
+          numéroCRE: `${numeroDossierDN}_${importId}_${i}`,
         }).formatter(),
         statut: faker.helpers.arrayElement(Candidature.StatutCandidature.statuts),
         note: faker.number.int({ min: 0, max: 100 }),
@@ -99,7 +99,7 @@ export class ImporterCandidatures extends Command {
     const start = process.hrtime.bigint();
 
     for (const {
-      numeroDossierDS,
+      numeroDossierDN,
       identifiantProjet,
       statut,
       note,
@@ -112,10 +112,10 @@ export class ImporterCandidatures extends Command {
               demarcheId: '',
               fichiers: { garantiesFinancières: undefined },
             }
-          : await getDossier(numeroDossierDS);
+          : await getDossier(numeroDossierDN);
 
       if (Option.isNone(dossier)) {
-        throw new Error(`Le dossier ${numeroDossierDS} est introuvable`);
+        throw new Error(`Le dossier ${numeroDossierDN} est introuvable`);
       }
 
       const dépôt = dossier.dépôt;

@@ -99,7 +99,7 @@ const action: FormAction<FormState, typeof schema> = async (
     for (const { numeroDossierDN, statut, note, motifElimination } of instructions) {
       let key = `Dossier ${numeroDossierDN}`;
 
-      const dossier = dossiers.find((d) => d.numeroDS === numeroDossierDN);
+      const dossier = dossiers.find((d) => d.numeroDN === numeroDossierDN);
 
       if (!dossier) {
         errors.push({

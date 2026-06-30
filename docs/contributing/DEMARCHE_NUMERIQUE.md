@@ -4,19 +4,19 @@ L'application [Démarche Numérique](https://demarche.numerique.gouv.fr/) est ut
 
 ## Description du parcours
 
-Chaque Période d'appel d'offre donne lieu à une Démarche. Chaque Dossier de cette démarche représente une candidature.
+Chaque Période d'appel d'offre donne lieu à une Démarche sur Démarche Numérique (DN). Chaque Dossier de cette démarche représente une candidature.
 
 | Acteur   | App       | Étape                                                                                                                               |
 | -------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| CRE      | DS        | Duplication du modèle de la démarche pour la nouvelle période                                                                       |
+| CRE      | DN        | Duplication du modèle de la démarche pour la nouvelle période                                                                       |
 | CRE      |           | Ouverture des candidatures pour la période                                                                                          |
 | DGEC     | Potentiel | Création de la période                                                                                                              |
-| Porteurs | DS        | Dépôt des candidatures                                                                                                              |
+| Porteurs | DN        | Dépôt des candidatures                                                                                                              |
 | CRE      |           | Clotûre des candidatures pour la période                                                                                            |
-| CRE      | tableur   | Instruction des candidatures (la CRE exporte les candidatures depuis DS)                                                            |
-| CRE      | DS        | Ouverture des droits d'accès en lecture à la démarche pour Potentiel (voir [Authentification et accès](#authentification-et-accès)) |
+| CRE      | tableur   | Instruction des candidatures (la CRE exporte les candidatures depuis DN)                                                            |
+| CRE      | DN        | Ouverture des droits d'accès en lecture à la démarche pour Potentiel (voir [Authentification et accès](#authentification-et-accès)) |
 | CRE      | Email     | Transmission du fichier CSV d'instruction (sans données de candidature) à la DGEC                                                   |
-| DGEC     | Potentiel | Import des candidatures (CSV + DS)                                                                                                  |
+| DGEC     | Potentiel | Import des candidatures (CSV + DN)                                                                                                  |
 | DGEC     | Potentiel | Désignation des lauréat et éliminés                                                                                                 |
 
 ## Fichier du résultat de l'instruction
@@ -25,7 +25,7 @@ Le fichier du résultat de l'instruction transmis par la CRE contient les inform
 
 | Champ            | Type                  | Description                                                           |
 | ---------------- | --------------------- | --------------------------------------------------------------------- |
-| numeroDossierDS  | nombre                | Le numéro de dossier DS servira d'identifiant (`numéroCRE`) du projet |
+| numeroDossierDN  | nombre                | Le numéro de dossier DN servira d'identifiant (`numéroCRE`) du projet |
 | statut           | `retenu` ou `éliminé` |                                                                       |
 | note             | nombre                |                                                                       |
 | motifElimination | texte                 | requis pour un projet éliminé                                         |
@@ -54,11 +54,11 @@ Afin de garantir l'indépendence de la CRE, Potentiel n'a pas d'accès Administr
 
 ## Tester l'intégration
 
-Pour tester l'intégration à Démarche Numérique :
+Pour tester l'intégration à Démarche Numérique (DN) :
 
 - accéder à la version la plus récente du formulaire sur https://demarche.numerique.gouv.fr/ (vDGEC indique une version créée par la CRE pour les besoins de test de Potentiel)
-- ETQ usager DS, créer un premier dossier s'il n'en existe pas encore
-- ETQ usager DS, dupliquer le dossier autant de fois que nécessaire
+- ETQ usager DN, créer un premier dossier s'il n'en existe pas encore
+- ETQ usager DN, dupliquer le dossier autant de fois que nécessaire
 - (optionnel) Utiliser la ligne de commande potentiel pour générer un fichier d'instruction (statuts aléatoires) :
 
 ```bash
