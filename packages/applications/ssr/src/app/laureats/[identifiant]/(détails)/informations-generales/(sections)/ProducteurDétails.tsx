@@ -18,26 +18,22 @@ export type ProducteurDétailsProps = {
 export const ProducteurDétails = ({ producteur, numéroIdentification }: ProducteurDétailsProps) => (
   <>
     <div className="flex flex-col gap-1">
-      <div>
-        <TitreChamp>Nom du producteur</TitreChamp>
-        <span>{producteur.value || 'Champ non renseigné'}</span>
-      </div>
+      <TitreChamp>Nom du producteur</TitreChamp>
+      <span>{producteur.value || 'Champ non renseigné'}</span>
       {producteur.action && (
         <TertiaryLink href={producteur.action.url} key={producteur.action.label}>
           {producteur.action.label}
         </TertiaryLink>
       )}
-      <div>
-        <TitreChamp>Numéro d'identification</TitreChamp>
-        <div className="flex flex-col">
-          <span>
-            Numéro SIRET : <FormattedSIRET value={numéroIdentification.value?.siret} />
-          </span>
-          <span>
-            Numéro SIREN : <FormattedSIREN value={numéroIdentification.value?.siren} />
-          </span>
-        </div>
-      </div>
+    </div>
+    <div className="flex flex-col gap-1">
+      <TitreChamp>Numéro d'identification</TitreChamp>
+      <span>
+        Numéro SIRET : <FormattedSIRET value={numéroIdentification.value?.siret} />
+      </span>
+      <span>
+        Numéro SIREN : <FormattedSIREN value={numéroIdentification.value?.siren} />
+      </span>
       {numéroIdentification.action && (
         <TertiaryLink
           href={numéroIdentification.action.url}
