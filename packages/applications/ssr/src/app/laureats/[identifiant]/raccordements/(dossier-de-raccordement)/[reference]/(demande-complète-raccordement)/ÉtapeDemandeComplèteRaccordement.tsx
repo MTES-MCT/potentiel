@@ -21,6 +21,7 @@ export type ÉtapeDemandeComplèteRaccordementProps = {
   actions: { modifierRéférence: boolean; modifier: boolean; transmettre: boolean };
 };
 
+// viovio dcr
 export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccordementProps> = ({
   identifiantProjet,
   référence,

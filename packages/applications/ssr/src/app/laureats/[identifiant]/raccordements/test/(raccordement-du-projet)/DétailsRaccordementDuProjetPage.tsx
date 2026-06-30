@@ -1,7 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { DossiersRaccordementSection } from './DossiersRaccordement.section';
@@ -11,12 +11,14 @@ type Props = {
   identifiantProjet: IdentifiantProjet.RawType;
   lienRetour: string;
   peutCréerNouveauDossier: boolean;
+  statut: Lauréat.StatutLauréat.RawType;
 };
 
 export const DétailsRaccordementDuProjetPage = ({
   identifiantProjet,
   lienRetour,
   peutCréerNouveauDossier,
+  statut
 }: Props) => {
   return (
     <>
@@ -38,7 +40,7 @@ export const DétailsRaccordementDuProjetPage = ({
             />
           )}
         </div>
-        <DossiersRaccordementSection identifiantProjet={identifiantProjet} />
+        <DossiersRaccordementSection identifiantProjet={identifiantProjet} statut={statut} />
         <Button
           priority="secondary"
           linkProps={{ href: lienRetour }}

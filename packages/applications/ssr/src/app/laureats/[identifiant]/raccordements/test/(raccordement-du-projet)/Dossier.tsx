@@ -11,20 +11,25 @@ import { Heading3 } from '@/components/atoms/headings';
 
 type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service';
 
+export type DossierEtapeAction =
+  | {
+      href: string;
+      label: string;
+    }
+  | undefined;
+
 export type DossierEtape = {
   type: TypeDossier;
   date?: DateTime.RawType;
   document?: {
     url: string;
   };
-  action?: {
-    href: string;
-    label: string;
-  };
+  action: DossierEtapeAction;
 };
 
 export type DossierProps = {
   dossierEtapes: Array<DossierEtape>;
+  peutSupprimerDossier: boolean;
   référence: string;
 };
 
@@ -47,6 +52,8 @@ export const Dossier: FC<DossierProps> = ({ dossierEtapes, référence }) => {
   );
 };
 
+// La date de mise en service sera renseignée par le gestionnaire de réseau.
+
 const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
   return (
     <TimelineItem>
@@ -56,9 +63,11 @@ const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
         <Information color="red-marianne" fontSize="medium" />
       )}
       <ContentArea>
+        {/* Voir pour ajouter le type de date */}
         {date ? <FormattedDate date={date} /> : <span className="italic">À transmettre</span>}
         <ItemTitle title={mapTypeToTitre[type]} />
-        {document && (
+        {/* Voir pour ajouter le type de document */}
+        {document ? (
           <DownloadDocument
             className="mb-0"
             label="Télécharger le document"
@@ -66,6 +75,8 @@ const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
             url={document.url}
             small
           />
+        ) : (
+          <span className="italic">À transmettre</span>
         )}
         {action && (
           <TertiaryLink key={action.label} href={action.href}>

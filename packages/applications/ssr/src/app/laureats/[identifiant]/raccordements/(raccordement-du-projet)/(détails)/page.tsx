@@ -25,6 +25,7 @@ import {
   type DétailsRaccordementPageProps,
 } from './DétailsRaccordementDuProjet.page';
 
+// viovio page
 type PageProps = IdentifiantParameter;
 
 export const metadata: Metadata = { title: 'Raccordement du projet' };
