@@ -8,13 +8,13 @@ import { Heading3 } from '@/components/atoms/headings';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRaccordement } from '../../../_helpers';
+import { Dossier, type DossierEtape } from '../../(dossier-de-raccordement)/components/Dossier';
 import {
-  getDemandeComplèteDeRaccordementActionTest,
+  getDemandeComplèteDeRaccordementAction,
   getPropositionTechniqueEtFinancièreAction,
-  getSupprimerDossierActionTest,
+  getSupprimerDossierAction,
 } from '../../(raccordement-du-projet)/(détails)/_helpers';
 import { getMiseEnServiceAction } from '../../(raccordement-du-projet)/(détails)/_helpers/getMiseEnServiceAction';
-import { Dossier, type DossierEtape } from './Dossier';
 
 type DossierSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -60,7 +60,7 @@ export const DossiersRaccordementSection = ({
               <Dossier
                 key={dossier.référence.formatter()}
                 dossierEtapes={mapToDossierData({ dossier, rôle, estProjetAchevé })}
-                peutSupprimerDossier={getSupprimerDossierActionTest({
+                peutSupprimerDossier={getSupprimerDossierAction({
                   rôle,
                   estAchevé: estProjetAchevé,
                   dossierEstEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
@@ -97,7 +97,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
         : undefined,
       fallbackText: 'Accusé de réception à transmettre',
     },
-    action: getDemandeComplèteDeRaccordementActionTest({ rôle, estProjetAchevé, dossier }),
+    action: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
   });
 
   étapes.push({

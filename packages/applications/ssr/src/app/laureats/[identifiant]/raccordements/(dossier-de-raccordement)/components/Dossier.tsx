@@ -8,8 +8,8 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading3 } from '@/components/atoms/headings';
-import { SupprimerDossierDuRaccordement } from '../../(dossier-de-raccordement)/(supprimer)/SupprimerDossierDuRaccordement';
-import { FormatFichierInvalide } from '../../(dossier-de-raccordement)/components';
+import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
+import { FormatFichierInvalide } from '.';
 
 type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service';
 
