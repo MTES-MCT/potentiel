@@ -1,6 +1,5 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
@@ -13,6 +12,7 @@ import {
   getPropositionTechniqueEtFinancièreAction,
   getSupprimerDossierActionTest,
 } from '../../(raccordement-du-projet)/(détails)/_helpers';
+import { getMiseEnServiceAction } from '../../(raccordement-du-projet)/(détails)/_helpers/getMiseEnServiceAction';
 import { Dossier, type DossierEtape } from './Dossier';
 
 type DossierSectionProps = {
@@ -81,93 +81,53 @@ type GetDossierData = {
 
 const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) => {
   const étapes: Array<DossierEtape> = [];
-  const estMisEnService = !!dossier.miseEnService?.dateMiseEnService;
-
-  // DCR
-  // modifier référence
-  // accuséRéception.endsWith('.bin')
-  // pas d'accusé de réception, ou de date et action.transmettre => modifierDemandeComplèteRaccordement
-
-  //   miseEnService: {
-  //     transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
-  //     modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
-  //   },
-  // },
 
   étapes.push({
     type: 'dcr',
-    date: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
-    document: dossier.demandeComplèteRaccordement.accuséRéception
-      ? {
-          url: DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter(),
-        }
-      : undefined,
+    date: {
+      date: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
+      fallbackText: 'Date à transmettre',
+    },
+    document: {
+      url: dossier.demandeComplèteRaccordement.accuséRéception
+        ? DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter()
+        : undefined,
+      fallbackText: 'Accusé de réception à transmettre',
+    },
     action: getDemandeComplèteDeRaccordementActionTest({ rôle, estProjetAchevé, dossier }),
   });
 
-  if (dossier.propositionTechniqueEtFinancière) {
-    étapes.push({
-      type: 'ptf',
-      date: dossier.propositionTechniqueEtFinancière.dateSignature.formatter(),
-      document: {
-        url: DocumentProjet.bind(
-          dossier.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
-        ).formatter(),
-      },
-      action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
-    });
-  } else {
-    étapes.push({
-      type: 'ptf',
-      date: undefined,
-      document: undefined,
-      action: rôle.aLaPermission('raccordement.proposition-technique-et-financière.transmettre')
-        ? {
-            href: Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
-              dossier.identifiantProjet.formatter(),
-              dossier.référence.formatter(),
-            ),
-            label: 'Transmettre la proposition technique et financière',
-          }
+  étapes.push({
+    type: 'ptf',
+    date: {
+      date: dossier.propositionTechniqueEtFinancière?.dateSignature.formatter(),
+      fallbackText: 'Date de signature à transmettre',
+    },
+    document: {
+      url: dossier.propositionTechniqueEtFinancière
+        ? DocumentProjet.bind(
+            dossier.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
+          ).formatter()
         : undefined,
-    });
-  }
+      fallbackText: 'Document à transmettre',
+    },
+    action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
+  });
 
-  if (dossier.miseEnService?.dateMiseEnService) {
-    étapes.push({
-      type: 'mise-en-service',
-      date: dossier.miseEnService.dateMiseEnService.formatter(),
-      action: rôle.aLaPermission('raccordement.date-mise-en-service.modifier')
-        ? {
-            href: Routes.Raccordement.modifierDateMiseEnService(
-              dossier.identifiantProjet.formatter(),
-              dossier.référence.formatter(),
-            ),
-            label: 'Modifier la date de mise en service',
-          }
-        : undefined,
-    });
-  } else {
-    étapes.push({
-      type: 'mise-en-service',
-      date: undefined,
-      action: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
-        ? {
-            href: Routes.Raccordement.transmettreDateMiseEnService(
-              dossier.identifiantProjet.formatter(),
-              dossier.référence.formatter(),
-            ),
-            label: 'Transmettre la date de mise en service',
-          }
-        : undefined,
-    });
-  }
+  étapes.push({
+    type: 'mise-en-service',
+    date: {
+      date: dossier.miseEnService?.dateMiseEnService?.formatter(),
+      fallbackText: 'Date de mise en service à transmettre',
+    },
+    action: getMiseEnServiceAction({ rôle, dossier }),
+  });
 
   return (
     étapes
-      .filter((a) => a.date)
+      .filter((a) => a.date.date)
       // biome-ignore lint/style/noNonNullAssertion: C'est acceptable de forcer la valeur de date ici car on a filter avant
-      .sort((a, b) => a.date!.localeCompare(b.date!))
-      .concat(étapes.filter((a) => !a.date))
+      .sort((a, b) => a.date.date!.localeCompare(b.date.date!))
+      .concat(étapes.filter((a) => !a.date.date))
   );
 };

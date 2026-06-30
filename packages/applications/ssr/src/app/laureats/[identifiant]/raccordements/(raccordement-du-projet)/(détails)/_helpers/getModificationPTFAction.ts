@@ -41,13 +41,28 @@ type GetPropositionTechniqueEtFinancièreAction = (args: {
 
 export const getPropositionTechniqueEtFinancièreAction: GetPropositionTechniqueEtFinancièreAction =
   ({ rôle, dossier, estProjetAchevé }) => {
-    const action = {
+    const transmettreAction = {
+      href: Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
+        dossier.identifiantProjet.formatter(),
+        dossier.référence.formatter(),
+      ),
+      label: 'Transmettre la proposition technique et financière',
+    };
+    const modifierAction = {
       href: Routes.Raccordement.modifierPropositionTechniqueEtFinancière(
         dossier.identifiantProjet.formatter(),
         dossier.référence.formatter(),
       ),
       label: 'Modifier',
     };
+
+    if (!dossier.propositionTechniqueEtFinancière) {
+      if (rôle.aLaPermission('raccordement.proposition-technique-et-financière.transmettre')) {
+        return transmettreAction;
+      }
+      return undefined;
+    }
+
     const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
 
     if (
@@ -56,7 +71,7 @@ export const getPropositionTechniqueEtFinancièreAction: GetPropositionTechnique
         'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
       )
     ) {
-      return action;
+      return modifierAction;
     }
 
     if (
@@ -65,10 +80,10 @@ export const getPropositionTechniqueEtFinancièreAction: GetPropositionTechnique
         'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
       )
     ) {
-      return action;
+      return modifierAction;
     }
 
     if (rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier')) {
-      return action;
+      return modifierAction;
     }
   };

@@ -47,7 +47,7 @@ export const getDemandeComplèteDeRaccordementActionTest: GetDemandeComplèteDeR
     if (
       rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
       !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
-    )
+    ) {
       return {
         label: 'Corriger la référence du dossier',
         href: Routes.Raccordement.corrigerRéférenceDossier(
@@ -55,6 +55,7 @@ export const getDemandeComplèteDeRaccordementActionTest: GetDemandeComplèteDeR
           dossier.référence.formatter(),
         ),
       };
+    }
 
     const dossierEstEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
     const dossierAvecDCRComplète = !!(

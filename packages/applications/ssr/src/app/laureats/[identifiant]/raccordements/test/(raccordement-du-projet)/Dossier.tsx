@@ -8,6 +8,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading3 } from '@/components/atoms/headings';
+import { FormatFichierInvalide } from '../../(dossier-de-raccordement)/components';
 
 type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service';
 
@@ -20,10 +21,8 @@ export type DossierEtapeAction =
 
 export type DossierEtape = {
   type: TypeDossier;
-  date?: DateTime.RawType;
-  document?: {
-    url: string;
-  };
+  date: { date?: DateTime.RawType; fallbackText?: string };
+  document?: { url?: string; fallbackText: string };
   action: DossierEtapeAction;
 };
 
@@ -52,32 +51,36 @@ export const Dossier: FC<DossierProps> = ({ dossierEtapes, référence }) => {
   );
 };
 
-// La date de mise en service sera renseignée par le gestionnaire de réseau.
-
 const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
   return (
     <TimelineItem>
-      {date ? (
+      {date.date ? (
         <Success color="green-emeraude" fontSize="medium" />
       ) : (
         <Information color="red-marianne" fontSize="medium" />
       )}
       <ContentArea>
-        {/* Voir pour ajouter le type de date */}
-        {date ? <FormattedDate date={date} /> : <span className="italic">Date à transmettre</span>}
-        <ItemTitle title={mapTypeToTitre[type]} />
-        {/* Voir pour ajouter le type de document */}
-        {document ? (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger le document"
-            format="pdf"
-            url={document.url}
-            small
-          />
+        {date.date ? (
+          <FormattedDate date={date.date} />
         ) : (
-          <span className="italic">Document à transmettre</span>
+          <span className="italic">{date.fallbackText}</span>
         )}
+        <ItemTitle title={mapTypeToTitre[type]} />
+        {document &&
+          (document.url ? (
+            <>
+              {document.url.endsWith('.bin') && <FormatFichierInvalide />}
+              <DownloadDocument
+                className="mb-0"
+                label="Télécharger le document"
+                format="pdf"
+                url={document.url}
+                small
+              />
+            </>
+          ) : (
+            <span className="italic">{document.fallbackText}</span>
+          ))}
         {action && (
           <TertiaryLink key={action.label} href={action.href}>
             {action.label}
