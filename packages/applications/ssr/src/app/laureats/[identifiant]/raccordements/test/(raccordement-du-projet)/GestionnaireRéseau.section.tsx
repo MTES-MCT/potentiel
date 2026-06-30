@@ -68,24 +68,28 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
             />
           ) : (
             <div className="mt-2 mb-4 p-0">
-              <div className="flex flex-row gap-2">
-                Nom du gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}{' '}
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-col">
+                  <div>
+                    Nom du gestionnaire de réseau :{' '}
+                    <span className="font-semibold">{gestionnaireRéseau.raisonSociale}</span>
+                  </div>
+                  {gestionnaireRéseau.contactEmail && (
+                    <div className="flex items-center gap-2">
+                      Contact :{' '}
+                      <CopyButton
+                        textToCopy={gestionnaireRéseau.contactEmail.email}
+                        aria-label="Copier"
+                      />
+                    </div>
+                  )}
+                </div>
                 {action && (
                   <TertiaryLink href={action.href} aria-label={action.label}>
-                    <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
                     {action.label}
                   </TertiaryLink>
                 )}
               </div>
-              {gestionnaireRéseau.contactEmail && (
-                <div className="flex items-center gap-2 mt-2">
-                  Contact :{' '}
-                  <CopyButton
-                    textToCopy={gestionnaireRéseau.contactEmail.email}
-                    aria-label="Copier"
-                  />
-                </div>
-              )}
             </div>
           )}
         </Section>

@@ -1,5 +1,6 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
+import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
@@ -17,14 +18,14 @@ import { Dossier, type DossierEtape } from './Dossier';
 
 type DossierSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  statut: Lauréat.StatutLauréat.RawType;
+  estProjetAchevé: boolean;
 };
 
 const sectionTitle = 'Dossiers de Raccordement';
 
 export const DossiersRaccordementSection = ({
   identifiantProjet: identifiantProjetValue,
-  statut,
+  estProjetAchevé,
 }: DossierSectionProps) =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
@@ -33,7 +34,6 @@ export const DossiersRaccordementSection = ({
       const peutAjouterUnDossier = rôle.aLaPermission(
         'raccordement.demande-complète-raccordement.transmettre',
       );
-      const estProjetAchevé = statut === 'achevé';
 
       const raccordement = await getRaccordement(identifiantProjet.formatter());
 
@@ -47,7 +47,9 @@ export const DossiersRaccordementSection = ({
               priority="secondary"
               iconId="fr-icon-add-circle-line"
               linkProps={{
-                href: '',
+                href: Routes.Raccordement.transmettreDemandeComplèteRaccordement(
+                  identifiantProjetValue,
+                ),
               }}
             >
               Ajouter un dossier de raccordement
@@ -123,11 +125,5 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     action: getMiseEnServiceAction({ rôle, dossier }),
   });
 
-  return (
-    étapes
-      .filter((a) => a.date.date)
-      // biome-ignore lint/style/noNonNullAssertion: C'est acceptable de forcer la valeur de date ici car on a filter avant
-      .sort((a, b) => a.date.date!.localeCompare(b.date.date!))
-      .concat(étapes.filter((a) => !a.date.date))
-  );
+  return étapes;
 };
