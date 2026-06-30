@@ -6,6 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getLauréatInfos } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -52,11 +53,14 @@ export default async function Page(props: PageProps) {
         ? Routes.Raccordement.lister
         : Routes.Projet.details(identifiantProjet.formatter());
 
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+
       return (
         <DétailsRaccordementDuProjetPage
           identifiantProjet={identifiantProjet.formatter()}
           lienRetour={lienRetour}
           peutCréerNouveauDossier={peutCréerNouveauDossier}
+          statut={lauréat.statut.formatter()}
         />
       );
     }),

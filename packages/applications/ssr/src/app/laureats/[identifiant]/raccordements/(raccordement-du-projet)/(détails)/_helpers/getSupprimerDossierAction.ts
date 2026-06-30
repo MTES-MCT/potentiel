@@ -22,3 +22,25 @@ export const getSupprimerDossierAction: GetSupprimerDossierAction = ({
 
   return rôle.aLaPermission('raccordement.dossier.supprimer');
 };
+
+type GetSupprimerDossierActionTest = (args: {
+  rôle: Role.ValueType;
+  estAchevé: boolean;
+  dossierEstEnService: boolean;
+}) => boolean;
+
+export const getSupprimerDossierActionTest: GetSupprimerDossierActionTest = ({
+  rôle,
+  estAchevé,
+  dossierEstEnService,
+}) => {
+  if (dossierEstEnService) {
+    return rôle.aLaPermission('raccordement.dossier.supprimer-après-mise-en-service');
+  }
+
+  if (estAchevé) {
+    return rôle.aLaPermission('raccordement.dossier.supprimer-après-achèvement');
+  }
+
+  return rôle.aLaPermission('raccordement.dossier.supprimer');
+};

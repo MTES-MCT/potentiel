@@ -1,7 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { notFound } from 'next/navigation';
 
-import { Routes } from '@potentiel-applications/routes';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -14,8 +13,8 @@ import { CopyButton } from '@/components/molecules/CopyButton';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRaccordement } from '../../../_helpers';
 import {
+  getGestionnaireRéseauActionTest,
   getLauréatOrRedirect,
-  getModificationGestionnaireRéseauAction,
 } from '../../(raccordement-du-projet)/(détails)/_helpers';
 
 export type GestionnaireRéseauSectionProps = {
@@ -36,14 +35,15 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
 
       const gestionnaireRéseau = raccordement?.gestionnaireRéseau;
 
-      const peutModifier = getModificationGestionnaireRéseauAction({
+      const action = getGestionnaireRéseauActionTest({
         rôle: utilisateur.rôle,
-        statutLauréat: lauréat.statut,
-        identifiantGestionnaireActuel: raccordement.identifiantGestionnaireRéseau,
+        estProjetAchevé: lauréat.statut.estAchevé(),
+        estInconnuGestionnaire: raccordement.identifiantGestionnaireRéseau.estInconnu(),
         aUnDossierEnService:
           raccordement.dossiers.filter(
             (dossier) => !!dossier.miseEnService?.dateMiseEnService?.date,
           ).length > 0,
+        identifiantProjet,
       });
 
       return (
@@ -54,16 +54,12 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
               title="Gestionnaire de réseau inconnu"
               className="mb-6"
               description={
-                peutModifier && (
+                action && (
                   <div className="flex flex-row">
                     <div>
-                      <Link
-                        className="ml-1"
-                        href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
-                        aria-label="Ajouter un gestionnaire"
-                      >
+                      <Link className="ml-1" href={action.href} aria-label={action.label}>
                         <Icon id="fr-icon-add-circle-line" size="xs" className="mr-1" />
-                        Spécifier un gestionnaire de réseau
+                        {action.label}
                       </Link>
                     </div>
                   </div>
@@ -74,19 +70,20 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
             <div className="mt-2 mb-4 p-0">
               <div className="flex flex-row gap-2">
                 Nom du gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}{' '}
-                {peutModifier && (
-                  <TertiaryLink
-                    href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
-                    aria-label={`Modifier le gestionnaire actuel (${gestionnaireRéseau.raisonSociale})`}
-                  >
+                {action && (
+                  <TertiaryLink href={action.href} aria-label={action.label}>
                     <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
-                    Modifier
+                    {action.label}
                   </TertiaryLink>
                 )}
               </div>
               {gestionnaireRéseau.contactEmail && (
                 <div className="flex items-center gap-2 mt-2">
-                  Contact : <CopyButton textToCopy={gestionnaireRéseau.contactEmail.email} />
+                  Contact :{' '}
+                  <CopyButton
+                    textToCopy={gestionnaireRéseau.contactEmail.email}
+                    aria-label="Copier"
+                  />
                 </div>
               )}
             </div>

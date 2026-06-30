@@ -8,16 +8,23 @@ import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRaccordement } from '../../../_helpers';
+import {
+  getDemandeComplèteDeRaccordementActionTest,
+  getPropositionTechniqueEtFinancièreAction,
+  getSupprimerDossierActionTest,
+} from '../../(raccordement-du-projet)/(détails)/_helpers';
 import { Dossier, type DossierEtape } from './Dossier';
 
 type DossierSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
+  statut: Lauréat.StatutLauréat.RawType;
 };
 
 const sectionTitle = 'Dossiers de Raccordement';
 
 export const DossiersRaccordementSection = ({
   identifiantProjet: identifiantProjetValue,
+  statut,
 }: DossierSectionProps) =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
@@ -26,6 +33,7 @@ export const DossiersRaccordementSection = ({
       const peutAjouterUnDossier = rôle.aLaPermission(
         'raccordement.demande-complète-raccordement.transmettre',
       );
+      const estProjetAchevé = statut === 'achevé';
 
       const raccordement = await getRaccordement(identifiantProjet.formatter());
 
@@ -46,7 +54,12 @@ export const DossiersRaccordementSection = ({
             {raccordement?.dossiers.map((dossier) => (
               <Dossier
                 key={dossier.référence.formatter()}
-                dossierEtapes={mapToDossierData({ dossier, rôle })}
+                dossierEtapes={mapToDossierData({ dossier, rôle, estProjetAchevé })}
+                peutSupprimerDossier={getSupprimerDossierActionTest({
+                  rôle,
+                  estAchevé: estProjetAchevé,
+                  dossierEstEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
+                })}
                 référence={dossier.référence.formatter()}
               />
             ))}
@@ -60,87 +73,74 @@ export const DossiersRaccordementSection = ({
 type GetDossierData = {
   dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   rôle: Role.ValueType;
+  estProjetAchevé: boolean;
 };
 
-const mapToDossierData = ({
-  dossier: {
-    référence,
-    identifiantProjet,
-    demandeComplèteRaccordement,
-    propositionTechniqueEtFinancière,
-    miseEnService,
-  },
-  rôle,
-}: GetDossierData) => {
+const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) => {
   const étapes: Array<DossierEtape> = [];
+  const estMisEnService = !!dossier.miseEnService?.dateMiseEnService;
 
-  if (
-    demandeComplèteRaccordement?.dateQualification &&
-    demandeComplèteRaccordement?.accuséRéception
-  ) {
-    étapes.push({
-      type: 'dcr',
-      date: demandeComplèteRaccordement.dateQualification.formatter(),
-      document: {
-        url: DocumentProjet.bind(demandeComplèteRaccordement.accuséRéception).formatter(),
-      },
-      action: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
-        ? {
-            href: Routes.Raccordement.modifierDemandeComplèteRaccordement(
-              identifiantProjet.formatter(),
-              référence.formatter(),
-            ),
-            label: 'Modifier',
-          }
-        : undefined,
-    });
-  }
+  // DCR
+  // modifier référence
+  // accuséRéception.endsWith('.bin')
+  // pas d'accusé de réception, ou de date et action.transmettre => modifierDemandeComplèteRaccordement
 
-  if (propositionTechniqueEtFinancière) {
+  //   miseEnService: {
+  //     transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
+  //     modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
+  //   },
+  // },
+
+  étapes.push({
+    type: 'dcr',
+    date: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
+    document: dossier.demandeComplèteRaccordement.accuséRéception
+      ? {
+          url: DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter(),
+        }
+      : undefined,
+    action: getDemandeComplèteDeRaccordementActionTest({ rôle, estProjetAchevé, dossier }),
+  });
+
+  if (dossier.propositionTechniqueEtFinancière) {
     étapes.push({
       type: 'ptf',
-      date: propositionTechniqueEtFinancière.dateSignature.formatter(),
+      date: dossier.propositionTechniqueEtFinancière.dateSignature.formatter(),
       document: {
         url: DocumentProjet.bind(
-          propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
+          dossier.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
         ).formatter(),
       },
-      action: rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier')
-        ? {
-            href: Routes.Raccordement.modifierPropositionTechniqueEtFinancière(
-              identifiantProjet.formatter(),
-              référence.formatter(),
-            ),
-            label: 'Modifier',
-          }
-        : undefined,
+      action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
     });
   } else {
     étapes.push({
       type: 'ptf',
       date: undefined,
       document: undefined,
-      action: {
-        href: Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
-          identifiantProjet.formatter(),
-          référence.formatter(),
-        ),
-        label: 'Transmettre la proposition technique et financière',
-      },
+      action: rôle.aLaPermission('raccordement.proposition-technique-et-financière.transmettre')
+        ? {
+            href: Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
+              dossier.identifiantProjet.formatter(),
+              dossier.référence.formatter(),
+            ),
+            label: 'Transmettre la proposition technique et financière',
+          }
+        : undefined,
     });
   }
 
-  if (miseEnService?.dateMiseEnService) {
+  if (dossier.miseEnService?.dateMiseEnService) {
     étapes.push({
       type: 'mise-en-service',
-      date: miseEnService.dateMiseEnService.formatter(),
-      action: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
+      date: dossier.miseEnService.dateMiseEnService.formatter(),
+      action: rôle.aLaPermission('raccordement.date-mise-en-service.modifier')
         ? {
             href: Routes.Raccordement.modifierDateMiseEnService(
-              identifiantProjet.formatter(),
-              référence.formatter(),
+              dossier.identifiantProjet.formatter(),
+              dossier.référence.formatter(),
             ),
-            label: 'Transmettre la proposition technique et financière',
+            label: 'Modifier la date de mise en service',
           }
         : undefined,
     });
@@ -151,10 +151,10 @@ const mapToDossierData = ({
       action: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
         ? {
             href: Routes.Raccordement.transmettreDateMiseEnService(
-              identifiantProjet.formatter(),
-              référence.formatter(),
+              dossier.identifiantProjet.formatter(),
+              dossier.référence.formatter(),
             ),
-            label: 'Transmettre la proposition technique et financière',
+            label: 'Transmettre la date de mise en service',
           }
         : undefined,
     });
@@ -168,51 +168,3 @@ const mapToDossierData = ({
       .concat(étapes.filter((a) => !a.date))
   );
 };
-
-// actions à retranscrire
-// type MapToDossierActions = (args: {
-//   rôle: Role.ValueType;
-//   dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
-//   statutLauréat: Lauréat.StatutLauréat.ValueType;
-// }) => DétailsRaccordementPageProps['dossiers'];
-
-// const mapToDossierActions: MapToDossierActions = ({ rôle, dossiers, statutLauréat }) =>
-//   dossiers.map((dossier) =>
-//     mapToPlainObject({
-//       ...dossier,
-//       actions: {
-//         supprimer: getSupprimerDossierAction({
-//           rôle,
-//           statutLauréat,
-//           dossierEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
-//         }),
-
-//         demandeComplèteRaccordement: {
-//           transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-//           modifier: getModificationDCRAction({
-//             rôle,
-//             dossier,
-//             statutLauréat,
-//           }),
-//           modifierRéférence:
-//             rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
-//             !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
-//         },
-
-//         propositionTechniqueEtFinancière: {
-//           transmettre: rôle.aLaPermission(
-//             'raccordement.proposition-technique-et-financière.transmettre',
-//           ),
-//           modifier: getModificationPTFAction({
-//             rôle,
-//             dossier,
-//             statutLauréat,
-//           }),
-//         },
-//         miseEnService: {
-//           transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
-//           modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
-//         },
-//       },
-//     }),
-//   );
