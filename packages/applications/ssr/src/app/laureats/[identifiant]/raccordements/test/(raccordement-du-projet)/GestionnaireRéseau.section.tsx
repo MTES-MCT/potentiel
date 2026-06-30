@@ -1,12 +1,10 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { notFound } from 'next/navigation';
 
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Icon } from '@/components/atoms/Icon';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { CopyButton } from '@/components/molecules/CopyButton';
@@ -49,21 +47,19 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
       return (
         <Section title={sectionTitle}>
           {Option.isNone(gestionnaireRéseau) ? (
-            <Alert
+            <Notice
               severity="warning"
               title="Gestionnaire de réseau inconnu"
               className="mb-6"
-              description={
-                action && (
-                  <div className="flex flex-row">
-                    <div>
-                      <Link className="ml-1" href={action.href} aria-label={action.label}>
-                        <Icon id="fr-icon-add-circle-line" size="xs" className="mr-1" />
-                        {action.label}
-                      </Link>
-                    </div>
-                  </div>
-                )
+              link={
+                action
+                  ? {
+                      linkProps: {
+                        href: action.href,
+                      },
+                      text: action.label,
+                    }
+                  : undefined
               }
             />
           ) : (

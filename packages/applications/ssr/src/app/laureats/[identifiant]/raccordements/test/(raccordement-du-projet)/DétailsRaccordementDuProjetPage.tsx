@@ -8,15 +8,10 @@ import { GestionnaireRéseauSection } from './GestionnaireRéseau.section';
 
 type Props = {
   identifiantProjet: IdentifiantProjet.RawType;
-  lienRetour: string;
   estProjetAchevé: boolean;
 };
 
-export const DétailsRaccordementDuProjetPage = ({
-  identifiantProjet,
-  lienRetour,
-  estProjetAchevé,
-}: Props) => {
+export const DétailsRaccordementDuProjetPage = ({ identifiantProjet, estProjetAchevé }: Props) => {
   return (
     <>
       <TitrePageRaccordement />
@@ -30,7 +25,7 @@ export const DétailsRaccordementDuProjetPage = ({
         />
         <Button
           priority="secondary"
-          linkProps={{ href: lienRetour }}
+          onClick={() => window.history.back()}
           iconId="fr-icon-arrow-left-line"
         >
           Retour
