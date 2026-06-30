@@ -15,6 +15,7 @@ type InputDateProps = {
   state: InputProps['state'];
   stateRelatedMessage: InputProps['stateRelatedMessage'];
   small?: true;
+  hintText?: string;
 };
 
 export const InputDate: FC<InputDateProps> = ({
@@ -29,29 +30,29 @@ export const InputDate: FC<InputDateProps> = ({
   state,
   stateRelatedMessage,
   small,
-}) => {
-  return (
-    <Input
-      label={label}
-      nativeInputProps={{
-        type: 'date',
-        name,
-        id,
-        required,
-        'aria-required': required,
-        min: formatDateForInput(min),
-        max: formatDateForInput(max),
-        defaultValue: formatDateForInput(defaultValue),
-        value: formatDateForInput(value),
-      }}
-      classes={{
-        nativeInputOrTextArea: small ? 'w-48' : undefined,
-      }}
-      state={state}
-      stateRelatedMessage={stateRelatedMessage}
-    />
-  );
-};
+  hintText,
+}) => (
+  <Input
+    label={label}
+    hintText={hintText}
+    nativeInputProps={{
+      type: 'date',
+      name,
+      id,
+      required,
+      'aria-required': required,
+      min: formatDateForInput(min),
+      max: formatDateForInput(max),
+      defaultValue: formatDateForInput(defaultValue),
+      value: formatDateForInput(value),
+    }}
+    classes={{
+      nativeInputOrTextArea: small ? 'w-48' : undefined,
+    }}
+    state={state}
+    stateRelatedMessage={stateRelatedMessage}
+  />
+);
 
 const formatDateForInput = (date: Iso8601DateTime | undefined): string | undefined =>
   date?.split('T').shift();

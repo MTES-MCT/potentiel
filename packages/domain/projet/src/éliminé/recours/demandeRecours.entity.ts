@@ -25,6 +25,7 @@ export type DemandeRecoursEntity = Entity<
         réponseSignée: {
           format: string;
         };
+        dateRéponseSignée?: string;
         accordéPar: string;
         accordéLe: string;
       };

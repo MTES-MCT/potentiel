@@ -1,5 +1,5 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Éliminé } from '@potentiel-domain/projet';
 
@@ -21,7 +21,7 @@ export const register = () => {
       .with({ type: 'RecoursDemandé-V1' }, handleRecoursDemandé)
       .with({ type: 'RecoursAnnulé-V1' }, handleRecoursAnnulé)
       .with({ type: 'RecoursPasséEnInstruction-V1' }, handleRecoursPasséEnInstruction)
-      .with({ type: 'RecoursAccordé-V1' }, handleRecoursAccordé)
+      .with({ type: P.union('RecoursAccordé-V1', 'RecoursAccordé-V2') }, handleRecoursAccordé)
       .with({ type: 'RecoursRejeté-V1' }, handleRecoursRejeté)
       .exhaustive();
   };

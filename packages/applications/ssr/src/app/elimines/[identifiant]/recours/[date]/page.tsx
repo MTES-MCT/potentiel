@@ -8,6 +8,7 @@ import { IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getProjetLauréatOuÉliminé } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -29,6 +30,8 @@ export default async function Page(props: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
       const dateDemande = decodeParameter(date);
+
+      const projet = await getProjetLauréatOuÉliminé(identifiantProjet);
 
       const recours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
@@ -53,6 +56,7 @@ export default async function Page(props: PageProps) {
         <DétailsRecoursPage
           recours={mapToPlainObject(recours)}
           identifiantProjet={identifiantProjet}
+          dateNotification={(projet.lauréat ?? projet.éliminé).notifiéLe.formatter()}
           actions={mapToActions({
             role: utilisateur.rôle.nom,
             statut: recours.statut.statut,
