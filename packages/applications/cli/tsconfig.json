@@ -21,7 +21,7 @@
       "path": "../../infrastructure/domain-adapters"
     },
     {
-      "path": "../../infrastructure/ds-api-client"
+      "path": "../../infrastructure/dn-api-client"
     },
     {
       "path": "../../infrastructure/ore-client"

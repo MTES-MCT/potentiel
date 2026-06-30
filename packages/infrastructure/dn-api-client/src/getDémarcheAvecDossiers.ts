@@ -2,15 +2,17 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
-import { getDSApiClient } from './graphql/index.js';
+import { getDémarcheNumériqueApiClient } from './graphql/index.js';
 
 const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];
   let hasNextPage = true;
-  const first = process.env.DS_API_PAGE_SIZE ? Number(process.env.DS_API_PAGE_SIZE) : undefined;
+  const first = process.env.DEMARCHE_NUMERIQUE_API_PAGE_SIZE
+    ? Number(process.env.DEMARCHE_NUMERIQUE_API_PAGE_SIZE)
+    : undefined;
   let after: string | undefined;
 
-  const sdk = getDSApiClient();
+  const sdk = getDémarcheNumériqueApiClient();
 
   while (hasNextPage) {
     const { demarche } = await sdk.GetDemarcheAvecDossiers({
@@ -29,7 +31,7 @@ const fetchAllDossiers = async (démarcheId: number) => {
 };
 
 export const getDémarcheAvecDossiers = async (démarcheId: number) => {
-  const logger = getLogger('ds-api-client');
+  const logger = getLogger('dn-api-client');
   try {
     const { dossiers } = await fetchAllDossiers(démarcheId);
 
@@ -39,7 +41,7 @@ export const getDémarcheAvecDossiers = async (démarcheId: number) => {
         const { champs } = dossier;
 
         return {
-          numeroDS: dossier.number,
+          numeroDN: dossier.number,
           dépôt: mapApiResponseToDépôt({ champs }),
           détails: mapApiResponseToDétails({ champs }),
         };

@@ -1,11 +1,11 @@
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getDSApiClient } from './graphql/index.js';
+import { getDémarcheNumériqueApiClient } from './graphql/index.js';
 
 export const getDémarcheIdParDossier = async (dossierNumber: number) => {
-  const sdk = getDSApiClient();
-  const logger = getLogger('ds-api-client');
+  const sdk = getDémarcheNumériqueApiClient();
+  const logger = getLogger('dn-api-client');
   logger.debug(`Lecture de la démarche du dossier ${dossierNumber}`);
   try {
     const { dossier } = await sdk.GetDemarcheIdParDossier({ dossier: dossierNumber });

@@ -10,7 +10,7 @@ import { getDossier } from './getDossier.js';
 import { getGarantiesFinancièresFiles } from './getGarantiesFinancièresFiles.js';
 
 export const getAttestationGarantiesFinancières = async (dossierNumber: number) => {
-  const logger = getLogger('ds-api-client');
+  const logger = getLogger('dn-api-client');
   logger.debug(
     `Récupération de l'attestation de garanties financières du dossier ${dossierNumber}`,
   );

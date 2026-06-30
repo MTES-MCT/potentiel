@@ -2,6 +2,7 @@ import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 import zod from 'zod';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import {
@@ -10,8 +11,8 @@ import {
   IdentifiantProjet,
   registerProjetUseCases,
 } from '@potentiel-domain/projet';
+import { getDossier } from '@potentiel-infrastructure/dn-api-client';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 import { Option } from '@potentiel-libraries/monads';
 
 import { appSchema, dbSchema, dsSchema } from '#helpers';
@@ -28,7 +29,7 @@ export class ImporterCandidatures extends Command {
       default: 100,
     }),
     dossier: Flags.integer({
-      description: 'Numéro du dossier dans démarches simplifiées, importé N fois',
+      description: 'Numéro du dossier dans Démarche Numérique, importé N fois',
       required: true,
     }),
     appelOffre: Flags.string({ options: appelsOffreData.map((ao) => ao.id), required: true }),
@@ -74,7 +75,7 @@ export class ImporterCandidatures extends Command {
 
     console.log(`--- Début du job d'import de candidatures (Import ${importId}) ---`);
     const { flags } = await this.parse(ImporterCandidatures);
-    const { occurrences, appelOffre, periode, dossier: numeroDossierDS, reuse } = flags;
+    const { occurrences, appelOffre, periode, dossier: numeroDossierDN, reuse } = flags;
     const candidatures: Omit<
       Candidature.ImporterCandidatureUseCase['data'],
       'importéLe' | 'importéPar'
@@ -83,12 +84,12 @@ export class ImporterCandidatures extends Command {
     const instructions = Array(occurrences)
       .fill(null)
       .map((_, i) => ({
-        numeroDossierDS,
+        numeroDossierDN,
         identifiantProjet: IdentifiantProjet.bind({
           appelOffre,
           période: String(periode),
           famille: '',
-          numéroCRE: `${numeroDossierDS}_${importId}_${i}`,
+          numéroCRE: `${numeroDossierDN}_${importId}_${i}`,
         }).formatter(),
         statut: faker.helpers.arrayElement(Candidature.StatutCandidature.statuts),
         note: faker.number.int({ min: 0, max: 100 }),
@@ -98,7 +99,7 @@ export class ImporterCandidatures extends Command {
     const start = process.hrtime.bigint();
 
     for (const {
-      numeroDossierDS,
+      numeroDossierDN,
       identifiantProjet,
       statut,
       note,
@@ -111,10 +112,10 @@ export class ImporterCandidatures extends Command {
               demarcheId: '',
               fichiers: { garantiesFinancières: undefined },
             }
-          : await getDossier(numeroDossierDS);
+          : await getDossier(numeroDossierDN);
 
       if (Option.isNone(dossier)) {
-        throw new Error(`Le dossier ${numeroDossierDS} est introuvable`);
+        throw new Error(`Le dossier ${numeroDossierDN} est introuvable`);
       }
 
       const dépôt = dossier.dépôt;
@@ -124,11 +125,13 @@ export class ImporterCandidatures extends Command {
         motifÉlimination: motifElimination,
       };
 
+      const typeImport: AppelOffre.Periode['typeImport'] = 'démarche-numérique';
+
       candidatures.push({
         identifiantProjetValue: identifiantProjet,
         dépôtValue: { ...dépôt, puissanceALaPointe: false } as Candidature.Dépôt.RawType,
         détailsValue: {
-          typeImport: 'démarches-simplifiées',
+          typeImport,
         },
         instructionValue: instruction,
       });
@@ -137,7 +140,7 @@ export class ImporterCandidatures extends Command {
     const endApiCalls = process.hrtime.bigint();
     const durationAPICalls = Number(endApiCalls - start) / 1_000_000;
     this.log(
-      `Chargement de ${occurrences} candidatures depuis l'API DS en ${durationAPICalls.toFixed(2)}ms (${(
+      `Chargement de ${occurrences} candidatures depuis l'API DN en ${durationAPICalls.toFixed(2)}ms (${(
         durationAPICalls / occurrences
       ).toFixed(2)}ms/candidature)`,
     );

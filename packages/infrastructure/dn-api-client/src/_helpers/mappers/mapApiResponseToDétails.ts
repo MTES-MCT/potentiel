@@ -7,7 +7,7 @@ type MapApiResponseToDétails = {
 };
 
 export const mapApiResponseToDétails = ({ champs }: MapApiResponseToDétails) => {
-  const logger = getLogger('ds-api-client');
+  const logger = getLogger('dn-api-client');
   return champs.reduce(
     (prev, curr) => {
       if (prev[curr.label]) {

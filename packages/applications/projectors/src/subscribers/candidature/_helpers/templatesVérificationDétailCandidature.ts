@@ -52,7 +52,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           "Type de terrain d'implantation (pièce n°3)",
         ],
         [
-          { appelOffre: 'PPE2 - Sol', typeImport: 'démarche-simplifiée' },
+          { appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' },
           "Type de cas du terrain d'implantation",
         ],
       ],
@@ -65,7 +65,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         [{ appelOffre: 'Eolien' }, 'Technologie (Modules ou films)'],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Technologie (AO éolien)'],
         [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Technologie (AO éolien)'],
-        [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' }, 'Technologie'],
+        [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-numérique' }, 'Technologie'],
       ],
       mapper: getTechnologieEolien,
     },
@@ -74,7 +74,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         [{ appelOffre: 'Eolien' }, 'Diamètre du rotor (m) (AO éolien)'],
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
         [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, 'Diamètre du rotor (m) (AO éolien)'],
-        [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' }, 'Diamètre du rotor'],
+        [{ appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-numérique' }, 'Diamètre du rotor'],
       ],
       mapper: mapToNumber,
     },
@@ -90,7 +90,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           'Hauteur bout de pâle (m) (AO éolien)',
         ],
         [
-          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
+          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-numérique' },
           'Hauteur en bout de pale',
         ],
       ],
@@ -102,7 +102,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
         [{ appelOffre: 'PPE2 - Eolien', typeImport: 'csv' }, "Nb d'aérogénérateurs (AO éolien)"],
         [{ appelOffre: 'PPE2 - Neutre', typeImport: 'csv' }, "Nb d'aérogénérateurs (AO éolien)"],
         [
-          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
+          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-numérique' },
           "Nombre d'aérogénérateurs",
         ],
       ],
@@ -119,7 +119,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           'Puissance unitaire des aérogénérateurs (AO éolien)',
         ],
         [
-          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
+          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-numérique' },
           'Puissance unitaire des aérogénérateurs',
         ],
       ],
@@ -136,7 +136,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
           'Installation renouvellée (AO éolien)',
         ],
         [
-          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-simplifiée' },
+          { appelOffre: 'PPE2 - Eolien', typeImport: 'démarche-numérique' },
           "L'installation est-elle renouvelée ?",
         ],
       ],
@@ -145,7 +145,7 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
   },
   composantsRésilients: {
     label: [
-      [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarche-simplifiée' }, 'Composants résilients'],
+      [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' }, 'Composants résilients'],
     ],
     mapper: mapToString,
   },
