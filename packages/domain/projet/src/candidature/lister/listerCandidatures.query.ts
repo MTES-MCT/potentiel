@@ -124,7 +124,8 @@ export const mapToReadModel = ({
   notification,
   unitéPuissance,
   actionnariat,
-  appelOffre, période
+  appelOffre,
+  période,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -147,5 +148,6 @@ export const mapToReadModel = ({
     }),
   unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
   typeActionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
-  appelOffres: appelOffre, période
+  appelOffres: appelOffre,
+  période,
 });
