@@ -30,6 +30,8 @@ export type CandidaturesListItemReadModel = {
   attestation?: DocumentProjet.ValueType;
   unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];
   typeActionnariat?: Dépôt.ValueType['actionnariat'];
+  appelOffres: string;
+  période: string;
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -122,6 +124,7 @@ export const mapToReadModel = ({
   notification,
   unitéPuissance,
   actionnariat,
+  appelOffre, période
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -144,4 +147,5 @@ export const mapToReadModel = ({
     }),
   unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
   typeActionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
+  appelOffres: appelOffre, période
 });
