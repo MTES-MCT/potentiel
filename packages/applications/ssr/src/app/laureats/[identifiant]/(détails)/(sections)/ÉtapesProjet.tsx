@@ -25,15 +25,10 @@ export type ÉtapeProjet =
 
 export type EtapesProjetProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  doitAfficherAttestationDésignation: boolean;
   étapes: Array<ÉtapeProjet>;
 };
 
-export const EtapesProjet: FC<EtapesProjetProps> = ({
-  identifiantProjet,
-  doitAfficherAttestationDésignation,
-  étapes,
-}) => {
+export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes }) => {
   return (
     <aside aria-label="Progress">
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
@@ -88,7 +83,6 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
 type ÉtapeProjetProps = {
   titre: string;
   date: DateTime.RawType | undefined;
-  doitAfficherAttestationDésignation?: boolean;
   document?: {
     url: string;
   };

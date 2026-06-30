@@ -21,7 +21,7 @@ export const DétailsRaccordementDuProjetPage = ({
     <>
       <TitrePageRaccordement />
       <div className="my-2 md:my-4 flex flex-col gap-4">
-        <div className='w-fit'>
+        <div className="w-fit">
           <GestionnaireRéseauSection identifiantProjet={identifiantProjet} />
         </div>
         <DossiersRaccordementSection identifiantProjet={identifiantProjet} statut={statut} />

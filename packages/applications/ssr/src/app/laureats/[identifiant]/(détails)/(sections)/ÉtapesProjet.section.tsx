@@ -37,11 +37,7 @@ export const ÉtapesProjetSection = ({
 
       return (
         <Section title={sectionTitle} className="min-w-0">
-          <EtapesProjet
-            étapes={étapes}
-            identifiantProjet={identifiantProjetValue}
-            doitAfficherAttestationDésignation={!!lauréat.attestationDésignation}
-          />
+          <EtapesProjet étapes={étapes} identifiantProjet={identifiantProjetValue} />
         </Section>
       );
     }),
