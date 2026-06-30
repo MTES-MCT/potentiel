@@ -48,7 +48,10 @@ export const accuséRéception = DocumentProjet.documentFactory({
   nomChampDate: 'dateQualification',
 });
 
-// Juste pour gagner du temps sur le seed
+/**
+ *
+ * @deprecated Pour gérer la rétrocompatibilité avec les événement "PTF" dans le seed
+ */
 export const propositionTechniqueEtFinancière = DocumentProjet.documentFactory({
   domaine,
   nomCléDocument: 'référenceDossierRaccordement',

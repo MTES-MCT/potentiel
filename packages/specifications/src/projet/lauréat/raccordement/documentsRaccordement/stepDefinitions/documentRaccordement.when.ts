@@ -15,7 +15,7 @@ import type { ModifierDocumentRaccordement } from '../fixtures/modifierDocumentR
 import type { TransmettreDocumentRaccordement } from '../fixtures/transmettreDocumentRaccordement.fixture.js';
 
 Quand(
-  `le porteur transmet un document raccordement pour le projet lauréat`,
+  `le porteur transmet un document pour le projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;
@@ -33,7 +33,7 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet un document raccordement pour le projet lauréat avec :`,
+  `le porteur transmet un document pour le projet lauréat avec :`,
   async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;
@@ -54,7 +54,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|la dgec) modifie le document raccordement$/,
+  /(le porteur|la dreal|la dgec) modifie le document$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -72,7 +72,7 @@ Quand(
 );
 
 Quand(
-  /le porteur modifie le document raccordement avec :$/,
+  /le porteur modifie le document avec :$/,
   async function (this: PotentielWorld, data: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -92,7 +92,7 @@ Quand(
 );
 
 Quand(
-  'le porteur modifie le document raccordement avec les mêmes valeurs',
+  'le porteur modifie le document avec les mêmes valeurs',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -133,7 +133,7 @@ export async function transmettreDocumentRaccordement(
       référenceDossierRaccordementValue: référenceDossier,
       identifiantProjetValue: identifiantProjet,
       documentRaccordementValue: convertFixtureFileToReadableStream(document),
-      type,
+      typeValue: type,
       transmisLeValue: new Date().toISOString(),
       transmisParValue: this.utilisateurWorld.porteurFixture.email,
     },

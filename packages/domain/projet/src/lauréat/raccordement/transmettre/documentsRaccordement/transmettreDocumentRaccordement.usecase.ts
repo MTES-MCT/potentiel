@@ -14,7 +14,7 @@ export type TransmettreDocumentRaccordementUseCase = Message<
     dateSignatureValue: string;
     référenceDossierRaccordementValue: string;
     identifiantProjetValue: string;
-    type: string;
+    typeValue: string;
     documentRaccordementValue: {
       content: ReadableStream;
       format: string;
@@ -30,11 +30,11 @@ export const registerTransmettreDocumentRaccordementUseCase = () => {
     identifiantProjetValue,
     référenceDossierRaccordementValue,
     documentRaccordementValue: { format, content },
-    type,
+    typeValue,
     transmisLeValue,
     transmisParValue,
   }) => {
-    const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(type);
+    const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(typeValue);
 
     const documentRaccordement = DocumentRaccordement.documentRaccordement(typeDocument.type)({
       identifiantProjet: identifiantProjetValue,
