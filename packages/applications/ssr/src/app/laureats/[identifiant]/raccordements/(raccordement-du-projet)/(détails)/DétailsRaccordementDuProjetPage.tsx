@@ -1,5 +1,3 @@
-import Button from '@codegouvfr/react-dsfr/Button';
-
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -23,13 +21,6 @@ export const DétailsRaccordementDuProjetPage = ({ identifiantProjet, estProjetA
           identifiantProjet={identifiantProjet}
           estProjetAchevé={estProjetAchevé}
         />
-        <Button
-          priority="secondary"
-          onClick={() => window.history.back()}
-          iconId="fr-icon-arrow-left-line"
-        >
-          Retour
-        </Button>
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
-import type { DossierEtapeAction } from '../../../test/(raccordement-du-projet)/Dossier';
+import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/Dossier';
 
 type GetMiseEnServiceAction = (args: {
   rôle: Role.ValueType;

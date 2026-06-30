@@ -2,37 +2,8 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
-import type { DossierEtapeAction } from '../../../test/(raccordement-du-projet)/Dossier';
+import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/Dossier';
 
-type GetModificationPTFAction = (args: {
-  rôle: Role.ValueType;
-  dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
-  statutLauréat: Lauréat.StatutLauréat.ValueType;
-}) => boolean;
-
-export const getModificationPTFAction: GetModificationPTFAction = ({
-  rôle,
-  dossier,
-  statutLauréat,
-}) => {
-  const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
-
-  if (dossierEnService) {
-    return rôle.aLaPermission(
-      'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
-    );
-  }
-
-  if (statutLauréat.estAchevé()) {
-    return rôle.aLaPermission(
-      'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
-    );
-  }
-
-  return rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier');
-};
-
-// TODO: intégrer la notion de document de raccordement
 type GetPropositionTechniqueEtFinancièreAction = (args: {
   rôle: Role.ValueType;
   dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;

@@ -10,10 +10,7 @@ import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWith
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRaccordement } from '../../../_helpers';
-import {
-  getGestionnaireRéseauActionTest,
-  getLauréatOrRedirect,
-} from '../../(raccordement-du-projet)/(détails)/_helpers';
+import { getGestionnaireRéseauAction, getLauréatOrRedirect } from './_helpers';
 
 export type GestionnaireRéseauSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -33,7 +30,7 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
 
       const gestionnaireRéseau = raccordement?.gestionnaireRéseau;
 
-      const action = getGestionnaireRéseauActionTest({
+      const action = getGestionnaireRéseauAction({
         rôle: utilisateur.rôle,
         estProjetAchevé: lauréat.statut.estAchevé(),
         estInconnuGestionnaire: raccordement.identifiantGestionnaireRéseau.estInconnu(),

@@ -1,35 +1,10 @@
 import { Routes } from '@potentiel-applications/routes';
-import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
-import type { DossierEtapeAction } from '../../../test/(raccordement-du-projet)/Dossier';
+import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/Dossier';
 
-type GetModificationGestionnaireRéseauAction = (args: {
-  rôle: Role.ValueType;
-  statutLauréat: Lauréat.StatutLauréat.ValueType;
-  identifiantGestionnaireActuel: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
-  aUnDossierEnService: boolean;
-}) => boolean;
-
-export const getModificationGestionnaireRéseauAction: GetModificationGestionnaireRéseauAction = ({
-  rôle,
-  statutLauréat,
-  identifiantGestionnaireActuel,
-  aUnDossierEnService,
-}) => {
-  if (aUnDossierEnService) {
-    return rôle.aLaPermission('raccordement.gestionnaire.modifier-après-mise-en-service');
-  }
-
-  if (statutLauréat.estAchevé() && !identifiantGestionnaireActuel.estInconnu()) {
-    return rôle.aLaPermission('raccordement.gestionnaire.modifier-après-achèvement');
-  }
-
-  return rôle.aLaPermission('raccordement.gestionnaire.modifier');
-};
-
-type GetGestionnaireRéseauActionTest = (args: {
+type GetGestionnaireRéseauAction = (args: {
   rôle: Role.ValueType;
   estProjetAchevé: boolean;
   estInconnuGestionnaire: boolean;
@@ -37,7 +12,7 @@ type GetGestionnaireRéseauActionTest = (args: {
   identifiantProjet: IdentifiantProjet.RawType;
 }) => DossierEtapeAction;
 
-export const getGestionnaireRéseauActionTest: GetGestionnaireRéseauActionTest = ({
+export const getGestionnaireRéseauAction: GetGestionnaireRéseauAction = ({
   rôle,
   estProjetAchevé,
   estInconnuGestionnaire,
