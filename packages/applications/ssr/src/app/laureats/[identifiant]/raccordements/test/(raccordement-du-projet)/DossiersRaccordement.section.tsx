@@ -4,7 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
-import { Section } from '@/components/atoms/section/Section';
+import { Heading3 } from '@/components/atoms/headings';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRaccordement } from '../../../_helpers';
@@ -38,7 +38,10 @@ export const DossiersRaccordementSection = ({
       const raccordement = await getRaccordement(identifiantProjet.formatter());
 
       return (
-        <Section title={sectionTitle} className="min-w-0">
+        <div className="w-full h-fit flex flex-col gap-4 p-3">
+          <Heading3 as="h2" className="flex items-center mb-1">
+            Dossiers de Raccordement
+          </Heading3>
           {peutAjouterUnDossier && (
             <Button
               priority="secondary"
@@ -64,7 +67,7 @@ export const DossiersRaccordementSection = ({
               />
             ))}
           </div>
-        </Section>
+        </div>
       );
     }),
     sectionTitle,

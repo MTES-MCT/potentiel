@@ -47,7 +47,7 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
       });
 
       return (
-        <Section title={sectionTitle} className="flex-1">
+        <Section title={sectionTitle}>
           {Option.isNone(gestionnaireRéseau) ? (
             <Alert
               severity="warning"

@@ -35,13 +35,9 @@ export default async function Page(props: PageProps) {
         },
       });
 
-      const peutCréerNouveauDossier = utilisateur.rôle.aLaPermission(
-        'raccordement.demande-complète-raccordement.transmettre',
-      );
-
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
-          peutCréerNouveauDossier
+          utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
             ? Routes.Raccordement.transmettreDemandeComplèteRaccordement(
                 identifiantProjet.formatter(),
               )
@@ -59,7 +55,6 @@ export default async function Page(props: PageProps) {
         <DétailsRaccordementDuProjetPage
           identifiantProjet={identifiantProjet.formatter()}
           lienRetour={lienRetour}
-          peutCréerNouveauDossier={peutCréerNouveauDossier}
           statut={lauréat.statut.formatter()}
         />
       );

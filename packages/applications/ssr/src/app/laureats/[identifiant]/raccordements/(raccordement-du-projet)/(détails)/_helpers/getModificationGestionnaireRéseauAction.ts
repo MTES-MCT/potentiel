@@ -49,9 +49,7 @@ export const getGestionnaireRéseauActionTest: GetGestionnaireRéseauActionTest 
     rôle.aLaPermission('raccordement.gestionnaire.modifier-après-mise-en-service')
   ) {
     return {
-      label: estInconnuGestionnaire
-        ? 'Spéficier un gestionnaire réseau'
-        : 'Modifier le gestionnaire',
+      label: estInconnuGestionnaire ? 'Spéficier un gestionnaire réseau' : 'Modifier',
       href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
     };
   }
@@ -62,16 +60,14 @@ export const getGestionnaireRéseauActionTest: GetGestionnaireRéseauActionTest 
     rôle.aLaPermission('raccordement.gestionnaire.modifier-après-achèvement')
   ) {
     return {
-      label: 'Modifier le gestionnaire',
+      label: 'Modifier',
       href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
     };
   }
 
   if (rôle.aLaPermission('raccordement.gestionnaire.modifier'))
     return {
-      label: estInconnuGestionnaire
-        ? 'Spéficier un gestionnaire réseau'
-        : 'Modifier le gestionnaire',
+      label: estInconnuGestionnaire ? 'Spéficier un gestionnaire réseau' : 'Modifier',
       href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
     };
 };

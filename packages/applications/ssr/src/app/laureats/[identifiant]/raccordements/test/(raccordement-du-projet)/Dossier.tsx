@@ -64,7 +64,7 @@ const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
       )}
       <ContentArea>
         {/* Voir pour ajouter le type de date */}
-        {date ? <FormattedDate date={date} /> : <span className="italic">À transmettre</span>}
+        {date ? <FormattedDate date={date} /> : <span className="italic">Date à transmettre</span>}
         <ItemTitle title={mapTypeToTitre[type]} />
         {/* Voir pour ajouter le type de document */}
         {document ? (
@@ -76,7 +76,7 @@ const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
             small
           />
         ) : (
-          <span className="italic">À transmettre</span>
+          <span className="italic">Document à transmettre</span>
         )}
         {action && (
           <TertiaryLink key={action.label} href={action.href}>
