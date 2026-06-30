@@ -66,6 +66,7 @@ export const DossiersRaccordementSection = ({
                   dossierEstEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
                 })}
                 référence={dossier.référence.formatter()}
+                identifiantProjet={identifiantProjetValue}
               />
             ))}
           </div>

@@ -8,6 +8,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading3 } from '@/components/atoms/headings';
+import { SupprimerDossierDuRaccordement } from '../../(dossier-de-raccordement)/(supprimer)/SupprimerDossierDuRaccordement';
 import { FormatFichierInvalide } from '../../(dossier-de-raccordement)/components';
 
 type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service';
@@ -30,9 +31,15 @@ export type DossierProps = {
   dossierEtapes: Array<DossierEtape>;
   peutSupprimerDossier: boolean;
   référence: string;
+  identifiantProjet: string;
 };
 
-export const Dossier: FC<DossierProps> = ({ dossierEtapes, référence }) => {
+export const Dossier: FC<DossierProps> = ({
+  dossierEtapes,
+  référence,
+  peutSupprimerDossier,
+  identifiantProjet,
+}) => {
   return (
     <section className="w-fit h-fit flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px]">
       <Heading3>Dossier avec la référence {référence}</Heading3>
@@ -47,6 +54,12 @@ export const Dossier: FC<DossierProps> = ({ dossierEtapes, référence }) => {
           />
         ))}
       </ul>
+      {peutSupprimerDossier && (
+        <SupprimerDossierDuRaccordement
+          identifiantProjet={identifiantProjet}
+          référenceDossier={référence}
+        />
+      )}
     </section>
   );
 };
