@@ -1,7 +1,7 @@
 import { encodeParameter } from '../encodeParameter.js';
 
 export const createIdentifiantRoute =
-  (root: string) =>
+  (root: `/${string}`) =>
   (pathname: '' | `/${string}` = '') =>
   (identifiant: string) =>
-    `/${root}/${encodeParameter(identifiant)}${pathname}`;
+    `${root}/${encodeParameter(identifiant)}${pathname}`;
