@@ -167,7 +167,7 @@ export const mapApiResponseToDépôt = ({
       nomProjet,
     }),
 
-    // Non disponibles sur Démarches simplifiées
+    // Non disponibles sur Démarche Numérique
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',

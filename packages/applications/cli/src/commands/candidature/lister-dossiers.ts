@@ -3,7 +3,7 @@ import { writeFile } from 'node:fs/promises';
 import type { Faker } from '@faker-js/faker';
 import { Args, Command, Flags } from '@oclif/core';
 
-import { getDémarcheAvecDossiers } from '@potentiel-infrastructure/ds-api-client';
+import { getDémarcheAvecDossiers } from '@potentiel-infrastructure/dn-api-client';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 

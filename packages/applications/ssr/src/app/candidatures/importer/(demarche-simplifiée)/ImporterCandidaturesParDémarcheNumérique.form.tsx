@@ -10,33 +10,32 @@ import { Form } from '@/components/atoms/form/Form';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
-  type ImporterCandidaturesParDSFormKeys,
-  importerCandidaturesParDSAction,
-} from './importerCandidaturesParDS.action';
+  type ImporterCandidaturesParDémarcheNumériqueFormKeys,
+  importerCandidaturesParDémarcheNumériqueAction,
+} from './importerCandidaturesParDémarcheNumérique.action';
 
-export type ImporterCandidaturesParDSFormProps = {
+export type ImporterCandidaturesParDémarcheNumériqueFormProps = {
   appelOffre: string;
   période: string;
 };
 
-export const ImporterCandidaturesParDSForm: FC<ImporterCandidaturesParDSFormProps> = ({
-  appelOffre,
-  période,
-}) => {
+export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
+  ImporterCandidaturesParDémarcheNumériqueFormProps
+> = ({ appelOffre, période }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<ImporterCandidaturesParDSFormKeys>
+    ValidationErrors<ImporterCandidaturesParDémarcheNumériqueFormKeys>
   >({});
 
   return (
     <>
       <div className="mb-4 text-lg">
-        Importer des candidats depuis <span className="font-semibold">Démarche simplifiée</span> de
-        la <span className="font-semibold">période {période}</span> de l'appel d'offres{' '}
-        <span className="font-semibold">{appelOffre}</span>
+        Importer des candidats de la <span className="font-semibold">période {période}</span> de
+        l'appel d'offres <span className="font-semibold">{appelOffre}</span> depuis{' '}
+        <span className="font-semibold">Démarche Numérique</span>.
       </div>
       <div className="flex flex-col items-start lg:flex-row gap-6">
         <Form
-          action={importerCandidaturesParDSAction}
+          action={importerCandidaturesParDémarcheNumériqueAction}
           pendingModal={{
             id: 'form-import-candidatures',
             title: 'Importer des candidats',
@@ -67,7 +66,7 @@ export const ImporterCandidaturesParDSForm: FC<ImporterCandidaturesParDSFormProp
                 nativeInputProps: {
                   name: 'test',
                   value: 'true',
-                  defaultChecked: true, // TODO enlever avant de merger
+                  defaultChecked: true,
                 },
               },
             ]}
@@ -80,21 +79,21 @@ export const ImporterCandidaturesParDSForm: FC<ImporterCandidaturesParDSFormProp
           description={
             <div className="flex flex-col gap-2">
               <p>
-                Pour ce type d'import, les candidatures proviennent de{' '}
-                <Link target="_blank" href="https://demarches.numerique.gouv.fr">
-                  Démarches Simplifiées
+                Pour ce type d'import, les candidatures on été soumises sur{' '}
+                <Link target="_blank" href="https://demarche.numerique.gouv.fr/">
+                  Démarche Numérique
                 </Link>
                 .
               </p>
               <p>
-                Seul le fichier contenant le résultat de l'instruction de la CRE doit être transmis
-                ici, au format CSV, avec les colonnes suivantes :
+                Seul le fichier CSV contenant le résultat de l'instruction de la CRE doit être
+                transmis ici. Les colonnes attendues sont les suivantes :
               </p>
               <Table
                 className="lg:mx-4 my-4 border-spacing-0"
                 headers={['Colonne', 'Format', 'Optionnel']}
                 data={[
-                  ['numeroDossierDS', 'chaîne de caractères', 'non'],
+                  ['numeroDossierDémarcheNumérique', 'chaîne de caractères', 'non'],
                   ['statut', 'classé ou éliminé', 'non'],
                   ['note', 'nombre', 'non'],
                   [

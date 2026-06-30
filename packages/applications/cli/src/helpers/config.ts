@@ -17,6 +17,6 @@ export const s3Schema = z.object({
 });
 
 export const dsSchema = z.object({
-  DS_API_URL: z.url(),
-  DS_API_TOKEN: z.string(),
+  DEMARCHE_NUMERIQUE_API_URL: z.url(),
+  DEMARCHE_NUMERIQUE_API_TOKEN: z.string(),
 });

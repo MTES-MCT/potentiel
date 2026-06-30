@@ -11,7 +11,7 @@ import type { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 
 import { ImporterCandidaturesParCSVForm } from './(csv)/ImporterCandidaturesParCSV.form';
-import { ImporterCandidaturesParDSForm } from './(demarche-simplifiée)/ImporterCandidaturesParDS.form';
+import { ImporterCandidaturesParDémarcheNumériqueForm } from './(demarche-simplifiée)/ImporterCandidaturesParDémarcheNumérique.form';
 
 export type ImporterCandidaturesFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
@@ -153,8 +153,8 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
                   période={période.période}
                 />
               ))
-              .with('démarche-simplifiée', () => (
-                <ImporterCandidaturesParDSForm
+              .with('démarche-numérique', () => (
+                <ImporterCandidaturesParDémarcheNumériqueForm
                   appelOffre={période.appelOffre}
                   période={période.période}
                 />

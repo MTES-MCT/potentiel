@@ -2,6 +2,7 @@ import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 import zod from 'zod';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import {
@@ -10,8 +11,8 @@ import {
   IdentifiantProjet,
   registerProjetUseCases,
 } from '@potentiel-domain/projet';
+import { getDossier } from '@potentiel-infrastructure/dn-api-client';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 import { Option } from '@potentiel-libraries/monads';
 
 import { appSchema, dbSchema, dsSchema } from '#helpers';
@@ -28,7 +29,7 @@ export class ImporterCandidatures extends Command {
       default: 100,
     }),
     dossier: Flags.integer({
-      description: 'Numéro du dossier dans démarches simplifiées, importé N fois',
+      description: 'Numéro du dossier dans Démarche Numérique, importé N fois',
       required: true,
     }),
     appelOffre: Flags.string({ options: appelsOffreData.map((ao) => ao.id), required: true }),
@@ -124,11 +125,13 @@ export class ImporterCandidatures extends Command {
         motifÉlimination: motifElimination,
       };
 
+      const typeImport: AppelOffre.Periode['typeImport'] = 'démarche-numérique';
+
       candidatures.push({
         identifiantProjetValue: identifiantProjet,
         dépôtValue: { ...dépôt, puissanceALaPointe: false } as Candidature.Dépôt.RawType,
         détailsValue: {
-          typeImport: 'démarches-simplifiées',
+          typeImport,
         },
         instructionValue: instruction,
       });
@@ -137,7 +140,7 @@ export class ImporterCandidatures extends Command {
     const endApiCalls = process.hrtime.bigint();
     const durationAPICalls = Number(endApiCalls - start) / 1_000_000;
     this.log(
-      `Chargement de ${occurrences} candidatures depuis l'API DS en ${durationAPICalls.toFixed(2)}ms (${(
+      `Chargement de ${occurrences} candidatures depuis l'API DN en ${durationAPICalls.toFixed(2)}ms (${(
         durationAPICalls / occurrences
       ).toFixed(2)}ms/candidature)`,
     );

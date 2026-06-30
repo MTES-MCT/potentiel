@@ -1,5 +1,5 @@
 import type { Lauréat } from '@potentiel-domain/projet';
-import { getAttestationGarantiesFinancières } from '@potentiel-infrastructure/ds-api-client';
+import { getAttestationGarantiesFinancières } from '@potentiel-infrastructure/dn-api-client';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -21,7 +21,7 @@ export const récupererConstitutionGarantiesFinancièresAdapter: Lauréat.Garant
     }
 
     // Pour les périodes importées via CSV, on a uniquement le type de GF, dans la candidatures
-    if (périodeCible.typeImport !== 'démarche-simplifiée') {
+    if (périodeCible.typeImport !== 'démarche-numérique') {
       return undefined;
     }
 

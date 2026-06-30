@@ -30,7 +30,7 @@
       "path": "../../libraries/pg-helpers"
     },
     {
-      "path": "../ds-api-client"
+      "path": "../dn-api-client"
     },
     {
       "path": "../pg-projection-read"

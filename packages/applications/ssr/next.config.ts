@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
     '@potentiel-domain/reseau',
     '@potentiel-domain/statistiques-utilisation',
     '@potentiel-domain/utilisateur',
-    '@potentiel-infrastructure/ds-api-client',
+    '@potentiel-infrastructure/dn-api-client',
     '@potentiel-infrastructure/filigrane-facile-client',
     '@potentiel-infrastructure/geo-api-client',
     '@potentiel-libraries/csv',

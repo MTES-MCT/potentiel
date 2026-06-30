@@ -1,11 +1,11 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { mapApiResponseToFichiers } from './_helpers/index.js';
-import { getDSApiClient } from './graphql/index.js';
+import { getDémarcheNumériqueApiClient } from './graphql/index.js';
 
 export const getGarantiesFinancièresFiles = async (dossierNumber: number) => {
-  const sdk = getDSApiClient();
-  const logger = getLogger('ds-api-client');
+  const sdk = getDémarcheNumériqueApiClient();
+  const logger = getLogger('dn-api-client');
   logger.debug(`Récupération des fichiers GF du dossier ${dossierNumber}`);
 
   try {

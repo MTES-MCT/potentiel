@@ -317,7 +317,7 @@ export type Periode = {
     paragrapheECS?: string;
   };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
-  typeImport: 'démarche-simplifiée' | 'csv';
+  typeImport: 'démarche-numérique' | 'csv';
   /** Partie du volume total de puissance appelé spécifiquement allouée aux faibles puissance */
   volumeRéservé?: {
     noteMin: number;

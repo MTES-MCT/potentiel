@@ -30,7 +30,7 @@ Le fichier du résultat de l'instruction transmis par la CRE contient les inform
 | note             | nombre                |                                                                       |
 | motifElimination | texte                 | requis pour un projet éliminé                                         |
 
-## Accès par API à Démarches Simplifiées
+## Accès par API à Démarche Numérique
 
 ### Graphql
 
@@ -39,7 +39,7 @@ Démarche Numérique propose une API Graphql, qui permet entre autre de récupé
 - Documentation : https://doc.demarches-simplifiees.fr/api-graphql
 - Playground : https://demarche.numerique.gouv.fr/graphql
 
-Le package [ds-api-client](/packages/infrastructure/ds-api-client/) permet de traiter le résultat de cette API afin de récupérer les informations du dépôt de la candidature.
+Le package [dn-api-client](/packages/infrastructure/dn-api-client/) permet de traiter le résultat de cette API afin de récupérer les informations du dépôt de la candidature.
 
 Le code se basant sur le nom des champs dans le formulaire, il est essentiel que la CRE transmette à Potentiel tout changement dans le nom ou le type de ces champs. L'import ne fonctionnera pas si un champs requis n'est pas trouvé, ou si son type a changé.
 
@@ -62,8 +62,8 @@ Pour tester l'intégration à Démarche Numérique :
 - (optionnel) Utiliser la ligne de commande potentiel pour générer un fichier d'instruction (statuts aléatoires) :
 
 ```bash
-export DS_API_URL=https://demarche.numerique.gouv.fr/api/v2/graphql
-export DS_API_TOKEN=JETON API
+export DEMARCHE_NUMERIQUE_API_URL=https://demarche.numerique.gouv.fr/api/v2/graphql
+export DEMARCHE_NUMERIQUE_API_TOKEN=JETON API
 potentiel-cli candidature lister-dossiers NUMERO_DE_LA_DEMARCHE --instruction
 ```
 

@@ -1,8 +1,8 @@
 import { Args, Command } from '@oclif/core';
 
 import { registerProjetUseCases } from '@potentiel-domain/projet';
+import { getDossier } from '@potentiel-infrastructure/dn-api-client';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 
 import { dsSchema } from '#helpers';
 
