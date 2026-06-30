@@ -5,7 +5,7 @@
 set -e
 set -u
 
-if [[ "$APPLICATION_NAME" == *"production"* ]]; then
+if [[ "$APPLICATION_NAME" == *"production"* ]] && [[ "${IS_REVIEW_APP:-}" != "true" ]]; then
   echo "❌ This script cannot be run in production environment"
   exit 1
 fi
