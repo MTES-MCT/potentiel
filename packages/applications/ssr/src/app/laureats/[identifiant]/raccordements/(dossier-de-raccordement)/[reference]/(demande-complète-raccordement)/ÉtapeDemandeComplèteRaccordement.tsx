@@ -64,17 +64,19 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           {dateQualification ? (
             <FormattedDate date={dateQualification} />
           ) : actions.transmettre ? (
-            <Link
-              className="mt-4 w-fit mx-auto"
-              href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
-                identifiantProjet,
-                référence,
-              )}
-              aria-label={`Modifier la demande de raccordement ${référence}`}
-            >
-              <Icon id="fr-icon-warning-fill" size="xs" className="mr-1" />
-              Date de l'accusé de réception à renseigner
-            </Link>
+            <div>
+              <Link
+                className="mt-4 w-fit mx-auto "
+                href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
+                  identifiantProjet,
+                  référence,
+                )}
+                aria-label={`Modifier la demande de raccordement ${référence}`}
+              >
+                <Icon id="fr-icon-warning-fill" size="xs" className="mr-1" />
+                Date de l'accusé de réception à renseigner
+              </Link>
+            </div>
           ) : (
             <p className="font-bold">Date de l'accusé de réception manquante</p>
           )}
