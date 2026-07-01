@@ -60,14 +60,17 @@ export class RaccordementWorld {
         : this.dateMiseEnService.transmettreFixture.mapToExpected(),
       propositionTechniqueEtFinancière: this.documentRaccordement.mapToExpected(
         Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
+        this.lauréatWorld.identifiantProjet.formatter(),
         nouvelleRéférenceDossier,
       ),
       conventionDeRaccordement: this.documentRaccordement.mapToExpected(
         Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordement.type,
+        this.lauréatWorld.identifiantProjet.formatter(),
         nouvelleRéférenceDossier,
       ),
       conventionDirectDeRaccordement: this.documentRaccordement.mapToExpected(
         Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDirecteDeRaccordement.type,
+        this.lauréatWorld.identifiantProjet.formatter(),
         nouvelleRéférenceDossier,
       ),
     };

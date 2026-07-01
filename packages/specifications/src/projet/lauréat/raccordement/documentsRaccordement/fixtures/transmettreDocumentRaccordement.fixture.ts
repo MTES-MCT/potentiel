@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 
-import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
+import type { DocumentRaccordementWorld } from '../documentRaccordement.world.js';
 
 export type TransmettreDocumentRaccordement = {
   dateSignature: string;
@@ -42,13 +42,11 @@ export class TransmettreDocumentRaccordementFixture
     return this.#référenceDossier;
   }
 
-  // document indexés par type
-  #documentsRaccordement = new Map<string, TransmettreDocumentRaccordement>();
-  #ajouterDocument(document: TransmettreDocumentRaccordement) {
-    this.#documentsRaccordement.set(document.type, document);
-  }
-  getDocumentRaccordement(type: string) {
-    return this.#documentsRaccordement.get(type);
+  #world: DocumentRaccordementWorld;
+
+  constructor(world: DocumentRaccordementWorld) {
+    super();
+    this.#world = world;
   }
 
   créer(
@@ -71,24 +69,8 @@ export class TransmettreDocumentRaccordementFixture
     this.#type = fixture.type;
     this.aÉtéCréé = true;
 
-    this.#ajouterDocument(fixture);
+    this.#world.ajouterDocument(fixture);
 
     return fixture;
-  }
-
-  mapToExpected(type: string, référenceDossier?: string) {
-    const document = this.getDocumentRaccordement(type);
-
-    if (!document) return;
-
-    return {
-      dateSignature: DateTime.convertirEnValueType(document.dateSignature),
-      document: Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(document.type)({
-        identifiantProjet: this.identifiantProjet,
-        référenceDossierRaccordement: référenceDossier ?? document.référenceDossier,
-        dateSignature: document.dateSignature,
-        document: document.document,
-      }),
-    };
   }
 }

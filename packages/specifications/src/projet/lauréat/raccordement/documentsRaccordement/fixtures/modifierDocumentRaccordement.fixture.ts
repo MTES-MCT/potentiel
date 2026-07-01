@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 
-import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
+import type { DocumentRaccordementWorld } from '../documentRaccordement.world.js';
 
 export type ModifierDocumentRaccordement = {
   dateSignature: string;
@@ -48,6 +48,13 @@ export class ModifierDocumentRaccordementFixture
     return this.#type;
   }
 
+  #world: DocumentRaccordementWorld;
+
+  constructor(world: DocumentRaccordementWorld) {
+    super();
+    this.#world = world;
+  }
+
   créer(
     partialFixture: Partial<Readonly<ModifierDocumentRaccordement>> & {
       référenceDossier: string;
@@ -70,23 +77,8 @@ export class ModifierDocumentRaccordementFixture
     this.#type = fixture.type;
     this.aÉtéCréé = true;
 
+    this.#world.ajouterDocument(fixture);
+
     return fixture;
-  }
-
-  mapToExpected(
-    type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType,
-    référenceDossier?: string,
-  ) {
-    if (!this.aÉtéCréé || this.#type !== type) return undefined;
-
-    return {
-      dateSignature: DateTime.convertirEnValueType(this.dateSignature),
-      document: Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(type)({
-        identifiantProjet: this.#identifiantProjet,
-        référenceDossierRaccordement: référenceDossier ?? this.#référenceDossier,
-        dateSignature: this.#dateSignature,
-        document: this.#document,
-      }),
-    };
   }
 }

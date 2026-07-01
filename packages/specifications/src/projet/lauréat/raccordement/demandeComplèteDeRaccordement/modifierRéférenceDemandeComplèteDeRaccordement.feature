@@ -39,6 +39,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
+    @select
     Scénario: Modifier la référence d'une demande complète de raccordement ayant un document de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |

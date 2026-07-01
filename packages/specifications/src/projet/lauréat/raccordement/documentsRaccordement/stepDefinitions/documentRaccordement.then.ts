@@ -35,7 +35,7 @@ Alors(
 
       if (propositionTechniqueEtFinancière) {
         const document =
-          this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.getDocumentRaccordement(
+          this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(
             'proposition-technique-et-financière',
           );
 
@@ -46,7 +46,7 @@ Alors(
 
       if (conventionDeRaccordement) {
         const document =
-          this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.getDocumentRaccordement(
+          this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(
             'convention-de-raccordement',
           );
 
@@ -57,7 +57,7 @@ Alors(
 
       if (conventionDirecteDeRaccordement) {
         const document =
-          this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.getDocumentRaccordement(
+          this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(
             'convention-directe-de-raccordement',
           );
 
