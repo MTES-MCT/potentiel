@@ -32,7 +32,6 @@ Fonctionnalité: Transmettre un document
     Quand le porteur transmet un document pour le projet lauréat
     Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
 
-  @select
   Plan du Scénario: Transmettre un document compatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document transmis pour le projet lauréat avec :
