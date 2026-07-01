@@ -41,6 +41,14 @@ const meta = {
           département: 'Morbihan',
           région: 'Bretagne',
         },
+        {
+          nom: 'Société D',
+          nomProjet: 'Sous le vent',
+          puissance: '70',
+          commune: 'Paris',
+          département: 'Paris',
+          région: 'Île-de-France',
+        },
       ],
       période: {
         titre: 'dixième',
@@ -48,7 +56,7 @@ const meta = {
         unitéPuissance: 'MW',
         titreAppelOffres:
           'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie mécanique du vent, implantées à terre',
-        puissanceRecherchée: '1000 MW',
+        puissanceRecherchée: '1000',
       },
       synthèse: {
         candidats: { nombre: '90', puissanceCumulée: '1200' },

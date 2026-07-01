@@ -43,42 +43,62 @@ const styles = StyleSheet.create({
   region: { flex: 2 },
 });
 
+const manageWrapWithHyphen = (text: string) => {
+  const index = text.indexOf('-');
+  if (index === -1 || index < 8) {
+    return <Text>{text}</Text>;
+  }
+  return (
+    <Text>
+      {text.slice(0, index + 1)}
+      {'\n'}
+      {text.slice(index + 1)}
+    </Text>
+  );
+};
 export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
   lauréats,
   unitéPuissance,
 }) => {
   return (
-    <View style={styles.table}>
-      {/* En-tête */}
-      <View style={[styles.row, styles.header]}>
-        <Text style={[styles.cell, styles.laureat]}>Lauréat</Text>
-        <Text style={[styles.cell, styles.projet]}>Nom projet</Text>
-        <Text style={[styles.cell, styles.puissance]}>Puissance</Text>
-        <Text style={[styles.cell, styles.commune]}>Commune</Text>
-        <Text style={[styles.cell, styles.departement]}>Département</Text>
-        <Text style={[styles.cell, styles.region]}>Région</Text>
-      </View>
-
-      {/* Lignes */}
-      {lauréats.map((lauréat) => (
-        <View key={lauréat.nomProjet} style={styles.row}>
-          <Text style={[styles.cell, styles.laureat]}>{lauréat.nom}</Text>
-
-          <Text style={[styles.cell, styles.projet]}>{lauréat.nomProjet}</Text>
-
-          <Text style={[styles.cell, styles.puissance]}>
-            {lauréat.puissance} {unitéPuissance}
-          </Text>
-
-          <Text style={[styles.cell, styles.commune]}>{lauréat.commune}</Text>
-
-          <Text style={[styles.cell, styles.departement]}>
-            {lauréat.département.replace(/-/g, '-\n')}
-          </Text>
-
-          <Text style={[styles.cell, styles.region]}>{lauréat.région.replace(/-/g, '-\n')}</Text>
+    <View>
+      <Text style={{ marginBottom: 8, fontWeight: 'bold' }}>
+        Données de candidature des lauréats avant désignation :{' '}
+      </Text>
+      <View style={styles.table}>
+        {/* En-tête */}
+        <View style={[styles.row, styles.header]}>
+          <Text style={[styles.cell, styles.laureat]}>Lauréat</Text>
+          <Text style={[styles.cell, styles.projet]}>Nom projet</Text>
+          <Text style={[styles.cell, styles.puissance]}>Puissance</Text>
+          <Text style={[styles.cell, styles.commune]}>Commune</Text>
+          <Text style={[styles.cell, styles.departement]}>Département</Text>
+          <Text style={[styles.cell, styles.region]}>Région</Text>
         </View>
-      ))}
+
+        {/* Lignes */}
+        {lauréats.map((lauréat) => (
+          <View key={lauréat.nomProjet} style={styles.row}>
+            <Text style={[styles.cell, styles.laureat]}>{lauréat.nom}</Text>
+
+            <Text style={[styles.cell, styles.projet]}>{lauréat.nomProjet}</Text>
+
+            <Text style={[styles.cell, styles.puissance]}>
+              {lauréat.puissance} {unitéPuissance}
+            </Text>
+
+            <Text style={[styles.cell, styles.commune]}>
+              {manageWrapWithHyphen(lauréat.commune)}
+            </Text>
+
+            <Text style={[styles.cell, styles.departement]}>
+              {manageWrapWithHyphen(lauréat.département)}
+            </Text>
+
+            <Text style={[styles.cell, styles.region]}>{manageWrapWithHyphen(lauréat.région)}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
