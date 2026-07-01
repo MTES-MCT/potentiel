@@ -35,11 +35,7 @@ export const ÉtapesProjetSection = ({
 
       return (
         <Section title={sectionTitle} className="min-w-0">
-          <EtapesProjet
-            étapes={étapes}
-            identifiantProjet={identifiantProjetValue}
-            doitAfficherAttestationDésignation={!!éliminé.attestationDésignation}
-          />
+          <EtapesProjet étapes={étapes} identifiantProjet={identifiantProjetValue} />
         </Section>
       );
     }),
@@ -56,6 +52,7 @@ const mapToÉtapesData = ({ éliminé, recours }: GetÉtapesData) => {
     {
       type: 'designation',
       date: éliminé.notifiéLe.formatter(),
+      hideDocument: éliminé.attestationDésignation ? undefined : true,
     },
   ];
 
