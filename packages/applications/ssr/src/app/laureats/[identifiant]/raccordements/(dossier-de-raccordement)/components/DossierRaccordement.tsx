@@ -34,7 +34,7 @@ export type DossierProps = {
   identifiantProjet: string;
 };
 
-export const Dossier: FC<DossierProps> = ({
+export const DossierRaccordement: FC<DossierProps> = ({
   dossierEtapes,
   référence,
   peutSupprimerDossier,
