@@ -72,6 +72,7 @@ const mapToÉtapesData = ({
         {
           type: 'designation',
           date: lauréat.notifiéLe.formatter(),
+          hideDocument: lauréat.attestationDésignation ? undefined : true,
         },
       ];
 

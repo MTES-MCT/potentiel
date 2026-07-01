@@ -12,7 +12,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-export type ÉtapeProjet =
+export type ÉtapeProjet = (
   | {
       type: 'designation' | 'achèvement-prévisionel';
       date: DateTime.RawType;
@@ -21,7 +21,8 @@ export type ÉtapeProjet =
   | {
       type: 'mise-en-service' | 'achèvement-réel';
       date?: DateTime.RawType;
-    };
+    }
+) & { hideDocument?: true };
 
 export type EtapesProjetProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -39,7 +40,11 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes
                 key={étape.type}
                 titre="Notification"
                 date={date}
-                document={{ url: Routes.Candidature.téléchargerAttestation(identifiantProjet) }}
+                document={
+                  étape.hideDocument
+                    ? undefined
+                    : { url: Routes.Candidature.téléchargerAttestation(identifiantProjet) }
+                }
               />
             ))
             .with({ type: 'recours' }, ({ date, dateDemande }) => (
