@@ -10,6 +10,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getPériodePrixMoyenPondéré } from '../helpers/getPériodePrixMoyenPondéré';
 
 export const GET = async (request: Request) =>
   apiAction(() =>
@@ -57,9 +58,6 @@ export const GET = async (request: Request) =>
         return notFound();
       }
 
-      const LauréatsPrixMoyenPondéré =
-        lauréats.reduce((acc, c) => acc + c.prixReference, 0) / lauréats.length;
-
       const data: SynthèsePériode.DonnéesDocument = {
         dateCourrier: new Date().toISOString(),
         période: {
@@ -87,7 +85,9 @@ export const GET = async (request: Request) =>
           lauréats: {
             nombre: lauréats.length.toString(),
             puissanceCumulée: lauréats.reduce((acc, c) => acc + c.puissance, 0).toLocaleString(),
-            prixMoyenPondéré: LauréatsPrixMoyenPondéré.toLocaleString(),
+            prixMoyenPondéré: getPériodePrixMoyenPondéré(
+              lauréats.map((l) => ({ puissance: l.puissance, prix: l.prixReference })),
+            ).toLocaleString(),
           },
         },
       };
