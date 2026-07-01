@@ -6,15 +6,15 @@ import { Introduction } from './Introduction.js';
 import { PageFooter } from './PageFooter.js';
 import { TableauLauréatPériode } from './TableauLauréatsPériode.js';
 
-export type SynthèseLauréatsPériodeProps = DonnéesDocument;
+export type SynthèsePériodeProps = DonnéesDocument & { imagesFolderPath: string };
 
-export const SynthèseLauréatsPériode = ({
+export const SynthèsePériode = ({
   dateCourrier,
   synthèse,
   lauréats,
   imagesFolderPath,
   période,
-}: SynthèseLauréatsPériodeProps) => {
+}: SynthèsePériodeProps) => {
   return (
     <Document>
       <Page

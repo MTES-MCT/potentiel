@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SynthèseLauréatsPériode } from './SynthèseLauréatsPériode.js';
+import { SynthèsePériode } from './SynthèsePériode.js';
 
 const meta = {
   title: 'Candidature/SynthèseLauréatsPériode',
   component: () => {
-    return SynthèseLauréatsPériode({
+    return SynthèsePériode({
       dateCourrier: new Date().toISOString(),
       imagesFolderPath: '/images',
       lauréats: [

@@ -4,7 +4,7 @@ import { Readable } from 'node:stream';
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { fontsFolderPath, imagesFolderPath } from '../assets.js';
-import { SynthèseLauréatsPériode } from './SynthèseLauréatsPériode.js';
+import { SynthèsePériode } from './SynthèsePériode.js';
 
 Font.register({
   family: 'Arimo',
@@ -23,13 +23,10 @@ Font.register({
   ],
 });
 
-export type GénérerSynthèseLauréatsPériodePort = (
-  données: DonnéesDocument,
-) => Promise<ReadableStream>;
+export type GénérerSynthèsePériodePort = (données: DonnéesDocument) => Promise<ReadableStream>;
 
 export type DonnéesDocument = {
   dateCourrier: string;
-  imagesFolderPath: string;
   période: {
     titre: string;
     cycleAppelOffres: string;
@@ -51,13 +48,13 @@ export type DonnéesDocument = {
   }[];
 };
 
-const buildDocument: GénérerSynthèseLauréatsPériodePort = async (
+const buildDocument: GénérerSynthèsePériodePort = async (
   props: DonnéesDocument,
 ): Promise<ReadableStream> => {
-  const document = SynthèseLauréatsPériode({ ...props, imagesFolderPath });
+  const document = SynthèsePériode({ ...props, imagesFolderPath });
 
   const buffer = await ReactPDF.renderToStream(document);
   return Readable.toWeb(Readable.from(buffer));
 };
 
-export type { buildDocument };
+export { buildDocument };
