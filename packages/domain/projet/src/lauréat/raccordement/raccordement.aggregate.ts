@@ -20,7 +20,6 @@ import {
   DateMiseEnServiceDéjàTransmiseError,
   DemandeComplèteDeRaccordementNonModifiéeError,
   DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError,
-  DocumentDuMêmeTypeDéjàTransmisError,
   DocumentNonModifiableCarDossierMisEnServiceError,
   DocumentRaccordementNonExistantError,
   DocumentRaccordementNonModifiéError,
@@ -36,9 +35,12 @@ import {
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
-  TypeDeDocumentRaccordementIncompatibleError,
 } from './errors.js';
-import { RéférenceDossierRaccordement, TypeTâchePlanifiéeRaccordement } from './index.js';
+import {
+  RéférenceDossierRaccordement,
+  TypeDocumentsRaccordement,
+  TypeTâchePlanifiéeRaccordement,
+} from './index.js';
 import type { ModifierDateMiseEnServiceOptions } from './modifier/dateMiseEnService/modifierDateMiseEnService.options.js';
 import type { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
 import type { ModifierDocumentRaccordementOptions } from './modifier/documentsRaccordement/modifierDocumentRaccordement.options.js';
@@ -178,6 +180,25 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     return dossier;
+  }
+
+  private récupérerArrayDocumentsDossier(
+    référence: RéférenceDossierRaccordement.RawType,
+  ): TypeDocumentsRaccordement.RawType[] {
+    const dossier = this.récupérerDossier(référence);
+
+    const documentsDossier: TypeDocumentsRaccordement.RawType[] = [];
+
+    if (dossier.propositionTechniqueEtFinancière) {
+      documentsDossier.push(TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type);
+    }
+    if (dossier.conventionDeRaccordement) {
+      documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordement.type);
+    }
+    if (dossier.conventionDirecteDeRaccordement) {
+      documentsDossier.push(TypeDocumentsRaccordement.conventionDirecteDeRaccordement.type);
+    }
+    return documentsDossier;
   }
 
   private vérifierStatutDuLauréat() {
@@ -746,37 +767,10 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new DateDansLeFuturError();
     }
 
-    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
-
-    if (type.estPropositionTechniqueEtFinancière()) {
-      if (dossier.propositionTechniqueEtFinancière) {
-        throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
-      }
-
-      if (dossier.conventionDirecteDeRaccordement) {
-        throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
-      }
-    }
-
-    if (type.estConventionDeRaccordement()) {
-      if (dossier.conventionDeRaccordement) {
-        throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
-      }
-
-      if (dossier.conventionDirecteDeRaccordement) {
-        throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
-      }
-    }
-
-    if (type.estConventionDirecteDeRaccordement()) {
-      if (dossier.conventionDirecteDeRaccordement) {
-        throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
-      }
-
-      if (dossier.propositionTechniqueEtFinancière || dossier.conventionDeRaccordement) {
-        throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
-      }
-    }
+    const documentsDossier = this.récupérerArrayDocumentsDossier(
+      référenceDossierRaccordement.formatter(),
+    );
+    type.vérifierQuePeutÊtreTransmis(documentsDossier);
 
     const event: DocumentRaccordementTransmisEventV1 = {
       type: 'DocumentRaccordementTransmis-V1',

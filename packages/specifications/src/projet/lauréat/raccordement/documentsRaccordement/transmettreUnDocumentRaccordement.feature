@@ -32,21 +32,18 @@ Fonctionnalité: Transmettre un document
     Quand le porteur transmet un document pour le projet lauréat
     Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
 
-  Scénario: Transmettre une proposition technique et financière après avoir transmis une convention de raccordement
+  Plan du Scénario: Transmettre un document compatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document transmis pour le projet lauréat avec :
-      | type de document | convention-directe-de-raccordement |
+      | type de document | <document existant> |
     Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | proposition-technique-et-financière |
+      | type de document | <nouveau document> |
     Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
 
-  Scénario: Transmettre une convention de raccordement après avoir transmis une proposition technique et financière
-    Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document transmis pour le projet lauréat avec :
-      | type de document | proposition-technique-et-financière |
-    Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | convention-directe-de-raccordement |
-    Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
+    Exemples:
+      | document existant                   | nouveau document                    |
+      | convention-de-raccordement          | proposition-technique-et-financière |
+      | proposition-technique-et-financière | convention-de-raccordement          |
 
   Scénario: Impossible de transmettre un document pour un projet sans dossier de raccordement
     Quand le porteur transmet un document pour le projet lauréat avec :
@@ -77,48 +74,31 @@ Fonctionnalité: Transmettre un document
     Quand le porteur transmet un document pour le projet lauréat
     Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
-  Scénario: Impossible de transmettre un document du même type qu'un document déjà transmis
+  Plan du Scénario: Impossible de transmettre un document du même type qu'un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document transmis pour le projet lauréat avec :
-      | type de document | <type> |
+      | type de document | <document existant> |
     Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | <type> |
-    Alors le porteur devrait être informé que "Un document de type <type> a déjà été transmis pour ce dossier de raccordement"
+      | type de document | <nouveau document> |
+    Alors le porteur devrait être informé que "Un document de type <nouveau document> a déjà été transmis pour ce dossier de raccordement"
 
     Exemples:
-      | type                                |
-      | convention-directe-de-raccordement  |
-      | convention-de-raccordement          |
-      | proposition-technique-et-financière |
+      | document existant                   | nouveau document                    |
+      | convention-directe-de-raccordement  | convention-directe-de-raccordement  |
+      | convention-de-raccordement          | convention-de-raccordement          |
+      | proposition-technique-et-financière | proposition-technique-et-financière |
 
-  Scénario: Impossible de transmettre une convention de type "proposition technique et financière" si une convention de type "convention directe de raccordement" a déjà été transmise
+  Plan du Scénario: Impossible de transmettre un document incompatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document transmis pour le projet lauréat avec :
-      | type de document | convention-directe-de-raccordement |
+      | type de document | <document existant> |
     Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | proposition-technique-et-financière |
-    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type proposition-technique-et-financière pour ce dossier de raccordement"
+      | type de document | <nouveau document> |
+    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type <nouveau document> pour ce dossier de raccordement"
 
-  Scénario: Impossible de transmettre une convention de type "convention de raccordement" si une convention de type "convention directe de raccordement" a déjà été transmise
-    Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document transmis pour le projet lauréat avec :
-      | type de document | convention-directe-de-raccordement |
-    Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | convention-de-raccordement |
-    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type convention-de-raccordement pour ce dossier de raccordement"
-
-  Scénario: Impossible de transmettre une convention de type "convention directe de raccordement" si une convention de type "convention de raccordement" a déjà été transmise
-    Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document transmis pour le projet lauréat avec :
-      | type de document | convention-de-raccordement |
-    Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | convention-directe-de-raccordement |
-    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type convention-directe-de-raccordement pour ce dossier de raccordement"
-
-  Scénario: Impossible de transmettre une convention de type "convention directe de raccordement" si une convention de type "proposition technique et financière" a déjà été transmise
-    Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document transmis pour le projet lauréat avec :
-      | type de document | proposition-technique-et-financière |
-    Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | convention-directe-de-raccordement |
-    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type convention-directe-de-raccordement pour ce dossier de raccordement"
+    Exemples:
+      | document existant                   | nouveau document                    |
+      | convention-directe-de-raccordement  | proposition-technique-et-financière |
+      | convention-directe-de-raccordement  | convention-de-raccordement          |
+      | proposition-technique-et-financière | convention-directe-de-raccordement  |
+      | convention-de-raccordement          | convention-directe-de-raccordement  |

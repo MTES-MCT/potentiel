@@ -18,6 +18,7 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   estPropositionTechniqueEtFinancière: () => boolean;
   estConventionDeRaccordement: () => boolean;
   estConventionDirecteDeRaccordement: () => boolean;
+  vérifierQuePeutÊtreTransmis: (documentsActuels: RawType[]) => void;
 }>;
 
 export const bind = <Type extends RawType = RawType>({
@@ -43,6 +44,9 @@ export const bind = <Type extends RawType = RawType>({
     estConventionDirecteDeRaccordement() {
       return this.type === 'convention-directe-de-raccordement';
     },
+    vérifierQuePeutÊtreTransmis(documentsActuels: RawType[]) {
+      return vérifierQuePeutÊtreTransmis(this, documentsActuels);
+    },
   };
 };
 
@@ -56,6 +60,41 @@ function estValide(value: string): asserts value is RawType {
 
   if (!isValid) {
     throw new TypeDocumentsRaccordementError(value);
+  }
+}
+
+function vérifierQuePeutÊtreTransmis(type: ValueType, documentsActuels: RawType[]) {
+  if (type.estPropositionTechniqueEtFinancière()) {
+    if (documentsActuels.includes('proposition-technique-et-financière')) {
+      throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
+    }
+
+    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+      throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
+    }
+  }
+
+  if (type.estConventionDeRaccordement()) {
+    if (documentsActuels.includes('convention-de-raccordement')) {
+      throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
+    }
+
+    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+      throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
+    }
+  }
+
+  if (type.estConventionDirecteDeRaccordement()) {
+    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+      throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
+    }
+
+    if (
+      documentsActuels.includes('proposition-technique-et-financière') ||
+      documentsActuels.includes('convention-de-raccordement')
+    ) {
+      throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
+    }
   }
 }
 
@@ -74,5 +113,19 @@ class TypeDocumentsRaccordementError extends InvalidOperationError {
     super(`Le type de document est inconnu`, {
       value,
     });
+  }
+}
+
+export class DocumentDuMêmeTypeDéjàTransmisError extends InvalidOperationError {
+  constructor(type: string) {
+    super(`Un document de type ${type} a déjà été transmis pour ce dossier de raccordement`);
+  }
+}
+
+export class TypeDeDocumentRaccordementIncompatibleError extends InvalidOperationError {
+  constructor(type: string) {
+    super(
+      `Il est impossible de transmettre un document de type ${type} pour ce dossier de raccordement`,
+    );
   }
 }
