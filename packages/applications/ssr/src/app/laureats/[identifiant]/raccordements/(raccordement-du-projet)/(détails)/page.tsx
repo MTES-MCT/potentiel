@@ -36,7 +36,6 @@ export default async function Page(props: PageProps) {
       return notFound();
     }
 
-
     return (
       <DétailsRaccordementDuProjetPage
         identifiantProjet={mapToPlainObject(identifiantProjet.formatter())}
