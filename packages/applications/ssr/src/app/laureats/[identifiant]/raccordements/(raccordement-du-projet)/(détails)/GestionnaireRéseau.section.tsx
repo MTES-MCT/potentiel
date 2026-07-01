@@ -53,6 +53,7 @@ export const GestionnaireRÃ©seauSection = ({ identifiantProjet }: GestionnaireRÃ
                   ? {
                       linkProps: {
                         href: action.href,
+                        target: '_self',
                       },
                       text: action.label,
                     }

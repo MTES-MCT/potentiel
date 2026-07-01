@@ -8,7 +8,10 @@ import { Heading3 } from '@/components/atoms/headings';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRaccordement } from '../../../_helpers';
-import { Dossier, type DossierEtape } from '../../(dossier-de-raccordement)/components/Dossier';
+import {
+  type DossierEtape,
+  DossierRaccordement,
+} from '../../(dossier-de-raccordement)/components/DossierRaccordement';
 import {
   getDemandeComplèteDeRaccordementAction,
   getPropositionTechniqueEtFinancièreAction,
@@ -57,7 +60,7 @@ export const DossiersRaccordementSection = ({
           )}
           <div className="flex flex-wrap gap-4">
             {raccordement?.dossiers.map((dossier) => (
-              <Dossier
+              <DossierRaccordement
                 key={dossier.référence.formatter()}
                 dossierEtapes={mapToDossierData({ dossier, rôle, estProjetAchevé })}
                 peutSupprimerDossier={getSupprimerDossierAction({

@@ -2,7 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
-import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/Dossier';
+import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/DossierRaccordement';
 
 type GetGestionnaireRéseauAction = (args: {
   rôle: Role.ValueType;
