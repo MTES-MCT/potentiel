@@ -193,6 +193,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 019-040037',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 60,
       familles: [
         {
           id: '1',
@@ -237,6 +238,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 019-040037',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 120,
       familles: [
         {
           id: '1',
@@ -281,6 +283,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 019-040037',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 120,
       familles: [
         {
           id: '1',

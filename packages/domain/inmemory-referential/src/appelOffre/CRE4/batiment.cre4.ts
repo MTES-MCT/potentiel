@@ -174,6 +174,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 150,
       familles: [
         {
           id: '1',
@@ -231,6 +232,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 150,
       familles: [
         {
           id: '1',
@@ -288,6 +290,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 150,
       familles: [
         {
           id: '1',
@@ -345,6 +348,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 200,
       familles: [
         {
           id: '1',
@@ -402,6 +406,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 225,
       familles: [
         {
           id: '1',
@@ -459,6 +464,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 300,
       familles: [
         {
           id: '1',
@@ -516,6 +522,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 300,
       familles: [
         {
           id: '1',
@@ -573,6 +580,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 300,
       familles: [
         {
           id: '1',
@@ -630,6 +638,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 300,
       familles: [
         {
           id: '1',
@@ -687,6 +696,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 150,
       familles: [
         {
           id: '1',
@@ -744,6 +754,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 185,
       familles: [
         {
           id: '1',
@@ -801,6 +812,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 150,
       familles: [
         {
           id: '1',
@@ -858,6 +870,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 300,
       familles: [
         {
           id: '1',

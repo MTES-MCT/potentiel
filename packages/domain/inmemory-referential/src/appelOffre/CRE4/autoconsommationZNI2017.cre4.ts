@@ -170,6 +170,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 242-441979',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 20,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,

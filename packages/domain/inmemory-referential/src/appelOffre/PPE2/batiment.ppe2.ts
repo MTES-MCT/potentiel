@@ -192,6 +192,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 300,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -229,6 +230,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 400,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -267,6 +269,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 400,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -310,6 +313,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 400,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -347,6 +351,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 800,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -395,6 +400,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 400,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -443,6 +449,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 400,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -491,6 +498,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 300,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -541,6 +549,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 400,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -590,6 +599,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 400,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -634,6 +644,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      puissanceAppelée: 300,
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -677,6 +688,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      puissanceAppelée: 400,
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {

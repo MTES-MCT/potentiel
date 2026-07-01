@@ -174,6 +174,7 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 200,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',

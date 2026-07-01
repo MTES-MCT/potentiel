@@ -154,6 +154,7 @@ Après constitution des garanties financières, si le Candidat n’a pas joint �
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -207,6 +208,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -259,6 +261,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -310,6 +313,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -361,6 +365,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 630,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -412,6 +417,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 250,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -463,6 +469,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -514,6 +521,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 700,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',

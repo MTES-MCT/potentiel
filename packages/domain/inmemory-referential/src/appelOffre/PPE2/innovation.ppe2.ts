@@ -181,6 +181,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2021 S 203-530267',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 140,
       familles: [
         {
           id: '1',

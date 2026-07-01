@@ -6,3 +6,8 @@ type ListerFilters = {
 };
 
 export const lister = withFilters<ListerFilters>(`/periodes`);
+
+export const exporterSynthèsePériode = withFilters<{
+  appelOffre: string;
+  periode: string;
+}>(`/periodes/telecharger-synthese-periode`);

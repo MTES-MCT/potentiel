@@ -1026,6 +1026,10 @@ const policies = {
   },
   période: {
     consulter: [référencielPermissions.période.query.consulter],
+    consulterSynthèse: [
+      référencielPermissions.candidature.query.listerCandidatures,
+      référencielPermissions.appelOffre.query.consulter,
+    ],
     lister: [référencielPermissions.période.query.lister],
     notifier: [
       référencielPermissions.période.usecase.notifier,
@@ -1715,6 +1719,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Période
   'période.lister',
   'période.consulter',
+  'période.consulterSynthèse',
 
   // Représentant légal
   'représentantLégal.modifier',

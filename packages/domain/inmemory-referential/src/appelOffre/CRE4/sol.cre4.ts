@@ -182,6 +182,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 500,
       familles: [
         {
           id: '1',
@@ -249,6 +250,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 500,
       familles: [
         {
           id: '1',
@@ -316,6 +318,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 500,
       familles: [
         {
           id: '1',
@@ -383,6 +386,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 720,
       familles: [
         {
           id: '1',
@@ -450,6 +454,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 850,
       familles: [
         {
           id: '1',
@@ -517,6 +522,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 850,
       familles: [
         {
           id: '1',
@@ -583,6 +589,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 850,
       familles: [
         {
           id: '1',
@@ -649,6 +656,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 330,
       familles: [
         {
           id: '1',
@@ -715,6 +723,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 680,
       familles: [
         {
           id: '1',
@@ -781,6 +790,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 700,
       familles: [
         {
           id: '1',
