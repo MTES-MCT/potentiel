@@ -42,6 +42,15 @@ export class TransmettreDocumentRaccordementFixture
     return this.#référenceDossier;
   }
 
+  // document indexés par type
+  #documentsRaccordement = new Map<string, TransmettreDocumentRaccordement>();
+  #ajouterDocument(document: TransmettreDocumentRaccordement) {
+    this.#documentsRaccordement.set(document.type, document);
+  }
+  getDocumentRaccordement(type: string) {
+    return this.#documentsRaccordement.get(type);
+  }
+
   créer(
     partialFixture: Partial<Readonly<TransmettreDocumentRaccordement>> & {
       référenceDossier: string;
@@ -62,19 +71,23 @@ export class TransmettreDocumentRaccordementFixture
     this.#type = fixture.type;
     this.aÉtéCréé = true;
 
+    this.#ajouterDocument(fixture);
+
     return fixture;
   }
 
   mapToExpected(type: string, référenceDossier?: string) {
-    if (!this.aÉtéCréé || this.#type !== type) return;
+    const document = this.getDocumentRaccordement(type);
+
+    if (!document) return;
 
     return {
-      dateSignature: DateTime.convertirEnValueType(this.dateSignature),
-      document: Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(this.#type)({
-        identifiantProjet: this.#identifiantProjet,
-        référenceDossierRaccordement: référenceDossier ?? this.#référenceDossier,
-        dateSignature: this.#dateSignature,
-        document: this.#document,
+      dateSignature: DateTime.convertirEnValueType(document.dateSignature),
+      document: Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(document.type)({
+        identifiantProjet: this.identifiantProjet,
+        référenceDossierRaccordement: référenceDossier ?? document.référenceDossier,
+        dateSignature: document.dateSignature,
+        document: document.document,
       }),
     };
   }
