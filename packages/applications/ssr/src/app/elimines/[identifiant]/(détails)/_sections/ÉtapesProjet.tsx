@@ -23,10 +23,7 @@ export type EtapesProjetProps = {
   étapes: Array<ÉtapeProjet>;
 };
 
-export const EtapesProjet: FC<EtapesProjetProps> = ({
-  identifiantProjet,
-  étapes,
-}) => {
+export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes }) => {
   return (
     <aside aria-label="Progress">
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
