@@ -1,0 +1,68 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { SynthèseLauréatsPériode } from './SynthèseLauréatsPériode.js';
+
+const meta = {
+  title: 'Candidature/SynthèseLauréatsPériode',
+  component: () => {
+    return SynthèseLauréatsPériode({
+      dateCourrier: new Date().toISOString(),
+      imagesFolderPath: '/images',
+      lauréats: [
+        {
+          nom: 'Société A',
+          nomProjet: 'Le-nez-au-vent',
+          puissance: '80',
+          commune: 'Etaules',
+          département: 'Charente-Maritime',
+          région: 'Nouvelle-Aquitaine',
+        },
+        {
+          nom: 'Société B',
+          nomProjet: 'Vive le vent',
+          puissance: '120',
+          commune: 'Mulhouse',
+          département: 'Haut-Rhin',
+          région: 'Grand Est',
+        },
+        {
+          nom: 'Société C',
+          nomProjet: 'Bon vent',
+          puissance: '50',
+          commune: 'Biarritz',
+          département: 'Pyrénées-Atlantiques',
+          région: 'Nouvelle-Aquitaine',
+        },
+        {
+          nom: 'Société C',
+          nomProjet: 'Le vent tourne',
+          puissance: '50',
+          commune: 'Lorient',
+          département: 'Morbihan',
+          région: 'Bretagne',
+        },
+      ],
+      période: {
+        titre: 'dixième',
+        cycleAppelOffres: 'PPE2',
+        unitéPuissance: 'MW',
+        titreAppelOffres:
+          'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie mécanique du vent, implantées à terre',
+        puissanceRecherchée: '1000 MW',
+      },
+      synthèse: {
+        candidats: { nombre: '90', puissanceCumulée: '1200' },
+        lauréats: { nombre: '50', puissanceCumulée: '900', prixMoyenPondéré: '50' },
+      },
+    });
+  },
+  argTypes: {},
+} satisfies Meta<Record<never, never>>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {},
+};
