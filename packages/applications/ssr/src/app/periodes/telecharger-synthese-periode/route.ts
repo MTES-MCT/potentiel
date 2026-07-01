@@ -10,6 +10,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { formatNumberForDocument } from '../helpers/formatNumbersForDocument';
 import { getPériodePrixMoyenPondéré } from '../helpers/getPériodePrixMoyenPondéré';
 
 export const GET = async (request: Request) =>
@@ -70,7 +71,7 @@ export const GET = async (request: Request) =>
         lauréats: lauréats.map((lauréat) => ({
           nom: lauréat.nomCandidat,
           nomProjet: lauréat.nomProjet,
-          puissance: lauréat.puissance.toLocaleString(),
+          puissance: formatNumberForDocument(lauréat.puissance),
           commune: lauréat.localité.commune,
           département: lauréat.localité.département,
           région: lauréat.localité.région,
@@ -78,16 +79,20 @@ export const GET = async (request: Request) =>
         synthèse: {
           candidats: {
             nombre: candidatsPériode.items.length.toString(),
-            puissanceCumulée: candidatsPériode.items
-              .reduce((acc, c) => acc + c.puissance, 0)
-              .toLocaleString(),
+            puissanceCumulée: formatNumberForDocument(
+              candidatsPériode.items.reduce((acc, c) => acc + c.puissance, 0),
+            ),
           },
           lauréats: {
             nombre: lauréats.length.toString(),
-            puissanceCumulée: lauréats.reduce((acc, c) => acc + c.puissance, 0).toLocaleString(),
-            prixMoyenPondéré: getPériodePrixMoyenPondéré(
-              lauréats.map((l) => ({ puissance: l.puissance, prix: l.prixReference })),
-            ).toLocaleString(),
+            puissanceCumulée: formatNumberForDocument(
+              lauréats.reduce((acc, c) => acc + c.puissance, 0),
+            ),
+            prixMoyenPondéré: formatNumberForDocument(
+              getPériodePrixMoyenPondéré(
+                lauréats.map((l) => ({ puissance: l.puissance, prix: l.prixReference })),
+              ),
+            ),
           },
         },
       };

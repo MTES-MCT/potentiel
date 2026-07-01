@@ -32,7 +32,7 @@ export const Introduction: FC<IntroductionProps> = ({ période, synthèse }) => 
       <Text style={{ fontSize: 10, marginBottom: 15 }}>
         {synthèse.lauréats.nombre} projets ont été retenus, représentant une puissance cumulée de{' '}
         {synthèse.lauréats.puissanceCumulée} {période.unitéPuissance} et un prix moyen pondéré de{' '}
-        {synthèse.lauréats.prixMoyenPondéré}€/{période.unitéPuissance}h.
+        {synthèse.lauréats.prixMoyenPondéré} €/{période.unitéPuissance}h.
       </Text>
     </>
   );
