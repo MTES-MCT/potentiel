@@ -30,7 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
 
     return {
       status: 'success',
-      redirection: { url: Routes.GarantiesFinancières.détail(identifiantProjet) },
+      redirection: { url: Routes.GarantiesFinancières.demandeMainlevée.détails(identifiantProjet) },
     };
   });
 
