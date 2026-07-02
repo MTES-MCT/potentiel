@@ -78,6 +78,7 @@ export const GET = async (request: Request) =>
           commune: lauréat.localité.commune,
           département: lauréat.localité.département,
           région: lauréat.localité.région,
+          unitéPuissance: lauréat.unitéPuissance.formatter(),
         })),
         synthèse: {
           candidats: {

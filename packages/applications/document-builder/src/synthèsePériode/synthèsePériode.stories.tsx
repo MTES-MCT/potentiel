@@ -32,6 +32,7 @@ const meta = {
           commune: 'Etaules',
           département: 'Charente-Maritime',
           région: 'Nouvelle-Aquitaine',
+          unitéPuissance: 'MWc',
         },
         {
           nom: 'Société B',
@@ -40,6 +41,7 @@ const meta = {
           commune: 'Mulhouse',
           département: 'Haut-Rhin',
           région: 'Grand Est',
+          unitéPuissance: 'MWc',
         },
         {
           nom: 'Société C',
@@ -48,6 +50,7 @@ const meta = {
           commune: 'Biarritz',
           département: 'Pyrénées-Atlantiques',
           région: 'Nouvelle-Aquitaine',
+          unitéPuissance: 'MWc',
         },
         {
           nom: 'Société C',
@@ -56,6 +59,7 @@ const meta = {
           commune: 'Lorient',
           département: 'Morbihan',
           région: 'Bretagne',
+          unitéPuissance: 'MWc',
         },
         {
           nom: 'Société D',
@@ -64,6 +68,7 @@ const meta = {
           commune: 'Paris',
           département: 'Paris',
           région: 'Île-de-France',
+          unitéPuissance: 'MWc',
         },
         {
           nom: 'Société D',
@@ -72,6 +77,7 @@ const meta = {
           commune: 'Saint-Amand-sur-Fion',
           département: 'Marne',
           région: 'Grand Est',
+          unitéPuissance: 'MWc',
         },
       ],
       période: donnéesPériodes[période],
