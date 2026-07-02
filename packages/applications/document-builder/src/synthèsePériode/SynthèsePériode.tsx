@@ -37,8 +37,8 @@ export const SynthèsePériode = ({
   imagesFolderPath,
   période,
 }: SynthèsePériodeProps) => {
-  const firstPageSize = 10;
-  const otherPagesSize = 17;
+  const firstPageSize = 8;
+  const otherPagesSize = 16;
   const pages = chunkArray(lauréats, firstPageSize, otherPagesSize);
 
   return (
