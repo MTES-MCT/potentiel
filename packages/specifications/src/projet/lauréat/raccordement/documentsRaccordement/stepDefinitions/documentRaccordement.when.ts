@@ -14,6 +14,7 @@ import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import type { ModifierDocumentRaccordement } from '../fixtures/modifierDocumentRaccordement.fixture.js';
 import type { SupprimerDocumentRaccordement } from '../fixtures/supprimerDocumentRaccordement.fixture.js';
 import type { TransmettreDocumentRaccordement } from '../fixtures/transmettreDocumentRaccordement.fixture.js';
+import { matchTypeDocument } from './documentRaccordement.given.js';
 
 Quand(
   `le porteur transmet un document pour le projet lauréat`,
@@ -115,16 +116,18 @@ Quand(
 );
 
 Quand(
-  `le porteur supprime un document pour le projet lauréat`,
-  async function (this: PotentielWorld) {
+  /le porteur supprime un document (proposition technique et financière|convention de raccordement|convention directe de raccordement) pour le projet lauréat/,
+  async function (this: PotentielWorld, typeDocument: string) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;
+    const type = matchTypeDocument(typeDocument);
 
     try {
       await supprimerDocumentRaccordement.call(
         this,
         identifiantProjet.formatter(),
         référenceDossier,
+        { type },
       );
     } catch (e) {
       this.error = e as Error;
@@ -199,6 +202,7 @@ export async function supprimerDocumentRaccordement(
     this.lauréatWorld.raccordementWorld.documentRaccordement.supprimerFixture.créer({
       identifiantProjet,
       référenceDossier: référence,
+      type: this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.type,
       ...data,
     });
 

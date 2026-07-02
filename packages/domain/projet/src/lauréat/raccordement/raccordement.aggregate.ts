@@ -841,11 +841,13 @@ export class RaccordementAggregate extends AbstractAggregate<
     suppriméPar,
     type,
   }: SupprimerDocumentRaccordementOptions) {
+
     this.lauréat.vérifierQueLeLauréatExiste();
     this.vérifierStatutDuLauréat();
     const documentsDossier = this.récupérerArrayDocumentsDossier(
       référenceDossierRaccordement.formatter(),
     );
+
 
     if (!documentsDossier.includes(type.formatter())) {
       throw new DocumentRaccordementNonExistantError();

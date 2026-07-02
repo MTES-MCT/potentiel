@@ -34,7 +34,7 @@ Fonctionnalité: Transmettre un document
 
   Plan du Scénario: Transmettre un document compatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et une <document existant> pour le projet lauréat
+    Et un document <document existant> pour le projet lauréat
     Quand le porteur transmet un document pour le projet lauréat avec :
       | type de document | <nouveau type> |
     Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
@@ -75,7 +75,7 @@ Fonctionnalité: Transmettre un document
 
   Plan du Scénario: Impossible de transmettre un document du même type qu'un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et une <document existant> pour le projet lauréat
+    Et un document <document existant> pour le projet lauréat
     Quand le porteur transmet un document pour le projet lauréat avec :
       | type de document | <nouveau type> |
     Alors le porteur devrait être informé que "Un document de type <nouveau type> a déjà été transmis pour ce dossier de raccordement"
@@ -88,7 +88,7 @@ Fonctionnalité: Transmettre un document
 
   Plan du Scénario: Impossible de transmettre un document incompatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et une <document existant> pour le projet lauréat
+    Et un document <document existant> pour le projet lauréat
     Quand le porteur transmet un document pour le projet lauréat avec :
       | type de document | <nouveau type> |
     Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type <nouveau type> pour ce dossier de raccordement"

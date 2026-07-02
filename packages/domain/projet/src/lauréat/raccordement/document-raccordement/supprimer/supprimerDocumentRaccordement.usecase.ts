@@ -28,14 +28,6 @@ export const registerSupprimerDocumentRaccordementUseCase = () => {
   }) => {
     const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(typeValue);
 
-    // voir ce qu'on fait ici viovio
-    // const documentRaccordement = DocumentRaccordement.documentRaccordement(typeDocument.type)({
-    //   identifiantProjet: identifiantProjetValue,
-    //   référenceDossierRaccordement: référenceDossierRaccordementValue,
-    //   dateSignature: dateSignatureValue,
-    //   document: { format },
-    // });
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
       référenceDossierRaccordementValue,

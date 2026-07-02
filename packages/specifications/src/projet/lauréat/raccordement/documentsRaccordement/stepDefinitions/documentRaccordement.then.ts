@@ -68,3 +68,25 @@ Alors(
     });
   },
 );
+Alors(
+  'le document ne devrait plus être consultable dans le dossier de raccordement du projet lauréat',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.lauréatWorld.raccordementWorld;
+    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.supprimerFixture;
+
+    await waitForExpect(async () => {
+      const dossierRaccordement =
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            référenceDossierRaccordementValue: référenceDossier,
+          },
+        });
+
+      assert(Option.isSome(dossierRaccordement));
+      vérifierDossierRaccordement.call(this, dossierRaccordement);
+    });
+  },
+);
