@@ -34,12 +34,13 @@ Alors(
 
       vérifierRaccordement.call(this, raccordement);
       vérifierDossierRaccordement.call(this, dossierRaccordement);
-
       assert(Option.isSome(dossierRaccordement), 'dossierRaccordement is undefined');
+
       assert(
         dossierRaccordement.demandeComplèteRaccordement,
         'demandeComplèteRaccordement is undefined',
       );
+
       const actualAccuséRéception = dossierRaccordement.demandeComplèteRaccordement.accuséRéception;
 
       const expectedAccuséRéception = this.lauréatWorld.raccordementWorld

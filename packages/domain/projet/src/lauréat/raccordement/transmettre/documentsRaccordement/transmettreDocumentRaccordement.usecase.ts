@@ -4,37 +4,39 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { DocumentRaccordement } from '../../index.js';
+import { DocumentRaccordement, TypeDocumentsRaccordement } from '../../index.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
-import type { TransmettrePropositionTechniqueEtFinancièreCommand } from './transmettrePropositionTechniqueEtFinancière.command.js';
+import type { TransmettreDocumentRaccordementCommand } from './transmettreDocumentRaccordement.command.js';
 
-export type TransmettrePropositionTechniqueEtFinancièreUseCase = Message<
-  'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+export type TransmettreDocumentRaccordementUseCase = Message<
+  'Lauréat.Raccordement.UseCase.TransmettreDocumentRaccordement',
   {
     dateSignatureValue: string;
     référenceDossierRaccordementValue: string;
     identifiantProjetValue: string;
-    propositionTechniqueEtFinancièreSignéeValue: {
+    typeValue: string;
+    documentRaccordementValue: {
       content: ReadableStream;
       format: string;
     };
-    transmiseLeValue: string;
-    transmiseParValue: string;
+    transmisLeValue: string;
+    transmisParValue: string;
   }
 >;
 
-export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () => {
-  const runner: MessageHandler<TransmettrePropositionTechniqueEtFinancièreUseCase> = async ({
+export const registerTransmettreDocumentRaccordementUseCase = () => {
+  const runner: MessageHandler<TransmettreDocumentRaccordementUseCase> = async ({
     dateSignatureValue,
     identifiantProjetValue,
     référenceDossierRaccordementValue,
-    propositionTechniqueEtFinancièreSignéeValue: { format, content },
-    transmiseLeValue,
-    transmiseParValue,
+    documentRaccordementValue: { format, content },
+    typeValue,
+    transmisLeValue,
+    transmisParValue,
   }) => {
-    const propositionTechniqueEtFinancièreSignée = DocumentRaccordement.documentRaccordement(
-      'proposition-technique-et-financière',
-    )({
+    const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(typeValue);
+
+    const documentRaccordement = DocumentRaccordement.documentRaccordement(typeDocument.type)({
       identifiantProjet: identifiantProjetValue,
       référenceDossierRaccordement: référenceDossierRaccordementValue,
       dateSignature: dateSignatureValue,
@@ -51,25 +53,23 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content,
-        documentProjet: propositionTechniqueEtFinancièreSignée,
+        documentProjet: documentRaccordement,
       },
     });
 
-    await mediator.send<TransmettrePropositionTechniqueEtFinancièreCommand>({
-      type: 'Lauréat.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
+    await mediator.send<TransmettreDocumentRaccordementCommand>({
+      type: 'Lauréat.Raccordement.Command.TransmettreDocumentRaccordement',
       data: {
         dateSignature,
         identifiantProjet,
         référenceDossierRaccordement,
-        formatPropositionTechniqueEtFinancièreSignée: format,
-        transmiseLe: DateTime.convertirEnValueType(transmiseLeValue),
-        transmisePar: Email.convertirEnValueType(transmiseParValue),
+        formatDocumentRaccordement: format,
+        transmisLe: DateTime.convertirEnValueType(transmisLeValue),
+        transmisPar: Email.convertirEnValueType(transmisParValue),
+        type: typeDocument,
       },
     });
   };
 
-  mediator.register(
-    'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
-    runner,
-  );
+  mediator.register('Lauréat.Raccordement.UseCase.TransmettreDocumentRaccordement', runner);
 };

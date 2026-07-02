@@ -180,6 +180,9 @@ const référencielPermissions = {
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
+        transmettreDocumentRaccordement:
+          'Lauréat.Raccordement.UseCase.TransmettreDocumentRaccordement',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.UseCase.ModifierDocumentRaccordement',
       },
       command: {
         modifierDemandeComplète: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
@@ -198,6 +201,9 @@ const référencielPermissions = {
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.Command.SupprimerDateMiseEnService',
+        transmettreDocumentRaccordement:
+          'Lauréat.Raccordement.Command.TransmettreDocumentRaccordement',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.Command.ModifierDocumentRaccordement',
       },
     },
     garantiesFinancières: {
@@ -1229,6 +1235,22 @@ const policies = {
       'modifier-après-mise-en-service': [],
       'modifier-après-achèvement': [],
     },
+    'document-raccordement': {
+      transmettre: [
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.command.transmettreDocumentRaccordement,
+      ],
+      modifier: [
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.modifierDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.command.modifierDocumentRaccordement,
+      ],
+      'modifier-après-mise-en-service': [],
+      'modifier-après-achèvement': [],
+    },
     'date-mise-en-service': {
       transmettre: [
         référencielPermissions.appelOffre.query.consulter,
@@ -1679,6 +1701,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
   'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
+  'raccordement.document-raccordement.transmettre',
+  'raccordement.document-raccordement.modifier',
+  'raccordement.document-raccordement.modifier-après-mise-en-service',
+  'raccordement.document-raccordement.modifier-après-achèvement',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
@@ -1962,6 +1988,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.proposition-technique-et-financière.transmettre',
   'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.document-raccordement.transmettre',
+  'raccordement.document-raccordement.modifier',
   'raccordement.gestionnaire.modifier',
 
   // Garanties financières
@@ -2105,6 +2133,8 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.proposition-technique-et-financière.transmettre',
   'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.document-raccordement.transmettre',
+  'raccordement.document-raccordement.modifier',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
 

@@ -39,14 +39,14 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Scénario: Modifier la référence d'une demande complète de raccordement ayant une PTF
+    Scénario: Modifier la référence d'une demande complète de raccordement ayant un document de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
         Et une proposition technique et financière pour le projet lauréat
         Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement          | OUE-RP-2022-000033 |
             | La nouvelle référence du dossier de raccordement | OUE-RP-2022-000034 |
-        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
+        Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Modifier la référence d'une demande complète de raccordement pour un projet abandonné avec PPA
         Etant donné une demande complète de raccordement pour le projet lauréat

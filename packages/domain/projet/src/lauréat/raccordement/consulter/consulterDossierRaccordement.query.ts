@@ -21,7 +21,15 @@ export type ConsulterDossierRaccordementReadModel = {
   };
   propositionTechniqueEtFinancière?: {
     dateSignature: DateTime.ValueType;
-    propositionTechniqueEtFinancièreSignée: DocumentProjet.ValueType;
+    document: DocumentProjet.ValueType;
+  };
+  conventionDeRaccordement?: {
+    dateSignature: DateTime.ValueType;
+    document: DocumentProjet.ValueType;
+  };
+  conventionDirecteDeRaccordement?: {
+    dateSignature: DateTime.ValueType;
+    document: DocumentProjet.ValueType;
   };
   miseEnService?: {
     dateMiseEnService?: DateTime.ValueType;
@@ -74,6 +82,8 @@ export const mapToReadModel = ({
   identifiantGestionnaireRéseau,
   demandeComplèteRaccordement,
   propositionTechniqueEtFinancière,
+  conventionDeRaccordement,
+  conventionDirecteDeRaccordement,
   miseEnService,
   identifiantProjet,
   référence,
@@ -111,14 +121,40 @@ export const mapToReadModel = ({
           dateSignature: DateTime.convertirEnValueType(
             propositionTechniqueEtFinancière.dateSignature,
           ),
-          propositionTechniqueEtFinancièreSignée:
-            DocumentRaccordement.propositionTechniqueEtFinancière({
+          document: DocumentRaccordement.documentRaccordement(
+            'proposition-technique-et-financière',
+          )({
+            identifiantProjet,
+            référenceDossierRaccordement: référence,
+            dateSignature: propositionTechniqueEtFinancière.dateSignature,
+            document: propositionTechniqueEtFinancière.document,
+          }),
+        }
+      : undefined,
+    conventionDeRaccordement: conventionDeRaccordement
+      ? {
+          dateSignature: DateTime.convertirEnValueType(conventionDeRaccordement.dateSignature),
+          document: DocumentRaccordement.documentRaccordement('convention-de-raccordement')({
+            identifiantProjet,
+            référenceDossierRaccordement: référence,
+            dateSignature: conventionDeRaccordement.dateSignature,
+            document: conventionDeRaccordement.document,
+          }),
+        }
+      : undefined,
+    conventionDirecteDeRaccordement: conventionDirecteDeRaccordement
+      ? {
+          dateSignature: DateTime.convertirEnValueType(
+            conventionDirecteDeRaccordement.dateSignature,
+          ),
+          document: DocumentRaccordement.documentRaccordement('convention-directe-de-raccordement')(
+            {
               identifiantProjet,
               référenceDossierRaccordement: référence,
-              dateSignature: propositionTechniqueEtFinancière.dateSignature,
-              propositionTechniqueEtFinancièreSignée:
-                propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
-            }),
+              dateSignature: conventionDirecteDeRaccordement.dateSignature,
+              document: conventionDirecteDeRaccordement.document,
+            },
+          ),
         }
       : undefined,
     miseEnService: miseEnService?.dateMiseEnService
