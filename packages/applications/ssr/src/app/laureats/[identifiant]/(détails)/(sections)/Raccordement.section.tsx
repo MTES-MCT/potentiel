@@ -8,7 +8,7 @@ import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getOptionalAbandon, getRaccordement } from '../../_helpers';
-import { vérifierSiModificationRaccordementPossible } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
+import { vérifierSiPeutAccéderÀRaccordement } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { RaccordementDétails, type RaccordementDétailsProps } from './RaccordementDétails';
 
 type RaccordementSectionProps = {
@@ -32,7 +32,8 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
       const abandon = rôle.aLaPermission('abandon.consulter.enCours')
         ? await getOptionalAbandon(identifiantProjet)
         : undefined;
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat, abandon);
+
+      const peutModifierRaccordement = vérifierSiPeutAccéderÀRaccordement(lauréat, abandon);
 
       if (!raccordement && !peutModifierRaccordement) {
         return null;

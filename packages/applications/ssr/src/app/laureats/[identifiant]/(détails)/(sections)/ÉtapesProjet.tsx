@@ -1,7 +1,7 @@
 import Information from '@codegouvfr/react-dsfr/picto/Information';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
 import type React from 'react';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -12,7 +12,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-export type ÉtapeProjet =
+export type ÉtapeProjet = (
   | {
       type: 'designation' | 'achèvement-prévisionel';
       date: DateTime.RawType;
@@ -21,49 +21,53 @@ export type ÉtapeProjet =
   | {
       type: 'mise-en-service' | 'achèvement-réel';
       date?: DateTime.RawType;
-    };
+    }
+) & { hideDocument?: true };
+
 export type EtapesProjetProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  doitAfficherAttestationDésignation: boolean;
   étapes: Array<ÉtapeProjet>;
 };
 
-export const EtapesProjet: FC<EtapesProjetProps> = ({
-  identifiantProjet,
-  doitAfficherAttestationDésignation,
-  étapes,
-}) => {
+export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes }) => {
   return (
     <aside aria-label="Progress">
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {étapes.map((étape) =>
           match(étape)
             .with({ type: 'designation' }, ({ date }) => (
-              <ÉtapeProjet key={étape.type} titre="Notification" date={date}>
-                {doitAfficherAttestationDésignation && (
-                  <DownloadDocument
-                    className="mb-0"
-                    label="Télécharger l'attestation"
-                    format="pdf"
-                    url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-                    small
-                  />
-                )}
-              </ÉtapeProjet>
+              <ÉtapeProjet
+                key={étape.type}
+                titre="Notification"
+                date={date}
+                document={
+                  étape.hideDocument
+                    ? undefined
+                    : { url: Routes.Candidature.téléchargerAttestation(identifiantProjet) }
+                }
+              />
             ))
             .with({ type: 'recours' }, ({ date, dateDemande }) => (
-              <ÉtapeProjet key={étape.type} titre="Recours accordé" date={date}>
-                <TertiaryLink href={Routes.Recours.détail(identifiantProjet, dateDemande)}>
-                  Voir les détails du recours
-                </TertiaryLink>
-              </ÉtapeProjet>
+              <ÉtapeProjet
+                key={étape.type}
+                titre="Recours accordé"
+                date={date}
+                action={{
+                  href: Routes.Recours.détail(identifiantProjet, dateDemande),
+                  label: 'Voir les détails du recours',
+                }}
+              />
             ))
             .with({ type: 'abandon' }, ({ date, dateDemande }) => (
-              <ÉtapeProjet key={étape.type} titre="Abandon accordé" date={date}>
-                <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, dateDemande)}>
-                  Voir les détails de l'abandon
-                </TertiaryLink>
-              </ÉtapeProjet>
+              <ÉtapeProjet
+                key={étape.type}
+                titre="Abandon accordé"
+                date={date}
+                action={{
+                  href: Routes.Abandon.détail(identifiantProjet, dateDemande),
+                  label: "Voir les détails de l'abandon",
+                }}
+              />
             ))
             .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
               <ÉtapeProjet key={étape.type} titre="Achèvement prévisionnel" date={date} />
@@ -84,10 +88,16 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
 type ÉtapeProjetProps = {
   titre: string;
   date: DateTime.RawType | undefined;
-  children?: ReactNode;
+  document?: {
+    url: string;
+  };
+  action?: {
+    href: string;
+    label: string;
+  };
 };
 
-const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, children }) => {
+const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, document, action }) => {
   return (
     <TimelineItem>
       {date ? (
@@ -98,7 +108,16 @@ const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, children }) => {
       <ContentArea>
         {date ? <FormattedDate date={date} /> : <span className="italic">À transmettre</span>}
         <ItemTitle title={titre} />
-        {children}
+        {document && (
+          <DownloadDocument
+            className="mb-0"
+            label="Télécharger l'attestation"
+            format="pdf"
+            url={document.url}
+            small
+          />
+        )}
+        {action && <TertiaryLink href={action.href}>{action.label}</TertiaryLink>}
       </ContentArea>
     </TimelineItem>
   );
