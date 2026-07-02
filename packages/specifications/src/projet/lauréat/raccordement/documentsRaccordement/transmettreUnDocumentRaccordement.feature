@@ -34,16 +34,15 @@ Fonctionnalité: Transmettre un document
 
   Plan du Scénario: Transmettre un document compatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document transmis pour le projet lauréat avec :
-      | type de document | <document existant> |
+    Et une <document existant> pour le projet lauréat
     Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | <nouveau document> |
+      | type de document | <nouveau type> |
     Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Exemples:
-      | document existant                   | nouveau document                    |
-      | convention-de-raccordement          | proposition-technique-et-financière |
-      | proposition-technique-et-financière | convention-de-raccordement          |
+      | document existant                   | nouveau type                        |
+      | convention de raccordement          | proposition-technique-et-financière |
+      | proposition technique et financière | convention-de-raccordement          |
 
   Scénario: Impossible de transmettre un document pour un projet sans dossier de raccordement
     Quand le porteur transmet un document pour le projet lauréat avec :
@@ -76,29 +75,27 @@ Fonctionnalité: Transmettre un document
 
   Plan du Scénario: Impossible de transmettre un document du même type qu'un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document transmis pour le projet lauréat avec :
-      | type de document | <document existant> |
+    Et une <document existant> pour le projet lauréat
     Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | <nouveau document> |
-    Alors le porteur devrait être informé que "Un document de type <nouveau document> a déjà été transmis pour ce dossier de raccordement"
+      | type de document | <nouveau type> |
+    Alors le porteur devrait être informé que "Un document de type <nouveau type> a déjà été transmis pour ce dossier de raccordement"
 
     Exemples:
-      | document existant                   | nouveau document                    |
-      | convention-directe-de-raccordement  | convention-directe-de-raccordement  |
-      | convention-de-raccordement          | convention-de-raccordement          |
-      | proposition-technique-et-financière | proposition-technique-et-financière |
+      | document existant                   | nouveau type                        |
+      | convention directe de raccordement  | convention-directe-de-raccordement  |
+      | convention de raccordement          | convention-de-raccordement          |
+      | proposition technique et financière | proposition-technique-et-financière |
 
   Plan du Scénario: Impossible de transmettre un document incompatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document transmis pour le projet lauréat avec :
-      | type de document | <document existant> |
+    Et une <document existant> pour le projet lauréat
     Quand le porteur transmet un document pour le projet lauréat avec :
-      | type de document | <nouveau document> |
-    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type <nouveau document> pour ce dossier de raccordement"
+      | type de document | <nouveau type> |
+    Alors le porteur devrait être informé que "Il est impossible de transmettre un document de type <nouveau type> pour ce dossier de raccordement"
 
     Exemples:
-      | document existant                   | nouveau document                    |
-      | convention-directe-de-raccordement  | proposition-technique-et-financière |
-      | convention-directe-de-raccordement  | convention-de-raccordement          |
-      | proposition-technique-et-financière | convention-directe-de-raccordement  |
-      | convention-de-raccordement          | convention-directe-de-raccordement  |
+      | document existant                   | nouveau type                        |
+      | convention directe de raccordement  | proposition-technique-et-financière |
+      | convention directe de raccordement  | convention-de-raccordement          |
+      | proposition technique et financière | convention-directe-de-raccordement  |
+      | convention de raccordement          | convention-directe-de-raccordement  |

@@ -320,6 +320,17 @@ export type DocumentRaccordementModifiéEventV1 = DomainEvent<
   }
 >;
 
+export type DocumentRaccordementSuppriméEventV1 = DomainEvent<
+  'DocumentRaccordementSupprimé-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    type: TypeDocumentsRaccordement.RawType;
+    suppriméLe: DateTime.RawType;
+    suppriméPar: Email.RawType;
+  }
+>;
+
 //#endregion Documents raccordement
 
 //#region Date mise en service
@@ -464,4 +475,5 @@ export type RaccordementEvent =
   | RaccordementSuppriméEvent
   | RaccordementRéactivéEvent
   | DocumentRaccordementTransmisEventV1
-  | DocumentRaccordementModifiéEventV1;
+  | DocumentRaccordementModifiéEventV1
+  | DocumentRaccordementSuppriméEventV1;

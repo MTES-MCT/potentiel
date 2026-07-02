@@ -125,6 +125,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
           // TODO: temporaire avant de faire le front
           'DocumentRaccordementTransmis-V1',
           'DocumentRaccordementModifié-V1',
+          'DocumentRaccordementSupprimé-V1',
         ),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,

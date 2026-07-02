@@ -54,11 +54,10 @@ Fonctionnalité: Modifier un document
 
     Scénario: Impossible de modifier un document qui n'a pas été transmis
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et un document transmis pour le projet lauréat avec :
-            | type de document | proposition-technique-et-financière |
+        Et une proposition technique et financière pour le projet lauréat
         Quand le porteur modifie le document avec :
             | type de document | convention-de-raccordement |
-        Alors le porteur devrait être informé que "Il n'existe pas de document de ce type à modifier dans ce dossier de raccordement"
+        Alors le porteur devrait être informé que "Il n'existe pas de document de ce type dans ce dossier de raccordement"
 
     Scénario: Impossible de modifier un document avec une date de signature dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat
