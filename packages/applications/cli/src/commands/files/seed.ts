@@ -59,6 +59,7 @@ export class SeedFilesCommand extends Command {
     };
 
     const unhandledEvents = new Set<string>();
+
     for (const event of events) {
       if (!isEventWithDocument(event)) {
         console.log(`type ${event.type} non géré`);
@@ -164,6 +165,7 @@ type EventWithDocument =
   | Lauréat.Achèvement.AttestationConformitéTransmiseEvent
   | Lauréat.Achèvement.AttestationConformitéEnregistréeEventV1
   | Lauréat.Achèvement.AttestationConformitéEnregistréeEvent
+  | Lauréat.Achèvement.AchèvementModifiéEventV1
   | Lauréat.Achèvement.AchèvementModifiéEvent
   | Éliminé.Recours.RecoursDemandéEvent
   | Éliminé.Recours.RecoursAccordéEvent;
@@ -251,8 +253,19 @@ const map: DocumentRecord = {
     }),
     Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité(event),
   ],
+  'AchèvementModifié-V1': (event) => [
+    Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+      ...event,
+      enregistréLe: event.date,
+    }),
+    Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité(event),
+  ],
   'AchèvementModifié-V2': (event) => [
     Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+      ...event,
+      enregistréLe: event.date,
+    }),
+    Lauréat.Achèvement.DocumentAchèvement.rapportAssocié({
       ...event,
       enregistréLe: event.date,
     }),
