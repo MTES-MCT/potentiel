@@ -19,6 +19,7 @@ import type {
 } from './importer/candidatureImportée.event.js';
 import type { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase.js';
 import type {
+  CandidaturesListItemReadModel,
   ListerCandidaturesQuery,
   ListerCandidaturesReadModel,
 } from './lister/listerCandidatures.query.js';
@@ -49,6 +50,7 @@ export type CandidatureQuery =
 // ReadModel
 // Port
 export type {
+  CandidaturesListItemReadModel,
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
   ConsulterDétailCandidatureQuery,

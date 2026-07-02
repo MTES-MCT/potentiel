@@ -17,7 +17,8 @@ export type ExportPageProps = {
       | 'exporter-raccordement'
       | 'exporter-fournisseur'
       | 'lister-lauréat-enrichi'
-      | 'lister-éliminé-enrichi';
+      | 'lister-éliminé-enrichi'
+      | 'exporter-candidatures-non-notifiées';
     label: string;
     url: string;
     description?: string;
