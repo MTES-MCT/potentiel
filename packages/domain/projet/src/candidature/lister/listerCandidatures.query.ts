@@ -58,6 +58,9 @@ export type ListerCandidaturesQueryDependencies = {
   list: List;
 };
 
+/**
+ * Cette query n'a pas de scope d'accès car elle est destinée uniquement à des rôles administrateurs.
+ */
 export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQueryDependencies) => {
   const handler: MessageHandler<ListerCandidaturesQuery> = async ({
     range,
