@@ -571,7 +571,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       champsSupplémentaires: champsSupplémentairesAPartirDeP11,
-      typeImport: 'démarche-simplifiée',
+      typeImport: 'démarche-numérique',
     },
   ],
 };

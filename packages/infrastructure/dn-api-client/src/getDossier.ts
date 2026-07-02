@@ -3,13 +3,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { type DeepPartial, mapApiResponseToDépôt } from './_helpers/index.js';
-import { getDSApiClient } from './graphql/index.js';
+import { getDémarcheNumériqueApiClient } from './graphql/index.js';
 
 export type Dossier = Awaited<ReturnType<typeof getDossier>>;
 
 export const getDossier = async (dossierNumber: number) => {
-  const sdk = getDSApiClient();
-  const logger = getLogger('ds-api-client');
+  const sdk = getDémarcheNumériqueApiClient();
+  const logger = getLogger('dn-api-client');
   logger.debug(`Lecture du dossier ${dossierNumber}`);
   try {
     const { dossier } = await sdk.GetDossier({ dossier: dossierNumber });

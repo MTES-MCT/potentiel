@@ -10,7 +10,7 @@ export const détailCandidatureImportéProjector = async ({
   payload: { identifiantProjet, détail },
 }: Candidature.DétailCandidatureImportéEvent) => {
   const fournisseurs =
-    détail.typeImport === 'démarches-simplifiées'
+    détail.typeImport === 'démarche-numérique'
       ? mapDNDétailToDétailFournisseur(détail)
       : mapDétailToDétailFournisseur(détail);
 
@@ -30,7 +30,7 @@ export const détailCandidatureImportéProjector = async ({
       templateVérificationDétailCandidature,
       {
         appelOffre,
-        typeImport: détail.typeImport === 'démarches-simplifiées' ? 'démarche-simplifiée' : 'csv',
+        typeImport: détail.typeImport === 'démarche-numérique' ? 'démarche-numérique' : 'csv',
       },
     );
 

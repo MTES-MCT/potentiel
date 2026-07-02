@@ -11,7 +11,7 @@ import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import {
   getDémarcheAvecDossiers,
   getDémarcheIdParDossier,
-} from '@potentiel-infrastructure/ds-api-client';
+} from '@potentiel-infrastructure/dn-api-client';
 import { ImportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -32,10 +32,10 @@ const schema = zod.object({
   test: zod.stringbool().optional(),
 });
 
-export type ImporterCandidaturesParDSFormKeys = keyof zod.infer<typeof schema>;
+export type ImporterCandidaturesParDémarcheNumériqueFormKeys = keyof zod.infer<typeof schema>;
 
 const instructionCsvSchema = zod.object({
-  numeroDossierDS: zod.coerce.number(),
+  numeroDossierDN: zod.coerce.number(),
   statut: statutCsvSchema,
   note: instructionSchema.shape.noteTotale,
   motifElimination: instructionSchema.shape.motifÉlimination,
@@ -64,13 +64,14 @@ const action: FormAction<FormState, typeof schema> = async (
       };
     }
 
-    const [{ numeroDossierDS }] = instructions;
+    // on récupère le numéro de la démarche en utilisant le numéro de dossier du premier dossier du fichier csv transmis
+    const [{ numeroDossierDN }] = instructions;
 
-    const demarcheId = await getDémarcheIdParDossier(numeroDossierDS);
+    const démarcheId = await getDémarcheIdParDossier(numeroDossierDN);
 
-    if (Option.isNone(demarcheId)) {
+    if (Option.isNone(démarcheId)) {
       throw new InvalidOperationError(
-        `La démarche associée au dossier ${numeroDossierDS} est introuvable`,
+        `La démarche associée au dossier ${numeroDossierDN} est introuvable`,
       );
     }
 
@@ -88,16 +89,17 @@ const action: FormAction<FormState, typeof schema> = async (
       'importéLe' | 'importéPar'
     >[] = [];
 
-    const dossiers = await getDémarcheAvecDossiers(demarcheId);
+    const dossiers = await getDémarcheAvecDossiers(démarcheId);
+    const typeImport: AppelOffre.Periode['typeImport'] = 'démarche-numérique';
 
     if (Option.isNone(dossiers)) {
-      throw new InvalidOperationError(`La démarche ${demarcheId} est introuvable`);
+      throw new InvalidOperationError(`La démarche ${démarcheId} est introuvable`);
     }
 
-    for (const { numeroDossierDS, statut, note, motifElimination } of instructions) {
-      let key = `Dossier ${numeroDossierDS}`;
+    for (const { numeroDossierDN, statut, note, motifElimination } of instructions) {
+      let key = `Dossier ${numeroDossierDN}`;
 
-      const dossier = dossiers.find((d) => d.numeroDS === numeroDossierDS);
+      const dossier = dossiers.find((d) => d.numeroDN === numeroDossierDN);
 
       if (!dossier) {
         errors.push({
@@ -121,7 +123,7 @@ const action: FormAction<FormState, typeof schema> = async (
             appelOffre,
             période: periode,
             famille: '',
-            numéroCRE: String(numeroDossierDS),
+            numéroCRE: String(numeroDossierDN),
           }).formatter(),
           dépôtValue: {
             coefficientKChoisi: undefined,
@@ -154,8 +156,8 @@ const action: FormAction<FormState, typeof schema> = async (
           },
           détailsValue: {
             ...cleanDétailsKeys(dossier.détails),
-            typeImport: 'démarches-simplifiées',
-            demarcheId: demarcheId.toString(),
+            typeImport,
+            demarcheId: démarcheId.toString(),
           },
           instructionValue: instruction,
         });
@@ -168,7 +170,7 @@ const action: FormAction<FormState, typeof schema> = async (
             });
           });
         } else {
-          getLogger(importerCandidaturesParDSAction.name).error(error as Error);
+          getLogger(importerCandidaturesParDémarcheNumériqueAction.name).error(error as Error);
           errors.push({
             key,
             reason: `Une erreur inconnue empêche l'import de la candidature`,
@@ -263,4 +265,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const importerCandidaturesParDSAction = formAction(action, schema);
+export const importerCandidaturesParDémarcheNumériqueAction = formAction(action, schema);
