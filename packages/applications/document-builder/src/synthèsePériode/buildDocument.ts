@@ -4,7 +4,9 @@ import { Readable } from 'node:stream';
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { fontsFolderPath, imagesFolderPath } from '../assets.js';
+import type { IntroductionProps } from './Introduction.js';
 import { SynthèsePériode } from './SynthèsePériode.js';
+import type { TableauLauréatPériodeProps } from './TableauLauréatsPériode.js';
 
 Font.register({
   family: 'Arimo',
@@ -27,24 +29,9 @@ export type GénérerSynthèsePériodePort = (données: DonnéesDocument) => Pro
 
 export type DonnéesDocument = {
   dateCourrier: string;
-  période: {
-    titre: string;
-    cycleAppelOffres: string;
-    titreAppelOffres: string;
-    puissanceRecherchée: string;
-  };
-  synthèse: {
-    candidats: { nombre: string; puissanceCumulée: string };
-    lauréats: { nombre: string; puissanceCumulée: string; prixMoyenPondéré: string };
-  };
-  lauréats: {
-    nom: string;
-    nomProjet: string;
-    puissance: string;
-    commune: string;
-    département: string;
-    région: string;
-  }[];
+  période: IntroductionProps['période'];
+  synthèse: IntroductionProps['synthèse'];
+  lauréats: TableauLauréatPériodeProps['lauréats'];
 };
 
 const buildDocument: GénérerSynthèsePériodePort = async (
