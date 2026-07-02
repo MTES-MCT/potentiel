@@ -30,7 +30,6 @@ export type DonnéesDocument = {
   période: {
     titre: string;
     cycleAppelOffres: string;
-    unitéPuissance: string;
     titreAppelOffres: string;
     puissanceRecherchée: string;
   };

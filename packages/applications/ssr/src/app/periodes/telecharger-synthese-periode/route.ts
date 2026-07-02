@@ -66,7 +66,6 @@ export const GET = async (request: Request) =>
           puissanceRecherchée: '', // TODO : ajouter
           titre: périodeData.title,
           titreAppelOffres: appelOffreData.title,
-          unitéPuissance: périodeData.unitéPuissance || appelOffreData.unitePuissance.toString(),
         },
         lauréats: lauréats.map((lauréat) => ({
           nom: lauréat.nomCandidat,

@@ -5,7 +5,6 @@ export type IntroductionProps = {
   période: {
     titre: string;
     cycleAppelOffres: string;
-    unitéPuissance: string;
     titreAppelOffres: string;
     puissanceRecherchée: string;
   };
@@ -25,14 +24,14 @@ export const Introduction: FC<IntroductionProps> = ({ période, synthèse }) => 
 
       <Text style={{ fontSize: 10, marginBottom: 5 }}>
         {synthèse.candidats.nombre} dossiers ont été déposés pour une puissance cumulée de{' '}
-        {synthèse.candidats.puissanceCumulée} {période.unitéPuissance}, la puissance recherchée lors
-        de cette période étant de {période.puissanceRecherchée} {période.unitéPuissance}.
+        {synthèse.candidats.puissanceCumulée} MW(c) la puissance recherchée lors de cette période
+        étant de {période.puissanceRecherchée} MW(c)
       </Text>
 
       <Text style={{ fontSize: 10, marginBottom: 15 }}>
         {synthèse.lauréats.nombre} projets ont été retenus, représentant une puissance cumulée de{' '}
-        {synthèse.lauréats.puissanceCumulée} {période.unitéPuissance} et un prix moyen pondéré de{' '}
-        {synthèse.lauréats.prixMoyenPondéré} €/{période.unitéPuissance}h.
+        {synthèse.lauréats.puissanceCumulée} MW(c) et un prix moyen pondéré de{' '}
+        {synthèse.lauréats.prixMoyenPondéré} €/MW(c).
       </Text>
     </>
   );

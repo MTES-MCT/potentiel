@@ -33,7 +33,7 @@ export const SynthèsePériode = ({
           <View style={{ textAlign: 'justify' }}>
             <Introduction période={période} synthèse={synthèse} />
 
-            <TableauLauréatPériode lauréats={lauréats} unitéPuissance={période.unitéPuissance} />
+            <TableauLauréatPériode lauréats={lauréats} />
           </View>
         </View>
 

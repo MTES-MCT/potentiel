@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import type { FC } from 'react';
 
 export type TableauLauréatPériodeProps = {
-  unitéPuissance: string;
   lauréats: {
     nom: string;
     nomProjet: string;
@@ -56,10 +55,7 @@ const manageWrapWithHyphen = (text: string) => {
     </Text>
   );
 };
-export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
-  lauréats,
-  unitéPuissance,
-}) => {
+export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({ lauréats }) => {
   return (
     <View>
       <Text style={{ marginBottom: 8, fontWeight: 'bold' }}>
@@ -70,7 +66,7 @@ export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
         <View style={[styles.row, styles.header]}>
           <Text style={[styles.cell, styles.laureat]}>Lauréat</Text>
           <Text style={[styles.cell, styles.projet]}>Nom projet</Text>
-          <Text style={[styles.cell, styles.puissance]}>Puissance</Text>
+          <Text style={[styles.cell, styles.puissance]}>Puissance (MWc ou MW)</Text>
           <Text style={[styles.cell, styles.commune]}>Commune</Text>
           <Text style={[styles.cell, styles.departement]}>Département</Text>
           <Text style={[styles.cell, styles.region]}>Région</Text>
@@ -83,9 +79,7 @@ export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
 
             <Text style={[styles.cell, styles.projet]}>{lauréat.nomProjet}</Text>
 
-            <Text style={[styles.cell, styles.puissance]}>
-              {lauréat.puissance} {unitéPuissance}
-            </Text>
+            <Text style={[styles.cell, styles.puissance]}>{lauréat.puissance}</Text>
 
             <Text style={[styles.cell, styles.commune]}>
               {manageWrapWithHyphen(lauréat.commune)}

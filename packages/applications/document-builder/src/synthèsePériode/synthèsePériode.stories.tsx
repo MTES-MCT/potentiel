@@ -13,8 +13,6 @@ const donnéesPériodes = Object.fromEntries(
         cycleAppelOffres: appelOffre.cycleAppelOffre,
         puissanceRecherchée: '',
         titreAppelOffres: appelOffre.title,
-        unitéPuissance:
-          typeof appelOffre.unitePuissance === 'string' ? appelOffre.unitePuissance : 'MW',
       },
     ]),
   ),
@@ -66,6 +64,14 @@ const meta = {
           commune: 'Paris',
           département: 'Paris',
           région: 'Île-de-France',
+        },
+        {
+          nom: 'Société D',
+          nomProjet: 'Rose des vents',
+          puissance: '80',
+          commune: 'Saint-Amand-sur-Fion',
+          département: 'Marne',
+          région: 'Grand Est',
         },
       ],
       période: donnéesPériodes[période],
