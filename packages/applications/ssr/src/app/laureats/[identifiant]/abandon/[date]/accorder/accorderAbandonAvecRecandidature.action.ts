@@ -3,7 +3,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { buildDocument, type DonnéesDocument } from '@potentiel-applications/document-builder';
+import { RéponseSignéeAccordAbandonAvecRecandidature } from '@potentiel-applications/document-builder';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
@@ -77,7 +77,7 @@ const buildReponseSignee = async ({
 
   const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet.formatter());
 
-  const props: DonnéesDocument = {
+  const props: RéponseSignéeAccordAbandonAvecRecandidature.DonnéesDocument = {
     dateCourrier: new Date().toISOString(),
     projet: {
       identifiantProjet: formatIdentifiantProjetForDocument(identifiantProjet),
@@ -111,7 +111,7 @@ const buildReponseSignee = async ({
   };
 
   return {
-    content: await buildDocument(props),
+    content: await RéponseSignéeAccordAbandonAvecRecandidature.buildDocument(props),
     format: 'application/pdf',
   };
 };
