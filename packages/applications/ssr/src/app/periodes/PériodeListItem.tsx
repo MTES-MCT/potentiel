@@ -57,11 +57,13 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
         <div className="leading-5">
           Période <span className="font-bold">{période}</span> de l'appel d'offres{' '}
           <span className="font-bold">{appelOffre}</span>
-          <DownloadDocument
-            format="pdf"
-            label="Télécharger la synthèse de la période (données de candidature)"
-            url={Routes.Période.exporterSynthèsePériode({ appelOffre, periode: période })}
-          />
+          {stats.tous.total > 0 && (
+            <DownloadDocument
+              format="pdf"
+              label="Télécharger la synthèse de la période (données de candidature)"
+              url={Routes.Période.exporterSynthèsePériode({ appelOffre, periode: période })}
+            />
+          )}
         </div>
 
         {peutÊtreNotifiée && (
