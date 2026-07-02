@@ -116,7 +116,7 @@ export const GET = async (request: Request) =>
       return new Response(document, {
         headers: {
           'content-type': 'application/pdf',
-          'content-disposition': 'inline',
+          'content-disposition': `inline; filename="Synthèse ${appelOffres} P${période}.pdf"`,
         },
       });
     }),
