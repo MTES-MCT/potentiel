@@ -29,13 +29,13 @@ import {
 import { passerDemandeMainlevéeEnInstructionAction } from './passerEnInstruction/passerDemandeMainlevéeEnInstruction.action';
 import { RejeterDemandeMainlevéeForm } from './rejeter/RejeterDemandeMainlevée.form';
 
-export type DétailsMainlevéePageProps = MainlevéeEnCoursProps &
-  ActionsMainlevéeProps & {
-    garantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
-    achèvement?: PlainType<Lauréat.Achèvement.ConsulterAchèvementReadModel>;
-    abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
-    mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];
-  };
+export type DétailsMainlevéePageProps = ActionsMainlevéeProps & {
+  garantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
+  achèvement?: PlainType<Lauréat.Achèvement.ConsulterAchèvementReadModel>;
+  abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
+  mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];
+  mainlevée?: MainlevéeEnCoursProps['mainlevée'];
+};
 export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
   mainlevée,
   garantiesFinancières,
@@ -45,7 +45,9 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
   urlAppelOffre,
   mainlevéesRejetées,
 }) => {
-  const identifiantProjet = IdentifiantProjet.bind(mainlevée.identifiantProjet).formatter();
+  const identifiantProjet = IdentifiantProjet.bind(
+    garantiesFinancières.identifiantProjet,
+  ).formatter();
 
   const actionMap: ActionMap<ActionMainlevée> = {
     'garantiesFinancières.mainlevée.annuler': () => (
@@ -94,12 +96,12 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
   return (
     <ActionsPageTemplate<ActionMainlevée>
       heading="Mainlevée des garanties financières"
-      badge={<StatutDemandeBadge statut={mainlevée.statut.statut} />}
+      badge={<StatutDemandeBadge statut={mainlevée?.statut.statut ?? 'rejeté'} />}
       actions={actions}
       actionMap={actionMap}
     >
       <div className="mb-4">
-        {Option.isSome(mainlevée) && <MainlevéeEnCours mainlevée={mainlevée} />}
+        {mainlevée && <MainlevéeEnCours mainlevée={mainlevée} />}
 
         <div className={clsx('mt-4', fr.cx('fr-accordions-group'))}>
           <Accordion label="Garanties financières actuelles">
@@ -181,9 +183,7 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
         priority="secondary"
         iconId="fr-icon-arrow-left-line"
         linkProps={{
-          href: Routes.GarantiesFinancières.détail(
-            IdentifiantProjet.bind(mainlevée.identifiantProjet).formatter(),
-          ),
+          href: Routes.GarantiesFinancières.détail(identifiantProjet),
         }}
       >
         Retour aux Garanties Financières
