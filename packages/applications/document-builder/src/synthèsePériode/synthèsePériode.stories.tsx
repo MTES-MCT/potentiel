@@ -13,6 +13,7 @@ const donnéesPériodes = Object.fromEntries(
         cycleAppelOffres: appelOffre.cycleAppelOffre,
         puissanceRecherchée: '',
         titreAppelOffres: appelOffre.title,
+        unitéPuissance: 'MW',
       },
     ]),
   ),

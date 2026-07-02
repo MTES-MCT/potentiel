@@ -70,6 +70,11 @@ export const GET = async (request: Request) =>
           puissanceRecherchée: périodeData.puissanceAppelée.toString(),
           titre: périodeData.title,
           titreAppelOffres: appelOffreData.title,
+          unitéPuissance:
+            périodeData.unitéPuissance ??
+            (typeof appelOffreData.unitePuissance === 'string'
+              ? appelOffreData.unitePuissance
+              : 'MW(c)'),
         },
         lauréats: candidatsLauréatsPériode.map((lauréat) => ({
           nom: lauréat.nomCandidat,
