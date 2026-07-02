@@ -31,7 +31,7 @@ export const ModifierRôleUtilisateurPage: FC<ModifierRôleUtilisateurPageProps>
         ),
       }}
       rightColumn={{
-        children: <></>,
+        children: null,
       }}
     />
   </PageTemplate>

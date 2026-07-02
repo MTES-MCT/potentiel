@@ -29,16 +29,18 @@ export const ColumnPageTemplate: FC<ColumnPageTemplateProps> = ({
     {heading ?? null}
     <div className={clsx('flex flex-col lg:flex-row gap-12 mt-6 items-start', classes?.content)}>
       <div className={clsx(`flex-1`, classes?.left)}>{leftColumn.children}</div>
-      <div
-        className={clsx(
-          `flex-auto md:max-w-lg items-stretch`,
-          classes?.right,
-          // TODO remove
-          rightColumn.className,
-        )}
-      >
-        {rightColumn.children}
-      </div>
+      {rightColumn.children ? (
+        <div
+          className={clsx(
+            `flex-auto md:max-w-lg items-stretch`,
+            classes?.right,
+            // TODO remove
+            rightColumn.className,
+          )}
+        >
+          {rightColumn.children}
+        </div>
+      ) : null}
     </div>
   </div>
 );
