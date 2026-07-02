@@ -93,8 +93,7 @@ const mapToProps: MapToProps = ({
     reference: référence.formatter(),
     propositionTechniqueEtFinancière: {
       dateSignature: propositionTechniqueEtFinancière.dateSignature.formatter(),
-      propositionTechniqueEtFinancièreSignée:
-        propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
+      propositionTechniqueEtFinancièreSignée: propositionTechniqueEtFinancière.document.formatter(),
     },
   },
 });

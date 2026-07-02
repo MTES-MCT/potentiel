@@ -1,3 +1,4 @@
+// biome-ignore assist/source/organizeImports: organized by hand for this index
 import type {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
@@ -33,6 +34,7 @@ import type {
 } from './listerHistorique/listerHistoriqueRaccordementProjet.query.js';
 import type { ModifierDateMiseEnServiceUseCase } from './modifier/dateMiseEnService/modifierDateMiseEnService.usecase.js';
 import type { ModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
+import type { ModifierDocumentRaccordementUseCase } from './modifier/documentsRaccordement/modifierDocumentRaccordement.usecase.js';
 import type { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase.js';
 import type { ModifierPropositionTechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.usecase.js';
 import type { ModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase.js';
@@ -44,6 +46,7 @@ import type { SupprimerDateMiseEnServiceUseCase } from './supprimer/dateMiseEnSe
 import type { SupprimerDossierDuRaccordementUseCase } from './supprimer/dossier/supprimerDossierDuRaccordement.usecase.js';
 import type { TransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase.js';
 import type { TransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase.js';
+import type { TransmettreDocumentRaccordementUseCase } from './transmettre/documentsRaccordement/transmettreDocumentRaccordement.usecase.js';
 import type { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase.js';
 
 // Query
@@ -92,19 +95,9 @@ export type RaccordementUseCase =
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
   | SupprimerDossierDuRaccordementUseCase
-  | SupprimerDateMiseEnServiceUseCase;
-
-export * as DocumentRaccordement from './documentRaccordement.valueType.js';
-export type * from './dossierRaccordement.entity.js';
-// Entities
-export type * from './raccordement.entity.js';
-// Events
-export type * from './raccordement.event.js';
-// Value types
-export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType.js';
-// Saga
-export * as RaccordementSaga from './saga/raccordement.saga.js';
-export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType.js';
+  | SupprimerDateMiseEnServiceUseCase
+  | TransmettreDocumentRaccordementUseCase
+  | ModifierDocumentRaccordementUseCase;
 export type {
   ModifierDateMiseEnServiceUseCase,
   ModifierDemandeComplèteRaccordementUseCase,
@@ -116,4 +109,19 @@ export type {
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
+  TransmettreDocumentRaccordementUseCase,
+  ModifierDocumentRaccordementUseCase,
 };
+
+// Entities
+export type * from './raccordement.entity.js';
+export type * from './dossierRaccordement.entity.js';
+// Events
+export type * from './raccordement.event.js';
+// Value types
+export * as DocumentRaccordement from './documentRaccordement.valueType.js';
+export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType.js';
+export * as TypeDocumentsRaccordement from './typeDocumentsRaccordement.valueType.js';
+export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType.js';
+// Saga
+export * as RaccordementSaga from './saga/raccordement.saga.js';

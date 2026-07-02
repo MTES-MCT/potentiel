@@ -143,6 +143,7 @@ export function vérifierDossierRaccordement(
   const { dossier: expectedDossier } = mapToPlainObject(
     this.lauréatWorld.raccordementWorld.mapToExpected(),
   );
+
   const actualDossierRaccordement = mapToPlainObject(dossierRaccordement);
 
   if (Option.isSome(actualDossierRaccordement)) {

@@ -30,6 +30,8 @@ import { registerModifierDateMiseEnServiceCommand } from './modifier/dateMiseEnS
 import { registerModifierDateMiseEnServiceUseCase } from './modifier/dateMiseEnService/modifierDateMiseEnService.usecase.js';
 import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.command.js';
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
+import { registerModifierDocumentRaccordementCommand } from './modifier/documentsRaccordement/modifierDocumentRaccordement.command.js';
+import { registerModifierDocumentRaccordementUseCase } from './modifier/documentsRaccordement/modifierDocumentRaccordement.usecase.js';
 import { registerModifierGestionnaireRéseauProjetCommand } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.command.js';
 import { registerModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase.js';
 import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.command.js';
@@ -48,6 +50,8 @@ import { registerTransmettreDateMiseEnServiceCommand } from './transmettre/dateM
 import { registerTransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase.js';
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase.js';
+import { registerTransmettreDocumentRaccordementCommand } from './transmettre/documentsRaccordement/transmettreDocumentRaccordement.command.js';
+import { registerTransmettreDocumentRaccordementUseCase } from './transmettre/documentsRaccordement/transmettreDocumentRaccordement.usecase.js';
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command.js';
 import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase.js';
 
@@ -90,6 +94,8 @@ export const registerRaccordementUseCases = ({
   registerTransmettrePropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerAttribuerGestionnaireCommand(getProjetAggregateRoot);
   registerSupprimerDossierDuRaccordementCommand(getProjetAggregateRoot);
+  registerTransmettreDocumentRaccordementCommand(getProjetAggregateRoot);
+  registerModifierDocumentRaccordementCommand(getProjetAggregateRoot);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
@@ -100,4 +106,6 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
   registerSupprimerDossierDuRaccordementUseCase();
+  registerTransmettreDocumentRaccordementUseCase();
+  registerModifierDocumentRaccordementUseCase();
 };

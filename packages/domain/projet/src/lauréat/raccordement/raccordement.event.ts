@@ -3,7 +3,7 @@ import type { DomainEvent } from '@potentiel-domain/core';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import type { IdentifiantProjet } from '../../index.js';
-import type { RéférenceDossierRaccordement } from './index.js';
+import type { RéférenceDossierRaccordement, TypeDocumentsRaccordement } from './index.js';
 
 //#region Raccordement projet
 export type RaccordementSuppriméEvent = DomainEvent<
@@ -200,8 +200,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEventV1 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
- * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
@@ -213,8 +212,7 @@ export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEve
 >;
 
 /**
- * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
- * la v3 ajoute la tracabilité (transmiseLe, transmisePar)
+ * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreTransmiseEventV2 = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise-V2',
@@ -228,6 +226,9 @@ export type PropositionTechniqueEtFinancièreTransmiseEventV2 = DomainEvent<
   }
 >;
 
+/**
+ * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
 export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise-V3',
   {
@@ -243,7 +244,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez PropositionTechniqueEtFinancièreModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée-V1',
@@ -255,7 +256,7 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez PropositionTechniqueEtFinancièreModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée-V2',
@@ -269,6 +270,9 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
   }
 >;
 
+/**
+ * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
 export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée-V3',
   {
@@ -283,6 +287,40 @@ export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   }
 >;
 //#endregion PTF
+
+//#region Documents raccordement
+
+export type DocumentRaccordementTransmisEventV1 = DomainEvent<
+  'DocumentRaccordementTransmis-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    type: TypeDocumentsRaccordement.RawType;
+    dateSignature: DateTime.RawType;
+    document: {
+      format: string;
+    };
+    transmisLe: DateTime.RawType;
+    transmisPar: Email.RawType;
+  }
+>;
+
+export type DocumentRaccordementModifiéEventV1 = DomainEvent<
+  'DocumentRaccordementModifié-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    type: TypeDocumentsRaccordement.RawType;
+    dateSignature: DateTime.RawType;
+    document: {
+      format: string;
+    };
+    modifiéLe: DateTime.RawType;
+    modifiéPar: Email.RawType;
+  }
+>;
+
+//#endregion Documents raccordement
 
 //#region Date mise en service
 /**
@@ -424,4 +462,6 @@ export type RaccordementEvent =
   | GestionnaireRéseauAttribuéEvent
   | DossierDuRaccordementSuppriméEvent
   | RaccordementSuppriméEvent
-  | RaccordementRéactivéEvent;
+  | RaccordementRéactivéEvent
+  | DocumentRaccordementTransmisEventV1
+  | DocumentRaccordementModifiéEventV1;

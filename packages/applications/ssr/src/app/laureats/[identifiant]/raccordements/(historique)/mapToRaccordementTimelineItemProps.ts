@@ -116,16 +116,15 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
     /**
      * Raccordement du projet
      */
-
-    /**
-     * Ignoré
-     */
     .with(
       {
         type: P.union(
           'GestionnaireRéseauInconnuAttribué-V1',
           'RaccordementSupprimé-V1',
           'RaccordementRéactivé-V1',
+          // TODO: temporaire avant de faire le front
+          'DocumentRaccordementTransmis-V1',
+          'DocumentRaccordementModifié-V1',
         ),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
