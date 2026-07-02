@@ -1,10 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { SynthèsePériode } from './SynthèsePériode.js';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+
+import { SynthèsePériode, type SynthèsePériodeProps } from './SynthèsePériode.js';
+
+const donnéesPériodes = Object.fromEntries(
+  appelsOffreData.flatMap((appelOffre) =>
+    appelOffre.periodes.map((période): [string, SynthèsePériodeProps['période']] => [
+      `${appelOffre.id}#${période.id}`,
+      {
+        titre: période.title,
+        cycleAppelOffres: appelOffre.cycleAppelOffre,
+        puissanceRecherchée: '',
+        titreAppelOffres: appelOffre.title,
+        unitéPuissance:
+          typeof appelOffre.unitePuissance === 'string' ? appelOffre.unitePuissance : 'MW',
+      },
+    ]),
+  ),
+);
 
 const meta = {
   title: 'Candidature/SynthèseLauréatsPériode',
-  component: () => {
+  component: ({ période }) => {
     return SynthèsePériode({
       dateCourrier: new Date().toISOString(),
       imagesFolderPath: '/images',
@@ -50,27 +68,25 @@ const meta = {
           région: 'Île-de-France',
         },
       ],
-      période: {
-        titre: 'dixième',
-        cycleAppelOffres: 'PPE2',
-        unitéPuissance: 'MW',
-        titreAppelOffres:
-          'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie mécanique du vent, implantées à terre',
-        puissanceRecherchée: '1000',
-      },
+      période: donnéesPériodes[période],
       synthèse: {
         candidats: { nombre: '90', puissanceCumulée: '1200' },
         lauréats: { nombre: '50', puissanceCumulée: '900', prixMoyenPondéré: '50' },
       },
     });
   },
-  argTypes: {},
-} satisfies Meta<Record<never, never>>;
+  argTypes: {
+    période: {
+      control: { type: 'select' },
+      options: Object.keys(donnéesPériodes),
+    },
+  },
+} satisfies Meta<{ période: string }>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: { période: 'PPE2 - Eolien#1' },
 };
