@@ -42,7 +42,11 @@ export const GET = async (request: Request) =>
         },
       });
 
-      const lauréats = candidatsPériode.items.filter((c) => c.statut.estClassé());
+      const candidatsLauréatsPériode = candidatsPériode.items.sort(
+        (a, b) =>
+          a.localité.région.localeCompare(b.localité.région) ||
+          a.localité.département.localeCompare(b.localité.département),
+      );
 
       const appelOffreData = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
@@ -67,7 +71,7 @@ export const GET = async (request: Request) =>
           titre: périodeData.title,
           titreAppelOffres: appelOffreData.title,
         },
-        lauréats: lauréats.map((lauréat) => ({
+        lauréats: candidatsLauréatsPériode.map((lauréat) => ({
           nom: lauréat.nomCandidat,
           nomProjet: lauréat.nomProjet,
           puissance: formatNumberForDocument(lauréat.puissance),
@@ -83,13 +87,16 @@ export const GET = async (request: Request) =>
             ),
           },
           lauréats: {
-            nombre: lauréats.length.toString(),
+            nombre: candidatsLauréatsPériode.length.toString(),
             puissanceCumulée: formatNumberForDocument(
-              lauréats.reduce((acc, c) => acc + c.puissance, 0),
+              candidatsLauréatsPériode.reduce((acc, c) => acc + c.puissance, 0),
             ),
             prixMoyenPondéré: formatNumberForDocument(
               getPériodePrixMoyenPondéré(
-                lauréats.map((l) => ({ puissance: l.puissance, prix: l.prixReference })),
+                candidatsLauréatsPériode.map((l) => ({
+                  puissance: l.puissance,
+                  prix: l.prixReference,
+                })),
               ),
             ),
           },

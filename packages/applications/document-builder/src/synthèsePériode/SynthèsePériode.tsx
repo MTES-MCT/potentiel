@@ -38,7 +38,7 @@ export const SynthèsePériode = ({
   période,
 }: SynthèsePériodeProps) => {
   const firstPageSize = 10;
-  const otherPagesSize = 25;
+  const otherPagesSize = 17;
   const pages = chunkArray(lauréats, firstPageSize, otherPagesSize);
 
   return (

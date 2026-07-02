@@ -67,7 +67,8 @@ export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
   return (
     <View key={key}>
       <Text style={{ marginTop: 1, marginBottom: 15, fontWeight: 'bold' }}>
-        Données de candidature des lauréats avant désignation ({indexPage + 1}/{pagesLength}) :{' '}
+        Données de candidature des lauréats avant désignation triées par région et département (
+        {indexPage + 1}/{pagesLength}) :{' '}
       </Text>
       <View style={styles.table}>
         {/* En-tête */}
