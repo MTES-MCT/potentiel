@@ -10,6 +10,9 @@ export type TableauLauréatPériodeProps = {
     département: string;
     région: string;
   }[];
+  key: string;
+  indexPage: number;
+  pagesLength: number;
 };
 
 const styles = StyleSheet.create({
@@ -55,11 +58,16 @@ const manageWrapWithHyphen = (text: string) => {
     </Text>
   );
 };
-export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({ lauréats }) => {
+export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
+  lauréats,
+  key,
+  indexPage,
+  pagesLength,
+}) => {
   return (
-    <View>
-      <Text style={{ marginBottom: 8, fontWeight: 'bold' }}>
-        Données de candidature des lauréats avant désignation :{' '}
+    <View key={key}>
+      <Text style={{ marginTop: 1, marginBottom: 15, fontWeight: 'bold' }}>
+        Données de candidature des lauréats avant désignation ({indexPage + 1}/{pagesLength}) :{' '}
       </Text>
       <View style={styles.table}>
         {/* En-tête */}
