@@ -44,8 +44,8 @@ export const DemanderMainlevéePage = ({
           description={
             <div className="flex flex-col gap-4">
               <ul className="list-disc ml-4 mt-2">
-                <li>attestation de conformité,</li>
-                <li>rapport associé.</li>
+                <li>L'attestation de conformité,</li>
+                <li>Le rapport associé.</li>
               </ul>
               <p>
                 Ces documents seront vérifiés par les services de l’État en région afin d’instruire
