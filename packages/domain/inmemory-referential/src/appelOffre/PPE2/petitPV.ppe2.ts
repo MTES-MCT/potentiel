@@ -18,6 +18,7 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
         référence: '🦺 A COMPLETER 🦺',
       },
       familles: [],
+      puissanceAppelée: 288,
       cahiersDesChargesModifiésDisponibles: [],
       // si CDC modifié ajouté, vérifier si retour au CDC initial possible
       champsSupplémentaires: {},

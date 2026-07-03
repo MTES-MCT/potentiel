@@ -181,6 +181,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021 S 203-530267',
       },
+      puissanceAppelée: 140,
       familles: [
         {
           id: '1',

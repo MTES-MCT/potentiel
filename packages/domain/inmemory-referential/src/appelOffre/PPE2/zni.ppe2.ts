@@ -123,6 +123,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       title: 'première',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
+      puissanceAppelée: 99,
       cahierDesCharges: {
         référence: '2023/S 183-570186',
       },
@@ -157,6 +158,7 @@ du paragraphe 2.6.`,
       cahierDesCharges: {
         référence: '2024/S 490218-2024',
       },
+      puissanceAppelée: 99,
       familles: [
         {
           id: '1',
@@ -188,6 +190,7 @@ du paragraphe 2.6.`,
       cahierDesCharges: {
         référence: '2023/S 183-570186',
       },
+      puissanceAppelée: 99,
       familles: [
         {
           id: '1',
@@ -219,6 +222,7 @@ du paragraphe 2.6.`,
       cahierDesCharges: {
         référence: '2025/S 146-503744',
       },
+      puissanceAppelée: 99,
       familles: [
         {
           id: '1',

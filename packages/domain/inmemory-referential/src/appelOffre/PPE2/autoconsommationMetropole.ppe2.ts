@@ -220,7 +220,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021 S 176-457526',
       },
-      délaiDCR: { grd: 2 },
+      puissanceAppelée: 50,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -235,7 +235,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 038 098159',
       },
-      délaiDCR: { grd: 2 },
+      puissanceAppelée: 50,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -252,6 +252,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022 S 150-427955',
       },
       familles: [],
+      puissanceAppelée: 50,
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
@@ -267,6 +268,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2023/S 176-551607',
       },
       familles: [],
+      puissanceAppelée: 50,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
     },

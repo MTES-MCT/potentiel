@@ -192,6 +192,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 300,
       familles: [],
       volumeRéservé: {
         noteMin: 18.79,
@@ -222,6 +223,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
         noteMin: 12.9244110177221,
@@ -253,6 +255,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
         noteMin: 11.72,
@@ -289,6 +292,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
         noteMin: 7.14,
@@ -319,6 +323,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 800,
       familles: [],
       volumeRéservé: {
         noteMin: 16.69,
@@ -360,6 +365,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
         noteMin: 23.45,
@@ -401,6 +407,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
         noteMin: 90.08,
@@ -443,6 +450,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 300,
       familles: [],
       volumeRéservé: {
         noteMin: 27.31,
@@ -486,6 +494,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
         noteMin: 40.32,
@@ -528,6 +537,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
         noteMin: 21.6,
@@ -565,6 +575,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2025/S 93-00311732',
       },
       familles: [],
+      puissanceAppelée: 300,
       volumeRéservé: {
         noteMin: 35.77,
         puissanceMax: 1,
@@ -601,6 +612,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2026/S 33-110771',
       },
       familles: [],
+      puissanceAppelée: 400,
       volumeRéservé: {
         noteMin: 45.245,
         puissanceMax: 1,

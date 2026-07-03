@@ -154,6 +154,7 @@ Après constitution des garanties financières, si le Candidat n’a pas joint �
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -206,6 +207,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -257,6 +259,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -307,6 +310,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -357,6 +361,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 630,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -407,6 +412,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 250,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -457,6 +463,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -507,6 +514,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       familles: [],
+      puissanceAppelée: 700,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',

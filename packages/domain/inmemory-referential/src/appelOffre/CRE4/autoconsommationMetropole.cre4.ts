@@ -127,6 +127,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 50,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
@@ -159,6 +160,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 50,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
@@ -189,6 +191,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 50,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -215,6 +218,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       id: '4',
       title: 'quatrième',
       type: 'legacy',
+      puissanceAppelée: 50,
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
@@ -249,6 +253,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 50,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -279,6 +284,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 25,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -309,6 +315,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 25,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -339,6 +346,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 20,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -369,6 +377,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 25,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -399,6 +408,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
+      puissanceAppelée: 25,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',

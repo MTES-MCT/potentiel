@@ -137,6 +137,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022 S 100-276861',
       },
       familles: [],
+      puissanceAppelée: 500,
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: '6.2',
@@ -174,6 +175,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'deuxième',
       // les périodes 1 à 3 ont utilisé MW, même pour PV
       unitéPuissance: 'MW',
+      puissanceAppelée: 500,
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -216,6 +218,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'troisième',
       // les périodes 1 à 3 ont utilisé MW, même pour PV
       unitéPuissance: 'MW',
+      puissanceAppelée: 500,
       certificateTemplate: 'ppe2.v2',
       logo: 'MCE',
       cahierDesCharges: {
@@ -261,6 +264,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2025/S 125-430892',
       },
+      puissanceAppelée: 500,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {

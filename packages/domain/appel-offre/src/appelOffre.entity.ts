@@ -289,6 +289,7 @@ export type Periode = {
   id: string;
   title: string;
   /** Surcharge l'unité de puissance par défaut définie dans l'AO, même si elle est définie par technologie */
+  puissanceAppelée: number;
   unitéPuissance?: UnitéPuissance;
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   /**

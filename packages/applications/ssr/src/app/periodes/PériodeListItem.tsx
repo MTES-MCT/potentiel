@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Icon, type IconProps } from '@/components/atoms/Icon';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
@@ -56,6 +57,14 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
         <div className="leading-5">
           Période <span className="font-bold">{période}</span> de l'appel d'offres{' '}
           <span className="font-bold">{appelOffre}</span>
+          {stats.tous.total > 0 && (
+            <DownloadDocument
+              format="pdf"
+              label="Télécharger la synthèse de la période (données de candidature)"
+              url={Routes.Période.exporterSynthèsePériode({ appelOffre, periode: période })}
+              ariaLabel={`Télécharger la synthèse de la période ${période} de l'appel d'offres ${appelOffre} (données de candidature) au format PDF`}
+            />
+          )}
         </div>
 
         {peutÊtreNotifiée && (

@@ -195,6 +195,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },
+      puissanceAppelée: 70,
       familles: [
         {
           id: '1a',
@@ -245,6 +246,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },
+      puissanceAppelée: 140,
       familles: [
         {
           id: '1',
@@ -276,6 +278,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },
+      puissanceAppelée: 140,
       familles: [
         {
           id: '1',

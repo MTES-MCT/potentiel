@@ -182,6 +182,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 500,
       familles: [
         {
           id: '1',
@@ -248,6 +249,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 500,
       familles: [
         {
           id: '1',
@@ -314,6 +316,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 500,
       familles: [
         {
           id: '1',
@@ -380,6 +383,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 720,
       familles: [
         {
           id: '1',
@@ -446,6 +450,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 850,
       familles: [
         {
           id: '1',
@@ -512,6 +517,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 850,
       familles: [
         {
           id: '1',
@@ -577,6 +583,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 850,
       familles: [
         {
           id: '1',
@@ -642,6 +649,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 330,
       familles: [
         {
           id: '1',
@@ -707,6 +715,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 680,
       familles: [
         {
           id: '1',
@@ -772,6 +781,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
+      puissanceAppelée: 700,
       familles: [
         {
           id: '1',

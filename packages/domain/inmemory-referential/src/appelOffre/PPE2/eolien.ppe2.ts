@@ -195,6 +195,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021/S 146-386083',
       },
+      puissanceAppelée: 700,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -227,6 +228,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022/S 035-088651',
       },
+      puissanceAppelée: 925,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [
         {
@@ -276,6 +278,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2022/S 214-614410',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -320,6 +323,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2023/S 063-187148',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
@@ -356,6 +360,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2023/S 183-570186',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
@@ -392,6 +397,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2023/S 215-677967',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
@@ -425,6 +431,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'septième',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
+      puissanceAppelée: 925,
       cahierDesCharges: {
         référence: '2024/S 64-189193',
       },
@@ -464,6 +471,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2024/S 419522-2024',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
@@ -499,6 +507,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2025/S 10841-2025',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
@@ -531,6 +540,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2025/S 322887-2025',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
@@ -563,6 +573,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2026/S 233003-2026',
       },
+      puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
