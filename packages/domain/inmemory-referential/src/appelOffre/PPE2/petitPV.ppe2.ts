@@ -17,7 +17,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       cahierDesCharges: {
         référence: '🦺 A COMPLETER 🦺',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       puissanceAppelée: 288,
       cahiersDesChargesModifiésDisponibles: [],

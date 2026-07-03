@@ -66,7 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
     return {
       status: 'success',
       redirection: {
-        url: Routes.Candidature.lister({ appelOffre, période: periode }),
+        url: Routes.Candidature.lister({ appelOffre, periode }),
         message: `La période ${periode} de l'appel d'offre ${appelOffre} a bien été notifiée`,
       },
     };

@@ -5,14 +5,14 @@ import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantProjet } from '../../../index.js';
+import type { Abandon } from '../../index.js';
 import type { AbandonEntity } from '../abandon.entity.js';
 import { type DemandeAbandonEntity, StatutAbandon } from '../index.js';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  statut: Abandon.StatutAbandon.ValueType;
   demandéLe: DateTime.ValueType;
-  demandeEnCours: boolean;
-  estAbandonné: boolean;
   accordéLe?: DateTime.ValueType;
 };
 
@@ -60,8 +60,7 @@ const mapToReadModel = (
   const statutAbandon = StatutAbandon.convertirEnValueType(result.dernièreDemande.statut);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    demandeEnCours: statutAbandon.estEnCours(),
-    estAbandonné: result.estAbandonné,
+    statut: statutAbandon,
     demandéLe: DateTime.convertirEnValueType(result.dernièreDemande.date),
     accordéLe: result.accordéLe ? DateTime.convertirEnValueType(result.accordéLe) : undefined,
   };

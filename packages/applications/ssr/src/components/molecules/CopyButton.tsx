@@ -9,6 +9,7 @@ export type CopyButtonProps = {
   textToCopy: string;
   priority?: ButtonProps['priority'];
   className?: string;
+  'aria-label': string;
 } & (
   | {
       noChildren: true;
@@ -26,6 +27,7 @@ export const CopyButton = ({
   children,
   priority = 'tertiary no outline',
   className,
+  'aria-label': ariaLabel,
 }: CopyButtonProps) => {
   const [hasCopied, setHasCopied] = useState<boolean>(false);
   const timeoutInMs = 2000;
@@ -44,7 +46,7 @@ export const CopyButton = ({
       <Tooltip kind="hover" title="Copier">
         <Button
           iconId={hasCopied ? 'ri-check-fill' : 'ri-file-copy-2-line'}
-          aria-label="copier-coller"
+          aria-label={ariaLabel}
           priority={priority}
           onClick={copyLink}
           size="small"

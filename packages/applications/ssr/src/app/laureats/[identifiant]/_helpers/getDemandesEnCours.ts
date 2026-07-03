@@ -59,7 +59,7 @@ export const getDemandesEnCours = async ({
 
   if (utilisateur.rôle.aLaPermission('abandon.consulter.demande')) {
     const abandon = await getOptionalAbandon(identifiantProjet.formatter());
-    if (abandon?.demandeEnCours) {
+    if (abandon?.statut.estEnCours()) {
       demandes.push({
         text: 'Abandon',
         href: Routes.Abandon.détailRedirection(identifiantProjet.formatter()),

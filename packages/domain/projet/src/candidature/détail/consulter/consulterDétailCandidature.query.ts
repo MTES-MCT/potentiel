@@ -4,12 +4,11 @@ import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantProjet } from '../../../index.js';
-import type { DétailCandidature } from '../../index.js';
-import type { DétailCandidatureEntity } from '../détailCandidature.entity.js';
+import type { DétailCandidatureEntity, DétailsCandidature } from '../../index.js';
 
 export type ConsulterDétailCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  détail: DétailCandidature.RawType;
+  détail: DétailsCandidature;
 };
 
 export type ConsulterDétailCandidatureQuery = Message<
@@ -48,10 +47,7 @@ type MapToReadModel = (
   candidature: Omit<DétailCandidatureEntity, 'type'>,
 ) => ConsulterDétailCandidatureReadModel;
 
-export const mapToReadModel: MapToReadModel = ({
-  identifiantProjet,
-  détail,
-}): ConsulterDétailCandidatureReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+export const mapToReadModel: MapToReadModel = (détail): ConsulterDétailCandidatureReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(détail.identifiantProjet),
   détail,
 });

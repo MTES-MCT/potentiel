@@ -13,6 +13,9 @@
       "path": "../../domain/common"
     },
     {
+      "path": "../../domain/inmemory-referential"
+    },
+    {
       "path": "../../domain/projet"
     },
     {

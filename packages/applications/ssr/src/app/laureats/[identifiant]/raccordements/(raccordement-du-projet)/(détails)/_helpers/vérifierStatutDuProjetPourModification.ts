@@ -24,4 +24,5 @@ export const getLauréatOrRedirect = async (identifiantProjet: IdentifiantProjet
 export const vérifierSiModificationRaccordementPossible = (
   lauréat: Lauréat.ConsulterLauréatReadModel,
   abandon: Lauréat.Abandon.ConsulterAbandonReadModel | undefined,
-): boolean => lauréat.estPartiEnPPA || (!lauréat.statut.estAbandonné() && !abandon?.demandeEnCours);
+): boolean =>
+  lauréat.estPartiEnPPA || (!lauréat.statut.estAbandonné() && !abandon?.statut.estEnCours());

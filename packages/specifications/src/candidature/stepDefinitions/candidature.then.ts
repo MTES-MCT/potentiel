@@ -20,7 +20,15 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
       },
     });
 
+    const détailCandidature = await mediator.send<Candidature.ConsulterDétailCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterDétailCandidature',
+      data: {
+        identifiantProjet,
+      },
+    });
+
     assert(Option.isSome(candidature), 'Candidature non trouvée');
+    assert(Option.isSome(détailCandidature), 'Détail candidature non trouvée');
 
     const actual = mapToPlainObject(candidature);
     const expected = mapToPlainObject(this.candidatureWorld.mapToExpected());
@@ -43,27 +51,6 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     );
   });
 });
-
-Alors(
-  'le détail de la candidature devrait être consultable',
-  async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.candidatureWorld.importerCandidature;
-
-    const expectedDétails =
-      this.candidatureWorld.corrigerCandidature.détailsValue ??
-      this.candidatureWorld.importerCandidature.détailsValue;
-
-    const candidatureDétail = await mediator.send<Candidature.ConsulterDétailCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterDétailCandidature',
-      data: {
-        identifiantProjet,
-      },
-    });
-
-    assert(Option.isSome(candidatureDétail), `Détail de la candidature non trouvé`);
-    candidatureDétail.détail.should.be.deep.equal(expectedDétails);
-  },
-);
 
 Alors(
   "l'attestation de désignation de la candidature devrait être consultable",

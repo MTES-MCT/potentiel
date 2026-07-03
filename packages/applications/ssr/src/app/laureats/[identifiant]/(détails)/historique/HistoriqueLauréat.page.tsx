@@ -2,9 +2,8 @@ import type { FC } from 'react';
 
 import { ImprimerButton } from '@/components/atoms/ImprimerButton';
 import { SectionPage } from '@/components/atoms/section/SectionPage';
-import type { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
-import { ListFilters } from '@/components/molecules/ListFilters';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
+import { CatégorieFilter, type CatégorieFilterProps } from './CatégorieFilter';
 import { HistoriqueLauréatTimelineItem } from './HistoriqueLauréatTimelineItem';
 
 export type HistoriqueLauréatAction = 'imprimer';
@@ -12,23 +11,22 @@ export type HistoriqueLauréatAction = 'imprimer';
 export type HistoriqueLauréatPageProps = {
   identifiantProjet: string;
   actions?: Array<HistoriqueLauréatAction>;
-  filters: FiltersTagListProps['filters'];
   historique: Array<TimelineItemProps>;
-};
+} & CatégorieFilterProps;
 
 export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   actions,
   historique,
-  filters,
+  catégories,
 }) => (
   <SectionPage title="Historique du projet">
     <div className="flex flex-col gap-6 w-full">
       <div className="flex lg:flex-row flex-col gap-4 w-full">
-        {filters.length ? (
-          <div className="print:hidden flex flex-col gap-1 w-max">
-            <ListFilters filters={filters} />
+        <div className="print:hidden flex flex-col gap-1 w-max">
+          <div className="flex flex-row gap-5 flex-1 w-full">
+            <CatégorieFilter catégories={catégories} />
           </div>
-        ) : null}
+        </div>
         {actions?.includes('imprimer') && <ImprimerButton />}
       </div>
       <div className="flex flex-row gap-2">

@@ -165,6 +165,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
       `,
     },
   },
+  délaiDCR: { grd: 2 },
   periodes: [
     {
       id: '1',
@@ -173,7 +174,6 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 150,
       familles: [
         {
@@ -231,7 +231,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 150,
       familles: [
         {
@@ -289,7 +288,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 150,
       familles: [
         {
@@ -347,7 +345,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 200,
       familles: [
         {
@@ -405,7 +402,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 225,
       familles: [
         {
@@ -463,7 +459,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 300,
       familles: [
         {
@@ -521,7 +516,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 300,
       familles: [
         {
@@ -579,7 +573,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 300,
       familles: [
         {
@@ -637,7 +630,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 300,
       familles: [
         {
@@ -695,7 +687,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 150,
       familles: [
         {
@@ -753,7 +744,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 185,
       familles: [
         {
@@ -811,7 +801,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 150,
       familles: [
         {
@@ -869,7 +858,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 300,
       familles: [
         {

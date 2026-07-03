@@ -69,40 +69,28 @@ const getNotes = async (identifiantProjet: IdentifiantProjet.RawType) => {
   if (Option.isNone(candidature)) {
     return notFound();
   }
-
   return {
-    noteTotale: candidature.instruction.noteTotale,
-    notePrix: formatterNote(détailsCandidature.détail['Note prix']),
+    noteTotale: formatterNote(candidature.instruction.noteTotale),
+    notePrix: formatterNote(détailsCandidature.détail.notePrix),
     notesInnovation: {
-      note: formatterNote(détailsCandidature.détail['Note innovation\n(AO innovation)']),
+      note: formatterNote(détailsCandidature.détail.innovation?.note),
       degréInnovation: formatterNote(
-        détailsCandidature.détail['Note degré d’innovation (/20pt)\n(AO innovation)'],
+        détailsCandidature.détail.innovation?.noteDegréInnovationSur20,
       ),
       positionnement: formatterNote(
-        détailsCandidature.détail['Note positionnement sur le marché (/10pt)\n(AO innovation)'],
+        détailsCandidature.détail.innovation?.notePositionnementSurLeMarchéSur10,
       ),
       qualitéTechnique: formatterNote(
-        détailsCandidature.détail['Note qualité technique (/5pt)\n(AO innovation)'],
+        détailsCandidature.détail.innovation?.noteQualitéTechniqueSur5,
       ),
       adéquationAmbitionsIndustrielles: formatterNote(
-        détailsCandidature.détail[
-          'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)'
-        ],
+        détailsCandidature.détail.innovation?.noteAdéquationAmbitionsIndustriellesSur5,
       ),
       aspectsEnvironnementauxEtSociaux: formatterNote(
-        détailsCandidature.détail[
-          'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'
-        ],
+        détailsCandidature.détail.innovation?.noteAspectsEnvironnementauxEtSociauxSur5,
       ),
     },
   };
 };
 
-const formatterNote = (note?: string) => {
-  if (note) {
-    const noteParsée = parseFloat(note.replace(',', '.'));
-
-    return Number.isNaN(noteParsée) ? 'N/A' : (Math.round(noteParsée * 100) / 100).toString();
-  }
-  return 'N/A';
-};
+const formatterNote = (note?: number) => (note ? (Math.round(note * 100) / 100).toString() : 'N/A');

@@ -142,7 +142,7 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
               </div>
             </Accordion>
           )}
-          {abandon?.estAbandonné && (
+          {abandon?.accordéLe && (
             <Accordion label="Abandon du projet">
               <div className=" flex flex-col">
                 {abandon.accordéLe && (

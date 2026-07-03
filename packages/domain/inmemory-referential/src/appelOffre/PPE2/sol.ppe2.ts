@@ -175,6 +175,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     typologieInstallation: { type: 'optionnel' as const },
     ...champsSupplémentairesAPartirDeP8,
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -186,17 +187,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021 S 211-553136',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 46.95,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 54.9,
-        },
+      volumeRéservé: {
+        noteMin: 46.95,
+        puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -224,17 +218,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022/S 061-160516',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 35.25,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 46.74,
-        },
+      volumeRéservé: {
+        noteMin: 35.25,
+        puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [
         {
@@ -268,17 +255,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 214-614411',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 33.95,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 14.16,
-        },
+      volumeRéservé: {
+        noteMin: 33.95,
+        puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
@@ -306,17 +286,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2023 S 063-187860',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 17.96,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 17.34,
-        },
+      volumeRéservé: {
+        noteMin: 17.96,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -355,17 +328,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2023/S 217-681379',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 15.57,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 15.57,
-        },
+      volumeRéservé: {
+        noteMin: 15.57,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -404,17 +370,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2024/S 422369-2024',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 18.97,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 26.98,
-        },
+      volumeRéservé: {
+        noteMin: 18.97,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -453,17 +412,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2021/S 146-385911',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 25.98,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 25.98,
-        },
+      volumeRéservé: {
+        noteMin: 25.98,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -499,18 +451,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahierDesCharges: {
         référence: '2025/S 059-190628',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 925,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 25.08,
-          puissanceMax: 5,
-        },
-        autres: {
-          noteThreshold: 23.02,
-        },
+      volumeRéservé: {
+        noteMin: 25.08,
+        puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {

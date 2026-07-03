@@ -1,9 +1,10 @@
 import { Text, View } from '@react-pdf/renderer';
 
+import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
 import type { CahierDesCharges } from '@potentiel-domain/projet';
 
 import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
-import { formatNumber } from '../../helpers/index.js';
+import { formatNumber, formatterNombreEnToutesLettres } from '../../helpers/formatNumber.js';
 
 type LaureatProps = {
   project: AttestationPPE2Options;
@@ -12,7 +13,7 @@ type LaureatProps = {
 
 export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
   const { appelOffre, période } = project;
-  const { delaiDcrEnMois } = période;
+  const délaiDCREnMois = cahierDesCharges.getDélaiDCR();
 
   const paragrapheEngagementIPFPGPFC =
     période.paragrapheEngagementIPFPGPFC ?? appelOffre.paragrapheEngagementIPFPGPFC;
@@ -27,24 +28,15 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
   return {
     objet: `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`,
     content: (
-      <>
-        <Text
-          style={{
-            marginTop: 10,
-            fontWeight: 'bold',
-          }}
-        >
+      <View style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
+        <Text style={{ fontWeight: 'bold' }}>
           A la suite de l’instruction de votre offre par la Commission de régulation de l’énergie
           (CRE), j’ai le plaisir de vous annoncer que le projet susmentionné est désigné lauréat de
           la {période.title} période de l’appel d’offres visé en objet.
         </Text>
 
-        {project.désignationCatégorie && project.désignationCatégorie === 'volume-réservé' && (
-          <Text
-            style={{
-              marginTop: 10,
-            }}
-          >
+        {project.estDansLeVolumeRéservé && (
+          <Text>
             Le projet fait partie du volume réservé tel que défini au chapitre 1. du cahier des
             charges de la période d'appel d'offres cité en objet.
           </Text>
@@ -102,44 +94,30 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
           Par ailleurs, je vous rappelle les obligations suivantes du fait de cette
           désignation&thinsp;:
         </Text>
-        <View style={{ paddingLeft: 20 }}>
-          <Text
-            style={{
-              marginTop: 10,
-            }}
-          >
+        <View style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <Text>
             - respecter l'ensemble des obligations et prescriptions de toute nature figurant au
             cahier des charges&thinsp;;
           </Text>
 
-          <Text
-            style={{
-              marginTop: 10,
-            }}
-          >
+          <Text>
             - {!appelOffre.dépôtDCRPossibleSeulementAprèsDésignation && `si ce n’est déjà fait, `}
-            déposer une demande complète de raccordement dans les {delaiDcrEnMois.texte} (
-            {delaiDcrEnMois.valeur}) mois à compter de la présente notification
+            déposer une demande complète de raccordement dans les{' '}
+            {formatterNombreEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
+            notification
             {appelOffre.typeAppelOffre === 'eolien' &&
-              ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
+              ` ou dans les ${nombresEnToutesLettres[délaiDCREnMois.grd]} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
             &thinsp;;
           </Text>
-          {appelOffre.transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant && (
-            <Text
-              style={{
-                marginTop: 10,
-              }}
-            >
+          {délaiDCREnMois.potentiel && (
+            <Text>
               - renseigner dans votre espace Potentiel la référence de l’affaire de raccordement
-              dans les quatre (4) mois à compter de la présente notification&thinsp;;
+              dans les {formatterNombreEnToutesLettres(délaiDCREnMois.potentiel)} mois à compter de
+              la présente notification&thinsp;;
             </Text>
           )}
           {afficherObligationGarantiesFinancières6MoisAprèsAchèvement && (
-            <Text
-              style={{
-                marginTop: 10,
-              }}
-            >
+            <Text>
               - prévoir une durée de garantie financière d’exécution couvrant le projet jusqu’à 6
               mois après la date d’Achèvement de l’installation (date de fourniture de l’attestation
               de conformité selon les dispositions du chapitre{' '}
@@ -149,57 +127,36 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
           )}
 
           {appelOffre.typeAppelOffre === 'innovation' && (
-            <Text
-              style={{
-                marginTop: 10,
-              }}
-            >
+            <Text>
               - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le
               rapport de contribution à l’innovation et le cas échéant dans le mémoire technique sur
               la synergie avec l’usage agricole, remis lors du dépôt de l’offre&thinsp;;
             </Text>
           )}
 
-          <Text
-            style={{
-              marginTop: 10,
-            }}
-          >
+          <Text>
             - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier
             des charges, achever l’installation dans un délai de{' '}
             {cahierDesCharges.getDélaiRéalisationEnMois()} mois à compter de la présente
             notification&thinsp;;
           </Text>
 
-          <Text
-            style={{
-              marginTop: 10,
-            }}
-          >
+          <Text>
             - fournir à EDF
-            {appelOffre.transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant &&
-              `, par voie dématérialisée dans votre espace Potentiel,`}{' '}
+            {!!délaiDCREnMois.potentiel && `, par voie dématérialisée dans votre espace Potentiel,`}{' '}
             l’attestation de conformité de l’installation prévue au paragraphe{' '}
             {appelOffre.paragrapheAttestationConformite} du cahier des charges&thinsp;;
           </Text>
 
           {project.isGouvernancePartagée && (
-            <Text
-              style={{
-                marginTop: 10,
-              }}
-            >
+            <Text>
               - respecter les engagements pris conformément aux paragraphes{' '}
               {paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée&thinsp;;
             </Text>
           )}
 
           {project.isFinancementCollectif && (
-            <Text
-              style={{
-                marginTop: 10,
-              }}
-            >
+            <Text>
               - respecter les engagements pris conformément aux paragraphes{' '}
               {paragrapheEngagementIPFPGPFC} concernant le financement collectif&thinsp;;
             </Text>
@@ -246,7 +203,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             .
           </Text>
         )}
-      </>
+      </View>
     ),
   };
 };

@@ -115,7 +115,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
   });
 
   if (candidature.dépôtValue.raccordements) {
-    this.raccordementWorld.demandeComplèteDeRaccordement.importerFixture.créer({
+    this.lauréatWorld.raccordementWorld.demandeComplèteDeRaccordement.importerFixture.créer({
       identifiantProjet: candidature.identifiantProjet,
       référenceDossier: candidature.dépôtValue.raccordements[0].référence,
       dateQualification: candidature.dépôtValue.raccordements[0].dateQualification,

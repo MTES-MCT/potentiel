@@ -1,7 +1,6 @@
 # language: fr
 @candidature
 Fonctionnalité: Importer une candidature (garanties financières)
-
     Plan du Scénario: Importer une candidature avec les différents types de garanties financières
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut          | classé            |
@@ -9,7 +8,6 @@ Fonctionnalité: Importer une candidature (garanties financières)
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Alors la candidature devrait être consultable
-        Et le détail de la candidature devrait être consultable
 
         Exemples:
             | appel d'offres           | type GF                   | date d'échéance |

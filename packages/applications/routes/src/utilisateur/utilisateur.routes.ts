@@ -1,14 +1,8 @@
+import { withFilters } from '../_helpers/withFilters.js';
 import { encodeParameter } from '../encodeParameter.js';
 
-export const lister = ({ actif }: { actif?: boolean } = {}) => {
-  const url = `/utilisateurs`;
-  const searchParams = new URLSearchParams();
-  if (actif !== undefined) {
-    searchParams.set('actif', actif ? 'true' : 'false');
-  }
-  return searchParams.size > 0 ? `${url}?${searchParams.toString()}` : url;
-};
+type ListerProps = { actif?: boolean };
+export const lister = withFilters<ListerProps>(`/utilisateurs`);
 export const inviter = `/utilisateurs/inviter`;
-
 export const modifierRôle = (identifiantUtilisateur: string) =>
   `/utilisateurs/${encodeParameter(identifiantUtilisateur)}/role:modifier`;
