@@ -24,19 +24,17 @@ export default async function Page({ params }: IdentifiantParameter) {
         IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant)).formatter(),
       );
 
+      const { actuelles: garantiesFinancières } = await getGarantiesFinancières(
+        lauréat.identifiantProjet.formatter(),
+      );
+      if (!garantiesFinancières) {
+        return notFound();
+      }
       const mainlevée = await getMainlevéeGarantiesFinancières(
         lauréat.identifiantProjet.formatter(),
       );
 
       const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
-
-      const { actuelles: garantiesFinancières } = await getGarantiesFinancières(
-        lauréat.identifiantProjet.formatter(),
-      );
-
-      if (!mainlevée || !garantiesFinancières) {
-        return notFound();
-      }
 
       const achèvement = lauréat.statut.estAchevé()
         ? await getAchèvement(lauréat.identifiantProjet.formatter())
@@ -58,23 +56,27 @@ export default async function Page({ params }: IdentifiantParameter) {
           },
         });
 
-      const actions: DétailsMainlevéePageProps['actions'] = [];
-      if (mainlevée.statut.estEnInstruction()) {
-        actions.push('garantiesFinancières.mainlevée.annuler');
+      if (!mainlevée && mainlevéesRejetées.items.length === 0) {
+        return notFound();
       }
-      if (mainlevée.statut.estDemandé()) {
+
+      const actions: DétailsMainlevéePageProps['actions'] = [];
+      if (mainlevée?.statut.estEnInstruction()) {
+        actions.push('garantiesFinancières.mainlevée.annuler');
+        actions.push('garantiesFinancières.mainlevée.accorder');
+        actions.push('garantiesFinancières.mainlevée.rejeter');
+      }
+      if (mainlevée?.statut.estDemandé()) {
         actions.push('garantiesFinancières.mainlevée.annuler');
         actions.push('garantiesFinancières.mainlevée.démarrerInstruction');
-      }
-      if (!mainlevée.statut.estAccordé() && !mainlevée.statut.estRejeté()) {
         actions.push('garantiesFinancières.mainlevée.accorder');
         actions.push('garantiesFinancières.mainlevée.rejeter');
       }
 
       return (
         <DétailsMainlevéePage
-          identifiantProjet={mainlevée.identifiantProjet}
-          mainlevée={mapToPlainObject(mainlevée)}
+          identifiantProjet={lauréat.identifiantProjet}
+          mainlevée={mainlevée ? mapToPlainObject(mainlevée) : undefined}
           actions={actions.filter((action) => utilisateur.rôle.aLaPermission(action))}
           urlAppelOffre={cahierDesCharges.appelOffre.cahiersDesChargesUrl}
           garantiesFinancières={mapToPlainObject(garantiesFinancières)}
