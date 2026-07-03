@@ -240,7 +240,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
             'candidature.listerDétailsFournisseur',
             'lauréat.listerLauréatEnrichi',
             'éliminé.listerÉliminéEnrichi',
-            'candidature.lister',
+            'candidature.exporterListe',
           ],
         },
       ],
