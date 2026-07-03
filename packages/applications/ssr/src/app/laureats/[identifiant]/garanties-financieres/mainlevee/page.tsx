@@ -63,12 +63,12 @@ export default async function Page({ params }: IdentifiantParameter) {
       const actions: DétailsMainlevéePageProps['actions'] = [];
       if (mainlevée?.statut.estEnInstruction()) {
         actions.push('garantiesFinancières.mainlevée.annuler');
+        actions.push('garantiesFinancières.mainlevée.accorder');
+        actions.push('garantiesFinancières.mainlevée.rejeter');
       }
       if (mainlevée?.statut.estDemandé()) {
         actions.push('garantiesFinancières.mainlevée.annuler');
         actions.push('garantiesFinancières.mainlevée.démarrerInstruction');
-      }
-      if (!mainlevée?.statut.estAccordé() && !mainlevée?.statut.estRejeté()) {
         actions.push('garantiesFinancières.mainlevée.accorder');
         actions.push('garantiesFinancières.mainlevée.rejeter');
       }

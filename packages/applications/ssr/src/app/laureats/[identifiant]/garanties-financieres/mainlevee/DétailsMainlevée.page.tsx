@@ -96,6 +96,9 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
   return (
     <ActionsPageTemplate<ActionMainlevée>
       heading="Mainlevée des garanties financières"
+      /* Si mainlevée n'est pas définit c'est qu'il y a forcémenet 1 ou plusieurs mainlevées rejetées
+         Sinon la page est notFound()
+      */
       badge={<StatutDemandeBadge statut={mainlevée?.statut.statut ?? 'rejeté'} />}
       actions={actions}
       actionMap={actionMap}
