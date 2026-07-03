@@ -19,6 +19,7 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      puissanceAppelée: 288,
       cahiersDesChargesModifiésDisponibles: [],
       // si CDC modifié ajouté, vérifier si retour au CDC initial possible
       champsSupplémentaires: {},

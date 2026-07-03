@@ -195,6 +195,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2017/S 051-094731',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 70,
       familles: [
         {
           id: '1a',
@@ -246,6 +247,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2017/S 051-094731',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 140,
       familles: [
         {
           id: '1',
@@ -278,6 +280,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2017/S 051-094731',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 140,
       familles: [
         {
           id: '1',

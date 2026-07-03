@@ -167,6 +167,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 12,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -186,6 +187,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
+      puissanceAppelée: 19,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',

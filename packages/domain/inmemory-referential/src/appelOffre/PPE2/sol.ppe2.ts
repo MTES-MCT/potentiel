@@ -181,6 +181,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'première',
       // les périodes 1 à 7 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 700,
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2021 S 211-553136',
@@ -218,6 +219,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'deuxième',
       // les périodes 1 à 7 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 700,
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2022/S 061-160516',
@@ -260,6 +262,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'troisième',
       // les périodes 1 à 7 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 925,
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -297,6 +300,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'quatrième',
       // les périodes 1 à 7 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 1500,
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -345,6 +349,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'cinquième',
       // les périodes 1 à 7 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 925,
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -393,6 +398,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'sixième',
       // les périodes 1 à 7 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 925,
       certificateTemplate: 'ppe2.v2',
       logo: 'MCE',
       cahierDesCharges: {
@@ -441,6 +447,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'septième',
       // les périodes 1 à 7 ont utilisé MW
       unitéPuissance: 'MW',
+      puissanceAppelée: 925,
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
@@ -493,6 +500,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2025/S 059-190628',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 925,
       familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -528,6 +536,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     },
     /** à partir de la P9 l'autorité compétente pour les abandons est la dreal,
      *  plus besoin de redéfinir cete règle au niveau de la période
+     */
+    /** puissance appelée périodes 9 et 10 : 925
      */
   ],
 };

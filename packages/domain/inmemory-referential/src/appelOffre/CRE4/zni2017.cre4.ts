@@ -180,6 +180,8 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 242-441980',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      puissanceAppelée: 20,
+
       familles: [
         {
           id: '1',

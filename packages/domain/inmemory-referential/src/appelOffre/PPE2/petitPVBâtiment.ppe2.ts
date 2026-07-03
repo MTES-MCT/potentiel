@@ -152,6 +152,7 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
         référence: '2025/S 513616-2025',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      puissanceAppelée: 192,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
       // si CDC modifié ajouté, vérifier si retour au CDC initial possible
