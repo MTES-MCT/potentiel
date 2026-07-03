@@ -42,11 +42,13 @@ export const GET = async (request: Request) =>
         },
       });
 
-      const candidatsLauréatsPériode = candidatsPériode.items.sort(
-        (a, b) =>
-          a.localité.région.localeCompare(b.localité.région) ||
-          a.localité.département.localeCompare(b.localité.département),
-      );
+      const candidatsLauréatsPériode = candidatsPériode.items
+        .filter((candidat) => candidat.statut.estClassé())
+        .sort(
+          (a, b) =>
+            a.localité.région.localeCompare(b.localité.région) ||
+            a.localité.département.localeCompare(b.localité.département),
+        );
 
       const appelOffreData = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
