@@ -73,7 +73,6 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;
-    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.supprimerFixture;
 
     await waitForExpect(async () => {
       const dossierRaccordement =
