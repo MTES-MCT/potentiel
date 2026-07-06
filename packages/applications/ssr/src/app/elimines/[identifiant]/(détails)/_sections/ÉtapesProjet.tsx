@@ -15,7 +15,7 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 export type ÉtapeProjet = {
   type: 'designation' | 'recours-demandé' | 'recours-annulé' | 'recours-rejeté';
   date: DateTime.RawType;
-  hideDocument?: true;
+  hasNoDocument?: true;
 };
 
 export type EtapesProjetProps = {
@@ -31,7 +31,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes
           match(étape)
             .with({ type: 'designation' }, ({ date }) => (
               <ÉtapeProjet key={étape.type} titre="Notification" date={date}>
-                {étape.hideDocument && (
+                {!étape.hasNoDocument && (
                   <DownloadDocument
                     className="mb-0"
                     label="Télécharger l'avis de rejet"

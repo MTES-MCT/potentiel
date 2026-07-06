@@ -22,7 +22,7 @@ export type ÉtapeProjet = (
       type: 'mise-en-service' | 'achèvement-réel';
       date?: DateTime.RawType;
     }
-) & { hideDocument?: true };
+) & { hasNoDocument?: true };
 
 export type EtapesProjetProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -41,7 +41,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes
                 titre="Notification"
                 date={date}
                 document={
-                  étape.hideDocument
+                  étape.hasNoDocument
                     ? undefined
                     : { url: Routes.Candidature.téléchargerAttestation(identifiantProjet) }
                 }

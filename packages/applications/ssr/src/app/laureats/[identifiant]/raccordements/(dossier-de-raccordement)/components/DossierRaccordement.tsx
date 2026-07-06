@@ -42,7 +42,7 @@ export const DossierRaccordement: FC<DossierProps> = ({
 }) => {
   return (
     <section className="w-fit h-fit flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px]">
-      <Heading3>Dossier avec la référence {référence}</Heading3>
+      <Heading3>Dossier {référence}</Heading3>
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {dossierEtapes.map((étape) => (
           <DossierEtape
