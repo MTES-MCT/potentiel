@@ -34,6 +34,8 @@ type DataLine = {
 };
 
 export class PublierDatagouvStats extends Command {
+  static monitoringSlug = 'publier-datagouv';
+
   async run() {
     try {
       const env = envSchema.parse(process.env);
