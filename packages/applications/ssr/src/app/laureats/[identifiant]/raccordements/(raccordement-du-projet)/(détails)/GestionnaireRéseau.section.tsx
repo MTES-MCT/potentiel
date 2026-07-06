@@ -42,7 +42,7 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
       });
 
       return (
-        <Section title={sectionTitle}>
+        <Section title="" className="pt-0">
           {Option.isNone(gestionnaireRéseau) ? (
             <Notice
               severity="warning"
@@ -61,29 +61,27 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
               }
             />
           ) : (
-            <div className="mt-2 mb-4 p-0">
-              <div className="flex flex-col gap-1">
-                <div className="flex flex-col">
-                  <div>
-                    Nom du gestionnaire de réseau :{' '}
-                    <span className="font-semibold">{gestionnaireRéseau.raisonSociale}</span>
-                  </div>
-                  {gestionnaireRéseau.contactEmail && (
-                    <div className="flex items-center gap-2">
-                      Contact :{' '}
-                      <CopyButton
-                        textToCopy={gestionnaireRéseau.contactEmail.email}
-                        aria-label="Copier"
-                      />
-                    </div>
-                  )}
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-col">
+                <div>
+                  Gestionnaire de réseau :{' '}
+                  <span className="font-semibold">{gestionnaireRéseau.raisonSociale}</span>
                 </div>
-                {action && (
-                  <TertiaryLink href={action.href} aria-label={action.label}>
-                    {action.label}
-                  </TertiaryLink>
+                {gestionnaireRéseau.contactEmail && (
+                  <div className="flex items-center gap-2">
+                    Contact :{' '}
+                    <CopyButton
+                      textToCopy={gestionnaireRéseau.contactEmail.email}
+                      aria-label="Copier"
+                    />
+                  </div>
                 )}
               </div>
+              {action && (
+                <TertiaryLink href={action.href} aria-label={action.label}>
+                  {action.label}
+                </TertiaryLink>
+              )}
             </div>
           )}
         </Section>

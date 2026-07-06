@@ -41,7 +41,7 @@ export const DossierRaccordement: FC<DossierProps> = ({
   identifiantProjet,
 }) => {
   return (
-    <section className="w-fit h-fit flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px]">
+    <section className="w-fit flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] relative">
       <Heading3>Dossier {référence}</Heading3>
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {dossierEtapes.map((étape) => (
@@ -55,10 +55,12 @@ export const DossierRaccordement: FC<DossierProps> = ({
         ))}
       </ul>
       {peutSupprimerDossier && (
-        <SupprimerDossierDuRaccordement
-          identifiantProjet={identifiantProjet}
-          référenceDossier={référence}
-        />
+        <div className="mt-auto">
+          <SupprimerDossierDuRaccordement
+            identifiantProjet={identifiantProjet}
+            référenceDossier={référence}
+          />
+        </div>
       )}
     </section>
   );
@@ -76,7 +78,7 @@ const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
         {date.date ? (
           <FormattedDate date={date.date} />
         ) : (
-          <span className="italic">{date.fallbackText}</span>
+          <span className="italic text-dsfr-text-default-warning-default">{date.fallbackText}</span>
         )}
         <ItemTitle title={mapTypeToTitre[type]} />
         {document &&
@@ -92,7 +94,9 @@ const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
               />
             </>
           ) : (
-            <span className="italic">{document.fallbackText}</span>
+            <span className="italic text-dsfr-text-default-warning-default">
+              {document.fallbackText}
+            </span>
           ))}
         {action && (
           <TertiaryLink key={action.label} href={action.href}>

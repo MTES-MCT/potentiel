@@ -4,7 +4,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
-import { Heading3 } from '@/components/atoms/headings';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getRaccordement } from '../../../_helpers';
@@ -42,9 +41,6 @@ export const DossiersRaccordementSection = ({
 
       return (
         <div className="w-full h-fit flex flex-col gap-4 p-3">
-          <Heading3 as="h2" className="flex items-center mb-1">
-            Dossiers de Raccordement
-          </Heading3>
           {peutAjouterUnDossier && (
             <Button
               priority="secondary"
