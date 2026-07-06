@@ -111,9 +111,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     },
     document: {
       url: dossier.propositionTechniqueEtFinancière
-        ? DocumentProjet.bind(
-            dossier.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
-          ).formatter()
+        ? DocumentProjet.bind(dossier.propositionTechniqueEtFinancière.document).formatter()
         : undefined,
       fallbackText: 'Document à transmettre',
     },
