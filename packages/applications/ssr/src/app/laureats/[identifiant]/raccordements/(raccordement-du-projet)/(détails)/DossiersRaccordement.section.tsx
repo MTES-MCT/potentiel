@@ -40,7 +40,7 @@ export const DossiersRaccordementSection = ({
       const raccordement = await getRaccordement(identifiantProjet.formatter());
 
       return (
-        <div className="w-full h-fit flex flex-col gap-4 p-3">
+        <div className="w-full h-fit flex flex-col gap-4 py-3">
           {peutAjouterUnDossier && (
             <Button
               priority="secondary"
