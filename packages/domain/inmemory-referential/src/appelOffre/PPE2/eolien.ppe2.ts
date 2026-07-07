@@ -594,6 +594,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       champsSupplémentaires: champsSupplémentairesAPartirDeP11,
       typeImport: 'démarche-simplifiée',
     },
-    // Pour P12 la puissance appelée sera de 1GW
+    // Pour P12 la puissance appelée sera de 1000 MW
   ],
 };
