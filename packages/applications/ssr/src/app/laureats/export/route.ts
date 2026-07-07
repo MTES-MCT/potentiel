@@ -15,7 +15,10 @@ export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
       if (!utilisateur.rôle.aLaPermission('lauréat.exporterListeEnrichie')) {
-        throw new AccèsFonctionnalitéRefuséError('période.consulterSynthèse', utilisateur.rôle.nom);
+        throw new AccèsFonctionnalitéRefuséError(
+          'lauréat.exporterListeEnrichie',
+          utilisateur.rôle.nom,
+        );
       }
 
       const { searchParams } = new URL(request.url);
