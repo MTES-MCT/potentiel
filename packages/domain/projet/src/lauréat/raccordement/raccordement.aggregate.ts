@@ -875,22 +875,10 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementTransmisEventV1 | DocumentRaccordementModifiéEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    const document = {
+    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)] = {
       dateSignature: DateTime.convertirEnValueType(dateSignature),
       format,
     };
-
-    if (type === 'proposition-technique-et-financière') {
-      dossier.propositionTechniqueEtFinancière = document;
-    }
-
-    if (type === 'convention-de-raccordement') {
-      dossier.conventionDeRaccordement = document;
-    }
-
-    if (type === 'convention-directe-de-raccordement') {
-      dossier.conventionDirecteDeRaccordement = document;
-    }
   }
 
   private applyDocumentRaccordementSuppriméEventV1({
@@ -898,17 +886,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementSuppriméEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    if (type === 'proposition-technique-et-financière') {
-      dossier.propositionTechniqueEtFinancière = undefined;
-    }
-
-    if (type === 'convention-de-raccordement') {
-      dossier.conventionDeRaccordement = undefined;
-    }
-
-    if (type === 'convention-directe-de-raccordement') {
-      dossier.conventionDirecteDeRaccordement = undefined;
-    }
+    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)] = undefined;
   }
 
   //#endregion Document Raccordement

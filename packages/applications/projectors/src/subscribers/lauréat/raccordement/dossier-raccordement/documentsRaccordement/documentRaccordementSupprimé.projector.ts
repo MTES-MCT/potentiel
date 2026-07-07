@@ -1,10 +1,8 @@
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
-
-import { mapDocumentTypeToEntityKey } from './helpers/mapDocumentTypeToEntityKey.js';
 
 export const documentRaccordementSuppriméV1Projector = async ({
   payload: { identifiantProjet, référenceDossierRaccordement, suppriméLe, type },
@@ -18,7 +16,7 @@ export const documentRaccordementSuppriméV1Projector = async ({
   }
 
   const payload = {
-    [mapDocumentTypeToEntityKey(type)]: undefined,
+    [Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)]: undefined,
   };
 
   await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(

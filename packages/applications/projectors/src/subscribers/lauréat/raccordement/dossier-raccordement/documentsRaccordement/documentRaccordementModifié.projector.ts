@@ -1,8 +1,6 @@
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
-
-import { mapDocumentTypeToEntityKey } from './helpers/mapDocumentTypeToEntityKey.js';
 
 export const documentRaccordementModifiéV1Projector = async ({
   payload: {
@@ -15,7 +13,7 @@ export const documentRaccordementModifiéV1Projector = async ({
   },
 }: Lauréat.Raccordement.DocumentRaccordementModifiéEventV1) => {
   const payload = {
-    [mapDocumentTypeToEntityKey(type)]: {
+    [Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)]: {
       dateSignature,
       document,
     },
