@@ -12,7 +12,7 @@ Fonctionnalité: Supprimer un document
   Plan du Scénario: Supprimer un document d'un dossier de raccordement
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document <document existant> pour le projet lauréat
-    Quand le porteur supprime une <document existant> pour le projet lauréat
+    Quand le porteur supprime un document <document existant> pour le projet lauréat
     Alors le document ne devrait plus être consultable dans le dossier de raccordement du projet lauréat
 
     Exemples:
@@ -44,23 +44,20 @@ Fonctionnalité: Supprimer un document
 
   Scénario: Impossible de modifier un document qui n'a pas été transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
-    Et une convention de raccordement pour le projet lauréat
+    Et un document convention de raccordement pour le projet lauréat
     Quand le porteur supprime un document proposition technique et financière pour le projet lauréat
     Alors le porteur devrait être informé que "Il n'existe pas de document de ce type dans ce dossier de raccordement"
 
-  Scénario: Impossible de supprimer un document pour un projet abandonné
+  Scénario: Impossible de supprimer un document pour un projet en cours d'abandon
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document proposition technique et financière pour le projet lauréat
     Et une demande d'abandon en cours pour le projet lauréat
     Quand le porteur supprime un document proposition technique et financière pour le projet lauréat
     Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
-  Scénario: Impossible de supprimer un document pour un projet avec une demande d'abandon en cours
+  Scénario: Impossible de supprimer un document pour un projet abandonné
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document proposition technique et financière pour le projet lauréat
     Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
     Quand le porteur supprime un document proposition technique et financière pour le projet lauréat
     Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
-
-
-

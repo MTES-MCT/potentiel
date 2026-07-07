@@ -14,7 +14,7 @@ EtantDonné('un document transmis pour le projet lauréat', async function (this
 });
 
 EtantDonné(
-  /$un document (proposition technique et financière|convention de raccordement|convention directe de raccordement) pour le projet lauréat/,
+  /^un document (proposition technique et financière|convention de raccordement|convention directe de raccordement) pour le projet lauréat$/,
   async function (this: PotentielWorld, typeDocument: string) {
     const { identifiantProjet, référenceDossier } =
       this.lauréatWorld.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
