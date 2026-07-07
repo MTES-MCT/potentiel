@@ -14,7 +14,11 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
-      if (!utilisateur.rôle.aLaPermission('lauréat.exporterListeEnrichie')) {
+      const utilisateurPeutExporterLesLauréats = utilisateur.rôle.aLaPermission(
+        'lauréat.exporterListeEnrichie',
+      );
+
+      if (!utilisateurPeutExporterLesLauréats) {
         throw new AccèsFonctionnalitéRefuséError(
           'lauréat.exporterListeEnrichie',
           utilisateur.rôle.nom,
