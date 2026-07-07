@@ -4,6 +4,8 @@ import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
+import { mapDocumentTypeToEntityKey } from './helpers/mapDocumentTypeToEntityKey.js';
+
 export const documentRaccordementSuppriméV1Projector = async ({
   payload: { identifiantProjet, référenceDossierRaccordement, suppriméLe, type },
 }: Lauréat.Raccordement.DocumentRaccordementSuppriméEventV1) => {
@@ -15,18 +17,9 @@ export const documentRaccordementSuppriméV1Projector = async ({
     throw new Error(`Impossible de supprimer le document de raccordement`);
   }
 
-  const payload =
-    type === 'proposition-technique-et-financière'
-      ? {
-          propositionTechniqueEtFinancière: undefined,
-        }
-      : type === 'convention-de-raccordement'
-        ? {
-            conventionDeRaccordement: undefined,
-          }
-        : {
-            conventionDirecteDeRaccordement: undefined,
-          };
+  const payload = {
+    [mapDocumentTypeToEntityKey(type)]: undefined,
+  };
 
   await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
