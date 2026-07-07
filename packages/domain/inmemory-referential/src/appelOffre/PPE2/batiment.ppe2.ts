@@ -612,7 +612,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2026/S 33-110771',
       },
       familles: [],
-      puissanceAppelée: 400,
+      puissanceAppelée: 300,
       volumeRéservé: {
         noteMin: 45.245,
         puissanceMax: 1,
