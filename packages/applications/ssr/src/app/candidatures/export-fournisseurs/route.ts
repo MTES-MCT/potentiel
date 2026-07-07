@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 
 import { Candidature, type IdentifiantProjet } from '@potentiel-domain/projet';
 import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
@@ -24,6 +25,13 @@ type DétailFournisseurCSV = {
 export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('candidature.exporterDétailsFournisseur')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'candidature.exporterDétailsFournisseur',
+          utilisateur.rôle.nom,
+        );
+      }
+
       const { searchParams } = new URL(request.url);
 
       const appelOffre = searchParams.getAll('appelOffre') ?? undefined;

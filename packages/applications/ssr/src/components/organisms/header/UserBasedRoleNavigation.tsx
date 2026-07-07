@@ -237,7 +237,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
           url: Routes.Export.page,
           permission: [
             'raccordement.exporterDossierRaccordement',
-            'candidature.listerDétailsFournisseur',
+            'candidature.exporterDétailsFournisseur',
             'lauréat.exporterListeEnrichie',
             'éliminé.listerÉliminéEnrichi',
             'candidature.exporterListe',

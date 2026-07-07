@@ -1032,7 +1032,7 @@ const policies = {
         référencielPermissions.éliminé.recours.query.consulter,
       ],
     },
-    listerDétailsFournisseur: [référencielPermissions.candidature.query.listerDétailsFournisseur],
+    exporterDétailsFournisseur: [référencielPermissions.candidature.query.listerDétailsFournisseur],
   },
   période: {
     consulter: [référencielPermissions.période.query.consulter],
@@ -1745,7 +1745,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'candidature.lister',
   'candidature.exporterListe',
   'candidature.attestation.prévisualiser',
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 
   // Période
   'période.lister',
@@ -1967,7 +1967,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   'éliminé.listerÉliminéEnrichi',
 
   // Candidature
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -2026,7 +2026,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.attestation.télécharger',
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 
   // Lauréat
   'lauréat.modifierSiteDeProduction',
@@ -2369,7 +2369,7 @@ const ademePolicies: ReadonlyArray<Policy> = [
   'éliminé.listerÉliminéEnrichi',
 
   // Candidature
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
