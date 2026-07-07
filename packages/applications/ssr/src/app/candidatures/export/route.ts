@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 
 import type { Candidature } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { apiAction } from '@/utils/apiAction';
@@ -21,7 +22,14 @@ type DétailCandidatureCSV = {
 
 export const GET = async (request: Request) =>
   apiAction(async () =>
-    withUtilisateur(async () => {
+    withUtilisateur(async (utilisateur) => {
+      const utilisateurPeutExporterLesCandidats = utilisateur.rôle.aLaPermission(
+        'candidature.exporterListe',
+      );
+
+      if (!utilisateurPeutExporterLesCandidats) {
+        throw new AccèsFonctionnalitéRefuséError('candidature.exporterListe', utilisateur.rôle.nom);
+      }
       const { searchParams } = new URL(request.url);
 
       const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
