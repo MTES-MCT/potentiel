@@ -1,3 +1,5 @@
+'use client';
+
 import Button from '@codegouvfr/react-dsfr/Button';
 import { type FC, useState } from 'react';
 
@@ -8,6 +10,7 @@ export type SupprimerDossierDuRaccordementProps = {
   identifiantProjet: string;
   référenceDossier: string;
 };
+
 export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = ({
   identifiantProjet,
   référenceDossier,
@@ -15,7 +18,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Button priority="primary" onClick={() => setIsOpen(true)} className="mt-4">
+      <Button priority="tertiary" onClick={() => setIsOpen(true)} className="mt-4">
         Supprimer
       </Button>
 
