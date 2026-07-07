@@ -12,7 +12,7 @@ export const peutEffectuerUnChangement = cache(
   async (identifiantProjet: IdentifiantProjet.ValueType) => {
     const abandon = await getOptionalAbandon(identifiantProjet.formatter());
 
-    if (abandon?.demandeEnCours || abandon?.estAbandonné) {
+    if (abandon?.statut.estEnCours() || abandon?.statut.estAccordé()) {
       return false;
     }
 

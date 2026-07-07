@@ -117,6 +117,7 @@ Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La 
 Le Candidat peut également être délié de cette obligation selon appréciation du ministre chargé de l’énergie  suite  à  une  demande  dûment  justifiée.  Le  Ministre  peut  accompagner  son accord  de conditions. L’accord du Ministre et les conditions imposées le cas échéant, ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
     },
   },
+  délaiDCR: { grd: 2 },
   periodes: [
     {
       id: '1',
@@ -125,7 +126,6 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 50,
       donnéesCourriersRéponse: {
@@ -159,7 +159,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 50,
       donnéesCourriersRéponse: {
@@ -191,7 +190,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 50,
       donnéesCourriersRéponse: {
@@ -224,7 +222,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
@@ -255,7 +252,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 50,
       donnéesCourriersRéponse: {
@@ -287,7 +283,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 25,
       donnéesCourriersRéponse: {
@@ -319,7 +314,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 25,
       donnéesCourriersRéponse: {
@@ -351,7 +345,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 20,
       donnéesCourriersRéponse: {
@@ -383,7 +376,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 25,
       donnéesCourriersRéponse: {
@@ -415,7 +407,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 25,
       donnéesCourriersRéponse: {

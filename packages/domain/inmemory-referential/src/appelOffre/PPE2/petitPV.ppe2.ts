@@ -17,7 +17,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       cahierDesCharges: {
         référence: '🦺 A COMPLETER 🦺',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       puissanceAppelée: 288,
       cahiersDesChargesModifiésDisponibles: [],
@@ -29,7 +28,7 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
         paragraphePrix:
           "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 de l'annexe 2 du cahier des charges.",
       },
-      typeImport: 'démarche-simplifiée',
+      typeImport: 'démarche-numérique',
     },
   ],
 };

@@ -186,6 +186,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
 `,
     },
   },
+  délaiDCR: { grd: 2 },
   periodes: [
     {
       id: '1',
@@ -194,7 +195,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 70,
       familles: [
         {
@@ -246,7 +246,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 140,
       familles: [
         {
@@ -279,7 +278,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 140,
       familles: [
         {

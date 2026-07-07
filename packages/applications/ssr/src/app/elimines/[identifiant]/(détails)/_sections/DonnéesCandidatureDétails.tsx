@@ -68,7 +68,10 @@ export const DonnéesCandidatureDétail: FC<DonnéesCandidatureDétailProps> = (
     )}
     <li className="flex gap-2 items-center">
       <span className="font-bold">Adresse email de candidature :</span>
-      <CopyButton textToCopy={Email.bind(emailContact).formatter()} />
+      <CopyButton
+        textToCopy={Email.bind(emailContact).formatter()}
+        aria-label="Copier l'adresse email de candidature"
+      />
     </li>
     <li>
       <span className="font-bold">Producteur :</span> {nomCandidat}

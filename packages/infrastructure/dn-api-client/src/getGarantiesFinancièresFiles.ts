@@ -1,0 +1,27 @@
+import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { mapApiResponseToFichiers } from './_helpers/index.js';
+import { getDémarcheNumériqueApiClient } from './graphql/index.js';
+
+export const getGarantiesFinancièresFiles = async (dossierNumber: number) => {
+  const sdk = getDémarcheNumériqueApiClient();
+  const logger = getLogger('dn-api-client');
+  logger.debug(`Récupération des fichiers GF du dossier ${dossierNumber}`);
+
+  try {
+    const { dossier } = await sdk.GetDossier({ dossier: dossierNumber });
+
+    const fichiers = mapApiResponseToFichiers({
+      champs: dossier.champs,
+    });
+
+    return fichiers.garantiesFinancières.length > 0 ? fichiers.garantiesFinancières : [];
+  } catch (error) {
+    logger.warn('Impossible de récupérer les fichiers de garanties financières', {
+      dossierNumber,
+      errorMessage: error instanceof Error ? error.message : 'unknown',
+      errorData: error,
+    });
+    return [];
+  }
+};

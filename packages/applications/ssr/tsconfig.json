@@ -44,7 +44,7 @@
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../infrastructure/ds-api-client"
+      "path": "../../infrastructure/dn-api-client"
     },
     {
       "path": "../../infrastructure/filigrane-facile-client"

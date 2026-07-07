@@ -44,6 +44,7 @@ export namespace CahierDesCharges {
     estChampRequisOuOptionnel(champ: AppelOffre.ChampCandidature): boolean;
     estChampRequis(champ: AppelOffre.ChampCandidature): boolean;
     getTypesActionnariat(): TypeActionnariat.RawType[];
+    getDélaiDCR(): AppelOffre.DélaiDCR;
   };
 
   export const bind = ({
@@ -212,6 +213,9 @@ export namespace CahierDesCharges {
           ? TypeActionnariat.ppe2Types
           : TypeActionnariat.cre4Types),
       ];
+    },
+    getDélaiDCR() {
+      return this.période.délaiDCR ?? this.appelOffre.délaiDCR;
     },
   });
 

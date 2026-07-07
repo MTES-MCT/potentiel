@@ -216,38 +216,20 @@ export type Famille = {
   garantiesFinancières: GarantiesFinancièresFamille;
 };
 
-type NoteThresholdByCategory = {
-  volumeReserve: {
-    noteThreshold: number;
-    puissanceMax: number;
-  };
-  autres: {
-    noteThreshold: number;
-  };
-};
-
 export type Validateur = {
   nomComplet: string;
   fonction: string;
 };
 
-export type NotifiedPeriode = { type?: undefined } & (
-  | {
-      noteThresholdBy: 'category';
-      noteThreshold: NoteThresholdByCategory;
-    }
-  | {
-      noteThresholdBy?: undefined;
-    }
-) &
-  CertificateTemplateProps;
+/** Représente une période notifiée via Potentiel */
+export type NotifiedPeriode = {
+  type?: undefined;
+} & CertificateTemplateProps;
 
 /** Représente une période notifiée hors Potentiel */
 type LegacyPeriode = {
   type: 'legacy';
   certificateTemplate?: undefined;
-  noteThresholdBy?: undefined;
-  noteThreshold?: undefined;
 };
 
 type CertificateTemplateProps =
@@ -295,6 +277,14 @@ export type ChampsSupplémentairesCandidature = Partial<
   Record<ChampCandidature, TypeChampSupplémentaire>
 >;
 
+export type Nombres = 1 | 2 | 3 | 4;
+export type DélaiDCR = {
+  /** Auprès du GRD, en mois */
+  grd: Nombres;
+  /** Dans Potentiel, en mois. Omis si non requis par le CDC. */
+  potentiel?: Nombres;
+};
+
 export type Periode = {
   id: string;
   title: string;
@@ -308,10 +298,7 @@ export type Periode = {
    **/
   paragrapheEngagementIPFPGPFC?: string;
   cahierDesCharges: { référence: string };
-  delaiDcrEnMois: {
-    valeur: number;
-    texte: string;
-  };
+  délaiDCR?: DélaiDCR;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
@@ -331,7 +318,12 @@ export type Periode = {
     paragrapheECS?: string;
   };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
-  typeImport: 'démarche-simplifiée' | 'csv';
+  typeImport: 'démarche-numérique' | 'csv';
+  /** Partie du volume total de puissance appelé spécifiquement allouée aux faibles puissance */
+  volumeRéservé?: {
+    noteMin: number;
+    puissanceMax: number;
+  };
 } & (NotifiedPeriode | LegacyPeriode);
 
 // Territoire
@@ -376,7 +368,7 @@ export type AppelOffreReadModel = {
   dépôtDCRPossibleSeulementAprèsDésignation?: true;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
-  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant?: true;
+  délaiDCR: DélaiDCR;
   miseÀJour: RèglesMiseÀJour;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;

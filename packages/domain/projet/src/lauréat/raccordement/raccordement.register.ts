@@ -16,6 +16,12 @@ import {
   type ConsulterRaccordementDependencies,
   registerConsulterRaccordementQuery,
 } from './consulter/consulterRaccordement.query.js';
+import { registerModifierDocumentRaccordementCommand } from './document-raccordement/modifier/modifierDocumentRaccordement.command.js';
+import { registerModifierDocumentRaccordementUseCase } from './document-raccordement/modifier/modifierDocumentRaccordement.usecase.js';
+import { registerSupprimerDocumentRaccordementCommand } from './document-raccordement/supprimer/supprimerDocumentRaccordement.command.js';
+import { registerSupprimerDocumentRaccordementUseCase } from './document-raccordement/supprimer/supprimerDocumentRaccordement.usecase.js';
+import { registerTransmettreDocumentRaccordementCommand } from './document-raccordement/transmettre/transmettreDocumentRaccordement.command.js';
+import { registerTransmettreDocumentRaccordementUseCase } from './document-raccordement/transmettre/transmettreDocumentRaccordement.usecase.js';
 import {
   type ListerDossierRaccordementQueryDependencies,
   registerListerDossierRaccordementQuery,
@@ -90,6 +96,9 @@ export const registerRaccordementUseCases = ({
   registerTransmettrePropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerAttribuerGestionnaireCommand(getProjetAggregateRoot);
   registerSupprimerDossierDuRaccordementCommand(getProjetAggregateRoot);
+  registerTransmettreDocumentRaccordementCommand(getProjetAggregateRoot);
+  registerModifierDocumentRaccordementCommand(getProjetAggregateRoot);
+  registerSupprimerDocumentRaccordementCommand(getProjetAggregateRoot);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
@@ -100,4 +109,7 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
   registerSupprimerDossierDuRaccordementUseCase();
+  registerTransmettreDocumentRaccordementUseCase();
+  registerModifierDocumentRaccordementUseCase();
+  registerSupprimerDocumentRaccordementUseCase();
 };

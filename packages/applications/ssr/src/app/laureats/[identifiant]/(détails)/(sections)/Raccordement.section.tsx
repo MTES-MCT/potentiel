@@ -3,12 +3,12 @@ import type { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
+import { formatDateToText, getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getOptionalAbandon, getRaccordement } from '../../_helpers';
-import { vérifierSiModificationRaccordementPossible } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
+import { vérifierSiPeutAccéderÀRaccordement } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { RaccordementDétails, type RaccordementDétailsProps } from './RaccordementDétails';
 
 type RaccordementSectionProps = {
@@ -32,7 +32,8 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
       const abandon = rôle.aLaPermission('abandon.consulter.enCours')
         ? await getOptionalAbandon(identifiantProjet)
         : undefined;
-      const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat, abandon);
+
+      const peutModifierRaccordement = vérifierSiPeutAccéderÀRaccordement(lauréat, abandon);
 
       if (!raccordement && !peutModifierRaccordement) {
         return null;
@@ -49,6 +50,7 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
               url: Routes.Raccordement.détail(identifiantProjet),
             }
           : undefined;
+      const délaiDCR = cahierDesCharges.getDélaiDCR();
       const alertes =
         rôle.estPorteur() && peutModifierRaccordement
           ? getAlertesRaccordement({
@@ -56,12 +58,12 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
                 !!cahierDesCharges.cahierDesChargesModificatif &&
                 cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
               raccordement,
-              dcrAttendueAvantLe: lauréat.notifiéLe.ajouterNombreDeMois(
-                cahierDesCharges.période.delaiDcrEnMois.valeur,
-              ),
-              transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
-                !!cahierDesCharges.appelOffre
-                  .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
+              dateLimiteDCRAuprèsGRD: lauréat.notifiéLe
+                .ajouterNombreDeMois(délaiDCR.grd)
+                .formatter(),
+              dateLimiteDCRSurPotentiel: délaiDCR.potentiel
+                ? lauréat.notifiéLe.ajouterNombreDeMois(délaiDCR.potentiel).formatter()
+                : undefined,
             })
           : [];
 
@@ -79,31 +81,23 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
 const getAlertesRaccordement = ({
   CDC2022Choisi,
   raccordement,
-  dcrAttendueAvantLe,
-  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
+  dateLimiteDCRAuprèsGRD,
+  dateLimiteDCRSurPotentiel,
 }: {
   CDC2022Choisi: boolean;
   raccordement?: Lauréat.Raccordement.ConsulterRaccordementReadModel;
-  dcrAttendueAvantLe: DateTime.ValueType;
-  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: boolean;
+  dateLimiteDCRAuprèsGRD: DateTime.RawType;
+  dateLimiteDCRSurPotentiel?: DateTime.RawType;
 }): RaccordementDétailsProps['alertes'] => {
-  const formattedDcrAttendueParLeGestionnaireAvantLe = Intl.DateTimeFormat('fr').format(
-    new Date(dcrAttendueAvantLe.formatter()),
-  );
-
-  const formattedDcrAttendueParPotentielAvantLe = Intl.DateTimeFormat('fr').format(
-    new Date(dcrAttendueAvantLe.ajouterNombreDeMois(1).formatter()),
-  );
-
-  const demandeComplèteRaccordementManquanteAlerte = `
-    Vous devez déposer une demande de raccordement auprès de votre gestionnaire de réseau avant le ${formattedDcrAttendueParLeGestionnaireAvantLe}. 
+  const labelAlerte = dateLimiteDCRSurPotentiel
+    ? `
+    Vous devez déposer une demande complète de raccordement avant le ${formatDateToText(dateLimiteDCRAuprèsGRD)} auprès de votre gestionnaire de réseau (sous peine de risque de prélèvement des garanties financières ou à défaut une sanction pécuniaire au titre de l'article L311-15 du code de l'énergie). 
     
-    L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`;
-
-  const demandeComplèteRaccordementManquanteAlerteSiTransmissionAutomatiséeAuCocontractant = `
-    Vous devez déposer une demande complète de raccordement avant le ${formattedDcrAttendueParLeGestionnaireAvantLe} auprès de votre gestionnaire de réseau (sous peine de risque de prélèvement des garanties financières ou à défaut une sanction pécuniaire au titre de l'article L311-15 du code de l'énergie). 
+    Vous devez déposer cette demande complète de raccordement avant le ${formatDateToText(dateLimiteDCRSurPotentiel)} sur Potentiel afin de permettre la contractualisation du projet.
     
-    Vous devez déposer cette demande complète de raccordement avant le ${formattedDcrAttendueParPotentielAvantLe} sur Potentiel afin de permettre la contractualisation du projet.
+    L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`
+    : `
+    Vous devez déposer une demande de raccordement auprès de votre gestionnaire de réseau avant le ${formatDateToText(dateLimiteDCRAuprèsGRD)}. 
     
     L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`;
 
@@ -114,9 +108,7 @@ const getAlertesRaccordement = ({
 
   if ((raccordement && raccordement.dossiers.length === 0) || !raccordement) {
     alertes.push({
-      label: transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
-        ? demandeComplèteRaccordementManquanteAlerteSiTransmissionAutomatiséeAuCocontractant
-        : demandeComplèteRaccordementManquanteAlerte,
+      label: labelAlerte,
     });
     if (CDC2022Choisi) {
       alertes.push({ label: référenceDossierManquantePourDélaiCDC2022Alerte });

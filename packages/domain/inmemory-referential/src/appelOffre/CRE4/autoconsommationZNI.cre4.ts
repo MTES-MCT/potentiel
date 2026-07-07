@@ -157,6 +157,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé. Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
+  délaiDCR: { grd: 2 },
   periodes: [
     {
       id: '1',
@@ -165,7 +166,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2019/S 113-276257',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 12,
       donnéesCourriersRéponse: {
@@ -185,7 +185,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2019/S 113-276257',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
       puissanceAppelée: 19,
       donnéesCourriersRéponse: {

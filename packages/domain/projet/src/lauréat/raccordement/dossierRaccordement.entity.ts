@@ -1,6 +1,13 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
+type DocumentRaccordement = {
+  dateSignature: string;
+  document: {
+    format: string;
+  };
+};
+
 export type DossierRaccordement = {
   identifiantGestionnaireRéseau: string;
   identifiantProjet: string;
@@ -12,12 +19,9 @@ export type DossierRaccordement = {
     transmiseLe?: DateTime.RawType;
     transmisePar?: Email.RawType;
   };
-  propositionTechniqueEtFinancière?: {
-    dateSignature: string;
-    propositionTechniqueEtFinancièreSignée?: {
-      format: string;
-    };
-  };
+  propositionTechniqueEtFinancière?: DocumentRaccordement;
+  conventionDeRaccordement?: DocumentRaccordement;
+  conventionDirecteDeRaccordement?: DocumentRaccordement;
   miseEnService?: {
     dateMiseEnService: DateTime.RawType;
     transmiseLe: DateTime.RawType;

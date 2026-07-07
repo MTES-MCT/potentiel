@@ -19,7 +19,7 @@ export const computeNombreTotalPTFDéposées = async () => {
 
         where 
             d.key like 'dossier-raccordement|%'
-            and d.value->>'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' is not null
+            and d.value->>'propositionTechniqueEtFinancière.document.format' is not null
             and r.value->>'désactivé' is null
       )
     )

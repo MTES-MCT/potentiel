@@ -11,7 +11,7 @@ export const propositionTechniqueEtFinancièreSignéeTransmiseV1Projector = asyn
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
       propositionTechniqueEtFinancière: {
-        propositionTechniqueEtFinancièreSignée: {
+        document: {
           format,
         },
       },

@@ -1,5 +1,4 @@
 import { Routes } from '@potentiel-applications/routes';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getAction, getProducteurInfos } from '@/app/laureats/[identifiant]/_helpers';
@@ -17,9 +16,7 @@ export const ProducteurSection = ({
   withUtilisateur(async ({ rôle }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const producteur = await getProducteurInfos(identifiantProjet.formatter());
-
-    const actions = [];
+    const producteurInfos = await getProducteurInfos(identifiantProjet.formatter());
 
     const actionProducteur = await getAction({
       identifiantProjet,
@@ -27,21 +24,26 @@ export const ProducteurSection = ({
       domain: 'producteur',
     });
 
-    if (actionProducteur) {
-      actions.push(actionProducteur);
-    }
-
-    // cas particulier pour producteur pour le moment, à ne pas intégrer à getAction IMO
-    if (rôle.aLaPermission('producteur.corrigerNuméroIdentification')) {
-      actions.push({
-        url: Routes.Producteur.numéroIdentification.corriger(identifiantProjet.formatter()),
-        label: `${producteur.numéroIdentification ? 'Corriger' : 'Renseigner'} le numéro d'identification`,
-      });
-    }
-
     return (
       <Section title="Producteur">
-        <ProducteurDétails value={mapToPlainObject(producteur)} actions={actions} />
+        <ProducteurDétails
+          producteur={{
+            value: producteurInfos.producteur,
+            action: actionProducteur,
+          }}
+          numéroIdentification={{
+            value: producteurInfos.numéroIdentification,
+            // cas particulier pour producteur pour le moment, à ne pas intégrer à getAction IMO
+            action: rôle.aLaPermission('producteur.corrigerNuméroIdentification')
+              ? {
+                  url: Routes.Producteur.numéroIdentification.corriger(
+                    identifiantProjet.formatter(),
+                  ),
+                  label: `${producteurInfos.numéroIdentification ? 'Corriger' : 'Renseigner'} le numéro d'identification`,
+                }
+              : undefined,
+          }}
+        />
       </Section>
     );
   });

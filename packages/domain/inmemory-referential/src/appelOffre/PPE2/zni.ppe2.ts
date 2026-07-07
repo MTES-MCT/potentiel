@@ -116,6 +116,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat s’est engagé au Financement Collectif ou à la Gouvernance Partagée du projet prévu au 3.2.7, il est de sa responsabilité́ de s’assurer du respect de son engagement.`,
     },
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -126,7 +127,6 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       cahierDesCharges: {
         référence: '2023/S 183-570186',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [
         {
           id: '1',
@@ -158,7 +158,6 @@ du paragraphe 2.6.`,
       cahierDesCharges: {
         référence: '2024/S 490218-2024',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 99,
       familles: [
         {
@@ -191,7 +190,6 @@ du paragraphe 2.6.`,
       cahierDesCharges: {
         référence: '2023/S 183-570186',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 99,
       familles: [
         {
@@ -224,7 +222,6 @@ du paragraphe 2.6.`,
       cahierDesCharges: {
         référence: '2025/S 146-503744',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 99,
       familles: [
         {

@@ -3,15 +3,22 @@ import type React from 'react';
 import type { JSX } from 'react';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { CahierDesCharges } from '@potentiel-domain/projet';
 
 import type { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
-import { formatNumber } from '../../helpers/index.js';
+import { formatNumber, formatterNombreEnToutesLettres } from '../../helpers/index.js';
 import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 const Laureat = (project: AttestationCRE4Options) => {
   const { appelOffre, période, famille } = project;
-  const { delaiDcrEnMois } = période;
+  const cahierDesCharges = CahierDesCharges.bind({
+    ...project,
+    // pas de CDC modificatif possible à la désignation
+    cahierDesChargesModificatif: undefined,
+  });
+
+  const délaiDCREnMois = cahierDesCharges.getDélaiDCR();
 
   const objet = `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
 
@@ -103,7 +110,8 @@ const Laureat = (project: AttestationCRE4Options) => {
         }}
       >
         - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
-        {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente notification
+        {formatterNombreEnToutesLettres(délaiDCREnMois.grd)} mois à compter de la présente
+        notification
         {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}.
       </Text>
       {garantieFinanciereEnMois ? (
@@ -115,12 +123,12 @@ const Laureat = (project: AttestationCRE4Options) => {
             marginLeft: 20,
           }}
         >
-          - constituer une garantie d’exécution dans un délai de deux (2) mois à compter de la
-          présente notification. Les candidats retenus n’ayant pas adressé au préfet de région du
-          site d’implantation l’attestation de constitution de garantie financière dans le délai
-          prévu feront l’objet d’une procédure de mise en demeure. En l’absence d’exécution dans un
-          délai d’un mois après réception de la mise en demeure, le candidat pourra faire l’objet
-          d’un retrait de la présente décision le désignant lauréat
+          - constituer une garantie d’exécution dans un délai de {formatterNombreEnToutesLettres(2)}{' '}
+          mois à compter de la présente notification. Les candidats retenus n’ayant pas adressé au
+          préfet de région du site d’implantation l’attestation de constitution de garantie
+          financière dans le délai prévu feront l’objet d’une procédure de mise en demeure. En
+          l’absence d’exécution dans un délai d’un mois après réception de la mise en demeure, le
+          candidat pourra faire l’objet d’un retrait de la présente décision le désignant lauréat
           <Text>
             {addFootNote(
               appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres,

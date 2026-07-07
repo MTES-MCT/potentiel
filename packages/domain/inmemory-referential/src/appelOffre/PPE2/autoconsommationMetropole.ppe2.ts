@@ -209,6 +209,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -219,7 +220,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021 S 176-457526',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 50,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
@@ -235,7 +235,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 038 098159',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 50,
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
@@ -252,7 +251,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 150-427955',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       puissanceAppelée: 50,
       cahiersDesChargesModifiésDisponibles: [],
@@ -269,7 +267,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2023/S 176-551607',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       puissanceAppelée: 50,
       cahiersDesChargesModifiésDisponibles: [],

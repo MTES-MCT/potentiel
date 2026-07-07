@@ -1,0 +1,57 @@
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
+import { getDémarcheNumériqueApiClient } from './graphql/index.js';
+
+const fetchAllDossiers = async (démarcheId: number) => {
+  const dossiers = [];
+  let hasNextPage = true;
+  const first = process.env.DEMARCHE_NUMERIQUE_API_PAGE_SIZE
+    ? Number(process.env.DEMARCHE_NUMERIQUE_API_PAGE_SIZE)
+    : undefined;
+  let after: string | undefined;
+
+  const sdk = getDémarcheNumériqueApiClient();
+
+  while (hasNextPage) {
+    const { demarche } = await sdk.GetDemarcheAvecDossiers({
+      demarche: démarcheId,
+      first,
+      after,
+    });
+
+    dossiers.push(...(demarche.dossiers.nodes ?? []));
+
+    hasNextPage = demarche.dossiers.pageInfo.hasNextPage;
+
+    after = demarche.dossiers.pageInfo.endCursor ?? undefined;
+  }
+  return { dossiers };
+};
+
+export const getDémarcheAvecDossiers = async (démarcheId: number) => {
+  const logger = getLogger('dn-api-client');
+  try {
+    const { dossiers } = await fetchAllDossiers(démarcheId);
+
+    return dossiers
+      .filter((dossier) => !!dossier)
+      .map((dossier) => {
+        const { champs } = dossier;
+
+        return {
+          numeroDN: dossier.number,
+          dépôt: mapApiResponseToDépôt({ champs }),
+          détails: mapApiResponseToDétails({ champs }),
+        };
+      });
+  } catch (e) {
+    logger.error('Impossible de lire les dossiers de la démarche', {
+      démarcheId,
+      errorMessage: e instanceof Error ? e.message : 'unknown',
+      errorData: e,
+    });
+    return Option.none;
+  }
+};

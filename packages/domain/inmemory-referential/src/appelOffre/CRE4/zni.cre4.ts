@@ -214,6 +214,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
 `,
     },
   },
+  délaiDCR: { grd: 2 },
   periodes: [
     {
       id: '1',
@@ -222,7 +223,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 51,
       familles: [
         // 2017 ZNI avec stockage
@@ -312,7 +312,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 59,
       familles: [
         // 2017 ZNI avec stockage
@@ -402,7 +401,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 62,
       familles: [
         // 2017 ZNI avec stockage
@@ -492,7 +490,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 83,
       familles: [
         // 2017 ZNI avec stockage
@@ -582,7 +579,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       puissanceAppelée: 27,
       familles: [
         // 2017 ZNI avec stockage
@@ -672,7 +668,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2020/S 202-487521',
       },
-      delaiDcrEnMois: { valeur: 2, texte: 'deux' }, // à confirmer si c'est bien deux mois ici
       puissanceAppelée: 83,
       familles: [
         // 2017 ZNI avec stockage

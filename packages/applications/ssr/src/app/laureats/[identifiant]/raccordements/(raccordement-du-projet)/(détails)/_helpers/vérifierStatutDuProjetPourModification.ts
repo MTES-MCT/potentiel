@@ -14,14 +14,13 @@ export const getLauréatOrRedirect = async (identifiantProjet: IdentifiantProjet
       ? await getOptionalAbandon(identifiantProjet)
       : undefined;
 
-    const peutModifierRaccordement = vérifierSiModificationRaccordementPossible(lauréat, abandon);
-    if (!peutModifierRaccordement) {
-      return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
-    }
-    return lauréat;
+    return vérifierSiPeutAccéderÀRaccordement(lauréat, abandon)
+      ? lauréat
+      : redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
   });
 
-export const vérifierSiModificationRaccordementPossible = (
+export const vérifierSiPeutAccéderÀRaccordement = (
   lauréat: Lauréat.ConsulterLauréatReadModel,
   abandon: Lauréat.Abandon.ConsulterAbandonReadModel | undefined,
-): boolean => lauréat.estPartiEnPPA || (!lauréat.statut.estAbandonné() && !abandon?.demandeEnCours);
+): boolean =>
+  lauréat.estPartiEnPPA || (!lauréat.statut.estAbandonné() && !abandon?.statut.estEnCours());

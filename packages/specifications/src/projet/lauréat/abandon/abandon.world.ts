@@ -237,9 +237,8 @@ export class AbandonWord {
 
     const expected: Lauréat.Abandon.ConsulterAbandonReadModel = {
       identifiantProjet,
-      demandeEnCours: statut.estEnCours(),
+      statut,
       demandéLe: DateTime.convertirEnValueType(this.#demanderAbandonFixture.demandéLe),
-      estAbandonné: this.#accorderAbandonFixture.aÉtéCréé,
       accordéLe: this.#accorderAbandonFixture.accordéLe
         ? DateTime.convertirEnValueType(this.#accorderAbandonFixture.accordéLe)
         : undefined,

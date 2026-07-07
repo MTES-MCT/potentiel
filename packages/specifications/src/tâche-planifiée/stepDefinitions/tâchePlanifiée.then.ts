@@ -1,3 +1,5 @@
+import assert from 'node:assert';
+
 import { Then as Alors } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
@@ -55,7 +57,11 @@ Alors(
       const { identifiantProjet } = this.lauréatWorld;
 
       const actualTâche = await récupérerTâchePlanifiée(actualTypeTâche, identifiantProjet);
-      expect(actualTâche).not.to.be.undefined;
+      assert(actualTâche, "La tâche planifiée n'a pas été trouvée pour le projet lauréat");
+      expect(actualTâche.àExécuterLe.date).to.be.greaterThan(
+        new Date(),
+        'La date de la tâche planifiée est antérieure à la date actuelle',
+      );
     });
   },
 );

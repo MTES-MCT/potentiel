@@ -22,7 +22,7 @@ export const computePourcentagePTFDéposées = async () => {
               join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')
             WHERE
               d.key LIKE 'dossier-raccordement|%'
-              AND d.value ->> 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' IS NOT NULL
+              AND d.value ->> 'propositionTechniqueEtFinancière.document.format' IS NOT NULL
               AND r.value->>'désactivé' IS NULL
           )::decimal / (
             ${getCountProjetsLauréatsNonAbandonnés}

@@ -181,6 +181,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
+  délaiDCR: { grd: 3 },
   periodes: [
     {
       id: '1',
@@ -191,18 +192,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 300,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 18.79,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 26.46,
-        },
+      volumeRéservé: {
+        noteMin: 18.79,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -229,18 +223,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 400,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 12.9244110177221,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 11.4362187267599,
-        },
+      volumeRéservé: {
+        noteMin: 12.9244110177221,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
@@ -268,18 +255,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 400,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 11.72,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 13.82,
-        },
+      volumeRéservé: {
+        noteMin: 11.72,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [
         {
@@ -312,18 +292,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 400,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 7.14,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 7.14,
-        },
+      volumeRéservé: {
+        noteMin: 7.14,
+        puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
@@ -350,18 +323,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 800,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 16.69,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 15.09,
-        },
+      volumeRéservé: {
+        noteMin: 16.69,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -399,18 +365,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 400,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 23.45,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 23.45,
-        },
+      volumeRéservé: {
+        noteMin: 23.45,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -448,19 +407,13 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 400,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 90.08,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 29.84,
-        },
+      volumeRéservé: {
+        noteMin: 90.08,
+        puissanceMax: 1,
       },
+
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: '6.2',
@@ -497,18 +450,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 300,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 27.31,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 24.12,
-        },
+      volumeRéservé: {
+        noteMin: 27.31,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -548,18 +494,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 400,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 40.32,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 31.6,
-        },
+      volumeRéservé: {
+        noteMin: 40.32,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -598,18 +537,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       // Les périodes 1 à 10 ont utilisé MW
       unitéPuissance: 'MW',
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       puissanceAppelée: 400,
       familles: [],
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 21.6,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 21.6,
-        },
+      volumeRéservé: {
+        noteMin: 21.6,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -642,18 +574,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2025/S 93-00311732',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       puissanceAppelée: 300,
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 35.77,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 35.77,
-        },
+      volumeRéservé: {
+        noteMin: 35.77,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -686,18 +611,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2026/S 33-110771',
       },
-      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       puissanceAppelée: 300,
-      noteThresholdBy: 'category',
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 45.245,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 45.354,
-        },
+      volumeRéservé: {
+        noteMin: 45.245,
+        puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
