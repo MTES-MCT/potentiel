@@ -12,18 +12,14 @@ export const documentRaccordementSuppriméV1Projector = async ({
   );
 
   if (Option.isNone(dossier)) {
-    throw new Error(`Impossible de supprimer le document de raccordement`);
+    throw new Error("Le dossier de raccordement du document n'existe pas");
   }
-
-  const payload = {
-    [Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)]: undefined,
-  };
 
   await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
       ...dossier,
-      ...payload,
+      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)]: undefined,
       miseÀJourLe: DateTime.convertirEnValueType(suppriméLe).formatter(),
     },
   );
