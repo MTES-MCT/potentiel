@@ -23,20 +23,18 @@ export type ListProjetsAvecGarantiesFinancièresEnAttenteProps = {
 
 export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
   ListProjetsAvecGarantiesFinancièresEnAttenteProps
-> = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
-  return (
-    <ListPageTemplate
-      heading="Projets en attente de garanties financières"
-      actions={[]}
-      items={garantiesFinancières.map((gf) => ({
-        ...gf,
-        key: IdentifiantProjet.bind(gf.identifiantProjet).formatter(),
-      }))}
-      currentPage={currentPage}
-      totalItems={totalItems}
-      itemsPerPage={itemsPerPage}
-      ItemComponent={ListItemProjetAvecGarantiesFinancièresEnAttente}
-      filters={filters}
-    />
-  );
-};
+> = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => (
+  <ListPageTemplate
+    heading="Projets en attente de garanties financières"
+    actions={[]}
+    items={garantiesFinancières.map((gf) => ({
+      ...gf,
+      key: IdentifiantProjet.bind(gf.identifiantProjet).formatter(),
+    }))}
+    currentPage={currentPage}
+    totalItems={totalItems}
+    itemsPerPage={itemsPerPage}
+    ItemComponent={ListItemProjetAvecGarantiesFinancièresEnAttente}
+    filters={filters}
+  />
+);

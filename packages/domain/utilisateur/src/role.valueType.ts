@@ -945,6 +945,15 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.rejeterMainlevée,
         référencielPermissions.document.command.enregister,
       ],
+      générerModèleMiseEnDemeure: [
+        référencielPermissions.utilisateur.query.consulter,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.query.consulter,
+        référencielPermissions.lauréat.puissance.query.consulter,
+        référencielPermissions.lauréat.représentantLégal.query.consulter,
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .consulterProjetAvecGarantiesFinancièresEnAttente,
+      ],
     },
     enAttente: {
       lister: [
@@ -2004,22 +2013,27 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Garanties financières
   'garantiesFinancières.archives.lister',
+  /* dépot */
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.consulter',
+  /* actuelles */
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
+  /* en attente */
   'garantiesFinancières.enAttente.consulter',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
+  /* mainlevée */
   'garantiesFinancières.mainlevée.démarrerInstruction',
   'garantiesFinancières.mainlevée.accorder',
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.rejeter',
+  'garantiesFinancières.mainlevée.générerModèleMiseEnDemeure',
 
   // Attestation conformité
   'achèvement.modifier',

@@ -157,6 +157,7 @@ type MapToActions = (props: {
 }) => ListItemProjetAvecGarantiesFinancièresEnAttenteActions;
 
 const mapToActions: MapToActions = ({ item, role }) =>
-  item.dateLimiteSoumission.estAntérieurÀ(DateTime.now()) && role.estDreal()
+  item.dateLimiteSoumission.estAntérieurÀ(DateTime.now()) &&
+  role.aLaPermission('garantiesFinancières.mainlevée.générerModèleMiseEnDemeure')
     ? ['mise-en-demeure']
     : [];
