@@ -583,7 +583,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2026/S 233003-2026',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
-      puissanceAppelée: 925,
+      puissanceAppelée: 800,
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
@@ -594,5 +594,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       champsSupplémentaires: champsSupplémentairesAPartirDeP11,
       typeImport: 'démarche-simplifiée',
     },
+    // Pour P12 la puissance appelée sera de 1000 MW
   ],
 };
