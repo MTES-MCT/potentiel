@@ -97,7 +97,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Etant donné le gestionnaire de réseau "Enedis"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et une demande complète de raccordement pour le projet lauréat
-        Et une proposition technique et financière pour le projet lauréat
+        Et un document proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur demande un changement de représentant légal
         Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet déjà en service"

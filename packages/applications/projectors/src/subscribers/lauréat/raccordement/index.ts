@@ -20,6 +20,7 @@ import {
   demandeComplèteRaccordementModifiéeV3Projector,
   demandeComplèteRaccordementModifiéeV4Projector,
 } from './dossier-raccordement/demandeComplèteDeRaccordement/index.js';
+import { documentRaccordementSuppriméV1Projector } from './dossier-raccordement/documentsRaccordement/documentRaccordementSupprimé.projector.js';
 import { documentRaccordementTransmisV1Projector } from './dossier-raccordement/documentsRaccordement/documentRaccordementTransmis.projector.js';
 import { documentRaccordementModifiéV1Projector } from './dossier-raccordement/documentsRaccordement/index.js';
 import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector.js';
@@ -160,6 +161,10 @@ export const register = () => {
             documentRaccordementTransmisV1Projector,
           )
           .with({ type: 'DocumentRaccordementModifié-V1' }, documentRaccordementModifiéV1Projector)
+          .with(
+            { type: 'DocumentRaccordementSupprimé-V1' },
+            documentRaccordementSuppriméV1Projector,
+          )
 
           // Date de mise en service
 

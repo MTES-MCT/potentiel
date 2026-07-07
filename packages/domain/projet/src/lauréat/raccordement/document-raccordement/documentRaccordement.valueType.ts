@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 
 import { DocumentProjet, DossierProjet } from '#document-projet';
-import { TypeDocumentsRaccordement } from './index.js';
+import { TypeDocumentsRaccordement } from '../index.js';
 
 const domaine = 'raccordement';
 

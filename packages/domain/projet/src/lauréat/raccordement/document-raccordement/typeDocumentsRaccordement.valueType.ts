@@ -108,6 +108,21 @@ export const conventionDeRaccordement = convertirEnValueType<'convention-de-racc
 export const conventionDirecteDeRaccordement =
   convertirEnValueType<'convention-directe-de-raccordement'>('convention-directe-de-raccordement');
 
+const typeToKeyMap: Record<
+  RawType,
+  | 'propositionTechniqueEtFinancière'
+  | 'conventionDeRaccordement'
+  | 'conventionDirecteDeRaccordement'
+> = {
+  'proposition-technique-et-financière': 'propositionTechniqueEtFinancière',
+  'convention-de-raccordement': 'conventionDeRaccordement',
+  'convention-directe-de-raccordement': 'conventionDirecteDeRaccordement',
+};
+
+export function mapDocumentTypeToEntityKey(type: RawType) {
+  return typeToKeyMap[type];
+}
+
 class TypeDocumentsRaccordementError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type de document est inconnu`, {

@@ -35,7 +35,7 @@ export class DocumentDuMêmeTypeDéjàTransmisError extends InvalidOperationErro
 
 export class DocumentRaccordementNonExistantError extends InvalidOperationError {
   constructor() {
-    super(`Il n'existe pas de document de ce type à modifier dans ce dossier de raccordement`);
+    super(`Il n'existe pas de document de ce type dans ce dossier de raccordement`);
   }
 }
 

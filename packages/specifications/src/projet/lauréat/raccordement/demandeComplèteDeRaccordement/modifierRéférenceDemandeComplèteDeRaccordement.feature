@@ -42,7 +42,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
     Scénario: Modifier la référence d'une demande complète de raccordement ayant un document de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
-        Et une proposition technique et financière pour le projet lauréat
+        Et un document proposition technique et financière pour le projet lauréat
         Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement          | OUE-RP-2022-000033 |
             | La nouvelle référence du dossier de raccordement | OUE-RP-2022-000034 |

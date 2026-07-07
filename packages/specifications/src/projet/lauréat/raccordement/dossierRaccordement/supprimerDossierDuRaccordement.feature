@@ -8,7 +8,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Et le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges permettant la modification du projet
         Et une demande complète de raccordement pour le projet lauréat
-        Et une proposition technique et financière pour le projet lauréat
+        Et un document proposition technique et financière pour le projet lauréat
 
     Scénario: Un porteur supprime un dossier du raccordement d'un projet avec plusieurs dossiers
         # Ajout d'un deuxième dossier pour s'assurer qu'il en reste un après suppression
