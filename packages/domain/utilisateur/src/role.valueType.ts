@@ -1454,7 +1454,7 @@ const policies = {
       référencielPermissions.lauréat.query.lister,
       référencielPermissions.appelOffre.query.lister,
     ],
-    listerLauréatEnrichi: [référencielPermissions.lauréat.query.listerLauréatEnrichi],
+    exporterListeEnrichie: [référencielPermissions.lauréat.query.listerLauréatEnrichi],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
@@ -1766,7 +1766,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Lauréat
   'lauréat.modifier',
   'lauréat.modifierSiteDeProduction',
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListeEnrichie',
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
@@ -1893,7 +1893,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListeEnrichie',
 
   'projet.accèsDonnées.prix',
   'projet.accèsIdentifiants',
@@ -2033,7 +2033,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListeEnrichie',
 
   // Représentant légal
   'représentantLégal.modifier',
@@ -2119,7 +2119,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListeEnrichie',
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -2263,7 +2263,7 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   'projet.accèsDonnées.prix',
   'projet.accèsIdentifiants',
 
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListeEnrichie',
 
   // Abandon
   'abandon.lister.demandes',
@@ -2359,7 +2359,7 @@ const grdPolicies: ReadonlyArray<Policy> = [
 const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListeEnrichie',
   'projet.accèsDonnées.prix',
 
   // Statistiques

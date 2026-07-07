@@ -152,7 +152,7 @@ const mapToAction: MapToAction = (
     });
   }
 
-  if (utilisateur.rôle.aLaPermission('lauréat.listerLauréatEnrichi')) {
+  if (utilisateur.rôle.aLaPermission('lauréat.exporterListeEnrichie')) {
     actions.push({
       type: 'lister-lauréat-enrichi',
       label: 'Projets lauréats',
