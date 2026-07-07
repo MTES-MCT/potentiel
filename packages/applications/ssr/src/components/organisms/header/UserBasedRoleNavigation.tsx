@@ -238,8 +238,8 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
           permission: [
             'raccordement.exporterDossierRaccordement',
             'candidature.exporterDétailsFournisseur',
-            'lauréat.exporterListeEnrichie',
-            'éliminé.listerÉliminéEnrichi',
+            'lauréat.exporterListe',
+            'éliminé.exporterListe',
             'candidature.exporterListe',
           ],
         },

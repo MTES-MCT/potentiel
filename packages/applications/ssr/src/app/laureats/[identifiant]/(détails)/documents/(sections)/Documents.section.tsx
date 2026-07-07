@@ -39,7 +39,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       // EXPORT LAURÉAT
-      if (rôle.aLaPermission('lauréat.exporterListeEnrichie')) {
+      if (rôle.aLaPermission('lauréat.exporterListe')) {
         documents.push({
           type: 'Export des données du projet',
           format: 'csv',

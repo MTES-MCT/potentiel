@@ -60,7 +60,7 @@ export const bind = <TRole extends RawType = RawType>({
       const aLaPermission = droitsMessagesMediator[this.nom].has(typeMessage);
 
       if (!aLaPermission) {
-        throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
+        throw new AccèsFonctionnalitéRefuséError(typeMessage as Policy, this.nom);
       }
     },
     estAdmin() {
@@ -1454,7 +1454,7 @@ const policies = {
       référencielPermissions.lauréat.query.lister,
       référencielPermissions.appelOffre.query.lister,
     ],
-    exporterListeEnrichie: [référencielPermissions.lauréat.query.listerLauréatEnrichi],
+    exporterListe: [référencielPermissions.lauréat.query.listerLauréatEnrichi],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
@@ -1474,7 +1474,7 @@ const policies = {
       référencielPermissions.éliminé.query.lister,
       référencielPermissions.appelOffre.query.lister,
     ],
-    listerÉliminéEnrichi: [référencielPermissions.éliminé.query.listerÉliminéEnrichi],
+    exporterListe: [référencielPermissions.éliminé.query.listerÉliminéEnrichi],
   },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
@@ -1766,7 +1766,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Lauréat
   'lauréat.modifier',
   'lauréat.modifierSiteDeProduction',
-  'lauréat.exporterListeEnrichie',
+  'lauréat.exporterListe',
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
@@ -1828,7 +1828,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 ];
 
 const dgecPolicies: ReadonlyArray<Policy> = [
@@ -1893,7 +1893,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
-  'lauréat.exporterListeEnrichie',
+  'lauréat.exporterListe',
 
   'projet.accèsDonnées.prix',
   'projet.accèsIdentifiants',
@@ -1964,7 +1964,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 
   // Candidature
   'candidature.exporterDétailsFournisseur',
@@ -2033,7 +2033,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
-  'lauréat.exporterListeEnrichie',
+  'lauréat.exporterListe',
 
   // Représentant légal
   'représentantLégal.modifier',
@@ -2113,13 +2113,13 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-  'lauréat.exporterListeEnrichie',
+  'lauréat.exporterListe',
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -2253,7 +2253,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'nomProjet.listerChangement',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [
@@ -2263,7 +2263,7 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   'projet.accèsDonnées.prix',
   'projet.accèsIdentifiants',
 
-  'lauréat.exporterListeEnrichie',
+  'lauréat.exporterListe',
 
   // Abandon
   'abandon.lister.demandes',
@@ -2359,14 +2359,14 @@ const grdPolicies: ReadonlyArray<Policy> = [
 const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-  'lauréat.exporterListeEnrichie',
+  'lauréat.exporterListe',
   'projet.accèsDonnées.prix',
 
   // Statistiques
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 
   // Candidature
   'candidature.exporterDétailsFournisseur',

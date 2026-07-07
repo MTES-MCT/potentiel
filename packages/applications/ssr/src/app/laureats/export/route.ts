@@ -14,15 +14,11 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
-      const utilisateurPeutExporterLesLauréats = utilisateur.rôle.aLaPermission(
-        'lauréat.exporterListeEnrichie',
-      );
+      const utilisateurPeutExporterLesLauréats =
+        utilisateur.rôle.aLaPermission('lauréat.exporterListe');
 
       if (!utilisateurPeutExporterLesLauréats) {
-        throw new AccèsFonctionnalitéRefuséError(
-          'lauréat.exporterListeEnrichie',
-          utilisateur.rôle.nom,
-        );
+        throw new AccèsFonctionnalitéRefuséError('lauréat.exporterListe', utilisateur.rôle.nom);
       }
 
       const { searchParams } = new URL(request.url);

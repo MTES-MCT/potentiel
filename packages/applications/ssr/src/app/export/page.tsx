@@ -152,7 +152,7 @@ const mapToAction: MapToAction = (
     });
   }
 
-  if (utilisateur.rôle.aLaPermission('lauréat.exporterListeEnrichie')) {
+  if (utilisateur.rôle.aLaPermission('lauréat.exporterListe')) {
     actions.push({
       type: 'lister-lauréat-enrichi',
       label: 'Projets lauréats',
@@ -162,7 +162,7 @@ const mapToAction: MapToAction = (
     });
   }
 
-  if (utilisateur.rôle.aLaPermission('éliminé.listerÉliminéEnrichi')) {
+  if (utilisateur.rôle.aLaPermission('éliminé.exporterListe')) {
     actions.push({
       type: 'lister-éliminé-enrichi',
       label: 'Projets éliminés',

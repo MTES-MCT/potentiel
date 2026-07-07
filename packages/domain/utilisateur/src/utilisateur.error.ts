@@ -1,5 +1,7 @@
 import { InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
 
+import type { Policy } from './role.valueType.js';
+
 export class UtilisateurInconnuError extends InvalidOperationError {
   constructor() {
     super(`L'utilisateur n'est pas référencé`);
@@ -15,7 +17,7 @@ export class RoleRefuséError extends InvalidOperationError {
 }
 
 export class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
-  constructor(fonctionnalité: string, role: string) {
+  constructor(fonctionnalité: Policy, role: string) {
     super(`Accès à la fonctionnalité refusé`, {
       fonctionnalité,
       role,

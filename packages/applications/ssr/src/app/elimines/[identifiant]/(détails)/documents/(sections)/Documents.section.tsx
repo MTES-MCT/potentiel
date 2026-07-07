@@ -42,7 +42,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       documents.push({
         type: 'Export des données du projet',
         format: 'csv',
-        url: rôle.aLaPermission('éliminé.listerÉliminéEnrichi')
+        url: rôle.aLaPermission('éliminé.exporterListe')
           ? Routes.Éliminé.exporter({ identifiantProjet })
           : undefined,
         ariaLabel: `Télécharger l'export des données du projet ${éliminé.nomProjet}`,
