@@ -41,16 +41,16 @@ export const demandeMainlevée = {
     `/garanties-financieres/demandes-mainlevee-en-cours`,
   ),
   téléchargerModèleRéponseAccordé: (identitifiantProjet: string) =>
-    `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modele-reponse-mainlevee?estAccordée=true`,
+    `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/mainlevee/modele-reponse-mainlevee?estAccordée=true`,
   téléchargerModèleRéponseRejeté: (identitifiantProjet: string) =>
-    `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modele-reponse-mainlevee?estAccordée=false`,
+    `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/mainlevee/modele-reponse-mainlevee?estAccordée=false`,
 };
 
 export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres`;
 
 export const téléchargerModèleMiseEnDemeure = (identitifiantProjet: string) =>
-  `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modele-mise-en-demeure`;
+  `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/mainlevee/modele-mise-en-demeure`;
 
 export const enAttente = {
   lister: withFilters<ListerEnAttenteFilters>(`/garanties-financieres/projets-en-attente`),
