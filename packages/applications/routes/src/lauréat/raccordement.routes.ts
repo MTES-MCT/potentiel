@@ -32,7 +32,6 @@ export const modifierDemandeComplèteRaccordement = (
     référenceDossierRaccordement,
   )}/demande-complete-raccordement:modifier`;
 
-// viovio : à supprimer
 export const transmettrePropositionTechniqueEtFinancière = (
   identifiantProjet: string,
   référenceDossierRaccordement: string,

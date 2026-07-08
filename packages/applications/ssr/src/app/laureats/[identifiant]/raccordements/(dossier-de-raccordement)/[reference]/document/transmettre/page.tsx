@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -18,7 +18,7 @@ type PageProps = {
   }>;
 };
 
-export const metadata: Metadata = { title: 'Transmettre la proposition technique et financière' };
+export const metadata: Metadata = { title: 'Transmettre un document de raccordement' };
 
 export default async function Page(props: PageProps) {
   const params = await props.params;
@@ -52,12 +52,39 @@ export default async function Page(props: PageProps) {
         return notFound();
       }
 
+      const availableTypes = récupérerTypesDisponibles(dossierRaccordement);
+
       return (
         <TransmettreDocumentPage
           identifiantProjet={identifiantProjet}
           referenceDossierRaccordement={referenceDossierRaccordement}
+          availableTypes={availableTypes}
         />
       );
     }),
   );
 }
+
+const récupérerTypesDisponibles = (
+  dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel,
+): Lauréat.Raccordement.TypeDocumentsRaccordement.RawType[] => {
+  const availableTypes: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType[] = [];
+
+  if (dossier.propositionTechniqueEtFinancière && !dossier.conventionDeRaccordement) {
+    availableTypes.push('convention-de-raccordement');
+  }
+
+  if (!dossier.propositionTechniqueEtFinancière && dossier.conventionDeRaccordement) {
+    availableTypes.push('proposition-technique-et-financière');
+  }
+
+  if (
+    !dossier.propositionTechniqueEtFinancière &&
+    !dossier.conventionDeRaccordement &&
+    !dossier.conventionDirecteDeRaccordement
+  ) {
+    availableTypes.push(...Lauréat.Raccordement.TypeDocumentsRaccordement.type);
+  }
+
+  return availableTypes;
+};

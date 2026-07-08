@@ -4,7 +4,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { type FC, useState } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
@@ -17,32 +17,30 @@ import {
 export type TransmettreDocumentFormProps = {
   identifiantProjet: string;
   referenceDossierRaccordement: string;
+  availableTypes: Array<Lauréat.Raccordement.TypeDocumentsRaccordement.RawType>;
 };
 
 export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
   identifiantProjet,
   referenceDossierRaccordement,
+  availableTypes,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDocumentFormKeys>
   >({});
-  const [typeDocument, setTypeDocument] =
-    useState<Lauréat.Raccordement.TypeDocumentsRaccordement.RawType>(
-      'proposition-technique-et-financière',
-    );
-
-  // pas toute les options en fonction
-  const typeOptions = Lauréat.Raccordement.TypeDocumentsRaccordement.type.map((t) => ({
-    label: t
-      .split('-')
-      .map((s) => s[0].toUpperCase() + s.slice(1))
-      .join(' '),
+  const [typeDocument, setTypeDocument] = useState<
+    Lauréat.Raccordement.TypeDocumentsRaccordement.RawType | undefined
+  >(availableTypes.length > 1 ? undefined : availableTypes[0]);
+  const typeOptions = availableTypes.map((t) => ({
+    label: t.split('-').join(' '),
     value: t,
   }));
 
+  const documentLabel = typeOptions.find((t) => t.value === typeDocument)?.label;
+
   return (
     <Form
-      heading="Transmettre la proposition technique et financière"
+      heading={`Transmettre la ${documentLabel}`}
       action={transmettreDocumentAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
@@ -54,14 +52,15 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={referenceDossierRaccordement} />
+      <input type="hidden" name="type" value={typeDocument} />
 
       <Select
         state={validationErrors['type'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['type']}
         label="Type"
         options={typeOptions}
+        disabled={availableTypes.length <= 1}
         nativeSelectProps={{
-          name: 'type',
           defaultValue: typeDocument,
           required: true,
           'aria-required': true,
@@ -86,7 +85,7 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
       />
 
       <UploadNewOrModifyExistingDocument
-        label="Proposition technique et financière signée"
+        label={`La ${documentLabel} signée`}
         name="documentSigné"
         required
         formats={['pdf']}
