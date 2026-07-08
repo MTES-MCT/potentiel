@@ -10,8 +10,8 @@ import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.f
 export type DemanderChangementPuissancePageProps = PlainType<
   Omit<Lauréat.Puissance.ConsulterPuissanceReadModel, 'aUneDemandeEnCours'> & {
     cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
-    volumeRéservé?: PlainType<Lauréat.Puissance.VolumeRéservé.ValueType>;
     infosCahierDesChargesPuissanceDeSite: AppelOffre.ChampsSupplémentairesCandidature['puissanceDeSite'];
+    estDansLeVolumeRéservé: boolean | undefined;
   }
 >;
 
@@ -20,10 +20,10 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
   puissance,
   puissanceDeSite,
   cahierDesCharges,
-  volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
   infosCahierDesChargesPuissanceDeSite,
+  estDansLeVolumeRéservé,
 }) => (
   <>
     <Heading1>Changer de puissance</Heading1>
@@ -32,10 +32,10 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
       puissance={puissance}
       puissanceDeSite={puissanceDeSite}
       cahierDesCharges={cahierDesCharges}
-      volumeRéservé={volumeRéservé}
       unitéPuissance={unitéPuissance}
       puissanceInitiale={puissanceInitiale}
       infosCahierDesChargesPuissanceDeSite={infosCahierDesChargesPuissanceDeSite}
+      estDansLeVolumeRéservé={estDansLeVolumeRéservé}
     />
   </>
 );

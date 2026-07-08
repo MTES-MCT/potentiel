@@ -16,10 +16,6 @@ import type {
   ConsulterPuissanceReadModel,
 } from './consulter/consulterPuissance.query.js';
 import type {
-  ConsulterVolumeRéservéQuery,
-  ConsulterVolumeRéservéReadModel,
-} from './consulter/consulterVolumeRéservé.query.js';
-import type {
   HistoriquePuissanceProjetListItemReadModel,
   ListerHistoriquePuissanceProjetQuery,
   ListerHistoriquePuissanceProjetReadModel,
@@ -30,8 +26,7 @@ export type PuissanceQuery =
   | ConsulterPuissanceQuery
   | ConsulterChangementPuissanceQuery
   | ListerChangementPuissanceQuery
-  | ListerHistoriquePuissanceProjetQuery
-  | ConsulterVolumeRéservéQuery;
+  | ListerHistoriquePuissanceProjetQuery;
 
 // ReadModel
 export type {
@@ -39,8 +34,6 @@ export type {
   ConsulterChangementPuissanceReadModel,
   ConsulterPuissanceQuery,
   ConsulterPuissanceReadModel,
-  ConsulterVolumeRéservéQuery,
-  ConsulterVolumeRéservéReadModel,
   HistoriquePuissanceProjetListItemReadModel,
   ListerChangementPuissanceQuery,
   ListerChangementPuissanceReadModel,
@@ -75,7 +68,6 @@ export * as DocumentPuissance from './valueType/documentPuissance.valueType.js';
 export * as RatioChangementPuissance from './valueType/ratioChangementPuissance.valueType.js';
 // ValueType
 export * as StatutChangementPuissance from './valueType/statutChangementPuissance.valueType.js';
-export * as VolumeRéservé from './valueType/volumeRéservé.valueType.js';
 export type {
   AccorderChangementPuissanceUseCase,
   AnnulerChangementPuissanceUseCase,

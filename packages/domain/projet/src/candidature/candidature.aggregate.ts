@@ -10,7 +10,6 @@ import {
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from '../lauréat/garanties-financières/garantiesFinancières.error.js';
 import type { GarantiesFinancières } from '../lauréat/garanties-financières/index.js';
-import { Puissance } from '../lauréat/index.js';
 import type { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 import {
   AttestationNonGénéréeError,
@@ -151,11 +150,10 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   get volumeRéservé() {
-    return Puissance.VolumeRéservé.déterminer({
-      note: this.noteTotale,
-      période: this.projet.période,
-      puissanceInitiale: this.puissance,
-    });
+    if (!this.#instruction) {
+      throw new CandidatureNonTrouvéeError();
+    }
+    return this.#instruction.volumeRéservé;
   }
 
   get noteTotale() {

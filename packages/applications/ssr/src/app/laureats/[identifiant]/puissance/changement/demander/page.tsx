@@ -1,12 +1,10 @@
-import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges, getCandidature } from '@/app/_helpers';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -35,6 +33,8 @@ export default async function Page(props: IdentifiantParameter) {
         decodeParameter(identifiant),
       );
 
+      const candidature = await getCandidature(identifiantProjet.formatter());
+
       const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
       if (puissance.aUneDemandeEnCours && puissance.dateDernièreDemande) {
@@ -55,13 +55,6 @@ export default async function Page(props: IdentifiantParameter) {
       const infosCahierDesChargesPuissanceDeSite =
         cahierDesCharges.getChampsSupplémentaires()['puissanceDeSite'];
 
-      const volumeRéservé = await mediator.send<Lauréat.Puissance.ConsulterVolumeRéservéQuery>({
-        type: 'Lauréat.Puissance.Query.ConsulterVolumeRéservé',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
       return (
         <DemanderChangementPuissancePage
           identifiantProjet={mapToPlainObject(puissance.identifiantProjet)}
@@ -69,9 +62,9 @@ export default async function Page(props: IdentifiantParameter) {
           puissanceDeSite={puissance.puissanceDeSite}
           unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
           cahierDesCharges={mapToPlainObject(cahierDesCharges)}
-          volumeRéservé={Option.isSome(volumeRéservé) ? mapToPlainObject(volumeRéservé) : undefined}
           puissanceInitiale={puissance.puissanceInitiale}
           infosCahierDesChargesPuissanceDeSite={infosCahierDesChargesPuissanceDeSite}
+          estDansLeVolumeRéservé={candidature.instruction.volumeRéservé}
         />
       );
     }),
