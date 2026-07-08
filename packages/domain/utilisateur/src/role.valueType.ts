@@ -180,10 +180,9 @@ const référencielPermissions = {
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
-        transmettreDocumentRaccordement:
-          'Lauréat.Raccordement.UseCase.TransmettreDocumentRaccordement',
-        modifierDocumentRaccordement: 'Lauréat.Raccordement.UseCase.ModifierDocumentRaccordement',
-        supprimerDocumentRaccordement: 'Lauréat.Raccordement.UseCase.SupprimerDocumentRaccordement',
+        transmettreDocumentRaccordement: 'Lauréat.Raccordement.UseCase.TransmettreDocument',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.UseCase.ModifierDocument',
+        supprimerDocumentRaccordement: 'Lauréat.Raccordement.UseCase.SupprimerDocument',
       },
       command: {
         modifierDemandeComplète: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
@@ -202,10 +201,9 @@ const référencielPermissions = {
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.Command.SupprimerDateMiseEnService',
-        transmettreDocumentRaccordement:
-          'Lauréat.Raccordement.Command.TransmettreDocumentRaccordement',
-        modifierDocumentRaccordement: 'Lauréat.Raccordement.Command.ModifierDocumentRaccordement',
-        supprimerDocumentRaccordement: 'Lauréat.Raccordement.Command.SupprimerDocumentRaccordement',
+        transmettreDocumentRaccordement: 'Lauréat.Raccordement.Command.TransmettreDocument',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.Command.ModifierDocument',
+        supprimerDocumentRaccordement: 'Lauréat.Raccordement.Command.SupprimerDocument',
       },
     },
     garantiesFinancières: {

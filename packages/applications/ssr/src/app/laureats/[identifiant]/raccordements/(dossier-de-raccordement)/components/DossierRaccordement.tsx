@@ -12,7 +12,7 @@ import { Heading3 } from '@/components/atoms/headings';
 import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
 import { FormatFichierInvalide } from '.';
 
-type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service';
+type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service' | 'document';
 
 export type DossierEtapeAction =
   | {
@@ -139,4 +139,6 @@ const mapTypeToTitre: Record<TypeDossier, string> = {
   cr: 'convention de raccordement',
   crd: 'convention directe de raccordement',
   'mise-en-service': 'mise en service',
+  // viovio : wording à vérifier
+  document: 'document de raccordement',
 };

@@ -32,6 +32,7 @@ export const modifierDemandeComplèteRaccordement = (
     référenceDossierRaccordement,
   )}/demande-complete-raccordement:modifier`;
 
+// viovio : à supprimer
 export const transmettrePropositionTechniqueEtFinancière = (
   identifiantProjet: string,
   référenceDossierRaccordement: string,
@@ -47,6 +48,21 @@ export const modifierPropositionTechniqueEtFinancière = (
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
   )}/proposition-technique-et-financiere:modifier`;
+
+export const document = {
+  transmettre: (identifiantProjet: string, référenceDossierRaccordement: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
+      référenceDossierRaccordement,
+    )}/document/transmettre`,
+  modifier: (identifiantProjet: string, référenceDossierRaccordement: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
+      référenceDossierRaccordement,
+    )}/document/modifier`,
+  supprimer: (identifiantProjet: string, référenceDossierRaccordement: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
+      référenceDossierRaccordement,
+    )}/document/supprimer`,
+};
 
 export const transmettreDateMiseEnService = (
   identifiantProjet: string,

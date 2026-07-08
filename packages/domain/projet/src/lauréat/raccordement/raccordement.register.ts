@@ -16,12 +16,16 @@ import {
   type ConsulterRaccordementDependencies,
   registerConsulterRaccordementQuery,
 } from './consulter/consulterRaccordement.query.js';
-import { registerModifierDocumentRaccordementCommand } from './document-raccordement/modifier/modifierDocumentRaccordement.command.js';
-import { registerModifierDocumentRaccordementUseCase } from './document-raccordement/modifier/modifierDocumentRaccordement.usecase.js';
-import { registerSupprimerDocumentRaccordementCommand } from './document-raccordement/supprimer/supprimerDocumentRaccordement.command.js';
-import { registerSupprimerDocumentRaccordementUseCase } from './document-raccordement/supprimer/supprimerDocumentRaccordement.usecase.js';
-import { registerTransmettreDocumentRaccordementCommand } from './document-raccordement/transmettre/transmettreDocumentRaccordement.command.js';
-import { registerTransmettreDocumentRaccordementUseCase } from './document-raccordement/transmettre/transmettreDocumentRaccordement.usecase.js';
+import {
+  type ConsulterDocumentDependencies,
+  registerConsulterDocumentQuery,
+} from './document/consulter/consulterDocument.query.js';
+import { registerModifierDocumentCommand } from './document/modifier/modifierDocumentRaccordement.command.js';
+import { registerModifierDocumentUseCase } from './document/modifier/modifierDocumentRaccordement.usecase.js';
+import { registerSupprimerDocumentCommand } from './document/supprimer/supprimerDocumentRaccordement.command.js';
+import { registerSupprimerDocumentUseCase } from './document/supprimer/supprimerDocumentRaccordement.usecase.js';
+import { registerTransmettreDocumentCommand } from './document/transmettre/transmettreDocumentRaccordement.command.js';
+import { registerTransmettreDocumentUseCase } from './document/transmettre/transmettreDocumentRaccordement.usecase.js';
 import {
   type ListerDossierRaccordementQueryDependencies,
   registerListerDossierRaccordementQuery,
@@ -63,7 +67,8 @@ export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependen
   ConsulterNombreDeRaccordementDependencies &
   RechercherDossierRaccordementDependencies &
   ListerDossierRaccordementQueryDependencies &
-  ListerHistoriqueRaccordementProjetDependencies;
+  ListerHistoriqueRaccordementProjetDependencies &
+  ConsulterDocumentDependencies;
 
 export type RaccordementCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -79,6 +84,7 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
   registerListerDossierRaccordementQuery(dependencies);
   registerListerDossierRaccordementManquantsQuery(dependencies);
   registerListerHistoriqueRaccordementProjetQuery(dependencies);
+  registerConsulterDocumentQuery(dependencies);
 };
 
 export const registerRaccordementUseCases = ({
@@ -96,9 +102,9 @@ export const registerRaccordementUseCases = ({
   registerTransmettrePropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerAttribuerGestionnaireCommand(getProjetAggregateRoot);
   registerSupprimerDossierDuRaccordementCommand(getProjetAggregateRoot);
-  registerTransmettreDocumentRaccordementCommand(getProjetAggregateRoot);
-  registerModifierDocumentRaccordementCommand(getProjetAggregateRoot);
-  registerSupprimerDocumentRaccordementCommand(getProjetAggregateRoot);
+  registerTransmettreDocumentCommand(getProjetAggregateRoot);
+  registerModifierDocumentCommand(getProjetAggregateRoot);
+  registerSupprimerDocumentCommand(getProjetAggregateRoot);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
@@ -109,7 +115,7 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
   registerSupprimerDossierDuRaccordementUseCase();
-  registerTransmettreDocumentRaccordementUseCase();
-  registerModifierDocumentRaccordementUseCase();
-  registerSupprimerDocumentRaccordementUseCase();
+  registerTransmettreDocumentUseCase();
+  registerModifierDocumentUseCase();
+  registerSupprimerDocumentUseCase();
 };

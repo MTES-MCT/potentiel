@@ -1,12 +1,15 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { RéférenceDossierRaccordement, TypeDocumentsRaccordement } from '../../index.js';
 
-export type TransmettreDocumentRaccordementOptions = {
+export type ModifierDocumentOptions = {
   dateSignature: DateTime.ValueType;
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
   formatDocumentRaccordement: string;
-  transmisLe: DateTime.ValueType;
-  transmisPar: Email.ValueType;
+  modifiéLe: DateTime.ValueType;
+  modifiéPar: Email.ValueType;
   type: TypeDocumentsRaccordement.ValueType;
+  rôle: Role.ValueType;
+  estUnNouveauDocument: boolean;
 };

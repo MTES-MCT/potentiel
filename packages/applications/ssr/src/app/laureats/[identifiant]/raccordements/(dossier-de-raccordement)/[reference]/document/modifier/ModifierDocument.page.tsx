@@ -3,26 +3,20 @@ import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
-import {
-  ModifierPropositionTechniqueEtFinancièreForm,
-  type ModifierPropositionTechniqueEtFinancièreFormProps,
-} from './ModifierPropositionTechniqueEtFinancière.form';
+import { ModifierDocumentForm, type ModifierDocumentFormProps } from './ModifierDocument.form';
 
-export type ModifierPropositionTechniqueEtFinancièrePageProps =
-  ModifierPropositionTechniqueEtFinancièreFormProps;
+export type ModifierDocumentPageProps = ModifierDocumentFormProps;
 
-export const ModifierPropositionTechniqueEtFinancièrePage: FC<
-  ModifierPropositionTechniqueEtFinancièrePageProps
-> = ({ identifiantProjet, raccordement }: ModifierPropositionTechniqueEtFinancièrePageProps) => {
+export const ModifierDocumentPage: FC<ModifierDocumentPageProps> = ({
+  identifiantProjet,
+  raccordement,
+}: ModifierDocumentPageProps) => {
   return (
     <ColumnPageTemplate
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (
-          <ModifierPropositionTechniqueEtFinancièreForm
-            identifiantProjet={identifiantProjet}
-            raccordement={raccordement}
-          />
+          <ModifierDocumentForm identifiantProjet={identifiantProjet} raccordement={raccordement} />
         ),
       }}
       rightColumn={{

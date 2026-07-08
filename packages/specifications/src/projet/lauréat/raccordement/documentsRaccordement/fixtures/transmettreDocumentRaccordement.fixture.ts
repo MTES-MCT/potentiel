@@ -6,16 +6,16 @@ import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
 import type { DocumentRaccordementWorld } from '../documentRaccordement.world.js';
 
-export type TransmettreDocumentRaccordement = {
+export type TransmettreDocument = {
   dateSignature: string;
   référenceDossier: string;
   document: PièceJustificative;
   type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
 };
 
-export class TransmettreDocumentRaccordementFixture
-  extends AbstractFixture<TransmettreDocumentRaccordement>
-  implements TransmettreDocumentRaccordement
+export class TransmettreDocumentFixture
+  extends AbstractFixture<TransmettreDocument>
+  implements TransmettreDocument
 {
   #dateSignature!: string;
   get dateSignature(): string {
@@ -50,11 +50,11 @@ export class TransmettreDocumentRaccordementFixture
   }
 
   créer(
-    partialFixture: Partial<Readonly<TransmettreDocumentRaccordement>> & {
+    partialFixture: Partial<Readonly<TransmettreDocument>> & {
       référenceDossier: string;
       identifiantProjet: string;
     },
-  ): Readonly<TransmettreDocumentRaccordement> {
+  ): Readonly<TransmettreDocument> {
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
       document: faker.potentiel.document(),

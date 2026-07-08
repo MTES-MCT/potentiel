@@ -98,6 +98,21 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     action: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
   });
 
+  if(!dossier.propositionTechniqueEtFinancière && !dossier.conventionDeRaccordement && !dossier.conventionDirecteDeRaccordement) {
+    étapes.push({
+      type: 'document',
+      date: {
+        date: undefined,
+        fallbackText: 'Date de signature à transmettre',
+      },
+      document: {
+        url: undefined,
+        fallbackText: 'Document à transmettre',
+      },
+      action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
+    });
+  }
+
   étapes.push({
     type: 'ptf',
     ...(dossier.propositionTechniqueEtFinancière && {

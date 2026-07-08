@@ -9,7 +9,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréatOrRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
-import { TransmettrePropositionTechniqueEtFinancièrePage } from './TransmettrePropositionTechniqueEtFinancière.page';
+import { TransmettreDocumentPage } from './TransmettreDocument.page';
 
 type PageProps = {
   params: Promise<{
@@ -27,8 +27,8 @@ export default async function Page(props: PageProps) {
 
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettrePropositionTechniqueEtFinancièreUseCase>(
-        'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettreDocumentUseCase>(
+        'Lauréat.Raccordement.UseCase.TransmettreDocument',
       );
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
@@ -53,7 +53,7 @@ export default async function Page(props: PageProps) {
       }
 
       return (
-        <TransmettrePropositionTechniqueEtFinancièrePage
+        <TransmettreDocumentPage
           identifiantProjet={identifiantProjet}
           referenceDossierRaccordement={referenceDossierRaccordement}
         />

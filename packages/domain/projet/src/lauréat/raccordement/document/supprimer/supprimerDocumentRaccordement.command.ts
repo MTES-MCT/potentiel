@@ -7,48 +7,39 @@ import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../inde
 import type { TypeDocumentsRaccordement } from '../../index.js';
 import type * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 
-export type ModifierDocumentRaccordementCommand = Message<
-  'Lauréat.Raccordement.Command.ModifierDocumentRaccordement',
+export type SupprimerDocumentCommand = Message<
+  'Lauréat.Raccordement.Command.SupprimerDocument',
   {
     type: TypeDocumentsRaccordement.ValueType;
-    dateSignature: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
-    formatDocumentRaccordement: string;
-    modifiéLe: DateTime.ValueType;
-    modifiéPar: Email.ValueType;
+    suppriméLe: DateTime.ValueType;
+    suppriméPar: Email.ValueType;
     rôle: Role.ValueType;
-    estUnNouveauDocument: boolean;
   }
 >;
 
-export const registerModifierDocumentRaccordementCommand = (
+export const registerSupprimerDocumentCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const handler: MessageHandler<ModifierDocumentRaccordementCommand> = async ({
+  const handler: MessageHandler<SupprimerDocumentCommand> = async ({
     type,
-    dateSignature,
     référenceDossierRaccordement,
     identifiantProjet,
-    formatDocumentRaccordement,
-    modifiéLe,
-    modifiéPar,
+    suppriméLe,
+    suppriméPar,
     rôle,
-    estUnNouveauDocument,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await projet.lauréat.raccordement.modifierDocumentRaccordement({
+    await projet.lauréat.raccordement.supprimerDocumentRaccordement({
       type,
-      dateSignature,
       référenceDossierRaccordement,
-      formatDocumentRaccordement,
-      modifiéLe,
-      modifiéPar,
+      suppriméLe,
+      suppriméPar,
       rôle,
-      estUnNouveauDocument,
     });
   };
 
-  mediator.register('Lauréat.Raccordement.Command.ModifierDocumentRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Command.SupprimerDocument', handler);
 };

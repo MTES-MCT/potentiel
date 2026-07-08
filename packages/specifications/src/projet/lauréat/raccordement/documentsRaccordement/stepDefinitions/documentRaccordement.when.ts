@@ -11,9 +11,9 @@ import {
   type RôleUtilisateur,
 } from '../../../../../helpers/index.js';
 import type { PotentielWorld } from '../../../../../potentiel.world.js';
-import type { ModifierDocumentRaccordement } from '../fixtures/modifierDocumentRaccordement.fixture.js';
-import type { SupprimerDocumentRaccordement } from '../fixtures/supprimerDocumentRaccordement.fixture.js';
-import type { TransmettreDocumentRaccordement } from '../fixtures/transmettreDocumentRaccordement.fixture.js';
+import type { ModifierDocument } from '../fixtures/modifierDocumentRaccordement.fixture.js';
+import type { SupprimerDocument } from '../fixtures/supprimerDocumentRaccordement.fixture.js';
+import type { TransmettreDocument } from '../fixtures/transmettreDocumentRaccordement.fixture.js';
 import { matchTypeDocument } from './documentRaccordement.given.js';
 
 Quand(
@@ -108,7 +108,7 @@ Quand(
         document,
         estUnNouveauDocument: false,
         type: this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.type,
-      } satisfies ModifierDocumentRaccordement);
+      } satisfies ModifierDocument);
     } catch (e) {
       this.error = e as Error;
     }
@@ -126,8 +126,28 @@ Quand(
       await supprimerDocumentRaccordement.call(
         this,
         identifiantProjet.formatter(),
+        'porteur-projet',
         référenceDossier,
         { type },
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  /(le porteur|la dreal|la dgec) supprime un document pour le projet lauréat/,
+  async function (this: PotentielWorld, rôle: RôleUtilisateur) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.lauréatWorld.raccordementWorld;
+
+    try {
+      await supprimerDocumentRaccordement.call(
+        this,
+        identifiantProjet.formatter(),
+        getRôle.call(this, rôle),
+        référenceDossier,
       );
     } catch (e) {
       this.error = e as Error;
@@ -139,7 +159,7 @@ export async function transmettreDocumentRaccordement(
   this: PotentielWorld,
   identifiantProjet: string,
   référence: string,
-  data: Partial<TransmettreDocumentRaccordement> = {},
+  data: Partial<TransmettreDocument> = {},
 ) {
   const { dateSignature, document, référenceDossier, type } =
     this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.créer({
@@ -148,8 +168,8 @@ export async function transmettreDocumentRaccordement(
       ...data,
     });
 
-  await mediator.send<Lauréat.Raccordement.TransmettreDocumentRaccordementUseCase>({
-    type: 'Lauréat.Raccordement.UseCase.TransmettreDocumentRaccordement',
+  await mediator.send<Lauréat.Raccordement.TransmettreDocumentUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.TransmettreDocument',
     data: {
       dateSignatureValue: dateSignature,
       référenceDossierRaccordementValue: référenceDossier,
@@ -166,7 +186,7 @@ async function modifierDocumentRaccordement(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   role: Role.RawType,
-  data: Partial<ModifierDocumentRaccordement>,
+  data: Partial<ModifierDocument>,
 ) {
   const { dateSignature, document, référenceDossier, estUnNouveauDocument, type } =
     this.lauréatWorld.raccordementWorld.documentRaccordement.modifierFixture.créer({
@@ -176,8 +196,8 @@ async function modifierDocumentRaccordement(
       ...data,
     });
 
-  await mediator.send<Lauréat.Raccordement.ModifierDocumentRaccordementUseCase>({
-    type: 'Lauréat.Raccordement.UseCase.ModifierDocumentRaccordement',
+  await mediator.send<Lauréat.Raccordement.ModifierDocumentUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.ModifierDocument',
     data: {
       dateSignatureValue: dateSignature,
       référenceDossierRaccordementValue: référenceDossier,
@@ -185,7 +205,7 @@ async function modifierDocumentRaccordement(
       documentRaccordementValue: convertFixtureFileToReadableStream(document),
       estUnNouveauDocumentValue: estUnNouveauDocument,
       rôleValue: role,
-      type,
+      typeValue: type,
       modifiéLeValue: DateTime.now().formatter(),
       modifiéParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
     },
@@ -195,8 +215,9 @@ async function modifierDocumentRaccordement(
 export async function supprimerDocumentRaccordement(
   this: PotentielWorld,
   identifiantProjet: string,
+  role: Role.RawType,
   référence: string,
-  data: Partial<SupprimerDocumentRaccordement> = {},
+  data: Partial<SupprimerDocument> = {},
 ) {
   const { référenceDossier, type } =
     this.lauréatWorld.raccordementWorld.documentRaccordement.supprimerFixture.créer({
@@ -206,14 +227,15 @@ export async function supprimerDocumentRaccordement(
       ...data,
     });
 
-  await mediator.send<Lauréat.Raccordement.SupprimerDocumentRaccordementUseCase>({
-    type: 'Lauréat.Raccordement.UseCase.SupprimerDocumentRaccordement',
+  await mediator.send<Lauréat.Raccordement.SupprimerDocumentUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.SupprimerDocument',
     data: {
       référenceDossierRaccordementValue: référenceDossier,
       identifiantProjetValue: identifiantProjet,
       typeValue: type,
+      rôleValue: role,
       suppriméLeValue: new Date().toISOString(),
-      suppriméParValue: this.utilisateurWorld.porteurFixture.email,
+      suppriméParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
     },
   });
 }

@@ -4,23 +4,24 @@ import type { FC } from 'react';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import {
-  TransmettrePropositionTechniqueEtFinancièreForm,
-  type TransmettrePropositionTechniqueEtFinancièreFormProps,
-} from './TransmettrePropositionTechniqueEtFinancière.form';
+  TransmettreDocumentForm,
+  type TransmettreDocumentFormProps,
+} from './TransmettreDocument.form';
 
-export type TransmettrePropositionTechniqueEtFinancièrePageProps = {
-  identifiantProjet: TransmettrePropositionTechniqueEtFinancièreFormProps['identifiantProjet'];
-  referenceDossierRaccordement: TransmettrePropositionTechniqueEtFinancièreFormProps['referenceDossierRaccordement'];
+export type TransmettreDocumentPageProps = {
+  identifiantProjet: TransmettreDocumentFormProps['identifiantProjet'];
+  referenceDossierRaccordement: TransmettreDocumentFormProps['referenceDossierRaccordement'];
 };
 
-export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
-  TransmettrePropositionTechniqueEtFinancièrePageProps
-> = ({ identifiantProjet, referenceDossierRaccordement }) => (
+export const TransmettreDocumentPage: FC<TransmettreDocumentPageProps> = ({
+  identifiantProjet,
+  referenceDossierRaccordement,
+}) => (
   <ColumnPageTemplate
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
-        <TransmettrePropositionTechniqueEtFinancièreForm
+        <TransmettreDocumentForm
           identifiantProjet={identifiantProjet}
           referenceDossierRaccordement={referenceDossierRaccordement}
         />

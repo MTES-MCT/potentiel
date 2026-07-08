@@ -21,13 +21,6 @@ Fonctionnalité: Supprimer un document
       | convention de raccordement          |
       | convention directe de raccordement  |
 
-  Scénario: Supprimer un document pour le dossier de raccordement d'un projet achevé
-    Etant donné une demande complète de raccordement pour le projet lauréat
-    Et un document proposition technique et financière pour le projet lauréat
-    Et l'achèvement réel transmis pour le projet lauréat
-    Quand le porteur supprime un document proposition technique et financière pour le projet lauréat
-    Alors le document ne devrait plus être consultable dans le dossier de raccordement du projet lauréat
-
   Scénario: Supprimer un document pour un projet abandonné avec PPA
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document proposition technique et financière pour le projet lauréat
@@ -40,6 +33,20 @@ Fonctionnalité: Supprimer un document
     Et un document proposition technique et financière pour le projet lauréat
     Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
     Quand le porteur supprime un document proposition technique et financière pour le projet lauréat
+    Alors le document ne devrait plus être consultable dans le dossier de raccordement du projet lauréat
+
+  Scénario: La dgec supprime un document d'un projet achevé
+    Etant donné une demande complète de raccordement pour le projet lauréat
+    Et un document transmis pour le projet lauréat
+    Et l'achèvement réel transmis pour le projet lauréat
+    Quand la dgec supprime un document pour le projet lauréat
+    Alors le document ne devrait plus être consultable dans le dossier de raccordement du projet lauréat
+
+  Scénario: La dgec supprime un document d'un projet en service
+    Etant donné une demande complète de raccordement pour le projet lauréat
+    Et un document transmis pour le projet lauréat
+    Et une date de mise en service pour le dossier de raccordement du projet lauréat
+    Quand la dgec supprime un document pour le projet lauréat
     Alors le document ne devrait plus être consultable dans le dossier de raccordement du projet lauréat
 
   Scénario: Impossible de modifier un document qui n'a pas été transmis

@@ -22,6 +22,20 @@ Fonctionnalité: Modifier un document
             | la dreal   |
             | la dgec    |
 
+    Scénario: Modifier un document pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et un document transmis pour le projet lauréat
+        Et une demande d'abandon accordée avec déclaration de PPA
+        Quand le porteur modifie le document
+        Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Modifier un document pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et un document transmis pour le projet lauréat
+        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
+        Quand le porteur modifie le document
+        Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
+
     Scénario: La dgec modifie un document pour un projet en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document transmis pour le projet lauréat
@@ -37,20 +51,6 @@ Fonctionnalité: Modifier un document
         Quand la dgec modifie le document
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et le document devrait être consultable dans le dossier de raccordement du projet lauréat
-
-    Scénario: Modifier un document pour un projet abandonné avec PPA
-        Etant donné une demande complète de raccordement pour le projet lauréat
-        Et un document transmis pour le projet lauréat
-        Et une demande d'abandon accordée avec déclaration de PPA
-        Quand le porteur modifie le document
-        Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
-
-    Scénario: Modifier un document pour un projet en cours d'abandon avec PPA
-        Etant donné une demande complète de raccordement pour le projet lauréat
-        Et un document transmis pour le projet lauréat
-        Et une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
-        Quand le porteur modifie le document
-        Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Impossible de modifier un document qui n'a pas été transmis
         Etant donné une demande complète de raccordement pour le projet lauréat

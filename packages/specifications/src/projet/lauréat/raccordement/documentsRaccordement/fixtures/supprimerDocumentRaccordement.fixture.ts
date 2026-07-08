@@ -3,14 +3,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { AbstractFixture } from '../../../../../fixture.js';
 import type { DocumentRaccordementWorld } from '../documentRaccordement.world.js';
 
-export type SupprimerDocumentRaccordement = {
+export type SupprimerDocument = {
   référenceDossier: string;
   type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
 };
 
-export class SupprimerDocumentRaccordementFixture
-  extends AbstractFixture<SupprimerDocumentRaccordement>
-  implements SupprimerDocumentRaccordement
+export class SupprimerDocumentFixture
+  extends AbstractFixture<SupprimerDocument>
+  implements SupprimerDocument
 {
   #type!: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
   get type(): Lauréat.Raccordement.TypeDocumentsRaccordement.RawType {
@@ -35,11 +35,11 @@ export class SupprimerDocumentRaccordementFixture
   }
 
   créer(
-    partialFixture: Partial<Readonly<SupprimerDocumentRaccordement>> & {
+    partialFixture: Partial<Readonly<SupprimerDocument>> & {
       référenceDossier: string;
       identifiantProjet: string;
     },
-  ): Readonly<SupprimerDocumentRaccordement> {
+  ): Readonly<SupprimerDocument> {
     const fixture = {
       type: Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
       ...partialFixture,

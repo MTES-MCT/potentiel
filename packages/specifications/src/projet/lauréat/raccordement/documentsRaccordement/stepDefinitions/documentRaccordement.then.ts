@@ -14,6 +14,8 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;
+    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture;
+
     await waitForExpect(async () => {
       const dossierRaccordement =
         await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
@@ -27,44 +29,21 @@ Alors(
       assert(Option.isSome(dossierRaccordement));
       vérifierDossierRaccordement.call(this, dossierRaccordement);
 
-      const {
-        propositionTechniqueEtFinancière,
-        conventionDeRaccordement,
-        conventionDirecteDeRaccordement,
-      } = dossierRaccordement;
+      const documentFromDossier = await mediator.send<Lauréat.Raccordement.ConsulterDocumentQuery>({
+        type: 'Lauréat.Raccordement.Query.ConsulterDocument',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierRaccordementValue: référenceDossier,
+          typeDocumentValue: type,
+        },
+      });
+      const document =
+        this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(type);
 
-      if (propositionTechniqueEtFinancière) {
-        const document =
-          this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(
-            'proposition-technique-et-financière',
-          );
+      assert(Option.isSome(documentFromDossier), 'Le document issu de la query devrait exister');
+      assert(document, 'Le document devrait exister');
 
-        assert(document, 'La proposition technique et financière devrait exister');
-
-        await expectFileContent(propositionTechniqueEtFinancière.document, document.document);
-      }
-
-      if (conventionDeRaccordement) {
-        const document =
-          this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(
-            'convention-de-raccordement',
-          );
-
-        assert(document, 'La convention de raccordement devrait exister');
-
-        await expectFileContent(conventionDeRaccordement.document, document.document);
-      }
-
-      if (conventionDirecteDeRaccordement) {
-        const document =
-          this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(
-            'convention-directe-de-raccordement',
-          );
-
-        assert(document, 'La convention directe de raccordement devrait exister');
-
-        await expectFileContent(conventionDirecteDeRaccordement.document, document.document);
-      }
+      await expectFileContent(documentFromDossier.document, document.document);
     });
   },
 );
@@ -73,8 +52,19 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;
+    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.supprimerFixture;
 
     await waitForExpect(async () => {
+      const document = await mediator.send<Lauréat.Raccordement.ConsulterDocumentQuery>({
+        type: 'Lauréat.Raccordement.Query.ConsulterDocument',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierRaccordementValue: référenceDossier,
+          typeDocumentValue: type,
+        },
+      });
+      assert(Option.isNone(document));
+
       const dossierRaccordement =
         await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',

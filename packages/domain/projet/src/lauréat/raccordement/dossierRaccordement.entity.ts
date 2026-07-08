@@ -1,7 +1,7 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
-type DocumentRaccordement = {
+export type DocumentRaccordementSubEntity = {
   dateSignature: string;
   document: {
     format: string;
@@ -19,9 +19,9 @@ export type DossierRaccordement = {
     transmiseLe?: DateTime.RawType;
     transmisePar?: Email.RawType;
   };
-  propositionTechniqueEtFinancière?: DocumentRaccordement;
-  conventionDeRaccordement?: DocumentRaccordement;
-  conventionDirecteDeRaccordement?: DocumentRaccordement;
+  propositionTechniqueEtFinancière?: DocumentRaccordementSubEntity;
+  conventionDeRaccordement?: DocumentRaccordementSubEntity;
+  conventionDirecteDeRaccordement?: DocumentRaccordementSubEntity;
   miseEnService?: {
     dateMiseEnService: DateTime.RawType;
     transmiseLe: DateTime.RawType;

@@ -6,36 +6,42 @@ import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../inde
 import type { TypeDocumentsRaccordement } from '../../index.js';
 import type * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 
-export type SupprimerDocumentRaccordementCommand = Message<
-  'Lauréat.Raccordement.Command.SupprimerDocumentRaccordement',
+export type TransmettreDocumentCommand = Message<
+  'Lauréat.Raccordement.Command.TransmettreDocument',
   {
     type: TypeDocumentsRaccordement.ValueType;
+    dateSignature: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
-    suppriméLe: DateTime.ValueType;
-    suppriméPar: Email.ValueType;
+    formatDocumentRaccordement: string;
+    transmisLe: DateTime.ValueType;
+    transmisPar: Email.ValueType;
   }
 >;
 
-export const registerSupprimerDocumentRaccordementCommand = (
+export const registerTransmettreDocumentCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const handler: MessageHandler<SupprimerDocumentRaccordementCommand> = async ({
+  const handler: MessageHandler<TransmettreDocumentCommand> = async ({
     type,
+    dateSignature,
     référenceDossierRaccordement,
     identifiantProjet,
-    suppriméLe,
-    suppriméPar,
+    formatDocumentRaccordement,
+    transmisLe,
+    transmisPar,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await projet.lauréat.raccordement.supprimerDocumentRaccordement({
+    await projet.lauréat.raccordement.transmettreDocumentRaccordement({
       type,
+      dateSignature,
       référenceDossierRaccordement,
-      suppriméLe,
-      suppriméPar,
+      formatDocumentRaccordement,
+      transmisLe,
+      transmisPar,
     });
   };
 
-  mediator.register('Lauréat.Raccordement.Command.SupprimerDocumentRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Command.TransmettreDocument', handler);
 };

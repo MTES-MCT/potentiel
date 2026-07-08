@@ -11,7 +11,7 @@ import type { ValidationErrors } from '@/utils/formAction';
 import {
   type ModifierPropositionTechniqueEtFinancièreFormKeys,
   modifierPropositionTechniqueEtFinancièreAction,
-} from './modifierPropositionTechniqueEtFinancière.action';
+} from './supprimerDocument.action';
 
 export type ModifierPropositionTechniqueEtFinancièreFormProps = {
   identifiantProjet: string;

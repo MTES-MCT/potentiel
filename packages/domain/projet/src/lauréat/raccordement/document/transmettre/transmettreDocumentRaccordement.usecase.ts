@@ -1,45 +1,40 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentRaccordement, TypeDocumentsRaccordement } from '../../index.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
-import type { ModifierDocumentRaccordementCommand } from './modifierDocumentRaccordement.command.js';
+import type { TransmettreDocumentCommand } from './transmettreDocumentRaccordement.command.js';
 
-export type ModifierDocumentRaccordementUseCase = Message<
-  'Lauréat.Raccordement.UseCase.ModifierDocumentRaccordement',
+export type TransmettreDocumentUseCase = Message<
+  'Lauréat.Raccordement.UseCase.TransmettreDocument',
   {
     dateSignatureValue: string;
     référenceDossierRaccordementValue: string;
     identifiantProjetValue: string;
-    type: string;
+    typeValue: string;
     documentRaccordementValue: {
       content: ReadableStream;
       format: string;
     };
-    modifiéLeValue: string;
-    modifiéParValue: string;
-    rôleValue: string;
-    estUnNouveauDocumentValue: boolean;
+    transmisLeValue: string;
+    transmisParValue: string;
   }
 >;
 
-export const registerModifierDocumentRaccordementUseCase = () => {
-  const runner: MessageHandler<ModifierDocumentRaccordementUseCase> = async ({
+export const registerTransmettreDocumentUseCase = () => {
+  const runner: MessageHandler<TransmettreDocumentUseCase> = async ({
     dateSignatureValue,
     identifiantProjetValue,
     référenceDossierRaccordementValue,
     documentRaccordementValue: { format, content },
-    estUnNouveauDocumentValue,
-    type,
-    modifiéLeValue,
-    modifiéParValue,
-    rôleValue,
+    typeValue,
+    transmisLeValue,
+    transmisParValue,
   }) => {
-    const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(type);
+    const typeDocument = TypeDocumentsRaccordement.convertirEnValueType(typeValue);
 
     const documentRaccordement = DocumentRaccordement.documentRaccordement(typeDocument.type)({
       identifiantProjet: identifiantProjetValue,
@@ -62,21 +57,19 @@ export const registerModifierDocumentRaccordementUseCase = () => {
       },
     });
 
-    await mediator.send<ModifierDocumentRaccordementCommand>({
-      type: 'Lauréat.Raccordement.Command.ModifierDocumentRaccordement',
+    await mediator.send<TransmettreDocumentCommand>({
+      type: 'Lauréat.Raccordement.Command.TransmettreDocument',
       data: {
         dateSignature,
         identifiantProjet,
         référenceDossierRaccordement,
         formatDocumentRaccordement: format,
-        modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
-        modifiéPar: Email.convertirEnValueType(modifiéParValue),
+        transmisLe: DateTime.convertirEnValueType(transmisLeValue),
+        transmisPar: Email.convertirEnValueType(transmisParValue),
         type: typeDocument,
-        estUnNouveauDocument: estUnNouveauDocumentValue,
-        rôle: Role.convertirEnValueType(rôleValue),
       },
     });
   };
 
-  mediator.register('Lauréat.Raccordement.UseCase.ModifierDocumentRaccordement', runner);
+  mediator.register('Lauréat.Raccordement.UseCase.TransmettreDocument', runner);
 };

@@ -13,9 +13,9 @@ import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
 import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
-import type { ModifierDocumentRaccordementOptions } from './document-raccordement/modifier/modifierDocumentRaccordement.options.js';
-import type { SupprimerDocumentRaccordementOptions } from './document-raccordement/supprimer/supprimerDocumentRaccordement.options.js';
-import type { TransmettreDocumentRaccordementOptions } from './document-raccordement/transmettre/transmettreDocumentRaccordement.options.js';
+import type { ModifierDocumentOptions } from './document/modifier/modifierDocumentRaccordement.options.js';
+import type { SupprimerDocumentOptions } from './document/supprimer/supprimerDocumentRaccordement.options.js';
+import type { TransmettreDocumentOptions } from './document/transmettre/transmettreDocumentRaccordement.options.js';
 import {
   DateDansLeFuturError,
   DateDeMiseEnServiceNonModifiéeError,
@@ -731,7 +731,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmisLe,
     transmisPar,
     type,
-  }: TransmettreDocumentRaccordementOptions) {
+  }: TransmettreDocumentOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.vérifierStatutDuLauréat();
 
@@ -771,12 +771,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
     type,
-  }: ModifierDocumentRaccordementOptions) {
+  }: ModifierDocumentOptions) {
     this.vérifierStatutDuLauréat();
-
-    if (!rôle.estDGEC()) {
-      this.lauréat.vérifierNonAchevé();
-    }
 
     if (dateSignature.estDansLeFutur()) {
       throw new DateDansLeFuturError();
@@ -840,15 +836,34 @@ export class RaccordementAggregate extends AbstractAggregate<
     suppriméLe,
     suppriméPar,
     type,
-  }: SupprimerDocumentRaccordementOptions) {
+    rôle,
+  }: SupprimerDocumentOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.vérifierStatutDuLauréat();
+
+    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
     const documentsDossier = this.récupérerArrayDocumentsDossier(
       référenceDossierRaccordement.formatter(),
     );
 
     if (!documentsDossier.includes(type.formatter())) {
       throw new DocumentRaccordementNonExistantError();
+    }
+
+    const dossierEstEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
+
+    if (
+      dossierEstEnService &&
+      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-mise-en-service')
+    ) {
+      throw new DocumentNonModifiableCarDossierMisEnServiceError();
+    }
+
+    if (
+      this.lauréat.statut.estAchevé() &&
+      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-achèvement')
+    ) {
+      throw new ChangementImpossibleCarProjetAchevéError();
     }
 
     const event: DocumentRaccordementSuppriméEventV1 = {

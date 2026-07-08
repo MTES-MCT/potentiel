@@ -6,7 +6,7 @@ import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
 import type { DocumentRaccordementWorld } from '../documentRaccordement.world.js';
 
-export type ModifierDocumentRaccordement = {
+export type ModifierDocument = {
   dateSignature: string;
   référenceDossier: string;
   document: PièceJustificative;
@@ -14,9 +14,9 @@ export type ModifierDocumentRaccordement = {
   type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
 };
 
-export class ModifierDocumentRaccordementFixture
-  extends AbstractFixture<ModifierDocumentRaccordement>
-  implements ModifierDocumentRaccordement
+export class ModifierDocumentFixture
+  extends AbstractFixture<ModifierDocument>
+  implements ModifierDocument
 {
   #dateSignature!: string;
   get dateSignature(): string {
@@ -56,12 +56,12 @@ export class ModifierDocumentRaccordementFixture
   }
 
   créer(
-    partialFixture: Partial<Readonly<ModifierDocumentRaccordement>> & {
+    partialFixture: Partial<Readonly<ModifierDocument>> & {
       référenceDossier: string;
       type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
       identifiantProjet: string;
     },
-  ): Readonly<ModifierDocumentRaccordement> {
+  ): Readonly<ModifierDocument> {
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
       document: faker.potentiel.document(),
