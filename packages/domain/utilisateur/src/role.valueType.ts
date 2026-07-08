@@ -151,6 +151,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         consulterDossier: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+        consulterDocument: 'Lauréat.Raccordement.Query.ConsulterDocument',
         consulterGestionnaireRéseau:
           'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         consulterNombre: 'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
@@ -1252,6 +1253,7 @@ const policies = {
       ],
       modifier: [
         référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDocument,
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
         référencielPermissions.lauréat.raccordement.usecase.modifierDocumentRaccordement,
         référencielPermissions.lauréat.raccordement.command.modifierDocumentRaccordement,

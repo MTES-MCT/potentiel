@@ -18,13 +18,13 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
   dateSignature: zod.string().min(1),
-  document: keepOrUpdateSingleDocument({
+  documentSigné: keepOrUpdateSingleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
   type: zod.enum(Lauréat.Raccordement.TypeDocumentsRaccordement.type, {
     message: `Le type de document n'est pas valide`,
   }),
-  documentDocumentSelection: documentSelectionSchema,
+  documentSignéDocumentSelection: documentSelectionSchema,
 });
 
 export type ModifierDocumentFormKeys = keyof zod.infer<typeof schema>;
@@ -34,8 +34,8 @@ const action: FormAction<FormState, typeof schema> = async (
   {
     identifiantProjet,
     referenceDossierRaccordement,
-    document,
-    documentDocumentSelection,
+    documentSigné,
+    documentSignéDocumentSelection,
     dateSignature,
     type,
   },
@@ -48,8 +48,8 @@ const action: FormAction<FormState, typeof schema> = async (
         référenceDossierRaccordementValue: referenceDossierRaccordement,
         dateSignatureValue: new Date(dateSignature).toISOString(),
         typeValue: type,
-        documentRaccordementValue: document,
-        estUnNouveauDocumentValue: documentDocumentSelection === 'edit_document',
+        documentRaccordementValue: documentSigné,
+        estUnNouveauDocumentValue: documentSignéDocumentSelection === 'edit_document',
         rôleValue: utilisateur.rôle.nom,
         modifiéLeValue: DateTime.now().formatter(),
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),

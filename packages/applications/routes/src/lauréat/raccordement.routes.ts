@@ -58,10 +58,6 @@ export const document = {
     `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
       référenceDossierRaccordement,
     )}/document/${encodeParameter(type)}/modifier`,
-  supprimer: (identifiantProjet: string, référenceDossierRaccordement: string, type: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
-      référenceDossierRaccordement,
-    )}/document/${encodeParameter(type)}/supprimer`,
 };
 
 export const transmettreDateMiseEnService = (

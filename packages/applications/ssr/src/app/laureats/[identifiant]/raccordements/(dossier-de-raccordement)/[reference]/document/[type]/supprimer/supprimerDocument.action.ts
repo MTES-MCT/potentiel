@@ -5,50 +5,35 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  documentSelectionSchema,
-  keepOrUpdateSingleDocument,
-} from '@/utils/zod/document/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
-  dateSignature: zod.string().min(1),
-  propositionTechniqueEtFinanciereSignee: keepOrUpdateSingleDocument({
-    acceptedFileTypes: ['application/pdf'],
+  type: zod.enum(Lauréat.Raccordement.TypeDocumentsRaccordement.type, {
+    message: `Le type de document n'est pas valide`,
   }),
-  propositionTechniqueEtFinanciereSigneeDocumentSelection: documentSelectionSchema,
 });
 
-export type ModifierPropositionTechniqueEtFinancièreFormKeys = keyof zod.infer<typeof schema>;
+export type SupprimerDocumentFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  {
-    identifiantProjet,
-    referenceDossierRaccordement,
-    propositionTechniqueEtFinanciereSignee,
-    propositionTechniqueEtFinanciereSigneeDocumentSelection,
-    dateSignature,
-  },
+  { identifiantProjet, referenceDossierRaccordement, type },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.Raccordement.ModifierPropositionTechniqueEtFinancièreUseCase>({
-      type: 'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+    await mediator.send<Lauréat.Raccordement.SupprimerDocumentUseCase>({
+      type: 'Lauréat.Raccordement.UseCase.SupprimerDocument',
       data: {
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: referenceDossierRaccordement,
-        dateSignatureValue: new Date(dateSignature).toISOString(),
-        propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
-        estUnNouveauDocumentValue:
-          propositionTechniqueEtFinanciereSigneeDocumentSelection === 'edit_document',
         rôleValue: utilisateur.rôle.nom,
-        modifiéeLeValue: DateTime.now().formatter(),
-        modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
+        typeValue: type,
+        suppriméLeValue: DateTime.now().formatter(),
+        suppriméParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 
@@ -58,4 +43,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const modifierPropositionTechniqueEtFinancièreAction = formAction(action, schema);
+export const supprimerDocumentAction = formAction(action, schema);

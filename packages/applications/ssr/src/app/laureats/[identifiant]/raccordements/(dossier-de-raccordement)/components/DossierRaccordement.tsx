@@ -11,6 +11,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading3 } from '@/components/atoms/headings';
 import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
+import { SupprimerDocumentForm } from '../[reference]/document/[type]/supprimer/SupprimerDocument.form';
 import { FormatFichierInvalide } from '.';
 
 type TypeDossier =
@@ -36,6 +37,8 @@ export type DossierEtape = {
   action: DossierEtapeAction;
 };
 
+type EnrichedDossierEtape = DossierEtape & { référence: string; identifiantProjet: string };
+
 export type DossierProps = {
   dossierEtapes: Array<DossierEtape>;
   peutSupprimerDossier: boolean;
@@ -60,6 +63,8 @@ export const DossierRaccordement: FC<DossierProps> = ({
             data={étape.data}
             fallbackText={étape.fallbackText}
             action={étape.action}
+            identifiantProjet={identifiantProjet}
+            référence={référence}
           />
         ))}
       </ul>
@@ -75,7 +80,14 @@ export const DossierRaccordement: FC<DossierProps> = ({
   );
 };
 
-const DossierEtape: FC<DossierEtape> = ({ type, data, fallbackText, action }) => {
+const DossierEtape: FC<EnrichedDossierEtape> = ({
+  type,
+  data,
+  fallbackText,
+  action,
+  référence,
+  identifiantProjet,
+}) => {
   return (
     <TimelineItem>
       {data ? (
@@ -111,6 +123,16 @@ const DossierEtape: FC<DossierEtape> = ({ type, data, fallbackText, action }) =>
             </TertiaryLink>
           </div>
         )}
+        {data?.document &&
+          (type === 'convention-de-raccordement' ||
+            type === 'proposition-technique-et-financière' ||
+            type === 'convention-directe-de-raccordement') && (
+            <SupprimerDocumentForm
+              identifiantProjet={identifiantProjet}
+              référence={référence}
+              type={type}
+            />
+          )}
       </ContentArea>
     </TimelineItem>
   );

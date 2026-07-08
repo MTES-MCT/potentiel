@@ -36,7 +36,7 @@ export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
   return (
     <Form
       action={modifierDocumentAction}
-      heading={`Modifier le document "${type[0].toUpperCase() + type.slice(1)}"`}
+      heading={`Modifier la ${type.split('-').join(' ')}`}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Modifier',
@@ -51,7 +51,7 @@ export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
 
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossierRaccordement" value={reference} />
-      <input type="hidden" name="typeDocument" value={type} />
+      <input type="hidden" name="type" value={type} />
 
       <InputDate
         id="dateSignature"
@@ -67,11 +67,11 @@ export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
 
       <UploadNewOrModifyExistingDocument
         label="Document signé"
-        name="document"
+        name="documentSigné"
         required
         formats={['pdf']}
-        state={validationErrors['document'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['document']}
+        state={validationErrors['documentSigné'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['documentSigné']}
         documentKeys={[documentSignée]}
       />
     </Form>
