@@ -2,7 +2,12 @@ import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { conditionalRequiredError, numberSchema, optionalStringSchema } from './schemaBase';
+import {
+  conditionalRequiredError,
+  numberSchema,
+  optionalStringSchema,
+  ouiNonSchema,
+} from './schemaBase';
 
 export type InstructionSchemaShape = z.infer<typeof instructionSchema>;
 
@@ -11,6 +16,7 @@ export const instructionSchema = z
     statut: z.enum(Candidature.StatutCandidature.statuts),
     motifÉlimination: optionalStringSchema,
     noteTotale: numberSchema,
+    volumeRéservé: ouiNonSchema.optional(),
   })
   .superRefine((obj, ctx) => {
     const actualStatut = obj.statut;

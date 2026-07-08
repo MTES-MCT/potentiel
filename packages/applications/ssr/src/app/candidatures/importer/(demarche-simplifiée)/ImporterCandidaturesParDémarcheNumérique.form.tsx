@@ -101,6 +101,11 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
                     'chaîne de caractères',
                     'oui, sauf en cas de statut éliminé',
                   ],
+                  [
+                    'volumeReserve',
+                    'oui/non',
+                    'requis pour les périodes concernées par un volume réservé',
+                  ],
                 ]}
               />
             </div>

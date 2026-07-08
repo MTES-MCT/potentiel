@@ -60,6 +60,7 @@ export type CandidatureEntity = Entity<
     sociétéMère: string;
     noteTotale: number;
     motifÉlimination?: string;
+    volumeRéservé?: boolean;
     puissanceALaPointe: boolean;
     evaluationCarboneSimplifiée: number;
     actionnariat?: TypeActionnariat.RawType;
