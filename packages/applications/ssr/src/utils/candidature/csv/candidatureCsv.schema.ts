@@ -34,6 +34,7 @@ import {
   territoireProjetSchema,
   typeGarantiesFinancieresCsvSchema,
   typologieDeBâtimentCsvSchema,
+  volumeRéservéSchema,
   élémentsSousOmbrièreCsvSchema,
   évaluationCarboneSimplifiéeCsvSchema,
 } from './candidatureCsvFields.schema';
@@ -118,6 +119,7 @@ export const candidatureCsvHeadersMapping = {
   numéroDAutorisation: "Numéro de l'autorisation",
   puissanceDeSite: 'Puissance de site',
   numéroIdentification: 'Numéro SIREN ou SIRET*',
+  volumeRéservé: 'Volume réservé',
 } as const;
 
 export type CsvHeaders = ReadonlyArray<
@@ -178,6 +180,7 @@ const candidatureCsvRowSchema = z
     [candidatureCsvHeadersMapping.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [candidatureCsvHeadersMapping.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [candidatureCsvHeadersMapping.territoireProjet]: territoireProjetSchema, // see refines below
+    [candidatureCsvHeadersMapping.volumeRéservé]: volumeRéservéSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {

@@ -123,6 +123,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   },
   champsSupplémentaires: {
     typologieInstallation: { type: 'optionnel' as const },
+    volumeRéservé: { type: 'requis' },
     ...champsSupplémentairesÀPartirDeP10,
   },
   delaiRealisationTexte: 'trente (30) mois',
