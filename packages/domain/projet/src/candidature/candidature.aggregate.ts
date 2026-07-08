@@ -368,8 +368,19 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierChampsSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
+  private vérifierChampsSupplémentaires({ dépôt, instruction }: CandidatureBehaviorOptions) {
     const cdcActuel = this.projet.cahierDesChargesActuel;
+
+    if (cdcActuel.estChampRequis('volumeRéservé') && instruction.volumeRéservé === undefined) {
+      throw new ChampRequisError('volume réservé');
+    }
+
+    if (
+      !cdcActuel.estChampRequisOuOptionnel('volumeRéservé') &&
+      instruction.volumeRéservé !== undefined
+    ) {
+      throw new ChampNonAttenduError('volume réservé');
+    }
 
     if (cdcActuel.estChampRequis('coefficientKChoisi') && dépôt.coefficientKChoisi === undefined) {
       throw new ChampRequisError('choix du coefficient K');

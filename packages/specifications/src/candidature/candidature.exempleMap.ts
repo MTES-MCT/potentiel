@@ -57,6 +57,7 @@ export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction
   statut: ['statut', mapValueType(Candidature.StatutCandidature.convertirEnValueType)],
   motifÉlimination: ["motif d'élimination", (val) => val],
   noteTotale: ['note totale', mapNumber],
+  volumeRéservé: ['volume réservé', mapOptionalBoolean],
 };
 
 export const identifiantProjetExempleMap: FieldToExempleMapper<

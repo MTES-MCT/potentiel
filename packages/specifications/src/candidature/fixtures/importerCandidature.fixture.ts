@@ -100,6 +100,7 @@ export class ImporterCandidatureFixture
         (instruction.statut === 'éliminé' ? faker.word.words() : undefined),
       noteTotale: instruction.noteTotale ?? faker.number.int({ min: 0, max: 5 }),
       statut: instruction.statut,
+      volumeRéservé: instruction.volumeRéservé,
     };
 
     const détailsValue: ImporterCandidature['détailsValue'] = {
