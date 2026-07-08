@@ -4,6 +4,7 @@ import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import type { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
@@ -12,7 +13,11 @@ import { Heading3 } from '@/components/atoms/headings';
 import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
 import { FormatFichierInvalide } from '.';
 
-type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service' | 'document';
+type TypeDossier =
+  | Lauréat.Raccordement.TypeDocumentsRaccordement.RawType
+  | 'dcr'
+  | 'mise-en-service'
+  | 'document';
 
 export type DossierEtapeAction =
   | {
@@ -135,10 +140,9 @@ const ItemTitle = (props: { title: string }) => (
 
 const mapTypeToTitre: Record<TypeDossier, string> = {
   dcr: 'demande complète de raccordement',
-  ptf: 'proposition technique et financière',
-  cr: 'convention de raccordement',
-  crd: 'convention directe de raccordement',
+  'proposition-technique-et-financière': 'proposition technique et financière',
+  'convention-de-raccordement': 'convention de raccordement',
+  'convention-directe-de-raccordement': 'convention directe de raccordement',
   'mise-en-service': 'mise en service',
-  // viovio : wording à vérifier
-  document: 'document de raccordement',
+  document: 'document',
 };

@@ -54,14 +54,14 @@ export const document = {
     `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
       référenceDossierRaccordement,
     )}/document/transmettre`,
-  modifier: (identifiantProjet: string, référenceDossierRaccordement: string) =>
+  modifier: (identifiantProjet: string, référenceDossierRaccordement: string, type: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
       référenceDossierRaccordement,
-    )}/document/modifier`,
-  supprimer: (identifiantProjet: string, référenceDossierRaccordement: string) =>
+    )}/document/${encodeParameter(type)}/modifier`,
+  supprimer: (identifiantProjet: string, référenceDossierRaccordement: string, type: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
       référenceDossierRaccordement,
-    )}/document/supprimer`,
+    )}/document/${encodeParameter(type)}/supprimer`,
 };
 
 export const transmettreDateMiseEnService = (

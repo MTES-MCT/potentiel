@@ -2,7 +2,7 @@ import { Alert } from '@codegouvfr/react-dsfr/Alert';
 import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
+import { TitrePageRaccordement } from '../../../../../TitrePageRaccordement';
 import {
   ModifierPropositionTechniqueEtFinancièreForm,
   type ModifierPropositionTechniqueEtFinancièreFormProps,

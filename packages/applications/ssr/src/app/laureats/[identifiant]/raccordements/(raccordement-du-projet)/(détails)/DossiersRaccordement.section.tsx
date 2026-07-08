@@ -1,7 +1,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
@@ -13,7 +13,7 @@ import {
 } from '../../(dossier-de-raccordement)/components/DossierRaccordement';
 import {
   getDemandeComplèteDeRaccordementAction,
-  getPropositionTechniqueEtFinancièreAction,
+  getDocumentAction,
   getSupprimerDossierAction,
 } from '../../(raccordement-du-projet)/(détails)/_helpers';
 import { getMiseEnServiceAction } from '../../(raccordement-du-projet)/(détails)/_helpers/getMiseEnServiceAction';
@@ -98,34 +98,78 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     action: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
   });
 
-  if(!dossier.propositionTechniqueEtFinancière && !dossier.conventionDeRaccordement && !dossier.conventionDirecteDeRaccordement) {
+  const {
+    conventionDeRaccordement,
+    propositionTechniqueEtFinancière,
+    conventionDirecteDeRaccordement,
+  } = dossier;
+
+  if (
+    !propositionTechniqueEtFinancière &&
+    !conventionDeRaccordement &&
+    !conventionDirecteDeRaccordement
+  ) {
     étapes.push({
       type: 'document',
-      date: {
-        date: undefined,
-        fallbackText: 'Date de signature à transmettre',
-      },
-      document: {
-        url: undefined,
-        fallbackText: 'Document à transmettre',
-      },
-      action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
+      fallbackText: 'À transmettre',
+      action: getDocumentAction({ rôle, dossier, estProjetAchevé }),
     });
   }
 
-  étapes.push({
-    type: 'ptf',
-    ...(dossier.propositionTechniqueEtFinancière && {
-      data: {
-        date: dossier.propositionTechniqueEtFinancière.dateSignature.formatter(),
-        document: DocumentProjet.bind(
-          dossier.propositionTechniqueEtFinancière.document,
-        ).formatter(),
-      },
-    }),
-    fallbackText: 'À transmettre',
-    action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
-  });
+  for (const document of [
+    conventionDeRaccordement,
+    propositionTechniqueEtFinancière,
+    conventionDirecteDeRaccordement,
+  ]) {
+    if (document) {
+      const type = Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
+        document.document.typeDocument.split('/')[2],
+      ).type;
+
+      étapes.push({
+        type: type,
+        ...(document && {
+          data: {
+            date: document.dateSignature.formatter(),
+            document: DocumentProjet.bind(document.document).formatter(),
+          },
+        }),
+        fallbackText: 'À transmettre',
+        action: getDocumentAction({
+          rôle,
+          dossier,
+          estProjetAchevé,
+          type,
+        }),
+      });
+    }
+  }
+
+  if (conventionDeRaccordement && !propositionTechniqueEtFinancière) {
+    étapes.push({
+      type: 'proposition-technique-et-financière',
+      fallbackText: 'À transmettre',
+      action: getDocumentAction({
+        rôle,
+        dossier,
+        estProjetAchevé,
+        type: 'proposition-technique-et-financière',
+      }),
+    });
+  }
+
+  if (!conventionDeRaccordement && propositionTechniqueEtFinancière) {
+    étapes.push({
+      type: 'convention-de-raccordement',
+      fallbackText: 'À transmettre',
+      action: getDocumentAction({
+        rôle,
+        dossier,
+        estProjetAchevé,
+        type: 'convention-de-raccordement',
+      }),
+    });
+  }
 
   étapes.push({
     type: 'mise-en-service',

@@ -20,6 +20,8 @@ export const SectionWithErrorHandling = async (
       captureException(e, { data: { location: 'section-page-projet', title } });
     } catch {}
 
+    console.log(e);
+
     if (OperationRejectedError.isOperationRejectedError(e as Error)) {
       return (
         <Section title={title ?? 'Erreur'}>

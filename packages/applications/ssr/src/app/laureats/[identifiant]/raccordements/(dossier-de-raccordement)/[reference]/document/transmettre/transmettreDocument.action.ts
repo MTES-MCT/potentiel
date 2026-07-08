@@ -17,7 +17,7 @@ const schema = zod.object({
     message: `Le type de document n'est pas valide`,
   }),
   dateSignature: zod.string().min(1),
-  document: singleDocument({
+  documentSigné: singleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
 });
@@ -26,7 +26,7 @@ export type TransmettreDocumentFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, referenceDossier, dateSignature, document, type },
+  { identifiantProjet, referenceDossier, dateSignature, documentSigné, type },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Raccordement.TransmettreDocumentUseCase>({
@@ -36,7 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
         référenceDossierRaccordementValue: referenceDossier,
         dateSignatureValue: new Date(dateSignature).toISOString(),
         typeValue: type,
-        documentRaccordementValue: document,
+        documentRaccordementValue: documentSigné,
         transmisLeValue: new Date().toISOString(),
         transmisParValue: utilisateur.identifiantUtilisateur.formatter(),
       },

@@ -31,6 +31,7 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
       'proposition-technique-et-financière',
     );
 
+  // pas toute les options en fonction
   const typeOptions = Lauréat.Raccordement.TypeDocumentsRaccordement.type.map((t) => ({
     label: t
       .split('-')
@@ -69,9 +70,8 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
               e.target.value as Lauréat.Raccordement.TypeDocumentsRaccordement.RawType,
             ),
         }}
-        // ajouter des règles de disabled si des documents ont déjà été transmis
-        // disabled={estNotifiée}
       />
+
       <Input
         label="Date de signature"
         state={validationErrors['dateSignature'] ? 'error' : 'default'}
@@ -87,11 +87,11 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
 
       <UploadNewOrModifyExistingDocument
         label="Proposition technique et financière signée"
-        name="propositionTechniqueEtFinanciereSignee"
+        name="documentSigné"
         required
         formats={['pdf']}
-        state={validationErrors['document'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['document']}
+        state={validationErrors['documentSigné'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['documentSigné']}
       />
     </Form>
   );
