@@ -29,7 +29,7 @@ const Dossier = ({ dossier }: DossierProps) => {
         Dossier <strong>{dossier.référence.référence}</strong>
       </span>
       {estIncomplet && (
-        <Badge noIcon small severity="warning">
+        <Badge noIcon small severity="warning" className="mt-1">
           Incomplet
         </Badge>
       )}
