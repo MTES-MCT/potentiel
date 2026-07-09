@@ -1257,6 +1257,8 @@ const policies = {
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
         référencielPermissions.lauréat.raccordement.usecase.modifierDocumentRaccordement,
         référencielPermissions.lauréat.raccordement.command.modifierDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.usecase.supprimerDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.command.supprimerDocumentRaccordement,
       ],
       'modifier-après-mise-en-service': [],
       'modifier-après-achèvement': [],

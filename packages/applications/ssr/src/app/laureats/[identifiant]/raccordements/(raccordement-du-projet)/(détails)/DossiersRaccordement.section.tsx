@@ -88,7 +88,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     type: 'dcr',
     ...(dossier.demandeComplèteRaccordement.dateQualification && {
       data: {
-        date: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
+        date: dossier.demandeComplèteRaccordement.dateQualification.formatter(),
         document: dossier.demandeComplèteRaccordement.accuséRéception
           ? DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter()
           : undefined,

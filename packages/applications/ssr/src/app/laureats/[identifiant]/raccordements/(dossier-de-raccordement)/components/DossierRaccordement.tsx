@@ -12,7 +12,7 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading3 } from '@/components/atoms/headings';
 import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
 import { SupprimerDocumentForm } from '../[reference]/document/[type]/supprimer/SupprimerDocument.form';
-import { FormatFichierInvalide } from '.';
+import { FormatFichierInvalide } from './FormatFichierInvalide';
 
 type TypeDossier =
   | Lauréat.Raccordement.TypeDocumentsRaccordement.RawType
