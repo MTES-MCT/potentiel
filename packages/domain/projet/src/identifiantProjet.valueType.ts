@@ -88,7 +88,7 @@ export const inconnu = convertirEnValueType(
   'appelOffreInconnu#périodeInconnu#familleInconnu#numéroCREInconnu',
 );
 
-class IdentifiantProjetInvalideError extends InvalidOperationError {
+export class IdentifiantProjetInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(
       `L'identifiant projet ne correspond pas au format suivant: '{appel offre}#{période}#{famille}#{numéro CRE}'`,
