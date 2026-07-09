@@ -82,7 +82,7 @@ const DossierEtape: FC<DossierEtape> = ({ type, data, fallbackText, action }) =>
         {data ? (
           <FormattedDate date={data.date} />
         ) : (
-          <span className="italic text-dsfr-text-default-warning-default">{fallbackText}</span>
+          <span className="italic text-dsfr-background-flat-pinkMacaron-default">{fallbackText}</span>
         )}
         <ItemTitle title={mapTypeToTitre[type]} />
         {data?.document && (
