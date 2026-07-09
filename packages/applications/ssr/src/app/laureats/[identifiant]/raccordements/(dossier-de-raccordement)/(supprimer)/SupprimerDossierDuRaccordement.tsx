@@ -1,6 +1,6 @@
 'use client';
 
-import { createHash } from 'crypto'; // Node.js
+import { createHash } from 'node:crypto';
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import { type FC, useState } from 'react';
