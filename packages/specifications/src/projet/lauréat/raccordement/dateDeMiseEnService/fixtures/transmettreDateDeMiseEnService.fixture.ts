@@ -58,9 +58,9 @@ export class TransmettreDateMiseEnServiceFixture
 
   mapToExpected() {
     if (!this.aÉtéCréé) {
-      return;
+      return undefined;
     }
-    return { dateMiseEnService: DateTime.convertirEnValueType(this.dateMiseEnService) };
+    return DateTime.convertirEnValueType(this.dateMiseEnService);
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
