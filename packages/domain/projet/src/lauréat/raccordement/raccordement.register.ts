@@ -42,8 +42,6 @@ import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
 import { registerModifierGestionnaireRéseauProjetCommand } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.command.js';
 import { registerModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase.js';
-import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.command.js';
-import { registerModifierPropositionTechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.usecase.js';
 import { registerModifierRéférenceDossierRaccordementCommand } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.command.js';
 import { registerModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase.js';
 import {
@@ -58,8 +56,6 @@ import { registerTransmettreDateMiseEnServiceCommand } from './transmettre/dateM
 import { registerTransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase.js';
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase.js';
-import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command.js';
-import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase.js';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -92,14 +88,12 @@ export const registerRaccordementUseCases = ({
 }: RaccordementCommandDependencies) => {
   registerModifierDemandeComplèteRaccordementCommand(getProjetAggregateRoot);
   registerModifierGestionnaireRéseauProjetCommand(getProjetAggregateRoot);
-  registerModifierPropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerModifierRéférenceDossierRaccordementCommand(getProjetAggregateRoot);
   registerModifierDateMiseEnServiceCommand(getProjetAggregateRoot);
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDateMiseEnServiceCommand(getProjetAggregateRoot);
   registerTransmettreDemandeComplèteRaccordementCommand(getProjetAggregateRoot);
   registerSupprimerDateMiseEnServiceCommand(getProjetAggregateRoot);
-  registerTransmettrePropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerAttribuerGestionnaireCommand(getProjetAggregateRoot);
   registerSupprimerDossierDuRaccordementCommand(getProjetAggregateRoot);
   registerTransmettreDocumentCommand(getProjetAggregateRoot);
@@ -108,12 +102,10 @@ export const registerRaccordementUseCases = ({
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
-  registerModifierPropositionTechniqueEtFinancièreUseCase();
   registerModifierRéférenceDossierRaccordementUseCase();
   registerModifierDateMiseEnServiceUseCase();
   registerSupprimerDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
-  registerTransmettrePropositionTechniqueEtFinancièreUseCase();
   registerSupprimerDossierDuRaccordementUseCase();
   registerTransmettreDocumentUseCase();
   registerModifierDocumentUseCase();

@@ -32,22 +32,6 @@ export const modifierDemandeComplèteRaccordement = (
     référenceDossierRaccordement,
   )}/demande-complete-raccordement:modifier`;
 
-export const transmettrePropositionTechniqueEtFinancière = (
-  identifiantProjet: string,
-  référenceDossierRaccordement: string,
-) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
-    référenceDossierRaccordement,
-  )}/proposition-technique-et-financiere:transmettre`;
-
-export const modifierPropositionTechniqueEtFinancière = (
-  identifiantProjet: string,
-  référenceDossierRaccordement: string,
-) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
-    référenceDossierRaccordement,
-  )}/proposition-technique-et-financiere:modifier`;
-
 export const document = {
   transmettre: (identifiantProjet: string, référenceDossierRaccordement: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
