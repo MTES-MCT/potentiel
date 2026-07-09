@@ -57,7 +57,7 @@ export class ModifierDateMiseEnServiceFixture
 
   mapToExpected() {
     if (!this.aÉtéCréé) {
-      return;
+      return undefined;
     }
     return DateTime.convertirEnValueType(this.dateMiseEnService);
   }
