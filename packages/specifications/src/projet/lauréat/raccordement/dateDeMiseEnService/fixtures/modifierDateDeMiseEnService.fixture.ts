@@ -59,7 +59,7 @@ export class ModifierDateMiseEnServiceFixture
     if (!this.aÉtéCréé) {
       return;
     }
-    return { dateMiseEnService: DateTime.convertirEnValueType(this.dateMiseEnService) };
+    return DateTime.convertirEnValueType(this.dateMiseEnService);
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
