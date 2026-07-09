@@ -184,5 +184,11 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     actions: getMiseEnServiceAction({ rôle, dossier }),
   });
 
-  return étapes;
+  return (
+    étapes
+      .filter((a) => a.data)
+      // biome-ignore lint/style/noNonNullAssertion: avec le filter
+      .sort((a, b) => a.data!.date.localeCompare(b.data!.date))
+      .concat(étapes.filter((a) => !a.data))
+  );
 };
