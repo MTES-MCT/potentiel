@@ -20,7 +20,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
   return (
     <>
       <Button priority="tertiary" onClick={() => setIsOpen(true)} className="mt-4">
-        Supprimer
+        Supprimer le dossier
       </Button>
 
       <ModalWithForm
@@ -30,7 +30,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
         onClose={() => setIsOpen(false)}
         form={{
           action: supprimerDossierDuRaccordementAction,
-          id: `supprimer-dossier-${référenceDossier}-abandon-form`,
+          id: `supprimer-dossier-${référenceDossier}-form`,
           omitMandatoryFieldsLegend: true,
           children: (
             <>

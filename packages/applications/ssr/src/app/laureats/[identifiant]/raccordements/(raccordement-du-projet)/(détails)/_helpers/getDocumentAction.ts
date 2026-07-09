@@ -16,7 +16,7 @@ export const getDocumentAction = ({
   dossier,
   estProjetAchevé,
   type,
-}: GetDocumentActionProps): DossierEtapeAction => {
+}: GetDocumentActionProps): Array<DossierEtapeAction> => {
   const label = type ? `Transmettre la ${type.split('-').join(' ')}` : 'Transmettre le document';
 
   const transmettreAction = {
@@ -29,24 +29,33 @@ export const getDocumentAction = ({
 
   if (!type) {
     return rôle.aLaPermission('raccordement.document-raccordement.transmettre')
-      ? transmettreAction
-      : undefined;
+      ? [transmettreAction]
+      : [];
   }
 
-  const modifierAction = {
-    href: Routes.Raccordement.document.modifier(
-      dossier.identifiantProjet.formatter(),
-      dossier.référence.formatter(),
-      type,
-    ),
-    label: 'Modifier',
-  };
+  const modifierActions = [
+    {
+      href: Routes.Raccordement.document.modifier(
+        dossier.identifiantProjet.formatter(),
+        dossier.référence.formatter(),
+        type,
+      ),
+      label: 'Modifier le document',
+    },
+    {
+      href: '',
+      typeDocument: type,
+      label: 'Supprimer le document',
+    },
+  ];
 
-  if (!dossier[Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)]) {
-    if (rôle.aLaPermission('raccordement.document-raccordement.transmettre')) {
-      return transmettreAction;
-    }
-    return undefined;
+  const dossierNeContientPasCeTypeDeDocument =
+    !dossier[Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)];
+
+  if (dossierNeContientPasCeTypeDeDocument) {
+    return rôle.aLaPermission('raccordement.document-raccordement.transmettre')
+      ? [transmettreAction]
+      : [];
   }
 
   const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
@@ -55,17 +64,19 @@ export const getDocumentAction = ({
     dossierEnService &&
     rôle.aLaPermission('raccordement.document-raccordement.modifier-après-mise-en-service')
   ) {
-    return modifierAction;
+    return modifierActions;
   }
 
   if (
     estProjetAchevé &&
     rôle.aLaPermission('raccordement.document-raccordement.modifier-après-achèvement')
   ) {
-    return modifierAction;
+    return modifierActions;
   }
 
   if (rôle.aLaPermission('raccordement.document-raccordement.modifier')) {
-    return modifierAction;
+    return modifierActions;
   }
+
+  return [];
 };

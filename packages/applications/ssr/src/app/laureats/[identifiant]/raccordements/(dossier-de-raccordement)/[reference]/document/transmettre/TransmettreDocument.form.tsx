@@ -40,7 +40,7 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
 
   return (
     <Form
-      heading={`Transmettre la ${documentLabel}`}
+      heading={typeDocument ? `Transmettre la ${documentLabel}` : 'Transmettre un document'}
       action={transmettreDocumentAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
@@ -57,7 +57,7 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
       <Select
         state={validationErrors['type'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['type']}
-        label="Type"
+        label="Type de document de raccordement"
         options={typeOptions}
         disabled={availableTypes.length <= 1}
         nativeSelectProps={{
@@ -85,7 +85,7 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
       />
 
       <UploadNewOrModifyExistingDocument
-        label={`La ${documentLabel} signée`}
+        label={typeDocument ? `La ${documentLabel} signée` : 'Le document signé'}
         name="documentSigné"
         required
         formats={['pdf']}

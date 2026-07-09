@@ -16,7 +16,7 @@ import {
   getDocumentAction,
   getSupprimerDossierAction,
 } from '../../(raccordement-du-projet)/(détails)/_helpers';
-import { getMiseEnServiceAction } from '../../(raccordement-du-projet)/(détails)/_helpers/getMiseEnServiceAction';
+import { getMiseEnServiceAction } from './_helpers/getMiseEnServiceAction';
 
 type DossierSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -95,7 +95,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
       },
     }),
     fallbackText: 'À transmettre',
-    action: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
+    actions: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
   });
 
   const {
@@ -112,7 +112,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     étapes.push({
       type: 'document',
       fallbackText: 'À transmettre',
-      action: getDocumentAction({ rôle, dossier, estProjetAchevé }),
+      actions: getDocumentAction({ rôle, dossier, estProjetAchevé }),
     });
   }
 
@@ -127,7 +127,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
       ).type;
 
       étapes.push({
-        type: type,
+        type,
         ...(document && {
           data: {
             date: document.dateSignature.formatter(),
@@ -135,7 +135,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
           },
         }),
         fallbackText: 'À transmettre',
-        action: getDocumentAction({
+        actions: getDocumentAction({
           rôle,
           dossier,
           estProjetAchevé,
@@ -149,7 +149,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     étapes.push({
       type: 'proposition-technique-et-financière',
       fallbackText: 'À transmettre',
-      action: getDocumentAction({
+      actions: getDocumentAction({
         rôle,
         dossier,
         estProjetAchevé,
@@ -162,7 +162,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     étapes.push({
       type: 'convention-de-raccordement',
       fallbackText: 'À transmettre',
-      action: getDocumentAction({
+      actions: getDocumentAction({
         rôle,
         dossier,
         estProjetAchevé,
@@ -181,7 +181,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     fallbackText: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
       ? 'À transmettre'
       : 'La date de mise en service sera renseignée par le gestionnaire de réseau',
-    action: getMiseEnServiceAction({ rôle, dossier }),
+    actions: getMiseEnServiceAction({ rôle, dossier }),
   });
 
   return étapes;

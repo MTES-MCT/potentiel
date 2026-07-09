@@ -21,11 +21,11 @@ export const SupprimerDocumentForm = ({
   return (
     <>
       <TertiaryLink href="" onClick={() => setIsOpen(true)} className="block w-1/2 text-center">
-        Supprimer
+        Supprimer le document
       </TertiaryLink>
 
       <ModalWithForm
-        id="supprimer-document-raccordement"
+        id={`supprimer-${type}-dossier-${référence}`}
         title={`Supprimer la ${type.split('-').join(' ')}`}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -34,10 +34,8 @@ export const SupprimerDocumentForm = ({
           id: 'supprimer-document-raccordement-form',
           children: (
             <>
-              <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-
-              <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
-              <input type="hidden" name="referenceDossierRaccordement" value={référence} />
+              <input type="hidden" value={identifiantProjet} name="identifiantProjet" />
+              <input type="hidden" name="référenceDossierRaccordement" value={référence} />
               <input type="hidden" name="type" value={type} />
 
               <div>

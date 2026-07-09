@@ -16,7 +16,7 @@ import {
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  referenceDossierRaccordement: zod.string().min(1),
+  référenceDossierRaccordement: zod.string().min(1),
   dateSignature: zod.string().min(1),
   documentSigné: keepOrUpdateSingleDocument({
     acceptedFileTypes: ['application/pdf'],
@@ -33,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   {
     identifiantProjet,
-    referenceDossierRaccordement,
+    référenceDossierRaccordement,
     documentSigné,
     documentSignéDocumentSelection,
     dateSignature,
@@ -45,7 +45,7 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.Raccordement.UseCase.ModifierDocument',
       data: {
         identifiantProjetValue: identifiantProjet,
-        référenceDossierRaccordementValue: referenceDossierRaccordement,
+        référenceDossierRaccordementValue: référenceDossierRaccordement,
         dateSignatureValue: new Date(dateSignature).toISOString(),
         typeValue: type,
         documentRaccordementValue: documentSigné,

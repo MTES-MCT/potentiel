@@ -1258,12 +1258,6 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.modifierDocumentRaccordement,
         référencielPermissions.lauréat.raccordement.command.modifierDocumentRaccordement,
       ],
-      supprimer: [
-        référencielPermissions.document.command.enregister,
-        référencielPermissions.lauréat.raccordement.query.consulterDossier,
-        référencielPermissions.lauréat.raccordement.usecase.supprimerDocumentRaccordement,
-        référencielPermissions.lauréat.raccordement.command.supprimerDocumentRaccordement,
-      ],
       'modifier-après-mise-en-service': [],
       'modifier-après-achèvement': [],
     },
@@ -1721,7 +1715,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.document-raccordement.modifier',
   'raccordement.document-raccordement.modifier-après-mise-en-service',
   'raccordement.document-raccordement.modifier-après-achèvement',
-  'raccordement.document-raccordement.supprimer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
@@ -2009,7 +2002,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.document-raccordement.transmettre',
   'raccordement.document-raccordement.modifier',
-  'raccordement.document-raccordement.supprimer',
   'raccordement.gestionnaire.modifier',
 
   // Garanties financières
@@ -2155,7 +2147,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.document-raccordement.transmettre',
   'raccordement.document-raccordement.modifier',
-  'raccordement.document-raccordement.supprimer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
 

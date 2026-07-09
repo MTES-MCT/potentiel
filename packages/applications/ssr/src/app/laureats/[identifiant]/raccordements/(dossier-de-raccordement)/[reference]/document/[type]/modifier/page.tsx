@@ -21,8 +21,8 @@ type PageProps = {
 
 export const metadata: Metadata = { title: 'Modifier le document' };
 
-export default async function Page(props0: PageProps) {
-  const params = await props0.params;
+export default async function Page(props: PageProps) {
+  const params = await props.params;
 
   const { identifiant, reference, type } = params;
 

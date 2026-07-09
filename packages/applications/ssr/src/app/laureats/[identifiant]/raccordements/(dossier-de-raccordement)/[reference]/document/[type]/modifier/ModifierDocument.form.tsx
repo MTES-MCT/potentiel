@@ -50,7 +50,7 @@ export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
       </div>
 
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
-      <input type="hidden" name="referenceDossierRaccordement" value={reference} />
+      <input type="hidden" name="référenceDossierRaccordement" value={reference} />
       <input type="hidden" name="type" value={type} />
 
       <InputDate

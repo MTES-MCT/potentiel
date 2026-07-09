@@ -20,12 +20,11 @@ type TypeDossier =
   | 'mise-en-service'
   | 'document';
 
-export type DossierEtapeAction =
-  | {
-      href: string;
-      label: string;
-    }
-  | undefined;
+export type DossierEtapeAction = {
+  href: string;
+  label: string;
+  typeDocument?: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
+};
 
 export type DossierEtape = {
   type: TypeDossier;
@@ -34,7 +33,7 @@ export type DossierEtape = {
     document?: string;
   };
   fallbackText?: string;
-  action: DossierEtapeAction;
+  actions: Array<DossierEtapeAction>;
 };
 
 type EnrichedDossierEtape = DossierEtape & { référence: string; identifiantProjet: string };
@@ -62,7 +61,7 @@ export const DossierRaccordement: FC<DossierProps> = ({
             type={étape.type}
             data={étape.data}
             fallbackText={étape.fallbackText}
-            action={étape.action}
+            actions={étape.actions}
             identifiantProjet={identifiantProjet}
             référence={référence}
           />
@@ -84,7 +83,7 @@ const DossierEtape: FC<EnrichedDossierEtape> = ({
   type,
   data,
   fallbackText,
-  action,
+  actions,
   référence,
   identifiantProjet,
 }) => {
@@ -116,23 +115,20 @@ const DossierEtape: FC<EnrichedDossierEtape> = ({
             />
           </>
         )}
-        {action && (
-          <div>
-            <TertiaryLink key={action.label} href={action.href}>
-              {action.label}
-            </TertiaryLink>
-          </div>
-        )}
-        {data?.document &&
-          (type === 'convention-de-raccordement' ||
-            type === 'proposition-technique-et-financière' ||
-            type === 'convention-directe-de-raccordement') && (
+        {actions.map((action) =>
+          action?.typeDocument ? (
             <SupprimerDocumentForm
+              key={action.label}
               identifiantProjet={identifiantProjet}
               référence={référence}
               type={type}
             />
-          )}
+          ) : (
+            <TertiaryLink key={action.label} href={action.href}>
+              {action.label}
+            </TertiaryLink>
+          ),
+        )}
       </ContentArea>
     </TimelineItem>
   );
