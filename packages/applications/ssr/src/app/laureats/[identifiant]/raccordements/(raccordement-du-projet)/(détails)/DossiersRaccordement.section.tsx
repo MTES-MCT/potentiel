@@ -62,7 +62,7 @@ export const DossiersRaccordementSection = ({
                 peutSupprimerDossier={getSupprimerDossierAction({
                   rôle,
                   estAchevé: estProjetAchevé,
-                  dossierEstEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
+                  dossierEstEnService: !!dossier.dateMiseEnService?.date,
                 })}
                 référence={dossier.référence.formatter()}
                 identifiantProjet={identifiantProjetValue}
@@ -86,40 +86,42 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
 
   étapes.push({
     type: 'dcr',
-    date: {
-      date: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
-      fallbackText: 'Date à transmettre',
-    },
-    document: {
-      url: dossier.demandeComplèteRaccordement.accuséRéception
-        ? DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter()
-        : undefined,
-      fallbackText: 'Accusé de réception à transmettre',
-    },
+    ...(dossier.demandeComplèteRaccordement.dateQualification && {
+      data: {
+        date: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
+        document: dossier.demandeComplèteRaccordement.accuséRéception
+          ? DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter()
+          : undefined,
+      },
+    }),
+    fallbackText: 'À transmettre',
     action: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
   });
 
   étapes.push({
     type: 'ptf',
-    date: {
-      date: dossier.propositionTechniqueEtFinancière?.dateSignature.formatter(),
-      fallbackText: 'Date de signature à transmettre',
-    },
-    document: {
-      url: dossier.propositionTechniqueEtFinancière
-        ? DocumentProjet.bind(dossier.propositionTechniqueEtFinancière.document).formatter()
-        : undefined,
-      fallbackText: 'Document à transmettre',
-    },
+    ...(dossier.propositionTechniqueEtFinancière && {
+      data: {
+        date: dossier.propositionTechniqueEtFinancière.dateSignature.formatter(),
+        document: DocumentProjet.bind(
+          dossier.propositionTechniqueEtFinancière.document,
+        ).formatter(),
+      },
+    }),
+    fallbackText: 'À transmettre',
     action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
   });
 
   étapes.push({
     type: 'mise-en-service',
-    date: {
-      date: dossier.miseEnService?.dateMiseEnService?.formatter(),
-      fallbackText: 'Date de mise en service à transmettre',
-    },
+    ...(dossier.dateMiseEnService && {
+      data: {
+        date: dossier.dateMiseEnService.formatter(),
+      },
+    }),
+    fallbackText: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
+      ? 'À transmettre'
+      : 'La date de mise en service sera renseignée par le gestionnaire de réseau',
     action: getMiseEnServiceAction({ rôle, dossier }),
   });
 

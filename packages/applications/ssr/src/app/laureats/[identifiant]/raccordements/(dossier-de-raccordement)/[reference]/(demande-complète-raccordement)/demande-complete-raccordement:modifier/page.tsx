@@ -121,7 +121,7 @@ const mapToProps: MapToProps = ({
 }) => {
   const canEdit =
     role.estDGEC() ||
-    ((role.estPorteur() || role.estDreal()) && !dossierRaccordement.miseEnService);
+    ((role.estPorteur() || role.estDreal()) && !dossierRaccordement.dateMiseEnService);
 
   return {
     identifiantProjet,

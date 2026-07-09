@@ -111,7 +111,7 @@ const mapToProps: MapToProps = ({
 
     dossierRaccordement: {
       référence: referenceDossierRaccordement,
-      miseEnService: dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
+      miseEnService: dossierRaccordement.dateMiseEnService?.formatter() ?? undefined,
     },
 
     intervalleDatesMeSDélaiCDC2022: intervalleDatesMeSDélaiCDC2022

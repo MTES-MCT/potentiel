@@ -28,7 +28,8 @@ export const getDemandeComplèteDeRaccordementAction: GetDemandeComplèteDeRacco
     };
   }
 
-  const dossierEstEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
+  const dossierEstEnService = !!dossier.dateMiseEnService;
+
   const dossierAvecDCRComplète = !!(
     dossier.demandeComplèteRaccordement?.dateQualification &&
     dossier.demandeComplèteRaccordement?.accuséRéception?.format
@@ -41,6 +42,14 @@ export const getDemandeComplèteDeRaccordementAction: GetDemandeComplèteDeRacco
     ),
     label: 'Modifier',
   };
+
+  if (
+    !estProjetAchevé &&
+    !dossierEstEnService &&
+    rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
+  ) {
+    return modifierAction;
+  }
 
   if (
     dossierEstEnService &&
@@ -56,7 +65,4 @@ export const getDemandeComplèteDeRaccordementAction: GetDemandeComplèteDeRacco
   ) {
     return modifierAction;
   }
-
-  if (rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'))
-    return modifierAction;
 };

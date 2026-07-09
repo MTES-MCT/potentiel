@@ -23,8 +23,11 @@ export type DossierEtapeAction =
 
 export type DossierEtape = {
   type: TypeDossier;
-  date: { date?: DateTime.RawType; fallbackText?: string };
-  document?: { url?: string; fallbackText: string };
+  data?: {
+    date: DateTime.RawType;
+    document?: string;
+  };
+  fallbackText?: string;
   action: DossierEtapeAction;
 };
 
@@ -42,15 +45,15 @@ export const DossierRaccordement: FC<DossierProps> = ({
   identifiantProjet,
 }) => {
   return (
-    <section className="w-fit flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] relative">
+    <section className="md:w-1/3 flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] relative">
       <Heading3>Dossier {référence}</Heading3>
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {dossierEtapes.map((étape) => (
           <DossierEtape
             key={étape.type}
             type={étape.type}
-            date={étape.date}
-            document={étape.document}
+            data={étape.data}
+            fallbackText={étape.fallbackText}
             action={étape.action}
           />
         ))}
@@ -67,42 +70,39 @@ export const DossierRaccordement: FC<DossierProps> = ({
   );
 };
 
-const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
+const DossierEtape: FC<DossierEtape> = ({ type, data, fallbackText, action }) => {
   return (
     <TimelineItem>
-      {date.date ? (
+      {data ? (
         <Success color="green-emeraude" fontSize="medium" />
       ) : (
         <Information color="red-marianne" fontSize="medium" />
       )}
       <ContentArea>
-        {date.date ? (
-          <FormattedDate date={date.date} />
+        {data ? (
+          <FormattedDate date={data.date} />
         ) : (
-          <span className="italic text-dsfr-text-default-warning-default">{date.fallbackText}</span>
+          <span className="italic text-dsfr-text-default-warning-default">{fallbackText}</span>
         )}
         <ItemTitle title={mapTypeToTitre[type]} />
-        {document &&
-          (document.url ? (
-            <>
-              {document.url.endsWith('.bin') && <FormatFichierInvalide />}
-              <DownloadDocument
-                className="mb-0"
-                label="Télécharger le document"
-                format="pdf"
-                url={Routes.Document.télécharger(document.url)}
-                small
-              />
-            </>
-          ) : (
-            <span className="italic text-dsfr-text-default-warning-default">
-              {document.fallbackText}
-            </span>
-          ))}
+        {data?.document && (
+          <>
+            {data.document.endsWith('.bin') && <FormatFichierInvalide />}
+            <DownloadDocument
+              className="mb-0"
+              label="Télécharger le document"
+              format="pdf"
+              url={Routes.Document.télécharger(data.document)}
+              small
+            />
+          </>
+        )}
         {action && (
-          <TertiaryLink key={action.label} href={action.href}>
-            {action.label}
-          </TertiaryLink>
+          <div>
+            <TertiaryLink key={action.label} href={action.href}>
+              {action.label}
+            </TertiaryLink>
+          </div>
         )}
       </ContentArea>
     </TimelineItem>

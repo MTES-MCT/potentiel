@@ -58,10 +58,7 @@ export default async function Page(props0: PageProps) {
           },
         });
 
-      if (
-        Option.isNone(dossierRaccordement) ||
-        !dossierRaccordement.miseEnService?.dateMiseEnService
-      ) {
+      if (Option.isNone(dossierRaccordement) || !dossierRaccordement.dateMiseEnService) {
         return notFound();
       }
 
@@ -107,8 +104,7 @@ const mapToProps: MapToProps = ({ utilisateur, lauréat, période, dossierRaccor
 
     dossierRaccordement: {
       référence: dossierRaccordement.référence.formatter(),
-      dateMiseEnService:
-        dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
+      dateMiseEnService: dossierRaccordement.dateMiseEnService?.formatter() ?? undefined,
     },
 
     intervalleDatesMeSDélaiCDC2022: intervalleDatesMeSDélaiCDC2022
