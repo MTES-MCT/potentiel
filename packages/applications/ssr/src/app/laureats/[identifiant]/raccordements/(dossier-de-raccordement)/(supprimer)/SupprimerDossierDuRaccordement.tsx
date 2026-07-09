@@ -1,7 +1,5 @@
 'use client';
 
-import { createHash } from 'node:crypto';
-
 import Button from '@codegouvfr/react-dsfr/Button';
 import { type FC, useState } from 'react';
 
@@ -26,7 +24,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
       </Button>
 
       <ModalWithForm
-        id={`supprimer-dossier-raccordement-${generateHashforRéférence(référenceDossier)}`}
+        id={`supprimer-dossier-raccordement-${crypto.randomUUID()}`}
         title={`Supprimer le dossier ${référenceDossier} du raccordement`}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -47,8 +45,4 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
       />
     </>
   );
-};
-
-const generateHashforRéférence = (ref: string) => {
-  return createHash('sha1').update(ref).digest('hex').substring(0, 8);
 };
