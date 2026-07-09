@@ -16,7 +16,7 @@ export const instructionSchema = z
     statut: z.enum(Candidature.StatutCandidature.statuts),
     motifÉlimination: optionalStringSchema,
     noteTotale: numberSchema,
-    volumeRéservé: ouiNonSchema.optional(),
+    volumeRéservé: z.union([z.boolean(), ouiNonSchema]).optional(),
   })
   .superRefine((obj, ctx) => {
     const actualStatut = obj.statut;
