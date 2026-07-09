@@ -2,6 +2,7 @@ import Information from '@codegouvfr/react-dsfr/picto/Information';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
 import type { FC } from 'react';
 
+import { Routes } from '@potentiel-applications/routes';
 import type { DateTime } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -89,7 +90,7 @@ const DossierEtape: FC<DossierEtape> = ({ type, date, document, action }) => {
                 className="mb-0"
                 label="Télécharger le document"
                 format="pdf"
-                url={document.url}
+                url={Routes.Document.télécharger(document.url)}
                 small
               />
             </>
