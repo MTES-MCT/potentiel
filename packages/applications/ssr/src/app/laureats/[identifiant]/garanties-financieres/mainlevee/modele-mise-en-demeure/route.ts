@@ -24,11 +24,9 @@ export const GET = async (
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
-      const utilisateurPeutGénérerModèleMiseEnDemeure = utilisateur.rôle.aLaPermission(
-        'garantiesFinancières.mainlevée.générerModèleMiseEnDemeure',
-      );
-
-      if (!utilisateurPeutGénérerModèleMiseEnDemeure) {
+      if (
+        !utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.générerModèleMiseEnDemeure')
+      ) {
         throw new AccèsFonctionnalitéRefuséError(
           'garantiesFinancières.mainlevée.générerModèleMiseEnDemeure',
           utilisateur.rôle.nom,

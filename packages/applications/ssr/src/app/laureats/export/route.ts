@@ -14,10 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
-      const utilisateurPeutExporterLesLauréats =
-        utilisateur.rôle.aLaPermission('lauréat.exporterListe');
-
-      if (!utilisateurPeutExporterLesLauréats) {
+      if (!utilisateur.rôle.aLaPermission('lauréat.exporterListe')) {
         throw new AccèsFonctionnalitéRefuséError('lauréat.exporterListe', utilisateur.rôle.nom);
       }
 

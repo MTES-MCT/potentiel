@@ -13,10 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
-      const utilisateurPeutExporterLesÉliminés =
-        utilisateur.rôle.aLaPermission('éliminé.exporterListe');
-
-      if (!utilisateurPeutExporterLesÉliminés) {
+      if (!utilisateur.rôle.aLaPermission('éliminé.exporterListe')) {
         throw new AccèsFonctionnalitéRefuséError('éliminé.exporterListe', utilisateur.rôle.nom);
       }
 

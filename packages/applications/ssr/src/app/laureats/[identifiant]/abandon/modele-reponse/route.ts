@@ -2,6 +2,7 @@ import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
@@ -22,6 +23,19 @@ export const GET = async (
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('abandon.accorder')) {
+        throw new AccèsFonctionnalitéRefuséError('abandon.accorder', utilisateur.rôle.nom);
+      }
+      if (!utilisateur.rôle.aLaPermission('abandon.rejeter')) {
+        throw new AccèsFonctionnalitéRefuséError('abandon.rejeter', utilisateur.rôle.nom);
+      }
+      if (!utilisateur.rôle.aLaPermission('abandon.demander-confirmation')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'abandon.demander-confirmation',
+          utilisateur.rôle.nom,
+        );
+      }
+
       const { identifiant } = await ctx.params;
       const identifiantProjet = decodeParameter(identifiant);
       const abandon = await getDemandeAbandonEnCours(identifiantProjet);

@@ -25,11 +25,7 @@ type DétailFournisseurCSV = {
 export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
-      const utilisateurPeutExporterLesDétailFournisseur = utilisateur.rôle.aLaPermission(
-        'candidature.exporterDétailsFournisseur',
-      );
-
-      if (!utilisateurPeutExporterLesDétailFournisseur) {
+      if (!utilisateur.rôle.aLaPermission('candidature.exporterDétailsFournisseur')) {
         throw new AccèsFonctionnalitéRefuséError(
           'candidature.exporterDétailsFournisseur',
           utilisateur.rôle.nom,

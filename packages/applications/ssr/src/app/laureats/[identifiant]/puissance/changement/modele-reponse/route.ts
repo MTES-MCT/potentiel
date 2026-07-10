@@ -7,6 +7,7 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import type { Lauréat } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
@@ -22,6 +23,16 @@ export const GET = async (
   ctx: RouteContext<'/laureats/[identifiant]/puissance/changement/modele-reponse'>,
 ) =>
   withUtilisateur(async (utilisateur) => {
+    if (!utilisateur.rôle.aLaPermission('puissance.accorderChangement')) {
+      throw new AccèsFonctionnalitéRefuséError(
+        'puissance.accorderChangement',
+        utilisateur.rôle.nom,
+      );
+    }
+    if (!utilisateur.rôle.aLaPermission('puissance.rejeterChangement')) {
+      throw new AccèsFonctionnalitéRefuséError('puissance.rejeterChangement', utilisateur.rôle.nom);
+    }
+
     const { identifiant } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
     const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';

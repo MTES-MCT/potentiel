@@ -7,6 +7,7 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import type { Lauréat } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
@@ -22,6 +23,13 @@ export const GET = async (
   ctx: RouteContext<'/laureats/[identifiant]/delai/[date]/modele-reponse'>,
 ) =>
   withUtilisateur(async (utilisateur) => {
+    if (!utilisateur.rôle.aLaPermission('délai.accorderDemande')) {
+      throw new AccèsFonctionnalitéRefuséError('délai.accorderDemande', utilisateur.rôle.nom);
+    }
+    if (!utilisateur.rôle.aLaPermission('délai.rejeterDemande')) {
+      throw new AccèsFonctionnalitéRefuséError('délai.rejeterDemande', utilisateur.rôle.nom);
+    }
+
     const { identifiant, date } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
     const demandéLe = decodeParameter(date);
