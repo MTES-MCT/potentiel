@@ -35,7 +35,7 @@ type CsvLine = {
     | 'Achèvement existant mais date identique'
     | 'Transmission de la date'
     | 'Identifiant projet invalide'
-    | 'Date achèvement réel transmise invalide'
+    | 'Date achèvement réel transmise inexistante'
     | 'Achèvement aggrégat inexistant'
     | 'Achèvement inexistant'
     | 'Achèvement existant avec date différente'
@@ -222,7 +222,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           stats.erreurs.push({
             identifiantProjet,
             statut: 'erreur ❌',
-            raison: 'Date achèvement réel transmise invalide',
+            raison: 'Date achèvement réel transmise inexistante',
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle: undefined,
             écartEnJours: undefined,
@@ -305,12 +305,27 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
       },
     ];
 
-    const parRaison = (a: CsvLine, b: CsvLine) => a.raison.localeCompare(b.raison);
+    const parRaisonPuisÉcart = (a: CsvLine, b: CsvLine) => {
+      const parRaison = a.raison.localeCompare(b.raison);
+
+      if (
+        parRaison === 0 &&
+        a.raison === 'Achèvement existant avec date différente' &&
+        b.raison === 'Achèvement existant avec date différente'
+      ) {
+        return (b.écartEnJours ?? 0) - (a.écartEnJours ?? 0);
+      }
+
+      return parRaison;
+    };
 
     await writeFile(
       RESULT_FILE,
       await ExportCSV.toCSV({
-        data: [...stats.succès.sort(parRaison), ...stats.erreurs.sort(parRaison)],
+        data: [
+          ...stats.succès.sort(parRaisonPuisÉcart),
+          ...stats.erreurs.sort(parRaisonPuisÉcart),
+        ],
         fields,
       }),
       'utf-8',
