@@ -64,12 +64,20 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     useState<string | undefined>(gestionnaireRéseauActuel?.identifiantGestionnaireRéseau);
 
   const aideSaisieRéférenceDossierRaccordement = selectedIdentifiantGestionnaireRéseau
-    ? listeGestionnairesRéseau?.find(
-        (gestionnaire) =>
-          gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
-          selectedIdentifiantGestionnaireRéseau,
-      )?.aideSaisieRéférenceDossierRaccordement
+    ? selectedIdentifiantGestionnaireRéseau ===
+      gestionnaireRéseauActuel?.identifiantGestionnaireRéseau
+      ? gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement
+      : listeGestionnairesRéseau?.find(
+          (gestionnaire) =>
+            gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
+            selectedIdentifiantGestionnaireRéseau,
+        )?.aideSaisieRéférenceDossierRaccordement
     : undefined;
+
+  const expression =
+    typeof aideSaisieRéférenceDossierRaccordement?.expressionReguliere === 'string'
+      ? aideSaisieRéférenceDossierRaccordement.expressionReguliere
+      : aideSaisieRéférenceDossierRaccordement?.expressionReguliere.expression;
 
   return (
     <Form
