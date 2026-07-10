@@ -72,6 +72,9 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
               .none(() => (
                 <></>
               ))}
+            <div>
+              Les caractères suivants ne sont pas autorisés : ? * : ; {'{'} {'}'} \
+            </div>
           </>
         }
         state={validationErrors['referenceDossierCorrigee'] ? 'error' : 'default'}

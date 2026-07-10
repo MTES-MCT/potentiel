@@ -139,6 +139,9 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
                     Exemple : {aideSaisieRéférenceDossierRaccordement.légende}
                   </div>
                 )}
+                <div>
+                  Les caractères suivants ne sont pas autorisés : ? * : ; {'{'} {'}'} \
+                </div>
               </>
             )
           }
@@ -152,11 +155,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
               : `Renseigner l'identifiant`,
             required: true,
             defaultValue: référence.value ?? '',
-            pattern:
-              aideSaisieRéférenceDossierRaccordement &&
-              !Option.isNone(aideSaisieRéférenceDossierRaccordement.expressionReguliere)
-                ? aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression
-                : undefined,
+            pattern: expression,
           }}
         />
       ) : (

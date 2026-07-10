@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, ExpressionRegulière } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
@@ -18,7 +18,12 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1),
   dateQualificationActuelle: zod.string().optional(),
-  referenceDossierRaccordement: zod.string().min(1),
+  referenceDossierRaccordement: zod
+    .string()
+    .min(1)
+    .regex(ExpressionRegulière.nomRépertoireDocumentValide.regex(), {
+      message: 'La référence du dossier contient des caractères non autorisés : ? * : ; { } \\',
+    }),
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   accuseReceptionDocumentSelection: documentSelectionSchema.optional(),

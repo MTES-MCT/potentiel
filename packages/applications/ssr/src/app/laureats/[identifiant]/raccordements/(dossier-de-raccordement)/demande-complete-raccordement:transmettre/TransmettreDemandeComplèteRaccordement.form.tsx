@@ -122,6 +122,9 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
               .none(() => (
                 <></>
               ))}
+            <div>
+              Les caractères suivants ne sont pas autorisés : ? * : ; {'{'} {'}'} \
+            </div>
           </div>
         }
         state={validationErrors['referenceDossier'] ? 'error' : 'default'}

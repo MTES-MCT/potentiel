@@ -47,7 +47,9 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const accepteTout = convertirEnValueType('(.*)');
+export const accepteTout = convertirEnValueType('(.*)'); // à supprimer ?
+
+export const nomRépertoireDocumentValide = convertirEnValueType('[^?*:;{}\\\\]+');
 
 class ExpressionRegulièreVideError extends InvalidOperationError {
   constructor() {
