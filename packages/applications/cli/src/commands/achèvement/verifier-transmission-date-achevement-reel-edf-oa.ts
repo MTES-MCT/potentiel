@@ -40,8 +40,8 @@ type CsvLine = {
     | 'Achèvement inexistant'
     | 'Achèvement existant avec date différente'
     | 'Opération métier impossible';
-  erreurMétier?: string;
   dateAchèvementRéelTransmise: DateTime.RawType;
+  dateMiseEnService?: DateTime.RawType;
 } & (
   | {
       écartEnJours: number;
@@ -165,12 +165,24 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           const dateAchèvementRéelActuelle = achèvement.dateAchèvementRéel.formatter();
 
           if (écartEnJours > 0) {
+            const raccordement =
+              await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+                type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+                data: { identifiantProjetValue: identifiantProjet },
+              });
+
+            const dateMiseEnService =
+              Option.isSome(raccordement) && raccordement.miseEnService?.date
+                ? raccordement.miseEnService.date.formatter()
+                : undefined;
+
             stats.erreurs.push({
               identifiantProjet,
               statut: 'erreur ❌',
               raison: 'Achèvement existant avec date différente',
               dateAchèvementRéelTransmise,
               dateAchèvementRéelActuelle,
+              dateMiseEnService,
               écartEnJours,
             });
           } else {
@@ -213,7 +225,6 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle: undefined,
             écartEnJours: undefined,
-            erreurMétier: error.message,
           });
           continue;
         }
@@ -235,7 +246,6 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
             identifiantProjet,
             statut: 'erreur ❌',
             raison: 'Achèvement aggrégat inexistant',
-            erreurMétier: (error as Error).message,
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle: undefined,
             écartEnJours: undefined,
@@ -248,7 +258,6 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
             identifiantProjet,
             statut: 'erreur ❌',
             raison: 'Opération métier impossible',
-            erreurMétier: (error as Error).message,
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle: undefined,
             écartEnJours: undefined,
@@ -288,12 +297,12 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
         value: 'raison',
       },
       {
-        label: "Message d'erreur",
-        value: 'erreurMétier',
-      },
-      {
         label: 'Date Achèvement Réel EDF OA (transmise)',
         value: 'dateAchèvementRéelTransmise',
+      },
+      {
+        label: 'Date mise en service du projet',
+        value: 'dateMiseEnService',
       },
       {
         label: 'Date achèvement réel Potentiel (actuelle)',
@@ -322,10 +331,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
     await writeFile(
       RESULT_FILE,
       await ExportCSV.toCSV({
-        data: [
-          ...stats.succès.sort(parRaisonPuisÉcart),
-          ...stats.erreurs.sort(parRaisonPuisÉcart),
-        ],
+        data: [...stats.succès.sort(parRaisonPuisÉcart), ...stats.erreurs.sort(parRaisonPuisÉcart)],
         fields,
       }),
       'utf-8',
