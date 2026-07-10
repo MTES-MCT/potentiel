@@ -1,7 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getAction, getProducteurInfos } from '@/app/laureats/[identifiant]/_helpers';
+import {
+  getAction,
+  getProducteurInfos,
+  peutEffectuerUnChangement,
+} from '@/app/laureats/[identifiant]/_helpers';
 import { Section } from '@/components/atoms/section/Section';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ProducteurDétails } from './ProducteurDétails';
@@ -24,6 +28,10 @@ export const ProducteurSection = ({
       domain: 'producteur',
     });
 
+    const peutCorrigerNuméroIdentification =
+      rôle.aLaPermission('producteur.corrigerNuméroIdentification') &&
+      (await peutEffectuerUnChangement(identifiantProjet));
+
     return (
       <Section title="Producteur">
         <ProducteurDétails
@@ -34,7 +42,7 @@ export const ProducteurSection = ({
           numéroIdentification={{
             value: producteurInfos.numéroIdentification,
             // cas particulier pour producteur pour le moment, à ne pas intégrer à getAction IMO
-            action: rôle.aLaPermission('producteur.corrigerNuméroIdentification')
+            action: peutCorrigerNuméroIdentification
               ? {
                   url: Routes.Producteur.numéroIdentification.corriger(
                     identifiantProjet.formatter(),
