@@ -20,6 +20,12 @@ export const exporterFournisseur = withFilters<{
   typeActionnariat?: string[];
 }>(`/candidatures/export-fournisseurs`);
 
+export const exporterCandidaturesNonNotifiées = withFilters<{
+  appelOffre?: string[];
+  periode?: string;
+  famille?: string;
+}>(`/candidatures/export`);
+
 const candidatureRoute = createIdentifiantRoute('/candidatures');
 
 export const détails = candidatureRoute();

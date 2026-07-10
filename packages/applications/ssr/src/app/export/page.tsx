@@ -189,5 +189,19 @@ const mapToAction: MapToAction = (
     });
   }
 
+  if (utilisateur.rôle.aLaPermission('candidature.lister')) {
+    actions.push({
+      type: 'exporter-candidatures-non-notifiées',
+      label: 'Candidatures non notifiées',
+      url: Routes.Candidature.exporterCandidaturesNonNotifiées({
+        appelOffre,
+        periode,
+        famille,
+      }),
+      availableFilters: ['appelOffre', 'periode', 'famille'],
+      description: 'Exporter les données de candidatures non notifiées',
+    });
+  }
+
   return actions;
 };

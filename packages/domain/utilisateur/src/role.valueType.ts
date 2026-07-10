@@ -1016,6 +1016,10 @@ const policies = {
       référencielPermissions.candidature.query.listerCandidatures,
       référencielPermissions.appelOffre.query.lister,
     ],
+    exporterListe: [
+      référencielPermissions.candidature.query.listerCandidatures,
+      référencielPermissions.appelOffre.query.lister,
+    ],
     attestation: {
       prévisualiser: [
         référencielPermissions.utilisateur.query.consulter,
@@ -1739,6 +1743,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'candidature.consulterDétail',
   'candidature.corriger',
   'candidature.lister',
+  'candidature.exporterListe',
   'candidature.attestation.prévisualiser',
   'candidature.listerDétailsFournisseur',
 
