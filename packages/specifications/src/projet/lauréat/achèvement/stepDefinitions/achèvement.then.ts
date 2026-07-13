@@ -90,11 +90,10 @@ Alors(
       assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
       assert(achèvement.estAchevé, `Le projet n'est pas achevé`);
 
-      const actual = achèvement.dateAchèvementRéel;
-      const expected =
-        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.dateAchèvement;
+      const expected = this.lauréatWorld.achèvementWorld.mapToExpected();
+      assert(expected.estAchevé, `Le projet n'est pas achevé`);
 
-      expect(actual.formatter()).to.be.equal(new Date(expected).toISOString());
+      expect(achèvement.dateAchèvementRéel.estÉgaleÀ(expected.dateAchèvementRéel)).to.be.true;
     });
   },
 );

@@ -256,6 +256,67 @@ Quand(
     }
   },
 );
+
+Quand(
+  "le Cocontractant corrige la date d'achèvement réelle {string} pour le projet {lauréat-éliminé}",
+  async function (
+    this: PotentielWorld,
+    dateAchèvementValue: string,
+    statutProjet: 'lauréat' | 'éliminé',
+  ) {
+    try {
+      const { identifiantProjet } =
+        statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
+
+      const { dateAchèvement, corrigéeLe, corrigéePar } =
+        this.lauréatWorld.achèvementWorld.corrigerDateAchèvementFixture.créer({
+          dateAchèvement: dateAchèvementValue,
+        });
+
+      await mediator.send<Lauréat.Achèvement.CorrigerDateAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.CorrigerDateAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateAchèvementValue: dateAchèvement,
+          corrigéeLeValue: corrigéeLe,
+          corrigéeParValue: corrigéePar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "le Cocontractant corrige la date d'achèvement réelle avec la même date pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const achèvement = this.lauréatWorld.achèvementWorld.mapToExpected();
+      assert(achèvement.estAchevé, 'impossible de corriger si non achevé');
+
+      const { dateAchèvement, corrigéeLe, corrigéePar } =
+        this.lauréatWorld.achèvementWorld.corrigerDateAchèvementFixture.créer({
+          dateAchèvement: achèvement.dateAchèvementRéel.formatter(),
+        });
+
+      await mediator.send<Lauréat.Achèvement.CorrigerDateAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.CorrigerDateAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateAchèvementValue: dateAchèvement,
+          corrigéeLeValue: corrigéeLe,
+          corrigéeParValue: corrigéePar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 // #endregion Date achèvement réelle
 
 // #region Attestation de conformité

@@ -1,4 +1,5 @@
 import type { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event.js';
+import type { DateAchèvementCorrigéeEvent } from './corriger/corrigerDateAchèvement.event.js';
 import type {
   AttestationConformitéEnregistréeEvent,
   AttestationConformitéEnregistréeEventV1,
@@ -27,7 +28,8 @@ export type AchèvementEvent =
   | AchèvementModifiéEventV1
   | AchèvementModifiéEvent
   | DateAchèvementPrévisionnelCalculéeEvent
-  | DateAchèvementTransmiseEvent;
+  | DateAchèvementTransmiseEvent
+  | DateAchèvementCorrigéeEvent;
 
 export type {
   AchèvementModifiéEvent,
@@ -38,6 +40,7 @@ export type {
   AttestationConformitéModifiéeEventV1,
   AttestationConformitéTransmiseEvent,
   AttestationConformitéTransmiseEventV1,
+  DateAchèvementCorrigéeEvent,
   DateAchèvementPrévisionnelCalculéeEvent,
   DateAchèvementTransmiseEvent,
 };

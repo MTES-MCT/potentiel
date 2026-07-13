@@ -35,6 +35,7 @@ export const register = () => {
             'AchèvementModifié-V1',
             'DateAchèvementPrévisionnelCalculée-V1',
             'AttestationConformitéModifiée-V1',
+            'DateAchèvementCorrigée-V1',
           ),
         },
         () => Promise.resolve(),
