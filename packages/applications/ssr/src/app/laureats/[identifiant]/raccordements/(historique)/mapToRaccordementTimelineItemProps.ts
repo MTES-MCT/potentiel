@@ -5,6 +5,11 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 import { dossierRaccordement, gestionnaireRéseau } from './events';
+import {
+  mapToDocumentModifiéTimelineItemProps,
+  mapToDocumentSuppriméTimelineItemProps,
+  mapToDocumentTransmisTimelineItemProps,
+} from './events/dossier/document';
 
 type MapToRaccordementTimelineItemProps = (
   record: Lauréat.Raccordement.HistoriqueRaccordementProjetListItemReadModel,
@@ -79,6 +84,25 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
       },
       dossierRaccordement.PTF.mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps,
     )
+    ///////////// Document
+    .with(
+      {
+        type: 'DocumentRaccordementTransmis-V1',
+      },
+      mapToDocumentTransmisTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'DocumentRaccordementModifié-V1',
+      },
+      mapToDocumentModifiéTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'DocumentRaccordementSupprimé-V1',
+      },
+      mapToDocumentSuppriméTimelineItemProps,
+    )
     ///////////// Date de mise en service
     .with(
       {
@@ -113,19 +137,12 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
       },
       gestionnaireRéseau.mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps,
     )
-    /**
-     * Raccordement du projet
-     */
     .with(
       {
         type: P.union(
           'GestionnaireRéseauInconnuAttribué-V1',
           'RaccordementSupprimé-V1',
           'RaccordementRéactivé-V1',
-          // TODO: temporaire avant de faire le front
-          'DocumentRaccordementTransmis-V1',
-          'DocumentRaccordementModifié-V1',
-          'DocumentRaccordementSupprimé-V1',
         ),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
