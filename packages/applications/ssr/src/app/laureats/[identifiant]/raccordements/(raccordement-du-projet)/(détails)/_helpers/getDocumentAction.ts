@@ -58,7 +58,15 @@ export const getDocumentAction = ({
       : [];
   }
 
-  const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
+  const dossierEnService = !!dossier.dateMiseEnService?.date;
+
+  if (
+    !dossierEnService &&
+    !estProjetAchevé &&
+    rôle.aLaPermission('raccordement.document-raccordement.modifier')
+  ) {
+    return modifierActions;
+  }
 
   if (
     dossierEnService &&
@@ -71,10 +79,6 @@ export const getDocumentAction = ({
     estProjetAchevé &&
     rôle.aLaPermission('raccordement.document-raccordement.modifier-après-achèvement')
   ) {
-    return modifierActions;
-  }
-
-  if (rôle.aLaPermission('raccordement.document-raccordement.modifier')) {
     return modifierActions;
   }
 

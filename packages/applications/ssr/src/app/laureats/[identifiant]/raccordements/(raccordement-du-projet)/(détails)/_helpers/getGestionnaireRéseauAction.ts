@@ -20,6 +20,16 @@ export const getGestionnaireRéseauAction = ({
   identifiantProjet,
 }: Props): DossierEtapeAction | undefined => {
   if (
+    rôle.aLaPermission('raccordement.gestionnaire.modifier') &&
+    !aUnDossierEnService &&
+    !estProjetAchevé
+  )
+    return {
+      label: estInconnuGestionnaire ? 'Renseigner' : 'Modifier',
+      href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
+    };
+
+  if (
     aUnDossierEnService &&
     rôle.aLaPermission('raccordement.gestionnaire.modifier-après-mise-en-service')
   ) {
@@ -39,10 +49,4 @@ export const getGestionnaireRéseauAction = ({
       href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
     };
   }
-
-  if (rôle.aLaPermission('raccordement.gestionnaire.modifier'))
-    return {
-      label: estInconnuGestionnaire ? 'Renseigner' : 'Modifier',
-      href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
-    };
 };
