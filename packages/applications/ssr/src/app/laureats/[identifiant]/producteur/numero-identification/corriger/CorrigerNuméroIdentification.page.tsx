@@ -48,6 +48,7 @@ export const CorrigerNuméroIdentificationPage: FC<CorrigerNuméroIdentification
                 href: Routes.Producteur.changement.enregistrer(
                   IdentifiantProjet.bind(identifiantProjet).formatter(),
                 ),
+                target: '_self',
               },
               text: 'Changer le producteur',
             }}

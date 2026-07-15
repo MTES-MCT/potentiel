@@ -10,7 +10,7 @@ type GetMiseEnServiceAction = (args: {
 }) => DossierEtapeAction;
 
 export const getMiseEnServiceAction: GetMiseEnServiceAction = ({ rôle, dossier }) => {
-  if (dossier.miseEnService?.dateMiseEnService) {
+  if (dossier.dateMiseEnService) {
     return rôle.aLaPermission('raccordement.date-mise-en-service.modifier')
       ? {
           href: Routes.Raccordement.modifierDateMiseEnService(

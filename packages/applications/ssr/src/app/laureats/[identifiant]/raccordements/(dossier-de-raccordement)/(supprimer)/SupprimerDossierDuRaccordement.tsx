@@ -16,6 +16,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
   référenceDossier,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <Button priority="tertiary" onClick={() => setIsOpen(true)} className="mt-4">
@@ -23,7 +24,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
       </Button>
 
       <ModalWithForm
-        id={`supprimer-dossier-raccordement-${référenceDossier}`}
+        id={`supprimer-dossier-raccordement-${crypto.randomUUID()}`}
         title={`Supprimer le dossier ${référenceDossier} du raccordement`}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

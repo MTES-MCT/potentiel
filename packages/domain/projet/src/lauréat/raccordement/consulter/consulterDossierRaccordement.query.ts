@@ -31,9 +31,7 @@ export type ConsulterDossierRaccordementReadModel = {
     dateSignature: DateTime.ValueType;
     document: DocumentProjet.ValueType;
   };
-  miseEnService?: {
-    dateMiseEnService?: DateTime.ValueType;
-  };
+  dateMiseEnService?: DateTime.ValueType;
   miseÀJourLe: DateTime.ValueType;
 };
 
@@ -157,10 +155,8 @@ export const mapToReadModel = ({
           ),
         }
       : undefined,
-    miseEnService: miseEnService?.dateMiseEnService
-      ? {
-          dateMiseEnService: DateTime.convertirEnValueType(miseEnService.dateMiseEnService),
-        }
+    dateMiseEnService: miseEnService?.dateMiseEnService
+      ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,
     miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
   };

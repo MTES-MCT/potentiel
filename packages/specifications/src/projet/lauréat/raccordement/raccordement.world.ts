@@ -55,7 +55,7 @@ export class RaccordementWorld {
       référence: Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
         this.référenceDossier,
       ),
-      miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
+      dateMiseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
         ? this.dateMiseEnService.modifierFixture.mapToExpected()
         : this.dateMiseEnService.transmettreFixture.mapToExpected(),
       propositionTechniqueEtFinancière: this.documentRaccordement.mapToExpected(
@@ -96,7 +96,7 @@ export class RaccordementWorld {
           : undefined,
         miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
           ? {
-              date: this.dateMiseEnService.modifierFixture.mapToExpected()?.dateMiseEnService,
+              date: this.dateMiseEnService.modifierFixture.mapToExpected(),
               référenceDossier:
                 Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
                   nouvelleRéférenceDossier ?? this.référenceDossier,
@@ -104,7 +104,7 @@ export class RaccordementWorld {
             }
           : this.dateMiseEnService.transmettreFixture.aÉtéCréé
             ? {
-                date: this.dateMiseEnService.transmettreFixture.mapToExpected()?.dateMiseEnService,
+                date: this.dateMiseEnService.transmettreFixture.mapToExpected(),
                 référenceDossier:
                   Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
                     nouvelleRéférenceDossier ?? this.référenceDossier,

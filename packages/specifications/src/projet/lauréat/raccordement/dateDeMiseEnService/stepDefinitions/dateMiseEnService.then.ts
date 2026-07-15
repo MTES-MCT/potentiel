@@ -47,7 +47,7 @@ Alors(
 
       assert(Option.isSome(dossierRaccordement));
 
-      expect(dossierRaccordement.miseEnService).to.be.undefined;
+      expect(dossierRaccordement.dateMiseEnService).to.be.undefined;
     });
   },
 );
@@ -80,7 +80,7 @@ Alors(
 
       assert(Option.isSome(dossierRaccordement));
 
-      expect(dossierRaccordement.miseEnService).to.be.undefined;
+      expect(dossierRaccordement.dateMiseEnService).to.be.undefined;
     });
   },
 );

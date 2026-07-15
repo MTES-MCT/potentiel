@@ -28,6 +28,7 @@ export const AlertesTableauDeBord = ({ achèvement, abandon }: AlertesTableauDeB
             link: {
               linkProps: {
                 href: abandon.url,
+                target: '_self',
               },
               text: 'Voir la page de la demande',
             },

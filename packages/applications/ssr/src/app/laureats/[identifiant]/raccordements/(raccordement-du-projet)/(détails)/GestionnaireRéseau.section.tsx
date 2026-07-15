@@ -35,9 +35,7 @@ export const GestionnaireRéseauSection = ({ identifiantProjet }: GestionnaireR�
         estProjetAchevé: lauréat.statut.estAchevé(),
         estInconnuGestionnaire: raccordement.identifiantGestionnaireRéseau.estInconnu(),
         aUnDossierEnService:
-          raccordement.dossiers.filter(
-            (dossier) => !!dossier.miseEnService?.dateMiseEnService?.date,
-          ).length > 0,
+          raccordement.dossiers.filter((dossier) => !!dossier.dateMiseEnService?.date).length > 0,
         identifiantProjet,
       });
 

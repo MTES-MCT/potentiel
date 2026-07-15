@@ -28,13 +28,20 @@ export const getPropositionTechniqueEtFinancièreAction: GetPropositionTechnique
     };
 
     if (!dossier.propositionTechniqueEtFinancière) {
-      if (rôle.aLaPermission('raccordement.proposition-technique-et-financière.transmettre')) {
-        return transmettreAction;
-      }
-      return undefined;
+      return rôle.aLaPermission('raccordement.proposition-technique-et-financière.transmettre')
+        ? transmettreAction
+        : undefined;
     }
 
-    const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
+    const dossierEnService = !!dossier.dateMiseEnService;
+
+    if (
+      !dossierEnService &&
+      !estProjetAchevé &&
+      rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier')
+    ) {
+      return modifierAction;
+    }
 
     if (
       dossierEnService &&
@@ -51,10 +58,6 @@ export const getPropositionTechniqueEtFinancièreAction: GetPropositionTechnique
         'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
       )
     ) {
-      return modifierAction;
-    }
-
-    if (rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier')) {
       return modifierAction;
     }
   };
