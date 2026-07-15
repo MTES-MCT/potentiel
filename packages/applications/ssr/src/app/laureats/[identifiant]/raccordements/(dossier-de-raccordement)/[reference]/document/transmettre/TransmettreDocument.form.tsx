@@ -52,15 +52,14 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={referenceDossierRaccordement} />
-      <input type="hidden" name="type" value={typeDocument} />
 
       <Select
-        state={validationErrors['type'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['type']}
+        state={validationErrors['typeDocument'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['typeDocument']}
         label="Type de document de raccordement"
         options={typeOptions}
-        disabled={availableTypes.length <= 1}
         nativeSelectProps={{
+          name: 'typeDocument',
           defaultValue: typeDocument,
           required: true,
           'aria-required': true,

@@ -13,7 +13,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
-  type: zod.enum(Lauréat.Raccordement.TypeDocumentsRaccordement.type, {
+  typeDocument: zod.enum(Lauréat.Raccordement.TypeDocumentsRaccordement.type, {
     message: `Le type de document n'est pas valide`,
   }),
   dateSignature: zod.string().min(1),
@@ -26,7 +26,7 @@ export type TransmettreDocumentFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, referenceDossier, dateSignature, documentSigné, type },
+  { identifiantProjet, referenceDossier, dateSignature, documentSigné, typeDocument },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Raccordement.TransmettreDocumentUseCase>({
@@ -35,7 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: referenceDossier,
         dateSignatureValue: new Date(dateSignature).toISOString(),
-        typeValue: type,
+        typeValue: typeDocument,
         documentRaccordementValue: documentSigné,
         transmisLeValue: new Date().toISOString(),
         transmisParValue: utilisateur.identifiantUtilisateur.formatter(),

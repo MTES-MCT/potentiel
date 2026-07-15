@@ -95,11 +95,11 @@ const getAlertesRaccordement = ({
     
     Vous devez déposer cette demande complète de raccordement avant le ${formatDateToText(dateLimiteDCRSurPotentiel)} sur Potentiel afin de permettre la contractualisation du projet.
     
-    L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`
+    L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière, convention directe de raccordement…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`
     : `
     Vous devez déposer une demande de raccordement auprès de votre gestionnaire de réseau avant le ${formatDateToText(dateLimiteDCRAuprèsGRD)}. 
     
-    L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`;
+    L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière, convention directe de raccordement…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`;
 
   const référenceDossierManquantePourDélaiCDC2022Alerte =
     "Afin de nous permettre de vérifier si le délai relatif au cahier des charges du 30/08/2022 concerne le projet pour l'appliquer le cas échéant, nous vous invitons à renseigner une référence de dossier de raccordement et à vous assurer que le gestionnaire de réseau indiqué sur la page raccordement est correct.";

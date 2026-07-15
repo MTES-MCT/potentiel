@@ -16,6 +16,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
   référenceDossier,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const safeId = encodeURIComponent(référenceDossier);
 
   return (
     <>
@@ -24,7 +25,7 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
       </Button>
 
       <ModalWithForm
-        id={`supprimer-dossier-raccordement-${crypto.randomUUID()}`}
+        id={`supprimer-dossier-raccordement-${safeId}`}
         title={`Supprimer le dossier ${référenceDossier} du raccordement`}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
