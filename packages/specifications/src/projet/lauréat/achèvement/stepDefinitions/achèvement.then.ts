@@ -75,7 +75,7 @@ Alors(
 );
 
 Alors(
-  `la date d'achèvement réelle devrait être consultable pour le projet lauréat`,
+  `la date d'achèvement réel devrait être consultable pour le projet lauréat`,
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       const identifiantProjet = this.lauréatWorld.identifiantProjet;
@@ -94,6 +94,34 @@ Alors(
       assert(expected.estAchevé, `Le projet n'est pas achevé`);
 
       expect(achèvement.dateAchèvementRéel.estÉgaleÀ(expected.dateAchèvementRéel)).to.be.true;
+    });
+  },
+);
+
+Alors(
+  `la date d'achèvement réel {string} devrait être consultable pour le projet lauréat`,
+  async function (this: PotentielWorld, date: string) {
+    return waitForExpect(async () => {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+
+      assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
+      assert(achèvement.estAchevé, `Le projet n'est pas achevé`);
+
+      // const expected = this.lauréatWorld.achèvementWorld.mapToExpected();
+      // assert(expected.estAchevé, `Le projet n'est pas achevé`);
+
+      expect(
+        achèvement.dateAchèvementRéel.estÉgaleÀ(
+          DateTime.convertirEnValueType(new Date(date).toISOString()),
+        ),
+      ).to.be.true;
     });
   },
 );

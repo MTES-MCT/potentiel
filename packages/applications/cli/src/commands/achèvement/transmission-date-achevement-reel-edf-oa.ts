@@ -38,7 +38,7 @@ type CsvLine = {
     | 'Date achèvement réel transmise inexistante'
     | 'Achèvement aggrégat inexistant'
     | 'Achèvement inexistant'
-    | 'Achèvement existant avec date différente'
+    | 'Correction date'
     | 'Opération métier impossible';
   dateAchèvementRéelTransmise: DateTime.RawType;
   dateMiseEnService?: DateTime.RawType;
@@ -101,15 +101,6 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
       dateEDFOA: z.string(),
     });
 
-    /***
-     * TODO :
-     * 1. Lire fichier (non gitté)
-     * 2. Pour chaque ligne il faut consulter achèvement et valider :
-     * - On en attend 1 ? La date fournie est-elle cohérente ?
-     * - On en a déjà 1 ? Date correspond ?
-     * - Cf les règles de l'aggrégat pour tracker tout les throw métier
-     */
-
     const { parsedData: projets } = await parseCsvFile(flags.path, schema);
 
     if (!projets.length) {
@@ -164,28 +155,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
 
           const dateAchèvementRéelActuelle = achèvement.dateAchèvementRéel.formatter();
 
-          if (écartEnJours > 0) {
-            const raccordement =
-              await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-                type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-                data: { identifiantProjetValue: identifiantProjet },
-              });
-
-            const dateMiseEnService =
-              Option.isSome(raccordement) && raccordement.miseEnService?.date
-                ? raccordement.miseEnService.date.formatter()
-                : undefined;
-
-            stats.erreurs.push({
-              identifiantProjet,
-              statut: 'erreur ❌',
-              raison: 'Achèvement existant avec date différente',
-              dateAchèvementRéelTransmise,
-              dateAchèvementRéelActuelle,
-              dateMiseEnService,
-              écartEnJours,
-            });
-          } else {
+          if (écartEnJours === 0) {
             stats.succès.push({
               identifiantProjet,
               statut: 'succès ✅',
@@ -194,7 +164,28 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
               dateAchèvementRéelActuelle,
               écartEnJours: 0,
             });
+            continue;
           }
+
+          await mediator.send<Lauréat.Achèvement.CorrigerDateAchèvementUseCase>({
+            type: 'Lauréat.Achèvement.UseCase.CorrigerDateAchèvement',
+            data: {
+              identifiantProjetValue: identifiantProjetValueType.formatter(),
+              dateAchèvementValue: dateAchèvementRéelTransmise,
+              corrigéeLeValue: DateTime.now().formatter(),
+              corrigéeParValue: Email.edfOa.formatter(),
+            },
+          });
+
+          stats.succès.push({
+            identifiantProjet,
+            statut: 'succès ✅',
+            raison: 'Correction date',
+            dateAchèvementRéelTransmise,
+            dateAchèvementRéelActuelle,
+            écartEnJours: 0,
+          });
+
           continue;
         }
 
@@ -204,7 +195,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
             identifiantProjetValue: identifiantProjetValueType.formatter(),
             dateAchèvementValue: dateAchèvementRéelTransmise,
             transmiseLeValue: DateTime.now().formatter(),
-            transmiseParValue: Email.système.formatter(),
+            transmiseParValue: Email.edfOa.formatter(),
           },
         });
 
@@ -317,11 +308,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
     const parRaisonPuisÉcart = (a: CsvLine, b: CsvLine) => {
       const parRaison = a.raison.localeCompare(b.raison);
 
-      if (
-        parRaison === 0 &&
-        a.raison === 'Achèvement existant avec date différente' &&
-        b.raison === 'Achèvement existant avec date différente'
-      ) {
+      if (parRaison === 0 && a.raison === 'Correction date' && b.raison === 'Correction date') {
         return (b.écartEnJours ?? 0) - (a.écartEnJours ?? 0);
       }
 

@@ -2,12 +2,12 @@ import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { assert } from 'chai';
 import { mediator } from 'mediateur';
 
-import type { Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
-// #region Achèvement réel
+// #region Réel
 Quand(
   `le porteur transmet l'achèvement réel pour le projet {lauréat-éliminé}`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
@@ -223,11 +223,9 @@ Quand(
     }
   },
 );
-// #region Achèvement réel
 
-// #region Date achèvement réelle
 Quand(
-  "le Cocontractant transmet la date d'achèvement réelle {string} pour le projet {lauréat-éliminé}",
+  "le Cocontractant transmet la date d'achèvement réel {string} pour le projet {lauréat-éliminé}",
   async function (
     this: PotentielWorld,
     dateAchèvementValue: string,
@@ -237,20 +235,7 @@ Quand(
       const { identifiantProjet } =
         statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
-      const { dateAchèvement, transmiseLe, transmisePar } =
-        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer({
-          dateAchèvement: dateAchèvementValue,
-        });
-
-      await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
-        type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          dateAchèvementValue: dateAchèvement,
-          transmiseLeValue: transmiseLe,
-          transmiseParValue: transmisePar,
-        },
-      });
+      await transmettreDateAchèvement.call(this, identifiantProjet, dateAchèvementValue);
     } catch (error) {
       this.error = error as Error;
     }
@@ -258,7 +243,7 @@ Quand(
 );
 
 Quand(
-  "le Cocontractant corrige la date d'achèvement réelle {string} pour le projet {lauréat-éliminé}",
+  "le Cocontractant corrige la date d'achèvement réel au {string} pour le projet {lauréat-éliminé}",
   async function (
     this: PotentielWorld,
     dateAchèvementValue: string,
@@ -289,7 +274,7 @@ Quand(
 );
 
 Quand(
-  "le Cocontractant corrige la date d'achèvement réelle avec la même date pour le projet lauréat",
+  "le Cocontractant corrige la date d'achèvement réel avec la même date",
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
@@ -316,8 +301,7 @@ Quand(
     }
   },
 );
-
-// #endregion Date achèvement réelle
+// #region Réel
 
 // #region Attestation de conformité
 Quand(
@@ -408,3 +392,24 @@ Quand(
   },
 );
 // #endregion Attestation de conformité
+
+export async function transmettreDateAchèvement(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  dateAchèvementValue?: string,
+) {
+  const { dateAchèvement, transmiseLe, transmisePar } =
+    this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer(
+      dateAchèvementValue ? { dateAchèvement: dateAchèvementValue } : undefined,
+    );
+
+  await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
+    type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      dateAchèvementValue: dateAchèvement,
+      transmiseLeValue: transmiseLe,
+      transmiseParValue: transmisePar,
+    },
+  });
+}

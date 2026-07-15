@@ -6,81 +6,40 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { upload } from '@potentiel-libraries/file-storage';
 
-import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
+import { transmettreDateAchèvement } from './achèvement.when.js';
 
+// #region Prévisionnel
 EtantDonné(
-  `l'achèvement réel transmis pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
+  "une date d'achèvement prévisionnel pour le projet lauréat au {string}",
+  async function (this: PotentielWorld, date: string) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    const dateAchèvementPrévisionnel = DateTime.convertirEnValueType(new Date(date).toISOString())
+      .définirHeureÀMidi()
+      .formatter();
 
-    const {
-      dateTransmissionAuCocontractant,
-      date,
-      attestation,
-      utilisateur,
-      rapportAssocié,
-      preuve,
-    } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
-
-    await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
-        dateValue: date,
-        identifiantUtilisateurValue: utilisateur,
-        attestationValue: convertFixtureFileToReadableStream(attestation),
-        rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
-        preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
-      },
+    this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture.créer({
+      dateAchèvementPrévisionnel,
     });
-  },
-);
 
-// scénario possible avant la mise en place du rapport associé
-EtantDonné(
-  `l'achèvement réel transmis sans rapport associé pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    const { dateTransmissionAuCocontractant, date, attestation, utilisateur, preuve } =
-      this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
-
-    await upload(
-      Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
-        enregistréLe: dateTransmissionAuCocontractant,
-        identifiantProjet: identifiantProjet.formatter(),
-        attestation,
-      }).formatter(),
-      convertFixtureFileToReadableStream(preuve).content,
-    );
-
-    await upload(
-      Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
-        dateTransmissionAuCocontractant,
-        identifiantProjet: identifiantProjet.formatter(),
-        preuveTransmissionAuCocontractant: preuve,
-      }).formatter(),
-      convertFixtureFileToReadableStream(preuve).content,
-    );
-
-    await publish(`achevement|${identifiantProjet.formatter()}`, {
-      type: 'AttestationConformitéTransmise-V1',
+    const event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent = {
+      type: 'DateAchèvementPrévisionnelCalculée-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
-          dateTransmissionAuCocontractant,
-        ).formatter(),
-        date: DateTime.convertirEnValueType(date).formatter(),
-        utilisateur: Email.convertirEnValueType(utilisateur).formatter(),
-        attestation: { format: attestation.format },
-        preuveTransmissionAuCocontractant: { format: preuve.format },
+        identifiantProjet,
+        date: dateAchèvementPrévisionnel,
+        calculéeLe: DateTime.now().formatter(),
+        raison: 'inconnue',
       },
-    } satisfies Lauréat.Achèvement.AttestationConformitéTransmiseEventV1);
+    };
+
+    await publish(`achevement|${identifiantProjet}`, event);
   },
 );
+// #endregion Prévisionnel
 
+// #region Réel
+// scénario possible avant la mise en place du rapport associé
 EtantDonné(
   'une attestation de conformité enregistrée avec son rapport associé pour le projet lauréat',
   async function (this: PotentielWorld) {
@@ -127,47 +86,95 @@ EtantDonné(
 );
 
 EtantDonné(
-  "une date d'achèvement réel transmise pour le projet lauréat",
+  `l'achèvement réel transmis pour le projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { dateAchèvement, transmiseLe, transmisePar } =
-      this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer();
+    const {
+      dateTransmissionAuCocontractant,
+      date,
+      attestation,
+      utilisateur,
+      rapportAssocié,
+      preuve,
+    } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer();
 
-    await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
-      type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+    await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        dateAchèvementValue: dateAchèvement,
-        transmiseLeValue: transmiseLe,
-        transmiseParValue: transmisePar,
+        dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+        dateValue: date,
+        identifiantUtilisateurValue: utilisateur,
+        attestationValue: convertFixtureFileToReadableStream(attestation),
+        rapportAssociéValue: convertFixtureFileToReadableStream(rapportAssocié),
+        preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
       },
     });
   },
 );
 
 EtantDonné(
-  "une date d'achèvement prévisionnel pour le projet lauréat au {string}",
+  `l'achèvement réel transmis sans rapport associé pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { dateTransmissionAuCocontractant, date, attestation, utilisateur, preuve } =
+      this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
+
+    await upload(
+      Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+        enregistréLe: dateTransmissionAuCocontractant,
+        identifiantProjet: identifiantProjet.formatter(),
+        attestation,
+      }).formatter(),
+      convertFixtureFileToReadableStream(preuve).content,
+    );
+
+    await upload(
+      Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
+        dateTransmissionAuCocontractant,
+        identifiantProjet: identifiantProjet.formatter(),
+        preuveTransmissionAuCocontractant: preuve,
+      }).formatter(),
+      convertFixtureFileToReadableStream(preuve).content,
+    );
+
+    await publish(`achevement|${identifiantProjet.formatter()}`, {
+      type: 'AttestationConformitéTransmise-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
+          dateTransmissionAuCocontractant,
+        ).formatter(),
+        date: DateTime.convertirEnValueType(date).formatter(),
+        utilisateur: Email.convertirEnValueType(utilisateur).formatter(),
+        attestation: { format: attestation.format },
+        preuveTransmissionAuCocontractant: { format: preuve.format },
+      },
+    } satisfies Lauréat.Achèvement.AttestationConformitéTransmiseEventV1);
+  },
+);
+
+EtantDonné(
+  "une date d'achèvement réel transmise pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    await transmettreDateAchèvement.call(this, this.lauréatWorld.identifiantProjet);
+  },
+);
+
+EtantDonné(
+  "une date d'achèvement réel {string} transmise pour le projet lauréat",
   async function (this: PotentielWorld, date: string) {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-    const dateAchèvementPrévisionnel = DateTime.convertirEnValueType(new Date(date).toISOString())
+    const dateAchèvementRéel = DateTime.convertirEnValueType(new Date(date).toISOString())
       .définirHeureÀMidi()
       .formatter();
 
-    this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture.créer({
-      dateAchèvementPrévisionnel,
-    });
-
-    const event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent = {
-      type: 'DateAchèvementPrévisionnelCalculée-V1',
-      payload: {
-        identifiantProjet,
-        date: dateAchèvementPrévisionnel,
-        calculéeLe: DateTime.now().formatter(),
-        raison: 'inconnue',
-      },
-    };
-
-    await publish(`achevement|${identifiantProjet}`, event);
+    await transmettreDateAchèvement.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      dateAchèvementRéel,
+    );
   },
 );
+// #endregion Réel
