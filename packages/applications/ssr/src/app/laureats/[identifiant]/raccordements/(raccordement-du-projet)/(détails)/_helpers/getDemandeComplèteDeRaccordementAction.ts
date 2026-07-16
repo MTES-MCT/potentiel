@@ -15,20 +15,32 @@ export const getDemandeComplèteDeRaccordementAction = ({
   dossier,
   estProjetAchevé,
 }: GetDemandeComplèteDeRaccordementActionProps): Array<DossierEtapeAction> => {
+  const actions = rôle.aLaPermission('raccordement.référence-dossier.modifier')
+    ? [
+        {
+          label: 'Corriger la référence du dossier',
+          href: Routes.Raccordement.corrigerRéférenceDossier(
+            dossier.identifiantProjet.formatter(),
+            dossier.référence.formatter(),
+          ),
+        },
+      ]
+    : [];
+
   if (
     rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
     !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
   ) {
-    return [
-      {
-        label: 'Corriger la référence du dossier',
-        href: Routes.Raccordement.corrigerRéférenceDossier(
-          dossier.identifiantProjet.formatter(),
-          dossier.référence.formatter(),
-        ),
-      },
-    ];
+    return actions;
   }
+
+  const modifierAction = {
+    href: Routes.Raccordement.modifierDemandeComplèteRaccordement(
+      dossier.identifiantProjet.formatter(),
+      dossier.référence.formatter(),
+    ),
+    label: 'Modifier',
+  };
 
   const dossierEstEnService = !!dossier.dateMiseEnService;
 
@@ -37,22 +49,12 @@ export const getDemandeComplèteDeRaccordementAction = ({
     dossier.demandeComplèteRaccordement?.accuséRéception?.format
   );
 
-  const modifierAction = [
-    {
-      href: Routes.Raccordement.modifierDemandeComplèteRaccordement(
-        dossier.identifiantProjet.formatter(),
-        dossier.référence.formatter(),
-      ),
-      label: 'Modifier',
-    },
-  ];
-
   if (
     !estProjetAchevé &&
     !dossierEstEnService &&
     rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
   ) {
-    return modifierAction;
+    actions.push(modifierAction);
   }
 
   if (
@@ -60,15 +62,15 @@ export const getDemandeComplèteDeRaccordementAction = ({
     dossierAvecDCRComplète &&
     rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier-après-mise-en-service')
   ) {
-    return modifierAction;
+    actions.push(modifierAction);
   }
 
   if (
     estProjetAchevé &&
     rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier-après-achèvement')
   ) {
-    return modifierAction;
+    actions.push(modifierAction);
   }
 
-  return [];
+  return actions;
 };
