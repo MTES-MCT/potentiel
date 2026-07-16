@@ -13,6 +13,7 @@ import {
   AttestationDeConformitéNonModifiéeError,
   DateAchèvementAntérieureÀDateNotificationError,
   DateAchèvementDansLeFuturError,
+  DateAchèvementNonModifiéeError,
   DateDeTransmissionAuCoContractantFuturError,
   MainlevéeAccordéeError,
   ProjetDéjàAchevéError,
@@ -25,6 +26,8 @@ import type {
 } from './achèvement.event.js';
 import type { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event.js';
 import type { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option.js';
+import type { DateAchèvementCorrigéeEvent } from './corriger/corrigerDateAchèvement.event.js';
+import type { CorrigerDateAchèvementOptions } from './corriger/corrigerDateAchèvement.option.js';
 import type { EnregistrerAttestationConformitéOptions } from './enregistrer/enregistrerAttestationConformité.option.js';
 import { DateAchèvementPrévisionnel, TypeTâchePlanifiéeAchèvement } from './index.js';
 import type {
@@ -358,6 +361,40 @@ export class AchèvementAggregate extends AbstractAggregate<
     });
   }
 
+  async corrigerDateAchèvement({
+    dateAchèvement,
+    corrigéeLe,
+    corrigéePar,
+  }: CorrigerDateAchèvementOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
+    if (!this.#estAchevé) {
+      throw new ProjetNonAchevéError();
+    }
+
+    if (dateAchèvement.estDansLeFutur()) {
+      throw new DateAchèvementDansLeFuturError();
+    }
+
+    this.vérifierDateAchèvementPostérieureDateNotification(dateAchèvement);
+
+    if (this.#dateAchèvementRéel && dateAchèvement.estÉgaleÀ(this.#dateAchèvementRéel)) {
+      throw new DateAchèvementNonModifiéeError();
+    }
+
+    const event: DateAchèvementCorrigéeEvent = {
+      type: 'DateAchèvementCorrigée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dateAchèvement: dateAchèvement.formatter(),
+        corrigéeLe: corrigéeLe.formatter(),
+        corrigéePar: corrigéePar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async planifierTâchesRappelsÉchéance(dateAchèvementPrévisionnelle: DateTime.ValueType) {
     if (
       !this.lauréat.projet.cahierDesChargesActuel.appelOffre.activerRappelsEchéanceAchèvement ||
@@ -410,6 +447,7 @@ export class AchèvementAggregate extends AbstractAggregate<
         this.applyDateAchèvementPrévisionnelCalculéeV1.bind(this),
       )
       .with({ type: 'DateAchèvementTransmise-V1' }, this.applyDateAchèvementTransmiseV1.bind(this))
+      .with({ type: 'DateAchèvementCorrigée-V1' }, this.applyDateAchèvementCorrigée.bind(this))
       .with(
         { type: 'AttestationConformitéEnregistrée-V1' },
         this.applyAttestationConformitéEnregistréeV1.bind(this),
@@ -487,6 +525,12 @@ export class AchèvementAggregate extends AbstractAggregate<
     payload: { dateAchèvement },
   }: DateAchèvementTransmiseEvent) {
     this.#estAchevé = true;
+    this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateAchèvement);
+  }
+
+  private applyDateAchèvementCorrigée({
+    payload: { dateAchèvement },
+  }: DateAchèvementCorrigéeEvent) {
     this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateAchèvement);
   }
 }

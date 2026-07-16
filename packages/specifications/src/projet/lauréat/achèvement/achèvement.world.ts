@@ -5,6 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import type { PièceJustificative } from '#helpers';
 import type { LauréatWorld } from '../lauréat.world.js';
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture.js';
+import { CorrigerDateAchèvementFixture } from './fixture/corrigerDateAchèvement.fixture.js';
 import { EnregistrerAttestationConformitéFixture } from './fixture/enregistrerAttestationConformité.fixture.js';
 import { ModifierAchèvementFixture } from './fixture/modifierAchèvement.fixture.js';
 import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture.js';
@@ -18,6 +19,7 @@ export class AchèvementWorld {
   #modifierAchèvementFixture: ModifierAchèvementFixture;
   #calculerDateAchèvementPrévisionnelFixture: CalculerDateAchèvementPrévisionnelFixture;
   #transmettreDateAchèvementFixture: TransmettreDateAchèvementFixture;
+  #corrigerDateAchèvementFixture: CorrigerDateAchèvementFixture;
 
   get transmettreAttestationConformitéFixture() {
     return this.#transmettreAttestationConformitéFixture;
@@ -42,6 +44,10 @@ export class AchèvementWorld {
     return this.#transmettreDateAchèvementFixture;
   }
 
+  get corrigerDateAchèvementFixture() {
+    return this.#corrigerDateAchèvementFixture;
+  }
+
   constructor(private lauréat: LauréatWorld) {
     this.#transmettreAttestationConformitéFixture = new TransmettreAttestationConformitéFixture(
       lauréat,
@@ -55,6 +61,7 @@ export class AchèvementWorld {
       lauréat,
     );
     this.#transmettreDateAchèvementFixture = new TransmettreDateAchèvementFixture(lauréat);
+    this.#corrigerDateAchèvementFixture = new CorrigerDateAchèvementFixture(lauréat);
   }
 
   get dateAchèvementPrévisionnelCalculée() {
@@ -118,6 +125,17 @@ export class AchèvementWorld {
       result = {
         ...result,
         ...this.modifierAttestationConformitéFixture.mapToExpected(),
+      };
+    }
+
+    if (this.corrigerDateAchèvementFixture.aÉtéCréé) {
+      assert(
+        result.estAchevé,
+        `impossible de corriger la date d'achèvement réel si le projet n’est pas achevé`,
+      );
+      result = {
+        ...result,
+        ...this.corrigerDateAchèvementFixture.mapToExpected(),
       };
     }
 

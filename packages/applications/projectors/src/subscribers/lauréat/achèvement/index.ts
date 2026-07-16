@@ -9,6 +9,7 @@ import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.proje
 import { attestationConformitéEnregistréeProjector } from './attestationConformité/attestationConformitéEnregistrée.projector.js';
 import { attestationConformitéModifiéeProjector } from './attestationConformité/attestationConformitéModifiée.projector.js';
 import { attestationConformitéTransmiseProjector } from './attestationConformité/attestationConformitéTransmise.projector.js';
+import { dateAchèvementCorrigéeProjector } from './dateAchèvementCorrigée.projector.js';
 import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector.js';
 import { dateAchèvementTransmiseProjector } from './dateAchèvementTransmise.projector.js';
 
@@ -46,6 +47,7 @@ export const register = () => {
         dateAchèvementPrévisionnelCalculéeProjector,
       )
       .with({ type: 'DateAchèvementTransmise-V1' }, dateAchèvementTransmiseProjector)
+      .with({ type: 'DateAchèvementCorrigée-V1' }, dateAchèvementCorrigéeProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Achèvement', handler);
