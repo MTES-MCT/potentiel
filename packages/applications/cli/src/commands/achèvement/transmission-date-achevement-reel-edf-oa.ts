@@ -32,13 +32,12 @@ type CsvLine = {
   identifiantProjet: string;
   statut: 'succès ✅' | 'erreur ❌';
   raison:
-    | 'Achèvement existant mais date identique'
+    | 'Correction de la date'
+    | "Date d'achèvement identique"
     | 'Transmission de la date'
     | 'Identifiant projet invalide'
-    | 'Date achèvement réel transmise inexistante'
-    | 'Achèvement aggrégat inexistant'
+    | 'Date achèvement réel invalide'
     | 'Achèvement inexistant'
-    | 'Correction date'
     | 'Opération métier impossible';
   dateAchèvementRéelTransmise: DateTime.RawType;
   dateMiseEnService?: DateTime.RawType;
@@ -58,8 +57,7 @@ type Stats = {
 
 export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Command {
   static override description =
-    `Vérification des données envoyées pour l'historique de transmission des dates d'achèvement réel par EDF OA.
-    Ici on va juste lire un fichier csv et valider les dates.`;
+    `Vérification des données envoyées pour l'historique de transmission des dates d'achèvement réel par EDF OA.`;
 
   static override flags = {
     path: Flags.file({
@@ -104,11 +102,12 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
     const { parsedData: projets } = await parseCsvFile(flags.path, schema);
 
     if (!projets.length) {
-      throw new Error(`Aucun projet n'a été transmis dans le fichier ${flags.path}`);
+      throw new Error(`Aucun projet n'est à mettre à jour dans le fichier ${flags.path}`);
     }
 
     stats.total = projets.length;
-    console.log(`ℹ️ ${stats.total} projets concernés`);
+
+    console.log(`ℹ️ ${stats.total} projets concernés par une mise à jour`);
 
     let compteur = 0;
 
@@ -160,7 +159,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
             stats.succès.push({
               identifiantProjet,
               statut: 'succès ✅',
-              raison: 'Achèvement existant mais date identique',
+              raison: "Date d'achèvement identique",
               dateAchèvementRéelTransmise,
               dateAchèvementRéelActuelle,
               écartEnJours: 0,
@@ -181,7 +180,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           stats.succès.push({
             identifiantProjet,
             statut: 'succès ✅',
-            raison: 'Correction date',
+            raison: 'Correction de la date',
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle,
             écartEnJours,
@@ -223,7 +222,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           stats.erreurs.push({
             identifiantProjet,
             statut: 'erreur ❌',
-            raison: 'Date achèvement réel transmise inexistante',
+            raison: 'Date achèvement réel invalide',
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle: undefined,
             écartEnJours: undefined,
@@ -251,12 +250,12 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
 
     console.info(`\n📊 Résultat (cf ${RESULT_FILE}):`);
     console.info(
-      `  ✅ ${stats.succès.length} projets sont en succès suite à une tranmission ou date égale`,
+      `  ✅ ${stats.succès.length} mises à jour réussies (transmission, correction ou date identique)`,
     );
-    console.info(`  ❌ ${stats.erreurs.length} projets en erreur`);
+    console.info(`  ❌ ${stats.erreurs.length} mises à jour en échec`);
 
     if (!stats.succès.length && !stats.erreurs.length) {
-      console.info('Aucune résultat à ajouter dans le fichier');
+      console.info('Aucun résultat à ajouter au fichier');
       return;
     }
 
@@ -297,7 +296,11 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
     const parRaisonPuisÉcart = (a: CsvLine, b: CsvLine) => {
       const parRaison = a.raison.localeCompare(b.raison);
 
-      if (parRaison === 0 && a.raison === 'Correction date' && b.raison === 'Correction date') {
+      if (
+        parRaison === 0 &&
+        a.raison === 'Correction de la date' &&
+        b.raison === 'Correction de la date'
+      ) {
         return (b.écartEnJours ?? 0) - (a.écartEnJours ?? 0);
       }
 
