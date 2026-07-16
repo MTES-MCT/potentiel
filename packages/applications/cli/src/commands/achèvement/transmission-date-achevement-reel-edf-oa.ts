@@ -104,7 +104,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
     const { parsedData: projets } = await parseCsvFile(flags.path, schema);
 
     if (!projets.length) {
-      throw new Error(`Aucun projet n'a été transmis dans le fichie ${flags.path}`);
+      throw new Error(`Aucun projet n'a été transmis dans le fichier ${flags.path}`);
     }
 
     stats.total = projets.length;
@@ -114,6 +114,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
 
     for (const { identifiantProjet, dateEDFOA } of projets) {
       compteur++;
+      process.stdout.clearLine(0);
       process.stdout.write(`\r⏳ [${compteur}/${stats.total}]`);
 
       const dateEDFOAIsoString = dateEDFOA.length ? `${dateEDFOA.replace(' ', 'T')}Z` : '';
@@ -183,30 +184,28 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
             raison: 'Correction date',
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle,
-            écartEnJours: 0,
+            écartEnJours,
+          });
+        } else {
+          await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
+            type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+            data: {
+              identifiantProjetValue: identifiantProjetValueType.formatter(),
+              dateAchèvementValue: dateAchèvementRéelTransmise,
+              transmiseLeValue: DateTime.now().formatter(),
+              transmiseParValue: Email.edfOa.formatter(),
+            },
           });
 
-          continue;
+          stats.succès.push({
+            identifiantProjet,
+            statut: 'succès ✅',
+            raison: 'Transmission de la date',
+            dateAchèvementRéelTransmise,
+            dateAchèvementRéelActuelle: undefined,
+            écartEnJours: undefined,
+          });
         }
-
-        await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
-          type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
-          data: {
-            identifiantProjetValue: identifiantProjetValueType.formatter(),
-            dateAchèvementValue: dateAchèvementRéelTransmise,
-            transmiseLeValue: DateTime.now().formatter(),
-            transmiseParValue: Email.edfOa.formatter(),
-          },
-        });
-
-        stats.succès.push({
-          identifiantProjet,
-          statut: 'succès ✅',
-          raison: 'Transmission de la date',
-          dateAchèvementRéelTransmise,
-          dateAchèvementRéelActuelle: undefined,
-          écartEnJours: undefined,
-        });
       } catch (error) {
         if (error instanceof IdentifiantProjet.IdentifiantProjetInvalideError) {
           stats.erreurs.push({
@@ -232,19 +231,10 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           continue;
         }
 
-        if (AggregateNotFoundError.isAggregateNotFoundError(error as Error)) {
-          stats.erreurs.push({
-            identifiantProjet,
-            statut: 'erreur ❌',
-            raison: 'Achèvement aggrégat inexistant',
-            dateAchèvementRéelTransmise,
-            dateAchèvementRéelActuelle: undefined,
-            écartEnJours: undefined,
-          });
-          continue;
-        }
-
-        if (OperationRejectedError.isOperationRejectedError(error as Error)) {
+        if (
+          AggregateNotFoundError.isAggregateNotFoundError(error as Error) ||
+          OperationRejectedError.isOperationRejectedError(error as Error)
+        ) {
           stats.erreurs.push({
             identifiantProjet,
             statut: 'erreur ❌',
@@ -255,7 +245,6 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           });
         }
       }
-      process.stdout.write('\n');
     }
 
     const RESULT_FILE = 'file_results_stats.csv';

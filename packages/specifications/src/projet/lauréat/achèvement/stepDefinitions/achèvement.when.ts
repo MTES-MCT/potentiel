@@ -243,19 +243,17 @@ Quand(
 );
 
 Quand(
-  "le Cocontractant corrige la date d'achèvement réel au {string} pour le projet {lauréat-éliminé}",
-  async function (
-    this: PotentielWorld,
-    dateAchèvementValue: string,
-    statutProjet: 'lauréat' | 'éliminé',
-  ) {
+  "le Cocontractant corrige la date d'achèvement réel pour le projet {lauréat-éliminé} avec :",
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', datatable: DataTable) {
     try {
       const { identifiantProjet } =
         statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
+      const exemple = datatable.rowsHash();
+
       const { dateAchèvement, corrigéeLe, corrigéePar } =
         this.lauréatWorld.achèvementWorld.corrigerDateAchèvementFixture.créer({
-          dateAchèvement: dateAchèvementValue,
+          dateAchèvement: exemple["date d'achèvement"],
         });
 
       await mediator.send<Lauréat.Achèvement.CorrigerDateAchèvementUseCase>({

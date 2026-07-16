@@ -60,8 +60,6 @@ export class CorrigerDateAchèvementFixture
     return this;
   }
 
-  // la correction ne porte que sur la date : l'attestation, le rapport associé et la preuve
-  // de transmission (le cas échéant) proviennent de la transmission initiale et sont inchangés
   mapToExpected() {
     return {
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateAchèvement),

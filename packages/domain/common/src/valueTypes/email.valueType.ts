@@ -48,7 +48,7 @@ export const système = convertirEnValueType('system@system');
 /**
  * Email générique pour les migrations de date d'achèvement EDF OA
  */
-export const edfOa = convertirEnValueType('system@edfoa');
+export const edfOa = convertirEnValueType('migration@edf-oa');
 export const inconnu = convertirEnValueType('unknown-user@unknown-email.com');
 
 function estValide(value: string): asserts value is RawType {

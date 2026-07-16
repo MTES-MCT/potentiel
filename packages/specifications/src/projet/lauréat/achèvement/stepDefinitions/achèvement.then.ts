@@ -114,9 +114,6 @@ Alors(
       assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
       assert(achèvement.estAchevé, `Le projet n'est pas achevé`);
 
-      // const expected = this.lauréatWorld.achèvementWorld.mapToExpected();
-      // assert(expected.estAchevé, `Le projet n'est pas achevé`);
-
       expect(
         achèvement.dateAchèvementRéel.estÉgaleÀ(
           DateTime.convertirEnValueType(new Date(date).toISOString()),
