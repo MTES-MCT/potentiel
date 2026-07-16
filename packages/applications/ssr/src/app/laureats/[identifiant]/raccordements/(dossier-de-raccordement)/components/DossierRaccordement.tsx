@@ -164,5 +164,5 @@ const mapTypeToTitre: Record<TypeDossier, string> = {
   'convention-de-raccordement': 'convention de raccordement',
   'convention-directe-de-raccordement': 'convention directe de raccordement',
   'mise-en-service': 'mise en service',
-  document: 'document',
+  document: 'document (PTF, CR, ou CRD)',
 };

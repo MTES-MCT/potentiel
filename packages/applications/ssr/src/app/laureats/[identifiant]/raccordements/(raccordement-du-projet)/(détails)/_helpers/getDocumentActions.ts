@@ -4,19 +4,19 @@ import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/DossierRaccordement';
 
-type GetDocumentActionProps = {
+type GetDocumentActionsProps = {
   rôle: Role.ValueType;
   dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   type?: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
   estProjetAchevé: boolean;
 };
 
-export const getDocumentAction = ({
+export const getDocumentActions = ({
   rôle,
   dossier,
   estProjetAchevé,
   type,
-}: GetDocumentActionProps): Array<DossierEtapeAction> => {
+}: GetDocumentActionsProps): Array<DossierEtapeAction> => {
   const label = type ? `Transmettre la ${type.split('-').join(' ')}` : 'Transmettre le document';
 
   const transmettreAction = {
@@ -40,12 +40,12 @@ export const getDocumentAction = ({
         dossier.référence.formatter(),
         type,
       ),
-      label: 'Modifier le document',
+      label: 'Modifier',
     },
     {
       href: '#',
       typeDocument: type,
-      label: 'Supprimer le document',
+      label: 'Supprimer',
     },
   ];
 

@@ -12,8 +12,8 @@ import {
   DossierRaccordement,
 } from '../../(dossier-de-raccordement)/components/DossierRaccordement';
 import {
-  getDemandeComplèteDeRaccordementAction,
-  getDocumentAction,
+  getDemandeComplèteDeRaccordementActions,
+  getDocumentActions,
   getSupprimerDossierAction,
 } from '../../(raccordement-du-projet)/(détails)/_helpers';
 import { getMiseEnServiceAction } from './_helpers/getMiseEnServiceAction';
@@ -95,7 +95,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
       },
     }),
     fallbackText: 'À transmettre',
-    actions: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
+    actions: getDemandeComplèteDeRaccordementActions({ rôle, estProjetAchevé, dossier }),
   });
 
   const {
@@ -112,7 +112,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     étapes.push({
       type: 'document',
       fallbackText: 'À transmettre',
-      actions: getDocumentAction({ rôle, dossier, estProjetAchevé }),
+      actions: getDocumentActions({ rôle, dossier, estProjetAchevé }),
     });
   }
 
@@ -135,7 +135,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
           },
         }),
         fallbackText: 'À transmettre',
-        actions: getDocumentAction({
+        actions: getDocumentActions({
           rôle,
           dossier,
           estProjetAchevé,
@@ -149,7 +149,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     étapes.push({
       type: 'proposition-technique-et-financière',
       fallbackText: 'À transmettre',
-      actions: getDocumentAction({
+      actions: getDocumentActions({
         rôle,
         dossier,
         estProjetAchevé,
@@ -162,7 +162,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     étapes.push({
       type: 'convention-de-raccordement',
       fallbackText: 'À transmettre',
-      actions: getDocumentAction({
+      actions: getDocumentActions({
         rôle,
         dossier,
         estProjetAchevé,

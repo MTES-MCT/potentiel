@@ -4,17 +4,17 @@ import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/DossierRaccordement';
 
-type GetDemandeComplèteDeRaccordementActionProps = {
+type GetDemandeComplèteDeRaccordementActionsProps = {
   rôle: Role.ValueType;
   dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   estProjetAchevé: boolean;
 };
 
-export const getDemandeComplèteDeRaccordementAction = ({
+export const getDemandeComplèteDeRaccordementActions = ({
   rôle,
   dossier,
   estProjetAchevé,
-}: GetDemandeComplèteDeRaccordementActionProps): Array<DossierEtapeAction> => {
+}: GetDemandeComplèteDeRaccordementActionsProps): Array<DossierEtapeAction> => {
   const actions = rôle.aLaPermission('raccordement.référence-dossier.modifier')
     ? [
         {
@@ -44,11 +44,6 @@ export const getDemandeComplèteDeRaccordementAction = ({
 
   const dossierEstEnService = !!dossier.dateMiseEnService;
 
-  const dossierAvecDCRComplète = !!(
-    dossier.demandeComplèteRaccordement?.dateQualification &&
-    dossier.demandeComplèteRaccordement?.accuséRéception?.format
-  );
-
   if (
     !estProjetAchevé &&
     !dossierEstEnService &&
@@ -59,7 +54,6 @@ export const getDemandeComplèteDeRaccordementAction = ({
 
   if (
     dossierEstEnService &&
-    dossierAvecDCRComplète &&
     rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier-après-mise-en-service')
   ) {
     actions.push(modifierAction);
