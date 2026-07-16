@@ -33,16 +33,12 @@ Quand(
 );
 
 Quand(
-  /(la DGEC|la DREAL) modifie l'actionnaire avec la même valeur/,
-  async function (this: PotentielWorld, rôle: 'la DGEC' | 'la DREAL') {
+  /la DREAL modifie l'actionnaire avec la même valeur sans transmettre de document/,
+  async function (this: PotentielWorld) {
     try {
-      const { email } = match(rôle)
-        .with('la DGEC', () => this.utilisateurWorld.dgecFixture)
-        .with('la DREAL', () => this.utilisateurWorld.drealFixture)
-        .exhaustive();
       await modifierActionnaire.call(this, this.lauréatWorld.identifiantProjet, {
-        modifiéPar: email,
-        actionnaire: this.candidatureWorld.importerCandidature.values.sociétéMèreValue,
+        modifiéPar: this.utilisateurWorld.drealFixture.email,
+        actionnaire: this.candidatureWorld.importerCandidature.dépôtValue.sociétéMère,
       });
     } catch (error) {
       this.error = error as Error;

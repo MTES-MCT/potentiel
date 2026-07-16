@@ -76,5 +76,5 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
     Scénario: Impossible de modifier l'actionnaire d'un projet lauréat avec la même valeur
-        Quand la DREAL modifie l'actionnaire avec la même valeur
-        Alors l'utilisateur devrait être informé que "L'actionnaire ou la pièce justificative doit être modifié"
+        Quand la DREAL modifie l'actionnaire avec la même valeur sans transmettre de document
+        Alors l'utilisateur devrait être informé que "L'actionnaire doit être modifié, ou la pièce justificative transmise"

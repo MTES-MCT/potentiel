@@ -32,6 +32,6 @@ export class InstructionObligatoireError extends DomainError {
 
 export class ActionnaireOuPièceJustificativeNonModifiésError extends InvalidOperationError {
   constructor() {
-    super("L'actionnaire ou la pièce justificative doit être modifié");
+    super("L'actionnaire doit être modifié, ou la pièce justificative transmise");
   }
 }
