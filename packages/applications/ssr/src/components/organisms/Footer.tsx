@@ -51,6 +51,13 @@ export const Footer = () => (
           prefetch: false,
         },
       },
+      {
+        text: 'Jeu de données',
+        linkProps: {
+          href: 'https://www.data.gouv.fr/datasets/projets-denergies-renouvelables-soumis-a-appel-doffres-en-france',
+          target: '_blank',
+        },
+      },
     ]}
   />
 );
