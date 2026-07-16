@@ -20,9 +20,9 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
         Et il n'y a pas de tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" planifiée pour le projet lauréat
 
         Exemples:
-            | l'utilisateur autorisé      |
-            | le DGEC validateur          |
-            | la DREAL associée au projet |
+            | l'utilisateur autorisé |
+            | le DGEC validateur     |
+            | la DREAL               |
 
     Scénario: Rejet automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Besançon" sur une période d'appel d'offres avec rejet automatique du changement de représentant légal

@@ -20,9 +20,9 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Et il n'y a pas de tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" planifiée pour le projet lauréat
 
         Exemples:
-            | l'utilisateur autorisé      |
-            | le DGEC validateur          |
-            | la DREAL associée au projet |
+            | l'utilisateur autorisé |
+            | le DGEC validateur     |
+            | la DREAL               |
 
     Plan du scénario: Corriger et accorder la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours
@@ -35,9 +35,9 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.*                               |
 
         Exemples:
-            | l'utilisateur autorisé      |
-            | le DGEC validateur          |
-            | la DREAL associée au projet |
+            | l'utilisateur autorisé |
+            | le DGEC validateur     |
+            | la DREAL               |
 
     Scénario: Accord automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offres avec accord automatique du changement de représentant légal

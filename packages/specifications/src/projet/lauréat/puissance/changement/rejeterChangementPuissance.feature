@@ -8,10 +8,10 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
             | période        | 1             |
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    Scénario: la DREAL associée au projet rejette le changement de puissance d'un projet lauréat
+    Scénario: la DREAL rejette le changement de puissance d'un projet lauréat
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat
         Alors la demande de changement de la puissance devrait être rejetée
         Et la puissance du projet lauréat ne devrait pas être mise à jour
         Et un email a été envoyé au porteur avec :
@@ -19,10 +19,10 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
             | nom_projet | Du boulodrome de Marseille                                                          |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance                                |
 
-    Scénario: la DREAL associée au projet rejette le changement de puissance d'un projet lauréat
+    Scénario: la DREAL rejette le changement de puissance d'un projet lauréat
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.45 |
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat
         Alors la demande de changement de la puissance devrait être rejetée
         Et la puissance du projet lauréat ne devrait pas être mise à jour
         Et un email a été envoyé au porteur avec :
@@ -33,35 +33,35 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
     Scénario: la DREAL associée rejette un changement de puissance à la baisse pour décision de l'État
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat avec :
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat avec :
             | décision de l'État | oui |
         Alors la demande de changement de la puissance devrait être rejetée
 
     Scénario: Impossible de rejeter le changement de puissance d'un projet lauréat si aucune demande n'est en cours
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
     Scénario: Impossible de rejeter le changement de puissance d'un projet lauréat si la demande a déjà été accordée
         Etant donné une demande de changement de puissance accordée pour le projet lauréat avec :
             | ratio puissance | 0.75 |
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
     Scénario: Impossible de rejeter le changement de puissance d'un projet lauréat si la demande a déjà été annulée
         Etant donné une demande de changement de puissance annulée pour le projet lauréat
             | ratio puissance | 0.75 |
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
     Scénario: Impossible de rejeter le changement de puissance d'un projet lauréat si la demande a déjà été rejetée
         Etant donné une demande de changement de puissance rejetée pour le projet lauréat
             | ratio puissance | 0.75 |
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
     Scénario: Impossible de rejeter le changement de puissance à la hausse d'un projet lauréat pour décision de l'État
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.45 |
-        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat avec :
+        Quand la DREAL rejette le changement de puissance pour le projet lauréat avec :
             | décision de l'État | oui |
         Alors l'utilisateur DREAL devrait être informé que "Un changement de puissance à la hausse ne peut être une décision de l'État"

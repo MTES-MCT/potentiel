@@ -8,9 +8,9 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    Scénario: la DREAL associée au projet rejette le délai d'un projet lauréat
+    Scénario: la DREAL rejette le délai d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
-        Quand la DREAL associée au projet rejette le délai pour le projet lauréat
+        Quand la DREAL rejette le délai pour le projet lauréat
         Alors la demande de délai devrait être rejetée
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Délai rejeté |
@@ -18,27 +18,27 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
     Scénario: Impossible de rejeter le délai d'un projet lauréat si aucune demande n'est en cours
-        Quand la DREAL associée au projet rejette le délai pour le projet lauréat
+        Quand la DREAL rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible de rejeter le délai d'un projet lauréat si la demande a déjà été accordée
         Etant donné une demande de délai accordée pour le projet lauréat
-        Quand la DREAL associée au projet rejette le délai pour le projet lauréat
+        Quand la DREAL rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible de rejeter le délai d'un projet lauréat si la demande a déjà été annulée
         Etant donné une demande de délai annulée pour le projet lauréat
-        Quand la DREAL associée au projet rejette le délai pour le projet lauréat
+        Quand la DREAL rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible de rejeter le délai d'un projet lauréat si la demande a déjà été rejetée
         Etant donné une demande de délai rejetée pour le projet lauréat
-        Quand la DREAL associée au projet rejette le délai pour le projet lauréat
+        Quand la DREAL rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible de rejeter le délai d'un projet lauréat dont l'autorité compétente est la dgec pour un utilisateur DREAL
         Etant donné le projet lauréat legacy "Du boulodrome de Lyon" avec :
             | appel d'offres | Eolien |
         Et une demande de délai en cours pour le projet lauréat
-        Quand la DREAL associée au projet rejette le délai pour le projet lauréat
+        Quand la DREAL rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"

@@ -51,7 +51,7 @@ Quand(
 );
 
 Quand(
-  'la DREAL associée au projet accorde le changement de puissance pour le projet lauréat',
+  'la DREAL accorde le changement de puissance pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
       await accorderChangementPuissance.call(this);
@@ -62,7 +62,7 @@ Quand(
 );
 
 Quand(
-  'la DREAL associée au projet accorde le changement de puissance pour le projet lauréat avec :',
+  'la DREAL accorde le changement de puissance pour le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -80,7 +80,7 @@ Quand(
 );
 
 Quand(
-  'la DREAL associée au projet rejette le changement de puissance pour le projet lauréat',
+  'la DREAL rejette le changement de puissance pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
       await rejeterChangementPuissance.call(this);
@@ -91,7 +91,7 @@ Quand(
 );
 
 Quand(
-  'la DREAL associée au projet rejette le changement de puissance pour le projet lauréat avec :',
+  'la DREAL rejette le changement de puissance pour le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {

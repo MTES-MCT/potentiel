@@ -83,12 +83,9 @@ Quand(
   },
 );
 
-Quand(
-  'la DREAL associée au projet modifie le fournisseur du projet lauréat',
-  async function (this: PotentielWorld) {
-    await mettreÀJourFournisseur.call(this, 'modification-dreal');
-  },
-);
+Quand('la DREAL modifie le fournisseur du projet lauréat', async function (this: PotentielWorld) {
+  await mettreÀJourFournisseur.call(this, 'modification-dreal');
+});
 
 Quand(
   'le DGEC validateur modifie le fournisseur du projet lauréat avec :',

@@ -120,7 +120,7 @@ Quand(
 );
 
 Quand(
-  "la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat",
+  "la DREAL accorde le changement d'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
       await accorderChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
@@ -131,7 +131,7 @@ Quand(
 );
 
 Quand(
-  "la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat",
+  "la DREAL rejette le changement d'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
       await rejeterChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
