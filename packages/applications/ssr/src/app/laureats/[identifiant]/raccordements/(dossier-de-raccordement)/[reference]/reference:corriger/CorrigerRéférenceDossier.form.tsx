@@ -72,8 +72,12 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
               .none(() => (
                 <></>
               ))}
-            <div>
-              Les caractères suivants ne sont pas autorisés : ? * : ; {'{'} {'}'} \
+            <div className="flex flex-wrap items-center gap-2">
+              <span>Caractères interdits :</span>
+
+              {['?', '*', ':', ';', '{', '}', '\\'].map((char) => (
+                <code key={char}>{char}</code>
+              ))}
             </div>
           </>
         }
