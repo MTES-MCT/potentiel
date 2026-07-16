@@ -86,9 +86,11 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
 
   étapes.push({
     type: 'dcr',
-    ...(dossier.demandeComplèteRaccordement.dateQualification && {
+    ...(dossier.demandeComplèteRaccordement && {
       data: {
-        date: dossier.demandeComplèteRaccordement.dateQualification.formatter(),
+        date: dossier.demandeComplèteRaccordement.dateQualification
+          ? dossier.demandeComplèteRaccordement.dateQualification.formatter()
+          : undefined,
         document: dossier.demandeComplèteRaccordement.accuséRéception
           ? DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter()
           : undefined,
@@ -186,9 +188,9 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
 
   return (
     étapes
-      .filter((a) => a.data)
+      .filter((a) => a.data?.date)
       // biome-ignore lint/style/noNonNullAssertion: avec le filter
-      .sort((a, b) => a.data!.date.localeCompare(b.data!.date))
-      .concat(étapes.filter((a) => !a.data))
+      .sort((a, b) => a.data!.date!.localeCompare(b.data!.date!))
+      .concat(étapes.filter((a) => !a.data?.date))
   );
 };

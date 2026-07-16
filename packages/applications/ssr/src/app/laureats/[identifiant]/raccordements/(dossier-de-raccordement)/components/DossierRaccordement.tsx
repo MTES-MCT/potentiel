@@ -29,7 +29,7 @@ export type DossierEtapeAction = {
 export type DossierEtape = {
   type: TypeDossier;
   data?: {
-    date: DateTime.RawType;
+    date?: DateTime.RawType;
     document?: string;
   };
   fallbackText?: string;
@@ -95,13 +95,12 @@ const DossierEtape: FC<EnrichedDossierEtape> = ({
         <Information color="red-marianne" fontSize="medium" />
       )}
       <ContentArea>
-        {data ? (
-          <FormattedDate date={data.date} />
-        ) : (
+        {!data && (
           <span className="italic text-dsfr-background-flat-pinkMacaron-default">
             {fallbackText}
           </span>
         )}
+        {data?.date && <FormattedDate date={data.date} />}
         <ItemTitle title={mapTypeToTitre[type]} />
         {data?.document && (
           <>
