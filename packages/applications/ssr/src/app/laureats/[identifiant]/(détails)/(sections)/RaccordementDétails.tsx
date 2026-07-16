@@ -24,10 +24,10 @@ const Dossier = ({ dossier }: DossierProps) => {
     !dossier.propositionTechniqueEtFinancière ||
     !dossier;
   return (
-    <div className="flex gap-2">
-      <span>
+    <div className="flex items-center gap-2">
+      <div>
         Dossier <strong>{dossier.référence.référence}</strong>
-      </span>
+      </div>
       {estIncomplet && (
         <Badge noIcon small severity="warning" className="mt-1">
           Incomplet
