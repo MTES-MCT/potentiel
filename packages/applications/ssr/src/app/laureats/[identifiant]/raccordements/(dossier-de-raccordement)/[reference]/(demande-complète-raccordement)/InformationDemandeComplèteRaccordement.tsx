@@ -31,8 +31,8 @@ export const InformationDemandeComplèteRaccordement: FC<
       jugée complète.
       <br />
       Cet accusé de réception transmis sur Potentiel facilitera vos démarches administratives avec
-      les différents acteurs connectés à Potentiel, il est nécessaire pour l’instruction,
-      selon les cahiers des charges modificatifs et publiés le 30/08/2022.
+      les différents acteurs connectés à Potentiel, il est nécessaire pour l’instruction, selon les
+      cahiers des charges modificatifs et publiés le 30/08/2022.
       <br />
       Si votre gestionnaire de réseau ne vous retourne pas d'accusé de réception, veuillez
       transmettre toute autre preuve de la bonne réception de votre demande complète de
