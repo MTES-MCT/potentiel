@@ -11,6 +11,7 @@ export type ValueType = ReadonlyValueType<{
   formatter: () => RawType;
   estInconnu: () => boolean;
   estSystème: () => boolean;
+  estEdfOa: () => boolean;
 }>;
 
 export const bind = ({ email }: PlainType<ValueType>): ValueType => {
@@ -29,6 +30,9 @@ export const bind = ({ email }: PlainType<ValueType>): ValueType => {
     estSystème() {
       return this.estÉgaleÀ(système);
     },
+    estEdfOa() {
+      return this.estÉgaleÀ(edfOa);
+    },
   };
 };
 
@@ -41,6 +45,10 @@ export const convertirEnValueType = (value: string): ValueType => {
 const regexEmail = /^[a-z0-9.+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
 
 export const système = convertirEnValueType('system@system');
+/**
+ * Email générique pour les migrations de date d'achèvement EDF OA
+ */
+export const edfOa = convertirEnValueType('migration@edf-oa');
 export const inconnu = convertirEnValueType('unknown-user@unknown-email.com');
 
 function estValide(value: string): asserts value is RawType {

@@ -3,6 +3,8 @@ import {
   type ConsulterAchèvementDependencies,
   registerConsulterAchèvementQuery,
 } from './consulter/consulterAchèvement.query.js';
+import { registerCorrigerDateAchèvementCommand } from './corriger/corrigerDateAchèvement.command.js';
+import { registerCorrigerDateAchèvementUseCase } from './corriger/corrigerDateAchèvement.usecase.js';
 import { registerEnregistrerAttestationConformitéCommand } from './enregistrer/enregistrerAttestationConformité.command.js';
 import { registerEnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
 import {
@@ -31,6 +33,9 @@ export const registerAchèvementUseCases = (dependencies: AchèvementCommandDepe
 
   registerTransmettreDateAchèvementCommand(dependencies.getProjetAggregateRoot);
   registerTransmettreDateAchèvementUseCase();
+
+  registerCorrigerDateAchèvementCommand(dependencies.getProjetAggregateRoot);
+  registerCorrigerDateAchèvementUseCase();
 
   registerEnregistrerAttestationConformitéCommand(dependencies.getProjetAggregateRoot);
   registerEnregistrerAttestationConformitéUseCase();

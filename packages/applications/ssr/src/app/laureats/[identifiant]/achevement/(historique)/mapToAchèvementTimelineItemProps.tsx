@@ -7,6 +7,7 @@ import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../(détails)
 import {
   mapToAchèvementModifiéTimelineItemProps,
   mapToAttestationConformitéTransmiseTimelineItemProps,
+  mapToDateAchèvementCorrigéeTimelineItemProps,
   mapToDateAchèvementPrévisionnelCalculéeProps,
   mapToDateAchèvementTransmiseTimelineItemProps,
 } from './events';
@@ -20,6 +21,7 @@ type MapToAchèvementTimelineItemProps = (
 export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProps = (readmodel) =>
   match(readmodel)
     .with({ type: 'DateAchèvementTransmise-V1' }, mapToDateAchèvementTransmiseTimelineItemProps)
+    .with({ type: 'DateAchèvementCorrigée-V1' }, mapToDateAchèvementCorrigéeTimelineItemProps)
     .with(
       { type: P.union('AttestationConformitéTransmise-V1', 'AttestationConformitéTransmise-V2') },
       mapToAttestationConformitéTransmiseTimelineItemProps,

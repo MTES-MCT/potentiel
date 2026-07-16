@@ -32,13 +32,12 @@ type CsvLine = {
   identifiantProjet: string;
   statut: 'succès ✅' | 'erreur ❌';
   raison:
-    | 'Achèvement existant mais date identique'
+    | 'Correction de la date'
+    | "Date d'achèvement identique"
     | 'Transmission de la date'
     | 'Identifiant projet invalide'
-    | 'Date achèvement réel transmise inexistante'
-    | 'Achèvement aggrégat inexistant'
+    | 'Date achèvement réel invalide'
     | 'Achèvement inexistant'
-    | 'Achèvement existant avec date différente'
     | 'Opération métier impossible';
   dateAchèvementRéelTransmise: DateTime.RawType;
   dateMiseEnService?: DateTime.RawType;
@@ -58,8 +57,7 @@ type Stats = {
 
 export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Command {
   static override description =
-    `Vérification des données envoyées pour l'historique de transmission des dates d'achèvement réel par EDF OA.
-    Ici on va juste lire un fichier csv et valider les dates.`;
+    `Vérification des données envoyées pour l'historique de transmission des dates d'achèvement réel par EDF OA.`;
 
   static override flags = {
     path: Flags.file({
@@ -101,28 +99,21 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
       dateEDFOA: z.string(),
     });
 
-    /***
-     * TODO :
-     * 1. Lire fichier (non gitté)
-     * 2. Pour chaque ligne il faut consulter achèvement et valider :
-     * - On en attend 1 ? La date fournie est-elle cohérente ?
-     * - On en a déjà 1 ? Date correspond ?
-     * - Cf les règles de l'aggrégat pour tracker tout les throw métier
-     */
-
     const { parsedData: projets } = await parseCsvFile(flags.path, schema);
 
     if (!projets.length) {
-      throw new Error(`Aucun projet n'a été transmis dans le fichie ${flags.path}`);
+      throw new Error(`Aucun projet n'est à mettre à jour dans le fichier ${flags.path}`);
     }
 
     stats.total = projets.length;
-    console.log(`ℹ️ ${stats.total} projets concernés`);
+
+    console.log(`ℹ️ ${stats.total} projets concernés par une mise à jour`);
 
     let compteur = 0;
 
     for (const { identifiantProjet, dateEDFOA } of projets) {
       compteur++;
+      process.stdout.clearLine(0);
       process.stdout.write(`\r⏳ [${compteur}/${stats.total}]`);
 
       const dateEDFOAIsoString = dateEDFOA.length ? `${dateEDFOA.replace(' ', 'T')}Z` : '';
@@ -164,58 +155,56 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
 
           const dateAchèvementRéelActuelle = achèvement.dateAchèvementRéel.formatter();
 
-          if (écartEnJours > 0) {
-            const raccordement =
-              await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-                type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-                data: { identifiantProjetValue: identifiantProjet },
-              });
-
-            const dateMiseEnService =
-              Option.isSome(raccordement) && raccordement.miseEnService?.date
-                ? raccordement.miseEnService.date.formatter()
-                : undefined;
-
-            stats.erreurs.push({
-              identifiantProjet,
-              statut: 'erreur ❌',
-              raison: 'Achèvement existant avec date différente',
-              dateAchèvementRéelTransmise,
-              dateAchèvementRéelActuelle,
-              dateMiseEnService,
-              écartEnJours,
-            });
-          } else {
+          if (écartEnJours === 0) {
             stats.succès.push({
               identifiantProjet,
               statut: 'succès ✅',
-              raison: 'Achèvement existant mais date identique',
+              raison: "Date d'achèvement identique",
               dateAchèvementRéelTransmise,
               dateAchèvementRéelActuelle,
               écartEnJours: 0,
             });
+            continue;
           }
-          continue;
+
+          await mediator.send<Lauréat.Achèvement.CorrigerDateAchèvementUseCase>({
+            type: 'Lauréat.Achèvement.UseCase.CorrigerDateAchèvement',
+            data: {
+              identifiantProjetValue: identifiantProjetValueType.formatter(),
+              dateAchèvementValue: dateAchèvementRéelTransmise,
+              corrigéeLeValue: DateTime.now().formatter(),
+              corrigéeParValue: Email.edfOa.formatter(),
+            },
+          });
+
+          stats.succès.push({
+            identifiantProjet,
+            statut: 'succès ✅',
+            raison: 'Correction de la date',
+            dateAchèvementRéelTransmise,
+            dateAchèvementRéelActuelle,
+            écartEnJours,
+          });
+        } else {
+          await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
+            type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+            data: {
+              identifiantProjetValue: identifiantProjetValueType.formatter(),
+              dateAchèvementValue: dateAchèvementRéelTransmise,
+              transmiseLeValue: DateTime.now().formatter(),
+              transmiseParValue: Email.edfOa.formatter(),
+            },
+          });
+
+          stats.succès.push({
+            identifiantProjet,
+            statut: 'succès ✅',
+            raison: 'Transmission de la date',
+            dateAchèvementRéelTransmise,
+            dateAchèvementRéelActuelle: undefined,
+            écartEnJours: undefined,
+          });
         }
-
-        await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
-          type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
-          data: {
-            identifiantProjetValue: identifiantProjetValueType.formatter(),
-            dateAchèvementValue: dateAchèvementRéelTransmise,
-            transmiseLeValue: DateTime.now().formatter(),
-            transmiseParValue: Email.système.formatter(),
-          },
-        });
-
-        stats.succès.push({
-          identifiantProjet,
-          statut: 'succès ✅',
-          raison: 'Transmission de la date',
-          dateAchèvementRéelTransmise,
-          dateAchèvementRéelActuelle: undefined,
-          écartEnJours: undefined,
-        });
       } catch (error) {
         if (error instanceof IdentifiantProjet.IdentifiantProjetInvalideError) {
           stats.erreurs.push({
@@ -233,7 +222,7 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           stats.erreurs.push({
             identifiantProjet,
             statut: 'erreur ❌',
-            raison: 'Date achèvement réel transmise inexistante',
+            raison: 'Date achèvement réel invalide',
             dateAchèvementRéelTransmise,
             dateAchèvementRéelActuelle: undefined,
             écartEnJours: undefined,
@@ -241,19 +230,10 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           continue;
         }
 
-        if (AggregateNotFoundError.isAggregateNotFoundError(error as Error)) {
-          stats.erreurs.push({
-            identifiantProjet,
-            statut: 'erreur ❌',
-            raison: 'Achèvement aggrégat inexistant',
-            dateAchèvementRéelTransmise,
-            dateAchèvementRéelActuelle: undefined,
-            écartEnJours: undefined,
-          });
-          continue;
-        }
-
-        if (OperationRejectedError.isOperationRejectedError(error as Error)) {
+        if (
+          AggregateNotFoundError.isAggregateNotFoundError(error as Error) ||
+          OperationRejectedError.isOperationRejectedError(error as Error)
+        ) {
           stats.erreurs.push({
             identifiantProjet,
             statut: 'erreur ❌',
@@ -264,19 +244,18 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           });
         }
       }
-      process.stdout.write('\n');
     }
 
     const RESULT_FILE = 'file_results_stats.csv';
 
     console.info(`\n📊 Résultat (cf ${RESULT_FILE}):`);
     console.info(
-      `  ✅ ${stats.succès.length} projets sont en succès suite à une tranmission ou date égale`,
+      `  ✅ ${stats.succès.length} mises à jour réussies (transmission, correction ou date identique)`,
     );
-    console.info(`  ❌ ${stats.erreurs.length} projets en erreur`);
+    console.info(`  ❌ ${stats.erreurs.length} mises à jour en échec`);
 
     if (!stats.succès.length && !stats.erreurs.length) {
-      console.info('Aucune résultat à ajouter dans le fichier');
+      console.info('Aucun résultat à ajouter au fichier');
       return;
     }
 
@@ -319,8 +298,8 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
 
       if (
         parRaison === 0 &&
-        a.raison === 'Achèvement existant avec date différente' &&
-        b.raison === 'Achèvement existant avec date différente'
+        a.raison === 'Correction de la date' &&
+        b.raison === 'Correction de la date'
       ) {
         return (b.écartEnJours ?? 0) - (a.écartEnJours ?? 0);
       }
