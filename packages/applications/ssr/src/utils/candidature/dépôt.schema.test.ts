@@ -100,6 +100,20 @@ describe('Schéma dépôt', () => {
       assertError(result, ['emailContact'], 'adresse e-mail invalide');
     });
 
+    test('format référence de raccordement', () => {
+      const result = dépôtSchema.safeParse({
+        ...minimumValues,
+        raccordements: [{ dateQualification: '01/01/2024', référence: 'ref1:X;ref2:Y' }],
+      });
+
+      assert(result.error);
+      assertError(
+        result,
+        ['raccordements', 0, 'référence'],
+        'La référence du dossier contient un ou plusieurs caractères non autorisés : ?, *, :, ;, {, } ou \\',
+      );
+    });
+
     for (const champ of [
       'puissance',
       'puissanceDeSite',

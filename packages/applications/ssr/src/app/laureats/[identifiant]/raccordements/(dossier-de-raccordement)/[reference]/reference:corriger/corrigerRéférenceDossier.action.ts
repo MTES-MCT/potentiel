@@ -4,9 +4,10 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime, ExpressionRegulière } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
 
+import { référenceRaccordemenSchema } from '@/utils/candidature';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -14,12 +15,7 @@ export type CorrigerRéférenceDossierFormKeys = keyof zod.infer<typeof schema>;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  referenceDossier: zod
-    .string()
-    .min(1)
-    .regex(ExpressionRegulière.nomRépertoireDocumentValide.regex(), {
-      message: 'La référence du dossier contient des caractères non autorisés : ? * : ; { } \\',
-    }),
+  referenceDossier: référenceRaccordemenSchema,
   referenceDossierCorrigee: zod.string().min(1),
 });
 
