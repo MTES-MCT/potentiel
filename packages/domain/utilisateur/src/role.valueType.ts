@@ -1225,7 +1225,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.transmettreDocumentRaccordement,
         référencielPermissions.lauréat.raccordement.command.transmettreDocumentRaccordement,
       ],
-      modifier: [
+      'modifier-ou-supprimer': [
         référencielPermissions.document.command.enregister,
         référencielPermissions.lauréat.raccordement.query.consulterDocument,
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
@@ -1234,8 +1234,8 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.supprimerDocumentRaccordement,
         référencielPermissions.lauréat.raccordement.command.supprimerDocumentRaccordement,
       ],
-      'modifier-après-mise-en-service': [],
-      'modifier-après-achèvement': [],
+      'modifier-ou-supprimer-après-mise-en-service': [],
+      'modifier-ou-supprimer-après-achèvement': [],
     },
     'date-mise-en-service': {
       transmettre: [
@@ -1684,9 +1684,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
   'raccordement.demande-complète-raccordement.modifier-après-achèvement',
   'raccordement.document-raccordement.transmettre',
-  'raccordement.document-raccordement.modifier',
-  'raccordement.document-raccordement.modifier-après-mise-en-service',
-  'raccordement.document-raccordement.modifier-après-achèvement',
+  'raccordement.document-raccordement.modifier-ou-supprimer',
+  'raccordement.document-raccordement.modifier-ou-supprimer-après-mise-en-service',
+  'raccordement.document-raccordement.modifier-ou-supprimer-après-achèvement',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
@@ -1971,7 +1971,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.document-raccordement.transmettre',
-  'raccordement.document-raccordement.modifier',
+  'raccordement.document-raccordement.modifier-ou-supprimer',
   'raccordement.gestionnaire.modifier',
 
   // Garanties financières
@@ -2114,7 +2114,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.document-raccordement.transmettre',
-  'raccordement.document-raccordement.modifier',
+  'raccordement.document-raccordement.modifier-ou-supprimer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
 

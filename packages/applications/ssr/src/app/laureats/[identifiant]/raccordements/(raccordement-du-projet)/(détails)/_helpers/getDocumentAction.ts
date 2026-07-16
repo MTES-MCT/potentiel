@@ -43,7 +43,7 @@ export const getDocumentAction = ({
       label: 'Modifier le document',
     },
     {
-      href: '',
+      href: '#',
       typeDocument: type,
       label: 'Supprimer le document',
     },
@@ -63,21 +63,23 @@ export const getDocumentAction = ({
   if (
     !dossierEnService &&
     !estProjetAchevé &&
-    rôle.aLaPermission('raccordement.document-raccordement.modifier')
+    rôle.aLaPermission('raccordement.document-raccordement.modifier-ou-supprimer')
   ) {
     return modifierActions;
   }
 
   if (
     dossierEnService &&
-    rôle.aLaPermission('raccordement.document-raccordement.modifier-après-mise-en-service')
+    rôle.aLaPermission(
+      'raccordement.document-raccordement.modifier-ou-supprimer-après-mise-en-service',
+    )
   ) {
     return modifierActions;
   }
 
   if (
     estProjetAchevé &&
-    rôle.aLaPermission('raccordement.document-raccordement.modifier-après-achèvement')
+    rôle.aLaPermission('raccordement.document-raccordement.modifier-ou-supprimer-après-achèvement')
   ) {
     return modifierActions;
   }

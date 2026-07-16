@@ -124,9 +124,11 @@ const DossierEtape: FC<EnrichedDossierEtape> = ({
               type={type}
             />
           ) : (
-            <TertiaryLink key={action.label} href={action.href}>
-              {action.label}
-            </TertiaryLink>
+            <div key={action.href}>
+              <TertiaryLink key={action.label} href={action.href}>
+                {action.label}
+              </TertiaryLink>
+            </div>
           ),
         )}
       </ContentArea>

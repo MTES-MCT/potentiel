@@ -699,14 +699,18 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (
       dossierEstEnService &&
-      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-mise-en-service')
+      !rôle.aLaPermission(
+        'raccordement.document-raccordement.modifier-ou-supprimer-après-mise-en-service',
+      )
     ) {
       throw new DocumentNonModifiableCarDossierMisEnServiceError();
     }
 
     if (
       this.lauréat.statut.estAchevé() &&
-      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-achèvement')
+      !rôle.aLaPermission(
+        'raccordement.document-raccordement.modifier-ou-supprimer-après-achèvement',
+      )
     ) {
       throw new ChangementImpossibleCarProjetAchevéError();
     }
@@ -752,14 +756,18 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (
       dossierEstEnService &&
-      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-mise-en-service')
+      !rôle.aLaPermission(
+        'raccordement.document-raccordement.modifier-ou-supprimer-après-mise-en-service',
+      )
     ) {
       throw new DocumentNonModifiableCarDossierMisEnServiceError();
     }
 
     if (
       this.lauréat.statut.estAchevé() &&
-      !rôle.aLaPermission('raccordement.document-raccordement.modifier-après-achèvement')
+      !rôle.aLaPermission(
+        'raccordement.document-raccordement.modifier-ou-supprimer-après-achèvement',
+      )
     ) {
       throw new ChangementImpossibleCarProjetAchevéError();
     }

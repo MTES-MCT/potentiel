@@ -2,6 +2,7 @@
 
 import { type FC, useState } from 'react';
 
+import type { Lauréat } from '@potentiel-domain/projet';
 import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -17,7 +18,7 @@ export type ModifierDocumentFormProps = {
     document: {
       dateSignature: Iso8601DateTime;
       documentSignée: string;
-      type: string;
+      type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
     };
   };
 };
