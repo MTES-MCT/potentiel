@@ -16,12 +16,16 @@ import {
   type ConsulterRaccordementDependencies,
   registerConsulterRaccordementQuery,
 } from './consulter/consulterRaccordement.query.js';
-import { registerModifierDocumentRaccordementCommand } from './document-raccordement/modifier/modifierDocumentRaccordement.command.js';
-import { registerModifierDocumentRaccordementUseCase } from './document-raccordement/modifier/modifierDocumentRaccordement.usecase.js';
-import { registerSupprimerDocumentRaccordementCommand } from './document-raccordement/supprimer/supprimerDocumentRaccordement.command.js';
-import { registerSupprimerDocumentRaccordementUseCase } from './document-raccordement/supprimer/supprimerDocumentRaccordement.usecase.js';
-import { registerTransmettreDocumentRaccordementCommand } from './document-raccordement/transmettre/transmettreDocumentRaccordement.command.js';
-import { registerTransmettreDocumentRaccordementUseCase } from './document-raccordement/transmettre/transmettreDocumentRaccordement.usecase.js';
+import {
+  type ConsulterDocumentDependencies,
+  registerConsulterDocumentQuery,
+} from './document/consulter/consulterDocument.query.js';
+import { registerModifierDocumentCommand } from './document/modifier/modifierDocumentRaccordement.command.js';
+import { registerModifierDocumentUseCase } from './document/modifier/modifierDocumentRaccordement.usecase.js';
+import { registerSupprimerDocumentCommand } from './document/supprimer/supprimerDocumentRaccordement.command.js';
+import { registerSupprimerDocumentUseCase } from './document/supprimer/supprimerDocumentRaccordement.usecase.js';
+import { registerTransmettreDocumentCommand } from './document/transmettre/transmettreDocumentRaccordement.command.js';
+import { registerTransmettreDocumentUseCase } from './document/transmettre/transmettreDocumentRaccordement.usecase.js';
 import {
   type ListerDossierRaccordementQueryDependencies,
   registerListerDossierRaccordementQuery,
@@ -38,8 +42,6 @@ import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
 import { registerModifierGestionnaireRéseauProjetCommand } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.command.js';
 import { registerModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase.js';
-import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.command.js';
-import { registerModifierPropositionTechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.usecase.js';
 import { registerModifierRéférenceDossierRaccordementCommand } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.command.js';
 import { registerModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase.js';
 import {
@@ -54,8 +56,6 @@ import { registerTransmettreDateMiseEnServiceCommand } from './transmettre/dateM
 import { registerTransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase.js';
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase.js';
-import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command.js';
-import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase.js';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -63,7 +63,8 @@ export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependen
   ConsulterNombreDeRaccordementDependencies &
   RechercherDossierRaccordementDependencies &
   ListerDossierRaccordementQueryDependencies &
-  ListerHistoriqueRaccordementProjetDependencies;
+  ListerHistoriqueRaccordementProjetDependencies &
+  ConsulterDocumentDependencies;
 
 export type RaccordementCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -79,6 +80,7 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
   registerListerDossierRaccordementQuery(dependencies);
   registerListerDossierRaccordementManquantsQuery(dependencies);
   registerListerHistoriqueRaccordementProjetQuery(dependencies);
+  registerConsulterDocumentQuery(dependencies);
 };
 
 export const registerRaccordementUseCases = ({
@@ -86,30 +88,26 @@ export const registerRaccordementUseCases = ({
 }: RaccordementCommandDependencies) => {
   registerModifierDemandeComplèteRaccordementCommand(getProjetAggregateRoot);
   registerModifierGestionnaireRéseauProjetCommand(getProjetAggregateRoot);
-  registerModifierPropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerModifierRéférenceDossierRaccordementCommand(getProjetAggregateRoot);
   registerModifierDateMiseEnServiceCommand(getProjetAggregateRoot);
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDateMiseEnServiceCommand(getProjetAggregateRoot);
   registerTransmettreDemandeComplèteRaccordementCommand(getProjetAggregateRoot);
   registerSupprimerDateMiseEnServiceCommand(getProjetAggregateRoot);
-  registerTransmettrePropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerAttribuerGestionnaireCommand(getProjetAggregateRoot);
   registerSupprimerDossierDuRaccordementCommand(getProjetAggregateRoot);
-  registerTransmettreDocumentRaccordementCommand(getProjetAggregateRoot);
-  registerModifierDocumentRaccordementCommand(getProjetAggregateRoot);
-  registerSupprimerDocumentRaccordementCommand(getProjetAggregateRoot);
+  registerTransmettreDocumentCommand(getProjetAggregateRoot);
+  registerModifierDocumentCommand(getProjetAggregateRoot);
+  registerSupprimerDocumentCommand(getProjetAggregateRoot);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
-  registerModifierPropositionTechniqueEtFinancièreUseCase();
   registerModifierRéférenceDossierRaccordementUseCase();
   registerModifierDateMiseEnServiceUseCase();
   registerSupprimerDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
-  registerTransmettrePropositionTechniqueEtFinancièreUseCase();
   registerSupprimerDossierDuRaccordementUseCase();
-  registerTransmettreDocumentRaccordementUseCase();
-  registerModifierDocumentRaccordementUseCase();
-  registerSupprimerDocumentRaccordementUseCase();
+  registerTransmettreDocumentUseCase();
+  registerModifierDocumentUseCase();
+  registerSupprimerDocumentUseCase();
 };

@@ -151,6 +151,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         consulterDossier: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+        consulterDocument: 'Lauréat.Raccordement.Query.ConsulterDocument',
         consulterGestionnaireRéseau:
           'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         consulterNombre: 'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
@@ -167,43 +168,35 @@ const référencielPermissions = {
         modifierDemandeComplète: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
         modifierGestionnaireRéseau:
           'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
-        modifierPropostionTechniqueEtFinancière:
-          'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
         modifierRéférenceDossier:
           'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         modifierDateMiseEnService: 'Lauréat.Raccordement.UseCase.ModifierDateMiseEnService',
         transmettreDateMiseEnService: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
         transmettreDemandeComplète:
           'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
-        transmettrePropositionTechniqueEtFinancière:
-          'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
-        transmettreDocumentRaccordement:
-          'Lauréat.Raccordement.UseCase.TransmettreDocumentRaccordement',
-        modifierDocumentRaccordement: 'Lauréat.Raccordement.UseCase.ModifierDocumentRaccordement',
+        transmettreDocumentRaccordement: 'Lauréat.Raccordement.UseCase.TransmettreDocument',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.UseCase.ModifierDocument',
+        supprimerDocumentRaccordement: 'Lauréat.Raccordement.UseCase.SupprimerDocument',
       },
       command: {
         modifierDemandeComplète: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
         modifierGestionnaireRéseau:
           'Lauréat.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
-        modifierPropostionTechniqueEtFinancière:
-          'Lauréat.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
         modifierRéférenceDossier:
           'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',
         modifierDateMiseEnService: 'Lauréat.Raccordement.Command.ModifierDateMiseEnService',
         transmettreDateMiseEnService: 'Lauréat.Raccordement.Command.TransmettreDateMiseEnService',
         transmettreDemandeComplète:
           'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
-        transmettrePropositionTechniqueEtFinancière:
-          'Lauréat.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
         supprimerDossierDuRaccordement:
           'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
         supprimerDateMiseEnService: 'Lauréat.Raccordement.Command.SupprimerDateMiseEnService',
-        transmettreDocumentRaccordement:
-          'Lauréat.Raccordement.Command.TransmettreDocumentRaccordement',
-        modifierDocumentRaccordement: 'Lauréat.Raccordement.Command.ModifierDocumentRaccordement',
+        transmettreDocumentRaccordement: 'Lauréat.Raccordement.Command.TransmettreDocument',
+        modifierDocumentRaccordement: 'Lauréat.Raccordement.Command.ModifierDocument',
+        supprimerDocumentRaccordement: 'Lauréat.Raccordement.Command.SupprimerDocument',
       },
     },
     garantiesFinancières: {
@@ -1225,24 +1218,6 @@ const policies = {
       'modifier-après-mise-en-service': [],
       'modifier-après-achèvement': [],
     },
-    'proposition-technique-et-financière': {
-      transmettre: [
-        référencielPermissions.document.command.enregister,
-        référencielPermissions.lauréat.raccordement.query.consulterDossier,
-        référencielPermissions.lauréat.raccordement.usecase
-          .transmettrePropositionTechniqueEtFinancière,
-        référencielPermissions.lauréat.raccordement.command
-          .transmettrePropositionTechniqueEtFinancière,
-      ],
-      modifier: [
-        référencielPermissions.document.command.enregister,
-        référencielPermissions.lauréat.raccordement.query.consulterDossier,
-        référencielPermissions.lauréat.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
-        référencielPermissions.lauréat.raccordement.command.modifierPropostionTechniqueEtFinancière,
-      ],
-      'modifier-après-mise-en-service': [],
-      'modifier-après-achèvement': [],
-    },
     'document-raccordement': {
       transmettre: [
         référencielPermissions.document.command.enregister,
@@ -1250,14 +1225,17 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.transmettreDocumentRaccordement,
         référencielPermissions.lauréat.raccordement.command.transmettreDocumentRaccordement,
       ],
-      modifier: [
+      'modifier-ou-supprimer': [
         référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDocument,
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
         référencielPermissions.lauréat.raccordement.usecase.modifierDocumentRaccordement,
         référencielPermissions.lauréat.raccordement.command.modifierDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.usecase.supprimerDocumentRaccordement,
+        référencielPermissions.lauréat.raccordement.command.supprimerDocumentRaccordement,
       ],
-      'modifier-après-mise-en-service': [],
-      'modifier-après-achèvement': [],
+      'modifier-ou-supprimer-après-mise-en-service': [],
+      'modifier-ou-supprimer-après-achèvement': [],
     },
     'date-mise-en-service': {
       transmettre: [
@@ -1705,14 +1683,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
   'raccordement.demande-complète-raccordement.modifier-après-achèvement',
-  'raccordement.proposition-technique-et-financière.transmettre',
-  'raccordement.proposition-technique-et-financière.modifier',
-  'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
-  'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
   'raccordement.document-raccordement.transmettre',
-  'raccordement.document-raccordement.modifier',
-  'raccordement.document-raccordement.modifier-après-mise-en-service',
-  'raccordement.document-raccordement.modifier-après-achèvement',
+  'raccordement.document-raccordement.modifier-ou-supprimer',
+  'raccordement.document-raccordement.modifier-ou-supprimer-après-mise-en-service',
+  'raccordement.document-raccordement.modifier-ou-supprimer-après-achèvement',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
@@ -1996,10 +1970,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'raccordement.exporterDossierRaccordement',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
-  'raccordement.proposition-technique-et-financière.transmettre',
-  'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.document-raccordement.transmettre',
-  'raccordement.document-raccordement.modifier',
+  'raccordement.document-raccordement.modifier-ou-supprimer',
   'raccordement.gestionnaire.modifier',
 
   // Garanties financières
@@ -2141,10 +2113,8 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'raccordement.gestionnaire.modifier',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
-  'raccordement.proposition-technique-et-financière.transmettre',
-  'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.document-raccordement.transmettre',
-  'raccordement.document-raccordement.modifier',
+  'raccordement.document-raccordement.modifier-ou-supprimer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
 

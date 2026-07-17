@@ -16,21 +16,22 @@ export const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementPr
   référenceDossier,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const safeId = encodeURIComponent(référenceDossier);
 
   return (
     <>
       <Button priority="tertiary" onClick={() => setIsOpen(true)} className="mt-4">
-        Supprimer
+        Supprimer le dossier
       </Button>
 
       <ModalWithForm
-        id={`supprimer-dossier-raccordement-${crypto.randomUUID()}`}
+        id={`supprimer-dossier-raccordement-${safeId}`}
         title={`Supprimer le dossier ${référenceDossier} du raccordement`}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
           action: supprimerDossierDuRaccordementAction,
-          id: `supprimer-dossier-${référenceDossier}-abandon-form`,
+          id: `supprimer-dossier-${référenceDossier}-form`,
           omitMandatoryFieldsLegend: true,
           children: (
             <>

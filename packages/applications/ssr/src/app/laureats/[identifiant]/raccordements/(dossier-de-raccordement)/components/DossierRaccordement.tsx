@@ -4,32 +4,39 @@ import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import type { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading3 } from '@/components/atoms/headings';
 import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
-import { FormatFichierInvalide } from '.';
+import { SupprimerDocumentForm } from '../[reference]/document/[type]/supprimer/SupprimerDocument.form';
+import { FormatFichierInvalide } from './FormatFichierInvalide';
 
-type TypeDossier = 'dcr' | 'ptf' | 'cr' | 'crd' | 'mise-en-service';
+type TypeDossier =
+  | Lauréat.Raccordement.TypeDocumentsRaccordement.RawType
+  | 'dcr'
+  | 'mise-en-service'
+  | 'document';
 
-export type DossierEtapeAction =
-  | {
-      href: string;
-      label: string;
-    }
-  | undefined;
+export type DossierEtapeAction = {
+  href: string;
+  label: string;
+  typeDocument?: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
+};
 
 export type DossierEtape = {
   type: TypeDossier;
   data?: {
-    date: DateTime.RawType;
+    date?: DateTime.RawType;
     document?: string;
   };
   fallbackText?: string;
-  action: DossierEtapeAction;
+  actions: Array<DossierEtapeAction>;
 };
+
+type EnrichedDossierEtape = DossierEtape & { référence: string; identifiantProjet: string };
 
 export type DossierProps = {
   dossierEtapes: Array<DossierEtape>;
@@ -54,7 +61,9 @@ export const DossierRaccordement: FC<DossierProps> = ({
             type={étape.type}
             data={étape.data}
             fallbackText={étape.fallbackText}
-            action={étape.action}
+            actions={étape.actions}
+            identifiantProjet={identifiantProjet}
+            référence={référence}
           />
         ))}
       </ul>
@@ -70,7 +79,14 @@ export const DossierRaccordement: FC<DossierProps> = ({
   );
 };
 
-const DossierEtape: FC<DossierEtape> = ({ type, data, fallbackText, action }) => {
+const DossierEtape: FC<EnrichedDossierEtape> = ({
+  type,
+  data,
+  fallbackText,
+  actions,
+  référence,
+  identifiantProjet,
+}) => {
   return (
     <TimelineItem>
       {data ? (
@@ -79,13 +95,12 @@ const DossierEtape: FC<DossierEtape> = ({ type, data, fallbackText, action }) =>
         <Information color="red-marianne" fontSize="medium" />
       )}
       <ContentArea>
-        {data ? (
-          <FormattedDate date={data.date} />
-        ) : (
+        {!data && (
           <span className="italic text-dsfr-background-flat-pinkMacaron-default">
             {fallbackText}
           </span>
         )}
+        {data?.date && <FormattedDate date={data.date} />}
         <ItemTitle title={mapTypeToTitre[type]} />
         {data?.document && (
           <>
@@ -99,12 +114,21 @@ const DossierEtape: FC<DossierEtape> = ({ type, data, fallbackText, action }) =>
             />
           </>
         )}
-        {action && (
-          <div>
-            <TertiaryLink key={action.label} href={action.href}>
-              {action.label}
-            </TertiaryLink>
-          </div>
+        {actions.map((action) =>
+          action?.typeDocument ? (
+            <SupprimerDocumentForm
+              key={action.label}
+              identifiantProjet={identifiantProjet}
+              référence={référence}
+              type={type}
+            />
+          ) : (
+            <div key={action.href}>
+              <TertiaryLink key={action.label} href={action.href}>
+                {action.label}
+              </TertiaryLink>
+            </div>
+          ),
         )}
       </ContentArea>
     </TimelineItem>
@@ -135,8 +159,9 @@ const ItemTitle = (props: { title: string }) => (
 
 const mapTypeToTitre: Record<TypeDossier, string> = {
   dcr: 'demande complète de raccordement',
-  ptf: 'proposition technique et financière',
-  cr: 'convention de raccordement',
-  crd: 'convention directe de raccordement',
+  'proposition-technique-et-financière': 'proposition technique et financière',
+  'convention-de-raccordement': 'convention de raccordement',
+  'convention-directe-de-raccordement': 'convention directe de raccordement',
   'mise-en-service': 'mise en service',
+  document: 'document (PTF, CR, ou CRD)',
 };

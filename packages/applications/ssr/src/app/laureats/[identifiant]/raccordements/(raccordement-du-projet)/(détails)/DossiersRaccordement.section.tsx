@@ -1,7 +1,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
@@ -12,11 +12,11 @@ import {
   DossierRaccordement,
 } from '../../(dossier-de-raccordement)/components/DossierRaccordement';
 import {
-  getDemandeComplèteDeRaccordementAction,
-  getPropositionTechniqueEtFinancièreAction,
+  getDemandeComplèteDeRaccordementActions,
+  getDocumentActions,
   getSupprimerDossierAction,
 } from '../../(raccordement-du-projet)/(détails)/_helpers';
-import { getMiseEnServiceAction } from '../../(raccordement-du-projet)/(détails)/_helpers/getMiseEnServiceAction';
+import { getMiseEnServiceAction } from './_helpers/getMiseEnServiceAction';
 
 type DossierSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -86,31 +86,92 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
 
   étapes.push({
     type: 'dcr',
-    ...(dossier.demandeComplèteRaccordement.dateQualification && {
+    ...(dossier.demandeComplèteRaccordement && {
       data: {
-        date: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
+        date: dossier.demandeComplèteRaccordement.dateQualification
+          ? dossier.demandeComplèteRaccordement.dateQualification.formatter()
+          : undefined,
         document: dossier.demandeComplèteRaccordement.accuséRéception
           ? DocumentProjet.bind(dossier.demandeComplèteRaccordement.accuséRéception).formatter()
           : undefined,
       },
     }),
     fallbackText: 'À transmettre',
-    action: getDemandeComplèteDeRaccordementAction({ rôle, estProjetAchevé, dossier }),
+    actions: getDemandeComplèteDeRaccordementActions({ rôle, estProjetAchevé, dossier }),
   });
 
-  étapes.push({
-    type: 'ptf',
-    ...(dossier.propositionTechniqueEtFinancière && {
-      data: {
-        date: dossier.propositionTechniqueEtFinancière.dateSignature.formatter(),
-        document: DocumentProjet.bind(
-          dossier.propositionTechniqueEtFinancière.document,
-        ).formatter(),
-      },
-    }),
-    fallbackText: 'À transmettre',
-    action: getPropositionTechniqueEtFinancièreAction({ rôle, dossier, estProjetAchevé }),
-  });
+  const {
+    conventionDeRaccordement,
+    propositionTechniqueEtFinancière,
+    conventionDirecteDeRaccordement,
+  } = dossier;
+
+  if (
+    !propositionTechniqueEtFinancière &&
+    !conventionDeRaccordement &&
+    !conventionDirecteDeRaccordement
+  ) {
+    étapes.push({
+      type: 'document',
+      fallbackText: 'À transmettre',
+      actions: getDocumentActions({ rôle, dossier, estProjetAchevé }),
+    });
+  }
+
+  for (const document of [
+    conventionDeRaccordement,
+    propositionTechniqueEtFinancière,
+    conventionDirecteDeRaccordement,
+  ]) {
+    if (document) {
+      const type = Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
+        document.document.typeDocument.split('/')[2],
+      ).type;
+
+      étapes.push({
+        type,
+        ...(document && {
+          data: {
+            date: document.dateSignature.formatter(),
+            document: DocumentProjet.bind(document.document).formatter(),
+          },
+        }),
+        fallbackText: 'À transmettre',
+        actions: getDocumentActions({
+          rôle,
+          dossier,
+          estProjetAchevé,
+          type,
+        }),
+      });
+    }
+  }
+
+  if (conventionDeRaccordement && !propositionTechniqueEtFinancière) {
+    étapes.push({
+      type: 'proposition-technique-et-financière',
+      fallbackText: 'À transmettre',
+      actions: getDocumentActions({
+        rôle,
+        dossier,
+        estProjetAchevé,
+        type: 'proposition-technique-et-financière',
+      }),
+    });
+  }
+
+  if (!conventionDeRaccordement && propositionTechniqueEtFinancière) {
+    étapes.push({
+      type: 'convention-de-raccordement',
+      fallbackText: 'À transmettre',
+      actions: getDocumentActions({
+        rôle,
+        dossier,
+        estProjetAchevé,
+        type: 'convention-de-raccordement',
+      }),
+    });
+  }
 
   étapes.push({
     type: 'mise-en-service',
@@ -122,8 +183,14 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
     fallbackText: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre')
       ? 'À transmettre'
       : 'La date de mise en service sera renseignée par le gestionnaire de réseau',
-    action: getMiseEnServiceAction({ rôle, dossier }),
+    actions: getMiseEnServiceAction({ rôle, dossier }),
   });
 
-  return étapes;
+  return (
+    étapes
+      .filter((a) => a.data?.date)
+      // biome-ignore lint/style/noNonNullAssertion: avec le filter
+      .sort((a, b) => a.data!.date!.localeCompare(b.data!.date!))
+      .concat(étapes.filter((a) => !a.data?.date))
+  );
 };

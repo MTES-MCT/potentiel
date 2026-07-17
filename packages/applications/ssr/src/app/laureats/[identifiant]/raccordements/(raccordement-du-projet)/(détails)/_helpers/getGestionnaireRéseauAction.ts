@@ -4,21 +4,31 @@ import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { DossierEtapeAction } from '../../../(dossier-de-raccordement)/components/DossierRaccordement';
 
-type GetGestionnaireRéseauAction = (args: {
+type Props = {
   rôle: Role.ValueType;
   estProjetAchevé: boolean;
   estInconnuGestionnaire: boolean;
   aUnDossierEnService: boolean;
   identifiantProjet: IdentifiantProjet.RawType;
-}) => DossierEtapeAction;
+};
 
-export const getGestionnaireRéseauAction: GetGestionnaireRéseauAction = ({
+export const getGestionnaireRéseauAction = ({
   rôle,
   estProjetAchevé,
   estInconnuGestionnaire,
   aUnDossierEnService,
   identifiantProjet,
-}) => {
+}: Props): DossierEtapeAction | undefined => {
+  if (
+    rôle.aLaPermission('raccordement.gestionnaire.modifier') &&
+    !aUnDossierEnService &&
+    !estProjetAchevé
+  )
+    return {
+      label: estInconnuGestionnaire ? 'Renseigner' : 'Modifier',
+      href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
+    };
+
   if (
     aUnDossierEnService &&
     rôle.aLaPermission('raccordement.gestionnaire.modifier-après-mise-en-service')
@@ -39,10 +49,4 @@ export const getGestionnaireRéseauAction: GetGestionnaireRéseauAction = ({
       href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
     };
   }
-
-  if (rôle.aLaPermission('raccordement.gestionnaire.modifier'))
-    return {
-      label: estInconnuGestionnaire ? 'Renseigner' : 'Modifier',
-      href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
-    };
 };

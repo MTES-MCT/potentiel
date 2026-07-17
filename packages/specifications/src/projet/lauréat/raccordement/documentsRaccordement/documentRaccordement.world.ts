@@ -3,30 +3,27 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { mapDateTime, mapToExemple, mapValueType } from '#helpers';
 import {
-  type ModifierDocumentRaccordement,
-  ModifierDocumentRaccordementFixture,
+  type ModifierDocument,
+  ModifierDocumentFixture,
 } from './fixtures/modifierDocumentRaccordement.fixture.js';
 import {
-  type SupprimerDocumentRaccordement,
-  SupprimerDocumentRaccordementFixture,
+  type SupprimerDocument,
+  SupprimerDocumentFixture,
 } from './fixtures/supprimerDocumentRaccordement.fixture.js';
 import {
-  type TransmettreDocumentRaccordement,
-  TransmettreDocumentRaccordementFixture,
+  type TransmettreDocument,
+  TransmettreDocumentFixture,
 } from './fixtures/transmettreDocumentRaccordement.fixture.js';
 
 export class DocumentRaccordementWorld {
   // Stocker les documents par type
-  #documentsRaccordement = new Map<
-    string,
-    TransmettreDocumentRaccordement | ModifierDocumentRaccordement
-  >();
+  #documentsRaccordement = new Map<string, TransmettreDocument | ModifierDocument>();
 
-  ajouterDocument(document: TransmettreDocumentRaccordement | ModifierDocumentRaccordement) {
+  ajouterDocument(document: TransmettreDocument | ModifierDocument) {
     this.#documentsRaccordement.set(document.type, document);
   }
 
-  supprimerDocument(document: SupprimerDocumentRaccordement) {
+  supprimerDocument(document: SupprimerDocument) {
     this.#documentsRaccordement.delete(document.type);
   }
 
@@ -34,9 +31,9 @@ export class DocumentRaccordementWorld {
     return this.#documentsRaccordement.get(type);
   }
 
-  readonly transmettreFixture = new TransmettreDocumentRaccordementFixture(this);
-  readonly modifierFixture = new ModifierDocumentRaccordementFixture(this);
-  readonly supprimerFixture = new SupprimerDocumentRaccordementFixture(this);
+  readonly transmettreFixture = new TransmettreDocumentFixture(this);
+  readonly modifierFixture = new ModifierDocumentFixture(this);
+  readonly supprimerFixture = new SupprimerDocumentFixture(this);
 
   mapToExpected(
     type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType,
@@ -59,7 +56,7 @@ export class DocumentRaccordementWorld {
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
-    return mapToExemple<TransmettreDocumentRaccordement>(exemple, {
+    return mapToExemple<TransmettreDocument>(exemple, {
       dateSignature: ['La date de signature', mapDateTime],
       référenceDossier: ['La référence du dossier de raccordement'],
       type: [

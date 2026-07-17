@@ -1,5 +1,5 @@
-export * from './getDemandeComplèteDeRaccordementAction';
+export * from './getDemandeComplèteDeRaccordementActions';
+export * from './getDocumentActions';
 export * from './getGestionnaireRéseauAction';
-export * from './getPropositionTechniqueEtFinancièreAction';
 export * from './getSupprimerDossierAction';
 export * from './vérifierStatutDuProjetPourModification';
