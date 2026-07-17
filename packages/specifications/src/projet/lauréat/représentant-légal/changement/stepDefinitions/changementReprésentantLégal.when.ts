@@ -158,22 +158,22 @@ Quand(
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) accorde la demande de changement de représentant légal pour le projet lauréat$/,
-  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
+  /(le DGEC validateur|la DREAL) accorde la demande de changement de représentant légal pour le projet lauréat$/,
+  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL') {
     await instruireChangement.call(this, 'accord');
   },
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) corrige puis accorde la demande de changement de représentant légal pour le projet lauréat$/,
-  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
+  /(le DGEC validateur|la DREAL) corrige puis accorde la demande de changement de représentant légal pour le projet lauréat$/,
+  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL') {
     await instruireChangement.call(this, 'accord', 'Nom de représentant légal corrigé');
   },
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) rejette la demande de changement de représentant légal pour le projet lauréat$/,
-  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
+  /(le DGEC validateur|la DREAL) rejette la demande de changement de représentant légal pour le projet lauréat$/,
+  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL') {
     await instruireChangement.call(this, 'rejet');
   },
 );

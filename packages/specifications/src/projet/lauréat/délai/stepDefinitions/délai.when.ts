@@ -22,15 +22,12 @@ Quand(
   },
 );
 
-Quand(
-  'la DREAL associée au projet rejette le délai pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    await rejeterDemandeDélai.call(this);
-  },
-);
+Quand('la DREAL rejette le délai pour le projet lauréat', async function (this: PotentielWorld) {
+  await rejeterDemandeDélai.call(this);
+});
 
 Quand(
-  'la DREAL associée au projet accorde la demande de délai pour le projet lauréat',
+  'la DREAL accorde la demande de délai pour le projet lauréat',
   async function (this: PotentielWorld) {
     await accorderDemandeDélai.call(this);
   },

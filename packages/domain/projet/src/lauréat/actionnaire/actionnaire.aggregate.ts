@@ -18,6 +18,7 @@ import type { ChangementActionnaireSuppriméEvent } from './changement/supprimer
 import type { SupprimerChangementActionnaireOptions } from './changement/supprimer/supprimerChangementActionnaire.options.js';
 import {
   ActionnaireDéjàTransmisError,
+  ActionnaireOuPièceJustificativeNonModifiésError,
   ChangementActionnaireInexistanteErreur,
   DemandeChangementActionnaireImpossibleError,
   DemandeDeChangementEnCoursError,
@@ -77,6 +78,10 @@ export class ActionnaireAggregate extends AbstractAggregate<
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementEnCoursError();
+    }
+
+    if (!pièceJustificative && this.#actionnaire === actionnaire) {
+      throw new ActionnaireOuPièceJustificativeNonModifiésError();
     }
 
     const event: ActionnaireModifiéEvent = {

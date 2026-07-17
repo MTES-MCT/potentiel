@@ -5,6 +5,7 @@ import { AbstractFixture } from '../../../../fixture.js';
 export interface ModifierActionnaire {
   readonly actionnaire: string;
   readonly dateModification: string;
+  readonly modifiéPar: string;
   readonly raison: string;
 }
 
@@ -24,22 +25,30 @@ export class ModifierActionnaireFixture
     return this.#dateModification;
   }
 
+  #modifiéPar!: string;
+
+  get modifiéPar(): string {
+    return this.#modifiéPar;
+  }
+
   #raison!: string;
 
   get raison(): string {
     return this.#raison;
   }
 
-  créer(partialFixture?: Partial<Readonly<ModifierActionnaire>>): Readonly<ModifierActionnaire> {
+  créer(partialFixture: Partial<Readonly<ModifierActionnaire>>): Readonly<ModifierActionnaire> {
     const fixture = {
       actionnaire: faker.person.fullName(),
       dateModification: faker.date.recent().toISOString(),
       raison: faker.company.catchPhrase(),
+      modifiéPar: faker.internet.email(),
       ...partialFixture,
     };
 
     this.#actionnaire = fixture.actionnaire;
     this.#dateModification = fixture.dateModification;
+    this.#modifiéPar = fixture.modifiéPar;
     this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;

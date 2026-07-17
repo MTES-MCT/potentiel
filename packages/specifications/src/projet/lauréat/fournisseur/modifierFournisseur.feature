@@ -19,7 +19,7 @@ Fonctionnalité: Modifier un fournisseur en tant que DREAL ou DGEC
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                             |
 
     Scénario: Modifier un fournisseur en tant que DREAL
-        Quand la DREAL associée au projet modifie le fournisseur du projet lauréat
+        Quand la DREAL modifie le fournisseur du projet lauréat
         Alors le fournisseur devrait être mis à jour
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification des fournisseurs |

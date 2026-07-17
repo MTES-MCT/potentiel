@@ -29,3 +29,9 @@ export class InstructionObligatoireError extends DomainError {
     super("L'instruction de la demande de changement est obligatoire dans ces conditions");
   }
 }
+
+export class ActionnaireOuPièceJustificativeNonModifiésError extends InvalidOperationError {
+  constructor() {
+    super("L'actionnaire doit être modifié, ou la pièce justificative transmise");
+  }
+}

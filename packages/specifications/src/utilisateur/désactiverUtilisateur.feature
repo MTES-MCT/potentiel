@@ -26,7 +26,7 @@ Fonctionnalité: Désactiver un utilisateur
 
     Scénario: Un porteur de projet désactivé ne reçoit plus d'email
         Etant donné le porteur du projet désactivé
-        Quand la DREAL associée au projet modifie l'actionnaire pour le projet lauréat
+        Quand la DREAL modifie l'actionnaire pour le projet lauréat
         Alors aucun email n'a été envoyé au porteur
         Mais un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |

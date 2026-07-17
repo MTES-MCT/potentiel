@@ -2,24 +2,44 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import type { Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) modifie l'actionnaire pour le projet (lauréat|éliminé)/,
+  /(la DGEC|la DREAL) modifie l'actionnaire pour le projet (lauréat|éliminé)/,
   async function (
     this: PotentielWorld,
-    rôle: 'le DGEC validateur' | 'la DREAL associée au projet',
+    rôle: 'la DGEC' | 'la DREAL',
     statutProjet: 'lauréat' | 'éliminé',
   ) {
     try {
       const { email } = match(rôle)
-        .with('le DGEC validateur', () => this.utilisateurWorld.dgecFixture)
-        .with('la DREAL associée au projet', () => this.utilisateurWorld.drealFixture)
+        .with('la DGEC', () => this.utilisateurWorld.dgecFixture)
+        .with('la DREAL', () => this.utilisateurWorld.drealFixture)
         .exhaustive();
-      await modifierActionnaire.call(this, email, statutProjet);
+      await modifierActionnaire.call(
+        this,
+        statutProjet === 'lauréat'
+          ? this.lauréatWorld.identifiantProjet
+          : this.éliminéWorld.identifiantProjet,
+        { modifiéPar: email },
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  /la DREAL modifie l'actionnaire avec la même valeur sans transmettre de document/,
+  async function (this: PotentielWorld) {
+    try {
+      await modifierActionnaire.call(this, this.lauréatWorld.identifiantProjet, {
+        modifiéPar: this.utilisateurWorld.drealFixture.email,
+        actionnaire: this.candidatureWorld.importerCandidature.dépôtValue.sociétéMère,
+      });
     } catch (error) {
       this.error = error as Error;
     }
@@ -51,17 +71,6 @@ Quand(
         'lauréat',
         this.candidatureWorld.importerCandidature.values.sociétéMèreValue,
       );
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  "le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat",
-  async function (this: PotentielWorld) {
-    try {
-      await modifierActionnaireSansChangement.call(this, this.utilisateurWorld.dgecFixture.email);
     } catch (error) {
       this.error = error as Error;
     }
@@ -111,7 +120,7 @@ Quand(
 );
 
 Quand(
-  "la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat",
+  "la DREAL accorde le changement d'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
       await accorderChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
@@ -122,7 +131,7 @@ Quand(
 );
 
 Quand(
-  "la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat",
+  "la DREAL rejette le changement d'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
       await rejeterChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
@@ -219,38 +228,16 @@ export async function rejeterChangementActionnaire(this: PotentielWorld, utilisa
 
 async function modifierActionnaire(
   this: PotentielWorld,
-  modifiéPar: string,
-  statutProjet?: 'lauréat' | 'éliminé',
+  identifiantProjet: IdentifiantProjet.ValueType,
+  props: { modifiéPar: string; actionnaire?: string },
 ) {
-  const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
-
-  const { actionnaire, dateModification, raison } =
-    this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
+  const { actionnaire, dateModification, modifiéPar, raison } =
+    this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer(props);
 
   await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
-      identifiantUtilisateurValue: modifiéPar,
-      actionnaireValue: actionnaire,
-      dateModificationValue: dateModification,
-      raisonValue: raison,
-    },
-  });
-}
-
-async function modifierActionnaireSansChangement(this: PotentielWorld, modifiéPar: string) {
-  const actionnaire = this.candidatureWorld.importerCandidature.values.sociétéMèreValue;
-
-  const { dateModification, raison } =
-    this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer({
-      actionnaire,
-    });
-
-  await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
-    type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
-    data: {
-      identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: actionnaire,
       dateModificationValue: dateModification,

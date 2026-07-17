@@ -20,9 +20,9 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                   |
 
         Exemples:
-            | l'utilisateur autorisé      |
-            | le DGEC validateur          |
-            | la DREAL associée au projet |
+            | l'utilisateur autorisé |
+            | la DGEC                |
+            | la DREAL               |
 
     Scénario: Modifier l'actionnaire d'un projet lauréat achevé par une dreal ou un admin
         Etant donné une demande d'abandon accordée pour le projet lauréat
@@ -38,9 +38,9 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                   |
 
         Exemples:
-            | l'utilisateur autorisé      |
-            | le DGEC validateur          |
-            | la DREAL associée au projet |
+            | l'utilisateur autorisé |
+            | la DGEC                |
+            | la DREAL               |
 
     Scénario: Modifier l'actionnaire d'un projet lauréat abandonné par une dreal ou un admin
         Etant donné l'achèvement réel transmis pour le projet lauréat
@@ -56,17 +56,14 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                   |
 
         Exemples:
-            | l'utilisateur autorisé      |
-            | le DGEC validateur          |
-            | la DREAL associée au projet |
+            | l'utilisateur autorisé |
+            | la DGEC                |
+            | la DREAL               |
 
-    Scénario: Modifier l'actionnaire avec une valeur identique
-        Quand le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat
-        Alors l'actionnaire du projet lauréat devrait être mis à jour
 
     Scénario: Impossible de modifier l'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
-        Quand le DGEC validateur modifie l'actionnaire pour le projet éliminé
+        Quand la DGEC modifie l'actionnaire pour le projet éliminé
         Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible de modifier l'actionnaire d'un projet lauréat alors qu'un changement d'actionnaire est en cours
@@ -75,5 +72,9 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | période        | 6                           |
             | actionnariat   | investissement-participatif |
         Et une demande de changement d'actionnaire en cours pour le projet lauréat
-        Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
+        Quand la DGEC modifie l'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
+
+    Scénario: Impossible de modifier l'actionnaire d'un projet lauréat avec la même valeur
+        Quand la DREAL modifie l'actionnaire avec la même valeur sans transmettre de document
+        Alors l'utilisateur devrait être informé que "L'actionnaire doit être modifié, ou la pièce justificative transmise"
