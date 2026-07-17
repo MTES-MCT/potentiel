@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';
@@ -12,6 +13,10 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('éliminé.exporterListe')) {
+        throw new AccèsFonctionnalitéRefuséError('éliminé.exporterListe', utilisateur.rôle.nom);
+      }
+
       const { searchParams } = new URL(request.url);
 
       const appelOffre = searchParams.getAll('appelOffre') ?? undefined;

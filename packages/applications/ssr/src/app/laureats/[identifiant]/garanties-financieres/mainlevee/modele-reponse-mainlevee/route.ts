@@ -7,6 +7,7 @@ import {
 } from '@potentiel-applications/document-builder';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
@@ -24,6 +25,19 @@ export const GET = async (
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.accorder')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'garantiesFinancières.mainlevée.accorder',
+          utilisateur.rôle.nom,
+        );
+      }
+      if (!utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.rejeter')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'garantiesFinancières.mainlevée.rejeter',
+          utilisateur.rôle.nom,
+        );
+      }
+
       const { identifiant } = await ctx.params;
       const identifiantProjetValue = decodeParameter(identifiant);
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);

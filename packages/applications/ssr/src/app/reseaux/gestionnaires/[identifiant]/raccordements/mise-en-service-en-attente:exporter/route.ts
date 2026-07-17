@@ -4,6 +4,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -37,6 +38,13 @@ export const GET = async (
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('raccordement.exporterDossierRaccordement')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'raccordement.exporterDossierRaccordement',
+          utilisateur.rôle.nom,
+        );
+      }
+
       const { identifiant } = await ctx.params;
       const identifiantGestionnaireRéseau = decodeParameter(identifiant);
       if (

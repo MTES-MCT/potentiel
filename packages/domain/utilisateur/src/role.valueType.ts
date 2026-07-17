@@ -60,7 +60,7 @@ export const bind = <TRole extends RawType = RawType>({
       const aLaPermission = droitsMessagesMediator[this.nom].has(typeMessage);
 
       if (!aLaPermission) {
-        throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
+        throw new AccèsFonctionnalitéRefuséError(typeMessage as Policy, this.nom);
       }
     },
     estAdmin() {
@@ -938,6 +938,15 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.rejeterMainlevée,
         référencielPermissions.document.command.enregister,
       ],
+      générerModèleMiseEnDemeure: [
+        référencielPermissions.utilisateur.query.consulter,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.query.consulter,
+        référencielPermissions.lauréat.puissance.query.consulter,
+        référencielPermissions.lauréat.représentantLégal.query.consulter,
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .consulterProjetAvecGarantiesFinancièresEnAttente,
+      ],
     },
     enAttente: {
       lister: [
@@ -1025,7 +1034,7 @@ const policies = {
         référencielPermissions.éliminé.recours.query.consulter,
       ],
     },
-    listerDétailsFournisseur: [référencielPermissions.candidature.query.listerDétailsFournisseur],
+    exporterDétailsFournisseur: [référencielPermissions.candidature.query.listerDétailsFournisseur],
   },
   période: {
     consulter: [référencielPermissions.période.query.consulter],
@@ -1432,7 +1441,7 @@ const policies = {
       référencielPermissions.lauréat.query.lister,
       référencielPermissions.appelOffre.query.lister,
     ],
-    listerLauréatEnrichi: [référencielPermissions.lauréat.query.listerLauréatEnrichi],
+    exporterListe: [référencielPermissions.lauréat.query.listerLauréatEnrichi],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
@@ -1452,7 +1461,7 @@ const policies = {
       référencielPermissions.éliminé.query.lister,
       référencielPermissions.appelOffre.query.lister,
     ],
-    listerÉliminéEnrichi: [référencielPermissions.éliminé.query.listerÉliminéEnrichi],
+    exporterListe: [référencielPermissions.éliminé.query.listerÉliminéEnrichi],
   },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
@@ -1719,7 +1728,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'candidature.lister',
   'candidature.exporterListe',
   'candidature.attestation.prévisualiser',
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 
   // Période
   'période.lister',
@@ -1740,7 +1749,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Lauréat
   'lauréat.modifier',
   'lauréat.modifierSiteDeProduction',
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListe',
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
@@ -1802,7 +1811,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 ];
 
 const dgecPolicies: ReadonlyArray<Policy> = [
@@ -1867,7 +1876,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListe',
 
   'projet.accèsDonnées.prix',
   'projet.accèsIdentifiants',
@@ -1938,10 +1947,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 
   // Candidature
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1976,36 +1985,41 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Garanties financières
   'garantiesFinancières.archives.lister',
+  /* dépot */
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.consulter',
+  /* actuelles */
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
+  /* en attente */
   'garantiesFinancières.enAttente.consulter',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
+  /* mainlevée */
   'garantiesFinancières.mainlevée.démarrerInstruction',
   'garantiesFinancières.mainlevée.accorder',
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.rejeter',
+  'garantiesFinancières.mainlevée.générerModèleMiseEnDemeure',
 
   // Attestation conformité
   'achèvement.modifier',
 
   // Candidature
   'candidature.attestation.télécharger',
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 
   // Lauréat
   'lauréat.modifierSiteDeProduction',
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListe',
 
   // Représentant légal
   'représentantLégal.modifier',
@@ -2085,13 +2099,13 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListe',
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -2223,7 +2237,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'nomProjet.listerChangement',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [
@@ -2233,7 +2247,7 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   'projet.accèsDonnées.prix',
   'projet.accèsIdentifiants',
 
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListe',
 
   // Abandon
   'abandon.lister.demandes',
@@ -2329,17 +2343,17 @@ const grdPolicies: ReadonlyArray<Policy> = [
 const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-  'lauréat.listerLauréatEnrichi',
+  'lauréat.exporterListe',
   'projet.accèsDonnées.prix',
 
   // Statistiques
   'statistiquesDGEC.consulter',
 
   // Éliminé
-  'éliminé.listerÉliminéEnrichi',
+  'éliminé.exporterListe',
 
   // Candidature
-  'candidature.listerDétailsFournisseur',
+  'candidature.exporterDétailsFournisseur',
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {

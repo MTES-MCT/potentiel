@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import type { Lauréat } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
@@ -25,6 +26,19 @@ export const GET = async (
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('actionnaire.accorderChangement')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'actionnaire.accorderChangement',
+          utilisateur.rôle.nom,
+        );
+      }
+      if (!utilisateur.rôle.aLaPermission('actionnaire.rejeterChangement')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'actionnaire.rejeterChangement',
+          utilisateur.rôle.nom,
+        );
+      }
+
       const { identifiant } = await ctx.params;
       const identifiantProjet = decodeParameter(identifiant);
       const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';

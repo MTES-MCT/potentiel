@@ -152,7 +152,7 @@ const mapToAction: MapToAction = (
     });
   }
 
-  if (utilisateur.rôle.aLaPermission('lauréat.listerLauréatEnrichi')) {
+  if (utilisateur.rôle.aLaPermission('lauréat.exporterListe')) {
     actions.push({
       type: 'lister-lauréat-enrichi',
       label: 'Projets lauréats',
@@ -162,7 +162,7 @@ const mapToAction: MapToAction = (
     });
   }
 
-  if (utilisateur.rôle.aLaPermission('éliminé.listerÉliminéEnrichi')) {
+  if (utilisateur.rôle.aLaPermission('éliminé.exporterListe')) {
     actions.push({
       type: 'lister-éliminé-enrichi',
       label: 'Projets éliminés',
@@ -173,7 +173,7 @@ const mapToAction: MapToAction = (
     });
   }
 
-  if (utilisateur.rôle.aLaPermission('candidature.listerDétailsFournisseur')) {
+  if (utilisateur.rôle.aLaPermission('candidature.exporterDétailsFournisseur')) {
     actions.push({
       type: 'exporter-fournisseur',
       label: 'Données fournisseur à la candidature',

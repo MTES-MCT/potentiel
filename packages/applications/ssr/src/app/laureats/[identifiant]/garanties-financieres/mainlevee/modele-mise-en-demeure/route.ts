@@ -7,6 +7,7 @@ import {
 } from '@potentiel-applications/document-builder';
 import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
@@ -23,6 +24,15 @@ export const GET = async (
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      if (
+        !utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.générerModèleMiseEnDemeure')
+      ) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'garantiesFinancières.mainlevée.générerModèleMiseEnDemeure',
+          utilisateur.rôle.nom,
+        );
+      }
+
       const { identifiant } = await ctx.params;
       const identifiantProjet = decodeParameter(identifiant);
 

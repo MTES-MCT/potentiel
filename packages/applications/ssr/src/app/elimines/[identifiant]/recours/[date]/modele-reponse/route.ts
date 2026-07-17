@@ -7,6 +7,7 @@ import {
 } from '@potentiel-applications/document-builder';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat, type Éliminé } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
@@ -23,6 +24,13 @@ export const GET = async (
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('recours.accorder')) {
+        throw new AccèsFonctionnalitéRefuséError('recours.accorder', utilisateur.rôle.nom);
+      }
+      if (!utilisateur.rôle.aLaPermission('recours.rejeter')) {
+        throw new AccèsFonctionnalitéRefuséError('recours.rejeter', utilisateur.rôle.nom);
+      }
+
       const { identifiant, date } = await ctx.params;
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
