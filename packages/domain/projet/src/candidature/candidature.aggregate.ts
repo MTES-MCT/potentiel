@@ -191,8 +191,6 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
 
-    // TODO : vérifier si volume réservé, si l'appel d'offres le permet ?
-
     if (candidature.instruction.statut.estClassé()) {
       this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
     }
@@ -226,8 +224,6 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
-
-    // TODO : vérifier si volume réservé, si l'appel d'offres le permet ?
 
     if (candidature.instruction.statut.estClassé()) {
       this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
