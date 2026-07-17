@@ -21,6 +21,10 @@ export type DétailsCandidature = {
     natureExacteDuTerrain: string | undefined;
     dateObtentionCETI: string | undefined;
     composantsRésilients: string | undefined;
+    typeDeZonePluOuPlui: string | undefined;
+    typeDeZonePos: string | undefined;
+    typeDeZoneAutres: string | undefined;
+    trackers: boolean | undefined;
   };
   innovation?: {
     note: number | undefined;

@@ -60,6 +60,37 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       label: [[{ typeImport: 'démarche-numérique' }, 'Composants résilients']],
       mapper: mapToString,
     },
+    typeDeZonePluOuPlui: {
+      label: [
+        [
+          { typeImport: 'démarche-numérique' },
+          'Type de zone pour les implantations sur PLU ou PLUi',
+        ],
+      ],
+      mapper: mapToString,
+    },
+    typeDeZonePos: {
+      label: [
+        [{ typeImport: 'démarche-numérique' }, 'Type de zone pour les implantations sur POS'],
+      ],
+      mapper: mapToString,
+    },
+    typeDeZoneAutres: {
+      label: [
+        [{ typeImport: 'démarche-numérique' }, 'Type de zone pour les implantations "Autres"'],
+      ],
+      mapper: mapToString,
+    },
+    trackers: {
+      label: [
+        [{ typeImport: 'csv' }, 'Technologie (Dispositifs de suivi de la course du soleil *)'],
+        [
+          { typeImport: 'démarche-numérique' },
+          "L'Installation est-elle équipée d'un dispositif de suivi de la course du soleil (Trackers) ?",
+        ],
+      ],
+      mapper: mapToBoolean,
+    },
   },
   éolien: {
     technologie: {
