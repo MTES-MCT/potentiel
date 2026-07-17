@@ -65,6 +65,31 @@ test('Doit récupérer les données du payload correspondant au template', () =>
   expect(actual).to.deep.equal(expected);
 });
 
+test('Donnée non rattachée à un AO spécifique', () => {
+  const payload = {
+    'Composants résilients': 'test',
+  };
+
+  const expected: Candidature.DétailsCandidature = {
+    ...commonExpected,
+    pv: {
+      typeTerrainImplantation: undefined,
+      dateObtentionCETI: undefined,
+      natureExacteDuTerrain: undefined,
+      surfaceProjetéeAuSol: undefined,
+      surfaceTotaleTerrainImplantation: undefined,
+      composantsRésilients: 'test',
+    },
+  };
+
+  const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
+    appelOffre: 'PPE2 - Sol',
+    typeImport: 'démarche-numérique',
+  });
+
+  expect(actual).to.deep.equal(expected);
+});
+
 test("Appel d'offres non concerné par des données de détail vérifiées : ne pas retourner de valeurs non attendues", () => {
   const payload = {
     'Diamètre du rotor (m) (AO éolien)': '30', // propre à l'AO éolien donc à ignorer pour les autres AOs
