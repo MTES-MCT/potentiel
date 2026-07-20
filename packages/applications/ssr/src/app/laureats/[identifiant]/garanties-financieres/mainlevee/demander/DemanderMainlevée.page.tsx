@@ -43,20 +43,20 @@ export const DemanderMainlevéePage = ({
             severity="info"
             title="Veuillez vérifier l’exactitude des pièces suivantes, déposées sur Potentiel :"
             description={
-              <span className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4">
                 <ul className="list-disc ml-4 mt-2">
                   <li>L'attestation de conformité,</li>
                   <li>Le rapport associé.</li>
                 </ul>
-                <span>
+                <p>
                   Ces documents seront vérifiés par les services de l’État en région afin
                   d’instruire votre demande de mainlevée. Vous pouvez, au besoin, vous rendre sur{' '}
                   <Link href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet)}>
                     le formulaire dédié pour les modifier
                   </Link>
                   .
-                </span>
-              </span>
+                </p>
+              </div>
             }
           />
         ) : null,
