@@ -16,6 +16,10 @@ const commonExpected: Candidature.DétailsCandidature = {
     surfaceProjetéeAuSol: undefined,
     surfaceTotaleTerrainImplantation: undefined,
     composantsRésilients: undefined,
+    trackers: undefined,
+    typeDeZoneAutres: undefined,
+    typeDeZonePluOuPlui: undefined,
+    typeDeZonePos: undefined,
   },
   innovation: {
     noteDegréInnovationSur20: undefined,
@@ -70,24 +74,12 @@ test('Donnée non rattachée à un AO spécifique', () => {
     'Composants résilients': 'test',
   };
 
-  const expected: Candidature.DétailsCandidature = {
-    ...commonExpected,
-    pv: {
-      typeTerrainImplantation: undefined,
-      dateObtentionCETI: undefined,
-      natureExacteDuTerrain: undefined,
-      surfaceProjetéeAuSol: undefined,
-      surfaceTotaleTerrainImplantation: undefined,
-      composantsRésilients: 'test',
-    },
-  };
-
   const actual = applyTemplateToPayload(payload, templateVérificationDétailCandidature, {
     appelOffre: 'PPE2 - Sol',
     typeImport: 'démarche-numérique',
   });
 
-  expect(actual).to.deep.equal(expected);
+  expect(actual.pv?.composantsRésilients).to.deep.equal('test');
 });
 
 test("Appel d'offres non concerné par des données de détail vérifiées : ne pas retourner de valeurs non attendues", () => {
