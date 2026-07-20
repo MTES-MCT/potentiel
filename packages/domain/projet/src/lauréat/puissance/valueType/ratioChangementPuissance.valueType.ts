@@ -1,15 +1,14 @@
 import { InvalidOperationError, type PlainType } from '@potentiel-domain/core';
 
-import { VolumeRéservé } from '../index.js';
-
 export type RawType = number;
 
 export type ValueType = {
+  estDansLeVolumeRéservé: boolean | undefined;
   puissanceInitiale: number;
   nouvellePuissance: number;
   ratios: { min: number; max: number };
   puissanceMaxFamille: number | undefined;
-  volumeRéservé: VolumeRéservé.ValueType | undefined;
+  puissanceMaxVolumeRéservé: number | undefined;
   vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
   vérifierQueLaDécisionDÉtatEstPossible: () => void;
   dépasseRatiosChangementPuissance: () => boolean;
@@ -20,9 +19,10 @@ export type ValueType = {
 export const bind = ({
   nouvellePuissance,
   puissanceInitiale,
-  volumeRéservé,
+  puissanceMaxVolumeRéservé,
   ratios: ratiosCdcActuel,
   puissanceMaxFamille,
+  estDansLeVolumeRéservé,
 }: PlainType<ValueType>): ValueType => {
   const ratio = nouvellePuissance / puissanceInitiale;
   return {
@@ -30,7 +30,8 @@ export const bind = ({
     puissanceMaxFamille,
     nouvellePuissance,
     puissanceInitiale,
-    volumeRéservé: volumeRéservé ? VolumeRéservé.bind(volumeRéservé) : undefined,
+    puissanceMaxVolumeRéservé,
+    estDansLeVolumeRéservé,
     dépasseRatiosChangementPuissance() {
       return ratio < this.ratios.min || ratio > this.ratios.max;
     },
@@ -40,8 +41,11 @@ export const bind = ({
         ? this.nouvellePuissance > this.puissanceMaxFamille
         : false;
     },
+
     dépassePuissanceMaxDuVolumeRéservé() {
-      return this.volumeRéservé?.dépassePuissanceMax(this.nouvellePuissance) ?? false;
+      return estDansLeVolumeRéservé && this.puissanceMaxVolumeRéservé
+        ? this.nouvellePuissance > this.puissanceMaxVolumeRéservé
+        : false;
     },
     vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
       if (this.dépassePuissanceMaxFamille()) {

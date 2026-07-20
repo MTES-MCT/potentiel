@@ -91,6 +91,7 @@ describe('Schema candidature CSV', () => {
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: undefined,
       numéroIdentification: { siret: '54205118000096' },
+      volumeRéservé: undefined,
     };
 
     deepEqualWithRichDiff(result.data, expected);
@@ -140,6 +141,7 @@ describe('Schema candidature CSV', () => {
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: 1,
       numéroIdentification: { siret: '54205118000096' },
+      volumeRéservé: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -179,6 +181,7 @@ describe('Schema candidature CSV', () => {
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
       statut: 'classé',
+      volumeRéservé: undefined,
       motifÉlimination: undefined,
       puissanceALaPointe: true,
       numéroIdentification: { siret: '54205118000096' },

@@ -23,10 +23,10 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   puissance,
   puissanceDeSite,
   cahierDesCharges,
-  volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
   infosCahierDesChargesPuissanceDeSite,
+  estDansLeVolumeRéservé,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementPuissanceFormKeys>
@@ -41,7 +41,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     ratios: cdcActuel.getRatiosChangementPuissance(),
     puissanceInitiale,
     nouvellePuissance,
-    volumeRéservé,
+    estDansLeVolumeRéservé,
+    puissanceMaxVolumeRéservé: cdcActuel.période.volumeRéservé?.puissanceMax,
   });
 
   const dépasseLesRatioDeAppelOffres = ratioCdcActuel.dépasseRatiosChangementPuissance();

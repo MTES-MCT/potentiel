@@ -5,7 +5,7 @@ import { Font, renderToStream } from '@react-pdf/renderer';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { DateTime } from '@potentiel-domain/common';
-import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
 import type { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
@@ -126,11 +126,7 @@ const mapToCertificateData = ({
       engagementFournitureDePuissanceAlaPointe: candidature.dépôt.puissanceALaPointe,
       motifsElimination: candidature.instruction.motifÉlimination ?? '',
 
-      estDansLeVolumeRéservé: Lauréat.Puissance.VolumeRéservé.déterminer({
-        puissanceInitiale: candidature.dépôt.puissance,
-        note: candidature.instruction.noteTotale,
-        période,
-      })?.estDansLeVolumeRéservé,
+      estDansLeVolumeRéservé: candidature.instruction.volumeRéservé,
       coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
       autorisation: candidature.dépôt.autorisation
         ? {

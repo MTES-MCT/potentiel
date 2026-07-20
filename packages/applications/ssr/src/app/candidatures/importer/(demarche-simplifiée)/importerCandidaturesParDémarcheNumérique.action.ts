@@ -39,6 +39,7 @@ const instructionCsvSchema = zod.object({
   statut: statutCsvSchema,
   note: instructionSchema.shape.noteTotale,
   motifElimination: instructionSchema.shape.motifÉlimination,
+  volumeReserve: instructionSchema.shape.volumeRéservé,
 });
 
 const convertirKWcEnMWc = (value: number) => Number((value / 1000).toFixed(6));
@@ -84,6 +85,16 @@ const action: FormAction<FormState, typeof schema> = async (
       throw new InvalidOperationError(`L'appel d'offres ${appelOffre} est introuvable`);
     }
 
+    const détailPériode = détailAppelOffres.periodes.find((p) => p.id === periode);
+
+    if (!détailPériode) {
+      throw new InvalidOperationError(
+        `La période ${periode} de l'appel d'offres ${appelOffre} est introuvable`,
+      );
+    }
+
+    const périodeAvecVolumeRéservé = !!détailPériode.volumeRéservé;
+
     const candidatures: Omit<
       Candidature.ImporterCandidatureUseCase['data'],
       'importéLe' | 'importéPar'
@@ -96,8 +107,24 @@ const action: FormAction<FormState, typeof schema> = async (
       throw new InvalidOperationError(`La démarche ${démarcheId} est introuvable`);
     }
 
-    for (const { numeroDossierDN, statut, note, motifElimination } of instructions) {
+    for (const { numeroDossierDN, statut, note, motifElimination, volumeReserve } of instructions) {
       let key = `Dossier ${numeroDossierDN}`;
+
+      if (périodeAvecVolumeRéservé && volumeReserve === undefined) {
+        errors.push({
+          key,
+          reason: `Vous devez compléter la colonne "volumeReserve" par "oui" ou "non" pour tous les candidats de cette période`,
+        });
+        continue;
+      }
+
+      if (!périodeAvecVolumeRéservé && volumeReserve !== undefined) {
+        errors.push({
+          key,
+          reason: `Cette période n'est pas concernée par un volume réservé, la colonne "volumeReserve" doit rester vide`,
+        });
+        continue;
+      }
 
       const dossier = dossiers.find((d) => d.numeroDN === numeroDossierDN);
 
@@ -116,6 +143,7 @@ const action: FormAction<FormState, typeof schema> = async (
           statut,
           noteTotale: note,
           motifÉlimination: motifElimination,
+          volumeRéservé: volumeReserve,
         } satisfies Record<keyof Candidature.Instruction.RawType, unknown>);
 
         candidatures.push({

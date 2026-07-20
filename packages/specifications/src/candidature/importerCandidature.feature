@@ -18,6 +18,13 @@ Fonctionnalité: Importer une candidature
             | obligation de solarisation | oui    |
         Alors la candidature devrait être consultable
 
+    Scénario: Importer une candidature avec un champ optionnel "volume réservé"
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Sol |
+            | statut         | classé     |
+            | volume réservé | oui        |
+        Alors la candidature devrait être consultable    
+
     Scénario: Importer une candidature avec un champ optionnel "installateur"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
@@ -201,6 +208,22 @@ Fonctionnalité: Importer une candidature
             | appel d'offres | PPE2 - Bâtiment |
             | installateur   | M. Bricolage    |
         Alors la dgec devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
+
+    Plan du scénario: Impossible d'importer une candidature sans information sur le volume réservé pour un appel d'offres qui a ce champ requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offres | <Appel d'offres> |
+            | volume réservé |                  |
+        Alors la dgec devrait être informé que "Le champ volume réservé est requis pour cet appel d'offres"
+        Exemples:
+            | Appel d'offres  |    
+            | PPE2 - Sol      |  
+            | PPE2 - Bâtiment |  
+
+    Scénario: Impossible d'importer une candidature avec information sur le volume réservé pour un appel d'offres qui n'a pas ce champ requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Eolien |
+            | volume réservé | oui           |
+        Alors la dgec devrait être informé que "Le champ volume réservé ne peut être renseigné pour cet appel d'offres"         
 
     # Ce cas n'existe pas dans le référentiel AO à date (avril 2026)
     @NotImplemented

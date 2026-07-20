@@ -47,6 +47,8 @@ export const notifiedOnCsvSchema = z.undefined({
 });
 export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
 
+export const volumeRéservéSchema = optionalOuiNonVideSchema;
+
 export const installationsAgrivoltaïquesCsvSchema = optionalEnum(
   z.enum(['culture', 'jachère de plus de 5 ans', 'élevage', 'serre']),
 );

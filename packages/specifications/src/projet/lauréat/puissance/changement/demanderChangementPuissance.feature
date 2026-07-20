@@ -124,9 +124,9 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Sol |
             | période        | 3          |
-            | note totale    | 34         |
-            | puissance      | 1          |
-        # le volume réservé de l'AO est de 5
+            | puissance      | 5          |
+            | volume réservé | oui        |
+        # la puissance du volume réservé de la période est de 5
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 6 |
         Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé"

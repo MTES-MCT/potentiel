@@ -22,7 +22,6 @@ import {
   type ConsulterPuissanceDependencies,
   registerConsulterPuissanceQuery,
 } from './consulter/consulterPuissance.query.js';
-import { registerConsulterVolumeRéservéQuery } from './consulter/consulterVolumeRéservé.query.js';
 import {
   type ListerHistoriquePuissanceProjetDependencies,
   registerListerHistoriquePuissanceProjetQuery,
@@ -63,5 +62,4 @@ export const registerPuissanceQueries = (dependencies: PuissanceQueryDependencie
   registerConsulterChangementPuissanceQuery(dependencies);
   registerListerChangementPuissanceQuery(dependencies);
   registerListerHistoriquePuissanceProjetQuery(dependencies);
-  registerConsulterVolumeRéservéQuery(dependencies);
 };

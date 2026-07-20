@@ -302,8 +302,9 @@ export class PuissanceAggregate extends AbstractAggregate<
       ratios: this.lauréat.projet.cahierDesChargesActuel.getRatiosChangementPuissance(),
       puissanceInitiale: this.lauréat.projet.candidature.puissance,
       puissanceMaxFamille: this.lauréat.projet.famille?.puissanceMax,
+      puissanceMaxVolumeRéservé: this.lauréat.parent.période.volumeRéservé?.puissanceMax,
       nouvellePuissance,
-      volumeRéservé: this.lauréat.projet.candidature.volumeRéservé,
+      estDansLeVolumeRéservé: this.lauréat.parent.candidature.instruction.volumeRéservé,
     });
   }
 

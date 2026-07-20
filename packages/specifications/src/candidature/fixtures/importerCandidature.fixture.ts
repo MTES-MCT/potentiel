@@ -7,6 +7,7 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture, type DeepPartial } from '../../fixture.js';
+import { getAppelOffresChampsSupplémentaires } from '../../helpers/getAppelOffresChampsSupplémentaires.js';
 
 interface ImporterCandidature {
   dépôtValue: Candidature.Dépôt.RawType;
@@ -94,12 +95,22 @@ export class ImporterCandidatureFixture
 
     const dépôtValue = créerDépôt(identifiantProjet, dépôt);
 
+    const champsSupplémentaires = getAppelOffresChampsSupplémentaires({
+      appelOffresId: identifiantProjet.appelOffre,
+      périodeId: identifiantProjet.période,
+    });
+
+    const defaultVolumeRéservé =
+      champsSupplémentaires.volumeRéservé?.type === 'requis' ? faker.datatype.boolean() : undefined;
+
     const instructionValue: ImporterCandidature['instructionValue'] = {
       motifÉlimination:
         instruction.motifÉlimination ??
         (instruction.statut === 'éliminé' ? faker.word.words() : undefined),
       noteTotale: instruction.noteTotale ?? faker.number.int({ min: 0, max: 5 }),
       statut: instruction.statut,
+      volumeRéservé:
+        'volumeRéservé' in instruction ? instruction.volumeRéservé : defaultVolumeRéservé,
     };
 
     const détailsValue: ImporterCandidature['détailsValue'] = {
@@ -144,17 +155,14 @@ const créerDépôt = (
   identifiantProjet: IdentifiantProjet.ValueType,
   dépôt: Omit<DeepPartial<ImporterCandidature['dépôtValue']>, 'fournisseurs'> = {},
 ) => {
-  const { appelOffre, période } = identifiantProjet;
+  const { appelOffre: appelOffresId, période: périodeId } = identifiantProjet;
 
-  const aoData = appelsOffreData.find((x) => x.id === appelOffre);
-  const référentielPériode = appelsOffreData
-    .find((ao) => ao.id === appelOffre)
-    ?.periodes.find((p) => p.id === période);
+  const appelOffresDetails = appelsOffreData.find((ao) => ao.id === appelOffresId);
 
-  const champsSupplémentaires = {
-    ...aoData?.champsSupplémentaires,
-    ...référentielPériode?.champsSupplémentaires,
-  };
+  const champsSupplémentaires = getAppelOffresChampsSupplémentaires({
+    appelOffresId,
+    périodeId,
+  });
 
   const localité: Candidature.Localité.RawType = {
     adresse1: faker.location.streetAddress(),
@@ -167,7 +175,7 @@ const créerDépôt = (
     typeGarantiesFinancières: dépôt?.typeGarantiesFinancières ?? 'consignation',
     nomProjet: faker.company.name(),
     nomCandidat: faker.person.fullName(),
-    technologie: aoData?.multiplesTechnologies
+    technologie: appelOffresDetails?.multiplesTechnologies
       ? faker.helpers.arrayElement(AppelOffre.technologies)
       : 'N/A',
     emailContact: faker.internet.email(),
@@ -186,12 +194,12 @@ const créerDépôt = (
     dateÉchéanceGf: undefined,
     dateConstitutionGf: undefined,
     coefficientKChoisi:
-      champsSupplémentaires?.coefficientKChoisi?.type === 'requis'
+      champsSupplémentaires.coefficientKChoisi?.type === 'requis'
         ? faker.datatype.boolean()
         : undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
-      champsSupplémentaires?.puissanceDeSite?.type === 'requis'
+      champsSupplémentaires.puissanceDeSite?.type === 'requis'
         ? faker.number.int({ min: 1, max: 100 })
         : undefined,
     fournisseurs: [
@@ -207,7 +215,7 @@ const créerDépôt = (
     localité,
     autorisation: getAutorisationFixture(
       dépôt.autorisation,
-      champsSupplémentaires?.autorisation?.type === 'requis',
+      champsSupplémentaires.autorisation?.type === 'requis',
     ),
     typologieInstallation: champsSupplémentaires?.typologieInstallation
       ? [{ typologie: 'bâtiment.neuf' }]
@@ -217,11 +225,11 @@ const créerDépôt = (
       : undefined,
     dispositifDeStockage: getDispositifDeStockageFixture(
       dépôt.dispositifDeStockage,
-      champsSupplémentaires?.dispositifDeStockage?.type === 'requis',
+      champsSupplémentaires.dispositifDeStockage?.type === 'requis',
     ),
     natureDeLExploitation: getNatureDeLExploitationFixture(
       dépôt.natureDeLExploitation,
-      champsSupplémentaires?.natureDeLExploitation?.type === 'requis',
+      champsSupplémentaires.natureDeLExploitation?.type === 'requis',
     ),
     raccordements: dépôt.raccordements?.every((r) => r?.référence && r.dateQualification)
       ? (dépôt.raccordements as Candidature.Dépôt.RawType['raccordements'])

@@ -82,7 +82,7 @@ export const DemanderChangementPuissanceFormErrors = ({
               Votre projet étant dans le volume réservé, les modifications de la puissance installée
               ne peuvent pas dépasser le plafond de puissance de{' '}
               <strong>
-                {ratioCdcActuel.volumeRéservé?.puissanceMax} {unitéPuissance}
+                {ratioCdcActuel.puissanceMaxVolumeRéservé} {unitéPuissance}
               </strong>{' '}
               spécifié au paragraphe 1.2.2 du cahier des charges.
             </span>
