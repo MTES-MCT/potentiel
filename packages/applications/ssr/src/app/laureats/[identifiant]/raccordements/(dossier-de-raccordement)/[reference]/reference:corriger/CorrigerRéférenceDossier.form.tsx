@@ -72,6 +72,13 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
               .none(() => (
                 <></>
               ))}
+            <div className="flex flex-wrap items-center gap-2">
+              <span>Caractères interdits :</span>
+
+              {['?', '*', ':', ';', '{', '}', '\\'].map((char) => (
+                <code key={char}>{char}</code>
+              ))}
+            </div>
           </>
         }
         state={validationErrors['referenceDossierCorrigee'] ? 'error' : 'default'}

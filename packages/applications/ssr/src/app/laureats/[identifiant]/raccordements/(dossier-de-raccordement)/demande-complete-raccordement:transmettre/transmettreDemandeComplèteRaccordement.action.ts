@@ -6,6 +6,7 @@ import * as zod from 'zod';
 import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 
+import { référenceRaccordementSchema } from '@/utils/candidature';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
@@ -14,7 +15,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1),
   identifiantGestionnaireReseau: zod.string().optional(),
-  referenceDossier: zod.string().min(1),
+  referenceDossier: référenceRaccordementSchema,
   accuseReception: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 

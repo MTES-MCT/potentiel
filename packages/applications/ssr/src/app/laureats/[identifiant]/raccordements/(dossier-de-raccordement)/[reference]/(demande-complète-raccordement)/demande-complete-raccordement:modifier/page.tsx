@@ -86,7 +86,7 @@ export default async function Page(props0: PageProps) {
         gestionnaireRéseau: Option.isSome(gestionnaireRéseau) ? gestionnaireRéseau : undefined,
         identifiantProjet,
         dossierRaccordement,
-        listeGestionnairesRéseau: listeGestionnairesRéseau,
+        listeGestionnairesRéseau,
       });
 
       return (

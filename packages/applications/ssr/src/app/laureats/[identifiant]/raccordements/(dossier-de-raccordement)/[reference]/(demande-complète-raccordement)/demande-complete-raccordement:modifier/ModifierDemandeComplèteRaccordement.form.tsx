@@ -64,12 +64,20 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     useState<string | undefined>(gestionnaireRéseauActuel?.identifiantGestionnaireRéseau);
 
   const aideSaisieRéférenceDossierRaccordement = selectedIdentifiantGestionnaireRéseau
-    ? listeGestionnairesRéseau?.find(
-        (gestionnaire) =>
-          gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
-          selectedIdentifiantGestionnaireRéseau,
-      )?.aideSaisieRéférenceDossierRaccordement
+    ? selectedIdentifiantGestionnaireRéseau ===
+      gestionnaireRéseauActuel?.identifiantGestionnaireRéseau
+      ? gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement
+      : listeGestionnairesRéseau?.find(
+          (gestionnaire) =>
+            gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
+            selectedIdentifiantGestionnaireRéseau,
+        )?.aideSaisieRéférenceDossierRaccordement
     : undefined;
+
+  const expression =
+    typeof aideSaisieRéférenceDossierRaccordement?.expressionReguliere === 'string'
+      ? aideSaisieRéférenceDossierRaccordement.expressionReguliere
+      : aideSaisieRéférenceDossierRaccordement?.expressionReguliere.expression;
 
   return (
     <Form
@@ -131,6 +139,13 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
                     Exemple : {aideSaisieRéférenceDossierRaccordement.légende}
                   </div>
                 )}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span>Caractères interdits :</span>
+
+                  {['?', '*', ':', ';', '{', '}', '\\'].map((char) => (
+                    <code key={char}>{char}</code>
+                  ))}
+                </div>
               </>
             )
           }
@@ -144,11 +159,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
               : `Renseigner l'identifiant`,
             required: true,
             defaultValue: référence.value ?? '',
-            pattern:
-              aideSaisieRéférenceDossierRaccordement &&
-              !Option.isNone(aideSaisieRéférenceDossierRaccordement.expressionReguliere)
-                ? aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression
-                : undefined,
+            pattern: expression,
           }}
         />
       ) : (

@@ -36,7 +36,7 @@ export function assertNoError<TOutput>(
 
 export function assertError<TOutput>(
   result: ZodSafeParseResult<TOutput>,
-  path: string[],
+  path: Array<string | number>,
   message: string,
   index = 0,
 ): asserts result is ZodSafeParseResult<TOutput> {

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, ExpressionRegulière } from '@potentiel-domain/common';
 import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
@@ -209,6 +209,14 @@ const numéroIdentificationSchema = z
         : undefined,
   );
 
+export const référenceRaccordementSchema = z
+  .string()
+  .min(1)
+  .regex(ExpressionRegulière.nomRépertoireDocumentValide.regex(), {
+    message:
+      'La référence du dossier contient un ou plusieurs caractères non autorisés parmi "?", "*", ":", ";", "{", "}" et "\\"',
+  });
+
 export const dépôtSchema = z
   .object({
     nomProjet: requiredStringSchema,
@@ -246,7 +254,7 @@ export const dépôtSchema = z
     raccordements: z
       .array(
         z.object({
-          référence: z.string(),
+          référence: référenceRaccordementSchema,
           dateQualification: z
             .string()
             .transform((val) => DateTime.convertirEnValueType(new Date(val)).formatter()),

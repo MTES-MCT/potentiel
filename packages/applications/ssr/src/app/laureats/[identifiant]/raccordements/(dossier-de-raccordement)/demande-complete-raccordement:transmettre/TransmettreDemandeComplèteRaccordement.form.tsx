@@ -122,6 +122,13 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
               .none(() => (
                 <></>
               ))}
+            <div className="flex flex-wrap items-center gap-2">
+              <span>Caractères interdits :</span>
+
+              {['?', '*', ':', ';', '{', '}', '\\'].map((char) => (
+                <code key={char}>{char}</code>
+              ))}
+            </div>
           </div>
         }
         state={validationErrors['referenceDossier'] ? 'error' : 'default'}
