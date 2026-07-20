@@ -4,6 +4,7 @@ import { createDossierAccessor, type GetDossierQuery } from '../../graphql/index
 import { getCoordonnées } from '../getters/getCoordonnées.js';
 import { getDateÉchéanceGarantiesFinancières } from '../getters/getDateÉchéanceGarantiesFinancières.js';
 import { getNuméroIdentification } from '../getters/getNuméroIdentification.js';
+import { getPuissanceInstallée } from '../getters/getPuissance.js';
 import {
   getAutorisation,
   getDateConstitutionGarantiesFinancières,
@@ -25,7 +26,6 @@ const colonnes = {
   nomReprésentantLégal: `NOM et Prénom du représentant légal`,
   emailContact: 'Adresse électronique du contact',
   nomProjet: 'Nom du projet',
-  puissance: 'Puissance installée',
   puissanceDuProjetInitial: 'Puissance initiale du parc',
   puissanceDeSite: 'Puissance P+Q',
   prixReference: 'Prix unitaire de référence',
@@ -68,6 +68,11 @@ export const mapApiResponseToDépôt = ({
     tauxPrévisionnelACC: "Taux d'autoconsommation collective (ACC) prévisionnel",
   } satisfies Record<keyof Candidature.Dépôt.RawType['natureDeLExploitation'], string>);
 
+  const accessorPuissance = createDossierAccessor(champs, {
+    puissanceInstallée: 'Puissance installée',
+    puissanceInstalléeP: 'Puissance installée P',
+  } satisfies Record<string, string>);
+
   const accessorTypeActionnariat = createDossierAccessor(champs, {
     gouvernancePartagée: "Le projet fait-il l'objet d'un engagement à la gouvernance partagée ?",
     financementCollectif: "Le projet fait-il l'objet d'un engagement au financement collectif ?",
@@ -105,7 +110,11 @@ export const mapApiResponseToDépôt = ({
 
     //  2. Identification du projet
     nomProjet,
-    puissance: accessor.getNumberValue('puissance'),
+    puissance: getPuissanceInstallée({
+      accessor: accessorPuissance,
+      nomChampPuissanceInstallée: 'puissanceInstallée',
+      nomChampPuissanceInstalléeP: 'puissanceInstalléeP',
+    }),
     puissanceDeSite: accessor.getNumberValue('puissanceDeSite'),
     puissanceDuProjetInitial: accessor.getNumberValue('puissanceDuProjetInitial'),
     prixReference: accessor.getNumberValue('prixReference'),
