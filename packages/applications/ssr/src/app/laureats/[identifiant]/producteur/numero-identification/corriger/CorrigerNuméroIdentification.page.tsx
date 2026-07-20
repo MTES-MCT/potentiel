@@ -38,10 +38,11 @@ export const CorrigerNuméroIdentificationPage: FC<CorrigerNuméroIdentification
             severity="info"
             title="Producteur"
             description={
-              <div>
+              <span>
+                <br />
                 Si vous souhaitez modifier le producteur, veuillez vous rendre sur le formulaire
                 dédié.
-              </div>
+              </span>
             }
             link={{
               linkProps: {

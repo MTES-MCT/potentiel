@@ -1,4 +1,4 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -39,7 +39,7 @@ export const DemanderMainlevéePage = ({
     rightColumn={{
       children:
         prérequisComplétés && motif === 'projet-achevé' ? (
-          <Notice
+          <Alert
             severity="info"
             title="Veuillez vérifier l’exactitude des pièces suivantes, déposées sur Potentiel :"
             description={

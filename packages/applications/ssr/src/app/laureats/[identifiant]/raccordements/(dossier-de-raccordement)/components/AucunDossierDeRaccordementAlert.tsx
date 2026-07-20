@@ -11,22 +11,29 @@ export const AucunDossierDeRaccordementAlert = ({ identifiantProjet, showLink = 
     severity="info"
     title="Données de raccordement à compléter"
     description={
-      <div className="flex flex-col gap-3 mt-3">
-        <p>Vous n'avez pas encore transmis votre demande complète de raccordement sur Potentiel.</p>
-        <p>
+      <>
+        <br />
+        <span>
+          Vous n'avez pas encore transmis votre demande complète de raccordement sur Potentiel.
+        </span>
+        <br />
+        <span>
           L'accusé de réception de cette demande ainsi que les documents complémentaires transmis
           sur Potentiel faciliteront vos démarches administratives avec les différents acteurs
           connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).
-        </p>
+        </span>
         {showLink && (
-          <Link
-            href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
-            className="font-semibold w-fit"
-          >
-            Mettre à jour votre dossier de raccordement
-          </Link>
+          <>
+            <br />
+            <Link
+              href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
+              className="font-semibold w-fit"
+            >
+              Mettre à jour votre dossier de raccordement
+            </Link>
+          </>
         )}
-      </div>
+      </>
     }
   />
 );
