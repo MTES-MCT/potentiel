@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import { référenceRaccordemenSchema } from '@/utils/candidature';
+import { référenceRaccordementSchema } from '@/utils/candidature';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -15,7 +15,7 @@ export type CorrigerRéférenceDossierFormKeys = keyof zod.infer<typeof schema>;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  referenceDossier: référenceRaccordemenSchema,
+  referenceDossier: référenceRaccordementSchema,
   referenceDossierCorrigee: zod.string().min(1),
 });
 

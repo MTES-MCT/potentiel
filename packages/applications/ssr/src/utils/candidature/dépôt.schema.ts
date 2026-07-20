@@ -209,7 +209,7 @@ const numéroIdentificationSchema = z
         : undefined,
   );
 
-export const référenceRaccordemenSchema = z
+export const référenceRaccordementSchema = z
   .string()
   .min(1)
   .regex(ExpressionRegulière.nomRépertoireDocumentValide.regex(), {
@@ -254,7 +254,7 @@ export const dépôtSchema = z
     raccordements: z
       .array(
         z.object({
-          référence: référenceRaccordemenSchema,
+          référence: référenceRaccordementSchema,
           dateQualification: z
             .string()
             .transform((val) => DateTime.convertirEnValueType(new Date(val)).formatter()),

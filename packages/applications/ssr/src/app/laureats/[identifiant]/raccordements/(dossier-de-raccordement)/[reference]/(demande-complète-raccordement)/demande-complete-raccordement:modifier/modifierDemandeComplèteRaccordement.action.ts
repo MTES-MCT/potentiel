@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import { référenceRaccordemenSchema } from '@/utils/candidature';
+import { référenceRaccordementSchema } from '@/utils/candidature';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
@@ -19,7 +19,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1),
   dateQualificationActuelle: zod.string().optional(),
-  referenceDossierRaccordement: référenceRaccordemenSchema,
+  referenceDossierRaccordement: référenceRaccordementSchema,
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   accuseReceptionDocumentSelection: documentSelectionSchema.optional(),
