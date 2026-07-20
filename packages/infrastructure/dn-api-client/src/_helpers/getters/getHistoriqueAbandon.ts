@@ -2,15 +2,12 @@ import type { Candidature } from '@potentiel-domain/projet';
 
 import type { DossierAccessor } from '../../graphql/index.js';
 import { mapSelectToValueType } from '../mappers/mapSelectToValueType.js';
+import { reverseRecord } from '../reverseRecord.js';
 
-const typeHistoriqueAbandonMap = {
-  "Le projet n'a jamais fait l'objet d'une candidature à un appel d'offres passé":
-    'première-candidature',
-  "Le projet a déjà fait l'objet d'une candidature à un appel d'offres mais n'a pas été retenu":
-    'première-candidature',
-  "Le projet a été lauréat d'un appel d'offres et a demandé l'abandon de son statut":
-    'abandon-classique',
-} satisfies Partial<Record<string, Candidature.HistoriqueAbandon.RawType>>;
+const typeHistoriqueAbandonMap = reverseRecord({
+  'abandon-classique': `Le projet avait été retenu mais a demandé l'abandon de son statut de lauréat`,
+  'première-candidature': `Le projet n'avait pas été retenu`,
+} satisfies Partial<Record<Candidature.HistoriqueAbandon.RawType, string>>);
 
 export const getHistoriqueAbandon = <
   T extends Record<string, string>,

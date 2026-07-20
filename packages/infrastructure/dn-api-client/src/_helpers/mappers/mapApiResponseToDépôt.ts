@@ -35,7 +35,7 @@ const colonnes = {
   dateÉchéanceGf: "Date d'échéance",
 
   localité: 'Adresse postale du site de production',
-  historiqueAbandon: "Le projet a-t-il fait l'objet d'une candidature précédemment ?",
+  historiqueAbandon: 'Préciser le statut du projet',
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
 
