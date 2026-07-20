@@ -71,18 +71,10 @@ export const AccorderAbandonSansRecandidatureForm = ({
               ) : (
                 <>
                   {ppaSignaléLorsDeLaDemandeEtToujoursActif && (
-                    <Notice
-                      title={
-                        'Ce projet a été signalé en PPA par le porteur. Vous pouvez mettre à jour cette information.'
-                      }
-                    />
+                    <Notice title="Ce projet a été signalé en PPA par le porteur. Vous pouvez mettre à jour cette information." />
                   )}
                   {ppaSignaléLorsDeLaDemandePuisAnnulé && (
-                    <Notice
-                      title={
-                        "Ce projet a été signalé en PPA par le porteur lors de sa demande d'abandon, le signalement a ensuite été annulé par l'administration."
-                      }
-                    />
+                    <Notice title="Ce projet a été signalé en PPA par le porteur lors de sa demande d'abandon, le signalement a ensuite été annulé par l'administration." />
                   )}
                   <Select
                     state={validationErrors['choixPPAPourAutoritéCompétente'] ? 'error' : 'default'}
