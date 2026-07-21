@@ -43,10 +43,26 @@ unzip -q awscliv2.zip
 
 cd ~/aws-cli/bin
 
-echo "Syncing bucket..."
-
 ./aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
 ./aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+
+MAX_CHANGED_OBJECTS=2000
+
+echo "Checking number of objects to sync..."
+
+NB_CHANGED_OBJECTS=$(./aws s3 sync s3://$S3_BUCKET s3://$S3_BACKUP_BUCKET --endpoint-url $S3_ENDPOINT --copy-props none --dryrun | wc -l | tr -d ' ')
+
+echo "${NB_CHANGED_OBJECTS} object(s) would be changed"
+
+if [ "$NB_CHANGED_OBJECTS" -gt "$MAX_CHANGED_OBJECTS" ]
+then
+  echo "Too many objects changed (${NB_CHANGED_OBJECTS} > ${MAX_CHANGED_OBJECTS}), aborting sync"
+  curl "${MONITORING_URL}&status=error"
+  exit 1
+fi
+
+echo "Syncing bucket..."
+
 ./aws s3 sync s3://$S3_BUCKET s3://$S3_BACKUP_BUCKET --endpoint-url $S3_ENDPOINT --copy-props none
 
 echo "Bucket successfully synced..."
