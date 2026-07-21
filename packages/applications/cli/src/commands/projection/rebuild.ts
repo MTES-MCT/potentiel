@@ -90,8 +90,8 @@ export class RebuildProjectionCommand extends Command {
         await rebuild(rebuildOneEvent, subscriber);
 
         if (count > 0) {
-          logger.info('Stream rebuilt');
-          return;
+          logger.info(`Stream rebuilt (${subscription.name})`);
+          continue;
         }
         logger.warn('Stream not found...');
         this.exit(1);
