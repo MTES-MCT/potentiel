@@ -24,6 +24,12 @@ export const mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps = (
   return {
     date: modifiéLe,
     actor: modifiéPar,
-    title: 'Gestionnaire de réseau de raccordement modifié',
+    title: 'Gestionnaire de réseau du raccordement modifié',
+    details: (
+      <div>
+        Nouvel identifiant du gestionnaire :{' '}
+        <span className="font-semibold">{event.payload.identifiantGestionnaireRéseau}</span>
+      </div>
+    ),
   };
 };

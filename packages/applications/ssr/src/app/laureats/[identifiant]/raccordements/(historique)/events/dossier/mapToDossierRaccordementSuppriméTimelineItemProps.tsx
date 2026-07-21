@@ -21,11 +21,11 @@ export const mapToDossierRaccordementSuppriméTimelineItemProps = (
   return {
     date,
     actor,
-    title: (
-      <>
-        Le dossier de raccordement <span className="font-semibold">{référenceDossier}</span> a été
-        supprimé
-      </>
+    title: 'Dossier de raccordement supprimé',
+    details: (
+      <div>
+        Référence du dossier <span className="font-semibold">référenceDossier;</span>. viovio
+      </div>
     ),
   };
 };

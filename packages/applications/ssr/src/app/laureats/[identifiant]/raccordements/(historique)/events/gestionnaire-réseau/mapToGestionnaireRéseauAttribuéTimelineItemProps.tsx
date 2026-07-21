@@ -9,5 +9,11 @@ export const mapToGestionnaireRéseauAttribuéTimelineItemProps = (
   },
 ): TimelineItemProps => ({
   date: event.createdAt as DateTime.RawType,
-  title: 'Un gestionnaire de réseau de raccordement a été attribué au raccordement du projet',
+  title: 'Gestionnaire de réseau attribué au raccordement du projet',
+  details: (
+    <div>
+      Identifiant du gestionnaire :{' '}
+      <span className="font-semibold">{event.payload.identifiantGestionnaireRéseau}</span>
+    </div>
+  ),
 });

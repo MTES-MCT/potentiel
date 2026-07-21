@@ -12,11 +12,12 @@ export const mapToAccuséRéceptionDemandeComplèteRaccordementTransmisTimelineI
 
   return {
     date: event.createdAt as DateTime.RawType,
-    title: (
-      <>
-        L'accusé de réception de la complète de raccordement a été transmis pour le dossier{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span>.
-      </>
+    title: 'Accusé de réception de la complète de raccordement transmis',
+    details: (
+      <div>
+        Référence du dossier <span className="font-semibold">{référenceDossierRaccordement}</span>.
+        viovio ajouter le document
+      </div>
     ),
   };
 };

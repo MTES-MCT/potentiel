@@ -26,17 +26,18 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
   return {
     date: transmiseLe,
     actor: transmisePar,
-    title: (
-      <>
-        Un nouveau dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span> a été créé
-      </>
-    ),
-    details: dateQualification && (
-      <span>
-        Date de l'accusé de réception :{' '}
-        <FormattedDate className="font-semibold" date={dateQualification} />
-      </span>
+    title: 'Nouveau dossier de raccordemen créé',
+    details: (
+      <div>
+        Référence : <span className="font-semibold">{référenceDossierRaccordement}</span>
+        {dateQualification && (
+          <span>
+            Date de l'accusé de réception :{' '}
+            <FormattedDate className="font-semibold" date={dateQualification} />
+          </span>
+        )}
+        ,
+      </div>
     ),
   };
 };
