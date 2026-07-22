@@ -13,17 +13,17 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
     Plan du Scénario: Modifier la référence d'une demande complète de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | <Référence actuelle> |
-        Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Quand <rôle> modifie la référence de la demande complète de raccordement pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
         Exemples:
-            | Référence actuelle        |
-            | Référence non transmise   |
-            | Enedis                    |
-            | Enedis OUE-RP-2022-000033 |
-            | Enedis DDD                |
-            | OUE-RP-2022-000033        |
+            | Référence actuelle        | rôle       |
+            | Référence non transmise   | la dreal   |
+            | Enedis                    | le porteur |
+            | Enedis OUE-RP-2022-000033 | la dgec    |
+            | Enedis DDD                | le porteur |
+            | OUE-RP-2022-000033        | la dreal   |
 
     Scénario: Modifier en tant qu'la dgec la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
@@ -86,19 +86,17 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | La référence du dossier de raccordement | OUE-RP-2022-000034 |
         Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
-    Scénario: Impossible pour un porteur de modifier la référence pour un dossier de raccordement ayant déjà une date de mise en service
+    Scénario: Impossible pour un porteur ou la dreal de modifier la référence pour un dossier de raccordement ayant déjà une date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat
-        Alors le porteur devrait être informé que "La référence du dossier de raccordement OUE-RP-2022-000033 ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service"
+        Quand <rôle> modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Alors <rôle> devrait être informé que "La référence du dossier de raccordement OUE-RP-2022-000033 ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service"
 
-    Scénario: Impossible pour une dreal de modifier la référence pour un dossier de raccordement ayant déjà une date de mise en service
-        Etant donné une demande complète de raccordement pour le projet lauréat avec :
-            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
-        Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand la dreal modifie la référence de la demande complète de raccordement pour le projet lauréat
-        Alors la dreal devrait être informé que "La référence du dossier de raccordement OUE-RP-2022-000033 ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service"
+        Exemples:
+            | rôle       |
+            | la dreal   |
+            | le porteur |
 
     Scénario: Impossible de modifier la référence pour un dossier si un autre dossier du même projet a déjà cette référence
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
