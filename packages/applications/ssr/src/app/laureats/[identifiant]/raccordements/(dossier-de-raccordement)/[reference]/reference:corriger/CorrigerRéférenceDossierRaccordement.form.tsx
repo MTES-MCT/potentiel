@@ -49,6 +49,7 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
       <input type="hidden" name="referenceDossier" value={référence.référence} />
       <RéférenceDossierInput
         aideSaisie={gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement}
+        defaultValue={référence.référence ?? ''}
         validationErrors={validationErrors}
         name="referenceDossierCorrigee"
       />

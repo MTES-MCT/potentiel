@@ -108,6 +108,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
 
       <RéférenceDossierInput
         name="referenceDossier"
+        defaultValue={référence ?? ''}
         aideSaisie={aideSaisieRéférenceDossierRaccordement}
         validationErrors={validationErrors}
       />

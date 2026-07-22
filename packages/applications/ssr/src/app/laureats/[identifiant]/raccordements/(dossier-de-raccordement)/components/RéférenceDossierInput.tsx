@@ -5,6 +5,7 @@ import type { PlainType } from '@potentiel-domain/core';
 
 type Props = {
   name: string;
+  defaultValue?: string;
   aideSaisie:
     | PlainType<{
         format?: string;
@@ -15,7 +16,12 @@ type Props = {
   validationErrors: Record<string, string>;
 };
 
-export const RéférenceDossierInput = ({ name, aideSaisie, validationErrors }: Props) => {
+export const RéférenceDossierInput = ({
+  name,
+  aideSaisie,
+  validationErrors,
+  defaultValue,
+}: Props) => {
   const expressionRégulière =
     aideSaisie?.expressionReguliere?.expression ?? ExpressionRegulière.accepteTout.expression;
 
@@ -41,6 +47,7 @@ export const RéférenceDossierInput = ({ name, aideSaisie, validationErrors }: 
       nativeInputProps={{
         name,
         required: true,
+        defaultValue,
         'aria-required': true,
         placeholder: aideSaisie?.format
           ? `Exemple: ${aideSaisie.format}`
