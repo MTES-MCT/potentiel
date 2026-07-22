@@ -53,7 +53,9 @@ export const DossierRaccordement: FC<DossierProps> = ({
 }) => {
   return (
     <section className="md:w-1/3 flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] relative">
-      <Heading3>Dossier {référence}</Heading3>
+      <Heading3 className="font-normal">
+        Dossier <span className="font-semibold">{référence}</span>
+      </Heading3>
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {dossierEtapes.map((étape) => (
           <DossierEtape
@@ -161,7 +163,7 @@ const mapTypeToTitre: Record<TypeDossier, string> = {
   dcr: 'demande complète de raccordement',
   'proposition-technique-et-financière': 'proposition technique et financière',
   'convention-de-raccordement': 'convention de raccordement',
-  'convention-directe-de-raccordement': 'convention directe de raccordement',
+  'convention-de-raccordement-directe': 'convention de raccordement directe',
   'mise-en-service': 'mise en service',
   document: 'document (PTF, CR, ou CRD)',
 };
