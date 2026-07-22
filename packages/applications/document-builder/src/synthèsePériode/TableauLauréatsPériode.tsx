@@ -37,9 +37,6 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 9,
   },
-  right: {
-    textAlign: 'right',
-  },
 
   laureat: { flex: 2 },
   projet: { flex: 3 },
@@ -88,11 +85,13 @@ export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
         {/* Lignes */}
         {lauréats.map((lauréat) => (
           <View key={lauréat.nomProjet} style={styles.row}>
-            <Text style={[styles.cell, styles.laureat]}>{lauréat.nom}</Text>
+            <Text style={[styles.cell, styles.laureat]}>{manageWrapWithHyphen(lauréat.nom)}</Text>
 
-            <Text style={[styles.cell, styles.projet]}>{lauréat.nomProjet}</Text>
+            <Text style={[styles.cell, styles.projet]}>
+              {manageWrapWithHyphen(lauréat.nomProjet)}
+            </Text>
 
-            <Text style={[styles.cell, styles.puissance, styles.right]}>
+            <Text style={[styles.cell, styles.puissance]}>
               {lauréat.puissance} {lauréat.unitéPuissance}
             </Text>
 

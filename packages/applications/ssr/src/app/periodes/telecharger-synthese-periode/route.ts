@@ -69,7 +69,7 @@ export const GET = async (request: Request) =>
         dateCourrier: new Date().toISOString(),
         période: {
           cycleAppelOffres: appelOffreData.cycleAppelOffre,
-          puissanceRecherchée: périodeData.puissanceAppelée.toString(),
+          puissanceRecherchée: `${périodeData.puissanceAppelée}`,
           titre: périodeData.title,
           titreAppelOffres: appelOffreData.title,
           unitéPuissance:
