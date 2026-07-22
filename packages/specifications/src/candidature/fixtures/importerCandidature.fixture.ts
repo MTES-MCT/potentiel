@@ -100,9 +100,10 @@ export class ImporterCandidatureFixture
       périodeId: identifiantProjet.période,
     });
 
-    const defaultVolumeRéservé = périodeDetails?.volumeRéservé
-      ? faker.datatype.boolean()
-      : undefined;
+    const defaultVolumeRéservé =
+      périodeDetails?.volumeRéservé && instruction.statut === 'classé'
+        ? faker.datatype.boolean()
+        : undefined;
 
     const instructionValue: ImporterCandidature['instructionValue'] = {
       motifÉlimination:

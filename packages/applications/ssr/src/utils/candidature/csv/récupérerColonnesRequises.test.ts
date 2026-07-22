@@ -26,6 +26,7 @@ const colonnesCommunes = [
   'Commune',
   'Classé ?',
   "Motif d'élimination",
+  'Volume réservé',
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   'Technologie\n(dispositif de production)',
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
