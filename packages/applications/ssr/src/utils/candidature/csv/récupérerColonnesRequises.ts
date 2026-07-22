@@ -34,7 +34,6 @@ export const récupérerColonnesRequises: RécupérerColonnesRequisesProps = ({
       'élémentsSousOmbrière',
     ],
     territoireProjet: ['territoireProjet'],
-    volumeRéservé: ['volumeRéservé'],
   } as const satisfies {
     [K in AppelOffre.ChampCandidature]: CandidatureHeaders;
   };

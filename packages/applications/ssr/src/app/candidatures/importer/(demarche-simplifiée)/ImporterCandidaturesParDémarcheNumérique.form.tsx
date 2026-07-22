@@ -91,20 +91,16 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
               </p>
               <Table
                 className="lg:mx-4 my-4 border-spacing-0"
-                headers={['Colonne', 'Format', 'Optionnel']}
+                headers={['Colonne', 'Format', 'Règle appliquée']}
                 data={[
-                  ['numeroDossierDN', 'chaîne de caractères', 'non'],
-                  ['statut', 'retenu ou éliminé', 'non'],
-                  ['note', 'nombre', 'non'],
-                  [
-                    'motifElimination',
-                    'chaîne de caractères',
-                    'oui, sauf en cas de statut éliminé',
-                  ],
+                  ['numeroDossierDN', 'chaîne de caractères', 'requis'],
+                  ['statut', '"retenu" ou "éliminé"', 'requis'],
+                  ['note', 'nombre', 'requis'],
+                  ['motifElimination', 'chaîne de caractères', 'requis pour les projets éliminés'],
                   [
                     'volumeReserve',
-                    'oui/non',
-                    'requis pour les périodes concernées par un volume réservé',
+                    '"oui" ou "non"',
+                    'requis pour les candidats retenus des périodes avec volume réservé',
                   ],
                 ]}
               />

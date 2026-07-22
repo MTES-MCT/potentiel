@@ -87,6 +87,7 @@ const mapBodyToUseCaseData = (
       motifÉlimination: data.motifElimination,
       noteTotale: data.noteTotale,
       statut: data.statut ?? previous.instruction.statut.formatter(),
+      volumeRéservé: previous.instruction.volumeRéservé,
     },
     dépôtValue: {
       nomProjet: data.nomProjet,

@@ -249,7 +249,6 @@ export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'
  * Ils peuvent faire l'objet d'un "cycle de vie" dans lauréat (modification admin, changement PP...)
  **/
 export type ChampCandidature =
-  | 'volumeRéservé'
   | 'puissanceALaPointe'
   /**
    * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.

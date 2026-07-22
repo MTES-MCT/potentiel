@@ -173,7 +173,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
   },
   champsSupplémentaires: {
     typologieInstallation: { type: 'optionnel' as const },
-    volumeRéservé: { type: 'requis' as const },
     ...champsSupplémentairesAPartirDeP8,
   },
   délaiDCR: { grd: 3 },

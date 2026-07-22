@@ -212,8 +212,10 @@ Fonctionnalité: Importer une candidature
     Plan du scénario: Impossible d'importer une candidature sans information sur le volume réservé pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres | <Appel d'offres> |
+            | période        | 1                |
             | volume réservé |                  |
-        Alors la dgec devrait être informé que "Le champ volume réservé est requis pour cet appel d'offres"
+            | statut         | classé           |
+        Alors la dgec devrait être informé que "Vous devez préciser si le projet appartient ou non au volume réservé de la période"
         Exemples:
             | Appel d'offres  |    
             | PPE2 - Sol      |  
@@ -223,7 +225,15 @@ Fonctionnalité: Importer une candidature
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Eolien |
             | volume réservé | oui           |
-        Alors la dgec devrait être informé que "Le champ volume réservé ne peut être renseigné pour cet appel d'offres"         
+        Alors la dgec devrait être informé que "Cette période n'a pas de volume réservé, vous ne devez pas renseigner cette informations"    
+
+    Scénario: Impossible de renseigner le volume réservé pour un projet éliminé
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Sol |
+            | période        | 1          |
+            | volume réservé | oui        |
+            | statut         | éliminé    |
+        Alors la dgec devrait être informé que "Vous ne pouvez pas renseigner le volume réservé pour un candidat éliminé"       
 
     # Ce cas n'existe pas dans le référentiel AO à date (avril 2026)
     @NotImplemented
