@@ -66,7 +66,7 @@ const mapToAbandonAlert = ({
 };
 
 const mapToAchèvementAlert = (estAchevé: boolean, rôle: Role.ValueType): Alerte | undefined => {
-  if (!estAchevé || !rôle.estPorteur()) {
+  if (!(estAchevé && rôle.estPorteur())) {
     return undefined;
   }
 

@@ -4,14 +4,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const getDashboardRoute = (rôle: Role.ValueType) => {
   if (rôle.aLaPermission('lauréat.lister')) {
-    if (rôle.estPorteur()) {
-      return {
-        texte: 'Voir mes projets lauréats',
-        lien: Routes.Lauréat.lister(),
-      };
-    }
     return {
-      texte: 'Voir les projets lauréats',
+      texte: rôle.estPorteur() ? 'Voir mes projets lauréats' : 'Voir les projets lauréats',
       lien: Routes.Lauréat.lister(),
     };
   }

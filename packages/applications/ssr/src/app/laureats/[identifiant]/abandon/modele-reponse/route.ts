@@ -26,9 +26,11 @@ export const GET = async (
       if (!utilisateur.rôle.aLaPermission('abandon.accorder')) {
         throw new AccèsFonctionnalitéRefuséError('abandon.accorder', utilisateur.rôle.nom);
       }
+
       if (!utilisateur.rôle.aLaPermission('abandon.rejeter')) {
         throw new AccèsFonctionnalitéRefuséError('abandon.rejeter', utilisateur.rôle.nom);
       }
+
       if (!utilisateur.rôle.aLaPermission('abandon.demander-confirmation')) {
         throw new AccèsFonctionnalitéRefuséError(
           'abandon.demander-confirmation',
