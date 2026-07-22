@@ -4,7 +4,6 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { ExpressionRegulière } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -18,6 +17,7 @@ import {
   GestionnaireRéseauSelect,
   type GestionnaireRéseauSelectProps,
 } from '../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+import { RéférenceDossierInput } from '../components/RéférenceDossierInput';
 import {
   type TransmettreDemandeComplèteRaccordementFormKeys,
   transmettreDemandeComplèteRaccordementAction,
@@ -54,11 +54,6 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           selectedIdentifiantGestionnaireRéseau,
       )?.aideSaisieRéférenceDossierRaccordement
     : undefined;
-  const format = aideSaisieRéférenceDossierRaccordement?.format ?? Option.none;
-  const légende = aideSaisieRéférenceDossierRaccordement?.légende ?? Option.none;
-  const expressionReguliere =
-    aideSaisieRéférenceDossierRaccordement?.expressionReguliere?.expression ??
-    ExpressionRegulière.accepteTout.expression;
 
   return (
     <Form
@@ -104,45 +99,10 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         />
       )}
 
-      <Input
-        label="Référence du dossier de raccordement du projet *"
-        hintText={
-          <div>
-            {Option.match(légende)
-              .some((légende) => <div key={légende}>Format attendu : {légende}</div>)
-              .none(() => (
-                <></>
-              ))}
-            {Option.match(format)
-              .some((format) => (
-                <div key={format} className="italic">
-                  Exemple : {format}
-                </div>
-              ))
-              .none(() => (
-                <></>
-              ))}
-            <div className="flex flex-wrap items-center gap-2">
-              <span>Caractères interdits :</span>
-
-              {['?', '*', ':', ';', '{', '}', '\\'].map((char) => (
-                <code key={char}>{char}</code>
-              ))}
-            </div>
-          </div>
-        }
-        state={validationErrors['referenceDossier'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['referenceDossier']}
-        nativeInputProps={{
-          name: 'referenceDossier',
-          required: true,
-          'aria-required': true,
-          placeholder: Option.match(format)
-            .some((format) => `Exemple: ${format}`)
-            .none(() => `Renseigner la référence`),
-          pattern: expressionReguliere || undefined,
-          className: 'uppercase placeholder:capitalize',
-        }}
+      <RéférenceDossierInput
+        name="referenceDossier"
+        aideSaisie={aideSaisieRéférenceDossierRaccordement}
+        validationErrors={validationErrors}
       />
 
       <Input

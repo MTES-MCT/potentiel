@@ -1,8 +1,9 @@
 'use client';
 
-import Input from '@codegouvfr/react-dsfr/Input';
 import { type FC, useState } from 'react';
 
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -14,6 +15,7 @@ import {
   GestionnaireRéseauSelect,
   type GestionnaireRéseauSelectProps,
 } from '../../../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+import { RéférenceDossierInput } from '../../../components/RéférenceDossierInput';
 import {
   type ModifierDemandeComplèteRaccordementFormKeys,
   modifierDemandeComplèteRaccordementAction,
@@ -32,16 +34,7 @@ export type ModifierDemandeComplèteRaccordementFormProps = {
       accuséRéception?: string;
     };
   };
-  gestionnaireRéseauActuel?: {
-    identifiantGestionnaireRéseau: string;
-    raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement?: {
-      format: string;
-      légende: string;
-      expressionReguliere: string;
-    };
-  };
-
+  gestionnaireRéseauActuel?: PlainType<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   listeGestionnairesRéseau?: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
@@ -61,11 +54,11 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
   >({});
 
   const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
-    useState<string | undefined>(gestionnaireRéseauActuel?.identifiantGestionnaireRéseau);
+    useState<string | undefined>(gestionnaireRéseauActuel?.identifiantGestionnaireRéseau.codeEIC);
 
   const aideSaisieRéférenceDossierRaccordement = selectedIdentifiantGestionnaireRéseau
     ? selectedIdentifiantGestionnaireRéseau ===
-      gestionnaireRéseauActuel?.identifiantGestionnaireRéseau
+      gestionnaireRéseauActuel?.identifiantGestionnaireRéseau.codeEIC
       ? gestionnaireRéseauActuel.aideSaisieRéférenceDossierRaccordement
       : listeGestionnairesRéseau?.find(
           (gestionnaire) =>
@@ -73,11 +66,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
             selectedIdentifiantGestionnaireRéseau,
         )?.aideSaisieRéférenceDossierRaccordement
     : undefined;
-
-  const expression =
-    typeof aideSaisieRéférenceDossierRaccordement?.expressionReguliere === 'string'
-      ? aideSaisieRéférenceDossierRaccordement.expressionReguliere
-      : aideSaisieRéférenceDossierRaccordement?.expressionReguliere.expression;
 
   return (
     <Form
@@ -100,7 +88,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         {gestionnaireRéseauActuel ? (
           <strong>
             {gestionnaireRéseauActuel.raisonSociale} (
-            {gestionnaireRéseauActuel.identifiantGestionnaireRéseau})
+            {gestionnaireRéseauActuel.identifiantGestionnaireRéseau.codeEIC})
           </strong>
         ) : (
           <span>non renseigné</span>
@@ -123,44 +111,10 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
       )}
 
       {référence.canEdit ? (
-        <Input
-          id="referenceDossierRaccordement"
-          label="Référence du dossier de raccordement du projet *"
-          hintText={
-            aideSaisieRéférenceDossierRaccordement && (
-              <>
-                {!Option.isNone(aideSaisieRéférenceDossierRaccordement.format) && (
-                  <div className="m-0">
-                    Format attendu : {aideSaisieRéférenceDossierRaccordement.format}
-                  </div>
-                )}
-                {!Option.isNone(aideSaisieRéférenceDossierRaccordement.légende) && (
-                  <div className="m-0 italic">
-                    Exemple : {aideSaisieRéférenceDossierRaccordement.légende}
-                  </div>
-                )}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span>Caractères interdits :</span>
-
-                  {['?', '*', ':', ';', '{', '}', '\\'].map((char) => (
-                    <code key={char}>{char}</code>
-                  ))}
-                </div>
-              </>
-            )
-          }
-          state={validationErrors['referenceDossierRaccordement'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['referenceDossierRaccordement']}
-          nativeInputProps={{
-            type: 'text',
-            name: 'referenceDossierRaccordement',
-            placeholder: aideSaisieRéférenceDossierRaccordement?.format
-              ? `Exemple: ${aideSaisieRéférenceDossierRaccordement?.format}`
-              : `Renseigner l'identifiant`,
-            required: true,
-            defaultValue: référence.value ?? '',
-            pattern: expression,
-          }}
+        <RéférenceDossierInput
+          name="referenceDossier"
+          aideSaisie={aideSaisieRéférenceDossierRaccordement}
+          validationErrors={validationErrors}
         />
       ) : (
         <>

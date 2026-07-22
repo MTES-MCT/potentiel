@@ -142,16 +142,7 @@ const mapToProps: MapToProps = ({
       valeur: cahierDesCharges.getDélaiDCR().grd,
       texte: nombresEnToutesLettres[cahierDesCharges.getDélaiDCR().grd],
     },
-    gestionnaireRéseauActuel: gestionnaireRéseau && {
-      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-      raisonSociale: gestionnaireRéseau.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        expressionReguliere:
-          gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
-        format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format || '',
-        légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende || '',
-      },
-    },
+    gestionnaireRéseauActuel: gestionnaireRéseau && mapToPlainObject(gestionnaireRéseau),
     listeGestionnairesRéseau: gestionnairesRéseau && mapToPlainObject(gestionnairesRéseau.items),
   };
 };
