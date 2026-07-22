@@ -37,9 +37,6 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 9,
   },
-  right: {
-    textAlign: 'right',
-  },
 
   laureat: { flex: 2 },
   projet: { flex: 3 },
@@ -94,7 +91,7 @@ export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
               {manageWrapWithHyphen(lauréat.nomProjet)}
             </Text>
 
-            <Text style={[styles.cell, styles.puissance, styles.right]}>
+            <Text style={[styles.cell, styles.puissance]}>
               {lauréat.puissance} {lauréat.unitéPuissance}
             </Text>
 
