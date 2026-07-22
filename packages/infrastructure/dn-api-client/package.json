@@ -17,6 +17,7 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pdf": "*",
+    "graphql": "16.13.2",
     "graphql-request": "7.4.0",
     "mime-types": "3.0.2",
     "pizzip": "3.1.8"
