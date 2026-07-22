@@ -213,8 +213,7 @@ export const référenceRaccordementSchema = z
   .string()
   .min(1)
   .regex(ExpressionRegulière.nomRépertoireDocumentValide.regex(), {
-    message:
-      'La référence du dossier contient un ou plusieurs caractères non autorisés parmi "?", "*", ":", ";", "{", "}" et "\\"',
+    message: 'La référence du dossier contient un ou plusieurs caractères non autorisés',
   });
 
 export const dépôtSchema = z
