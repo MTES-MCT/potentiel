@@ -27,7 +27,7 @@ const meta = {
       imagesFolderPath: '/images',
       lauréats: [
         {
-          nom: 'Société A',
+          nom: 'TESTS-UNIQUES.COM',
           nomProjet: 'Le-nez-au-vent',
           puissance: '80',
           commune: 'Etaules',
