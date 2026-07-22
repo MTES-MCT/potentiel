@@ -69,7 +69,7 @@ export class RaccordementWorld {
         nouvelleRéférenceDossier,
       ),
       conventionDirectDeRaccordement: this.documentRaccordement.mapToExpected(
-        Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDirecteDeRaccordement.type,
+        Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
         this.lauréatWorld.identifiantProjet.formatter(),
         nouvelleRéférenceDossier,
       ),

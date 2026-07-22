@@ -17,7 +17,7 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   formatter: () => Type;
   estPropositionTechniqueEtFinancière: () => boolean;
   estConventionDeRaccordement: () => boolean;
-  estConventionDirecteDeRaccordement: () => boolean;
+  estconventionDeRaccordementDirecte: () => boolean;
   vérifierQuePeutÊtreTransmis: (documentsActuels: RawType[]) => void;
 }>;
 
@@ -41,7 +41,7 @@ export const bind = <Type extends RawType = RawType>({
     estConventionDeRaccordement() {
       return this.type === 'convention-de-raccordement';
     },
-    estConventionDirecteDeRaccordement() {
+    estconventionDeRaccordementDirecte() {
       return this.type === 'convention-de-raccordement-directe';
     },
     vérifierQuePeutÊtreTransmis(documentsActuels: RawType[]) {
@@ -84,7 +84,7 @@ function vérifierQuePeutÊtreTransmis(type: ValueType, documentsActuels: RawTyp
     }
   }
 
-  if (type.estConventionDirecteDeRaccordement()) {
+  if (type.estconventionDeRaccordementDirecte()) {
     if (documentsActuels.includes('convention-de-raccordement-directe')) {
       throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
     }
@@ -105,18 +105,18 @@ export const propositionTechniqueEtFinancière =
 export const conventionDeRaccordement = convertirEnValueType<'convention-de-raccordement'>(
   'convention-de-raccordement',
 );
-export const conventionDirecteDeRaccordement =
+export const conventionDeRaccordementDirecte =
   convertirEnValueType<'convention-de-raccordement-directe'>('convention-de-raccordement-directe');
 
 const typeToKeyMap: Record<
   RawType,
   | 'propositionTechniqueEtFinancière'
   | 'conventionDeRaccordement'
-  | 'conventionDirecteDeRaccordement'
+  | 'conventionDeRaccordementDirecte'
 > = {
   'proposition-technique-et-financière': 'propositionTechniqueEtFinancière',
   'convention-de-raccordement': 'conventionDeRaccordement',
-  'convention-de-raccordement-directe': 'conventionDirecteDeRaccordement',
+  'convention-de-raccordement-directe': 'conventionDeRaccordementDirecte',
 };
 
 export function mapDocumentTypeToEntityKey(type: RawType) {

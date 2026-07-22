@@ -81,7 +81,7 @@ const récupérerTypesDisponibles = (
   if (
     !dossier.propositionTechniqueEtFinancière &&
     !dossier.conventionDeRaccordement &&
-    !dossier.conventionDirecteDeRaccordement
+    !dossier.conventionDeRaccordementDirecte
   ) {
     availableTypes.push(...Lauréat.Raccordement.TypeDocumentsRaccordement.type);
   }

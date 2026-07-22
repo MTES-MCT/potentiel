@@ -21,7 +21,7 @@ export type DossierRaccordement = {
   };
   propositionTechniqueEtFinancière?: DocumentRaccordementSubEntity;
   conventionDeRaccordement?: DocumentRaccordementSubEntity;
-  conventionDirecteDeRaccordement?: DocumentRaccordementSubEntity;
+  conventionDeRaccordementDirecte?: DocumentRaccordementSubEntity;
   miseEnService?: {
     dateMiseEnService: DateTime.RawType;
     transmiseLe: DateTime.RawType;

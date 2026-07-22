@@ -29,12 +29,12 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
         TypeDocumentsRaccordement.conventionDeRaccordement.type,
       ),
     }),
-    conventionDirecteDeRaccordement: DossierProjet.convertirEnValueType({
+    conventionDeRaccordementDirecte: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
         référence,
-        TypeDocumentsRaccordement.conventionDirecteDeRaccordement.type,
+        TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
       ),
     }),
   };

@@ -103,13 +103,13 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
   const {
     conventionDeRaccordement,
     propositionTechniqueEtFinancière,
-    conventionDirecteDeRaccordement,
+    conventionDeRaccordementDirecte,
   } = dossier;
 
   if (
     !propositionTechniqueEtFinancière &&
     !conventionDeRaccordement &&
-    !conventionDirecteDeRaccordement
+    !conventionDeRaccordementDirecte
   ) {
     étapes.push({
       type: 'document',
@@ -121,7 +121,7 @@ const mapToDossierData = ({ dossier, rôle, estProjetAchevé }: GetDossierData) 
   for (const document of [
     conventionDeRaccordement,
     propositionTechniqueEtFinancière,
-    conventionDirecteDeRaccordement,
+    conventionDeRaccordementDirecte,
   ]) {
     if (document) {
       const type = Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
