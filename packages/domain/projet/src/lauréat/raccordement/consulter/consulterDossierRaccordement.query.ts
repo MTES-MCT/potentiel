@@ -145,7 +145,7 @@ export const mapToReadModel = ({
           dateSignature: DateTime.convertirEnValueType(
             conventionDirecteDeRaccordement.dateSignature,
           ),
-          document: DocumentRaccordement.documentRaccordement('convention-directe-de-raccordement')(
+          document: DocumentRaccordement.documentRaccordement('convention-de-raccordement-directe')(
             {
               identifiantProjet,
               référenceDossierRaccordement: référence,

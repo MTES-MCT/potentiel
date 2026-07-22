@@ -116,7 +116,7 @@ Quand(
 );
 
 Quand(
-  /le porteur supprime un document (proposition technique et financière|convention de raccordement|convention directe de raccordement) pour le projet lauréat/,
+  /le porteur supprime un document (proposition technique et financière|convention de raccordement|convention de raccordement directe) pour le projet lauréat/,
   async function (this: PotentielWorld, typeDocument: string) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;

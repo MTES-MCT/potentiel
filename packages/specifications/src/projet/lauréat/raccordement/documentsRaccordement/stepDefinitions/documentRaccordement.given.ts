@@ -14,7 +14,7 @@ EtantDonné('un document transmis pour le projet lauréat', async function (this
 });
 
 EtantDonné(
-  /^un document (proposition technique et financière|convention de raccordement|convention directe de raccordement) pour le projet lauréat$/,
+  /^un document (proposition technique et financière|convention de raccordement|convention de raccordement directe) pour le projet lauréat$/,
   async function (this: PotentielWorld, typeDocument: string) {
     const { identifiantProjet, référenceDossier } =
       this.lauréatWorld.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
@@ -29,6 +29,6 @@ export const matchTypeDocument = (typeDocument: string) =>
   match(typeDocument)
     .returnType<Lauréat.Raccordement.TypeDocumentsRaccordement.RawType>()
     .with('convention de raccordement', () => 'convention-de-raccordement')
-    .with('convention directe de raccordement', () => 'convention-directe-de-raccordement')
+    .with('convention de raccordement directe', () => 'convention-de-raccordement-directe')
     .with('proposition technique et financière', () => 'proposition-technique-et-financière')
     .otherwise(() => 'proposition-technique-et-financière');

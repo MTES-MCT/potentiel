@@ -7,7 +7,7 @@ import {
 export const type = [
   'proposition-technique-et-financière',
   'convention-de-raccordement',
-  'convention-directe-de-raccordement',
+  'convention-de-raccordement-directe',
 ] as const;
 
 export type RawType = (typeof type)[number];
@@ -42,7 +42,7 @@ export const bind = <Type extends RawType = RawType>({
       return this.type === 'convention-de-raccordement';
     },
     estConventionDirecteDeRaccordement() {
-      return this.type === 'convention-directe-de-raccordement';
+      return this.type === 'convention-de-raccordement-directe';
     },
     vérifierQuePeutÊtreTransmis(documentsActuels: RawType[]) {
       return vérifierQuePeutÊtreTransmis(this, documentsActuels);
@@ -69,7 +69,7 @@ function vérifierQuePeutÊtreTransmis(type: ValueType, documentsActuels: RawTyp
       throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
     }
 
-    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+    if (documentsActuels.includes('convention-de-raccordement-directe')) {
       throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
     }
   }
@@ -79,13 +79,13 @@ function vérifierQuePeutÊtreTransmis(type: ValueType, documentsActuels: RawTyp
       throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
     }
 
-    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+    if (documentsActuels.includes('convention-de-raccordement-directe')) {
       throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
     }
   }
 
   if (type.estConventionDirecteDeRaccordement()) {
-    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+    if (documentsActuels.includes('convention-de-raccordement-directe')) {
       throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
     }
 
@@ -106,7 +106,7 @@ export const conventionDeRaccordement = convertirEnValueType<'convention-de-racc
   'convention-de-raccordement',
 );
 export const conventionDirecteDeRaccordement =
-  convertirEnValueType<'convention-directe-de-raccordement'>('convention-directe-de-raccordement');
+  convertirEnValueType<'convention-de-raccordement-directe'>('convention-de-raccordement-directe');
 
 const typeToKeyMap: Record<
   RawType,
@@ -116,7 +116,7 @@ const typeToKeyMap: Record<
 > = {
   'proposition-technique-et-financière': 'propositionTechniqueEtFinancière',
   'convention-de-raccordement': 'conventionDeRaccordement',
-  'convention-directe-de-raccordement': 'conventionDirecteDeRaccordement',
+  'convention-de-raccordement-directe': 'conventionDirecteDeRaccordement',
 };
 
 export function mapDocumentTypeToEntityKey(type: RawType) {

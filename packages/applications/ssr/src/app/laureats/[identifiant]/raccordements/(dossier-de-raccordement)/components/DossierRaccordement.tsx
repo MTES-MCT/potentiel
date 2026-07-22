@@ -163,7 +163,7 @@ const mapTypeToTitre: Record<TypeDossier, string> = {
   dcr: 'demande complète de raccordement',
   'proposition-technique-et-financière': 'proposition technique et financière',
   'convention-de-raccordement': 'convention de raccordement',
-  'convention-directe-de-raccordement': 'convention directe de raccordement',
+  'convention-de-raccordement-directe': 'convention de raccordement directe',
   'mise-en-service': 'mise en service',
   document: 'document (PTF, CR, ou CRD)',
 };

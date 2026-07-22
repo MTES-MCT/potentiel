@@ -82,7 +82,7 @@ Fonctionnalité: Transmettre un document
 
     Exemples:
       | document existant                   | nouveau type                        |
-      | convention directe de raccordement  | convention-directe-de-raccordement  |
+      | convention de raccordement directe  | convention-de-raccordement-directe  |
       | convention de raccordement          | convention-de-raccordement          |
       | proposition technique et financière | proposition-technique-et-financière |
 
@@ -95,7 +95,7 @@ Fonctionnalité: Transmettre un document
 
     Exemples:
       | document existant                   | nouveau type                        |
-      | convention directe de raccordement  | proposition-technique-et-financière |
-      | convention directe de raccordement  | convention-de-raccordement          |
-      | proposition technique et financière | convention-directe-de-raccordement  |
-      | convention de raccordement          | convention-directe-de-raccordement  |
+      | convention de raccordement directe  | proposition-technique-et-financière |
+      | convention de raccordement directe  | convention-de-raccordement          |
+      | proposition technique et financière | convention-de-raccordement-directe  |
+      | convention de raccordement          | convention-de-raccordement-directe  |

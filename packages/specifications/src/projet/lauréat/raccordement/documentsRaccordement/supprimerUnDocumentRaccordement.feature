@@ -19,7 +19,7 @@ Fonctionnalité: Supprimer un document
       | document existant                   |
       | proposition technique et financière |
       | convention de raccordement          |
-      | convention directe de raccordement  |
+      | convention de raccordement directe  |
 
   Scénario: Supprimer un document pour un projet abandonné avec PPA
     Etant donné une demande complète de raccordement pour le projet lauréat
