@@ -24,12 +24,8 @@ import {
 export type ModifierDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
   raccordement: {
-    référence: {
-      value: string;
-      canEdit: boolean;
-    };
+    référence: string;
     demandeComplèteRaccordement: {
-      canEdit: boolean;
       dateQualification?: Iso8601DateTime;
       accuséRéception?: string;
     };
@@ -80,7 +76,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
       }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
-      <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence.value} />
+      <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence} />
       <input name="dateQualificationActuelle" type="hidden" value={dateQualification} />
 
       <div>
@@ -110,20 +106,11 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         />
       )}
 
-      {référence.canEdit ? (
-        <RéférenceDossierInput
-          name="referenceDossier"
-          aideSaisie={aideSaisieRéférenceDossierRaccordement}
-          validationErrors={validationErrors}
-        />
-      ) : (
-        <>
-          <input name="referenceDossierRaccordement" type="hidden" value={référence.value} />
-          <div>
-            Référence du dossier de raccordement du projet : <strong>{référence.value}</strong>
-          </div>
-        </>
-      )}
+      <RéférenceDossierInput
+        name="referenceDossier"
+        aideSaisie={aideSaisieRéférenceDossierRaccordement}
+        validationErrors={validationErrors}
+      />
 
       <UploadNewOrModifyExistingDocument
         label="Accusé de réception de la demande complète de raccordement **"

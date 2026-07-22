@@ -11,7 +11,7 @@ import { RéférenceDossierInput } from '../../components/RéférenceDossierInpu
 import {
   type CorrigerRéférenceDossierFormKeys,
   corrigerRéférenceDossierAction,
-} from './corrigerRéférenceDossier.action';
+} from './corrigerRéférenceDossierRaccordement.action';
 
 export type CorrigerRéférenceDossierFormProps = {
   identifiantProjet: string;
