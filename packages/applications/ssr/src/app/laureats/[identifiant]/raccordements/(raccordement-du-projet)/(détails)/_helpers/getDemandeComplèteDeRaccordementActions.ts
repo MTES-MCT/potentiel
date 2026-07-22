@@ -19,7 +19,8 @@ export const getDemandeComplèteDeRaccordementActions = ({
 
   const actions =
     (!dossierEstEnService && rôle.aLaPermission('raccordement.référence-dossier.modifier')) ||
-    (dossierEstEnService && rôle.aLaPermission('raccordement.référence-dossier.modifier-après-mise-en-service'))
+    (dossierEstEnService &&
+      rôle.aLaPermission('raccordement.référence-dossier.modifier-après-mise-en-service'))
       ? [
           {
             label: 'Corriger la référence du dossier',
