@@ -7,7 +7,7 @@ import {
 export const type = [
   'proposition-technique-et-financière',
   'convention-de-raccordement',
-  'convention-directe-de-raccordement',
+  'convention-de-raccordement-directe',
 ] as const;
 
 export type RawType = (typeof type)[number];
@@ -17,7 +17,7 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   formatter: () => Type;
   estPropositionTechniqueEtFinancière: () => boolean;
   estConventionDeRaccordement: () => boolean;
-  estConventionDirecteDeRaccordement: () => boolean;
+  estconventionDeRaccordementDirecte: () => boolean;
   vérifierQuePeutÊtreTransmis: (documentsActuels: RawType[]) => void;
 }>;
 
@@ -41,8 +41,8 @@ export const bind = <Type extends RawType = RawType>({
     estConventionDeRaccordement() {
       return this.type === 'convention-de-raccordement';
     },
-    estConventionDirecteDeRaccordement() {
-      return this.type === 'convention-directe-de-raccordement';
+    estconventionDeRaccordementDirecte() {
+      return this.type === 'convention-de-raccordement-directe';
     },
     vérifierQuePeutÊtreTransmis(documentsActuels: RawType[]) {
       return vérifierQuePeutÊtreTransmis(this, documentsActuels);
@@ -69,7 +69,7 @@ function vérifierQuePeutÊtreTransmis(type: ValueType, documentsActuels: RawTyp
       throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
     }
 
-    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+    if (documentsActuels.includes('convention-de-raccordement-directe')) {
       throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
     }
   }
@@ -79,13 +79,13 @@ function vérifierQuePeutÊtreTransmis(type: ValueType, documentsActuels: RawTyp
       throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
     }
 
-    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+    if (documentsActuels.includes('convention-de-raccordement-directe')) {
       throw new TypeDeDocumentRaccordementIncompatibleError(type.formatter());
     }
   }
 
-  if (type.estConventionDirecteDeRaccordement()) {
-    if (documentsActuels.includes('convention-directe-de-raccordement')) {
+  if (type.estconventionDeRaccordementDirecte()) {
+    if (documentsActuels.includes('convention-de-raccordement-directe')) {
       throw new DocumentDuMêmeTypeDéjàTransmisError(type.formatter());
     }
 
@@ -105,18 +105,18 @@ export const propositionTechniqueEtFinancière =
 export const conventionDeRaccordement = convertirEnValueType<'convention-de-raccordement'>(
   'convention-de-raccordement',
 );
-export const conventionDirecteDeRaccordement =
-  convertirEnValueType<'convention-directe-de-raccordement'>('convention-directe-de-raccordement');
+export const conventionDeRaccordementDirecte =
+  convertirEnValueType<'convention-de-raccordement-directe'>('convention-de-raccordement-directe');
 
 const typeToKeyMap: Record<
   RawType,
   | 'propositionTechniqueEtFinancière'
   | 'conventionDeRaccordement'
-  | 'conventionDirecteDeRaccordement'
+  | 'conventionDeRaccordementDirecte'
 > = {
   'proposition-technique-et-financière': 'propositionTechniqueEtFinancière',
   'convention-de-raccordement': 'conventionDeRaccordement',
-  'convention-directe-de-raccordement': 'conventionDirecteDeRaccordement',
+  'convention-de-raccordement-directe': 'conventionDeRaccordementDirecte',
 };
 
 export function mapDocumentTypeToEntityKey(type: RawType) {

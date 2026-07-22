@@ -27,7 +27,7 @@ export type ConsulterDossierRaccordementReadModel = {
     dateSignature: DateTime.ValueType;
     document: DocumentProjet.ValueType;
   };
-  conventionDirecteDeRaccordement?: {
+  conventionDeRaccordementDirecte?: {
     dateSignature: DateTime.ValueType;
     document: DocumentProjet.ValueType;
   };
@@ -81,7 +81,7 @@ export const mapToReadModel = ({
   demandeComplèteRaccordement,
   propositionTechniqueEtFinancière,
   conventionDeRaccordement,
-  conventionDirecteDeRaccordement,
+  conventionDeRaccordementDirecte,
   miseEnService,
   identifiantProjet,
   référence,
@@ -140,17 +140,17 @@ export const mapToReadModel = ({
           }),
         }
       : undefined,
-    conventionDirecteDeRaccordement: conventionDirecteDeRaccordement
+    conventionDeRaccordementDirecte: conventionDeRaccordementDirecte
       ? {
           dateSignature: DateTime.convertirEnValueType(
-            conventionDirecteDeRaccordement.dateSignature,
+            conventionDeRaccordementDirecte.dateSignature,
           ),
-          document: DocumentRaccordement.documentRaccordement('convention-directe-de-raccordement')(
+          document: DocumentRaccordement.documentRaccordement('convention-de-raccordement-directe')(
             {
               identifiantProjet,
               référenceDossierRaccordement: référence,
-              dateSignature: conventionDirecteDeRaccordement.dateSignature,
-              document: conventionDirecteDeRaccordement.document,
+              dateSignature: conventionDeRaccordementDirecte.dateSignature,
+              document: conventionDeRaccordementDirecte.document,
             },
           ),
         }

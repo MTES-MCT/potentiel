@@ -101,7 +101,7 @@ type DossierRaccordement = {
     dateSignature: DateTime.ValueType;
     format: string;
   };
-  conventionDirecteDeRaccordement?: {
+  conventionDeRaccordementDirecte?: {
     dateSignature: DateTime.ValueType;
     format: string;
   };
@@ -192,8 +192,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     if (dossier.conventionDeRaccordement) {
       documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordement.type);
     }
-    if (dossier.conventionDirecteDeRaccordement) {
-      documentsDossier.push(TypeDocumentsRaccordement.conventionDirecteDeRaccordement.type);
+    if (dossier.conventionDeRaccordementDirecte) {
+      documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type);
     }
     return documentsDossier;
   }
@@ -682,7 +682,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       ? dossier.propositionTechniqueEtFinancière
       : type.estConventionDeRaccordement()
         ? dossier.conventionDeRaccordement
-        : dossier.conventionDirecteDeRaccordement;
+        : dossier.conventionDeRaccordementDirecte;
 
     if (!document) {
       throw new DocumentRaccordementNonExistantError();
