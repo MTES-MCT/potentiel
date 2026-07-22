@@ -11,7 +11,7 @@ const donnéesPériodes = Object.fromEntries(
       {
         titre: période.title,
         cycleAppelOffres: appelOffre.cycleAppelOffre,
-        puissanceRecherchée: '',
+        puissanceRecherchée: `${période.puissanceAppelée}`,
         titreAppelOffres: appelOffre.title,
         unitéPuissance: 'MW',
       },
