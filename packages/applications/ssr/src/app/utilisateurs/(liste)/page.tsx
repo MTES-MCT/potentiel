@@ -259,10 +259,7 @@ const mapToActionsByUser = (
     actions.push('désactiver');
   }
 
-  if (
-    utilisateurConnecté.rôle.aLaPermission('utilisateur.modifierRôle') &&
-    !utilisateur.rôle.estPorteur()
-  ) {
+  if (utilisateurConnecté.rôle.aLaPermission('utilisateur.modifierRôle')) {
     actions.push('modifier');
   }
 
