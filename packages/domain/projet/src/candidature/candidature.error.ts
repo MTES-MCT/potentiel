@@ -84,6 +84,24 @@ export class TechnologieIndisponibleError extends InvalidOperationError {
     super("Cette technologie n'est pas disponible pour cet appel d'offres");
   }
 }
+export class VolumeRéservéRequisError extends InvalidOperationError {
+  constructor() {
+    super('Vous devez préciser si le projet appartient ou non au volume réservé de la période');
+  }
+}
+export class VolumeRéservéNonAttenduPourLaPériodeError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Cette période n'a pas de volume réservé, vous ne devez pas renseigner cette information",
+    );
+  }
+}
+
+export class VolumeRéservéIndisponiblePourLeStatutError extends InvalidOperationError {
+  constructor() {
+    super('Un projet éliminé ne peut pas se trouver dans un volume réservé');
+  }
+}
 
 export class AutorisationRequiseError extends InvalidOperationError {
   constructor() {

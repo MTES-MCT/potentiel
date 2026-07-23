@@ -110,7 +110,7 @@ describe('Schéma dépôt', () => {
       assertError(
         result,
         ['raccordements', 0, 'référence'],
-        'La référence du dossier contient un ou plusieurs caractères non autorisés parmi "?", "*", ":", ";", "{", "}" et "\\"',
+        'La référence du dossier contient un ou plusieurs caractères non autorisés',
       );
     });
 

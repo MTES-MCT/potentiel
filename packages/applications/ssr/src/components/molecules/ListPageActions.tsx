@@ -18,7 +18,9 @@ export const ListPageActions = ({ actions }: ListPageActionsProps) => (
       <Link
         key={a.href}
         href={a.href}
-        className={clsx(`w-fit fr-link fr-link--icon-right ${a.iconId}`)}
+        className={clsx(
+          `w-fit fr-link fr-link--icon-right ${a.iconId} ${actions.length === 1 && 'mb-6'}`,
+        )}
       >
         {a.label}
       </Link>

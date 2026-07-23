@@ -82,8 +82,5 @@ const isAppelOffresAvecVolumeRéservé = ({
 }) => {
   const appelOffresDetails = appelsOffreData.find((ao) => ao.id === appelOffres);
   const périodeDetails = appelOffresDetails?.periodes.find((p) => p.id === période);
-  return (
-    appelOffresDetails?.champsSupplémentaires?.volumeRéservé?.type === 'requis' ||
-    périodeDetails?.champsSupplémentaires?.volumeRéservé?.type === 'requis'
-  );
+  return périodeDetails?.volumeRéservé !== undefined;
 };

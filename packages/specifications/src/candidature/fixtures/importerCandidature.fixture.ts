@@ -6,8 +6,8 @@ import type { PlainType } from '@potentiel-domain/core';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { getAppelOffresChampsSupplémentaires, getPériodeData } from '#helpers';
 import { AbstractFixture, type DeepPartial } from '../../fixture.js';
-import { getAppelOffresChampsSupplémentaires } from '../../helpers/getAppelOffresChampsSupplémentaires.js';
 
 interface ImporterCandidature {
   dépôtValue: Candidature.Dépôt.RawType;
@@ -95,13 +95,17 @@ export class ImporterCandidatureFixture
 
     const dépôtValue = créerDépôt(identifiantProjet, dépôt);
 
-    const champsSupplémentaires = getAppelOffresChampsSupplémentaires({
+    const périodeDetails = getPériodeData({
       appelOffresId: identifiantProjet.appelOffre,
       périodeId: identifiantProjet.période,
     });
 
     const defaultVolumeRéservé =
-      champsSupplémentaires.volumeRéservé?.type === 'requis' ? faker.datatype.boolean() : undefined;
+      périodeDetails?.volumeRéservé && instruction.statut === 'classé'
+        ? faker.datatype.boolean()
+        : périodeDetails?.volumeRéservé && instruction.statut === 'éliminé'
+          ? false
+          : undefined;
 
     const instructionValue: ImporterCandidature['instructionValue'] = {
       motifÉlimination:

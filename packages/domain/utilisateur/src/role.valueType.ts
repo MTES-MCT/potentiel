@@ -2341,6 +2341,7 @@ const grdPolicies: ReadonlyArray<Policy> = [
   // Raccordement
   'raccordement.consulter',
   'raccordement.listerDossierRaccordement',
+  'raccordement.exporterDossierRaccordement',
   'raccordement.date-mise-en-service.transmettre',
   'raccordement.date-mise-en-service.modifier',
   'raccordement.référence-dossier.modifier',
