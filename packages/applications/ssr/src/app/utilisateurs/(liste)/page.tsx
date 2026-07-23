@@ -36,8 +36,8 @@ type PageProps = {
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
-  role: z.string().optional(),
   identifiantUtilisateur: z.string().optional(),
+  role: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
   region: z.string().optional(),
   zone: z.string().optional(),
@@ -47,9 +47,11 @@ const paramsSchema = z.object({
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const activeFilters = paramsSchema.parse(searchParams);
+
       const {
         page,
         identifiantUtilisateur,
@@ -78,6 +80,7 @@ export default async function Page(props: PageProps) {
           range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
         },
       });
+
       const filters: ListFilterItem<keyof z.infer<typeof paramsSchema>>[] = [
         {
           label: 'Rôle',
@@ -153,13 +156,18 @@ export default async function Page(props: PageProps) {
       });
 
       const orphansFilters = Object.keys(activeFilters).filter(
-        (key) => !filters.find((x) => x.searchParamKey === key) && key !== 'page',
+        (key) =>
+          !filters.find((x) => x.searchParamKey === key) &&
+          !['page', 'identifiantUtilisateur'].includes(key),
       );
+
       if (orphansFilters.length > 0) {
         const newSearchParams = new URLSearchParams(searchParams);
+
         for (const orphanFilter of orphansFilters) {
           newSearchParams.delete(orphanFilter);
         }
+
         redirect(`${Routes.Utilisateur.lister()}?${newSearchParams}`, RedirectType.replace);
       }
 
@@ -177,7 +185,7 @@ export default async function Page(props: PageProps) {
             })
           : { items: [] };
 
-      const getActions = async (): Promise<UtilisateurListPageProps['actions']> => {
+      const getMenuActions = async (): Promise<UtilisateurListPageProps['actions']> => {
         const actions: Array<UtilisateurListPageProps['actions'][number]> = [
           {
             label: 'Inviter un utilisateur',
@@ -203,7 +211,7 @@ export default async function Page(props: PageProps) {
         <UtilisateurListPage
           filters={filters}
           list={mapToListProps(utilisateurs, gestionnairesRéseau.items, utilisateur)}
-          actions={await getActions()}
+          actions={await getMenuActions()}
         />
       );
     }),
@@ -219,7 +227,7 @@ const mapToListProps = (
     items: readModel.items.map((utilisateur) => ({
       utilisateur: {
         ...mapToPlainObject(utilisateur),
-        actions: mapToActions(utilisateur, utilisateurConnecté),
+        actions: mapToActionsByUser(utilisateur, utilisateurConnecté),
       },
       gestionnaireRéseau: mapToPlainObject(
         Option.match(utilisateur.identifiantGestionnaireRéseau)
@@ -238,7 +246,7 @@ const mapToListProps = (
   };
 };
 
-const mapToActions = (
+const mapToActionsByUser = (
   utilisateur: ConsulterUtilisateurReadModel,
   utilisateurConnecté: Utilisateur.ValueType,
 ): UtilisateurListItemProps['utilisateur']['actions'] => {
