@@ -112,46 +112,25 @@ type MapToProps = (args: {
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
-  role,
   cahierDesCharges,
   gestionnaireRéseau,
   dossierRaccordement,
   identifiantProjet,
   listeGestionnairesRéseau: gestionnairesRéseau,
-}) => {
-  const canEdit =
-    role.estDGEC() ||
-    ((role.estPorteur() || role.estDreal()) && !dossierRaccordement.dateMiseEnService);
-
-  return {
-    identifiantProjet,
-    raccordement: {
-      référence: {
-        value: dossierRaccordement.référence.référence,
-        canEdit,
-      },
-      demandeComplèteRaccordement: {
-        canEdit,
-        dateQualification:
-          dossierRaccordement.demandeComplèteRaccordement.dateQualification?.formatter(),
-        accuséRéception:
-          dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
-      },
+}) => ({
+  identifiantProjet,
+  raccordement: {
+    référence: dossierRaccordement.référence.référence,
+    demandeComplèteRaccordement: {
+      dateQualification:
+        dossierRaccordement.demandeComplèteRaccordement.dateQualification?.formatter(),
+      accuséRéception: dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
     },
-    delaiDemandeDeRaccordementEnMois: {
-      valeur: cahierDesCharges.getDélaiDCR().grd,
-      texte: nombresEnToutesLettres[cahierDesCharges.getDélaiDCR().grd],
-    },
-    gestionnaireRéseauActuel: gestionnaireRéseau && {
-      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-      raisonSociale: gestionnaireRéseau.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        expressionReguliere:
-          gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
-        format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format || '',
-        légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende || '',
-      },
-    },
-    listeGestionnairesRéseau: gestionnairesRéseau && mapToPlainObject(gestionnairesRéseau.items),
-  };
-};
+  },
+  delaiDemandeDeRaccordementEnMois: {
+    valeur: cahierDesCharges.getDélaiDCR().grd,
+    texte: nombresEnToutesLettres[cahierDesCharges.getDélaiDCR().grd],
+  },
+  gestionnaireRéseauActuel: gestionnaireRéseau && mapToPlainObject(gestionnaireRéseau),
+  listeGestionnairesRéseau: gestionnairesRéseau && mapToPlainObject(gestionnairesRéseau.items),
+});

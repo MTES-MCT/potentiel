@@ -25,8 +25,8 @@ export const Introduction: FC<IntroductionProps> = ({ période, synthèse }) => 
 
       <Text style={{ fontSize: 10, marginBottom: 5 }}>
         {synthèse.candidats.nombre} dossiers ont été déposés pour une puissance cumulée de{' '}
-        {synthèse.candidats.puissanceCumulée} {période.unitéPuissance} la puissance recherchée lors
-        de cette période étant de {période.puissanceRecherchée} {période.unitéPuissance}
+        {synthèse.candidats.puissanceCumulée} {période.unitéPuissance}, la puissance recherchée lors
+        de cette période étant de {période.puissanceRecherchée} {période.unitéPuissance}.
       </Text>
 
       <Text style={{ fontSize: 10, marginBottom: 15 }}>

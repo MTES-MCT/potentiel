@@ -1,11 +1,10 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import {
-  InformationDemandeComplèteRaccordement,
-  type InformationDemandeComplèteRaccordementProps,
+  InfoBoxDemandeComplèteRaccordement,
+  type InfoBoxDemandeComplèteRaccordementProps,
 } from '../InformationDemandeComplèteRaccordement';
 import {
   ModifierDemandeComplèteRaccordementForm,
@@ -14,7 +13,7 @@ import {
 
 export type ModifierDemandeComplèteRaccordementPageProps =
   ModifierDemandeComplèteRaccordementFormProps & {
-    delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
+    delaiDemandeDeRaccordementEnMois: InfoBoxDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
   };
 
 export const ModifierDemandeComplèteRaccordementPage: FC<
@@ -40,16 +39,8 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
     }}
     rightColumn={{
       children: (
-        <Alert
-          severity="info"
-          small
-          description={
-            <div className="py-4 text-justify">
-              <InformationDemandeComplèteRaccordement
-                delaiDemandeDeRaccordementEnMois={delaiDemandeDeRaccordementEnMois}
-              />
-            </div>
-          }
+        <InfoBoxDemandeComplèteRaccordement
+          delaiDemandeDeRaccordementEnMois={delaiDemandeDeRaccordementEnMois}
         />
       ),
     }}

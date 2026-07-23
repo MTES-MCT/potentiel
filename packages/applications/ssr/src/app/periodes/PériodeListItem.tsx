@@ -2,6 +2,7 @@
 
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -58,12 +59,17 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
           Période <span className="font-bold">{période}</span> de l'appel d'offres{' '}
           <span className="font-bold">{appelOffre}</span>
           {stats.tous.total > 0 && (
-            <DownloadDocument
-              format="pdf"
-              label="Télécharger la synthèse de la période (données de candidature)"
-              url={Routes.Période.exporterSynthèsePériode({ appelOffre, periode: période })}
-              ariaLabel={`Télécharger la synthèse de la période ${période} de l'appel d'offres ${appelOffre} (données de candidature) au format PDF`}
-            />
+            <div className="flex flex-row gap-2">
+              <DownloadDocument
+                format="pdf"
+                label="Télécharger la synthèse de la période (données de candidature)"
+                url={Routes.Période.exporterSynthèsePériode({ appelOffre, periode: période })}
+                ariaLabel={`Télécharger la synthèse de la période ${période} de l'appel d'offres ${appelOffre} (données de candidature) au format PDF`}
+              />
+              <Tooltip title="Cette synthèse contient les données de candidature et ne tient pas compte des éventuelles modifications de projet postérieures à la désignation.">
+                <Icon id="ri-information-line" size="sm" />
+              </Tooltip>
+            </div>
           )}
         </div>
 

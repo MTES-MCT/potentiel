@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréatOrRedirect } from '../../../(raccordement-du-projet)/(détails)/_helpers';
-import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossier.page';
+import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossierRaccordement.page';
 
 export const metadata: Metadata = {
   title: 'Corriger une référence de dossier de raccordement',

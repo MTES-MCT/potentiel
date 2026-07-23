@@ -1273,6 +1273,14 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.modifierRéférenceDossier,
         référencielPermissions.lauréat.raccordement.command.modifierRéférenceDossier,
       ],
+      'modifier-après-mise-en-service': [
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.document.command.déplacer,
+        référencielPermissions.lauréat.raccordement.query.consulterGestionnaireRéseau,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.modifierRéférenceDossier,
+        référencielPermissions.lauréat.raccordement.command.modifierRéférenceDossier,
+      ],
     },
     dossier: {
       supprimer: [
@@ -1697,6 +1705,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.document-raccordement.modifier-ou-supprimer-après-mise-en-service',
   'raccordement.document-raccordement.modifier-ou-supprimer-après-achèvement',
   'raccordement.référence-dossier.modifier',
+  'raccordement.référence-dossier.modifier-après-mise-en-service',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
   'raccordement.dossier.supprimer-après-achèvement',
@@ -1982,6 +1991,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'raccordement.document-raccordement.transmettre',
   'raccordement.document-raccordement.modifier-ou-supprimer',
   'raccordement.gestionnaire.modifier',
+  'raccordement.référence-dossier.modifier',
 
   // Garanties financières
   'garantiesFinancières.archives.lister',

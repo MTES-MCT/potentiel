@@ -19,7 +19,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1),
   dateQualificationActuelle: zod.string().optional(),
-  referenceDossierRaccordement: référenceRaccordementSchema,
+  referenceDossier: référenceRaccordementSchema,
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   accuseReceptionDocumentSelection: documentSelectionSchema.optional(),
@@ -36,7 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
     accuseReceptionDocumentSelection,
     dateQualification,
     dateQualificationActuelle,
-    referenceDossierRaccordement,
+    referenceDossier,
     referenceDossierRaccordementActuelle,
     identifiantGestionnaireReseau,
   },
@@ -55,13 +55,13 @@ const action: FormAction<FormState, typeof schema> = async (
       });
     }
 
-    if (referenceDossierRaccordement !== referenceDossierRaccordementActuelle) {
+    if (referenceDossier !== referenceDossierRaccordementActuelle) {
       await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
         type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementActuelleValue: referenceDossierRaccordementActuelle,
-          nouvelleRéférenceDossierRaccordementValue: referenceDossierRaccordement,
+          nouvelleRéférenceDossierRaccordementValue: referenceDossier,
           rôleValue: utilisateur.rôle.nom,
           modifiéeLeValue: DateTime.now().formatter(),
           modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
@@ -91,7 +91,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         accuséRéceptionValue: accuseReception,
         dateQualificationValue: new Date(dateQualification).toISOString(),
-        référenceDossierRaccordementValue: referenceDossierRaccordement,
+        référenceDossierRaccordementValue: referenceDossier,
         rôleValue: utilisateur.rôle.nom,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),

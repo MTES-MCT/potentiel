@@ -60,7 +60,6 @@ export const GET = async (request: Request) =>
         fields: [
           { value: 'appelOffres', label: "Appel d'offres" },
           { value: 'période', label: 'Période' },
-          { value: 'nomProjet', label: 'Nom du projet' },
           { value: 'nomCandidat', label: 'Nom du candidat' },
           { value: 'nomProjet', label: 'Nom du projet' },
           { value: 'statut', label: 'Statut' },

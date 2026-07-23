@@ -18,21 +18,26 @@ type DossierProps = {
 };
 
 const Dossier = ({ dossier }: DossierProps) => {
-  const estIncomplet =
-    !dossier.demandeComplèteRaccordement?.accuséRéception ||
-    !dossier.demandeComplèteRaccordement?.dateQualification ||
-    !dossier.propositionTechniqueEtFinancière ||
-    !dossier;
+  const estComplet =
+    dossier.demandeComplèteRaccordement?.accuséRéception &&
+    dossier.demandeComplèteRaccordement?.dateQualification &&
+    ((dossier.propositionTechniqueEtFinancière && dossier.conventionDeRaccordement) ||
+      dossier.conventionDeRaccordementDirecte);
+
   return (
     <div className="flex items-center gap-2">
-      <div>
-        Dossier <strong>{dossier.référence.référence}</strong>
-      </div>
-      {estIncomplet && (
-        <Badge noIcon small severity="warning" className="mt-1">
+      {estComplet ? (
+        <Badge noIcon small severity="success">
+          Complet
+        </Badge>
+      ) : (
+        <Badge noIcon small severity="warning">
           Incomplet
         </Badge>
       )}
+      <div>
+        Dossier <strong>{dossier.référence.référence}</strong>
+      </div>
     </div>
   );
 };

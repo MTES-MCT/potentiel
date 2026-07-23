@@ -1,11 +1,10 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
-  InformationDemandeComplèteRaccordement,
-  type InformationDemandeComplèteRaccordementProps,
+  InfoBoxDemandeComplèteRaccordement,
+  type InfoBoxDemandeComplèteRaccordementProps,
 } from '../[reference]/(demande-complète-raccordement)/InformationDemandeComplèteRaccordement';
 import { AucunDossierDeRaccordementAlert } from '../components/AucunDossierDeRaccordementAlert';
 import {
@@ -17,7 +16,7 @@ export type TransmettreDemandeComplèteRaccordementPageProps = {
   listeGestionnairesRéseau: TransmettreDemandeComplèteRaccordementFormProps['listeGestionnairesRéseau'];
   gestionnaireRéseauActuel: TransmettreDemandeComplèteRaccordementFormProps['gestionnaireRéseauActuel'];
   identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
-  delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
+  delaiDemandeDeRaccordementEnMois: InfoBoxDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
 };
 
@@ -53,16 +52,8 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
     }}
     rightColumn={{
       children: (
-        <Alert
-          severity="info"
-          small
-          description={
-            <div className="py-4 text-justify">
-              <InformationDemandeComplèteRaccordement
-                delaiDemandeDeRaccordementEnMois={delaiDemandeDeRaccordementEnMois}
-              />
-            </div>
-          }
+        <InfoBoxDemandeComplèteRaccordement
+          delaiDemandeDeRaccordementEnMois={delaiDemandeDeRaccordementEnMois}
         />
       ),
     }}
