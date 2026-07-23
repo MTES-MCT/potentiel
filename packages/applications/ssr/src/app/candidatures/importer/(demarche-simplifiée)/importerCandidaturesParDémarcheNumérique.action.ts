@@ -118,6 +118,14 @@ const action: FormAction<FormState, typeof schema> = async (
         continue;
       }
 
+      if (périodeAvecVolumeRéservé && statut === 'éliminé' && volumeReserve === true) {
+        errors.push({
+          key,
+          reason: `Un projet éliminé ne peut pas se trouver dans un volume réservé`,
+        });
+        continue;
+      }
+
       if (!périodeAvecVolumeRéservé && volumeReserve !== undefined) {
         errors.push({
           key,

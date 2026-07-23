@@ -216,6 +216,13 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               {instruction.motifÉlimination && (
                 <Field name="Motif d'élimination">{instruction.motifÉlimination}</Field>
               )}
+              {instruction.volumeRéservé !== undefined && (
+                <Field name="Volume réservé">
+                  {instruction.volumeRéservé
+                    ? 'Le projet fait partie du volume réservé de la période'
+                    : 'Le projet ne fait pas partie du volume réservé de la période'}
+                </Field>
+              )}
             </FieldGroup>
             <FieldGroup name="Contact">
               <Field name="Nom du producteur">{dépôt.nomCandidat}</Field>

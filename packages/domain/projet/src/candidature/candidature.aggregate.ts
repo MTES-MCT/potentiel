@@ -29,6 +29,9 @@ import {
   TechnologieIndisponibleError,
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
+  VolumeRéservéIndisponiblePourLeStatutError,
+  VolumeRéservéNonAttenduPourLaPériodeError,
+  VolumeRéservéRequisError,
 } from './candidature.error.js';
 import type { CandidatureEvent } from './candidature.event.js';
 import type {
@@ -190,6 +193,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierChampsSupplémentaires(candidature);
     this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
+    this.vérifierVolumeRéservé(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
       this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
@@ -224,6 +228,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
+    this.vérifierVolumeRéservé(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
       this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
@@ -362,19 +367,8 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierChampsSupplémentaires({ dépôt, instruction }: CandidatureBehaviorOptions) {
+  private vérifierChampsSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
     const cdcActuel = this.projet.cahierDesChargesActuel;
-
-    if (cdcActuel.estChampRequis('volumeRéservé') && instruction.volumeRéservé === undefined) {
-      throw new ChampRequisError('volume réservé');
-    }
-
-    if (
-      !cdcActuel.estChampRequisOuOptionnel('volumeRéservé') &&
-      instruction.volumeRéservé !== undefined
-    ) {
-      throw new ChampNonAttenduError('volume réservé');
-    }
 
     if (cdcActuel.estChampRequis('coefficientKChoisi') && dépôt.coefficientKChoisi === undefined) {
       throw new ChampRequisError('choix du coefficient K');
@@ -471,6 +465,20 @@ export class CandidatureAggregate extends AbstractAggregate<
       )
     ) {
       throw new TechnologieIndisponibleError();
+    }
+  }
+
+  private vérifierVolumeRéservé({ instruction }: CandidatureBehaviorOptions) {
+    if (!this.parent.période.volumeRéservé && instruction.volumeRéservé !== undefined) {
+      throw new VolumeRéservéNonAttenduPourLaPériodeError();
+    }
+
+    if (this.parent.période.volumeRéservé && instruction.volumeRéservé === undefined) {
+      throw new VolumeRéservéRequisError();
+    }
+
+    if (instruction.statut.estÉliminé() && instruction.volumeRéservé === true) {
+      throw new VolumeRéservéIndisponiblePourLeStatutError();
     }
   }
 

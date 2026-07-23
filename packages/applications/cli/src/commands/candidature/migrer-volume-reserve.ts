@@ -11,7 +11,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
-import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
 
@@ -29,7 +29,6 @@ export class Migrer extends Command {
     });
   }
   async run() {
-    let projetsModifiés = 0;
     const errors: Error[] = [];
     const appelsOffresAvecVolumeRéservé = ['PPE2 - Bâtiment', 'PPE2 - Sol'];
 
@@ -51,40 +50,31 @@ export class Migrer extends Command {
 
         for (const période of appelOffre.periodes) {
           try {
-            const candidaturesLauréates = await executeSelect(
-              `
-              select count(key)
-              FROM domain_views.projection
-              WHERE key LIKE $1
-              AND value->>'statut' = 'classé';
-            
-         `,
-              `candidature|${appelOffreId}#${période.id}#%`,
-            );
             if (!période.volumeRéservé) continue;
 
-            const queryResult = await executeQuery(
+            await executeQuery(
               `
-              update event_store.event_stream e
-              set payload = jsonb_set(    
-                e.payload,
+              UPDATE event_store.event_stream e
+              SET payload = jsonb_set(
+                  e.payload,
                   '{volumeRéservé}',
-                  to_jsonb(true)
-                  )::jsonb
-              where e.stream_id like $1
-              and e.type like 'CandidatureImportée-V%'
-              and e.payload->>'statut' = 'classé'
-              and (e.payload->>'puissance')::numeric <= $2
-              and (e.payload->>'noteTotale')::numeric >= $3;
+                  to_jsonb(
+                      CASE
+                          WHEN (e.payload->>'puissance')::numeric <= $2
+                          AND (e.payload->>'noteTotale')::numeric >= $3
+                          AND e.payload->>'statut' = 'classé'
+                          THEN true
+                          ELSE false
+                      END
+                  )
+              )
+              WHERE e.stream_id LIKE $1
+              AND e.type LIKE 'CandidatureImportée-V%';
       `,
               `candidature|${appelOffreId}#${période.id}#%`,
               période.volumeRéservé.puissanceMax,
               période.volumeRéservé.noteMin,
             );
-            console.info(
-              `${appelOffreId} p${période.id} : volume réservé renseigné pour ${queryResult.rowCount} projets sur ${candidaturesLauréates[0]['count']} lauréats`,
-            );
-            projetsModifiés += queryResult.rowCount || 0;
           } catch (error) {
             errors.push(error as Error);
           }
@@ -100,7 +90,7 @@ export class Migrer extends Command {
       `,
     );
 
-    console.info(`${projetsModifiés} projets modifiés (volume réservé ajouté)`);
+    console.info(`Périodes mises à jour`);
     if (errors.length) {
       console.error(`Erreurs : ${JSON.stringify(errors.map((e) => e.message))}`);
     }

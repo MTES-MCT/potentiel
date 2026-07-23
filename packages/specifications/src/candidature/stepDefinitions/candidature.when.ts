@@ -26,6 +26,22 @@ Quand(
 );
 
 Quand(
+  `le DGEC validateur importe la candidature éliminée {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
+    try {
+      await importerCandidature.call(this, {
+        nomProjet,
+        statut: 'éliminé',
+        ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   'le DGEC validateur corrige la candidature avec :',
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
