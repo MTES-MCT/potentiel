@@ -108,66 +108,54 @@ const mapToActions = ({
   const actions: AvailableActions = [];
   const statutRecandidature = demande.recandidature?.statut;
   const passéEnInstructionPar = demande.instruction?.passéEnInstructionPar;
+  const { rôle } = utilisateur;
 
   // AUTORITÉS COMPÉTENTES
-  if (
-    Lauréat.Abandon.AutoritéCompétente.dgec.autoritéCompétente === utilisateur.rôle.nom ||
-    Lauréat.Abandon.AutoritéCompétente.dreal.autoritéCompétente === utilisateur.rôle.nom
-  ) {
-    if (!demande.autoritéCompétente.estCompétent(utilisateur.rôle)) {
-      return actions;
-    }
-  }
+  if ((rôle.estDGEC() || rôle.estDreal()) && !demande.autoritéCompétente.estCompétent(rôle))
+    return actions;
 
   // ACTIONS LIÉES À LA DEMANDE
-  if (
-    changementPossible(statut, 'confirmé') &&
-    utilisateur.rôle.aLaPermission('abandon.confirmer')
-  ) {
+  if (changementPossible(statut, 'confirmé') && rôle.aLaPermission('abandon.confirmer')) {
     actions.push('confirmer');
   }
 
-  if (changementPossible(statut, 'annulé') && utilisateur.rôle.aLaPermission('abandon.annuler')) {
+  if (changementPossible(statut, 'annulé') && rôle.aLaPermission('abandon.annuler')) {
     actions.push('annuler');
   }
 
   if (
     statut.estAccordé() &&
     statutRecandidature?.estEnAttente() &&
-    utilisateur.rôle.aLaPermission('abandon.preuve-recandidature.transmettre')
+    rôle.aLaPermission('abandon.preuve-recandidature.transmettre')
   ) {
     actions.push('transmettre-preuve-recandidature');
   }
 
   // ACTIONS LIÉES A L'INSTRUCTION
-  if (
-    demande.recandidature &&
-    !utilisateur.rôle.aLaPermission('abandon.preuve-recandidature.accorder')
-  ) {
+  if (demande.recandidature && !rôle.aLaPermission('abandon.preuve-recandidature.accorder')) {
     return actions;
   }
 
   if (
-    utilisateur.rôle.aLaPermission('abandon.demander-confirmation') &&
+    rôle.aLaPermission('abandon.demander-confirmation') &&
     changementPossible(statut, 'confirmation-demandée')
   ) {
     actions.push('demander-confirmation');
   }
 
-  if (utilisateur.rôle.aLaPermission('abandon.accorder') && changementPossible(statut, 'accordé')) {
+  if (rôle.aLaPermission('abandon.accorder') && changementPossible(statut, 'accordé')) {
     const avecRecandidature =
-      statutRecandidature &&
-      utilisateur.rôle.aLaPermission('abandon.preuve-recandidature.accorder');
+      statutRecandidature && rôle.aLaPermission('abandon.preuve-recandidature.accorder');
     actions.push(avecRecandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
   }
 
-  if (utilisateur.rôle.aLaPermission('abandon.rejeter') && changementPossible(statut, 'rejeté')) {
+  if (rôle.aLaPermission('abandon.rejeter') && changementPossible(statut, 'rejeté')) {
     actions.push('rejeter');
   }
 
   if (
     changementPossible(statut, 'en-instruction') &&
-    utilisateur.rôle.aLaPermission('abandon.passer-en-instruction')
+    rôle.aLaPermission('abandon.passer-en-instruction')
   ) {
     if (statut.estEnInstruction()) {
       if (
