@@ -92,7 +92,7 @@ export class VolumeRéservéRequisError extends InvalidOperationError {
 export class VolumeRéservéNonAttenduPourLaPériodeError extends InvalidOperationError {
   constructor() {
     super(
-      "Cette période n'a pas de volume réservé, vous ne devez pas renseigner cette informations",
+      "Cette période n'a pas de volume réservé, vous ne devez pas renseigner cette information",
     );
   }
 }
