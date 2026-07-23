@@ -103,7 +103,9 @@ export class ImporterCandidatureFixture
     const defaultVolumeRéservé =
       périodeDetails?.volumeRéservé && instruction.statut === 'classé'
         ? faker.datatype.boolean()
-        : undefined;
+        : périodeDetails?.volumeRéservé && instruction.statut === 'éliminé'
+          ? false
+          : undefined;
 
     const instructionValue: ImporterCandidature['instructionValue'] = {
       motifÉlimination:
