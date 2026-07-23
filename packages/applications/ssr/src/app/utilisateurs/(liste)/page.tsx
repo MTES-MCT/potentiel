@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { RedirectType, redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -96,6 +95,7 @@ export default async function Page(props: PageProps) {
             type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
             data: {},
           });
+
         filters.push({
           label: 'Gestionnaire Réseau',
           searchParamKey: 'identifiantGestionnaireReseau',
@@ -107,6 +107,7 @@ export default async function Page(props: PageProps) {
           ),
         });
       }
+
       if (role === Role.dreal.nom) {
         const régions =
           zni !== undefined
@@ -136,6 +137,7 @@ export default async function Page(props: PageProps) {
           mutuallyExclusiveWith: ['region'],
         });
       }
+
       if (role === Role.cocontractant.nom) {
         filters.push({
           label: 'Zone',
@@ -146,6 +148,7 @@ export default async function Page(props: PageProps) {
           })),
         });
       }
+
       filters.push({
         label: 'Actif',
         searchParamKey: 'actif',
@@ -154,22 +157,6 @@ export default async function Page(props: PageProps) {
           { label: 'Non', value: 'false' },
         ],
       });
-
-      const orphansFilters = Object.keys(activeFilters).filter(
-        (key) =>
-          !filters.find((x) => x.searchParamKey === key) &&
-          !['page', 'identifiantUtilisateur'].includes(key),
-      );
-
-      if (orphansFilters.length > 0) {
-        const newSearchParams = new URLSearchParams(searchParams);
-
-        for (const orphanFilter of orphansFilters) {
-          newSearchParams.delete(orphanFilter);
-        }
-
-        redirect(`${Routes.Utilisateur.lister()}?${newSearchParams}`, RedirectType.replace);
-      }
 
       const identifiantsGestionnaireRéseau = new Set(
         utilisateurs.items.map((u) => u.identifiantGestionnaireRéseau).filter(Option.isSome),
@@ -185,38 +172,46 @@ export default async function Page(props: PageProps) {
             })
           : { items: [] };
 
-      const getMenuActions = async (): Promise<UtilisateurListPageProps['actions']> => {
-        const actions: Array<UtilisateurListPageProps['actions'][number]> = [
-          {
-            label: 'Inviter un utilisateur',
-            href: Routes.Utilisateur.inviter,
-          },
-        ];
-        if (role && role !== Role.porteur.nom) {
-          const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
-            type: 'Utilisateur.Query.ListerUtilisateurs',
-            data: { ...filtresUtilisateurs, actif: true },
-          });
-          actions.push({
-            label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
-            href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
-            iconId: 'fr-icon-mail-line',
-          });
-        }
-
-        return actions;
-      };
+      const pageActions = await getPageActions(filtresUtilisateurs, role);
 
       return (
         <UtilisateurListPage
           filters={filters}
           list={mapToListProps(utilisateurs, gestionnairesRéseau.items, utilisateur)}
-          actions={await getMenuActions()}
+          actions={pageActions}
         />
       );
     }),
   );
 }
+
+const getPageActions = async (
+  // biome-ignore lint/suspicious/noExplicitAny: pour ne pas définir un type complexe
+  filtresUtilisateurs: Record<string, any>,
+  role?: string,
+): Promise<UtilisateurListPageProps['actions']> => {
+  const actions: Array<UtilisateurListPageProps['actions'][number]> = [
+    {
+      label: 'Inviter un utilisateur',
+      href: Routes.Utilisateur.inviter,
+    },
+  ];
+
+  if (role && role !== Role.porteur.nom) {
+    const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
+      type: 'Utilisateur.Query.ListerUtilisateurs',
+      data: { ...filtresUtilisateurs, actif: true },
+    });
+
+    actions.push({
+      label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
+      href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
+      iconId: 'fr-icon-mail-line',
+    });
+  }
+
+  return actions;
+};
 
 const mapToListProps = (
   readModel: ListerUtilisateursReadModel,
