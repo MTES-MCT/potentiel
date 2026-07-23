@@ -18,6 +18,7 @@ export const setupAchèvement = () => {
       'AchèvementModifié-V2',
       'DateAchèvementPrévisionnelCalculée-V1',
       'DateAchèvementTransmise-V1',
+      'DateAchèvementCorrigée-V1',
       'AttestationConformitéEnregistrée-V1',
       'AttestationConformitéEnregistrée-V2',
       'RebuildTriggered',

@@ -3,6 +3,7 @@ import type {
   ConsulterAchèvementQuery,
   ConsulterAchèvementReadModel,
 } from './consulter/consulterAchèvement.query.js';
+import type { CorrigerDateAchèvementUseCase } from './corriger/corrigerDateAchèvement.usecase.js';
 import type { EnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
 import type {
   ListerProjetAvecAchevementATransmettreQuery,
@@ -14,6 +15,7 @@ import type { TransmettreAttestationConformitéUseCase } from './transmettre/tra
 import type { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
 
 export type {
+  CorrigerDateAchèvementUseCase,
   EnregistrerAttestationConformitéUseCase,
   ModifierAchèvementUseCase,
   ModifierAttestationConformitéUseCase,

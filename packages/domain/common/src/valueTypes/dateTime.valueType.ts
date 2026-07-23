@@ -124,7 +124,7 @@ function estValideDate(value: Date) {
   }
 }
 
-class DateTimeInvalideError extends InvalidOperationError {
+export class DateTimeInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(
       `La date ne correspond pas au format ISO8601 sans décalage UTC ('{YYYY}-{MM}-{SS}T{HH}:{mm}:{ss}.{ms}Z')`,
