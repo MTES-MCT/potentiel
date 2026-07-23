@@ -110,18 +110,18 @@ const action: FormAction<FormState, typeof schema> = async (
     for (const { numeroDossierDN, statut, note, motifElimination, volumeReserve } of instructions) {
       let key = `Dossier ${numeroDossierDN}`;
 
-      if (périodeAvecVolumeRéservé && volumeReserve === undefined && statut === 'classé') {
+      if (périodeAvecVolumeRéservé && volumeReserve === undefined) {
         errors.push({
           key,
-          reason: `Vous devez compléter la colonne "volumeReserve" par "oui" ou "non" pour tous les candidats lauréats (retenus) de cette période`,
+          reason: `Vous devez compléter la colonne "volumeReserve" par "oui" ou "non" pour tous les candidats de cette période`,
         });
         continue;
       }
 
-      if (périodeAvecVolumeRéservé && volumeReserve !== undefined && statut === 'éliminé') {
+      if (périodeAvecVolumeRéservé && statut === 'éliminé' && volumeReserve === true) {
         errors.push({
           key,
-          reason: `Vous ne pouvez pas renseigner le volume réservé pour un candidat éliminé`,
+          reason: `Un projet éliminé ne peut pas se trouver dans un volume réservé`,
         });
         continue;
       }

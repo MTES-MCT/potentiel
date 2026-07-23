@@ -62,14 +62,14 @@ export class Migrer extends Command {
                       CASE
                           WHEN (e.payload->>'puissance')::numeric <= $2
                           AND (e.payload->>'noteTotale')::numeric >= $3
+                          AND e.payload->>'statut' = 'classé'
                           THEN true
                           ELSE false
                       END
                   )
               )
               WHERE e.stream_id LIKE $1
-                AND e.type LIKE 'CandidatureImportée-V%'
-                AND e.payload->>'statut' = 'classé';
+              AND e.type LIKE 'CandidatureImportée-V%';
       `,
               `candidature|${appelOffreId}#${période.id}#%`,
               période.volumeRéservé.puissanceMax,

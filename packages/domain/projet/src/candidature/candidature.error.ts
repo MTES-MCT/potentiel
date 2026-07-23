@@ -97,9 +97,9 @@ export class VolumeRéservéNonAttenduPourLaPériodeError extends InvalidOperati
   }
 }
 
-export class VolumeRéservéNonAttenduPourLeStatutError extends InvalidOperationError {
+export class VolumeRéservéIndisponiblePourLeStatutError extends InvalidOperationError {
   constructor() {
-    super('Vous ne pouvez pas renseigner le volume réservé pour un candidat éliminé');
+    super('Un projet éliminé ne peut pas se trouver dans un volume réservé');
   }
 }
 

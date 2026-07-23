@@ -29,8 +29,8 @@ import {
   TechnologieIndisponibleError,
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
+  VolumeRéservéIndisponiblePourLeStatutError,
   VolumeRéservéNonAttenduPourLaPériodeError,
-  VolumeRéservéNonAttenduPourLeStatutError,
   VolumeRéservéRequisError,
 } from './candidature.error.js';
 import type { CandidatureEvent } from './candidature.event.js';
@@ -469,16 +469,16 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierVolumeRéservé({ instruction }: CandidatureBehaviorOptions) {
-    if (instruction.statut.estClassé()) {
-      if (this.parent.période.volumeRéservé && instruction.volumeRéservé === undefined) {
-        throw new VolumeRéservéRequisError();
-      }
+    if (!this.parent.période.volumeRéservé && instruction.volumeRéservé !== undefined) {
+      throw new VolumeRéservéNonAttenduPourLaPériodeError();
+    }
 
-      if (!this.parent.période.volumeRéservé && instruction.volumeRéservé !== undefined) {
-        throw new VolumeRéservéNonAttenduPourLaPériodeError();
-      }
-    } else if (instruction.statut.estÉliminé() && instruction.volumeRéservé !== undefined) {
-      throw new VolumeRéservéNonAttenduPourLeStatutError();
+    if (this.parent.période.volumeRéservé && instruction.volumeRéservé === undefined) {
+      throw new VolumeRéservéRequisError();
+    }
+
+    if (instruction.statut.estÉliminé() && instruction.volumeRéservé === true) {
+      throw new VolumeRéservéIndisponiblePourLeStatutError();
     }
   }
 

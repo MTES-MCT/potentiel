@@ -227,12 +227,12 @@ Fonctionnalité: Importer une candidature
             | volume réservé | oui           |
         Alors la dgec devrait être informé que "Cette période n'a pas de volume réservé, vous ne devez pas renseigner cette information"    
 
-    Scénario: Impossible de renseigner le volume réservé pour un projet éliminé
+    Scénario: Un projet éliminé ne peut pas se trouver dans un volume réservé
         Quand le DGEC validateur importe la candidature éliminée "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Sol |
             | période        | 1          |
             | volume réservé | oui        |
-        Alors la dgec devrait être informé que "Vous ne pouvez pas renseigner le volume réservé pour un candidat éliminé"       
+        Alors la dgec devrait être informé que "Un projet éliminé ne peut pas se trouver dans un volume réservé"       
 
     # Ce cas n'existe pas dans le référentiel AO à date (avril 2026)
     @NotImplemented
