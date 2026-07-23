@@ -15,8 +15,8 @@ export type CorrigerRéférenceDossierFormKeys = keyof zod.infer<typeof schema>;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  referenceDossier: référenceRaccordementSchema,
-  referenceDossierCorrigee: zod.string().min(1),
+  referenceDossier: zod.string().min(1),
+  referenceDossierCorrigee: référenceRaccordementSchema,
 });
 
 const action: FormAction<FormState, typeof schema> = (
