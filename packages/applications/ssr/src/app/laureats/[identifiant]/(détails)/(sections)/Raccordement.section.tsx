@@ -50,7 +50,9 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
               url: Routes.Raccordement.détail(identifiantProjet),
             }
           : undefined;
+
       const délaiDCR = cahierDesCharges.getDélaiDCR();
+
       const alertes =
         rôle.estPorteur() && peutModifierRaccordement
           ? getAlertesRaccordement({
