@@ -26,37 +26,70 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
   pv: {
     typeTerrainImplantation: {
       label: [
-        [{ appelOffre: 'Fessenheim' }, "Type de terrain d'implantation (pièce n°3)"],
-        [{ appelOffre: 'CRE4 - ZNI 2017' }, "Type de terrain d'implantation (pièce n°3)"],
-        [{ appelOffre: 'CRE4 - ZNI' }, "Type de terrain d'implantation (pièce n°3)"],
-        [{ appelOffre: 'CRE4 - Innovation' }, "Type de terrain d'implantation (pièce n°3)"],
-        [{ appelOffre: 'CRE4 - Sol' }, "Type de terrain d'implantation (pièce n°3)"],
-        [
-          { appelOffre: 'PPE2 - Sol', typeImport: 'csv' },
-          "Type de terrain d'implantation (pièce n°3)",
-        ],
-        [
-          { appelOffre: 'PPE2 - Innovation', typeImport: 'csv' },
-          "Type de terrain d'implantation (pièce n°3)",
-        ],
-        [
-          { appelOffre: 'PPE2 - Neutre', typeImport: 'csv' },
-          "Type de terrain d'implantation (pièce n°3)",
-        ],
-        [
-          { appelOffre: 'PPE2 - Autoconsommation métropole', typeImport: 'csv' },
-          "Type de terrain d'implantation (pièce n°3)",
-        ],
-        [
-          { appelOffre: 'PPE2 - ZNI', typeImport: 'csv' },
-          "Type de terrain d'implantation (pièce n°3)",
-        ],
-        [
-          { appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' },
-          "Type de cas du terrain d'implantation",
-        ],
+        [{ typeImport: 'csv' }, "Type de terrain d'implantation (pièce n°3)"],
+        [{ typeImport: 'démarche-numérique' }, "Type de cas du terrain d'implantation"],
       ],
       mapper: mapDétailsToTypeTerrainImplantation,
+    },
+    natureExacteDuTerrain: {
+      label: [[{ typeImport: 'démarche-numérique' }, 'Nature exacte du terrain']],
+      mapper: mapToString,
+    },
+    dateObtentionCETI: {
+      label: [[{}, "Date d'obtention du CETI"]],
+      mapper: mapToString,
+    },
+    surfaceProjetéeAuSol: {
+      label: [
+        [
+          { typeImport: 'démarche-numérique' },
+          "Surface projetée au sol de l'ensemble des capteurs solaires",
+        ],
+        [{ typeImport: 'csv' }, 'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)'],
+      ],
+      mapper: mapToString,
+    },
+    surfaceTotaleTerrainImplantation: {
+      label: [
+        [{ typeImport: 'démarche-numérique' }, "Surface totale du terrain d'implantation"],
+        [{ typeImport: 'csv' }, 'Surface du Terrain d’implantation (ha)'],
+      ],
+      mapper: mapToString,
+    },
+    composantsRésilients: {
+      label: [[{ typeImport: 'démarche-numérique' }, 'Composants résilients']],
+      mapper: mapToString,
+    },
+    typeDeZonePluOuPlui: {
+      label: [
+        [
+          { typeImport: 'démarche-numérique' },
+          'Type de zone pour les implantations sur PLU ou PLUi',
+        ],
+      ],
+      mapper: mapToString,
+    },
+    typeDeZonePos: {
+      label: [
+        [{ typeImport: 'démarche-numérique' }, 'Type de zone pour les implantations sur POS'],
+      ],
+      mapper: mapToString,
+    },
+    typeDeZoneAutres: {
+      label: [
+        [{ typeImport: 'démarche-numérique' }, 'Type de zone pour les implantations "Autres"'],
+      ],
+      mapper: mapToString,
+    },
+    trackers: {
+      label: [
+        [{ typeImport: 'csv' }, 'Technologie (Dispositifs de suivi de la course du soleil *)'],
+        [
+          { typeImport: 'démarche-numérique' },
+          "L'Installation est-elle équipée d'un dispositif de suivi de la course du soleil (Trackers) ?",
+        ],
+      ],
+      mapper: mapToBoolean,
     },
   },
   éolien: {
@@ -142,12 +175,6 @@ export const templateVérificationDétailCandidature: Template<Candidature.Déta
       ],
       mapper: mapToBoolean,
     },
-  },
-  composantsRésilients: {
-    label: [
-      [{ appelOffre: 'PPE2 - Sol', typeImport: 'démarche-numérique' }, 'Composants résilients'],
-    ],
-    mapper: mapToString,
   },
   innovation: {
     note: {

@@ -13,10 +13,18 @@ export type TypeDeTerrainDImplantation =
 export type TechnologieEolien = 'asynchrone' | 'synchrone';
 
 export type DétailsCandidature = {
-  composantsRésilients: string | undefined;
   notePrix: number | undefined;
   pv?: {
     typeTerrainImplantation: TypeDeTerrainDImplantation | undefined;
+    surfaceProjetéeAuSol: string | undefined;
+    surfaceTotaleTerrainImplantation: string | undefined;
+    natureExacteDuTerrain: string | undefined;
+    dateObtentionCETI: string | undefined;
+    composantsRésilients: string | undefined;
+    typeDeZonePluOuPlui: string | undefined;
+    typeDeZonePos: string | undefined;
+    typeDeZoneAutres: string | undefined;
+    trackers: boolean | undefined;
   };
   innovation?: {
     note: number | undefined;
