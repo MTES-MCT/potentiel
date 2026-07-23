@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { InfoBoxRéférenceDossierRaccordement } from '../(demande-complète-raccordement)/InformationDemandeComplèteRaccordement';
 import {
   CorrigerRéférenceDossierForm,
   type CorrigerRéférenceDossierFormProps,
-} from './CorrigerRéférenceDossier.form';
+} from './CorrigerRéférenceDossierRaccordement.form';
 
 export type CorrigerRéférenceDossierPageProps = CorrigerRéférenceDossierFormProps;
 
@@ -20,7 +21,7 @@ export const CorrigerRéférenceDossierPage: FC<CorrigerRéférenceDossierPagePr
       ),
     }}
     rightColumn={{
-      children: <></>,
+      children: <InfoBoxRéférenceDossierRaccordement />,
     }}
   />
 );

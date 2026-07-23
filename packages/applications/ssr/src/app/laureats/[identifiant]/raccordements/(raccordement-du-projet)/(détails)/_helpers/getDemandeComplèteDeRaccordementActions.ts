@@ -15,22 +15,24 @@ export const getDemandeComplèteDeRaccordementActions = ({
   dossier,
   estProjetAchevé,
 }: GetDemandeComplèteDeRaccordementActionsProps): Array<DossierEtapeAction> => {
-  const actions = rôle.aLaPermission('raccordement.référence-dossier.modifier')
-    ? [
-        {
-          label: 'Corriger la référence du dossier',
-          href: Routes.Raccordement.corrigerRéférenceDossier(
-            dossier.identifiantProjet.formatter(),
-            dossier.référence.formatter(),
-          ),
-        },
-      ]
-    : [];
+  const dossierEstEnService = !!dossier.dateMiseEnService;
 
-  if (
-    rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
-    !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')
-  ) {
+  const actions =
+    (!dossierEstEnService && rôle.aLaPermission('raccordement.référence-dossier.modifier')) ||
+    (dossierEstEnService &&
+      rôle.aLaPermission('raccordement.référence-dossier.modifier-après-mise-en-service'))
+      ? [
+          {
+            label: 'Corriger la référence du dossier',
+            href: Routes.Raccordement.corrigerRéférenceDossier(
+              dossier.identifiantProjet.formatter(),
+              dossier.référence.formatter(),
+            ),
+          },
+        ]
+      : [];
+
+  if (!rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')) {
     return actions;
   }
 
@@ -41,8 +43,6 @@ export const getDemandeComplèteDeRaccordementActions = ({
     ),
     label: 'Modifier',
   };
-
-  const dossierEstEnService = !!dossier.dateMiseEnService;
 
   if (
     !estProjetAchevé &&
