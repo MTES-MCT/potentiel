@@ -59,8 +59,8 @@ export async function importerCandidature(
         ...dépôt,
       },
       instruction: {
-        statut,
         ...instruction,
+        statut,
       },
       importéPar: this.utilisateurWorld.validateurFixture.email,
     });
