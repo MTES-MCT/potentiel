@@ -62,6 +62,10 @@ export const GET = async (request: Request) =>
           { value: 'numéroCRE', label: 'Numéro CRE' },
           { value: 'nomProjet', label: 'Nom du projet' },
           { value: 'statut', label: 'Statut du projet' },
+          {
+            value: 'volumeRéservé',
+            label: 'Fait partie du volume réservé',
+          },
           { value: 'technologie', label: 'Technologie' },
           { value: 'estPartiEnPPA', label: 'PPA' },
           { value: 'adresse1', label: 'Adresse 1' },
@@ -140,10 +144,6 @@ export const GET = async (request: Request) =>
           {
             value: 'puissanceUnitaireDesAérogénérateurs',
             label: 'Puissance unitaire des aérogénérateurs',
-          },
-          {
-            value: 'volumeRéservé',
-            label: 'Fait parti du volume réservé',
           },
         ],
 

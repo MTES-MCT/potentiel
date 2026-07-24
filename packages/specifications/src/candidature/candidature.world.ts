@@ -109,6 +109,7 @@ export class CandidatureWorld {
         ).formatter(),
       }),
       technologie,
+      volumeRéservé: instructionValue.volumeRéservé,
     };
 
     return expected;
