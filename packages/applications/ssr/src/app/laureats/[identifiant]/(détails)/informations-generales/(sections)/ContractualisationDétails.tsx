@@ -1,5 +1,5 @@
 import type { PlainType } from '@potentiel-domain/core';
-import type { Lauréat } from '@potentiel-domain/projet';
+import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
@@ -10,12 +10,14 @@ export type ContractualisationDétailsProps = {
   puissance: ChampObligatoireAvecAction<PlainType<Lauréat.Puissance.ConsulterPuissanceReadModel>>;
   prixRéférence: Option.Type<Lauréat.ConsulterLauréatReadModel['prixReference']>;
   coefficientKChoisi: Lauréat.ConsulterLauréatReadModel['coefficientKChoisi'];
+  volumeRéservé: Candidature.ConsulterCandidatureReadModel['volumeRéservé'];
 };
 
 export const ContractualisationDétails = ({
   puissance,
   prixRéférence,
   coefficientKChoisi,
+  volumeRéservé,
 }: ContractualisationDétailsProps) => (
   <>
     <div className="flex flex-col gap-1">
@@ -43,6 +45,16 @@ export const ContractualisationDétails = ({
       <div className="flex flex-col gap-1">
         <TitreChamp>Coefficient K</TitreChamp>
         <span>{coefficientKChoisi ? 'Oui' : 'Non'}</span>
+      </div>
+    )}
+    {volumeRéservé !== undefined && (
+      <div className="flex flex-col gap-1">
+        <TitreChamp>Volume réservé</TitreChamp>
+        <span>
+          {volumeRéservé
+            ? 'Le projet fait partie du volume réservé de la période'
+            : 'Le projet ne fait pas partie du volume réservé de la période'}
+        </span>
       </div>
     )}
   </>

@@ -32,6 +32,7 @@ export type ConsulterCandidatureReadModel = {
 
   technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
+  volumeRéservé?: boolean;
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -65,7 +66,7 @@ type MapToReadModel = (
 ) => ConsulterCandidatureReadModel;
 
 export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatureReadModel => {
-  const { identifiantProjet, miseÀJourLe, notification } = candidature;
+  const { identifiantProjet, miseÀJourLe, notification, volumeRéservé } = candidature;
 
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -89,5 +90,6 @@ export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatur
     },
     technologie: TypeTechnologie.convertirEnValueType(candidature.technologieCalculée),
     unitéPuissance: UnitéPuissance.convertirEnValueType(candidature.unitéPuissance),
+    volumeRéservé,
   };
 };
