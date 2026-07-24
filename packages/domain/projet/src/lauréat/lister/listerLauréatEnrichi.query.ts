@@ -102,6 +102,7 @@ export type LauréatEnrichiListItemReadModel = {
   puissanceDuProjetInitial: number | undefined;
   nombreDAérogénérateurs: string | undefined;
   puissanceUnitaireDesAérogénérateurs: string | undefined;
+  volumeRéservé: boolean | undefined;
 };
 
 export type ListerLauréatEnrichiReadModel = {
@@ -277,6 +278,7 @@ const mapToReadModel: MapToReadModelProps = ({
       autorisation,
       puissanceDuProjetInitial,
       technologieCalculée,
+      volumeRéservé,
     },
     achèvement,
     'power-purchase-agreement': powerPurchaseAgreement,
@@ -384,5 +386,6 @@ const mapToReadModel: MapToReadModelProps = ({
     nombreDAérogénérateurs: détail?.éolien?.nombreDAérogénérateurs?.toString(),
     puissanceUnitaireDesAérogénérateurs:
       détail?.éolien?.puissanceUnitaireDesAérogénérateurs?.toString(),
+    volumeRéservé,
   };
 };

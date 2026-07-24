@@ -3,7 +3,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getLauréatInfos } from '@/app/_helpers';
+import { getCandidature, getLauréatInfos } from '@/app/_helpers';
 import { getAction, getPuissanceInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
@@ -23,6 +23,7 @@ export const ContractualisationSection = ({
     withUtilisateur(async ({ rôle }) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
+      const candidature = await getCandidature(identifiantProjet.formatter());
       const lauréat = await getLauréatInfos(identifiantProjet.formatter());
       const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
@@ -55,6 +56,7 @@ export const ContractualisationSection = ({
             prixRéférence={prixRéférence}
             coefficientKChoisi={lauréat.coefficientKChoisi}
             puissance={{ value, action }}
+            volumeRéservé={candidature.volumeRéservé}
           />
         </Section>
       );
