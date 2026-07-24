@@ -18,6 +18,8 @@ const typologieToLabelMap: Record<
   'ombrière.parking': 'Ombrière (parking)',
   'ombrière.mixte': 'Ombrière (mixte)',
   'ombrière.autre': 'Ombrière',
+  'ombrière.agrivoltaïque': 'Ombrière agrivoltaïque',
+  sol: 'Installation au sol',
 };
 
 export const getTypologieInstallationLabel = (
