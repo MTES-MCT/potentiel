@@ -48,6 +48,7 @@ export const handleLauréatNotifié = async ({
       appel_offre: appelOffre.id,
       période: période.title,
       url: buildUrl(Routes.Projet.details(identifiantProjet)),
+      email_contact: emailContact.formatter(),
     },
   });
 };
