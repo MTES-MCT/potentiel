@@ -12,6 +12,17 @@ export class AucunRecoursEnCours extends AggregateNotFoundError {
   }
 }
 
+export class DateRecoursDansLeFuturError extends InvalidOperationError {
+  constructor() {
+    super("La date d'accord du recours ne peut pas être dans le futur");
+  }
+}
+export class DateRecoursAvantDateNotificationError extends InvalidOperationError {
+  constructor() {
+    super("La date d'accord du recours ne peut pas antérieure à la date de notification du projet");
+  }
+}
+
 export class ÉliminéInexistantError extends AggregateNotFoundError {
   constructor() {
     super(`Le projet éliminé n'existe pas`);

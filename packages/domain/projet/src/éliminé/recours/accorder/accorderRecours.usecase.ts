@@ -12,7 +12,8 @@ export type AccorderRecoursUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
-    dateAccordValue: string;
+    dateRéponseSignéeValue: string;
+    accordéLeValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -23,17 +24,19 @@ export type AccorderRecoursUseCase = Message<
 export const registerAccorderRecoursUseCase = () => {
   const runner: MessageHandler<AccorderRecoursUseCase> = async ({
     identifiantUtilisateurValue,
-    dateAccordValue,
+    dateRéponseSignéeValue,
+    accordéLeValue,
     réponseSignéeValue: { content, format },
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
+    const dateRéponseSignée = DateTime.convertirEnValueType(dateRéponseSignéeValue);
+    const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     const réponseSignée = DocumentRecours.recoursAccordé({
       identifiantProjet: identifiantProjet.formatter(),
-      accordéLe: dateAccord.formatter(),
+      accordéLe: accordéLe.formatter(),
       réponseSignée: { format },
     });
 
@@ -48,10 +51,11 @@ export const registerAccorderRecoursUseCase = () => {
     await mediator.send<AccorderRecoursCommand>({
       type: 'Éliminé.Recours.Command.AccorderRecours',
       data: {
-        dateAccord,
+        dateRéponseSignée,
         identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
+        accordéLe,
       },
     });
   };

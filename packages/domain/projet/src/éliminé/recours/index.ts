@@ -49,7 +49,10 @@ export type RecoursUseCase =
   | RejeterRecoursUseCase
   | PasserEnInstructionRecoursUseCase;
 
-export type { RecoursAccordéEvent } from './accorder/recoursAccordé.event.js';
+export type {
+  RecoursAccordéEvent,
+  RecoursAccordéV1Event,
+} from './accorder/recoursAccordé.event.js';
 export type { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
 // Entities
 export type * from './demandeRecours.entity.js';

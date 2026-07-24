@@ -12,6 +12,7 @@ export const setupRecours = () => {
     eventType: [
       'RecoursDemandé-V1',
       'RecoursAccordé-V1',
+      'RecoursAccordé-V2',
       'RecoursAnnulé-V1',
       'RecoursRejeté-V1',
       'RecoursPasséEnInstruction-V1',
@@ -25,7 +26,7 @@ export const setupRecours = () => {
     name: 'notifications',
     eventType: [
       'RecoursDemandé-V1',
-      'RecoursAccordé-V1',
+      'RecoursAccordé-V2',
       'RecoursAnnulé-V1',
       'RecoursRejeté-V1',
       'RecoursPasséEnInstruction-V1',

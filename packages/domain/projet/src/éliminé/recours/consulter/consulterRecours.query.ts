@@ -14,6 +14,7 @@ export type ConsulterRecoursReadModel = {
   statut: StatutRecours.ValueType;
   dateDemande: DateTime.ValueType;
   dateAccord?: DateTime.ValueType;
+  dateRéponseSignée?: DateTime.ValueType;
 };
 
 export type ConsulterRecoursQuery = Message<
@@ -43,9 +44,7 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
       );
 
       return Option.match(détail)
-        .some((détailDemande) =>
-          mapToReadModel({ ...recours, accordéLe: détailDemande.demande.accord?.accordéLe }),
-        )
+        .some((détailDemande) => mapToReadModel({ ...recours, demande: détailDemande.demande }))
         .none();
     }
 
@@ -55,12 +54,17 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
 };
 
 const mapToReadModel = (
-  entity: RecoursEntity & { readonly accordéLe?: string },
+  entity: RecoursEntity & { readonly demande?: DemandeRecoursEntity['demande'] },
 ): ConsulterRecoursReadModel => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
     statut: StatutRecours.convertirEnValueType(entity.dernièreDemande.statut),
     dateDemande: DateTime.convertirEnValueType(entity.dernièreDemande.date),
-    dateAccord: entity.accordéLe ? DateTime.convertirEnValueType(entity.accordéLe) : undefined,
+    dateAccord: entity.demande?.accord?.accordéLe
+      ? DateTime.convertirEnValueType(entity.demande?.accord?.accordéLe)
+      : undefined,
+    dateRéponseSignée: entity.demande?.accord?.dateRéponseSignée
+      ? DateTime.convertirEnValueType(entity.demande.accord.dateRéponseSignée)
+      : undefined,
   };
 };

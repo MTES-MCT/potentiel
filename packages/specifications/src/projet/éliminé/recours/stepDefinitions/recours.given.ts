@@ -5,6 +5,7 @@ import type { Éliminé } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
+import { accorderRecours } from './recours.when.js';
 
 EtantDonné(
   /une demande de recours en cours pour le projet éliminé/,
@@ -17,7 +18,7 @@ EtantDonné(
   /une demande de recours accordée pour le projet éliminé/,
   async function (this: PotentielWorld) {
     await créerDemandeRecours.call(this);
-    await créerAccordRecours.call(this);
+    await accorderRecours.call(this);
   },
 );
 
@@ -61,36 +62,6 @@ async function créerDemandeRecours(this: PotentielWorld) {
       raisonValue: raison,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
-    },
-  });
-}
-
-async function créerAccordRecours(this: PotentielWorld) {
-  const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
-
-  const {
-    accordéLe: accordéeLe,
-    accordéPar: accordéePar,
-    réponseSignée,
-  } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
-    accordéPar: this.utilisateurWorld.validateurFixture.email,
-  });
-
-  this.lauréatWorld.notifier({
-    identifiantProjet: this.éliminéWorld.identifiantProjet.formatter(),
-    notifiéLe: accordéeLe,
-    notifiéPar: accordéePar,
-    localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
-    nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
-  });
-
-  await mediator.send<Éliminé.Recours.RecoursUseCase>({
-    type: 'Éliminé.Recours.UseCase.AccorderRecours',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
-      dateAccordValue: accordéeLe,
-      identifiantUtilisateurValue: accordéePar,
     },
   });
 }

@@ -1,5 +1,5 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Éliminé } from '@potentiel-domain/projet';
 import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -20,7 +20,7 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, recoursRebuildTriggeredProjector)
       .with({ type: 'RecoursDemandé-V1' }, recoursDemandéProjector)
-      .with({ type: 'RecoursAccordé-V1' }, recoursAccordéProjector)
+      .with({ type: P.union('RecoursAccordé-V1', 'RecoursAccordé-V2') }, recoursAccordéProjector)
       .with({ type: 'RecoursRejeté-V1' }, recoursRejetéProjector)
       .with({ type: 'RecoursAnnulé-V1' }, recoursAnnuléProjector)
       .with({ type: 'RecoursPasséEnInstruction-V1' }, recoursPasséEnInstructionProjector)

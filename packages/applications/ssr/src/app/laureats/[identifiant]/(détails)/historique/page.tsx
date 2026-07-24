@@ -76,7 +76,7 @@ export default async function Page(props: PageProps) {
 
         return match(item)
           .returnType<boolean>()
-          .with({ type: 'RecoursAccordé-V1' }, () => true)
+          .with({ type: P.union('RecoursAccordé-V1', 'RecoursAccordé-V2') }, () => true)
           .with(
             {
               type: P.union(

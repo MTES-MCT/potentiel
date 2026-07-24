@@ -1,11 +1,14 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { GarantiesFinancières } from '../../lauréat/index.js';
 import type { ÉliminéAggregate } from '../éliminé.aggregate.js';
-import type { RecoursAccordéEvent } from './accorder/recoursAccordé.event.js';
+import type {
+  RecoursAccordéEvent,
+  RecoursAccordéV1Event,
+} from './accorder/recoursAccordé.event.js';
 import type { AccorderOptions } from './accorder/recoursAccordé.options.js';
 import type { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
 import type { AnnulerOptions } from './annuler/annulerRecours.options.js';
@@ -15,6 +18,8 @@ import type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursE
 import type { InstruireOptions } from './instruire/passerRecoursEnInstruction.options.js';
 import {
   AucunRecoursEnCours,
+  DateRecoursAvantDateNotificationError,
+  DateRecoursDansLeFuturError,
   RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
   ÉliminéInexistantError,
 } from './recours.error.js';
@@ -34,19 +39,33 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     return this.parent;
   }
 
-  async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
+  async accorder({
+    dateRéponseSignée,
+    accordéLe,
+    identifiantUtilisateur,
+    réponseSignée,
+  }: AccorderOptions) {
     this.vérifierQueDemandeRecoursExiste();
+
+    if (dateRéponseSignée.estDansLeFutur()) {
+      throw new DateRecoursDansLeFuturError();
+    }
+
+    if (dateRéponseSignée.estAntérieurÀ(this.éliminé.notifiéLe)) {
+      throw new DateRecoursAvantDateNotificationError();
+    }
 
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
     const event: RecoursAccordéEvent = {
-      type: 'RecoursAccordé-V1',
+      type: 'RecoursAccordé-V2',
       payload: {
         identifiantProjet: this.éliminé.projet.identifiantProjet.formatter(),
         réponseSignée: {
           format: réponseSignée.format,
         },
-        accordéLe: dateAccord.formatter(),
+        dateRéponseSignée: dateRéponseSignée.formatter(),
+        accordéLe: accordéLe.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
       },
     };
@@ -55,20 +74,20 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     await this.éliminé.projet.lauréat.notifier({
       attestation: { format: réponseSignée.format },
-      notifiéLe: dateAccord,
+      notifiéLe: dateRéponseSignée,
       notifiéPar: identifiantUtilisateur,
     });
 
     if (this.éliminé.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
       await this.éliminé.projet.lauréat.garantiesFinancières.demander({
-        demandéLe: dateAccord,
+        demandéLe: accordéLe,
         motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
-        dateLimiteSoumission: dateAccord.ajouterNombreDeMois(2),
+        dateLimiteSoumission: dateRéponseSignée.ajouterNombreDeMois(2),
       });
     }
 
     await this.éliminé.archiver({
-      dateArchive: dateAccord,
+      dateArchive: accordéLe,
       identifiantUtilisateur,
     });
   }
@@ -166,9 +185,9 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     match(event)
       .with(
         {
-          type: 'RecoursAccordé-V1',
+          type: P.union('RecoursAccordé-V1', 'RecoursAccordé-V2'),
         },
-        (event) => this.applyRecoursAccordéV1(event),
+        (event) => this.applyRecoursAccordé(event),
       )
       .with(
         {
@@ -197,7 +216,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       .exhaustive();
   }
 
-  private applyRecoursAccordéV1(_: RecoursAccordéEvent) {
+  private applyRecoursAccordé(_: RecoursAccordéV1Event | RecoursAccordéEvent) {
     this.#statut = StatutRecours.accordé;
     this.instruction = undefined;
   }
