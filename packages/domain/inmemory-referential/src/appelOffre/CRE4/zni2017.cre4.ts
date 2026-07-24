@@ -180,7 +180,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2016/S 242-441980',
       },
-      puissanceAppelée: 20,
+      puissanceAppelée: 50,
 
       familles: [
         {
