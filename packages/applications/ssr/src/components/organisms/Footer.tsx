@@ -6,6 +6,10 @@ export const Footer = () => (
   <DsfrFooter
     id="footer"
     brandTop={<>Gouvernement</>}
+    homeLinkProps={{
+      href: '/',
+      title: "Retour à l'accueil",
+    }}
     accessibility="non compliant"
     accessibilityLinkProps={{
       href: `https://docs.potentiel.beta.gouv.fr/declaration-daccessibilite`,

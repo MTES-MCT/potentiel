@@ -10,6 +10,10 @@ import { DsfrHead, getHtmlAttributes } from '@/dsfr-bootstrap/server-only-index'
 // Tailwind import must happen after DSFR import.
 import './global.css';
 
+import Badge from '@codegouvfr/react-dsfr/Badge';
+import { headers } from 'next/headers';
+
+import { getSessionUser } from '@/auth/getSessionUser';
 import { featureFlag } from './_helpers/getFeatureFlag';
 import Providers from './Providers';
 
@@ -23,9 +27,32 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+const EnvBadge = () => {
+  if (!process.env.APPLICATION_STAGE) {
+    return null;
+  }
+
+  const className = 'fixed left-5 top-5 z-50';
+
+  if (process.env.APPLICATION_STAGE === 'production') {
+    return (
+      <Badge className={className} severity="warning">
+        PROD
+      </Badge>
+    );
+  }
+
+  return (
+    <Badge className={className} severity="info">
+      {process.env.APPLICATION_STAGE.toUpperCase()}
+    </Badge>
+  );
+};
+
+export default async function RootLayout({ children }: LayoutProps<'/'>) {
   const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
   const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
+  const utilisateur = await getSessionUser({ headers: await headers() });
 
   return (
     <html {...getHtmlAttributes({ lang: 'fr' })}>
@@ -44,6 +71,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           Cependant, aucune différence n'est visible et le SSR semble bien fonctionner.
         */}
         <StartDsfrOnHydration />
+
+        {utilisateur?.rôle.estAdmin() && <EnvBadge />}
 
         <Providers features={featureFlag}>
           <SkipLinks

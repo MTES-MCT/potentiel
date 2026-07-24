@@ -11,7 +11,8 @@ export const InfoBoxRévocationDesDroits: FC = () => (
     severity="warning"
     title="Attention : révocation des droits sur le projet"
     description={
-      <div>
+      <>
+        <br />
         <span>
           Une fois ce changement confirmé, vous ne pourrez plus suivre ce projet sur Potentiel.
           <br />
@@ -22,7 +23,7 @@ export const InfoBoxRévocationDesDroits: FC = () => (
           </Link>
           .
         </span>
-      </div>
+      </>
     }
   />
 );
@@ -32,10 +33,11 @@ export const InfoBoxAprèsAchèvement: FC = () => (
     severity="info"
     title="Achèvement"
     description={
-      <div className="p-1">
+      <span className="p-1">
+        <br />
         Un changement de producteur après achèvement du projet doit être fait auprès du
         cocontractant.
-      </div>
+      </span>
     }
   />
 );
@@ -53,10 +55,11 @@ export const InfoBoxRenseignerOuCorrigerNuméroImmatriculation = ({
     severity="info"
     title="SIRET / SIREN"
     description={
-      <div>
+      <span>
+        <br />
         Si vous souhaitez uniquement {numéroIdentification ? 'corriger' : 'renseigner'} votre numéro
         d'identification (SIRET / SIREN), veuillez vous rendre sur le formulaire dédié.
-      </div>
+      </span>
     }
     link={{
       linkProps: {
