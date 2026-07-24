@@ -141,6 +141,10 @@ export const GET = async (request: Request) =>
             value: 'puissanceUnitaireDesAérogénérateurs',
             label: 'Puissance unitaire des aérogénérateurs',
           },
+          {
+            value: 'volumeRéservé',
+            label: 'Fait parti du volume réservé',
+          },
         ],
 
         data: lauréatEnrichiList.items.map((item) => ({
@@ -184,6 +188,7 @@ export const GET = async (request: Request) =>
           typeNatureDeLExploitation: item.typeNatureDeLExploitation
             ? getNatureDeLExploitationTypeLabel(item.typeNatureDeLExploitation.type)
             : undefined,
+          volumeRéservé: item.volumeRéservé === undefined ? '' : item.volumeRéservé ? 'oui' : 'non',
         })),
       });
 
