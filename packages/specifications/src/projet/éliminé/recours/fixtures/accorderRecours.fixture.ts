@@ -40,12 +40,25 @@ export class AccorderRecoursFixture
     return this.#accordéPar;
   }
 
-  créer(partialData: Partial<AccorderRecours> & { dateAccord: string }): Readonly<AccorderRecours> {
+  créer(
+    partialData: Partial<AccorderRecours> & {
+      dateAccordSpécifique: string | undefined;
+      dateNotification: string;
+    },
+  ): Readonly<AccorderRecours> {
     const fixture: AccorderRecours = {
       accordéLe: faker.date.soon().toISOString(),
       accordéPar: faker.internet.email(),
       réponseSignée: faker.potentiel.document(),
       ...partialData,
+      dateAccord:
+        partialData.dateAccordSpécifique ??
+        faker.date
+          .between({
+            from: new Date(partialData.dateNotification),
+            to: new Date(),
+          })
+          .toISOString(),
     };
 
     this.#dateAccord = fixture.dateAccord;

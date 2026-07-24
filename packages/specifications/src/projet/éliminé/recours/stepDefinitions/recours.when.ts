@@ -1,5 +1,4 @@
 import { type DataTable, When as Quand } from '@cucumber/cucumber';
-import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
@@ -142,18 +141,8 @@ export async function accorderRecours(this: PotentielWorld, dateAccordSpécifiqu
     réponseSignée,
   } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
     accordéPar: this.utilisateurWorld.validateurFixture.email,
-    ...(dateAccordSpécifique
-      ? {
-          dateAccord: dateAccordSpécifique,
-        }
-      : {
-          dateAccord: faker.date
-            .between({
-              from: new Date(this.éliminéWorld.notifierEliminéFixture.notifiéLe),
-              to: new Date(),
-            })
-            .toISOString(),
-        }),
+    dateAccordSpécifique,
+    dateNotification: this.éliminéWorld.notifierEliminéFixture.notifiéLe,
   });
 
   await mediator.send<Éliminé.Recours.AccorderRecoursUseCase>({
