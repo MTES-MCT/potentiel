@@ -744,7 +744,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      puissanceAppelée: 185,
+      puissanceAppelée: 150,
       familles: [
         {
           id: '1',
@@ -858,7 +858,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
-      puissanceAppelée: 300,
+      puissanceAppelée: 150,
       familles: [
         {
           id: '1',
