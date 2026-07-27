@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 export const MenuToggle: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const label = isOpen ? 'Cacher le menu' : 'Afficher le menu';
 
   return (
     <>
@@ -14,20 +15,11 @@ export const MenuToggle: React.FC<React.PropsWithChildren> = ({ children }) => {
         iconId="fr-icon-arrow-left-s-line"
         onClick={() => setIsOpen(!isOpen)}
         priority="tertiary no outline"
-        title={isOpen ? 'Cacher le menu' : 'Afficher le menu'}
-        aria-label={isOpen ? 'Cacher le menu' : 'Afficher le menu'}
-        className={clsx(
-          'hidden md:block',
-          'before:transition-transform',
-          !isOpen && 'before:rotate-180',
-        )}
+        title={label}
+        aria-label={label}
+        className="hidden md:block"
       />
-      <div
-        className={clsx(
-          'transition-all  mb-6',
-          !isOpen ? '-translate-x-full absolute opacity-0' : ' ',
-        )}
-      >
+      <div className={clsx('  mb-6', !isOpen ? '-translate-x-full absolute opacity-0' : ' ')}>
         {children}
       </div>
     </>
