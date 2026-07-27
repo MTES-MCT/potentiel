@@ -35,11 +35,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
         <TitrePageRaccordement />
         {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
           <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
-        )}
-      </>
-    }
-    leftColumn={{
-      children: (
+        )}{' '}
         <TransmettreDemandeComplèteRaccordementForm
           identifiantProjet={identifiantProjet}
           listeGestionnairesRéseau={listeGestionnairesRéseau}
@@ -48,6 +44,19 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
             aDéjàTransmisUneDemandeComplèteDeRaccordement
           }
         />
+      </>
+    }
+    leftColumn={{
+      children: (
+        <></>
+        // <TransmettreDemandeComplèteRaccordementForm
+        //   identifiantProjet={identifiantProjet}
+        //   listeGestionnairesRéseau={listeGestionnairesRéseau}
+        //   gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+        //   aDéjàTransmisUneDemandeComplèteDeRaccordement={
+        //     aDéjàTransmisUneDemandeComplèteDeRaccordement
+        //   }
+        // />
       ),
     }}
     rightColumn={{

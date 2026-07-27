@@ -9,7 +9,7 @@ import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 import { getAction, getOptionalAbandon, getRaccordement } from '../../_helpers';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
-import { vérifierSiPeutAccéderÀRaccordement } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
+import { vérifierSiPeutAccéderÀRaccordement } from '../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { BadgeDemandesEnCours, BadgeTâches } from './Badges';
 
 export type MenuItem = SideMenuProps.Item;

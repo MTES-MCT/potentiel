@@ -27,8 +27,8 @@ import { mapToNatureDeLExploitationTimelineItemProps } from '../../nature-de-l-e
 import { mapToPowerPurchaseAgreementTimelineItemProps } from '../../power-purchase-agreement/(historique)/mapToPowerPurchaseAgreementTimelineItemProps';
 import { mapToProducteurTimelineItemProps } from '../../producteur/(historique)/mapToProducteurTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '../../puissance/(historique)/mapToPuissanceTimelineItemProps';
-import { mapToRaccordementTimelineItemProps } from '../../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '../../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
+import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import {
   categoriesDisponibles,
   mapCatégorieToIcon,

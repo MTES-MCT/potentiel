@@ -1,4 +1,4 @@
-import { mediator } from 'mediateur';
+  import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';

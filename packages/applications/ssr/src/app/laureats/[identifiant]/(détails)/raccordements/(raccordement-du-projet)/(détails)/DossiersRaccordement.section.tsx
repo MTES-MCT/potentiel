@@ -6,7 +6,7 @@ import type { Role } from '@potentiel-domain/utilisateur';
 
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getRaccordement } from '../../../_helpers';
+import { getRaccordement } from '../../../../_helpers';
 import {
   type DossierEtape,
   DossierRaccordement,
@@ -15,7 +15,7 @@ import {
   getDemandeComplèteDeRaccordementActions,
   getDocumentActions,
   getSupprimerDossierAction,
-} from '../../(raccordement-du-projet)/(détails)/_helpers';
+} from './_helpers';
 import { getMiseEnServiceAction } from './_helpers/getMiseEnServiceAction';
 
 type DossierSectionProps = {

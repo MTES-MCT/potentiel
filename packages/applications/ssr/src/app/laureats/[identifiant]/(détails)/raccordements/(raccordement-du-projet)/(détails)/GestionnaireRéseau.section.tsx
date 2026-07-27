@@ -9,7 +9,7 @@ import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getRaccordement } from '../../../_helpers';
+import { getRaccordement } from '../../../../_helpers';
 import { getGestionnaireRéseauAction, getLauréatOrRedirect } from './_helpers';
 
 export type GestionnaireRéseauSectionProps = {
