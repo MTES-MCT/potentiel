@@ -186,7 +186,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2019/S 113-276257',
       },
       familles: [],
-      puissanceAppelée: 19,
+      puissanceAppelée: 16,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',

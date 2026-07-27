@@ -377,7 +377,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2017/S 054-100223',
       },
       familles: [],
-      puissanceAppelée: 25,
+      puissanceAppelée: 20,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
