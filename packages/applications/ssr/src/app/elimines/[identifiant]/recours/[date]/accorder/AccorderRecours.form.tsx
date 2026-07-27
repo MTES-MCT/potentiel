@@ -4,11 +4,12 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import type { DateTime } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { InputDate } from '@/components/atoms/form/InputDate';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
 import { type AccorderRecoursFormKeys, accorderRecoursAction } from './accorderRecours.action';
@@ -16,9 +17,14 @@ import { type AccorderRecoursFormKeys, accorderRecoursAction } from './accorderR
 type AccorderRecoursFormProps = {
   identifiantProjet: string;
   date: PlainType<DateTime.ValueType>;
+  dateNotification: DateTime.RawType;
 };
 
-export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursFormProps) => {
+export const AccorderRecours = ({
+  identifiantProjet,
+  date,
+  dateNotification,
+}: AccorderRecoursFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderRecoursFormKeys>
   >({});
@@ -46,6 +52,16 @@ export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursForm
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+
+              <InputDate
+                label={`Date de l'accord du recours`}
+                name="dateRéponseSignée"
+                hintText={`Saisir la date à laquelle le recours a réellement été accordé (date de la réponse signée). Elle tiendra lieu de date de désignation du lauréat.`}
+                min={dateNotification}
+                max={DateTime.now().formatter()}
+                state={validationErrors['dateRéponseSignée'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['dateRéponseSignée']}
+              />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

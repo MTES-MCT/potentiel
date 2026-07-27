@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Éliminé } from '@potentiel-domain/projet';
 
@@ -30,7 +30,7 @@ export const mapToRecoursTimelineItemProps = (
     )
     .with(
       {
-        type: 'RecoursAccordé-V1',
+        type: P.union('RecoursAccordé-V1', 'RecoursAccordé-V2'),
       },
       mapToRecoursAccordéTimelineItemProps,
     )

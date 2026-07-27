@@ -11,7 +11,9 @@ import {
 } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-export const handleRecoursAccordé = async ({ payload }: Éliminé.Recours.RecoursAccordéEvent) => {
+export const handleRecoursAccordé = async ({
+  payload,
+}: Éliminé.Recours.RecoursAccordéV1Event | Éliminé.Recours.RecoursAccordéEvent) => {
   const projet = await getÉliminé(payload.identifiantProjet);
 
   const { appelOffre, période } = projet.identifiantProjet;

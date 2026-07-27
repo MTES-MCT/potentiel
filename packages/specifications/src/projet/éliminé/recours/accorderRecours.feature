@@ -7,9 +7,9 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | appel d'offres | PPE2 - Sol |
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
+    Scénario: La dgec accorde le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé
-        Quand le DGEC validateur accorde le recours pour le projet éliminé
+        Quand la dgec accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
         Et le projet lauréat devrait être consultable
         Et les garanties financières actuelles ne devraient pas être consultables
@@ -36,9 +36,9 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Mais aucun autre email n'a été envoyé
         Et l'attestation de désignation de la candidature ne devrait pas être régénérée
 
-    Scénario: Un DGEC validateur accorde le recours en instruction d'un projet éliminé
+    Scénario: la dgec accorde le recours en instruction d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé
-        Quand le DGEC validateur accorde le recours pour le projet éliminé
+        Quand la dgec accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
         Et le projet lauréat devrait être consultable
         Et le projet éliminé ne devrait plus être consultable
@@ -46,21 +46,37 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | motif | recours-accordé |
         Et les garanties financières actuelles ne devraient pas être consultables
 
+    Scénario: Impossible d'accorder le recours d'un projet éliminé avec une date d'accord dans le futur
+        Etant donné une demande de recours en cours pour le projet éliminé
+        Quand la dgec accorde le recours pour le projet éliminé avec :
+            | date d'accord du recours | 2100-10-10 |
+        Alors la dgec devrait être informé que "La date d'accord du recours ne peut pas être dans le futur"
+
+    Scénario: Impossible d'accorder le recours d'un projet éliminé avec une date d'accord antérieure à la date de notification du projet
+        Etant donné le projet éliminé "Du boulodrome de Paris" avec :
+            | appel d'offres    | PPE2 - Sol |
+            | date notification | 2023-01-01 |
+        Et la dreal "Dreal de Paris" associée à la région du projet
+        Et une demande de recours en cours pour le projet éliminé
+        Quand la dgec accorde le recours pour le projet éliminé avec :
+            | date d'accord du recours | 2022-10-10 |
+        Alors la dgec devrait être informé que "La date d'accord du recours ne peut pas antérieure à la date de notification du projet"
+
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été accordé
         Etant donné une demande de recours accordée pour le projet éliminé
-        Quand le DGEC validateur accorde le recours pour le projet éliminé
-        Alors le DGEC validateur devrait être informé que "Le recours a déjà été accordé"
+        Quand la dgec accorde le recours pour le projet éliminé
+        Alors la dgec devrait être informé que "Le recours a déjà été accordé"
 
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été rejeté
         Etant donné une demande de recours rejetée pour le projet éliminé
-        Quand le DGEC validateur accorde le recours pour le projet éliminé
-        Alors le DGEC validateur devrait être informé que "Le recours a déjà été rejeté"
+        Quand la dgec accorde le recours pour le projet éliminé
+        Alors la dgec devrait être informé que "Le recours a déjà été rejeté"
 
     Scénario: Impossible d'accorder le recours d'un projet éliminé si aucun recours n'a été demandé
-        Quand le DGEC validateur accorde le recours pour le projet éliminé
-        Alors le DGEC validateur devrait être informé que "Aucun recours n'est en cours"
+        Quand la dgec accorde le recours pour le projet éliminé
+        Alors la dgec devrait être informé que "Aucun recours n'est en cours"
 
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été annulé
         Etant donné une demande de recours annulée pour le projet éliminé
-        Quand le DGEC validateur accorde le recours pour le projet éliminé
-        Alors le DGEC validateur devrait être informé que "Le recours a déjà été annulé"
+        Quand la dgec accorde le recours pour le projet éliminé
+        Alors la dgec devrait être informé que "Le recours a déjà été annulé"
