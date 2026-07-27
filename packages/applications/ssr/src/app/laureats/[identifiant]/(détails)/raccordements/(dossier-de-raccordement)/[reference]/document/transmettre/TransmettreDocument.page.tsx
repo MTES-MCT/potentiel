@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import { TransmettreOuModifierDocumentAlert } from '../../../components/TransmettreModifierDocumentAlert';
 import {
   TransmettreDocumentForm,
@@ -16,7 +15,6 @@ export const TransmettreDocumentPage: FC<TransmettreDocumentPageProps> = ({
   availableTypes,
 }) => (
   <ColumnPageTemplate
-    heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
         <TransmettreDocumentForm

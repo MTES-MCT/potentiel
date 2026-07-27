@@ -2,7 +2,6 @@ import type { DateTime } from '@potentiel-domain/common';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import { DateMiseEnServiceForm, type DateMiseEnServiceFormProps } from '../DateMiseEnService.form';
 import { DateMiseEnServiceAlert } from '../DateMiseEnServiceAlert';
 import { SupprimerDateMiseEnService } from '../supprimer-date-mise-en-service/SupprimerDateMiseEnService.form';
@@ -24,7 +23,6 @@ export const ModifierDateMiseEnServicePage = ({
   peutSupprimer,
 }: ModifierDateMiseEnServicePageProps) => (
   <ColumnPageTemplate
-    heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
         <DateMiseEnServiceForm
