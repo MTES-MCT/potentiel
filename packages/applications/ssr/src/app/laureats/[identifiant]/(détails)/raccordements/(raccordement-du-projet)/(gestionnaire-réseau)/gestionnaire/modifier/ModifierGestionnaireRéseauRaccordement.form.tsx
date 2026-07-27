@@ -10,7 +10,7 @@ import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
   type GestionnaireRéseauSelectProps,
-} from '../GestionnaireRéseauSelect';
+} from '../../GestionnaireRéseauSelect';
 import {
   type ModifierGestionnaireRéseauRaccordementFormKeys,
   modifierGestionnaireRéseauRaccordementAction,
