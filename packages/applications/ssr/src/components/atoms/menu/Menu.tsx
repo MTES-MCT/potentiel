@@ -39,12 +39,9 @@ const applyCurrentPath = (items: MenuProps['items'], currentPath: string): MenuP
       };
     }
 
-    // TODO: changer le comportement pour raccordement
-
     return {
       ...item,
-      isActive:
-        trimTrailingSlash(item.linkProps.href.toString()) === trimTrailingSlash(currentPath),
+      isActive: trimTrailingSlash(currentPath).startsWith(item.linkProps.href.toString()),
     };
   });
 

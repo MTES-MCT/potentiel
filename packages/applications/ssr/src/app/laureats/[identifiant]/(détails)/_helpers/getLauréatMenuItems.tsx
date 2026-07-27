@@ -93,14 +93,12 @@ export const getLauréatMenuItems = async ({
 
   const raccordement = await getRaccordement(identifiantProjet.formatter());
 
-  const peutModifierRaccordement = vérifierSiPeutAccéderÀRaccordement(lauréat, abandon);
-
-  const détailEstConsultable =
+  const raccordementDétailEstConsultable =
     (raccordement && raccordement.dossiers.length > 0) ||
     utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
 
   const raccordementMenu =
-    peutModifierRaccordement && détailEstConsultable
+    vérifierSiPeutAccéderÀRaccordement(lauréat, abandon) && raccordementDétailEstConsultable
       ? linkToSection('Raccordement', 'raccordements')
       : undefined;
 
@@ -182,8 +180,8 @@ export const getLauréatMenuItems = async ({
     },
     modificationMenu,
     demandesEnCoursMenu,
-    tâchesMenu,
     raccordementMenu,
+    tâchesMenu,
     linkToSection('Historique', 'historique'),
     utilisateursMenu,
     linkToSection('Documents', 'documents'),
