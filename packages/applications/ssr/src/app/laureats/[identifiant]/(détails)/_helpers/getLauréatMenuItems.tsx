@@ -7,8 +7,9 @@ import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
-import { getAction } from '../../_helpers';
+import { getAction, getOptionalAbandon, getRaccordement } from '../../_helpers';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
+import { vérifierSiPeutAccéderÀRaccordement } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { BadgeDemandesEnCours, BadgeTâches } from './Badges';
 
 export type MenuItem = SideMenuProps.Item;
@@ -83,6 +84,23 @@ export const getLauréatMenuItems = async ({
     champsSupplémentaires.typologieInstallation ||
     champsSupplémentaires.autorisation
   );
+
+  const abandon = utilisateur.rôle.aLaPermission('abandon.consulter.enCours')
+    ? await getOptionalAbandon(identifiantProjet.formatter())
+    : undefined;
+
+  const raccordement = await getRaccordement(identifiantProjet.formatter());
+
+  const peutModifierRaccordement = vérifierSiPeutAccéderÀRaccordement(lauréat, abandon);
+
+  const détailEstConsultable =
+    (raccordement && raccordement.dossiers.length > 0) ||
+    utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
+
+  const raccordementMenu =
+    peutModifierRaccordement && détailEstConsultable
+      ? linkToSection('Raccordement', 'raccordements')
+      : undefined;
 
   const installationMenu = afficherInstallation
     ? linkToSection('Installation', 'installation')
@@ -163,6 +181,7 @@ export const getLauréatMenuItems = async ({
     modificationMenu,
     demandesEnCoursMenu,
     tâchesMenu,
+    raccordementMenu,
     linkToSection('Historique', 'historique'),
     utilisateursMenu,
     linkToSection('Documents', 'documents'),
