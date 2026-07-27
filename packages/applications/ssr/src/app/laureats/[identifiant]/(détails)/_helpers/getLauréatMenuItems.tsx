@@ -66,6 +66,11 @@ export const getLauréatMenuItems = async ({
     return action ? link(action.labelMenu, action.url) : undefined;
   };
 
+  // Fix pour que les GRD puissent avoir accès aux fonctionnalités de raccordement, sans affichage du menu lauréat
+  if (!utilisateur.rôle.aLaPermission('abandon.consulter.enCours')) {
+    return [];
+  }
+
   const tâchesMenu = utilisateur.rôle.aLaPermission('tâche.consulter')
     ? {
         ...linkToSection('Tâches', 'taches'),
@@ -74,6 +79,7 @@ export const getLauréatMenuItems = async ({
     : undefined;
 
   const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+  const abandon = await getOptionalAbandon(identifiantProjet.formatter());
 
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   const champsSupplémentaires = cahierDesCharges.getChampsSupplémentaires();
@@ -84,10 +90,6 @@ export const getLauréatMenuItems = async ({
     champsSupplémentaires.typologieInstallation ||
     champsSupplémentaires.autorisation
   );
-
-  const abandon = utilisateur.rôle.aLaPermission('abandon.consulter.enCours')
-    ? await getOptionalAbandon(identifiantProjet.formatter())
-    : undefined;
 
   const raccordement = await getRaccordement(identifiantProjet.formatter());
 

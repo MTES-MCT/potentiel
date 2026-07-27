@@ -22,6 +22,10 @@ export default async function LauréatDétailsLayout(props: LayoutProps) {
 
     const items = await getLauréatMenuItems({ identifiantProjet, utilisateur });
 
+    if (!items.length) {
+      return <div>{children}</div>;
+    }
+
     return (
       <div className="flex flex-col gap-2">
         <div className="flex flex-col md:flex-row">
