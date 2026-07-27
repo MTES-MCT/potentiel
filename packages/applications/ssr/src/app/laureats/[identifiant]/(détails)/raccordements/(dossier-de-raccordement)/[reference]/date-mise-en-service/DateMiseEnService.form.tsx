@@ -36,6 +36,7 @@ export const DateMiseEnServiceForm: FC<DateMiseEnServiceFormProps> = ({
     <Form
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      heading="Transmettre la date de mise en service"
       actionButtons={{
         submitLabel,
         secondaryAction: {

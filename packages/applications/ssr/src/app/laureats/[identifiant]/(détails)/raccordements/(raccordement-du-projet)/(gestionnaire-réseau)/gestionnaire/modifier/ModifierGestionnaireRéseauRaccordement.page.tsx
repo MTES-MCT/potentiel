@@ -1,8 +1,7 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   ModifierGestionnaireRéseauRaccordementForm,
   type ModifierGestionnaireRéseauRaccordementFormProps,
@@ -17,31 +16,18 @@ export type ModifierGestionnaireRéseauRaccordementPageProps = {
 export const ModifierGestionnaireRéseauRaccordementPage: FC<
   ModifierGestionnaireRéseauRaccordementPageProps
 > = ({ identifiantProjet, gestionnaireRéseauActuel, listeGestionnairesRéseau }) => (
-  <ColumnPageTemplate
-    heading={<TitrePageRaccordement />}
-    leftColumn={{
-      children: (
-        <ModifierGestionnaireRéseauRaccordementForm
-          identifiantProjet={identifiantProjet}
-          gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-          listeGestionnairesRéseau={listeGestionnairesRéseau}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <Alert
-          severity="info"
-          small
-          title="Concernant la modification"
-          description={
-            <div className="py-4 text-justify">
-              La modification de cette information sera appliquée sur tous les dossiers de
-              raccordements du projet.
-            </div>
-          }
-        />
-      ),
-    }}
-  />
+  <PageTemplate>
+    <div className="flex flex-col gap-4">
+      <ModifierGestionnaireRéseauRaccordementForm
+        identifiantProjet={identifiantProjet}
+        gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+        listeGestionnairesRéseau={listeGestionnairesRéseau}
+      />
+      <Notice
+        severity="info"
+        title=""
+        description="La modification de cette information sera appliquée à tous les dossiers de raccordements du projet."
+      />
+    </div>
+  </PageTemplate>
 );
