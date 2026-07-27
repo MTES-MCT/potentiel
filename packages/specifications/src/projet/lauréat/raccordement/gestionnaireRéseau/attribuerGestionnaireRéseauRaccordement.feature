@@ -47,5 +47,5 @@ Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un proje
         Alors un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marmande - Transmission de la demande complète de raccordement en attente |
             | nom_projet | Du boulodrome de Marmande                                                                              |
-            | url        | https://potentiel.beta.gouv.fr/laureats/(.*)/raccordements/demande-complete-raccordement:transmettre   |
+            | url        | https://potentiel.beta.gouv.fr/laureats/(.*)/raccordements/demande-complete-raccordement/transmettre   |
         Et une tâche "relance transmission de la demande complète raccordement" est planifiée à la date du "2025-12-01" pour le projet lauréat

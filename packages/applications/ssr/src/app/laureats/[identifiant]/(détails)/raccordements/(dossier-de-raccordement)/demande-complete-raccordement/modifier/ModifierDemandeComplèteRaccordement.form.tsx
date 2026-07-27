@@ -12,9 +12,9 @@ import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
   type GestionnaireRéseauSelectProps,
-} from '../../../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
-import { AccuséRéceptionInput } from '../../../components/AccuséRéceptionInput';
-import { RéférenceDossierInput } from '../../../components/RéférenceDossierInput';
+} from '../../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+import { AccuséRéceptionInput } from '../../components/AccuséRéceptionInput';
+import { RéférenceDossierInput } from '../../components/RéférenceDossierInput';
 import {
   type ModifierDemandeComplèteRaccordementFormKeys,
   modifierDemandeComplèteRaccordementAction,

@@ -9,7 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getLauréatOrRedirect } from '../../../(raccordement-du-projet)/(détails)/_helpers';
+import { getLauréatOrRedirect } from '../../../../(raccordement-du-projet)/(détails)/_helpers';
 import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossierRaccordement.page';
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page(
-  props: PageProps<'/laureats/[identifiant]/raccordements/[reference]/reference:corriger'>,
+  props: PageProps<'/laureats/[identifiant]/raccordements/[reference]/reference/corriger'>,
 ) {
   const { identifiant, reference } = await props.params;
 

@@ -7,7 +7,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import { RéférenceDossierInput } from '../../components/RéférenceDossierInput';
+import { RéférenceDossierInput } from '../../../components/RéférenceDossierInput';
 import {
   type CorrigerRéférenceDossierFormKeys,
   corrigerRéférenceDossierAction,

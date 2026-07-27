@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { AucunDossierDeRaccordementAlert } from '../components/AucunDossierDeRaccordementAlert';
+import { AucunDossierDeRaccordementAlert } from '../../components/AucunDossierDeRaccordementAlert';
 import {
   TransmettreDemandeComplèteRaccordementForm,
   type TransmettreDemandeComplèteRaccordementFormProps,
