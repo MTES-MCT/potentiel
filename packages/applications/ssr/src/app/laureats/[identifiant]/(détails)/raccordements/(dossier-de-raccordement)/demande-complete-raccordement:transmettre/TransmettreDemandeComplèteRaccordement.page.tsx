@@ -1,11 +1,6 @@
 import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { TitrePageRaccordement } from '../../TitrePageRaccordement';
-import {
-  InfoBoxDemandeComplèteRaccordement,
-  type InfoBoxDemandeComplèteRaccordementProps,
-} from '../[reference]/(demande-complète-raccordement)/InformationDemandeComplèteRaccordement';
+import { PageTemplate } from '@/components/templates/Page.template';
 import { AucunDossierDeRaccordementAlert } from '../components/AucunDossierDeRaccordementAlert';
 import {
   TransmettreDemandeComplèteRaccordementForm,
@@ -16,7 +11,6 @@ export type TransmettreDemandeComplèteRaccordementPageProps = {
   listeGestionnairesRéseau: TransmettreDemandeComplèteRaccordementFormProps['listeGestionnairesRéseau'];
   gestionnaireRéseauActuel: TransmettreDemandeComplèteRaccordementFormProps['gestionnaireRéseauActuel'];
   identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
-  delaiDemandeDeRaccordementEnMois: InfoBoxDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
 };
 
@@ -26,45 +20,21 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   listeGestionnairesRéseau,
   gestionnaireRéseauActuel,
   identifiantProjet,
-  delaiDemandeDeRaccordementEnMois,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }) => (
-  <ColumnPageTemplate
-    heading={
-      <>
-        <TitrePageRaccordement />
-        {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
-          <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
-        )}{' '}
-        <TransmettreDemandeComplèteRaccordementForm
-          identifiantProjet={identifiantProjet}
-          listeGestionnairesRéseau={listeGestionnairesRéseau}
-          gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-          aDéjàTransmisUneDemandeComplèteDeRaccordement={
-            aDéjàTransmisUneDemandeComplèteDeRaccordement
-          }
-        />
-      </>
-    }
-    leftColumn={{
-      children: (
-        <></>
-        // <TransmettreDemandeComplèteRaccordementForm
-        //   identifiantProjet={identifiantProjet}
-        //   listeGestionnairesRéseau={listeGestionnairesRéseau}
-        //   gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-        //   aDéjàTransmisUneDemandeComplèteDeRaccordement={
-        //     aDéjàTransmisUneDemandeComplèteDeRaccordement
-        //   }
-        // />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <InfoBoxDemandeComplèteRaccordement
-          delaiDemandeDeRaccordementEnMois={delaiDemandeDeRaccordementEnMois}
-        />
-      ),
-    }}
-  />
+  <PageTemplate>
+    <div className="flex flex-col gap-4">
+      {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
+        <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
+      )}
+      <TransmettreDemandeComplèteRaccordementForm
+        identifiantProjet={identifiantProjet}
+        listeGestionnairesRéseau={listeGestionnairesRéseau}
+        gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+        aDéjàTransmisUneDemandeComplèteDeRaccordement={
+          aDéjàTransmisUneDemandeComplèteDeRaccordement
+        }
+      />
+    </div>
+  </PageTemplate>
 );

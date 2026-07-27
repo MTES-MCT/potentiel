@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { InfoBoxRéférenceDossierRaccordement } from '../(demande-complète-raccordement)/InformationDemandeComplèteRaccordement';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   CorrigerRéférenceDossierForm,
   type CorrigerRéférenceDossierFormProps,
@@ -10,18 +9,11 @@ import {
 export type CorrigerRéférenceDossierPageProps = CorrigerRéférenceDossierFormProps;
 
 export const CorrigerRéférenceDossierPage: FC<CorrigerRéférenceDossierPageProps> = (props) => (
-  <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <CorrigerRéférenceDossierForm
-          dossierRaccordement={props.dossierRaccordement}
-          gestionnaireRéseau={props.gestionnaireRéseau}
-          identifiantProjet={props.identifiantProjet}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: <InfoBoxRéférenceDossierRaccordement />,
-    }}
-  />
+  <PageTemplate>
+    <CorrigerRéférenceDossierForm
+      dossierRaccordement={props.dossierRaccordement}
+      gestionnaireRéseau={props.gestionnaireRéseau}
+      identifiantProjet={props.identifiantProjet}
+    />
+  </PageTemplate>
 );

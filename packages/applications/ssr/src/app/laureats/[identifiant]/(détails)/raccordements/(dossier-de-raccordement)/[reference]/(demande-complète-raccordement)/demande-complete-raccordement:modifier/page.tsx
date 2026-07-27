@@ -3,13 +3,11 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
-import { type CahierDesCharges, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -52,8 +50,6 @@ export default async function Page(props0: PageProps) {
 
       const referenceDossierRaccordement = decodeParameter(reference);
 
-      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
-
       const gestionnaireRéseau =
         await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
@@ -82,7 +78,6 @@ export default async function Page(props0: PageProps) {
 
       const props = mapToProps({
         role: utilisateur.rôle,
-        cahierDesCharges,
         gestionnaireRéseau: Option.isSome(gestionnaireRéseau) ? gestionnaireRéseau : undefined,
         identifiantProjet,
         dossierRaccordement,
@@ -94,7 +89,6 @@ export default async function Page(props0: PageProps) {
           identifiantProjet={identifiantProjet}
           raccordement={props.raccordement}
           gestionnaireRéseauActuel={props.gestionnaireRéseauActuel}
-          delaiDemandeDeRaccordementEnMois={props.delaiDemandeDeRaccordementEnMois}
           listeGestionnairesRéseau={props.listeGestionnairesRéseau}
         />
       );
@@ -108,11 +102,9 @@ type MapToProps = (args: {
   dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: IdentifiantProjet.RawType;
   listeGestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel | undefined;
-  cahierDesCharges: CahierDesCharges.ValueType;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
-  cahierDesCharges,
   gestionnaireRéseau,
   dossierRaccordement,
   identifiantProjet,
@@ -126,10 +118,6 @@ const mapToProps: MapToProps = ({
         dossierRaccordement.demandeComplèteRaccordement.dateQualification?.formatter(),
       accuséRéception: dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
     },
-  },
-  delaiDemandeDeRaccordementEnMois: {
-    valeur: cahierDesCharges.getDélaiDCR().grd,
-    texte: nombresEnToutesLettres[cahierDesCharges.getDélaiDCR().grd],
   },
   gestionnaireRéseauActuel: gestionnaireRéseau && mapToPlainObject(gestionnaireRéseau),
   listeGestionnairesRéseau: gestionnairesRéseau && mapToPlainObject(gestionnairesRéseau.items),

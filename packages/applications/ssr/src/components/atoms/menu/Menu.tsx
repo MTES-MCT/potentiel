@@ -38,6 +38,9 @@ const applyCurrentPath = (items: MenuProps['items'], currentPath: string): MenuP
         items,
       };
     }
+
+    // TODO: changer le comportement pour raccordement
+
     return {
       ...item,
       isActive:

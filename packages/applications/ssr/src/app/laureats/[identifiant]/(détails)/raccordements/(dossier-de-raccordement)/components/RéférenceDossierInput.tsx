@@ -1,4 +1,6 @@
 import Input from '@codegouvfr/react-dsfr/Input';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
+import Link from 'next/link';
 
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
@@ -27,7 +29,12 @@ export const RéférenceDossierInput = ({
 
   return (
     <Input
-      label="Référence du dossier de raccordement du projet *"
+      label={
+        <>
+          <span>Référence du dossier de raccordement du projet</span>
+          <RéférenceDossierTooltip />
+        </>
+      }
       hintText={
         <>
           {aideSaisie?.format && (
@@ -58,3 +65,22 @@ export const RéférenceDossierInput = ({
     />
   );
 };
+
+const RéférenceDossierTooltip = () => (
+  <Tooltip
+    kind="click"
+    title={
+      <>
+        Vous pouvez retrouver cette donnée dans le courriel d'accusé de réception de votre demande
+        complète de raccordement (
+        <Link
+          href="https://docs.potentiel.beta.gouv.fr/faq/ou-trouver-la-reference-du-dossier-de-raccordement-de-mon-projet"
+          target="_blank"
+        >
+          voir un exemple d'accusé de réception
+        </Link>
+        )
+      </>
+    }
+  />
+);

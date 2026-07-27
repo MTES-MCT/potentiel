@@ -1,6 +1,5 @@
 'use client';
 
-import Input from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -8,7 +7,6 @@ import type { PlainType } from '@potentiel-domain/core';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { Icon } from '@/components/atoms/Icon';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
@@ -17,6 +15,7 @@ import {
   GestionnaireRéseauSelect,
   type GestionnaireRéseauSelectProps,
 } from '../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+import { AccuséRéceptionInput } from '../components/AccuséRéceptionInput';
 import { RéférenceDossierInput } from '../components/RéférenceDossierInput';
 import {
   type TransmettreDemandeComplèteRaccordementFormKeys,
@@ -68,7 +67,6 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
-
       {Option.isSome(gestionnaireRéseauActuel) ? (
         <div className="flex flex-col">
           <div className="flex gap-3">
@@ -98,34 +96,12 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           }
         />
       )}
-
       <RéférenceDossierInput
         name="referenceDossier"
         aideSaisie={aideSaisieRéférenceDossierRaccordement}
         validationErrors={validationErrors}
       />
-
-      <Input
-        label="Date de l'accusé de réception"
-        state={validationErrors['dateQualification'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateQualification']}
-        nativeInputProps={{
-          type: 'date',
-          name: 'dateQualification',
-          max: new Date().toISOString().split('T').shift(),
-          required: true,
-          'aria-required': true,
-        }}
-      />
-
-      <UploadNewOrModifyExistingDocument
-        label="Accusé de réception de la demande complète de raccordement **"
-        name="accuseReception"
-        required
-        formats={['pdf']}
-        state={validationErrors['accuseReception'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['accuseReception']}
-      />
+      <AccuséRéceptionInput validationErrors={validationErrors} />
     </Form>
   );
 };

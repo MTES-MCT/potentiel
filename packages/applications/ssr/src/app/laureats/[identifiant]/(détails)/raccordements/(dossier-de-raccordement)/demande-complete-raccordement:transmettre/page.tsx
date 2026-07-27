@@ -2,12 +2,10 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { nombresEnToutesLettres } from '@potentiel-domain/inmemory-referential';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -41,8 +39,6 @@ export default async function Page(props: PageProps) {
 
       await getLauréatOrRedirect(identifiantProjet);
 
-      const délaiDCR = (await getCahierDesCharges(identifiantProjet)).getDélaiDCR();
-
       const gestionnairesRéseau =
         await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
           type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
@@ -71,10 +67,6 @@ export default async function Page(props: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           listeGestionnairesRéseau={mapToPlainObject(gestionnairesRéseau.items)}
           gestionnaireRéseauActuel={mapToPlainObject(gestionnaireRéseauActuel)}
-          delaiDemandeDeRaccordementEnMois={{
-            valeur: délaiDCR.grd,
-            texte: nombresEnToutesLettres[délaiDCR.grd],
-          }}
         />
       );
     }),

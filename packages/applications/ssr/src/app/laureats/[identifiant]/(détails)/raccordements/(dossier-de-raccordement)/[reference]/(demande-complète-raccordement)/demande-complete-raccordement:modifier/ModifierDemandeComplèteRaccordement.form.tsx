@@ -4,17 +4,16 @@ import { type FC, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
 import type { Lauréat } from '@potentiel-domain/projet';
-import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Option } from '@potentiel-libraries/monads';
 
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
-import { InputDate } from '@/components/atoms/form/InputDate';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
   type GestionnaireRéseauSelectProps,
 } from '../../../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+import { AccuséRéceptionInput } from '../../../components/AccuséRéceptionInput';
 import { RéférenceDossierInput } from '../../../components/RéférenceDossierInput';
 import {
   type ModifierDemandeComplèteRaccordementFormKeys,
@@ -113,26 +112,10 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         validationErrors={validationErrors}
       />
 
-      <UploadNewOrModifyExistingDocument
-        label="Accusé de réception de la demande complète de raccordement **"
-        name="accuseReception"
-        required
-        formats={['pdf']}
-        state={validationErrors['accuseReception'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['accuseReception']}
-        documentKeys={accuséRéception ? [accuséRéception] : undefined}
-      />
-
-      <InputDate
-        id="dateQualification"
-        state={validationErrors['dateQualification'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateQualification']}
-        label="Date de l'accusé de réception"
-        name="dateQualification"
-        max={now()}
-        defaultValue={dateQualification}
-        required
-        small
+      <AccuséRéceptionInput
+        validationErrors={validationErrors}
+        date={dateQualification}
+        documentKey={accuséRéception}
       />
     </Form>
   );
