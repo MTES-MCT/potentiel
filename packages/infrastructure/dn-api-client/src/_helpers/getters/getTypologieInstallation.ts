@@ -7,6 +7,31 @@ import type { Champs } from '../../graphql/index.js';
 export const getTypologieInstallation = (champs: Champs) => {
   const typologieInstallation: Candidature.TypologieInstallation.RawType[] = [];
 
+  const champTypologie = champs.find(
+    (champ) =>
+      champ.__typename === 'MultipleDropDownListChamp' &&
+      champ.label.trim().toLowerCase() === 'typologie principale du projet',
+  );
+
+  const champAgrivoltaïque = champs.find(
+    (champ) =>
+      champ.__typename === 'CheckboxChamp' &&
+      champ.label.trim().toLowerCase() ===
+        `l'installation est-elle agrivoltaïque au sens de l’article l. 314-36 du code de l’énergie ?`,
+  );
+
+  const champActivitéSousLInstallationAgrivoltaïque = champs.find(
+    (champ) =>
+      champ.__typename === 'TextChamp' &&
+      champ.label.trim().toLowerCase() === `activité sous l'installation`,
+  );
+
+  const typologieCultureOuÉlevage = champs.find(
+    (champ) =>
+      champ.__typename === 'TextChamp' &&
+      champ.label.trim().toLowerCase() === `typologie de culture ou d'élevage`,
+  );
+
   const champTypologieBâtiment = champs.find(
     (champ) =>
       champ.__typename === 'TextChamp' &&
@@ -30,6 +55,15 @@ export const getTypologieInstallation = (champs: Champs) => {
       champ.__typename === 'TextChamp' &&
       champ.label.trim().toLowerCase() === 'préciser les éléments sous la serre',
   );
+
+  const typologiesPrincipales = champTypologie?.stringValue
+    ?.toLowerCase()
+    .split(',')
+    .map((t) => t.trim());
+  if (typologiesPrincipales?.includes('installation au sol')) {
+    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol' };
+    typologieInstallation.push(typologie);
+  }
 
   if (champTypologieBâtiment?.stringValue) {
     const typologie = match(champTypologieBâtiment.stringValue.trim().toLowerCase())
@@ -62,6 +96,9 @@ export const getTypologieInstallation = (champs: Champs) => {
       .with('ombrière sur parking', () => ({
         typologie: 'ombrière.parking',
       }))
+      .with('ombrière agrivoltaïque', () => ({
+        typologie: 'ombrière.agrivoltaïque',
+      }))
       .with('ombrière autre', () => ({
         typologie: 'ombrière.autre',
         détails: champÉlémentsSousOmbrière?.stringValue?.trim(),
@@ -73,6 +110,29 @@ export const getTypologieInstallation = (champs: Champs) => {
       .otherwise(() => undefined);
     if (typologie) {
       typologieInstallation.push(typologie);
+    }
+  }
+
+  if (champAgrivoltaïque?.stringValue === 'true') {
+    if (champActivitéSousLInstallationAgrivoltaïque?.stringValue) {
+      const typologie = match(
+        champActivitéSousLInstallationAgrivoltaïque.stringValue.trim().toLowerCase(),
+      )
+        .returnType<Candidature.TypologieInstallation.RawType>()
+        .with('cultures', () => ({
+          typologie: 'agrivoltaïque.culture',
+          détails: typologieCultureOuÉlevage?.stringValue?.trim(),
+        }))
+        .with('élevage', () => ({
+          typologie: 'agrivoltaïque.élevage',
+          détails: typologieCultureOuÉlevage?.stringValue?.trim(),
+        }))
+        .otherwise(() => ({
+          typologie: 'agrivoltaïque.non-précisé',
+        }));
+      typologieInstallation.push(typologie);
+    } else {
+      typologieInstallation.push({ typologie: 'agrivoltaïque.non-précisé' });
     }
   }
 

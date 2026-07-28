@@ -16,7 +16,7 @@ export const getDateÉchéanceGarantiesFinancières = ({
 }) => {
   if (typeGarantiesFinancières === 'garantie-bancaire' && dateConstitutionGarantiesFinancières) {
     const délaiÉchéanceGarantieBancaireEnMois = appelsOffreData.find(
-      (ao) => ao.id === 'PPE2 - Petit PV',
+      (ao) => ao.typeAppelOffre === 'simplifié',
     )?.garantiesFinancières.délaiÉchéanceGarantieBancaireEnMois;
 
     return délaiÉchéanceGarantieBancaireEnMois

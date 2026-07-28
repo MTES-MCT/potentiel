@@ -8,7 +8,8 @@ const typeGfMap = {
   "Garantie financière avec date d'échéance et à renouveler": 'avec-date-échéance',
   'Garantie bancaire': 'garantie-bancaire',
   "Garantie financière jusqu'à 6 mois après la date d'achèvement": 'six-mois-après-achèvement',
-  Exemption: 'exemption',
+  "Exemption (cas d'une collectivité territoriale ou d'un groupement de collectivités territoriales)":
+    'exemption',
 } satisfies Partial<
   Record<string, Candidature.TypeGarantiesFinancières.RawType | 'garantie-bancaire'>
 >;
