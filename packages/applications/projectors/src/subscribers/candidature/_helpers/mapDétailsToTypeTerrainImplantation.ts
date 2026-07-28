@@ -11,7 +11,7 @@ export const mapDétailsToTypeTerrainImplantation = (
   if (['2', 'cas 2'].includes(v)) {
     return 'cas 2';
   }
-  if (['2 bis', '2 bis'].includes(v)) {
+  if (['2 bis', 'cas 2 bis'].includes(v)) {
     return 'cas 2 bis';
   }
   if (['3', 'cas 3'].includes(v)) {

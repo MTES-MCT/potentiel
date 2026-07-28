@@ -1,3 +1,4 @@
+export * from './afficherBooleanValue';
 export * from './applySearchParams';
 export * from './changementActionnaireNécessiteInstruction';
 export * from './filters/getTypeActionnariatFilterOptions';

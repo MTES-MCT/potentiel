@@ -5,7 +5,11 @@ import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/sta
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
-import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';
+import {
+  afficherBooleanValue,
+  getNatureDeLExploitationTypeLabel,
+  getTypologieInstallationLabel,
+} from '@/app/_helpers';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -152,6 +156,8 @@ export const GET = async (request: Request) =>
           latitude: '',
           longitude: '',
           ...item,
+          installationRenouvelée: afficherBooleanValue(item.installationRenouvelée),
+          trackers: afficherBooleanValue(item.trackers),
           identifiantProjet: item.identifiantProjet.formatter(),
           unitéPuissance: item.unitéPuissance.formatter(),
           typeActionnariat: item.typeActionnariat?.formatter(),

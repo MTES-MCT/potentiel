@@ -102,12 +102,12 @@ export type LauréatEnrichiListItemReadModel = {
   typeDeZonePluOuPlui: string | undefined;
   typeDeZonePos: string | undefined;
   typeDeZoneAutres: string | undefined;
-  trackers: string | undefined;
+  trackers: boolean | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
-  installationRenouvelée: string | undefined;
+  installationRenouvelée: boolean | undefined;
   puissanceDuProjetInitial: number | undefined;
   nombreDAérogénérateurs: string | undefined;
   puissanceUnitaireDesAérogénérateurs: string | undefined;
@@ -388,7 +388,7 @@ const mapToReadModel: MapToReadModelProps = ({
     surfaceTotaleTerrainImplantation: détail?.pv?.surfaceTotaleTerrainImplantation,
     natureExacteDuTerrain: détail?.pv?.natureExacteDuTerrain,
     dateObtentionCETI: détail?.pv?.dateObtentionCETI,
-    trackers: mapOptionalBooleanToOuiNon(détail?.pv?.trackers),
+    trackers: détail?.pv?.trackers,
     typeDeZonePluOuPlui: détail?.pv?.typeDeZonePluOuPlui,
     typeDeZonePos: détail?.pv?.typeDeZonePos,
     typeDeZoneAutres: détail?.pv?.typeDeZoneAutres,
@@ -396,13 +396,10 @@ const mapToReadModel: MapToReadModelProps = ({
     technologieÉolien: détail?.éolien?.technologie,
     diamètreRotorEnMètres: détail?.éolien?.diamètreRotorEnMètres?.toString(),
     hauteurBoutDePâleEnMètres: détail?.éolien?.hauteurBoutDePâleEnMètres?.toString(),
-    installationRenouvelée: mapOptionalBooleanToOuiNon(détail?.éolien?.installationRenouvelée),
+    installationRenouvelée: détail?.éolien?.installationRenouvelée,
     nombreDAérogénérateurs: détail?.éolien?.nombreDAérogénérateurs?.toString(),
     puissanceUnitaireDesAérogénérateurs:
       détail?.éolien?.puissanceUnitaireDesAérogénérateurs?.toString(),
     volumeRéservé,
   };
 };
-
-const mapOptionalBooleanToOuiNon = (value: boolean | undefined) =>
-  value === true ? 'oui' : value === false ? 'non' : undefined;

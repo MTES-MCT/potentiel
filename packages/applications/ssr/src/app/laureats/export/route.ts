@@ -6,7 +6,11 @@ import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/sta
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
-import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';
+import {
+  afficherBooleanValue,
+  getNatureDeLExploitationTypeLabel,
+  getTypologieInstallationLabel,
+} from '@/app/_helpers';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -211,7 +215,9 @@ export const GET = async (request: Request) =>
           typeNatureDeLExploitation: item.typeNatureDeLExploitation
             ? getNatureDeLExploitationTypeLabel(item.typeNatureDeLExploitation.type)
             : undefined,
-          volumeRéservé: item.volumeRéservé === undefined ? '' : item.volumeRéservé ? 'oui' : 'non',
+          volumeRéservé: afficherBooleanValue(item.volumeRéservé),
+          installationRenouvelée: afficherBooleanValue(item.installationRenouvelée),
+          trackers: afficherBooleanValue(item.trackers),
         })),
       });
 
