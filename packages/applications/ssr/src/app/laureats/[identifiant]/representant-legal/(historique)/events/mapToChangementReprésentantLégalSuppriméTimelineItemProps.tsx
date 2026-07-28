@@ -9,6 +9,7 @@ export const mapToChangementReprésentantLégalSuppriméTimelineItemProps = (
 
   return {
     date: suppriméLe,
-    title: "Demande de modification de représentant légal supprimée suite à l'accord de l'abandon",
+    title: 'Demande de modification de représentant légal supprimée',
+    reason: 'Abandon accordé',
   };
 };

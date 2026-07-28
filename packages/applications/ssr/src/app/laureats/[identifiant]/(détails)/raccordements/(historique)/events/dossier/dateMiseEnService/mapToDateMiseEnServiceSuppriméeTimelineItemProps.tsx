@@ -9,11 +9,11 @@ export const mapToDateMiseEnServiceSuppriméeTimelineItemProps = (
   return {
     date: suppriméeLe,
     actor: suppriméePar,
-    title: (
-      <>
-        La date de mise en service du dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span> a été supprimée
-      </>
+    title: 'Date de mise en service supprimée',
+    details: (
+      <span>
+        Référence du dossier : <span className="font-semibold">{référenceDossierRaccordement}</span>
+      </span>
     ),
   };
 };

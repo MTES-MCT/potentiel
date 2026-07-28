@@ -14,7 +14,7 @@ export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsPr
 
   return {
     date: accordéLe,
-    title: 'La demande de mainlevée des garanties financières a été accordée',
+    title: 'Demande de mainlevée des garanties financières accordée',
     actor: accordéPar,
     file: {
       document: réponseSignée,

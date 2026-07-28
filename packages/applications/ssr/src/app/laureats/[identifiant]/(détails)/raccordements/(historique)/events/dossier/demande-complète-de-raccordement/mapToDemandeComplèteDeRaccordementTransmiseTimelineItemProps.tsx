@@ -1,5 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
@@ -13,7 +13,7 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
     createdAt: string;
   },
 ): TimelineItemProps => {
-  const { référenceDossierRaccordement, dateQualification } = event.payload;
+  const { référenceDossierRaccordement, dateQualification, identifiantProjet } = event.payload;
 
   const transmiseLe: DateTime.RawType =
     'transmiseLe' in event.payload
@@ -23,20 +23,39 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
   const transmisePar: string | undefined =
     'transmisePar' in event.payload ? event.payload.transmisePar : undefined;
 
+  const accuséRéception: { format: string } | undefined =
+    'accuséRéception' in event.payload ? event.payload.accuséRéception : undefined;
+
   return {
     date: transmiseLe,
     actor: transmisePar,
-    title: (
-      <>
-        Un nouveau dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span> a été créé
-      </>
+    title: 'Nouveau dossier de raccordement crée',
+    details: (
+      <div className="flex flex-col">
+        <span>
+          Référence du dossier :{' '}
+          <span className="font-semibold">{référenceDossierRaccordement}</span>
+        </span>
+        {dateQualification && (
+          <span>
+            Date de l'accusé de réception :{' '}
+            <FormattedDate className="font-semibold" date={dateQualification} />
+          </span>
+        )}
+      </div>
     ),
-    details: dateQualification && (
-      <span>
-        Date de l'accusé de réception :{' '}
-        <FormattedDate className="font-semibold" date={dateQualification} />
-      </span>
-    ),
+    file:
+      accuséRéception && dateQualification
+        ? {
+            document: Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
+              identifiantProjet,
+              référenceDossierRaccordement,
+              dateQualification,
+              accuséRéception,
+            }),
+            label: "Télécharger l'accusé de réception",
+            ariaLabel: `Télécharger l'accusé de réception du dossier ${référenceDossierRaccordement}`,
+          }
+        : undefined,
   };
 };

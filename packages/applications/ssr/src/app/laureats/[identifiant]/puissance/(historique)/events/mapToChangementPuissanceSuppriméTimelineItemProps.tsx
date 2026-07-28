@@ -9,6 +9,7 @@ export const mapToChangementPuissanceSuppriméTimelineItemProps = (
 
   return {
     date: suppriméLe,
-    title: "Demande de modification de puissance supprimée suite à l'accord de l'abandon",
+    title: 'Demande de changement de puissance supprimée',
+    reason: 'Abandon accordé',
   };
 };

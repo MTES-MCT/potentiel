@@ -8,10 +8,10 @@ export const mapToDateAchèvementCorrigéeTimelineItemProps = (
 ): TimelineItemProps => {
   const { dateAchèvement, corrigéeLe } = event.payload;
 
-  // aujourd'hui seul le Cocontractant peut corriger la date d'achèvement
   return {
     date: corrigéeLe,
-    title: "Correction de la date d'achèvement par le Cocontractant",
+    // aujourd'hui seul le Cocontractant peut corriger la date d'achèvement
+    title: "Date d'achèvement corrigée par le Cocontractant",
     details: (
       <div>
         Nouvelle date d'achèvement réel :{' '}

@@ -22,7 +22,7 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = ({
 
   return {
     date: demandéLe,
-    title: 'Changement de puissance demandé',
+    title: 'Demande de changement de puissance déposée',
     actor: demandéPar,
     file: pièceJustificative && {
       document: Lauréat.Puissance.DocumentPuissance.pièceJustificative(event.payload),

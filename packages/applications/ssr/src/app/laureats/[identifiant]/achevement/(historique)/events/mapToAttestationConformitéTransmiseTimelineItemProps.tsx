@@ -42,10 +42,16 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
 
   return {
     date,
-    title: "Transmission de l'achèvement réel",
+    title: 'Achèvement réel transmis',
     actor: utilisateur,
     details: (
       <div className="flex flex-col gap-2">
+        <div>
+          Date d'achèvement réel :{' '}
+          <span className="font-semibold">
+            {<FormattedDate date={dateTransmissionAuCocontractant} />}
+          </span>
+        </div>
         <TimelineItemFile
           label="Télécharger l'attestation de conformité"
           document={attestationConformité}
@@ -63,12 +69,6 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
           document={preuveTransmission}
           ariaLabel={`Télécharger la preuve de transmission au Cocontractant du projet achevé le ${formatDateToText(dateTransmissionAuCocontractant)}`}
         />
-        <div>
-          Date d'achèvement réel :{' '}
-          <span className="font-semibold">
-            {<FormattedDate date={dateTransmissionAuCocontractant} />}
-          </span>
-        </div>
       </div>
     ),
   };

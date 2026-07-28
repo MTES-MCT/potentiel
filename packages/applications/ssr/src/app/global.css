@@ -21,3 +21,8 @@ input:user-invalid {
   margin-right: 0;
   margin-left: 0;
 }
+
+/* Majuscule avec du css*/
+.first-letter-capitalize::first-letter {
+  text-transform: capitalize;
+}

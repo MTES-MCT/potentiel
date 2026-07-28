@@ -7,6 +7,7 @@ export const mapToDemandeDélaiSuppriméeTimelineItemProps = (
 
   return {
     date: suppriméLe,
-    title: "Demande de délai supprimée suite à l'accord de l'abandon",
+    title: 'Demande de délai supprimée',
+    reason: 'Abandon accordé',
   };
 };

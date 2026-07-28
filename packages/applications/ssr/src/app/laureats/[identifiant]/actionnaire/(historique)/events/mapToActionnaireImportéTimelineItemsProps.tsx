@@ -9,7 +9,6 @@ export const mapToActionnaireImportéTimelineItemProps = (
 
   return {
     date: importéLe,
-    // actionnaire peut être une string vide
     title: actionnaire ? (
       <>Candidature : {<span className="font-semibold">{actionnaire}</span>}</>
     ) : (

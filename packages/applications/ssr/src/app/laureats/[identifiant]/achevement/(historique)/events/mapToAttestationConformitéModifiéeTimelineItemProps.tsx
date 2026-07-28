@@ -27,7 +27,7 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
 
   return {
     date: modifiéeLe,
-    title: "Modification de l'attestation de conformité",
+    title: 'Attestation de conformité modifiée',
     actor: modifiéePar,
     details: (
       <div className="flex flex-col gap-2">
