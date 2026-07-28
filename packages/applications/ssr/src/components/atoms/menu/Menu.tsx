@@ -39,10 +39,16 @@ const applyCurrentPath = (items: MenuProps['items'], currentPath: string): MenuP
       };
     }
 
+    const path = trimTrailingSlash(currentPath);
+    const href = trimTrailingSlash(item.linkProps.href.toString());
+
     return {
       ...item,
-      isActive: trimTrailingSlash(currentPath).startsWith(item.linkProps.href.toString()),
+      isActive:
+        (!estTableauDeBord(path) && !estTableauDeBord(href) && path.startsWith(href)) ||
+        (estTableauDeBord(path) && estTableauDeBord(href)),
     };
   });
 
 const trimTrailingSlash = (url: string) => (url.endsWith('/') ? url.slice(0, -1) : url);
+const estTableauDeBord = (url: string) => url.split('/').filter((x) => x !== '').length === 2;
