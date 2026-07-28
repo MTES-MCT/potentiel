@@ -4,7 +4,7 @@ import { createDossierAccessor, type GetDossierQuery } from '../../graphql/index
 import { getCoordonnées } from '../getters/getCoordonnées.js';
 import { getDateÉchéanceGarantiesFinancières } from '../getters/getDateÉchéanceGarantiesFinancières.js';
 import { getNuméroIdentification } from '../getters/getNuméroIdentification.js';
-import { getPuissanceInstallée } from '../getters/getPuissance.js';
+import { getPuissanceInstallée } from '../getters/getPuissanceInstallée.js';
 import {
   getAutorisation,
   getDateConstitutionGarantiesFinancières,
