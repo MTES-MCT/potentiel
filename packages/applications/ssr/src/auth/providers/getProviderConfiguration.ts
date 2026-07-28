@@ -3,13 +3,17 @@ import { match } from 'ts-pattern';
 
 import type { ProconnectOptions } from './proconnect.provider';
 
+type AccountOptions = {
+  accountUrl: string;
+};
+
 export const getKeycloakConfiguration = () =>
   ({
     issuer: `${process.env.KEYCLOAK_ISSUER}`,
     clientId: process.env.KEYCLOAK_USER_CLIENT_ID ?? '',
     clientSecret: process.env.KEYCLOAK_USER_CLIENT_SECRET ?? '',
     accountUrl: `${process.env.KEYCLOAK_ISSUER}/account`,
-  }) satisfies KeycloakOptions & { accountUrl: string };
+  }) satisfies KeycloakOptions & AccountOptions;
 
 export const getProconnectConfiguration = () =>
   ({
@@ -18,7 +22,7 @@ export const getProconnectConfiguration = () =>
     clientSecret: process.env.PROCONNECT_CLIENT_SECRET ?? '',
     scopes: ['openid', 'uid', 'given_name', 'usual_name', 'email', 'siret', 'offline_access'],
     accountUrl: process.env.PROCONNECT_ACCOUNT ?? '',
-  }) satisfies ProconnectOptions & { accountUrl: string };
+  }) satisfies ProconnectOptions & AccountOptions;
 
 export const getProviderConfiguration = (providerId: string) =>
   match(providerId)
