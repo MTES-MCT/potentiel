@@ -88,10 +88,7 @@ export const mapApiResponseToDépôt = ({
     'typeGarantiesFinancières',
   );
 
-  const dateConstitutionGarantiesFinancières = getDateConstitutionGarantiesFinancières(
-    typeGarantiesFinancières,
-    champs,
-  );
+  const dateConstitutionGarantiesFinancières = getDateConstitutionGarantiesFinancières(champs);
 
   const dateÉchéanceGarantiesFinancieres = getDateÉchéanceGarantiesFinancières({
     typeGarantiesFinancières,

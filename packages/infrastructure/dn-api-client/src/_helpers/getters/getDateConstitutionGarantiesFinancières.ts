@@ -1,23 +1,19 @@
 import { createDossierAccessor, type GetDossierQuery } from '../../graphql/index.js';
-import type { getTypeGarantiesFinancières } from './getTypeGarantiesFinancières.js';
-
-const gfDateLabels = {
-  exemption: "Date de la délibération portant sur le projet objet de l'offre",
-  exécution: "Date de la garantie financière d'exécution",
-} as const;
 
 export const getDateConstitutionGarantiesFinancières = (
-  typeGarantiesFinancieres: ReturnType<typeof getTypeGarantiesFinancières>,
   champs: GetDossierQuery['dossier']['champs'],
 ) => {
-  if (!typeGarantiesFinancieres) return undefined;
-
   const accessor = createDossierAccessor(champs, {
-    dateConstitutionGf:
-      typeGarantiesFinancieres === 'exemption'
-        ? gfDateLabels['exemption']
-        : gfDateLabels['exécution'],
-  } as Record<'dateConstitutionGf', string>);
+    dateConsignation: 'Date de la consignation',
+    dateDélibérationExemption: `Date de la délibération portant sur le projet objet de l'offre`,
+    datePriseEffet: `Date de prise d'effet de la garantie financière d'exécution`,
+    datePriseEffet2: `Date de la garantie financière d'exécution`,
+  } as Record<string, string>);
 
-  return accessor.getDateValue('dateConstitutionGf');
+  const dateConsignation = accessor.getDateValue('dateConsignation');
+  const dateDélibérationExemption = accessor.getDateValue('dateDélibérationExemption');
+  const datePriseEffet = accessor.getDateValue('datePriseEffet');
+  const datePriseEffet2 = accessor.getDateValue('datePriseEffet2');
+
+  return dateConsignation ?? dateDélibérationExemption ?? datePriseEffet ?? datePriseEffet2;
 };
