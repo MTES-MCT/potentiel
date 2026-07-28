@@ -51,4 +51,5 @@ const applyCurrentPath = (items: MenuProps['items'], currentPath: string): MenuP
   });
 
 const trimTrailingSlash = (url: string) => (url.endsWith('/') ? url.slice(0, -1) : url);
+// l'url du tableau de bord est de la forme /laureats/identifiantprojet/
 const estTableauDeBord = (url: string) => url.split('/').filter((x) => x !== '').length === 2;

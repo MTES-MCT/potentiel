@@ -42,6 +42,10 @@ export const getLauréatMenuItems = async ({
   identifiantProjet,
   utilisateur,
 }: GetLauréatMenuItemsProps): Promise<SideMenuProps.Item[]> => {
+  // Fix pour que les GRD puissent avoir accès aux fonctionnalités de raccordement, sans affichage du menu lauréat
+  if (!utilisateur.rôle.aLaPermission('lauréat.consulterMenu')) {
+    return [];
+  }
   const link = (text: string, href: string) => ({ linkProps: { href }, text });
 
   const linkToSection = (text: string, path: string) =>
@@ -65,11 +69,6 @@ export const getLauréatMenuItems = async ({
 
     return action ? link(action.labelMenu, action.url) : undefined;
   };
-
-  // Fix pour que les GRD puissent avoir accès aux fonctionnalités de raccordement, sans affichage du menu lauréat
-  if (!utilisateur.rôle.aLaPermission('abandon.consulter.enCours')) {
-    return [];
-  }
 
   const tâchesMenu = utilisateur.rôle.aLaPermission('tâche.consulter')
     ? {

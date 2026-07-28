@@ -1462,6 +1462,7 @@ const policies = {
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
       référencielPermissions.lauréat.usecase.modifierSiteDeProduction,
     ],
+    consulterMenu: [],
   },
   éliminé: {
     consulter: [référencielPermissions.éliminé.query.consulter],
@@ -1634,6 +1635,9 @@ const commonPolicies: ReadonlyArray<Policy> = [
 // En attendant d'avoir des gateways qui groupent les query
 const pageProjetPolicies: Policy[] = [
   ...commonPolicies,
+  // Menu
+  'lauréat.consulterMenu',
+
   // Abandon
   'abandon.consulter.demande',
 
