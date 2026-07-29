@@ -54,7 +54,7 @@ export const DossiersRaccordementSection = ({
               Ajouter un dossier de raccordement
             </Button>
           )}
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-3">
             {raccordement?.dossiers.map((dossier) => (
               <DossierRaccordement
                 key={dossier.référence.formatter()}

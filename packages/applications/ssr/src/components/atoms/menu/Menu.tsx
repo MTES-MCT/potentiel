@@ -42,11 +42,14 @@ const applyCurrentPath = (items: MenuProps['items'], currentPath: string): MenuP
     const path = trimTrailingSlash(currentPath);
     const href = trimTrailingSlash(item.linkProps.href.toString());
 
+    const tableauDeBordEstLienActif = estTableauDeBord(path) && estTableauDeBord(href);
+    const nestPasSurLeTableauDeBord = !estTableauDeBord(path);
+
     return {
       ...item,
       isActive:
-        (!estTableauDeBord(path) && !estTableauDeBord(href) && path.startsWith(href)) ||
-        (estTableauDeBord(path) && estTableauDeBord(href)),
+        (nestPasSurLeTableauDeBord && !estTableauDeBord(href) && path.startsWith(href)) ||
+        tableauDeBordEstLienActif,
     };
   });
 
