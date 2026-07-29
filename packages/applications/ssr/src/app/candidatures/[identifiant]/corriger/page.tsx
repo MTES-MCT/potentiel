@@ -58,6 +58,7 @@ export default async function Page(props0: PageProps) {
           unitéPuissance={props.unitéPuissance}
           typesActionnariatDisponibles={props.typesActionnariatDisponibles}
           typesGarantiesFinancièresDisponibles={props.typesGarantiesFinancièresDisponibles}
+          volumeRéservéDisponible={props.volumeRéservéDisponible}
         />
       );
     }),
@@ -75,6 +76,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     identifiantProjet: candidature.identifiantProjet.formatter(),
 
     statut: candidature.instruction.statut.formatter(),
+    volumeRéservé: candidature.volumeRéservé,
     noteTotale: candidature.instruction.noteTotale,
     motifElimination: candidature.instruction.motifÉlimination,
 
@@ -124,4 +126,5 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
   typesActionnariatDisponibles: cahierDesCharges.getTypesActionnariat(),
   typesGarantiesFinancièresDisponibles:
     cahierDesCharges.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles,
+  volumeRéservéDisponible: !!cahierDesCharges.période.volumeRéservé,
 });
