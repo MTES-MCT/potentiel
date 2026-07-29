@@ -12,11 +12,14 @@ export const mapToAccuséRéceptionDemandeComplèteRaccordementTransmisTimelineI
 
   return {
     date: event.createdAt as DateTime.RawType,
-    title: (
-      <>
-        L'accusé de réception de la complète de raccordement a été transmis pour le dossier{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span>.
-      </>
+    title: 'Accusé de réception de la demande complète de raccordement transmis',
+    details: (
+      <div className="flex flex-col">
+        <span>
+          Référence du dossier :{' '}
+          <span className="font-semibold">{référenceDossierRaccordement}</span>
+        </span>
+      </div>
     ),
   };
 };

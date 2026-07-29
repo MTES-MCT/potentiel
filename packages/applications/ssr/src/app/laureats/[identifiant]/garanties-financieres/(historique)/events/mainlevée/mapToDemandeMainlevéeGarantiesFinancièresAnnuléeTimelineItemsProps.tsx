@@ -9,7 +9,7 @@ export const mapToDemandeMainlevéeGarantiesFinancièresAnnuléeTimelineItemsPro
 
   return {
     date: annuléLe,
-    title: 'La demande de mainlevée des garanties financières a été annulée',
+    title: 'Demande de mainlevée des garanties financières annulée',
     actor: annuléPar,
   };
 };

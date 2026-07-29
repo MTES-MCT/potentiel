@@ -15,19 +15,19 @@ export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
     event.type === 'RéférenceDossierRacordementModifiée-V2'
       ? event.payload.modifiéeLe
       : (event.createdAt as DateTime.RawType),
-  title: (
-    <div>
-      La référence du dossier de raccordement{' '}
-      <span className="font-semibold">{event.payload.référenceDossierRaccordementActuelle}</span> a
-      été modifiée
-    </div>
-  ),
+  title: 'Référence du dossier de raccordement modifiée',
   actor:
     event.type === 'RéférenceDossierRacordementModifiée-V2' ? event.payload.modifiéePar : undefined,
   details: (
-    <div>
-      Nouvelle référence :{' '}
-      <span className="font-semibold">{event.payload.nouvelleRéférenceDossierRaccordement}</span>
+    <div className="flex flex-col">
+      <span>
+        Ancienne référence :{' '}
+        <span className="font-semibold">{event.payload.référenceDossierRaccordementActuelle}</span>
+      </span>
+      <span>
+        Nouvelle référence :{' '}
+        <span className="font-semibold">{event.payload.nouvelleRéférenceDossierRaccordement}</span>
+      </span>
     </div>
   ),
 });

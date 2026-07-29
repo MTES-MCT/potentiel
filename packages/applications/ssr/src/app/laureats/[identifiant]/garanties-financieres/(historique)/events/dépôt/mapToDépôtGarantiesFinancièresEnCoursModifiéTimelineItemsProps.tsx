@@ -10,7 +10,7 @@ export const mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps 
 
   return {
     date: modifiéLe,
-    title: 'Nouvelles garanties financières (soumise à instruction modifiées)',
+    title: 'Nouvelles garanties financières (soumises à instruction) modifiées',
     actor: modifiéPar,
     details: (
       <GarantiesFinancièresTimelineItemContent

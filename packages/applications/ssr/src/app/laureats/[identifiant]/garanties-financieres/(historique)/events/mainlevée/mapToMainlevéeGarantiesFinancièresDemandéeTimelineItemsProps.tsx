@@ -10,12 +10,8 @@ export const mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps = (
 
   return {
     date: demandéLe,
-    title: 'La mainlevée des garanties financières a été demandée',
+    title: 'Demande de mainlevée des garanties financières déposée',
     actor: demandéPar,
-    details: (
-      <div>
-        Motif : <span className="font-semibold">{getMotifMainlevéeLabel(motif)}</span>
-      </div>
-    ),
+    reason: getMotifMainlevéeLabel(motif),
   };
 };

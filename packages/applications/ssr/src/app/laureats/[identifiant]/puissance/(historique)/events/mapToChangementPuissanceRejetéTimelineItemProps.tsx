@@ -10,7 +10,7 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
-    title: 'Changement de puissance rejeté',
+    title: 'Demande de changement de puissance rejetée',
     actor: rejetéPar,
     file: {
       document: Lauréat.Puissance.DocumentPuissance.changementRejeté(event.payload),

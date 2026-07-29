@@ -11,7 +11,6 @@ export const mapToPowerPurchaseAgreementSignaléTimelineItemProps = (
     date: signaléLe,
     title: 'PPA signalé',
     actor: signaléPar,
-
     details: (
       <div className="flex flex-col gap-2">
         Le projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA).

@@ -25,17 +25,18 @@ export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
   return {
     date: transmiseLe,
     actor: transmisePar,
-    title: (
-      <div>
-        La date de mise en service du dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span> a été transmise
-      </div>
-    ),
+    title: 'Date de mise en service transmise',
     details: (
-      <span>
-        Date de mise en service :{' '}
-        <FormattedDate className="font-semibold" date={dateMiseEnService} />
-      </span>
+      <div className="flex flex-col">
+        <span>
+          Référence du dossier :{' '}
+          <span className="font-semibold">{référenceDossierRaccordement}</span>
+        </span>
+        <span>
+          Date de mise en service :{' '}
+          <FormattedDate className="font-semibold" date={dateMiseEnService} />
+        </span>
+      </div>
     ),
   };
 };

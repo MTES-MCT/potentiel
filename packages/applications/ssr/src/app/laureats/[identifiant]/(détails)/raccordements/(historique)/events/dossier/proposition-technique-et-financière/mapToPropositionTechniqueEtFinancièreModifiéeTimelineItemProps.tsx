@@ -1,5 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
@@ -8,10 +8,9 @@ export const mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps = 
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV1
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV2
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent
-  ) & {
-    createdAt: string;
-  },
+  ) & { createdAt: string },
 ): TimelineItemProps => {
+  const { référenceDossierRaccordement, identifiantProjet } = event.payload;
   const modifiéeLe: DateTime.RawType =
     'modifiéeLe' in event.payload
       ? event.payload.modifiéeLe
@@ -19,15 +18,36 @@ export const mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps = 
 
   const modifiéePar: string | undefined =
     'modifiéePar' in event.payload ? event.payload.modifiéePar : undefined;
+
+  const dateSignature: string | undefined =
+    'dateSignature' in event.payload ? event.payload.dateSignature : undefined;
+
+  const propositionTechniqueEtFinancièreSignée: { format: string } | undefined =
+    'propositionTechniqueEtFinancièreSignée' in event.payload
+      ? event.payload.propositionTechniqueEtFinancièreSignée
+      : undefined;
+
   return {
     date: modifiéeLe,
     actor: modifiéePar,
-    title: (
-      <>
-        La proposition technique et financière du dossier de raccordement{' '}
-        <span className="font-semibold">{event.payload.référenceDossierRaccordement}</span> a été
-        modifiée
-      </>
+    title: 'Proposition technique et financière modifiée',
+    details: (
+      <span>
+        Référence du dossier : <span className="font-semibold">{référenceDossierRaccordement}</span>
+      </span>
     ),
+    file:
+      dateSignature && propositionTechniqueEtFinancièreSignée
+        ? {
+            document: Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière({
+              identifiantProjet,
+              référenceDossierRaccordement,
+              dateSignature,
+              propositionTechniqueEtFinancièreSignée,
+            }),
+            label: `Télécharger la proposition technique et financière`,
+            ariaLabel: `Télécharger la proposition technique et financière du dossier ${référenceDossierRaccordement}`,
+          }
+        : undefined,
   };
 };

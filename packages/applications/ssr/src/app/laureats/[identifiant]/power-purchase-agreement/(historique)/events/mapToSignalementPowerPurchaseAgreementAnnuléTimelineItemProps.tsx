@@ -11,7 +11,6 @@ export const mapToSignalementPowerPurchaseAgreementAnnuléTimelineItemProps = (
     date: annuléLe,
     title: 'Signalement PPA annulé',
     actor: annuléPar,
-
     details: (
       <div className="flex flex-col gap-2">
         Le signalement du projet comme étant signataire d'un contrat de vente de gré à gré (PPA) a

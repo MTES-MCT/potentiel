@@ -1,20 +1,45 @@
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDocumentTransmisTimelineItemProps = (
   event: Lauréat.Raccordement.DocumentRaccordementTransmisEventV1,
 ): TimelineItemProps => {
+  const {
+    identifiantProjet,
+    type: rawType,
+    référenceDossierRaccordement,
+    transmisLe,
+    transmisPar,
+    dateSignature,
+    document,
+  } = event.payload;
+
+  const type = rawType.split('-').join(' ');
+
   return {
-    date: DateTime.convertirEnValueType(event.payload.transmisLe).formatter(),
-    actor: event.payload.transmisPar,
+    date: DateTime.convertirEnValueType(transmisLe).formatter(),
+    actor: transmisPar,
     title: (
       <>
-        La {event.payload.type.split('-').join(' ')} du dossier de raccordement{' '}
-        <span className="font-semibold">{event.payload.référenceDossierRaccordement}</span> a été
-        transmise
+        <span className="first-letter:capitalize">{type}</span> transmise
       </>
     ),
+    details: (
+      <span>
+        Référence du dossier : <span className="font-semibold">{référenceDossierRaccordement}</span>
+      </span>
+    ),
+    file: {
+      document: Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(rawType)({
+        identifiantProjet,
+        référenceDossierRaccordement,
+        dateSignature,
+        document,
+      }),
+      label: `Télécharger la ${type}`,
+      ariaLabel: `Télécharger la ${type} du dossier ${référenceDossierRaccordement}`,
+    },
   };
 };

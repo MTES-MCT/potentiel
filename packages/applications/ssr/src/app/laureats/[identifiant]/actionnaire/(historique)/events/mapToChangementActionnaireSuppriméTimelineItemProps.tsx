@@ -9,6 +9,7 @@ export const mapToChangementActionnaireSuppriméTimelineItemProps = (
 
   return {
     date: suppriméLe,
-    title: "Demande de modification de l'actionnaire supprimée suite à l'accord de l'abandon",
+    title: "Demande de modification de l'actionnaire supprimée",
+    reason: 'Abandon accordé',
   };
 };

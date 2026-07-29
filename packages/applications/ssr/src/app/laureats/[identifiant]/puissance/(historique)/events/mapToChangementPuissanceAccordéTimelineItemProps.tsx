@@ -17,7 +17,7 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
-    title: 'Changement de puissance accordé',
+    title: 'Demande de changement de puissance accordée',
     actor: accordéPar,
     file: réponseSignée && {
       document: Lauréat.Puissance.DocumentPuissance.changementAccordé(event.payload),
