@@ -12,6 +12,7 @@ import {
   type DétailCandidatureEntity,
   type Localité,
   TypeActionnariat,
+  type TypeDeTerrainDImplantation,
   TypologieInstallation,
   UnitéPuissance,
 } from '../../candidature/index.js';
@@ -77,7 +78,6 @@ export type LauréatEnrichiListItemReadModel = {
   unitéPuissance: UnitéPuissance.ValueType;
 
   coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
-  typeTerrainImplantation: string | undefined;
   typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage:
@@ -93,12 +93,21 @@ export type LauréatEnrichiListItemReadModel = {
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
   tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
 
+  typeTerrainImplantation: TypeDeTerrainDImplantation | undefined;
+  surfaceProjetéeAuSol: string | undefined;
+  surfaceTotaleTerrainImplantation: string | undefined;
+  natureExacteDuTerrain: string | undefined;
+  dateObtentionCETI: string | undefined;
   composantsRésilients: string | undefined;
+  typeDeZonePluOuPlui: string | undefined;
+  typeDeZonePos: string | undefined;
+  typeDeZoneAutres: string | undefined;
+  trackers: boolean | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
-  installationRenouvelée: string | undefined;
+  installationRenouvelée: boolean | undefined;
   puissanceDuProjetInitial: number | undefined;
   nombreDAérogénérateurs: string | undefined;
   puissanceUnitaireDesAérogénérateurs: string | undefined;
@@ -373,16 +382,21 @@ const mapToReadModel: MapToReadModelProps = ({
     typeTerrainImplantation: détail?.pv?.typeTerrainImplantation,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
-    composantsRésilients: détail?.composantsRésilients,
+
+    composantsRésilients: détail?.pv?.composantsRésilients,
+    surfaceProjetéeAuSol: détail?.pv?.surfaceProjetéeAuSol,
+    surfaceTotaleTerrainImplantation: détail?.pv?.surfaceTotaleTerrainImplantation,
+    natureExacteDuTerrain: détail?.pv?.natureExacteDuTerrain,
+    dateObtentionCETI: détail?.pv?.dateObtentionCETI,
+    trackers: détail?.pv?.trackers,
+    typeDeZonePluOuPlui: détail?.pv?.typeDeZonePluOuPlui,
+    typeDeZonePos: détail?.pv?.typeDeZonePos,
+    typeDeZoneAutres: détail?.pv?.typeDeZoneAutres,
+
     technologieÉolien: détail?.éolien?.technologie,
     diamètreRotorEnMètres: détail?.éolien?.diamètreRotorEnMètres?.toString(),
     hauteurBoutDePâleEnMètres: détail?.éolien?.hauteurBoutDePâleEnMètres?.toString(),
-    installationRenouvelée:
-      détail?.éolien?.installationRenouvelée === true
-        ? 'oui'
-        : détail?.éolien?.installationRenouvelée === false
-          ? 'non'
-          : undefined,
+    installationRenouvelée: détail?.éolien?.installationRenouvelée,
     nombreDAérogénérateurs: détail?.éolien?.nombreDAérogénérateurs?.toString(),
     puissanceUnitaireDesAérogénérateurs:
       détail?.éolien?.puissanceUnitaireDesAérogénérateurs?.toString(),

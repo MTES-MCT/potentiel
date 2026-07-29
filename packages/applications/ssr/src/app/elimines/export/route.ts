@@ -5,7 +5,11 @@ import type { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/sta
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
-import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';
+import {
+  afficherBooleanValue,
+  getNatureDeLExploitationTypeLabel,
+  getTypologieInstallationLabel,
+} from '@/app/_helpers';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -110,6 +114,33 @@ export const GET = async (request: Request) =>
             label: 'Taux prévisionnel ACC (%)',
           },
           { value: 'composantsRésilients', label: 'Composants résilients' },
+          {
+            value: 'typeTerrainImplantation',
+            label: "Type de terrain d'implantation",
+          },
+          {
+            value: 'natureExacteDuTerrain',
+            label: 'Nature exacte du terrain',
+          },
+          {
+            value: 'dateObtentionCETI',
+            label: 'Date obtention CETI',
+          },
+          {
+            value: 'surfaceProjetéeAuSol',
+            label: 'Surface projetée au sol (ha)',
+          },
+          {
+            value: 'surfaceTotaleTerrainImplantation',
+            label: 'Surface terrain implantation (ha)',
+          },
+          { value: 'trackers', label: 'Présence de trackers' },
+          {
+            value: 'typeDeZonePluOuPlui',
+            label: 'Type de zone pour les implantations sur PLU ou PLUi',
+          },
+          { value: 'typeDeZonePos', label: 'Type de zone pour les implantations sur POS' },
+          { value: 'typeDeZoneAutres', label: 'Type de zone pour les implantations "Autres"' },
           { value: 'technologieÉolien', label: 'Technologie (éolien)' },
           { value: 'diamètreRotorEnMètres', label: 'Diamètre rotor (m)' },
           { value: 'hauteurBoutDePâleEnMètres', label: 'Hauteur bout de pâle (m)' },
@@ -125,6 +156,8 @@ export const GET = async (request: Request) =>
           latitude: '',
           longitude: '',
           ...item,
+          installationRenouvelée: afficherBooleanValue(item.installationRenouvelée),
+          trackers: afficherBooleanValue(item.trackers),
           identifiantProjet: item.identifiantProjet.formatter(),
           unitéPuissance: item.unitéPuissance.formatter(),
           typeActionnariat: item.typeActionnariat?.formatter(),
