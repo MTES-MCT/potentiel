@@ -303,6 +303,21 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             required
           />
         </FormRow>
+        {cdcActuel.période.volumeRéservé && (
+          <FormRow>
+            <CandidatureSelectField
+              candidature={candidature.volumeRéservé ? 'true' : 'false'}
+              label="Volume réservé"
+              name="volumeRéservé"
+              options={[
+                { label: 'Oui', value: 'true' },
+                { label: 'Non', value: 'false' },
+              ]}
+              validationErrors={validationErrors}
+              required={!!cdcActuel.période.volumeRéservé}
+            />
+          </FormRow>
+        )}
         {peutRegénérerAttestation ? (
           <FormRow>
             <AttestationField validationErrors={validationErrors} />
