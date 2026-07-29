@@ -7,8 +7,9 @@ import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
-import { getAction } from '../../_helpers';
+import { getAction, getOptionalAbandon, getRaccordement } from '../../_helpers';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
+import { vérifierSiPeutAccéderÀRaccordement } from '../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { BadgeDemandesEnCours, BadgeTâches } from './Badges';
 
 export type MenuItem = SideMenuProps.Item;
@@ -41,6 +42,10 @@ export const getLauréatMenuItems = async ({
   identifiantProjet,
   utilisateur,
 }: GetLauréatMenuItemsProps): Promise<SideMenuProps.Item[]> => {
+  // Fix pour que les GRD puissent avoir accès aux fonctionnalités de raccordement, sans affichage du menu lauréat
+  if (!utilisateur.rôle.aLaPermission('lauréat.consulterMenu')) {
+    return [];
+  }
   const link = (text: string, href: string) => ({ linkProps: { href }, text });
 
   const linkToSection = (text: string, path: string) =>
@@ -73,6 +78,7 @@ export const getLauréatMenuItems = async ({
     : undefined;
 
   const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+  const abandon = await getOptionalAbandon(identifiantProjet.formatter());
 
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   const champsSupplémentaires = cahierDesCharges.getChampsSupplémentaires();
@@ -83,6 +89,17 @@ export const getLauréatMenuItems = async ({
     champsSupplémentaires.typologieInstallation ||
     champsSupplémentaires.autorisation
   );
+
+  const raccordement = await getRaccordement(identifiantProjet.formatter());
+
+  const raccordementDétailEstConsultable =
+    (raccordement && raccordement.dossiers.length > 0) ||
+    utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
+
+  const raccordementMenu =
+    vérifierSiPeutAccéderÀRaccordement(lauréat, abandon) && raccordementDétailEstConsultable
+      ? linkToSection('Raccordement', 'raccordements')
+      : undefined;
 
   const installationMenu = afficherInstallation
     ? linkToSection('Installation', 'installation')
@@ -162,6 +179,7 @@ export const getLauréatMenuItems = async ({
     },
     modificationMenu,
     demandesEnCoursMenu,
+    raccordementMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     utilisateursMenu,

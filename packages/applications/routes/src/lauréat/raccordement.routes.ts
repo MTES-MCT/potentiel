@@ -14,15 +14,15 @@ export const corrigerRéférenceDossier = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/reference:corriger`;
+  )}/reference/corriger`;
 
 export const modifierGestionnaireDeRéseau = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/gestionnaire:modifier`;
+  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/gestionnaire/modifier`;
 
 export const transmettreDemandeComplèteRaccordement = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(
     identifiantProjet,
-  )}/raccordements/demande-complete-raccordement:transmettre`;
+  )}/raccordements/demande-complete-raccordement/transmettre`;
 
 export const modifierDemandeComplèteRaccordement = (
   identifiantProjet: string,
@@ -30,7 +30,7 @@ export const modifierDemandeComplèteRaccordement = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/demande-complete-raccordement:modifier`;
+  )}/demande-complete-raccordement/modifier`;
 
 export const document = {
   transmettre: (identifiantProjet: string, référenceDossierRaccordement: string) =>

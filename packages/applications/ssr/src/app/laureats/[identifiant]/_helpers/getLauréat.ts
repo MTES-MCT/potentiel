@@ -128,9 +128,11 @@ export const getOptionalDemandeAbandon = cache(
 
 export const getOptionalDemandeAbandonEnCours = cache(async (identifiantProjet: string) => {
   const abandon = await getOptionalAbandon(identifiantProjet);
+
   if (!abandon) {
     return;
   }
+
   return getOptionalDemandeAbandon(identifiantProjet, abandon.demandéLe.formatter());
 });
 

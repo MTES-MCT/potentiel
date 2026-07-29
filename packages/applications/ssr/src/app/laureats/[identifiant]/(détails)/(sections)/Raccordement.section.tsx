@@ -8,7 +8,7 @@ import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getOptionalAbandon, getRaccordement } from '../../_helpers';
-import { vérifierSiPeutAccéderÀRaccordement } from '../../raccordements/(raccordement-du-projet)/(détails)/_helpers';
+import { vérifierSiPeutAccéderÀRaccordement } from '../raccordements/(raccordement-du-projet)/(détails)/_helpers';
 import { RaccordementDétails, type RaccordementDétailsProps } from './RaccordementDétails';
 
 type RaccordementSectionProps = {
