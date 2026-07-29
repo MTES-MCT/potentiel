@@ -33,6 +33,8 @@ const TYPES_FOURNISSEURS = [
   { label: 'Autres technologies', type: 'autres-technologies' },
   { label: 'Génie civil et électrique', type: 'génie-civil' },
   { label: 'Raccordement réseau', type: 'raccordement' },
+  { label: 'Verre solaire', type: 'verre-solaire' },
+  { label: 'Lingot de silicium', type: 'lingot-de-silicium' },
 ] as const;
 
 type TypeFournisseur = (typeof TYPES_FOURNISSEURS)[number]['type'];

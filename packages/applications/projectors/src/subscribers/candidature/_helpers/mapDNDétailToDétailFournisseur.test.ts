@@ -87,6 +87,10 @@ test('Convertir les détails du projet en fournisseurs pour un projet PV', () =>
     'Suivi de la course du soleil - Coût total du lot': '100',
     'Suivi de la course du soleil - Contenu local français': '100',
     'Suivi de la course du soleil - Contenu local européen (y compris français)': '100',
+    'Verre solaire - Nom du fabricant - 1': 'LG Electronics',
+    'Verre solaire - Pays de fabrication - 1': 'JAPON',
+    'Lingot de silicium - Nom du fabricant - 1': 'Canadian Solar',
+    'Lingot de silicium - Pays de fabrication - 1': 'CANADA',
   };
 
   const expected = [
@@ -119,6 +123,16 @@ test('Convertir les détails du projet en fournisseurs pour un projet PV', () =>
       coûtTotalLot: '100',
       contenuLocalFrançais: '100',
       contenuLocalEuropéen: '100',
+    },
+    {
+      typeFournisseur: 'verre-solaire',
+      nomDuFabricant: 'LG Electronics',
+      lieuDeFabrication: 'JAPON',
+    },
+    {
+      typeFournisseur: 'lingot-de-silicium',
+      nomDuFabricant: 'Canadian Solar',
+      lieuDeFabrication: 'CANADA',
     },
   ];
 
