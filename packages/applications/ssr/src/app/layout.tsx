@@ -32,18 +32,12 @@ const EnvBadge = () => {
     return null;
   }
 
-  const className = 'fixed left-5 top-5 z-50';
-
-  if (process.env.APPLICATION_STAGE === 'production') {
-    return (
-      <Badge className={className} severity="warning">
-        PROD
-      </Badge>
-    );
-  }
-
-  return (
-    <Badge className={className} severity="info">
+  return process.env.APPLICATION_STAGE === 'production' ? (
+    <Badge className="fixed left-5 top-5 z-50" severity="warning">
+      PRODUCTION
+    </Badge>
+  ) : (
+    <Badge className="fixed left-5 top-5 z-50" severity="info">
       {process.env.APPLICATION_STAGE.toUpperCase()}
     </Badge>
   );
