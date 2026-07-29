@@ -13,8 +13,6 @@ import './global.css';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { headers } from 'next/headers';
 
-// import type { Role } from '@potentiel-domain/utilisateur';
-
 import { getSessionUser } from '@/auth/getSessionUser';
 import { featureFlag } from './_helpers/getFeatureFlag';
 import Providers from './Providers';
