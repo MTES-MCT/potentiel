@@ -13,7 +13,7 @@ export const Menu = ({ items }: MenuProps) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-0 top-0 bg-theme-white z-10 h-fit print:hidden min-w-16 ">
+    <div className="flex flex-col gap-0 top-0 bg-theme-white h-fit print:hidden min-w-16 ">
       <div className="relative">
         <MenuToggle>
           <SideMenu
