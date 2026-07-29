@@ -33,7 +33,7 @@ type ProjetAvecAchevementATransmettre = {
   localité: Localité.ValueType;
   puissance: number;
   puissanceInitiale: number;
-  presenceDeTrackers: boolean;
+  presenceDeTrackers?: boolean;
 };
 
 export type ListerProjetAvecAchevementATransmettreReadModel = {
@@ -198,6 +198,6 @@ export const mapToReadModel: MapToReadModelProps = ({
     dateNotification: DateTime.convertirEnValueType(notifiéLe),
     puissance,
     puissanceInitiale,
-    presenceDeTrackers: pv?.trackers ?? false,
+    presenceDeTrackers: pv?.trackers,
   };
 };

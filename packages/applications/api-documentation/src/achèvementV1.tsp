@@ -48,9 +48,8 @@ model ProjetAvecAchevementATransmettre {
   /** Puissance du projet à la candidature, en MW */
   puissanceInitiale: float32;
 
-
   /** Présence de trackers */
-  presenceDeTrackers: boolean;
+  presenceDeTrackers?: boolean;
 
 }
 
