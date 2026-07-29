@@ -15,7 +15,12 @@ type BuildSendVerificationRequest = (props: {
   isActifAgentsPublics: boolean;
 }) => (options: SendOptions, ctx?: GenericEndpointContext) => Promise<void>;
 
-const rôlesProconnectObligatoire: Role.RawType[] = [
+type RôlesProconnectObligatoire = Extract<
+  Role.RawType,
+  'ademe' | 'admin' | 'cre' | 'dreal' | 'dgec' | 'dgec-validateur'
+>;
+
+const rôlesProconnectObligatoire: RôlesProconnectObligatoire[] = [
   'ademe',
   'admin',
   'cre',
@@ -39,7 +44,10 @@ export const buildSendMagicLink: BuildSendVerificationRequest = ({
     }
 
     const doitUtiliserProconnect =
-      Option.isSome(utilisateur) && rôlesProconnectObligatoire.includes(utilisateur.rôle.nom);
+      Option.isSome(utilisateur) &&
+      ((rôlesProconnectObligatoire as Role.RawType[]).includes(utilisateur.rôle.nom) ||
+        /* Seul les cocontractants métropole doivent utiliser forcément Proconnect*/
+        (utilisateur.estCocontractant() && utilisateur.zone.nom === 'métropole'));
 
     if (doitUtiliserProconnect && !isActifAgentsPublics) {
       await sendEmail({

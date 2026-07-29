@@ -52,6 +52,18 @@ const ademe: UtilisateurItem = {
   identifiantUtilisateur: Email.convertirEnValueType('ademe@test.test'),
 };
 
+const cocontractantMétropole: UtilisateurItem = {
+  rôle: { nom: 'cocontractant' },
+  identifiantUtilisateur: Email.convertirEnValueType('cocontractant-metropole@test.test'),
+  zone: { nom: 'métropole' },
+};
+
+const cocontractantZNI: UtilisateurItem = {
+  rôle: { nom: 'cocontractant' },
+  identifiantUtilisateur: Email.convertirEnValueType('cocontractant-zni@test.test'),
+  zone: { nom: 'zni' },
+};
+
 const utilisateursExistants: ReadonlyArray<UtilisateurItem> = [
   porteurDeProjet,
   porteurDeProjetDésactivé,
@@ -60,6 +72,8 @@ const utilisateursExistants: ReadonlyArray<UtilisateurItem> = [
   dreal,
   ademe,
   cre,
+  cocontractantMétropole,
+  cocontractantZNI,
 ];
 
 const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
@@ -83,69 +97,125 @@ before(() => {
 beforeEach(() => {
   sendEmail.mock.resetCalls();
 });
+describe('buildSendMageLink', () => {
+  describe(`Envoyer un email avec un lien de connexion`, () => {
+    const utilisateursPouvantSeConnecterParMagicLink = [
+      {
+        email: porteurDeProjet.identifiantUtilisateur.email,
+        typeUtilisateur: 'un utilisateur porteur de projet',
+      },
+      {
+        email: 'porteur-de-projet-inexistant@test.test',
+        typeUtilisateur: 'un utlisateur porteur sans compte',
+      },
+      {
+        email: cocontractantZNI.identifiantUtilisateur.email,
+        typeUtilisateur: 'un utilisateur cocontractant ZNI',
+      },
+    ];
 
-describe(`Envoyer un email avec un lien de connexion`, () => {
-  const utilisateursPouvantSeConnecterParMagicLink = [
-    {
-      email: porteurDeProjet.identifiantUtilisateur.email,
-      typeUtilisateur: 'un porteur de projet',
-    },
-    {
-      email: 'porteur-de-projet-inexistant@test.test',
-      typeUtilisateur: 'un porteur sans compte',
-    },
-  ];
+    utilisateursPouvantSeConnecterParMagicLink.forEach(({ email, typeUtilisateur }) => {
+      test(`
+          Étant donné ${typeUtilisateur}
+          Lorsque le système envoie un email de vérification
+          Alors un email avec un lien de connexion vers l'application devrait lui être envoyé
+      `, async () => {
+        // When
+        const sendVerificationRequest = buildSendMagicLink({
+          sendEmail,
+          getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
+          isActifAgentsPublics: false,
+        });
+        await sendVerificationRequest({ email, url });
 
-  utilisateursPouvantSeConnecterParMagicLink.forEach(({ email, typeUtilisateur }) => {
-    test(`
-        Étant donné ${typeUtilisateur}
+        // Then
+        const expected = {
+          key: 'auth/lien-magique',
+          recipients: [email],
+          values: {
+            url,
+          },
+        };
+        assert.strictEqual(sendEmail.mock.callCount(), 1);
+        assert.deepEqual(sendEmail.mock.calls[0].arguments[0], expected);
+      });
+    });
+  });
+
+  describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs qui doivent se connecter seulement avec ProConnect`, () => {
+    const utilisateursNePouvantPasSeConnecterParEmail = [
+      {
+        email: dgec.identifiantUtilisateur.email,
+        typeUtilisateur: 'un utilisateur DGEC',
+      },
+      {
+        email: dgecValidateur.identifiantUtilisateur.email,
+        typeUtilisateur: 'un validateur DGEC',
+      },
+      { email: dreal.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur DREAL' },
+      { email: cre.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur CRE' },
+      { email: ademe.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur ADEME' },
+      {
+        email: cocontractantMétropole.identifiantUtilisateur.email,
+        typeUtilisateur: 'un utilisateur cocontractant métropole',
+      },
+    ];
+
+    utilisateursNePouvantPasSeConnecterParEmail.forEach(({ email, typeUtilisateur }) => {
+      test(`
+              Étant donné ${typeUtilisateur}
+              Lorsque le système envoie un email de vérification
+              Alors un email expliquant qu'il faut se connecter avec ProConnect devrait être envoyé
+              Mais aucun email avec un lien de connexion ne devrait être envoyé
+          `, async () => {
+        // When
+        const sendVerificationRequest = buildSendMagicLink({
+          sendEmail,
+          getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
+          isActifAgentsPublics: false,
+        });
+        await sendVerificationRequest({ email, url });
+
+        // Then
+        assert.strictEqual(sendEmail.mock.callCount(), 1);
+        const expected = {
+          key: 'auth/proconnect-obligatoire',
+          recipients: [email],
+          values: {
+            url: process.env.BASE_URL + Routes.Auth.signIn({ forceProConnect: true }),
+          },
+        };
+        assert.deepEqual(sendEmail.mock.calls[0].arguments[0], expected);
+      });
+    });
+
+    test(`Étant donné que le lien magique est actif pour les agents publics
         Lorsque le système envoie un email de vérification
-        Alors un email avec un lien de connexion vers l'application devrait lui être envoyé
-    `, async () => {
+        Alors un email avec un lien de connexion vers l'application devrait lui être envoyé`, async () => {
+      const email = dreal.identifiantUtilisateur.email;
+
       // When
       const sendVerificationRequest = buildSendMagicLink({
         sendEmail,
         getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
-        isActifAgentsPublics: false,
+        isActifAgentsPublics: true,
       });
       await sendVerificationRequest({ email, url });
 
       // Then
-      const expected = {
-        key: 'auth/lien-magique',
-        recipients: [email],
-        values: {
-          url,
-        },
-      };
-      assert.strictEqual(sendEmail.mock.callCount(), 1);
-      assert.deepEqual(sendEmail.mock.calls[0].arguments[0], expected);
+      assert.strictEqual(sendEmail.mock.callCount(), 1, 'Un email devrait être envoyé');
     });
   });
-});
 
-describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs qui doivent se connecter seulement avec ProConnect`, () => {
-  const utilisateursNePouvantPasSeConnecterParEmail = [
-    {
-      email: dgec.identifiantUtilisateur.email,
-      typeUtilisateur: 'un utilisateur DGEC',
-    },
-    {
-      email: dgecValidateur.identifiantUtilisateur.email,
-      typeUtilisateur: 'un validateur DGEC',
-    },
-    { email: dreal.identifiantUtilisateur.email, typeUtilisateur: 'une DREAL' },
-    { email: cre.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur CRE' },
-    { email: ademe.identifiantUtilisateur.email, typeUtilisateur: 'un utilisateur ADEME' },
-  ];
-
-  utilisateursNePouvantPasSeConnecterParEmail.forEach(({ email, typeUtilisateur }) => {
+  describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
     test(`
-            Étant donné ${typeUtilisateur}
-            Lorsque le système envoie un email de vérification
-            Alors un email expliquant qu'il faut se connecter avec ProConnect devrait être envoyé
-            Mais aucun email avec un lien de connexion ne devrait être envoyé
-        `, async () => {
+              Étant donné un utilisateur désactivé
+              Lorsque le système envoie un email de vérification
+              Alors aucun email ne devrait être envoyé
+          `, async () => {
+      // Given
+      const email = porteurDeProjetDésactivé.identifiantUtilisateur.email;
+
       // When
       const sendVerificationRequest = buildSendMagicLink({
         sendEmail,
@@ -155,54 +225,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       await sendVerificationRequest({ email, url });
 
       // Then
-      assert.strictEqual(sendEmail.mock.callCount(), 1);
-      const expected = {
-        key: 'auth/proconnect-obligatoire',
-        recipients: [email],
-        values: {
-          url: process.env.BASE_URL + Routes.Auth.signIn({ forceProConnect: true }),
-        },
-      };
-      assert.deepEqual(sendEmail.mock.calls[0].arguments[0], expected);
+      assert.strictEqual(sendEmail.mock.callCount(), 0, 'Aucun email ne devrait être envoyé');
     });
-  });
-
-  test(`Étant donné que le lien magique est actif pour les agents publics
-      Lorsque le système envoie un email de vérification
-      Alors un email avec un lien de connexion vers l'application devrait lui être envoyé`, async () => {
-    const email = dreal.identifiantUtilisateur.email;
-
-    // When
-    const sendVerificationRequest = buildSendMagicLink({
-      sendEmail,
-      getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
-      isActifAgentsPublics: true,
-    });
-    await sendVerificationRequest({ email, url });
-
-    // Then
-    assert.strictEqual(sendEmail.mock.callCount(), 1, 'Un email devrait être envoyé');
-  });
-});
-
-describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
-  test(`
-            Étant donné un utilisateur désactivé
-            Lorsque le système envoie un email de vérification
-            Alors aucun email ne devrait être envoyé
-        `, async () => {
-    // Given
-    const email = porteurDeProjetDésactivé.identifiantUtilisateur.email;
-
-    // When
-    const sendVerificationRequest = buildSendMagicLink({
-      sendEmail,
-      getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
-      isActifAgentsPublics: false,
-    });
-    await sendVerificationRequest({ email, url });
-
-    // Then
-    assert.strictEqual(sendEmail.mock.callCount(), 0, 'Aucun email ne devrait être envoyé');
   });
 });
