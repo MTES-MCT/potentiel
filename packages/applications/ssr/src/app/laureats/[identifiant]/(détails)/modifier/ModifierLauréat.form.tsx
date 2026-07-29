@@ -314,7 +314,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 { label: 'Non', value: 'false' },
               ]}
               validationErrors={validationErrors}
-              required={!!cdcActuel.période.volumeRéservé}
+              required
             />
           </FormRow>
         )}
