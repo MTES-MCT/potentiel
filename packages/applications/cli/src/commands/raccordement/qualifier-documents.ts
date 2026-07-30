@@ -26,8 +26,7 @@ export class QualifierDocumentsCommand extends Command {
               format: Where.notEqualNull(),
             },
           },
-          // identifiantProjet: Where.equal(flags.projet),
-          identifiantProjet: Where.startWith('PPE2'),
+          identifiantProjet: Where.startWith(flags.projet),
           référence: Where.equal(flags.référence),
         },
         range: {
@@ -51,6 +50,8 @@ export class QualifierDocumentsCommand extends Command {
       }[],
       fileNotFound: 0,
     };
+
+    console.log(`starting qualification for ${data.items.length} dossiers`);
 
     for (const dossier of data.items) {
       try {
@@ -104,7 +105,7 @@ export class QualifierDocumentsCommand extends Command {
       }
 
       process.stdout.write(
-        `\r⏳ ${stats.ptf} PTF / ${stats.cr} CR / ${stats.crd} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS / ${stats.total} TOTAL`,
+        `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.cr} CR / ${stats.crd} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
       );
     }
 
@@ -122,7 +123,6 @@ async function getDocumentType(pdfUrl: Uint8Array) {
   const allPages = [];
   for (let i = 1; i <= 2; i++) {
     const page = await pdf.getPage(i);
-    // add page promise
     const content = await page.getTextContent({ disableNormalization: true });
 
     let text = content.items
@@ -138,7 +138,9 @@ async function getDocumentType(pdfUrl: Uint8Array) {
 
     const isCRD = text.includes('convention de raccordement directe');
     const isCR = !isCRD && text.includes('convention de raccordement');
-    const isPTF = text.includes('proposition technique et financiere');
+    const isPTF =
+      text.includes('proposition technique et financiere') ||
+      text.includes('proposition technique et financière');
 
     if ((isCRD || isCR) && isPTF) {
       return { type: 'unknown' as const, text: allPages.join('\n') };
