@@ -52,7 +52,7 @@ export const DossierRaccordement: FC<DossierProps> = ({
   identifiantProjet,
 }) => {
   return (
-    <section className="md:min-w-[300px] flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] relative">
+    <section className="md:w-[47%] flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] relative">
       <Heading3 className="font-normal">
         Dossier <span className="font-semibold">{référence}</span>
       </Heading3>

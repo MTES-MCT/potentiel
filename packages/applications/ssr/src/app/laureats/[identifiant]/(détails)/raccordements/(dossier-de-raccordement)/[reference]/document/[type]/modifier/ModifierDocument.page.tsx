@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { TransmettreOuModifierDocumentAlert } from '../../../../components/TransmettreModifierDocumentAlert';
+import { PageTemplate } from '@/components/templates/Page.template';
 import { ModifierDocumentForm, type ModifierDocumentFormProps } from './ModifierDocument.form';
 
 export type ModifierDocumentPageProps = ModifierDocumentFormProps;
@@ -11,15 +10,8 @@ export const ModifierDocumentPage: FC<ModifierDocumentPageProps> = ({
   raccordement,
 }: ModifierDocumentPageProps) => {
   return (
-    <ColumnPageTemplate
-      leftColumn={{
-        children: (
-          <ModifierDocumentForm identifiantProjet={identifiantProjet} raccordement={raccordement} />
-        ),
-      }}
-      rightColumn={{
-        children: <TransmettreOuModifierDocumentAlert />,
-      }}
-    />
+    <PageTemplate>
+      <ModifierDocumentForm identifiantProjet={identifiantProjet} raccordement={raccordement} />
+    </PageTemplate>
   );
 };
