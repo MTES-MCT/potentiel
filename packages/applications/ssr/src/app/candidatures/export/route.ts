@@ -6,13 +6,14 @@ import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { afficherStatutCandidature } from '../_helpers';
 
 type DétailCandidatureCSV = {
   appelOffres: string;
   période: string;
   nomCandidat: string;
   nomProjet: string;
-  statut: Candidature.StatutCandidature.RawType;
+  statut: string;
   puissance: string;
   unitéPuissance: Candidature.UnitéPuissance.RawType;
   commune: string;
@@ -48,7 +49,7 @@ export const GET = async (request: Request) =>
 
       const data: DétailCandidatureCSV[] = candidaturesNonNotifiées.items.map((item) => ({
         ...item,
-        statut: item.statut.formatter(),
+        statut: afficherStatutCandidature(item.statut),
         unitéPuissance: item.unitéPuissance.formatter(),
         commune: item.localité.commune,
         département: item.localité.département,

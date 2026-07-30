@@ -81,7 +81,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Statut"
         options={[
           {
-            label: 'Classé',
+            label: 'Lauréat',
             value: Candidature.StatutCandidature.classé.statut,
           },
           {

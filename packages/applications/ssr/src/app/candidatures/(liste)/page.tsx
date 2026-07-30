@@ -87,7 +87,7 @@ export default async function Page(props: PageProps) {
         label: 'Statut de la candidature',
         searchParamKey: 'statut',
         options: [
-          { label: 'Classé', value: Candidature.StatutCandidature.classé.formatter() },
+          { label: 'Lauréat', value: Candidature.StatutCandidature.classé.formatter() },
           { label: 'Éliminé', value: Candidature.StatutCandidature.éliminé.formatter() },
         ],
       },

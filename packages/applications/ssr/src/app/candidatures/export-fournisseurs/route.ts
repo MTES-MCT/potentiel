@@ -8,6 +8,7 @@ import { ExportCSV } from '@potentiel-libraries/csv';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { afficherStatutCandidature } from '../_helpers';
 
 type DétailFournisseurCSV = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -16,7 +17,7 @@ type DétailFournisseurCSV = {
   famille: IdentifiantProjet.ValueType['famille'];
   numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
   nomProjet: string;
-  statutCandidature: Candidature.StatutCandidature.RawType;
+  statutCandidature: string;
   region: string;
   societeMere: string;
   typeActionnariat?: Candidature.TypeActionnariat.RawType;
@@ -63,7 +64,7 @@ export const GET = async (request: Request) =>
           famille: projet.identifiantProjet.famille,
           numéroCRE: projet.identifiantProjet.numéroCRE,
           nomProjet: projet.nomProjet,
-          statutCandidature: projet.statutCandidature.formatter(),
+          statutCandidature: afficherStatutCandidature(projet.statutCandidature),
           region: projet.région,
           societeMere: projet.sociétéMère,
           typeActionnariat: projet.typeActionnariat?.formatter(),

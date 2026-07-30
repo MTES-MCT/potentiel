@@ -2,7 +2,9 @@ import type { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import type { FC } from 'react';
 
-import type { Candidature } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
+
+import { afficherStatutCandidature } from '@/app/candidatures/_helpers';
 
 const convertStatutCandidatureToBadgeSeverity: Record<
   StatutCandidatureBadgeProps['statut'],
@@ -15,7 +17,7 @@ const convertStatutCandidatureToBadgeSeverity: Record<
 
 const getStatutCandidatureBadgeLabel = (statut: StatutCandidatureBadgeProps['statut']): string => {
   if (statut === 'non-notifié') return 'à notifier';
-  return statut;
+  return afficherStatutCandidature(Candidature.StatutCandidature.convertirEnValueType(statut));
 };
 
 type StatutCandidatureBadgeProps = {
