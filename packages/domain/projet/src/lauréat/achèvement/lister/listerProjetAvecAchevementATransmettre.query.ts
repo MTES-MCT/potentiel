@@ -16,8 +16,9 @@ import {
   type DétailCandidatureEntity,
   Localité,
 } from '../../../candidature/index.js';
-import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
+import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { type LauréatEntity, Raccordement } from '../../index.js';
+import type { InstallationEntity } from '../../installation/installation.entity.js';
 import type { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import type { PuissanceEntity } from '../../puissance/index.js';
 import type { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement/index.js';
@@ -36,6 +37,7 @@ type ProjetAvecAchevementATransmettre = {
   puissanceInitiale: number;
   presenceDeTrackers?: boolean;
   emailPorteurs: Array<Email.ValueType>;
+  typologieInstallation: Array<Candidature.TypologieInstallation.ValueType>;
 };
 
 export type ListerProjetAvecAchevementATransmettreReadModel = {
@@ -65,6 +67,7 @@ type ProjetAvecAchevementATransmettreJoins = [
   RaccordementEntity,
   CandidatureEntity,
   DétailCandidatureEntity,
+  InstallationEntity,
   PuissanceEntity,
   AccèsEntity,
   LeftJoin<PowerPurchaseAgreementEntity>,
@@ -120,6 +123,10 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
           },
           {
             entity: 'détail-candidature',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'installation',
             on: 'identifiantProjet',
           },
           {
@@ -184,6 +191,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   raccordement: { identifiantGestionnaireRéseau },
   puissance: { puissance },
   accès: { utilisateursAyantAccès },
+  installation: { typologieInstallation },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -206,4 +214,8 @@ export const mapToReadModel: MapToReadModelProps = ({
   emailPorteurs: utilisateursAyantAccès.map((utilisateur) =>
     Email.convertirEnValueType(utilisateur),
   ),
+  typologieInstallation:
+    typologieInstallation && typologieInstallation.length > 0
+      ? typologieInstallation.map(Candidature.TypologieInstallation.convertirEnValueType)
+      : [],
 });
