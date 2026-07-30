@@ -10,6 +10,7 @@ import {
 } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import type { AccèsEntity } from '../../../accès/accès.entity.js';
 import {
   type CandidatureEntity,
   type DétailCandidatureEntity,
@@ -34,6 +35,7 @@ type ProjetAvecAchevementATransmettre = {
   puissance: number;
   puissanceInitiale: number;
   presenceDeTrackers?: boolean;
+  emailPorteurs: Array<Email.ValueType>;
 };
 
 export type ListerProjetAvecAchevementATransmettreReadModel = {
@@ -64,6 +66,7 @@ type ProjetAvecAchevementATransmettreJoins = [
   CandidatureEntity,
   DétailCandidatureEntity,
   PuissanceEntity,
+  AccèsEntity,
   LeftJoin<PowerPurchaseAgreementEntity>,
 ];
 export const registerListerProjetAvecAchevementATransmettreQuery = ({
@@ -123,6 +126,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
             entity: 'puissance',
             on: 'identifiantProjet',
           },
+          { entity: 'accès', on: 'identifiantProjet' },
           {
             entity: 'power-purchase-agreement',
             on: 'identifiantProjet',
@@ -179,25 +183,27 @@ export const mapToReadModel: MapToReadModelProps = ({
   lauréat: { localité, nomProjet, notifiéLe },
   raccordement: { identifiantGestionnaireRéseau },
   puissance: { puissance },
-}) => {
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet,
-    identifiantGestionnaireReseau:
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        identifiantGestionnaireRéseau,
-      ),
-    référenceDossierRaccordement:
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référence),
-    dateDCR: demandeComplèteRaccordement?.dateQualification
-      ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
-      : undefined,
-    localité: Localité.bind(localité),
-    prix: prixReference,
-    coefficientKChoisi: !!coefficientKChoisi,
-    dateNotification: DateTime.convertirEnValueType(notifiéLe),
-    puissance,
-    puissanceInitiale,
-    presenceDeTrackers: pv?.trackers,
-  };
-};
+  accès: { utilisateursAyantAccès },
+}) => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet,
+  identifiantGestionnaireReseau:
+    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    ),
+  référenceDossierRaccordement:
+    Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référence),
+  dateDCR: demandeComplèteRaccordement?.dateQualification
+    ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
+    : undefined,
+  localité: Localité.bind(localité),
+  prix: prixReference,
+  coefficientKChoisi: !!coefficientKChoisi,
+  dateNotification: DateTime.convertirEnValueType(notifiéLe),
+  puissance,
+  puissanceInitiale,
+  presenceDeTrackers: pv?.trackers,
+  emailPorteurs: utilisateursAyantAccès.map((utilisateur) =>
+    Email.convertirEnValueType(utilisateur),
+  ),
+});

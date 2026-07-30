@@ -51,6 +51,9 @@ model ProjetAvecAchevementATransmettre {
   /** Présence de trackers */
   presenceDeTrackers?: boolean;
 
+  /** Porteurs rattachés au projet */
+  emailPorteurs: Array<string>
+
 }
 
 model TransmettreDateAchevementBody {
