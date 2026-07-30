@@ -18,7 +18,7 @@ export class Relancer extends Command {
 
   async run() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
-    if (!['production', 'development'].includes(APPLICATION_STAGE)) {
+    if (APPLICATION_STAGE !== 'production') {
       console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
       return;
     }
