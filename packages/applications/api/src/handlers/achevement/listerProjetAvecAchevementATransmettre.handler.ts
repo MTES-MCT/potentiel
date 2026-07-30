@@ -37,6 +37,7 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['lister
           nomProjet,
           puissance,
           puissanceInitiale,
+          presenceDeTrackers,
         }) => ({
           identifiantProjet: identifiantProjet.formatter(),
           nomProjet,
@@ -58,6 +59,7 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['lister
           },
           puissance,
           puissanceInitiale,
+          presenceDeTrackers,
         }),
       ),
     };

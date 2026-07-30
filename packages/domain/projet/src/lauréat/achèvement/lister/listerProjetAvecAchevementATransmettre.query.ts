@@ -10,7 +10,11 @@ import {
 } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { type CandidatureEntity, Localité } from '../../../candidature/index.js';
+import {
+  type CandidatureEntity,
+  type DétailCandidatureEntity,
+  Localité,
+} from '../../../candidature/index.js';
 import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { type LauréatEntity, Raccordement } from '../../index.js';
 import type { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
@@ -29,6 +33,7 @@ type ProjetAvecAchevementATransmettre = {
   localité: Localité.ValueType;
   puissance: number;
   puissanceInitiale: number;
+  presenceDeTrackers?: boolean;
 };
 
 export type ListerProjetAvecAchevementATransmettreReadModel = {
@@ -57,6 +62,7 @@ type ProjetAvecAchevementATransmettreJoins = [
   LauréatEntity,
   RaccordementEntity,
   CandidatureEntity,
+  DétailCandidatureEntity,
   PuissanceEntity,
   LeftJoin<PowerPurchaseAgreementEntity>,
 ];
@@ -107,6 +113,10 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
           },
           {
             entity: 'candidature',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'détail-candidature',
             on: 'identifiantProjet',
           },
           {
@@ -165,6 +175,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   référence,
   demandeComplèteRaccordement,
   candidature: { prixReference, coefficientKChoisi, puissance: puissanceInitiale },
+  'détail-candidature': { pv },
   lauréat: { localité, nomProjet, notifiéLe },
   raccordement: { identifiantGestionnaireRéseau },
   puissance: { puissance },
@@ -187,5 +198,6 @@ export const mapToReadModel: MapToReadModelProps = ({
     dateNotification: DateTime.convertirEnValueType(notifiéLe),
     puissance,
     puissanceInitiale,
+    presenceDeTrackers: pv?.trackers,
   };
 };
