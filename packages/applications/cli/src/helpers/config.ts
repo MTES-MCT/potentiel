@@ -1,7 +1,7 @@
 import z from 'zod';
 
 export const appSchema = z.object({
-  APPLICATION_STAGE: z.enum(['production', 'staging', 'development', 'local', 'test']),
+  APPLICATION_STAGE: z.enum(['production', 'staging', 'development', 'local', 'test', 'demo']),
 });
 
 export const dbSchema = z.object({
