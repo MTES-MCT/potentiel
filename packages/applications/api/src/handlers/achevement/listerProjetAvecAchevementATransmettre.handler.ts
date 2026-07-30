@@ -37,6 +37,9 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['lister
           nomProjet,
           puissance,
           puissanceInitiale,
+          presenceDeTrackers,
+          emailPorteurs,
+          typologieInstallation,
         }) => ({
           identifiantProjet: identifiantProjet.formatter(),
           nomProjet,
@@ -58,6 +61,9 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['lister
           },
           puissance,
           puissanceInitiale,
+          presenceDeTrackers,
+          emailPorteurs: emailPorteurs.map((email) => email.formatter()),
+          typologieInstallation: typologieInstallation.map(({ typologie }) => typologie),
         }),
       ),
     };

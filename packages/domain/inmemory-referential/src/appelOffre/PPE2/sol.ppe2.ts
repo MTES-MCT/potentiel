@@ -189,7 +189,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       familles: [],
       volumeRéservé: {
-        noteMin: 46.95,
         puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
@@ -220,7 +219,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       familles: [],
       volumeRéservé: {
-        noteMin: 35.25,
         puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [
@@ -257,7 +255,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       familles: [],
       volumeRéservé: {
-        noteMin: 33.95,
         puissanceMax: 5,
       },
       cahiersDesChargesModifiésDisponibles: [],
@@ -288,7 +285,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       familles: [],
       volumeRéservé: {
-        noteMin: 17.96,
         puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
@@ -330,7 +326,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       familles: [],
       volumeRéservé: {
-        noteMin: 15.57,
         puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
@@ -372,7 +367,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       familles: [],
       volumeRéservé: {
-        noteMin: 18.97,
         puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
@@ -414,7 +408,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       familles: [],
       volumeRéservé: {
-        noteMin: 25.98,
         puissanceMax: 5,
       },
       donnéesCourriersRéponse: {
@@ -454,7 +447,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       puissanceAppelée: 925,
       familles: [],
       volumeRéservé: {
-        noteMin: 25.08,
         puissanceMax: 5,
       },
       donnéesCourriersRéponse: {

@@ -47,6 +47,15 @@ model ProjetAvecAchevementATransmettre {
 
   /** Puissance du projet à la candidature, en MW */
   puissanceInitiale: float32;
+
+  /** Présence de trackers */
+  presenceDeTrackers?: boolean;
+
+  /** Porteurs rattachés au projet */
+  emailPorteurs: Array<string>;
+
+  /** Typologies d'installation */
+  typologieInstallation: Array<string>;
 }
 
 model TransmettreDateAchevementBody {

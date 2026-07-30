@@ -10,9 +10,15 @@ import {
 } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { type CandidatureEntity, Localité } from '../../../candidature/index.js';
-import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
+import type { AccèsEntity } from '../../../accès/accès.entity.js';
+import {
+  type CandidatureEntity,
+  type DétailCandidatureEntity,
+  Localité,
+} from '../../../candidature/index.js';
+import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { type LauréatEntity, Raccordement } from '../../index.js';
+import type { InstallationEntity } from '../../installation/installation.entity.js';
 import type { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import type { PuissanceEntity } from '../../puissance/index.js';
 import type { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement/index.js';
@@ -29,6 +35,9 @@ type ProjetAvecAchevementATransmettre = {
   localité: Localité.ValueType;
   puissance: number;
   puissanceInitiale: number;
+  presenceDeTrackers?: boolean;
+  emailPorteurs: Array<Email.ValueType>;
+  typologieInstallation: Array<Candidature.TypologieInstallation.ValueType>;
 };
 
 export type ListerProjetAvecAchevementATransmettreReadModel = {
@@ -57,7 +66,10 @@ type ProjetAvecAchevementATransmettreJoins = [
   LauréatEntity,
   RaccordementEntity,
   CandidatureEntity,
+  DétailCandidatureEntity,
+  InstallationEntity,
   PuissanceEntity,
+  AccèsEntity,
   LeftJoin<PowerPurchaseAgreementEntity>,
 ];
 export const registerListerProjetAvecAchevementATransmettreQuery = ({
@@ -110,9 +122,18 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
             on: 'identifiantProjet',
           },
           {
+            entity: 'détail-candidature',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'installation',
+            on: 'identifiantProjet',
+          },
+          {
             entity: 'puissance',
             on: 'identifiantProjet',
           },
+          { entity: 'accès', on: 'identifiantProjet' },
           {
             entity: 'power-purchase-agreement',
             on: 'identifiantProjet',
@@ -165,27 +186,36 @@ export const mapToReadModel: MapToReadModelProps = ({
   référence,
   demandeComplèteRaccordement,
   candidature: { prixReference, coefficientKChoisi, puissance: puissanceInitiale },
+  'détail-candidature': { pv },
   lauréat: { localité, nomProjet, notifiéLe },
   raccordement: { identifiantGestionnaireRéseau },
   puissance: { puissance },
-}) => {
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet,
-    identifiantGestionnaireReseau:
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        identifiantGestionnaireRéseau,
-      ),
-    référenceDossierRaccordement:
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référence),
-    dateDCR: demandeComplèteRaccordement?.dateQualification
-      ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
-      : undefined,
-    localité: Localité.bind(localité),
-    prix: prixReference,
-    coefficientKChoisi: !!coefficientKChoisi,
-    dateNotification: DateTime.convertirEnValueType(notifiéLe),
-    puissance,
-    puissanceInitiale,
-  };
-};
+  accès: { utilisateursAyantAccès },
+  installation: { typologieInstallation },
+}) => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet,
+  identifiantGestionnaireReseau:
+    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    ),
+  référenceDossierRaccordement:
+    Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référence),
+  dateDCR: demandeComplèteRaccordement?.dateQualification
+    ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
+    : undefined,
+  localité: Localité.bind(localité),
+  prix: prixReference,
+  coefficientKChoisi: !!coefficientKChoisi,
+  dateNotification: DateTime.convertirEnValueType(notifiéLe),
+  puissance,
+  puissanceInitiale,
+  presenceDeTrackers: pv?.trackers,
+  emailPorteurs: utilisateursAyantAccès.map((utilisateur) =>
+    Email.convertirEnValueType(utilisateur),
+  ),
+  typologieInstallation:
+    typologieInstallation && typologieInstallation.length > 0
+      ? typologieInstallation.map(Candidature.TypologieInstallation.convertirEnValueType)
+      : [],
+});
