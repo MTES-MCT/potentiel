@@ -1,11 +1,11 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 export const TransmettreOuModifierDocumentAlert = () => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
-      <div className="py-4 text-justify">
+      <span>
         Transmettre la <span className="font-semibold">proposition technique et financière</span> et
         la <span className="font-semibold">convention de raccordement</span> ou la{' '}
         <span className="font-semibold">convention de raccordement directe</span> du projet
@@ -13,7 +13,7 @@ export const TransmettreOuModifierDocumentAlert = () => (
         à Potentiel, notamment pour des retards de délai de raccordement. <br />
         Le dépôt dans Potentiel est informatif, il ne remplace pas les échanges administratifs avec
         votre gestionnaire de réseau.
-      </div>
+      </span>
     }
   />
 );

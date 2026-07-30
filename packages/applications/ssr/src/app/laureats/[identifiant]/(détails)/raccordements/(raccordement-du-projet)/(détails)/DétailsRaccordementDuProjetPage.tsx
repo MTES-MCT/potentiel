@@ -16,7 +16,7 @@ export const DétailsRaccordementDuProjetPage = ({ identifiantProjet, estProjetA
     <PageTemplate>
       <TitrePageRaccordement />
       <div className="my-2 md:my-4 flex flex-col gap-4">
-        <div className="md:w-1/2">
+        <div className="w-fit">
           <GestionnaireRéseauSection identifiantProjet={identifiantProjet} />
         </div>
         <DossiersRaccordementSection

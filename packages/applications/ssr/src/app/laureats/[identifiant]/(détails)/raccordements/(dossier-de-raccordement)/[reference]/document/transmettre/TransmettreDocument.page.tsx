@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { TransmettreOuModifierDocumentAlert } from '../../../components/TransmettreModifierDocumentAlert';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   TransmettreDocumentForm,
   type TransmettreDocumentFormProps,
@@ -14,18 +13,25 @@ export const TransmettreDocumentPage: FC<TransmettreDocumentPageProps> = ({
   referenceDossierRaccordement,
   availableTypes,
 }) => (
-  <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <TransmettreDocumentForm
-          identifiantProjet={identifiantProjet}
-          referenceDossierRaccordement={referenceDossierRaccordement}
-          availableTypes={availableTypes}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: <TransmettreOuModifierDocumentAlert />,
-    }}
-  />
+  <PageTemplate>
+    <TransmettreDocumentForm
+      identifiantProjet={identifiantProjet}
+      referenceDossierRaccordement={referenceDossierRaccordement}
+      availableTypes={availableTypes}
+    />
+  </PageTemplate>
+  //   classes={{ right: 'flex flex-1', left: 'flex flex-1' }}
+  //   leftColumn={{
+  //     children: (
+  //       <TransmettreDocumentForm
+  //         identifiantProjet={identifiantProjet}
+  //         referenceDossierRaccordement={referenceDossierRaccordement}
+  //         availableTypes={availableTypes}
+  //       />
+  //     ),
+  //   }}
+  //   rightColumn={{
+  //     children: <TransmettreOuModifierDocumentAlert />,
+  //   }}
+  // />
 );
