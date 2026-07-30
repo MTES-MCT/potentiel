@@ -22,7 +22,7 @@ export class QualifierDocumentsCommand extends Command {
       {
         where: {
           propositionTechniqueEtFinancière: {
-            propositionTechniqueEtFinancièreSignée: {
+            document: {
               format: Where.notEqualNull(),
             },
           },
@@ -62,7 +62,7 @@ export class QualifierDocumentsCommand extends Command {
             dateSignature: dossier.propositionTechniqueEtFinancière!.dateSignature!,
             référenceDossierRaccordement: dossier.référence,
             propositionTechniqueEtFinancièreSignée:
-              dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée,
+              dossier.propositionTechniqueEtFinancière?.document,
           },
         );
         const stream = await download(document.formatter());
