@@ -9,7 +9,7 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import type { ValidationErrors } from '@/utils/formAction';
-import { TransmettreOuModifierDocumentAlert } from '../../../../components/TransmettreModifierDocumentAlert';
+import { DocumentRaccordementAlert } from '../../../../components/DocumentRaccordementAlert';
 import { type ModifierDocumentFormKeys, modifierDocumentAction } from './modifierDocument.action';
 
 export type ModifierDocumentFormProps = {
@@ -47,7 +47,7 @@ export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
         },
       }}
     >
-      <TransmettreOuModifierDocumentAlert />
+      <DocumentRaccordementAlert />
       <div>
         Référence du dossier de raccordement : <strong>{reference}</strong>
       </div>

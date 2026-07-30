@@ -20,18 +20,4 @@ export const TransmettreDocumentPage: FC<TransmettreDocumentPageProps> = ({
       availableTypes={availableTypes}
     />
   </PageTemplate>
-  //   classes={{ right: 'flex flex-1', left: 'flex flex-1' }}
-  //   leftColumn={{
-  //     children: (
-  //       <TransmettreDocumentForm
-  //         identifiantProjet={identifiantProjet}
-  //         referenceDossierRaccordement={referenceDossierRaccordement}
-  //         availableTypes={availableTypes}
-  //       />
-  //     ),
-  //   }}
-  //   rightColumn={{
-  //     children: <TransmettreOuModifierDocumentAlert />,
-  //   }}
-  // />
 );

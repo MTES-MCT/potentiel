@@ -1,6 +1,6 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
-export const TransmettreOuModifierDocumentAlert = () => (
+export const DocumentRaccordementAlert = () => (
   <Notice
     severity="info"
     title=""
@@ -10,7 +10,8 @@ export const TransmettreOuModifierDocumentAlert = () => (
         la <span className="font-semibold">convention de raccordement</span> ou la{' '}
         <span className="font-semibold">convention de raccordement directe</span> du projet
         facilitera vos démarches administratives avec le cocontractant et l'administration connectés
-        à Potentiel, notamment pour des retards de délai de raccordement. <br />
+        à Potentiel.
+        <br />
         Le dépôt dans Potentiel est informatif, il ne remplace pas les échanges administratifs avec
         votre gestionnaire de réseau.
       </span>

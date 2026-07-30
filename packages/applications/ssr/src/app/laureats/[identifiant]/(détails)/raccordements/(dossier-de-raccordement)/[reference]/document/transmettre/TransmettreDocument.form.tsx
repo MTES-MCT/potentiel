@@ -9,7 +9,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import { TransmettreOuModifierDocumentAlert } from '../../../components/TransmettreModifierDocumentAlert';
+import { DocumentRaccordementAlert } from '../../../components/DocumentRaccordementAlert';
 import {
   type TransmettreDocumentFormKeys,
   transmettreDocumentAction,
@@ -51,7 +51,7 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
         },
       }}
     >
-      <TransmettreOuModifierDocumentAlert />
+      <DocumentRaccordementAlert />
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={referenceDossierRaccordement} />
       {typeDocument && <input type="hidden" name="typeDocument" value={typeDocument} />}
