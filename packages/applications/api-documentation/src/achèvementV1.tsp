@@ -52,8 +52,10 @@ model ProjetAvecAchevementATransmettre {
   presenceDeTrackers?: boolean;
 
   /** Porteurs rattachés au projet */
-  emailPorteurs: Array<string>
+  emailPorteurs: Array<string>;
 
+  /** Typologies d'installation */
+  typologieInstallation: Array<string>;
 }
 
 model TransmettreDateAchevementBody {
