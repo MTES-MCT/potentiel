@@ -33,6 +33,7 @@ const candidatureNotifiéeSchema = dépôtSchema
     numéroDAutorisation: numéroDAutorisationSchema,
     actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
     noteTotale: instructionSchema.shape.noteTotale,
+    volumeRéservé: instructionSchema.shape.volumeRéservé,
   })
   .extend(dépôtSchema.shape.localité.shape);
 

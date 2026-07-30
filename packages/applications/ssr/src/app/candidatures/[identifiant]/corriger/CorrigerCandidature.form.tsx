@@ -32,6 +32,7 @@ export type CorrigerCandidatureFormProps = {
   champsSupplémentaires: AppelOffre.ChampsSupplémentairesCandidature;
   typesGarantiesFinancièresDisponibles: Candidature.TypeGarantiesFinancières.RawType[];
   typesActionnariatDisponibles: Candidature.TypeActionnariat.RawType[];
+  volumeRéservéDisponible: boolean;
 };
 
 export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = ({
@@ -42,6 +43,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   aUneAttestation,
   unitéPuissance,
   champsSupplémentaires,
+  volumeRéservéDisponible,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
@@ -99,6 +101,24 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
         disabled={estNotifiée}
       />
+      {volumeRéservéDisponible && (
+        <Select
+          state={validationErrors['volumeRéservé'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['volumeRéservé']}
+          id="volumeRéservé"
+          label={'Volume réservé'}
+          nativeSelectProps={{
+            name: 'volumeRéservé',
+            defaultValue: candidature.volumeRéservé ? 'true' : 'false',
+            required: volumeRéservéDisponible,
+            'aria-required': true,
+          }}
+          options={[
+            { label: 'oui', value: 'true' },
+            { label: 'non', value: 'false' },
+          ]}
+        />
+      )}
       {estÉliminé && (
         <Input
           textArea

@@ -210,7 +210,7 @@ const mapBodyToCandidatureUsecaseData = (
       motifÉlimination: instruction.motifÉlimination,
       statut: instruction.statut.formatter(),
       noteTotale: data.noteTotale ?? instruction.noteTotale,
-      volumeRéservé: instruction.volumeRéservé,
+      volumeRéservé: data.volumeRéservé ?? instruction.volumeRéservé,
     },
     dépôtValue: {
       nomProjet: data.nomProjet ?? previous.nomProjet,

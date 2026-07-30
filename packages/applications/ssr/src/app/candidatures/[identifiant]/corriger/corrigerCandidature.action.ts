@@ -39,6 +39,7 @@ const schema = dépôtSchema
     identifiantProjet: identifiantProjetSchema,
     doitRegenererAttestation: doitRegenererAttestationSchema,
     statut: instructionSchema.shape.statut.optional(),
+    volumeRéservé: instructionSchema.shape.volumeRéservé,
     motifElimination: instructionSchema.shape.motifÉlimination,
     noteTotale: instructionSchema.shape.noteTotale,
     dateDAutorisation: dateDAutorisationSchema,
@@ -87,7 +88,7 @@ const mapBodyToUseCaseData = (
       motifÉlimination: data.motifElimination,
       noteTotale: data.noteTotale,
       statut: data.statut ?? previous.instruction.statut.formatter(),
-      volumeRéservé: previous.instruction.volumeRéservé,
+      volumeRéservé: data.volumeRéservé ?? previous.instruction.volumeRéservé,
     },
     dépôtValue: {
       nomProjet: data.nomProjet,

@@ -105,6 +105,7 @@ const mapToProps: MapToProps = ({
     numéroDAutorisation: candidature.dépôt.autorisation?.numéro,
     dateDAutorisation: candidature.dépôt.autorisation?.date.formatter(),
     installateur: candidature.dépôt.installateur,
+    volumeRéservé: candidature.instruction.volumeRéservé,
   },
   lauréat: {
     statut: mapToPlainObject(lauréat.statut),
