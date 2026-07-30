@@ -195,7 +195,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 300,
       familles: [],
       volumeRéservé: {
-        noteMin: 18.79,
         puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
@@ -226,7 +225,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
-        noteMin: 12.9244110177221,
         puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
@@ -258,7 +256,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
-        noteMin: 11.72,
         puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [
@@ -295,7 +292,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
-        noteMin: 7.14,
         puissanceMax: 1,
       },
       cahiersDesChargesModifiésDisponibles: [],
@@ -326,7 +322,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 800,
       familles: [],
       volumeRéservé: {
-        noteMin: 16.69,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
@@ -368,7 +363,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
-        noteMin: 23.45,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
@@ -410,7 +404,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
-        noteMin: 90.08,
         puissanceMax: 1,
       },
 
@@ -453,7 +446,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 300,
       familles: [],
       volumeRéservé: {
-        noteMin: 27.31,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
@@ -497,7 +489,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
-        noteMin: 40.32,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
@@ -540,7 +531,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       puissanceAppelée: 400,
       familles: [],
       volumeRéservé: {
-        noteMin: 21.6,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
@@ -577,7 +567,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       puissanceAppelée: 300,
       volumeRéservé: {
-        noteMin: 35.77,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {
@@ -614,7 +603,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       puissanceAppelée: 300,
       volumeRéservé: {
-        noteMin: 45.245,
         puissanceMax: 1,
       },
       donnéesCourriersRéponse: {

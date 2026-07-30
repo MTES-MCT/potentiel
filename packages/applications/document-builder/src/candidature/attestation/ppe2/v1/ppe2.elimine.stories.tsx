@@ -76,7 +76,6 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves: 
       période: {
         ...batimentPPE2.periodes[0],
         volumeRéservé: {
-          noteMin: 99,
           puissanceMax: 1,
         },
       } as AppelOffre.Periode,
@@ -95,7 +94,6 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves: 
       période: {
         ...batimentPPE2.periodes[0],
         volumeRéservé: {
-          noteMin: 99,
           puissanceMax: 1,
         },
       } as AppelOffre.Periode,

@@ -321,7 +321,6 @@ export type Periode = {
   typeImport: 'démarche-numérique' | 'csv';
   /** Partie du volume total de puissance appelé spécifiquement allouée aux faibles puissance */
   volumeRéservé?: {
-    noteMin: number;
     puissanceMax: number;
   };
 } & (NotifiedPeriode | LegacyPeriode);
