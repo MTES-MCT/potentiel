@@ -6,7 +6,7 @@ Madame, Monsieur,
 
 Vous avez fait une demande de connexion à l'aide d'un lien unique de connexion.
 
-**Cependant, en tant qu'agent public, vous ne pouvez vous connecter qu'avec votre compte ProConnect.**
+**Cependant vos droits sur Potentiel requièrent une connexion via ProConnect.**
 
 {{cta url 'Se connecter avec ProConnect' }}
 
