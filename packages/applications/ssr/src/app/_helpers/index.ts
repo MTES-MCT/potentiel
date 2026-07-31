@@ -19,5 +19,6 @@ export * from './getÉliminé';
 export * from './lauréat';
 export * from './optionalStringArray';
 export * from './récupérerChangementsPermisParLeCahierDesCharges';
+export * from './searchParams';
 export * from './transformToOptionalEnumArray';
 export * from './vérifierQueLeCahierDesChargesPermetUnChangement';

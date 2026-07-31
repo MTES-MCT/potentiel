@@ -8,6 +8,7 @@ import { ExportCSV } from '@potentiel-libraries/csv';
 import {
   afficherBooleanValue,
   getNatureDeLExploitationTypeLabel,
+  getSearchParamsValues,
   getTypologieInstallationLabel,
 } from '@/app/_helpers';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
@@ -21,13 +22,17 @@ export const GET = async (request: Request) =>
         throw new AccèsFonctionnalitéRefuséError('éliminé.exporterListe', utilisateur.rôle.nom);
       }
 
-      const { searchParams } = new URL(request.url);
-
-      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
-      const periode = searchParams.get('periode') ?? undefined;
-      const famille = searchParams.get('famille') ?? undefined;
-      const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
-      const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
+      const { appelOffre, periode, famille, typeActionnariat, identifiantProjet } =
+        getSearchParamsValues({
+          searchParams: new URL(request.url).searchParams,
+          config: {
+            appelOffre: 'multiple',
+            periode: 'single',
+            famille: 'single',
+            typeActionnariat: 'multiple',
+            identifiantProjet: 'single',
+          },
+        });
 
       const éliminéEnrichiList = await mediator.send<Éliminé.ListerÉliminéEnrichiQuery>({
         type: 'Éliminé.Query.ListerÉliminéEnrichi',
@@ -39,7 +44,7 @@ export const GET = async (request: Request) =>
           identifiantProjet: identifiantProjet
             ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
             : undefined,
-          typeActionnariat: typeActionnariat.length
+          typeActionnariat: typeActionnariat?.length
             ? typeActionnariat.map((value) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
               )

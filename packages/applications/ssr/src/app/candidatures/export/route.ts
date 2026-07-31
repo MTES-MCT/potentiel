@@ -4,6 +4,7 @@ import type { Candidature } from '@potentiel-domain/projet';
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
+import { getSearchParamsValues } from '@/app/_helpers/searchParams';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -30,18 +31,22 @@ export const GET = async (request: Request) =>
       if (!utilisateurPeutExporterLesCandidats) {
         throw new AccèsFonctionnalitéRefuséError('candidature.exporterListe', utilisateur.rôle.nom);
       }
-      const { searchParams } = new URL(request.url);
 
-      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
-      const période = searchParams.get('periode') ?? undefined;
-      const famille = searchParams.get('famille') ?? undefined;
+      const { appelOffre, periode, famille } = getSearchParamsValues({
+        searchParams: new URL(request.url).searchParams,
+        config: {
+          appelOffre: 'multiple',
+          periode: 'single',
+          famille: 'single',
+        },
+      });
 
       const candidaturesNonNotifiées = await mediator.send<Candidature.ListerCandidaturesQuery>({
         type: 'Candidature.Query.ListerCandidatures',
         data: {
           appelOffre,
           famille,
-          période,
+          période: periode,
           estNotifiée: false,
         },
       });
