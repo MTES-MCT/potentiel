@@ -12,3 +12,11 @@ export function getRôle(this: PotentielWorld, rôleUtilisateur: RôleUtilisateu
     .exhaustive();
   return role;
 }
+
+export function getEmailFromRôle(this: PotentielWorld, rôle: RôleUtilisateur) {
+  return match(rôle)
+    .with('le porteur', () => this.utilisateurWorld.porteurFixture)
+    .with('la dreal', () => this.utilisateurWorld.drealFixture)
+    .with('la dgec', () => this.utilisateurWorld.dgecFixture)
+    .exhaustive().email;
+}

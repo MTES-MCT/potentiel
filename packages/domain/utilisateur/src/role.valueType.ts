@@ -1791,6 +1791,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.listerChangement',
   'producteur.consulterChangement',
   'producteur.modifier',
+  'producteur.corrigerNuméroIdentification',
 
   // Fournisseur
   'fournisseur.consulter',

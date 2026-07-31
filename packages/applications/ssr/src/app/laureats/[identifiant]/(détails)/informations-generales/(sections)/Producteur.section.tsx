@@ -41,7 +41,6 @@ export const ProducteurSection = ({
           }}
           numéroIdentification={{
             value: producteurInfos.numéroIdentification,
-            // cas particulier pour producteur pour le moment, à ne pas intégrer à getAction IMO
             action: peutCorrigerNuméroIdentification
               ? {
                   url: Routes.Producteur.numéroIdentification.corriger(

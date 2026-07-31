@@ -3,7 +3,11 @@ import { mediator } from 'mediateur';
 
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { convertFixtureFileToReadableStream } from '#helpers';
+import {
+  convertFixtureFileToReadableStream,
+  getEmailFromRôle,
+  type RôleUtilisateur,
+} from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
@@ -32,10 +36,10 @@ Quand(
 );
 
 Quand(
-  "le porteur corrige le numéro d'identification du projet lauréat",
-  async function (this: PotentielWorld) {
+  /(le porteur|la dreal|la dgec) corrige le numéro d'identification du projet lauréat$/,
+  async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     try {
-      await corrigerNuméroIdentification.call(this);
+      await corrigerNuméroIdentification.call(this, rôleUtilisateur);
     } catch (error) {
       this.error = error as Error;
     }
@@ -46,7 +50,7 @@ Quand(
   "le porteur corrige le numéro d'identification du projet lauréat avec une valeur identique",
   async function (this: PotentielWorld) {
     try {
-      await corrigerNuméroIdentification.call(this, {
+      await corrigerNuméroIdentification.call(this, 'le porteur', {
         siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
       });
     } catch (error) {
@@ -130,13 +134,14 @@ async function enregistrerChangementProducteur(
 
 async function corrigerNuméroIdentification(
   this: PotentielWorld,
+  rôle: RôleUtilisateur,
   data?: Partial<ModifierProducteurProps>,
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
   const { pièceJustificative, corrigéLe, corrigéPar, siret } =
     this.lauréatWorld.producteurWorld.corrigerNuméroIdentificationFixture.créer({
-      corrigéPar: this.utilisateurWorld.porteurFixture.email,
+      corrigéPar: getEmailFromRôle.call(this, rôle),
       ...data,
     });
 
