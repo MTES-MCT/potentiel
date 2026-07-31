@@ -8,6 +8,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
 import { Heading2 } from '@/components/atoms/headings';
+import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -37,9 +38,22 @@ export const DétailsChangementReprésentantLégalPage: FC<
   DétailsChangementReprésentantLégalPageProps
 > = ({ identifiantProjet, demande, actions, historique, dateDemandeEnCoursSiDifférente }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
+  const statut = Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(
+    demande.statut.statut,
+  );
 
   return (
     <ColumnPageTemplate
+      heading={
+        <TitrePageDemande
+          statut={statut.statut}
+          titre={
+            statut.estInformationEnregistrée()
+              ? 'Changement de représendant légal'
+              : 'Demande de changement de représentant légal'
+          }
+        />
+      }
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">

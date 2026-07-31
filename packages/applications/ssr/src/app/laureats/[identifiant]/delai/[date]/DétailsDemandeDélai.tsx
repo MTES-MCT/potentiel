@@ -11,17 +11,13 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { ReadMore } from '@/components/atoms/ReadMore';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import type { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;
 
 export const DétailsDemandeDélai: FC<DétailsDemandeDélaiProps> = ({ demande }) => (
   <div className="flex flex-col gap-4">
-    <div className="flex flex-col gap-4">
-      <Heading2>Demande de délai</Heading2>
-      <StatutDemandeBadge statut={demande.statut.statut} />
-    </div>
+    <Heading2>Détail de la demande</Heading2>
     <div className="flex flex-col">
       {demande.accord && (
         <DemandeAccordée

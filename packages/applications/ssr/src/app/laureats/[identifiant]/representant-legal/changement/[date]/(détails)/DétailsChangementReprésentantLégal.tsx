@@ -16,7 +16,6 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
 ) =>
   demande.statut.statut === 'information-enregistrée' ? (
     <DétailsChangement
-      title="Changement de représentant légal"
       valeurs={
         <DétailsValeursReprésentantLégal
           nomReprésentantLégal={demande.nomReprésentantLégal}
@@ -40,7 +39,6 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
         />
       }
       statut={demande.statut.statut}
-      title="Changement de représentant légal"
     />
   );
 

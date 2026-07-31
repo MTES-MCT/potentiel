@@ -4,6 +4,7 @@ import type { PlainType } from '@potentiel-domain/core';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
+import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import {
   DétailsChangementFournisseur,
@@ -24,15 +25,18 @@ export const DétailsChangementFournisseurPage: FC<DétailsChangementFournisseur
   historique,
 }) => (
   <>
-    <div className="flex flex-col gap-8">
-      <DétailsChangementFournisseur
-        changement={changement}
-        évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
-        technologie={technologie}
-      />
-      <div className="mb-4">
-        <Heading2>Historique</Heading2>
-        <Timeline items={historique} />
+    <div>
+      <TitrePageDemande statut="information-enregistrée" titre="Changement de fournisseur" />
+      <div className="flex flex-col gap-8">
+        <DétailsChangementFournisseur
+          changement={changement}
+          évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
+          technologie={technologie}
+        />
+        <div className="mb-4">
+          <Heading2>Historique</Heading2>
+          <Timeline items={historique} />
+        </div>
       </div>
     </div>
   </>
