@@ -12,6 +12,7 @@ import {
   getTypologieInstallationLabel,
 } from '@/app/_helpers';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
+import { getSearchParamsMultipleValues } from '@/app/_helpers/searchParams';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -24,11 +25,11 @@ export const GET = async (request: Request) =>
 
       const { searchParams } = new URL(request.url);
 
-      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
+      const appelOffre = getSearchParamsMultipleValues(searchParams, 'appelOffre');
       const periode = searchParams.get('periode') ?? undefined;
       const famille = searchParams.get('famille') ?? undefined;
-      const statut = searchParams.getAll('statut') ?? undefined;
-      const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+      const statut = getSearchParamsMultipleValues(searchParams, 'statut');
+      const typeActionnariat = getSearchParamsMultipleValues(searchParams, 'typeActionnariat');
       const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
       const estPartiEnPPA = searchParams.get('PPA') ?? undefined;
 
@@ -42,10 +43,10 @@ export const GET = async (request: Request) =>
           appelOffre,
           famille,
           periode,
-          statut: statut.length
+          statut: statut?.length
             ? statut.map((value) => Lauréat.StatutLauréat.convertirEnValueType(value).formatter())
             : undefined,
-          typeActionnariat: typeActionnariat.length
+          typeActionnariat: typeActionnariat?.length
             ? typeActionnariat.map((value) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
               )

@@ -4,6 +4,7 @@ import type { Candidature } from '@potentiel-domain/projet';
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
+import { getSearchParamsMultipleValues } from '@/app/_helpers/searchParams';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -32,7 +33,7 @@ export const GET = async (request: Request) =>
       }
       const { searchParams } = new URL(request.url);
 
-      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
+      const appelOffre = getSearchParamsMultipleValues(searchParams, 'appelOffre');
       const période = searchParams.get('periode') ?? undefined;
       const famille = searchParams.get('famille') ?? undefined;
 
