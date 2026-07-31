@@ -5,6 +5,7 @@ Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
   Scénario: Corriger le numéro d'identification d'un projet lauréat
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | appel d'offres | PPE2 - Bâtiment |
+    Et la dreal "Dreal du sud" associée à la région du projet
     Quand <rôle> corrige le numéro d'identification du projet lauréat
     Alors le producteur du projet lauréat devrait être mis à jour
     Et une tâche indiquant de "renseigner le numéro d'identification" n'est plus consultable dans la liste des tâches du porteur pour le projet
