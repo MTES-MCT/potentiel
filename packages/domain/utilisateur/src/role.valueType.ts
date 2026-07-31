@@ -1791,6 +1791,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.listerChangement',
   'producteur.consulterChangement',
   'producteur.modifier',
+  'producteur.corrigerNuméroIdentification',
 
   // Fournisseur
   'fournisseur.consulter',
@@ -2069,6 +2070,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'producteur.modifier',
   'producteur.listerChangement',
   'producteur.consulterChangement',
+  'producteur.corrigerNuméroIdentification',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
