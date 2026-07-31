@@ -1,1 +1,1 @@
-export { getSearchParamsMultipleValues } from './getSearchParamsMultipleValues';
+export { getSearchParamsValues } from './getSearchParamsValues';

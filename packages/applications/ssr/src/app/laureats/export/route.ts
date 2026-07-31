@@ -12,7 +12,7 @@ import {
   getTypologieInstallationLabel,
 } from '@/app/_helpers';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
-import { getSearchParamsMultipleValues } from '@/app/_helpers/searchParams';
+import { getSearchParamsValues } from '@/app/_helpers/searchParams';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -23,15 +23,26 @@ export const GET = async (request: Request) =>
         throw new AccèsFonctionnalitéRefuséError('lauréat.exporterListe', utilisateur.rôle.nom);
       }
 
-      const { searchParams } = new URL(request.url);
-
-      const appelOffre = getSearchParamsMultipleValues(searchParams, 'appelOffre');
-      const periode = searchParams.get('periode') ?? undefined;
-      const famille = searchParams.get('famille') ?? undefined;
-      const statut = getSearchParamsMultipleValues(searchParams, 'statut');
-      const typeActionnariat = getSearchParamsMultipleValues(searchParams, 'typeActionnariat');
-      const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
-      const estPartiEnPPA = searchParams.get('PPA') ?? undefined;
+      const {
+        appelOffre,
+        periode,
+        famille,
+        typeActionnariat,
+        identifiantProjet,
+        statut,
+        estPartiEnPPA,
+      } = getSearchParamsValues({
+        searchParams: new URL(request.url).searchParams,
+        config: {
+          appelOffre: 'multiple',
+          periode: 'single',
+          famille: 'single',
+          typeActionnariat: 'multiple',
+          identifiantProjet: 'single',
+          statut: 'multiple',
+          estPartiEnPPA: 'single',
+        },
+      });
 
       const lauréatEnrichiList = await mediator.send<Lauréat.ListerLauréatEnrichiQuery>({
         type: 'Lauréat.Query.ListerLauréatEnrichi',
