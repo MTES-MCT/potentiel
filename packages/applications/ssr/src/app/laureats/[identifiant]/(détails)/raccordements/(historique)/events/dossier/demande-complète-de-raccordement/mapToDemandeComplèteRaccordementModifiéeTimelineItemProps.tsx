@@ -29,14 +29,25 @@ export const mapToDemandeComplèteRaccordementModifiéeTimelineItemProps = (
       ? event.payload.nouvelleReference
       : event.payload.référenceDossierRaccordement;
 
+  const ancienneRéférenceDossier =
+    event.type === 'DemandeComplèteRaccordementModifiée-V1'
+      ? event.payload.referenceActuelle
+      : undefined;
+
   return {
     date: modifiéeLe,
     actor: modifiéePar,
     title: 'Demande complète de raccordement modifiée',
     details: (
       <div className="flex flex-col">
+        {ancienneRéférenceDossier && (
+          <span>
+            Ancienne référence du dossier :{' '}
+            <span className="font-semibold">{ancienneRéférenceDossier}</span>
+          </span>
+        )}
         <span>
-          Nouvelle référence du dossier : <span className="font-semibold">{référenceDossier}</span>
+          Référence du dossier : <span className="font-semibold">{référenceDossier}</span>
         </span>
         <span>
           Date de l'accusé de réception :{' '}
