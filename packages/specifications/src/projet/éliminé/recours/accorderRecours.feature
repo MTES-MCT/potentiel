@@ -46,6 +46,16 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | motif | recours-accordé |
         Et les garanties financières actuelles ne devraient pas être consultables
 
+    Scénario: la dgec accorde le recours d'un projet éliminé avec une date d'accord le même jour que la désignation du projet
+        Etant donné le projet éliminé "Du boulodrome de Bordeaux" avec :
+            | appel d'offres    | PPE2 - Sol |
+            | date notification | 2023-01-01 |
+        Et une demande de recours en cours pour le projet éliminé
+        Quand la dgec accorde le recours pour le projet éliminé avec :
+            | date d'accord du recours | 2023-01-01 |
+        Alors le recours du projet éliminé devrait être accordé
+
+
     Scénario: Impossible d'accorder le recours d'un projet éliminé avec une date d'accord dans le futur
         Etant donné une demande de recours en cours pour le projet éliminé
         Quand la dgec accorde le recours pour le projet éliminé avec :
