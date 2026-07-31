@@ -58,13 +58,24 @@ export class AccorderRecoursFixture
       ...partialData,
     };
 
-    this.#dateAccord = fixture.dateAccord;
+    /**
+     * Reproduit l'ajustement fait par RecoursAggregate.accorder : si la date de réponse signée
+     * tombe le même jour que la notification d'élimination, la date est décalée de 100ms après
+     * cette notification pour garantir un historique cohérent.
+     */
+    const notifiéLe = DateTime.convertirEnValueType(partialData.dateNotification);
+    const dateAccord = DateTime.convertirEnValueType(fixture.dateAccord);
+    const dateAccordFinale = dateAccord.estMêmeJourQue(notifiéLe)
+      ? notifiéLe.ajouterNombreDeMillisecondes(100)
+      : dateAccord;
+
+    this.#dateAccord = dateAccordFinale.formatter();
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéPar;
     this.#réponseSignée = fixture.réponseSignée;
 
     this.aÉtéCréé = true;
-    return fixture;
+    return { ...fixture, dateAccord: this.#dateAccord };
   }
   mapToExpectedLauréat() {
     if (!this.aÉtéCréé) {
