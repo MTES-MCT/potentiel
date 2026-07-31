@@ -50,9 +50,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     if (dateRéponseSignée.estDansLeFutur()) {
       throw new DateRecoursDansLeFuturError();
     }
-
     /**
-     * On définit la date réponse signée à midi car les dates de notifications sont définis par défaut à midi (pour éviter les erreurs de décalage horaire)
+     *
+     * On compare avec l'heure de la réponse signée à midi pour être cohérent avec les dates de notifications. Cela permet d'éviter les erreurs de décalage horaire.
+     *
      */
     if (dateRéponseSignée.définirHeureÀMidi().estAntérieurÀ(this.éliminé.notifiéLe)) {
       throw new DateRecoursAvantDateNotificationError();
