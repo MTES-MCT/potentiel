@@ -1,5 +1,12 @@
 import { UTCDate } from '@date-fns/utc';
-import { addHours, addMonths, differenceInDays, subMonths } from 'date-fns';
+import {
+  addHours,
+  addMilliseconds,
+  addMonths,
+  differenceInDays,
+  isSameDay,
+  subMonths,
+} from 'date-fns';
 
 import {
   InvalidOperationError,
@@ -17,12 +24,14 @@ export type ValueType = ReadonlyValueType<{
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
   estJourAntérieurÀ(dateTime: ValueType): boolean;
+  estMêmeJourQue(dateTime: ValueType): boolean;
   estDansIntervalle(intervalle: { min: ValueType; max: ValueType }): boolean;
   nombreJoursÉcartAvec(dateTime: ValueType): number;
   ajouterNombreDeJours(nombreDeJours: number): ValueType;
   retirerNombreDeJours(nombreDeMois: number): ValueType;
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
   retirerNombreDeMois(nombreDeMois: number): ValueType;
+  ajouterNombreDeMillisecondes(nobreDeMillisecondes: number): ValueType;
   définirHeureÀMidi(): ValueType;
   formatter(): RawType;
   /** Retourne la date au format YYYY-MM-DD */
@@ -59,6 +68,9 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       return convertirEnValueType(this.date)
         .définirHeureÀMidi()
         .estAntérieurÀ(dateTime.définirHeureÀMidi());
+    },
+    estMêmeJourQue(dateTime: ValueType) {
+      return isSameDay(this.date, dateTime.date);
     },
     estUltérieureÀ(dateTime: ValueType) {
       return this.date.getTime() > dateTime.date.getTime();
@@ -106,6 +118,12 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       const avecNombreDeMoisRetiré = subMonths(utcDate, nombreDeMois);
 
       return convertirEnValueType(avecNombreDeMoisRetiré);
+    },
+    ajouterNombreDeMillisecondes(nombreDeMillisecondes) {
+      const utcDate = new UTCDate(this.date);
+      const avecNombreDeMillisecondesAjouté = addMilliseconds(utcDate, nombreDeMillisecondes);
+
+      return convertirEnValueType(avecNombreDeMillisecondesAjouté);
     },
     définirHeureÀMidi() {
       const dateÀMidi = addHours(new Date(this.formatterDate()), 12);

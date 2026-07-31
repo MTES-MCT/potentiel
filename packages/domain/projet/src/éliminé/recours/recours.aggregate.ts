@@ -53,12 +53,21 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     /**
      *
-     * On compare avec l'heure de la réponse signée à midi pour être cohérent avec les dates de notifications. Cela permet d'éviter les erreurs de décalage horaire.
+     * On compare avec l'heure de la date de réponse signée (à midi) pour être cohérent avec les dates de notifications. Cela permet d'éviter les erreurs de décalage horaire.
      *
      */
     if (dateRéponseSignée.estJourAntérieurÀ(this.éliminé.notifiéLe)) {
       throw new DateRecoursAvantDateNotificationError();
     }
+
+    /**
+     * Si la date de la réponse signée est le même jour que la notification éliminée,
+     * alors on s'assure que l'evenement ait une date post notificiation initiale afin
+     * de garantir un historique cohérent.
+     */
+    const dateRéponseSignéeFinale = dateRéponseSignée.estMêmeJourQue(this.éliminé.notifiéLe)
+      ? this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(100)
+      : dateRéponseSignée;
 
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
@@ -69,7 +78,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
         réponseSignée: {
           format: réponseSignée.format,
         },
-        dateRéponseSignée: dateRéponseSignée.formatter(),
+        dateRéponseSignée: dateRéponseSignéeFinale.formatter(),
         accordéLe: accordéLe.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
       },
@@ -79,7 +88,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     await this.éliminé.projet.lauréat.notifier({
       attestation: { format: réponseSignée.format },
-      notifiéLe: dateRéponseSignée,
+      notifiéLe: dateRéponseSignéeFinale,
       notifiéPar: identifiantUtilisateur,
     });
 
