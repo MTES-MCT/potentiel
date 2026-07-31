@@ -6,6 +6,7 @@ import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useState } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
+import { Icon } from '@/components/atoms/Icon';
 import { Spinner } from '@/components/atoms/Spinner';
 import { FiltersTagList } from '@/components/molecules/filters/FiltersTagList';
 import { ListFilters, type ListFiltersProps } from '@/components/molecules/ListFilters';
@@ -92,7 +93,12 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                       )}
                     />
                   }
-                  title={label}
+                  title={
+                    <div className="flex flex-row gap-2">
+                      <Icon id="fr-icon-file-download-line" />
+                      {label}
+                    </div>
+                  }
                   titleAs="h2"
                   desc={description}
                   linkProps={
