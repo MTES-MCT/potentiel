@@ -16,6 +16,7 @@ export type ValueType = ReadonlyValueType<{
   estDansLeFutur(): boolean;
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
+  estJourAntérieurÀ(dateTime: ValueType): boolean;
   estDansIntervalle(intervalle: { min: ValueType; max: ValueType }): boolean;
   nombreJoursÉcartAvec(dateTime: ValueType): number;
   ajouterNombreDeJours(nombreDeJours: number): ValueType;
@@ -53,6 +54,11 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     },
     estAntérieurÀ(dateTime: ValueType) {
       return this.date.getTime() < dateTime.date.getTime();
+    },
+    estJourAntérieurÀ(dateTime: ValueType) {
+      return convertirEnValueType(this.date)
+        .définirHeureÀMidi()
+        .estAntérieurÀ(dateTime.définirHeureÀMidi());
     },
     estUltérieureÀ(dateTime: ValueType) {
       return this.date.getTime() > dateTime.date.getTime();

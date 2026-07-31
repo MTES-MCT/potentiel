@@ -39,7 +39,13 @@ export class NotifierÉliminéFixture
 
   créer(partialFixture: NotifierÉliminéProps): Readonly<NotifierÉliminé> {
     const fixture = {
-      notifiéLe: faker.date.recent().toISOString(),
+      notifiéLe: DateTime.convertirEnValueType(
+        faker.date.recent({
+          refDate: DateTime.now().retirerNombreDeJours(1).date,
+        }),
+      )
+        .définirHeureÀMidi()
+        .formatter(),
       ...partialFixture,
     };
 
