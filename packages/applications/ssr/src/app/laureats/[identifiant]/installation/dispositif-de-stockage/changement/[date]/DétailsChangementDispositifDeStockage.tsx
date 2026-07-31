@@ -13,7 +13,6 @@ export const DétailsChangementDispositifDeStockage: FC<
 > = ({ changement }) => {
   return (
     <DétailsChangement
-      title="Changement de dispositif de stockage"
       changement={changement}
       valeurs={
         <DétailsDispositifDeStockage dispositifDeStockage={changement.dispositifDeStockage} />

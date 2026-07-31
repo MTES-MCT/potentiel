@@ -12,7 +12,6 @@ export const DétailsChangementInstallateur: FC<DétailsChangementInstallateurPr
 }) => {
   return (
     <DétailsChangement
-      title="Changement d'installateur"
       changement={changement}
       valeurs={
         <div>

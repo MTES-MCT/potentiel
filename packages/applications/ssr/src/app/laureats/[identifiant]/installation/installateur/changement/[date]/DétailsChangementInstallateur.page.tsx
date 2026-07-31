@@ -4,6 +4,7 @@ import type { PlainType } from '@potentiel-domain/core';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
+import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { DétailsChangementInstallateur } from './DétailsChangementInstallateur';
 
@@ -20,11 +21,14 @@ export const DétailsChangementInstallateurPage: FC<DétailsChangementInstallate
   historique,
 }) => (
   <>
-    <div className="flex flex-col gap-8">
-      <DétailsChangementInstallateur changement={changement} />
-      <div className="mb-4">
-        <Heading2>Historique</Heading2>
-        <Timeline items={historique} />
+    <div>
+      <TitrePageDemande statut="information-enregistrée" titre="Changement d'installateur" />
+      <div className="flex flex-col gap-8">
+        <DétailsChangementInstallateur changement={changement} />
+        <div className="mb-4">
+          <Heading2>Historique</Heading2>
+          <Timeline items={historique} />
+        </div>
       </div>
     </div>
   </>

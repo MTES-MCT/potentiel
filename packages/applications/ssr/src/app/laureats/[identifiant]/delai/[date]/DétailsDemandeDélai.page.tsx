@@ -7,6 +7,7 @@ import { mapToPlainObject, type PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
+import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -43,8 +44,10 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
   historique,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.bind(identifiantProjet);
+  const statut = Lauréat.Délai.StatutDemandeDélai.convertirEnValueType(demande.statut.statut);
   return (
     <ColumnPageTemplate
+      heading={<TitrePageDemande statut={statut.statut} titre="Demande de délai" />}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">

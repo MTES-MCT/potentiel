@@ -3,9 +3,10 @@ import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import type { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
+import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -31,39 +32,54 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
   actions,
   historique,
   dateDemandeEnCoursSiDifférente,
-}) => (
-  <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <div className="flex flex-col gap-8">
-          <DétailsChangementActionnaire demande={demande} />
-          <div>
-            <Heading2>Historique</Heading2>
-            <Timeline items={historique} />
+}) => {
+  const statut = Lauréat.Actionnaire.StatutChangementActionnaire.convertirEnValueType(
+    demande.statut.statut,
+  );
+  return (
+    <ColumnPageTemplate
+      heading={
+        <TitrePageDemande
+          statut={statut.statut}
+          titre={
+            statut.estInformationEnregistrée()
+              ? "Changement d'actionnnaire"
+              : "Demande de changement d'actionnaire"
+          }
+        />
+      }
+      leftColumn={{
+        children: (
+          <div className="flex flex-col gap-8">
+            <DétailsChangementActionnaire demande={demande} />
+            <div>
+              <Heading2>Historique</Heading2>
+              <Timeline items={historique} />
+            </div>
           </div>
-        </div>
-      ),
-    }}
-    rightColumn={{
-      className: 'flex flex-col gap-8',
-      children: (
-        <>
-          {dateDemandeEnCoursSiDifférente && (
-            <InfoBoxDemandeEnCours
-              identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-              dateDemandeEnCours={dateDemandeEnCoursSiDifférente}
-            />
-          )}
-          {mapToActionComponents({
-            actions,
-            identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-            dateDemandeEnCoursSiDifférente,
-          })}
-        </>
-      ),
-    }}
-  />
-);
+        ),
+      }}
+      rightColumn={{
+        className: 'flex flex-col gap-8',
+        children: (
+          <>
+            {dateDemandeEnCoursSiDifférente && (
+              <InfoBoxDemandeEnCours
+                identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+                dateDemandeEnCours={dateDemandeEnCoursSiDifférente}
+              />
+            )}
+            {mapToActionComponents({
+              actions,
+              identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+              dateDemandeEnCoursSiDifférente,
+            })}
+          </>
+        ),
+      }}
+    />
+  );
+};
 
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementActionnaireActions>;

@@ -12,7 +12,6 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
 }) => {
   return (
     <DétailsChangement
-      title="Changement de producteur"
       changement={changement}
       valeurs={<DétailsValeursProducteur changement={changement} />}
       statut="information-enregistrée"

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
@@ -10,18 +10,17 @@ export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
   unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
   puissanceInitiale: DétailsPuissancePageProps['puissanceInitiale'];
+  statut: Lauréat.Puissance.StatutChangementPuissance.ValueType;
 };
 
 export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
   demande,
   unitéPuissance,
   puissanceInitiale,
+  statut,
 }) => {
-  const statut = Lauréat.Puissance.StatutChangementPuissance.bind(demande.statut.statut);
-
   return statut.estInformationEnregistrée() ? (
     <DétailsChangement
-      title="Changement de puissance"
       valeurs={
         <DétailsValeursPuissance
           unitéPuissance={unitéPuissance}
@@ -50,7 +49,6 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
         />
       }
       statut={demande.statut.statut}
-      title="Demande de changement de puissance"
     />
   );
 };
