@@ -2070,6 +2070,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'producteur.modifier',
   'producteur.listerChangement',
   'producteur.consulterChangement',
+  'producteur.corrigerNuméroIdentification',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
