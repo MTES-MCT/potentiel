@@ -35,6 +35,9 @@ export type ListerProjetsÀRéclamerDependencies = {
   list: List;
 };
 
+/**
+ * Cette query n'a pas de scope d'accès car elle est destinée aux utilisateurs sans compte, souhaitant réclamer l'accès à un projet pour lequel ils disposent d'informations spécifiques (numéro CRE et prix).
+ */
 export const registerListerProjetsÀRéclamerQuery = ({
   list,
 }: ListerProjetsÀRéclamerDependencies) => {
