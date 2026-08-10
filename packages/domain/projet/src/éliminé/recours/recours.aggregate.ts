@@ -1,6 +1,6 @@
 import { match, P } from 'ts-pattern';
 
-import { Email } from '@potentiel-domain/common';
+import { type DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { GarantiesFinancières } from '../../lauréat/index.js';
@@ -65,9 +65,18 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
      * alors on s'assure que l'evenement ait une date post notificiation initiale afin
      * de garantir un historique cohérent.
      */
-    const dateRéponseSignéeFinale = dateRéponseSignée.estMêmeJourQue(this.éliminé.notifiéLe)
-      ? this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(100)
-      : dateRéponseSignée;
+    const datesÉvènements: {
+      recoursAccordé: DateTime.ValueType;
+      notificationLauréat: DateTime.ValueType;
+    } = dateRéponseSignée.estMêmeJourQue(this.éliminé.notifiéLe)
+      ? {
+          recoursAccordé: this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(100),
+          notificationLauréat: this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(200),
+        }
+      : {
+          recoursAccordé: dateRéponseSignée,
+          notificationLauréat: dateRéponseSignée,
+        };
 
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
@@ -78,7 +87,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
         réponseSignée: {
           format: réponseSignée.format,
         },
-        dateRéponseSignée: dateRéponseSignéeFinale.formatter(),
+        dateRéponseSignée: datesÉvènements.recoursAccordé.formatter(),
         accordéLe: accordéLe.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
       },
@@ -88,7 +97,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     await this.éliminé.projet.lauréat.notifier({
       attestation: { format: réponseSignée.format },
-      notifiéLe: dateRéponseSignéeFinale,
+      notifiéLe: datesÉvènements.notificationLauréat,
       notifiéPar: identifiantUtilisateur,
     });
 

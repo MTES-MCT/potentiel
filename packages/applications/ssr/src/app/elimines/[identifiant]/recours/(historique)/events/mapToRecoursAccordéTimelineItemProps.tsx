@@ -12,7 +12,7 @@ export const mapToRecoursAccordéTimelineItemProps = ({
   const date = type === 'RecoursAccordé-V1' ? payload.accordéLe : payload.dateRéponseSignée;
 
   return {
-    date: payload.accordéLe,
+    date,
     title: `Demande de recours accordée${type === 'RecoursAccordé-V1' ? '' : ` à la date du ${formatDateToText(date)}`}`,
     actor: payload.accordéPar,
     file: {

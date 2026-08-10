@@ -40,6 +40,12 @@ export class AccorderRecoursFixture
     return this.#accordéPar;
   }
 
+  #dateNotificationLauréat!: string;
+
+  get dateNotificationLauréat(): string {
+    return this.#dateNotificationLauréat;
+  }
+
   créer(
     partialData: Partial<AccorderRecours> & {
       dateNotification: string;
@@ -60,16 +66,22 @@ export class AccorderRecoursFixture
 
     /**
      * Reproduit l'ajustement fait par RecoursAggregate.accorder : si la date de réponse signée
-     * tombe le même jour que la notification d'élimination, la date est décalée de 100ms après
-     * cette notification pour garantir un historique cohérent.
+     * tombe le même jour que la notification d'élimination, la date de l'évènement RecoursAccordé
+     * est décalée de 100ms après cette notification, et celle de la notification lauréat de 200ms,
+     * pour garantir un historique cohérent (notification éliminé < recours accordé < notification lauréat).
      */
     const notifiéLe = DateTime.convertirEnValueType(partialData.dateNotification);
     const dateAccord = DateTime.convertirEnValueType(fixture.dateAccord);
-    const dateAccordFinale = dateAccord.estMêmeJourQue(notifiéLe)
+    const estMêmeJour = dateAccord.estMêmeJourQue(notifiéLe);
+    const dateAccordFinale = estMêmeJour
       ? notifiéLe.ajouterNombreDeMillisecondes(100)
+      : dateAccord;
+    const dateNotificationLauréat = estMêmeJour
+      ? notifiéLe.ajouterNombreDeMillisecondes(200)
       : dateAccord;
 
     this.#dateAccord = dateAccordFinale.formatter();
+    this.#dateNotificationLauréat = dateNotificationLauréat.formatter();
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéPar;
     this.#réponseSignée = fixture.réponseSignée;
@@ -82,7 +94,7 @@ export class AccorderRecoursFixture
       return {};
     }
     return {
-      notifiéLe: DateTime.convertirEnValueType(this.dateAccord),
+      notifiéLe: DateTime.convertirEnValueType(this.dateNotificationLauréat),
       notifiéPar: Email.convertirEnValueType(this.accordéPar),
     };
   }
