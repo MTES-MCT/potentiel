@@ -365,7 +365,11 @@ const map: DocumentRecord = {
     Lauréat.GarantiesFinancières.DocumentMainlevée.demandeRejetée,
   // Recours
   'RecoursDemandé-V1': Éliminé.Recours.DocumentRecours.pièceJustificative,
-  'RecoursAccordé-V1': Éliminé.Recours.DocumentRecours.recoursAccordé,
+  'RecoursAccordé-V1': mapProperty(
+    Éliminé.Recours.DocumentRecours.recoursAccordé,
+    'dateRéponseSignée',
+    'accordéLe',
+  ),
   'RecoursAccordé-V2': Éliminé.Recours.DocumentRecours.recoursAccordé,
 };
 

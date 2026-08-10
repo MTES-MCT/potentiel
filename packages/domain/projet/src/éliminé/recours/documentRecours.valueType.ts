@@ -13,7 +13,7 @@ export const recoursAccordé = DocumentProjet.documentFactory({
   domaine,
   typeDocument: 'recours-accordé',
   nomChampDocument: 'réponseSignée',
-  nomChampDate: 'accordéLe',
+  nomChampDate: 'dateRéponseSignée',
 });
 
 export const recoursRejeté = DocumentProjet.documentFactory({

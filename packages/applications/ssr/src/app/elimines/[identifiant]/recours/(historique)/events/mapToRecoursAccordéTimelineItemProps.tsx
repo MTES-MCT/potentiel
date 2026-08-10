@@ -18,7 +18,7 @@ export const mapToRecoursAccordéTimelineItemProps = ({
     file: {
       document: Éliminé.Recours.DocumentRecours.recoursAccordé({
         identifiantProjet: payload.identifiantProjet,
-        accordéLe: date,
+        dateRéponseSignée: date,
         réponseSignée: payload.réponseSignée,
       }),
 

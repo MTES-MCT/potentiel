@@ -97,8 +97,8 @@ export class RecoursWord {
         accordéPar: Email.convertirEnValueType(this.#accorderRecoursFixture.accordéPar),
         réponseSignée: Éliminé.Recours.DocumentRecours.recoursAccordé({
           identifiantProjet: identifiantProjet.formatter(),
-          accordéLe: DateTime.convertirEnValueType(
-            this.#accorderRecoursFixture.accordéLe,
+          dateRéponseSignée: DateTime.convertirEnValueType(
+            this.#accorderRecoursFixture.dateAccord,
           ).formatter(),
           réponseSignée: { format: this.#accorderRecoursFixture.réponseSignée.format },
         }),
