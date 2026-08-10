@@ -36,7 +36,7 @@ export const registerAccorderRecoursUseCase = () => {
 
     const réponseSignée = DocumentRecours.recoursAccordé({
       identifiantProjet: identifiantProjet.formatter(),
-      accordéLe: accordéLe.formatter(),
+      dateRéponseSignée: dateRéponseSignée.formatter(),
       réponseSignée: { format },
     });
 

@@ -6,7 +6,6 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Sol |
         Et la dreal "Dreal du sud" associée à la région du projet
-
     Scénario: La dgec accorde le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé
         Quand la dgec accorde le recours pour le projet éliminé
