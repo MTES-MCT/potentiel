@@ -6,6 +6,7 @@ import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
+import { getSearchParamsValues } from '@/app/_helpers/searchParams';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -34,10 +35,15 @@ export const GET = async (request: Request) =>
 
       const { searchParams } = new URL(request.url);
 
-      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
-      const periode = searchParams.get('periode') ?? undefined;
-      const famille = searchParams.get('famille') ?? undefined;
-      const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+      const { appelOffre, periode, famille, typeActionnariat } = getSearchParamsValues({
+        searchParams,
+        config: {
+          appelOffre: 'multiple',
+          periode: 'single',
+          famille: 'single',
+          typeActionnariat: 'multiple',
+        },
+      });
 
       const fournisseursÀLaCandidature =
         await mediator.send<Candidature.ListerDétailsFournisseurQuery>({
@@ -47,7 +53,7 @@ export const GET = async (request: Request) =>
             appelOffre,
             famille,
             periode,
-            typeActionnariat: typeActionnariat.length
+            typeActionnariat: typeActionnariat?.length
               ? typeActionnariat.map((value) =>
                   Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
                 )

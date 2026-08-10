@@ -95,7 +95,9 @@ const mapToReadModel = (result: DemandeRecoursEntity) => {
             accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
             réponseSignée: DocumentRecours.recoursAccordé({
               identifiantProjet,
-              accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
+              dateRéponseSignée: DateTime.convertirEnValueType(
+                result.demande.accord.dateRéponseSignée ?? result.demande.accord.accordéLe,
+              ).formatter(),
               réponseSignée: { format: result.demande.accord.réponseSignée.format },
             }),
           }

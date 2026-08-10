@@ -6,6 +6,7 @@ import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
+import { getSearchParamsValues } from '@/app/_helpers/searchParams';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -42,14 +43,19 @@ export const GET = async (request: Request) =>
         );
       }
 
-      const { searchParams } = new URL(request.url);
-
-      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
-      const periode = searchParams.get('periode') ?? undefined;
-      const famille = searchParams.get('famille') ?? undefined;
-      const statut = searchParams.getAll('statut') ?? undefined;
-      const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
-      const estPartiEnPPA = searchParams.get('PPA') ?? undefined;
+      const { appelOffre, periode, famille, typeActionnariat, statut, estPartiEnPPA } =
+        getSearchParamsValues({
+          searchParams: new URL(request.url).searchParams,
+          config: {
+            appelOffre: 'multiple',
+            periode: 'single',
+            famille: 'single',
+            typeActionnariat: 'multiple',
+            identifiantProjet: 'single',
+            statut: 'multiple',
+            estPartiEnPPA: 'single',
+          },
+        });
 
       const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
@@ -58,10 +64,10 @@ export const GET = async (request: Request) =>
           appelOffre,
           famille,
           periode,
-          statutProjet: statut.length
+          statutProjet: statut?.length
             ? statut.map((value) => Lauréat.StatutLauréat.convertirEnValueType(value).formatter())
             : undefined,
-          typeActionnariat: typeActionnariat.length
+          typeActionnariat: typeActionnariat?.length
             ? typeActionnariat.map((value) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
               )
