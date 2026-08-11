@@ -21,8 +21,9 @@ const donnéesPériodes = Object.fromEntries(
 
 const meta = {
   title: 'Candidature/SynthèseLauréatsPériode',
-  component: ({ période }) => {
+  component: ({ période, typeDeSynthèse }) => {
     return SynthèsePériode({
+      typeDeSynthèse,
       dateCourrier: new Date().toISOString(),
       imagesFolderPath: '/images',
       lauréats: [
@@ -93,13 +94,21 @@ const meta = {
       control: { type: 'select' },
       options: Object.keys(donnéesPériodes),
     },
+    typeDeSynthèse: {
+      control: { type: 'select' },
+      options: ['candidature', 'laureat'],
+    },
   },
-} satisfies Meta<{ période: string }>;
+} satisfies Meta<{ période: string; typeDeSynthèse: SynthèsePériodeProps['typeDeSynthèse'] }>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { période: 'PPE2 - Eolien#1' },
+  args: { période: 'PPE2 - Eolien#1', typeDeSynthèse: 'candidature' },
+};
+
+export const Lauréat: Story = {
+  args: { période: 'PPE2 - Eolien#1', typeDeSynthèse: 'laureat' },
 };

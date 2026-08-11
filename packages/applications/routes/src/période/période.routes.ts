@@ -8,4 +8,5 @@ export const lister = withFilters<{
 export const exporterSynthèsePériode = withFilters<{
   appelOffre: string;
   periode: string;
+  type: 'laureat' | 'candidature';
 }>(`/periodes/telecharger-synthese-periode`);

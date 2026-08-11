@@ -1,12 +1,15 @@
+import { getSearchParamsEnumValue } from './getSearchParamsEnumValue';
 import { getSearchParamsMultipleValues } from './getSearchParamsMultipleValues';
 import { getSearchParamsSingleValue } from './getSearchParamsSingleValue';
 
-type SearchParamsConfig = Record<string, 'single' | 'multiple'>;
+type SearchParamsConfig = Record<string, 'single' | 'multiple' | readonly string[]>;
 
 type SearchParamsValues<TConfig extends SearchParamsConfig> = {
-  [TKey in keyof TConfig]: TConfig[TKey] extends 'multiple'
-    ? Array<string> | undefined
-    : string | undefined;
+  [TKey in keyof TConfig]: TConfig[TKey] extends readonly string[]
+    ? TConfig[TKey][number] | undefined
+    : TConfig[TKey] extends 'multiple'
+      ? Array<string> | undefined
+      : string | undefined;
 };
 
 type GetSearchParamsValuesProps<TConfig extends SearchParamsConfig> = {
@@ -21,8 +24,11 @@ export const getSearchParamsValues = <TConfig extends SearchParamsConfig>({
   const values = {} as SearchParamsValues<TConfig>;
 
   for (const name of Object.keys(config) as Array<keyof TConfig & string>) {
-    const value =
-      config[name] === 'multiple'
+    const paramConfig = config[name];
+
+    const value = Array.isArray(paramConfig)
+      ? getSearchParamsEnumValue(searchParams, name, paramConfig)
+      : paramConfig === 'multiple'
         ? getSearchParamsMultipleValues(searchParams, name)
         : getSearchParamsSingleValue(searchParams, name);
 

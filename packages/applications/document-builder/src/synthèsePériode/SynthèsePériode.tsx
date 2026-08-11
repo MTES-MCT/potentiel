@@ -38,6 +38,7 @@ export const SynthèsePériode = ({
   lauréats,
   imagesFolderPath,
   période,
+  typeDeSynthèse,
 }: SynthèsePériodeProps) => {
   const firstPageSize = 8;
   const otherPagesSize = 16;
@@ -66,6 +67,7 @@ export const SynthèsePériode = ({
             lauréats={pages[0]}
             indexPage={0}
             pagesLength={pages.length}
+            typeDeSynthèse={typeDeSynthèse}
           />
         </View>
 
@@ -91,6 +93,7 @@ export const SynthèsePériode = ({
                   lauréats={page}
                   indexPage={index}
                   pagesLength={pages.length}
+                  typeDeSynthèse={typeDeSynthèse}
                 />
               </View>
               <PageFooter />

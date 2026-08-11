@@ -7,6 +7,7 @@ type LinkActionProps = {
   label: string;
   href: string;
   iconId?: FrIconClassName | RiIconClassName;
+  target?: '_blank';
 };
 export type ListPageActionsProps = {
   actions: ReadonlyArray<LinkActionProps>;
@@ -18,6 +19,7 @@ export const ListPageActions = ({ actions }: ListPageActionsProps) => (
       <Link
         key={a.href}
         href={a.href}
+        target={a.target}
         className={clsx(
           `w-fit fr-link fr-link--icon-right ${a.iconId} ${actions.length === 1 && 'mb-6'}`,
         )}

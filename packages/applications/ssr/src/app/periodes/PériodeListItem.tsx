@@ -63,7 +63,11 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
               <DownloadDocument
                 format="pdf"
                 label="Télécharger la synthèse de la période (données de candidature)"
-                url={Routes.Période.exporterSynthèsePériode({ appelOffre, periode: période })}
+                url={Routes.Période.exporterSynthèsePériode({
+                  appelOffre,
+                  periode: période,
+                  type: 'candidature',
+                })}
                 ariaLabel={`Télécharger la synthèse de la période ${période} de l'appel d'offres ${appelOffre} (données de candidature) au format PDF`}
               />
               <Tooltip title="Cette synthèse contient les données de candidature et ne tient pas compte des éventuelles modifications de projet postérieures à la désignation.">

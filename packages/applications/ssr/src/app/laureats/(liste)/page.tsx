@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
+import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
@@ -16,7 +17,7 @@ import { projectListLegendSymbols } from '@/components/molecules/projet/liste/Pr
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { LauréatListPage } from './LauréatList.page';
+import { LauréatListPage, type LauréatListPageProps } from './LauréatList.page';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
@@ -128,6 +129,23 @@ export default async function Page(props: PageProps) {
         },
       ];
 
+      const actions: LauréatListPageProps['actions'] =
+        utilisateur.rôle.aLaPermission('période.consulterSynthèse') &&
+        appelOffre?.length === 1 &&
+        periode
+          ? [
+              {
+                label: `Télécharger la synthèse des lauréats de la période`,
+                href: Routes.Période.exporterSynthèsePériode({
+                  appelOffre: appelOffre[0],
+                  periode,
+                  type: 'laureat',
+                }),
+                target: '_blank',
+              },
+            ]
+          : [];
+
       return (
         <LauréatListPage
           list={{
@@ -139,7 +157,7 @@ export default async function Page(props: PageProps) {
           legend={{
             symbols: projectListLegendSymbols,
           }}
-          actions={[]}
+          actions={actions}
         />
       );
     }),
