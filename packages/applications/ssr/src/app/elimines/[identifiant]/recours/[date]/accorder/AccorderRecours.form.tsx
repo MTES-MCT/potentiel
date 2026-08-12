@@ -20,16 +20,12 @@ type AccorderRecoursFormProps = {
   dateNotification: DateTime.RawType;
 };
 
-export const AccorderRecours = ({
-  identifiantProjet,
-  date,
-  dateNotification,
-}: AccorderRecoursFormProps) => {
+export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderRecoursFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
-
+  const { date: dateDemande } = date;
   return (
     <>
       <Button
@@ -57,7 +53,7 @@ export const AccorderRecours = ({
                 label={`Date de l'accord du recours`}
                 name="dateRéponseSignée"
                 hintText={`Saisir la date à laquelle le recours a réellement été accordé (date de la réponse signée). Elle tiendra lieu de date de désignation du lauréat.`}
-                min={dateNotification}
+                min={dateDemande}
                 max={DateTime.now().formatter()}
                 state={validationErrors['dateRéponseSignée'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['dateRéponseSignée']}
@@ -75,7 +71,7 @@ export const AccorderRecours = ({
 
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Recours.téléchargerModèleRéponse(identifiantProjet, date.date)}
+                url={Routes.Recours.téléchargerModèleRéponse(identifiantProjet, dateDemande)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />

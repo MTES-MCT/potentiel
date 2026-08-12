@@ -28,3 +28,9 @@ export class ÉliminéInexistantError extends AggregateNotFoundError {
     super(`Le projet éliminé n'existe pas`);
   }
 }
+
+export class DateRéponseSignéeAntérieureÀDateDemandeRecours extends InvalidOperationError {
+  constructor() {
+    super(`La date d'accord du recours ne peut pas être antérieure à la date de la demande`);
+  }
+}

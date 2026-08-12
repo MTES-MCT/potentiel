@@ -61,6 +61,13 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | date d'accord du recours | 2100-10-10 |
         Alors la dgec devrait être informé que "La date d'accord du recours ne peut pas être dans le futur"
 
+    Scénario: Impossible d'accorder le recours d'un projet éliminé avec une date antérieure à la date de la demande
+        Etant donné une demande de recours en cours pour le projet éliminé avec :
+            | date de la demande | 2026-08-12 |
+        Quand la dgec accorde le recours pour le projet éliminé avec :
+            | date d'accord du recours | 2026-08-10 |
+        Alors la dgec devrait être informé que "La date d'accord du recours ne peut pas être antérieure à la date de la demande"
+
     Scénario: Impossible d'accorder le recours d'un projet éliminé avec une date d'accord antérieure à la date de notification du projet
         Etant donné le projet éliminé "Du boulodrome de Paris" avec :
             | appel d'offres    | PPE2 - Sol |
