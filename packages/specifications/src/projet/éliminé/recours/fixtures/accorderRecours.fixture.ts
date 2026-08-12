@@ -43,15 +43,31 @@ export class AccorderRecoursFixture
   créer(
     partialData: Partial<AccorderRecours> & {
       dateNotification: string;
+      dateDemande?: string;
     },
   ): Readonly<AccorderRecours> {
+    /**
+     *
+     * Reproduit l'invariant RecoursAggregate.accorder (dateRéponseSignée ne peut être
+     * antérieure ni à la demande ni à la notification) : la date d'accord par défaut est
+     * tirée après la plus tardive des deux, pour ne pas générer un jeu de données incohérent.
+     *
+     */
+    const dateAuPlusTôtPossible = partialData.dateDemande
+      ? DateTime.convertirEnValueType(partialData.dateDemande).estUltérieureÀ(
+          DateTime.convertirEnValueType(partialData.dateNotification),
+        )
+        ? partialData.dateDemande
+        : partialData.dateNotification
+      : partialData.dateNotification;
+
     const fixture: AccorderRecours = {
       accordéLe: faker.date.soon().toISOString(),
       accordéPar: faker.internet.email(),
       réponseSignée: faker.potentiel.document(),
       dateAccord: faker.date
         .between({
-          from: new Date(partialData.dateNotification),
+          from: new Date(dateAuPlusTôtPossible),
           to: new Date(),
         })
         .toISOString(),

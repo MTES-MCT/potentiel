@@ -45,13 +45,24 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | motif | recours-accordé |
         Et les garanties financières actuelles ne devraient pas être consultables
 
-    Scénario: la dgec accorde le recours d'un projet éliminé avec une date d'accord le même jour que la désignation du projet
+    Scénario: la dgec accorde le recours d'un projet éliminé avec une date d'accord le même jour que la désignation du projet et que la demande de recours
         Etant donné le projet éliminé "Du boulodrome de Bordeaux" avec :
             | appel d'offres    | PPE2 - Sol |
             | date notification | 2023-01-01 |
-        Et une demande de recours en cours pour le projet éliminé
+        Et une demande de recours en cours pour le projet éliminé avec :
+            | date de la demande | 2023-01-01 |
         Quand la dgec accorde le recours pour le projet éliminé avec :
             | date d'accord du recours | 2023-01-01 |
+        Alors le recours du projet éliminé devrait être accordé
+
+    Scénario: la dgec accorde le recours d'un projet éliminé avec une date d'accord le même jour que la demande de recours
+        Etant donné le projet éliminé "Du boulodrome de Bordeaux" avec :
+            | appel d'offres    | PPE2 - Sol |
+            | date notification | 2023-01-01 |
+        Et une demande de recours en cours pour le projet éliminé avec :
+            | date de la demande | 2023-06-15 |
+        Quand la dgec accorde le recours pour le projet éliminé avec :
+            | date d'accord du recours | 2023-06-15 |
         Alors le recours du projet éliminé devrait être accordé
 
 
@@ -73,7 +84,8 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | appel d'offres    | PPE2 - Sol |
             | date notification | 2023-01-01 |
         Et la dreal "Dreal de Paris" associée à la région du projet
-        Et une demande de recours en cours pour le projet éliminé
+        Et une demande de recours en cours pour le projet éliminé avec :
+            | date de la demande | 2022-01-01 |
         Quand la dgec accorde le recours pour le projet éliminé avec :
             | date d'accord du recours | 2022-10-10 |
         Alors la dgec devrait être informé que "La date d'accord du recours ne peut pas antérieure à la date de notification du projet"
