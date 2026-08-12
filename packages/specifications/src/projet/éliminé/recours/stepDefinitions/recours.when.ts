@@ -17,12 +17,44 @@ Quand(
       const { demandéLe, demandéPar, pièceJustificative, raison } =
         this.éliminéWorld.recoursWorld.demanderRecoursFixture.créer({
           demandéPar: this.utilisateurWorld.porteurFixture.email,
+          dateNotification: this.éliminéWorld.notifierEliminéFixture.notifiéLe,
         });
 
       await mediator.send<Éliminé.Recours.DemanderRecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.DemanderRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
+          raisonValue: raison,
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+          dateDemandeValue: demandéLe,
+          identifiantUtilisateurValue: demandéPar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le porteur demande le recours pour le projet éliminé avec :`,
+  async function (this: PotentielWorld, datatable: DataTable) {
+    try {
+      const exemple = datatable.rowsHash();
+
+      const { demandéLe, demandéPar, pièceJustificative, raison } =
+        this.éliminéWorld.recoursWorld.demanderRecoursFixture.créer({
+          demandéPar: this.utilisateurWorld.porteurFixture.email,
+          dateNotification: this.éliminéWorld.notifierEliminéFixture.notifiéLe,
+          demandéLe: exemple['date de la demande']
+            ? DateTime.convertirEnValueType(new Date(exemple['date de la demande'])).formatter()
+            : undefined,
+        });
+
+      await mediator.send<Éliminé.Recours.DemanderRecoursUseCase>({
+        type: 'Éliminé.Recours.UseCase.DemanderRecours',
+        data: {
+          identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           raisonValue: raison,
           pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
           dateDemandeValue: demandéLe,

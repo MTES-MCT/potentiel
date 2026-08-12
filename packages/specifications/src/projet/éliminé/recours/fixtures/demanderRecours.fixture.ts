@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { DateTime } from '@potentiel-domain/common';
+
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../fixture.js';
 
@@ -38,7 +40,11 @@ export class DemanderRecoursFixture
     return this.#raison;
   }
 
-  créer(partialData?: Partial<DemanderRecours>): Readonly<DemanderRecours> {
+  créer(
+    partialData?: Partial<DemanderRecours> & {
+      dateNotification?: string;
+    },
+  ): Readonly<DemanderRecours> {
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
@@ -47,12 +53,28 @@ export class DemanderRecoursFixture
       ...partialData,
     };
 
-    this.#demandéLe = fixture.demandéLe;
+    /**
+     * Reproduit l'ajustement fait par RecoursAggregate.demander : si la date de demande
+     * tombe le même jour que la notification d'élimination, la date de l'évènement
+     * RecoursDemandé est décalée de 100ms après cette notification, pour garantir un
+     * historique cohérent (notification éliminé < demande de recours).
+     */
+    const demandéLe = partialData?.dateNotification
+      ? DateTime.convertirEnValueType(fixture.demandéLe).estMêmeJourQue(
+          DateTime.convertirEnValueType(partialData.dateNotification),
+        )
+        ? DateTime.convertirEnValueType(partialData.dateNotification)
+            .ajouterNombreDeMillisecondes(100)
+            .formatter()
+        : fixture.demandéLe
+      : fixture.demandéLe;
+
+    this.#demandéLe = demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
     this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
-    return fixture;
+    return { ...fixture, demandéLe };
   }
 }

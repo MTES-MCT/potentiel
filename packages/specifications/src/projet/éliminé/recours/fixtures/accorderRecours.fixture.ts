@@ -67,21 +67,27 @@ export class AccorderRecoursFixture
     /**
      * Reproduit l'ajustement fait par RecoursAggregate.accorder : si la date de réponse signée
      * tombe le même jour que la notification d'élimination, la date de l'évènement RecoursAccordé
-     * est décalée de 100ms après cette notification, et celle de la notification lauréat de 200ms,
+     * est décalée de 200ms après cette notification, et celle de la notification lauréat de 300ms,
      * pour garantir un historique cohérent (notification éliminé < recours accordé < notification lauréat).
      */
-    const notifiéLe = DateTime.convertirEnValueType(partialData.dateNotification);
-    const dateAccord = DateTime.convertirEnValueType(fixture.dateAccord);
-    const estMêmeJour = dateAccord.estMêmeJourQue(notifiéLe);
-    const dateAccordFinale = estMêmeJour
-      ? notifiéLe.ajouterNombreDeMillisecondes(100)
-      : dateAccord;
-    const dateNotificationLauréat = estMêmeJour
-      ? notifiéLe.ajouterNombreDeMillisecondes(200)
-      : dateAccord;
+    const estMêmeJour = DateTime.convertirEnValueType(fixture.dateAccord).estMêmeJourQue(
+      DateTime.convertirEnValueType(partialData.dateNotification),
+    );
 
-    this.#dateAccord = dateAccordFinale.formatter();
-    this.#dateNotificationLauréat = dateNotificationLauréat.formatter();
+    const dateAccordFinale = estMêmeJour
+      ? DateTime.convertirEnValueType(partialData.dateNotification)
+          .ajouterNombreDeMillisecondes(200)
+          .formatter()
+      : fixture.dateAccord;
+
+    const dateNotificationLauréat = estMêmeJour
+      ? DateTime.convertirEnValueType(partialData.dateNotification)
+          .ajouterNombreDeMillisecondes(300)
+          .formatter()
+      : fixture.dateAccord;
+
+    this.#dateAccord = dateAccordFinale;
+    this.#dateNotificationLauréat = dateNotificationLauréat;
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéPar;
     this.#réponseSignée = fixture.réponseSignée;

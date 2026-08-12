@@ -54,6 +54,8 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Quand la dgec accorde le recours pour le projet éliminé avec :
             | date d'accord du recours | 2023-01-01 |
         Alors le recours du projet éliminé devrait être accordé
+        Et l'évènement de notification du projet éliminé devrait être avant l'évènement d'accord du recours
+        Et l'évènement d'accord du recours devrait être avant l'évènement de notification du projet lauréat
 
 
     Scénario: Impossible d'accorder le recours d'un projet éliminé avec une date d'accord dans le futur

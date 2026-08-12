@@ -18,9 +18,14 @@ Fonctionnalité: Demander le recours d'un projet éliminé
             | nom_projet | Du boulodrome de Marseille                               |
             | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours       |
 
-    Scénario: Un porteur demande le recours d'un projet éliminé
-        Quand le porteur demande le recours pour le projet éliminé
+    Scénario: Un porteur demande le recours d'un projet éliminé le même jour que la désignation de celui-ci
+        Etant donné le projet éliminé "Du boulodrome de Bordeaux" avec :
+            | appel d'offres    | PPE2 - Bâtiment |
+            | date notification | 2026-08-12      |
+        Quand le porteur demande le recours pour le projet éliminé avec :
+            | date de la demande | 2026-08-12 |
         Alors le recours du projet éliminé devrait être demandé
+        Et l'évènement de notification du projet éliminé devrait être avant l'évènement de demande de recours
 
     Scénario: Un porteur demande le recours d'un projet éliminé après un rejet
         Etant donné une demande de recours rejetée pour le projet éliminé

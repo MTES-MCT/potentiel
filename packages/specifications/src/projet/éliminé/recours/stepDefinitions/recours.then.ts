@@ -1,12 +1,12 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { type IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { expectFileContent, waitForExpect } from '#helpers';
+import { expectFileContent, récupérerDateÉvènement, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(
@@ -66,6 +66,24 @@ Alors(
         Éliminé.Recours.StatutRecours.enInstruction,
       ),
     );
+  },
+);
+
+Alors(
+  /l'évènement (.*) devrait être avant l'évènement (.*)/,
+  async function (this: PotentielWorld, firstEventLabel: string, secondEventLabel: string) {
+    await waitForExpect(async () => {
+      const datePremierÉvènement = await récupérerDateÉvènement({
+        potentielWorld: this,
+        eventLabel: firstEventLabel,
+      });
+      const dateSecondÉvènement = await récupérerDateÉvènement({
+        potentielWorld: this,
+        eventLabel: secondEventLabel,
+      });
+
+      expect(dateSecondÉvènement.estUltérieureÀ(datePremierÉvènement)).to.be.true;
+    });
   },
 );
 

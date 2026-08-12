@@ -52,6 +52,7 @@ async function créerDemandeRecours(this: PotentielWorld) {
   const { raison, demandéLe, demandéPar, pièceJustificative } =
     this.éliminéWorld.recoursWorld.demanderRecoursFixture.créer({
       demandéPar: this.utilisateurWorld.porteurFixture.email,
+      dateNotification: this.éliminéWorld.notifierEliminéFixture.notifiéLe,
     });
 
   await mediator.send<Éliminé.Recours.DemanderRecoursUseCase>({

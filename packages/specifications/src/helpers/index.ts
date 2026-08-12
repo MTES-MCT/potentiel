@@ -9,6 +9,7 @@ export * from './getPériodeData.js';
 export * from './getRôle.js';
 export * from './mapToExemple.js';
 export type * from './PièceJustificative.js';
+export * from './récupérerDateÉvènement.js';
 export * from './sleep.js';
 export * from './waitForExpect.js';
 export * from './waitForSagasNotificationsAndProjectionsToFinish.js';

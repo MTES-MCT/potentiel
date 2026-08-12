@@ -70,8 +70,8 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       notificationLauréat: DateTime.ValueType;
     } = dateRéponseSignée.estMêmeJourQue(this.éliminé.notifiéLe)
       ? {
-          recoursAccordé: this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(100),
-          notificationLauréat: this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(200),
+          recoursAccordé: this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(200),
+          notificationLauréat: this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(300),
         }
       : {
           recoursAccordé: dateRéponseSignée,
@@ -147,6 +147,15 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       'recours',
     );
 
+    /**
+     * Si la date de la demande est le même jour que la notification éliminée,
+     * alors on s'assure que l'évènement soit ajouté après la désignation initiale afin
+     * de garantir un historique cohérent.
+     */
+    const dateDemandeRecours = dateDemande.estMêmeJourQue(this.éliminé.notifiéLe)
+      ? this.éliminé.notifiéLe.ajouterNombreDeMillisecondes(100).formatter()
+      : dateDemande.formatter();
+
     const event: RecoursDemandéEvent = {
       type: 'RecoursDemandé-V1',
       payload: {
@@ -155,7 +164,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
           format: pièceJustificative.format,
         },
         raison,
-        demandéLe: dateDemande.formatter(),
+        demandéLe: dateDemandeRecours,
         demandéPar: identifiantUtilisateur.formatter(),
       },
     };
