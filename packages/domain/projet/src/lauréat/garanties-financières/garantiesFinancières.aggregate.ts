@@ -4,6 +4,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import type { TypeGarantiesFinancières } from '../../candidature/index.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
@@ -50,11 +51,9 @@ import {
   AucunesGarantiesFinancièresActuellesError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
-  DépôtNonModifiéError,
   GarantiesFinancièresActuellesDéjàExistantesError,
   GarantiesFinancièresDéjàLevéesError,
   GarantiesFinancièresDéjàÉchuesError,
-  GarantiesFinancièresNonModifiéesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
   GarantiesFinancièresSansÉchéanceError,
   ProjetExemptDeGarantiesFinancièresError,
@@ -227,7 +226,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       nouvellesGarantiesFinancières.estÉgaleÀ(this.#actuelles?.garantiesFinancières) &&
       !estUnNouveauDocument
     ) {
-      throw new GarantiesFinancièresNonModifiéesError();
+      throw new AucuneModificationApportéeError();
     }
   }
 
@@ -658,7 +657,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières.estÉgaleÀ(this.#dépôtEnCours?.garantiesFinancières) &&
       !estUnNouveauDocument
     ) {
-      throw new DépôtNonModifiéError();
+      throw new AucuneModificationApportéeError();
     }
 
     this.vérifierQuUnDépôtEstEnCours();

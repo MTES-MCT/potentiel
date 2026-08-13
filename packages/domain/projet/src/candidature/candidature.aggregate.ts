@@ -11,12 +11,12 @@ import {
 } from '../lauréat/garanties-financières/garantiesFinancières.error.js';
 import type { GarantiesFinancières } from '../lauréat/garanties-financières/index.js';
 import type { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
+import { AucuneModificationApportéeError } from '../projet.error.js';
 import {
   AttestationNonGénéréeError,
   AutorisationRequiseError,
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
-  CandidatureNonModifiéeError,
   CandidatureNonNotifiéeError,
   CandidatureNonTrouvéeError,
   ChampNonAttenduError,
@@ -334,7 +334,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   private vérifierQueLaCorrectionEstJustifiée({ dépôt, instruction }: CorrigerCandidatureOptions) {
     if (dépôt.estÉgaleÀ(this.dépôt) && instruction.estÉgaleÀ(this.instruction)) {
-      throw new CandidatureNonModifiéeError(dépôt.nomProjet);
+      throw new AucuneModificationApportéeError();
     }
   }
 

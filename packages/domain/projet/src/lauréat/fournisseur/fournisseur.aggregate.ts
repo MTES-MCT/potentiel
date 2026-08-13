@@ -3,14 +3,12 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { Lauréat } from '../../index.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { EnregistrerChangementFournisseurOptions } from './changement/miseAJour/enregistrerChangement.option.js';
 import type { FournisseurModifiéEvent } from './changement/miseAJour/modifierFournisseur.event.js';
 import type { ModifierFournisseurOptions } from './changement/miseAJour/modifierFournisseur.option.js';
 import {
-  ChangementFournisseurValeurIdentiqueError,
-  FournisseursIdentiqueError,
-  ÉvaluationCarboneIdentiqueError,
   ÉvaluationCarboneNombreError,
   ÉvaluationCarboneNégativeError,
 } from './fournisseur.error.js';
@@ -163,7 +161,7 @@ export class FournisseurAggregate extends AbstractAggregate<
       this.vérifierÉvaluationCarbone(évaluationCarboneSimplifiée);
       return;
     } catch (e) {
-      if (!(e instanceof ÉvaluationCarboneIdentiqueError)) {
+      if (!(e instanceof AucuneModificationApportéeError)) {
         throw e;
       }
     }
@@ -171,11 +169,11 @@ export class FournisseurAggregate extends AbstractAggregate<
       this.vérifierFournisseurs(fournisseurs);
       return;
     } catch (e) {
-      if (!(e instanceof FournisseursIdentiqueError)) {
+      if (!(e instanceof AucuneModificationApportéeError)) {
         throw e;
       }
     }
-    throw new ChangementFournisseurValeurIdentiqueError();
+    throw new AucuneModificationApportéeError();
   }
 
   private vérifierÉvaluationCarbone(évaluationCarboneSimplifiée: number) {
@@ -187,7 +185,7 @@ export class FournisseurAggregate extends AbstractAggregate<
     }
 
     if (évaluationCarboneSimplifiée === this.évaluationCarboneSimplifiée) {
-      throw new ÉvaluationCarboneIdentiqueError();
+      throw new AucuneModificationApportéeError();
     }
   }
 
@@ -204,7 +202,7 @@ export class FournisseurAggregate extends AbstractAggregate<
         return;
       }
     }
-    throw new FournisseursIdentiqueError();
+    throw new AucuneModificationApportéeError();
   }
 
   apply(event: FournisseurEvent): void {

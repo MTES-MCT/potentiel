@@ -70,7 +70,7 @@ Fonctionnalité: Modifier un document
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document transmis pour le projet lauréat
         Quand le porteur modifie le document avec les mêmes valeurs
-        Alors le porteur devrait être informé que "Aucune modification n'a été apportée au document"
+        Alors le porteur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier un document d'un projet en cours d'abandon
         Etant donné une demande complète de raccordement pour le projet lauréat

@@ -32,7 +32,7 @@ Fonctionnalité: Modifier un fournisseur en tant que DREAL ou DGEC
 
     Scénario: Impossible de modifier le fournisseur avec des valeurs identiques
         Quand le DGEC validateur modifie le fournisseur du projet lauréat avec des valeurs identiques
-        Alors l'utilisateur devrait être informé que "Le changement de fournisseur doit contenir une modification"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier le fournisseur avec une valeur d'évaluation carbone négative
         Quand le DGEC validateur modifie le fournisseur du projet lauréat avec :

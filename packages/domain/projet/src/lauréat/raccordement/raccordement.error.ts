@@ -21,12 +21,6 @@ export class FormatRéférenceDossierRaccordementInvalideError extends InvalidOp
   }
 }
 
-export class DemandeComplèteDeRaccordementNonModifiéeError extends InvalidOperationError {
-  constructor() {
-    super("Aucune modification n'a été apportée à la demande complète de raccordement");
-  }
-}
-
 export class DocumentDuMêmeTypeDéjàTransmisError extends InvalidOperationError {
   constructor(type: string) {
     super(`Un document de type ${type} a déjà été transmis pour ce dossier de raccordement`);
@@ -44,12 +38,6 @@ export class TypeDeDocumentRaccordementIncompatibleError extends InvalidOperatio
     super(
       `Il est impossible de transmettre un document de type ${type} pour ce dossier de raccordement`,
     );
-  }
-}
-
-export class DocumentRaccordementNonModifiéError extends InvalidOperationError {
-  constructor() {
-    super("Aucune modification n'a été apportée au document");
   }
 }
 
@@ -109,14 +97,6 @@ export class DateMiseEnServiceDéjàTransmiseError extends InvalidOperationError
   }
 }
 
-export class DateDeMiseEnServiceNonModifiéeError extends InvalidOperationError {
-  constructor() {
-    super(
-      `Aucune modification n'a été apportée à la date de mise en service de ce dossier de raccordement`,
-    );
-  }
-}
-
 export class DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError extends InvalidOperationError {
   constructor() {
     super(
@@ -149,21 +129,5 @@ export class RéférencesDossierRaccordementIdentiquesError extends InvalidOpera
 export class DossierRaccordementPasEnServiceError extends InvalidOperationError {
   constructor() {
     super(`Le dossier de raccordement n'est pas en service`);
-  }
-}
-
-// OLD
-
-export class PropositionTechniqueEtFinancièreNonModifiableCarDossierMisEnServiceError extends InvalidOperationError {
-  constructor() {
-    super(
-      `La proposition technique et financière du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service`,
-    );
-  }
-}
-
-export class PropositionTechniqueEtFinancièreNonModifiéeError extends InvalidOperationError {
-  constructor() {
-    super("Aucune modification n'a été apportée à la proposition technique et financière");
   }
 }

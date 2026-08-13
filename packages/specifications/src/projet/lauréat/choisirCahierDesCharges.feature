@@ -32,7 +32,7 @@ Fonctionnalité: Choisir un cahier des charges
             | période        | 1             |
         Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
-        Alors l'utilisateur devrait être informé que "Ce cahier des charges est identique à l'actuel"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de choisir un cahier des charges modifié non disponible pour une période
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

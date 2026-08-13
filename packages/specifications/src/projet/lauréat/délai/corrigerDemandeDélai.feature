@@ -34,4 +34,4 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
     Scénario: Impossible de corriger le délai d'un projet lauréat si aucune modification n'est transmise
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur corrige la demande de délai pour le projet lauréat avec les mêmes valeurs
-        Alors le porteur devrait être informé que "La correction de la demande ne contient aucune modification"
+        Alors le porteur devrait être informé que "Aucune modification n’a été apportée"

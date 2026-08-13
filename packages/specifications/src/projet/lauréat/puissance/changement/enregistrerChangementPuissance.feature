@@ -49,7 +49,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
     Scénario: Impossible d'enregistrer un changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1 |
-        Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible d'enregistrer un changement de puissance avec une valeur négative ou nulle
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
@@ -162,7 +162,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
     Scénario: Impossible d'enregistrer un changement de puissance avec une valeur identique pour un AO qui ne requiert pas la puissance de site
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1 |
-        Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site sans modification pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -171,7 +171,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance   | 1.2 |
             | puissance de site | 100 |
-        Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site sans valeur pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -179,7 +179,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance   | 1.2 |
             | puissance de site |     |
-        Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site pour un AO qui interdit ce champ
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :

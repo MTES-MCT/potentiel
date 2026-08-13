@@ -6,6 +6,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 
 import type { IdentifiantProjet } from '../../index.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { ChangementImpossibleCarProjetAchevéError } from '../lauréat.error.js';
 import { TypeTâche } from '../tâche/index.js';
@@ -16,15 +17,21 @@ import type { ModifierDocumentOptions } from './document/modifier/modifierDocume
 import type { SupprimerDocumentOptions } from './document/supprimer/supprimerDocumentRaccordement.options.js';
 import type { TransmettreDocumentOptions } from './document/transmettre/transmettreDocumentRaccordement.options.js';
 import {
+  RéférenceDossierRaccordement,
+  TypeDocumentsRaccordement,
+  TypeTâchePlanifiéeRaccordement,
+} from './index.js';
+import type { ModifierDateMiseEnServiceOptions } from './modifier/dateMiseEnService/modifierDateMiseEnService.options.js';
+import type { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
+import type { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseau.options.js';
+import type { ModifierRéférenceDossierRaccordementOptions } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.options.js';
+import {
   DateDansLeFuturError,
-  DateDeMiseEnServiceNonModifiéeError,
   DateMiseEnServiceAntérieureDateDésignationProjetError,
   DateMiseEnServiceDéjàTransmiseError,
-  DemandeComplèteDeRaccordementNonModifiéeError,
   DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError,
   DocumentNonModifiableCarDossierMisEnServiceError,
   DocumentRaccordementNonExistantError,
-  DocumentRaccordementNonModifiéError,
   DossierMisEnServiceNonSupprimableError,
   DossierNonRéférencéPourLeRaccordementDuProjetError,
   DossierRaccordementPasEnServiceError,
@@ -35,16 +42,7 @@ import {
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
-} from './errors.js';
-import {
-  RéférenceDossierRaccordement,
-  TypeDocumentsRaccordement,
-  TypeTâchePlanifiéeRaccordement,
-} from './index.js';
-import type { ModifierDateMiseEnServiceOptions } from './modifier/dateMiseEnService/modifierDateMiseEnService.options.js';
-import type { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
-import type { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseau.options.js';
-import type { ModifierRéférenceDossierRaccordementOptions } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.options.js';
+} from './raccordement.error.js';
 import type {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DateMiseEnServiceModifiéeEvent,
@@ -701,7 +699,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       document?.dateSignature &&
       dateSignature.estÉgaleÀ(document.dateSignature)
     ) {
-      throw new DocumentRaccordementNonModifiéError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (
@@ -992,7 +990,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       Option.isSome(dossier.demandeComplèteRaccordement.dateQualification) &&
       dateQualification.estÉgaleÀ(dossier.demandeComplèteRaccordement.dateQualification)
     ) {
-      throw new DemandeComplèteDeRaccordementNonModifiéeError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (
@@ -1149,7 +1147,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (dateMiseEnService.estÉgaleÀ(dossier.miseEnService.dateMiseEnService)) {
-      throw new DateDeMiseEnServiceNonModifiéeError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (dateMiseEnService.estDansLeFutur()) {

@@ -5,6 +5,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { ChampNonAttenduError } from '../../candidature/candidature.error.js';
 import { TypologieInstallation } from '../../candidature/index.js';
 import type { Candidature, Lauréat } from '../../index.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { ChangementDispositifDeStockageEnregistréEvent } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.event.js';
 import type { EnregistrerChangementDispositifDeStockageOptions } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.options.js';
@@ -19,13 +20,7 @@ import {
 } from './index.js';
 import type { EnregistrerChangementInstallateurOptions } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.option.js';
 import type { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option.js';
-import {
-  DispositifDeStockageIdentiqueError,
-  InstallateurIdentiqueError,
-  InstallationDéjàTransmiseError,
-  JeuDeTypologiesIdentiquesError,
-  NouvelleTypologieInstallationIdentiqueÀLActuelleError,
-} from './installation.error.js';
+import { InstallationDéjàTransmiseError } from './installation.error.js';
 import type { InstallationEvent } from './installation.event.js';
 import type { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event.js';
 import type { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option.js';
@@ -217,13 +212,13 @@ export class InstallationAggregate extends AbstractAggregate<
       actuel.length === modification.length &&
       modification.every((m) => actuel.some((a) => m.estÉgaleÀ(a)))
     ) {
-      throw new NouvelleTypologieInstallationIdentiqueÀLActuelleError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (modification.length > 1) {
       const uniqueTypologies = new Set(modification.map((m) => m.typologie));
       if (uniqueTypologies.size < modification.length) {
-        throw new JeuDeTypologiesIdentiquesError();
+        throw new AucuneModificationApportéeError();
       }
     }
   };
@@ -238,7 +233,7 @@ export class InstallationAggregate extends AbstractAggregate<
     }
 
     if (this.#dispositifDeStockage && modification.estÉgaleÀ(this.#dispositifDeStockage)) {
-      throw new DispositifDeStockageIdentiqueError();
+      throw new AucuneModificationApportéeError();
     }
   };
 
@@ -248,7 +243,7 @@ export class InstallationAggregate extends AbstractAggregate<
     }
 
     if (this.#installateur === installateur) {
-      throw new InstallateurIdentiqueError();
+      throw new AucuneModificationApportéeError();
     }
   };
 

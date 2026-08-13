@@ -4,7 +4,7 @@ import {
   type ReadonlyValueType,
 } from '@potentiel-domain/core';
 
-import { DemandeDeChangementEnCoursError } from './errors.js';
+import { DemandeDeChangementEnCoursError } from './actionnaire.error.js';
 
 export const statuts = [
   'accordé',

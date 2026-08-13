@@ -32,7 +32,7 @@ Fonctionnalité: Modifier une attestation de conformité
     Scénario: Impossible de modifier une attestation de conformité et son rapport avec les mêmes documents
         Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur modifie l'attestation de conformité et son rapport associé avec les mêmes documents
-        Alors le porteur devrait être informé que "Aucune modification n'a été transmise"
+        Alors le porteur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier une attestation de conformité et son rapport associé si aucune attestation n'a été transmise
         Etant donné une date d'achèvement réel transmise pour le projet lauréat

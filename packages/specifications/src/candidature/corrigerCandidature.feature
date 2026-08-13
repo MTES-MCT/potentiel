@@ -80,13 +80,13 @@ Fonctionnalité: Corriger une candidature
 
     Scénario: Impossible de corriger une candidature sans modifications
         Quand le DGEC validateur corrige la candidature sans modification
-        Alors la dgec devrait être informé que "La candidature ne contient aucune modification"
+        Alors la dgec devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de regénérer l'attestation d'une candidature sans modifications
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | doit régénérer attestation | oui |
-        Alors la dgec devrait être informé que "La candidature ne contient aucune modification"
+        Alors la dgec devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de changer le statut d'une candidature lauréate notifiée en éliminée
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"

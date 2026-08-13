@@ -4,8 +4,8 @@ import { type DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import type { Lauréat } from '../../index.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
-import { DemandeCorrigéeSansModificationError } from '../lauréat.error.js';
 import type { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
 import type { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options.js';
 import type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
@@ -329,7 +329,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       nombreDeMois === this.#demande.nombreDeMois &&
       raison === this.#demande.raison
     ) {
-      throw new DemandeCorrigéeSansModificationError();
+      throw new AucuneModificationApportéeError();
     }
   }
 }

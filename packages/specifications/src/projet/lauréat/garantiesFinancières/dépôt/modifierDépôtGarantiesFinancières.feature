@@ -82,7 +82,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Etant donné un dépôt de garanties financières avec :
             | type GF | <type GF actuel> |
         Quand le porteur modifie le dépôt de garanties financières avec les mêmes valeurs
-        Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières n'a pas été modifié"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
         Exemples:
             | type GF actuel            |

@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { ChampNonAttenduError } from '../../candidature/candidature.error.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.event.js';
 import type { AccorderChangementPuissanceOptions } from './changement/accorder/accorderChangementPuissance.options.js';
@@ -31,10 +32,8 @@ import type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.event
 import type { ModifierOptions } from './modifier/modifierPuissance.options.js';
 import {
   DemandeDeChangementPuissanceEnCoursError,
-  ModificationPuissanceDeSiteRequiseError,
   PuissanceDeSiteNulleOuNégativeError,
   PuissanceDéjàImportéeError,
-  PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
 } from './puissance.error.js';
 import type { PuissanceEvent } from './puissance.event.js';
@@ -418,13 +417,13 @@ export class PuissanceAggregate extends AbstractAggregate<
         throw new ChampNonAttenduError('puissance de site');
       }
       if (this.#puissance === puissance) {
-        throw new PuissanceIdentiqueError();
+        throw new AucuneModificationApportéeError();
       }
     }
 
     if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite?.type === 'requis') {
       if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
-        throw new ModificationPuissanceDeSiteRequiseError();
+        throw new AucuneModificationApportéeError();
       }
     }
 
@@ -432,11 +431,11 @@ export class PuissanceAggregate extends AbstractAggregate<
       this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite?.type === 'optionnel'
     ) {
       if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
-        throw new ModificationPuissanceDeSiteRequiseError();
+        throw new AucuneModificationApportéeError();
       }
 
       if (puissanceDeSite === undefined && this.#puissance === puissance) {
-        throw new PuissanceIdentiqueError();
+        throw new AucuneModificationApportéeError();
       }
     }
 

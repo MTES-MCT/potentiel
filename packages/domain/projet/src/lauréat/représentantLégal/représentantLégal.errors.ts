@@ -1,11 +1,5 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-export class ReprésentantLégalIdentiqueError extends InvalidOperationError {
-  constructor() {
-    super('Le représentant légal est identique à celui déjà associé au projet');
-  }
-}
-
 export class ReprésentantLégalMêmeNomError extends InvalidOperationError {
   constructor() {
     super('Le représentant légal a le même nom que celui associé au projet');

@@ -25,8 +25,8 @@ Fonctionnalité: Modifier la typologie d'un projet
 
     Scénario: Impossible de modifier la typologie d'un projet sans modification
         Quand le DGEC validateur modifie la typologie avec une valeur identique pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "La nouvelle typologie est identique à celle du projet"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier la typologie d'un projet avec un jeu de typologies identiques
         Quand le DGEC validateur modifie la typologie du projet avec un jeu de typologies identiques
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas sélectionner deux fois la même typologie pour le projet"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"

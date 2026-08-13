@@ -1,34 +1,8 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-export class ImpossibleDeCalculerLaDateAchèvementPrévisionnelle extends InvalidOperationError {
-  constructor() {
-    super(`Impossible de calculer la date d'achèvement prévisionnel`);
-  }
-}
-
 export class DateDeTransmissionAuCoContractantFuturError extends InvalidOperationError {
   constructor() {
     super('La date de transmission au Cocontractant ne peut pas être une date future');
-  }
-}
-
-export class AttestationDeConformitéNonModifiéeError extends InvalidOperationError {
-  constructor() {
-    super("Aucune modification n'a été transmise");
-  }
-}
-
-export class DateAchèvementNonModifiéeError extends InvalidOperationError {
-  constructor() {
-    super("Aucune modification n'a été transmise");
-  }
-}
-
-export class ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError extends InvalidOperationError {
-  constructor() {
-    super(
-      'Il est impossible de transmettre une attestation de conformité pour un projet abandonné',
-    );
   }
 }
 

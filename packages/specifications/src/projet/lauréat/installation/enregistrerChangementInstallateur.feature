@@ -36,7 +36,7 @@ Fonctionnalité: Enregistrer un changement d'installateur d'un projet lauréat
 
     Scénario: Impossible d'enregistrer un changement d'installateur avec une valeur identique
         Quand le porteur enregistre un changement d'installateur du projet lauréat avec une valeur identique
-        Alors l'utilisateur devrait être informé que "Le nouvel installateur est identique à celui associé au projet"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible d'enregistrer un changement d'installateur si le champ n'est pas disponible dans l'appel d'offres du projet
         Etant donné le projet lauréat "Du boulodrome de la Villette" avec :

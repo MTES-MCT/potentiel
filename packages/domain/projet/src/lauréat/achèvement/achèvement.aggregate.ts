@@ -4,16 +4,15 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import { Lauréat } from '../../index.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import { ProjetAbandonnéError } from '../abandon/abandon.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import {
   AttestationConformitéEtRapportAssociésDéjàEnregistrésError,
   AttestationConformitéNonTransmiseError,
-  AttestationDeConformitéNonModifiéeError,
   DateAchèvementAntérieureÀDateNotificationError,
   DateAchèvementDansLeFuturError,
-  DateAchèvementNonModifiéeError,
   DateDeTransmissionAuCoContractantFuturError,
   MainlevéeAccordéeError,
   ProjetDéjàAchevéError,
@@ -218,7 +217,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     }
 
     if (!estUneNouvelleAttestation && !estUnNouveauRapport) {
-      throw new AttestationDeConformitéNonModifiéeError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (!this.attestationConformitéTransmise) {
@@ -269,7 +268,7 @@ export class AchèvementAggregate extends AbstractAggregate<
       this.dateAchèvementRéel &&
       dateTransmissionAuCocontractant.estÉgaleÀ(this.dateAchèvementRéel)
     ) {
-      throw new AttestationDeConformitéNonModifiéeError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: AchèvementModifiéEvent = {
@@ -379,7 +378,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.vérifierDateAchèvementPostérieureDateNotification(dateAchèvement);
 
     if (this.#dateAchèvementRéel && dateAchèvement.estÉgaleÀ(this.#dateAchèvementRéel)) {
-      throw new DateAchèvementNonModifiéeError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: DateAchèvementCorrigéeEvent = {

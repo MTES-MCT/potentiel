@@ -77,4 +77,4 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
 
     Scénario: Impossible de modifier l'actionnaire d'un projet lauréat avec la même valeur
         Quand la DREAL modifie l'actionnaire avec la même valeur sans transmettre de document
-        Alors l'utilisateur devrait être informé que "L'actionnaire doit être modifié, ou la pièce justificative transmise"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"

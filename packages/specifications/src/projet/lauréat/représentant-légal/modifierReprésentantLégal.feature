@@ -40,7 +40,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
     Scénario: Impossible de modifier le représentant légal avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Toulouse"
         Quand le DGEC validateur modifie le nom et le type du représentant légal avec les mêmes valeurs
-        Alors l'utilisateur devrait être informé que "Le représentant légal est identique à celui déjà associé au projet"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
 
     Scénario: Impossible de modifier le représentant légal s'il a le même nom que l'actuel
