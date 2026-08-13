@@ -13,6 +13,7 @@ Fonctionnalité: Transmettre un document
     Etant donné une demande complète de raccordement pour le projet lauréat
     Quand le porteur transmet un document pour le projet lauréat
     Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
+    Et une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
   Scénario: Transmettre un document pour le dossier de raccordement d'un projet achevé
     Etant donné une demande complète de raccordement pour le projet lauréat

@@ -668,6 +668,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
   }
 
   async modifierDocumentRaccordement({
