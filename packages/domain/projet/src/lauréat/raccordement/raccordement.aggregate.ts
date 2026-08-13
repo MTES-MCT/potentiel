@@ -239,10 +239,13 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
   }
 
-  async ajouterTâchesEtTâchesPlanifiées() {
+  async mettreÀJourTâchesEtTâchesPlanifiées() {
     const dossiersRaccordements = [...this.#dossiers.values()];
+
     if (dossiersRaccordements.length === 0) {
       await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+
+      await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
 
       let àExécuterLe = this.lauréat.notifiéLe.ajouterNombreDeMois(2);
       if (this.lauréat.notifiéLe.estPassée()) {
@@ -256,6 +259,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     const dossierRaccordementSansAccuséDeRéception = dossiersRaccordements.filter((dossier) =>
       Option.isNone(dossier.demandeComplèteRaccordement.format),
     );
+
     if (dossierRaccordementSansAccuséDeRéception.length > 0) {
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     } else {
@@ -264,6 +268,19 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
+    }
+
+    const dossierAvecDocumentÀTransmettre = dossiersRaccordements.filter(
+      (dossier) =>
+        !dossier.propositionTechniqueEtFinancière &&
+        !dossier.conventionDeRaccordement &&
+        !dossier.conventionDeRaccordementDirecte,
+    );
+
+    if (dossierAvecDocumentÀTransmettre.length === 0) {
+      await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
+    } else if (!this.#tâcheTransmettreUnDocumenDeRaccordement.exists) {
+      await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
     }
   }
   //#endregion helpers
@@ -313,7 +330,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
       await this.publish(event);
     }
-    await this.ajouterTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
   private applyGestionnaireRéseauRaccordemenInconnuEventV1(
     _: GestionnaireRéseauInconnuAttribuéEvent,
@@ -512,7 +529,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(dossierDuRaccordementSupprimé);
-    await this.ajouterTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
 
   private applyDossierDuRaccordementSuppriméEventV1({

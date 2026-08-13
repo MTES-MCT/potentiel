@@ -38,12 +38,26 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
+    Scénario: Le système supprime la tâche liée à la transmission d'un document de raccordement (ptf, cr, crd) si celui-ci est supprimé
+        Etant donné le projet lauréat "Du four bordelais"
+        Et un cahier des charges permettant la modification du projet
+        Et une demande complète de raccordement pour le projet lauréat
+        Quand le porteur supprime le dossier de raccordement pour le projet lauréat
+        Alors une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" n'est plus consultable dans la liste des tâches du porteur pour le projet
+
     Scénario: Le système ne supprime pas la tâche liée à l'accusé de réception d'un dossier de raccordement si un autre dossier est supprimé
         Etant donné le projet lauréat "Du boulodrome de Lyon"
         Et une demande complète de raccordement sans accusé de réception pour le projet lauréat
         Et une demande complète de raccordement pour le projet lauréat
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" est consultable dans la liste des tâches du porteur pour le projet
+
+    Scénario: Le système ne supprime pas la tâche liée à la transmission d'un document de raccordement (ptf, cr, crd) pour un dossier si un autre est supprimé
+        Etant donné le projet lauréat "Du boulodrome de Lyon"
+        Et une demande complète de raccordement pour le projet lauréat
+        Et une demande complète de raccordement pour le projet lauréat
+        Quand le porteur supprime le dossier de raccordement pour le projet lauréat
+        Alors une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Supprimer le dossier (avec la date de mise en service la plus tardive) doit recalculer la mise en service du raccordement avec d'autres dossiers en service
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :

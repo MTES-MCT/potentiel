@@ -373,7 +373,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
-    await this.lauréat.raccordement.ajouterTâchesEtTâchesPlanifiées();
+    await this.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées();
 
     if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
       await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
@@ -408,7 +408,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
-    await this.lauréat.raccordement.ajouterTâchesEtTâchesPlanifiées();
+    await this.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées();
 
     if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
       await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({

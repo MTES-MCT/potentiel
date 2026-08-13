@@ -67,7 +67,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     }
 
     if (this.lauréat.abandon.statut.estEnCours() || this.lauréat.statut.estAbandonné()) {
-      await this.lauréat.raccordement.ajouterTâchesEtTâchesPlanifiées();
+      await this.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées();
     }
 
     await this.publish(event);
