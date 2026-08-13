@@ -14,6 +14,7 @@ Fonctionnalité: Supprimer un document
     Et un document <document existant> pour le projet lauréat
     Quand le porteur supprime un document <document existant> pour le projet lauréat
     Alors le document ne devrait plus être consultable dans le dossier de raccordement du projet lauréat
+    Et une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" est consultable dans la liste des tâches du porteur pour le projet
 
     Exemples:
       | document existant                   |
