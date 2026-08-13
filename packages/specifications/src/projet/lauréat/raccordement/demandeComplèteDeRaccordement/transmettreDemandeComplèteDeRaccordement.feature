@@ -14,7 +14,9 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
         Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
-        Et aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet lauréat
+        Et une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" est consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet achevé
         Etant donné l'achèvement réel transmis pour le projet lauréat

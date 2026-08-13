@@ -11,6 +11,7 @@ export const types = [
   'raccordement.référence-non-transmise',
   'raccordement.gestionnaire-réseau-inconnu-attribué',
   'raccordement.renseigner-accusé-réception-demande-complète-raccordement',
+  'raccordement.transmettre-un-document',
   'garanties-financières.demander',
   'producteur.renseigner-numéro-identification',
 ] as const;
@@ -67,6 +68,10 @@ export const raccordementRéférenceNonTransmise =
 export const raccordementGestionnaireRéseauInconnuAttribué =
   convertirEnValueType<'raccordement.gestionnaire-réseau-inconnu-attribué'>(
     'raccordement.gestionnaire-réseau-inconnu-attribué',
+  );
+export const raccordementTransmettreUnDocument =
+  convertirEnValueType<'raccordement.transmettre-un-document'>(
+    'raccordement.transmettre-un-document',
   );
 export const raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement =
   convertirEnValueType<'raccordement.renseigner-accusé-réception-demande-complète-raccordement'>(

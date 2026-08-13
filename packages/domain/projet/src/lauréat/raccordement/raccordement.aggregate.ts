@@ -118,6 +118,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
   // Tâches
   #tâcheTransmettreRéférenceRaccordement!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettreUnDocumenDeRaccordement!: AggregateType<TâcheAggregate>;
   #tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement!: AggregateType<TâcheAggregate>;
   #tâcheGestionnaireRéseauInconnuAttribué!: AggregateType<TâcheAggregate>;
 
@@ -135,6 +136,10 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     this.#tâcheTransmettreRéférenceRaccordement = await this.lauréat.loadTâche(
       TypeTâche.raccordementRéférenceNonTransmise.type,
+    );
+
+    this.#tâcheTransmettreUnDocumenDeRaccordement = await this.lauréat.loadTâche(
+      TypeTâche.raccordementTransmettreUnDocument.type,
     );
 
     this.#tâcheGestionnaireRéseauInconnuAttribué = await this.lauréat.loadTâche(
@@ -866,6 +871,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
+
+    await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
   }
   private applyDemandeComplèteDeRaccordementTransmiseEventV1({
     payload: { identifiantGestionnaireRéseau, référenceDossierRaccordement, dateQualification },
