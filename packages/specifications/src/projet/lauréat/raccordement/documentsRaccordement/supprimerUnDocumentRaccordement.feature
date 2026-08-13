@@ -22,12 +22,21 @@ Fonctionnalité: Supprimer un document
       | convention de raccordement          |
       | convention de raccordement directe  |
 
-  Scénario: Supprimer une convention de raccordement ne réactive pas la tâche si la proposition technique et financière est toujours transmise
+  Scénario: Supprimer une convention de raccordement ne réactive pas la tâche générale de transmission de document mais réactive la tâche spécifique à la convention de raccordement
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document proposition technique et financière pour le projet lauréat
     Et un document convention de raccordement pour le projet lauréat
     Quand le porteur supprime un document convention de raccordement pour le projet lauréat
     Alors une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" n'est plus consultable dans la liste des tâches du porteur pour le projet
+    Et une tâche indiquant de "transmettre une convention de raccordement" est consultable dans la liste des tâches du porteur pour le projet
+
+  Scénario: Supprimer une proposition technique et financière ne réactive pas la tâche générale de transmission mais réactive la tâche spécifique à la proposition technique et financière
+    Etant donné une demande complète de raccordement pour le projet lauréat
+    Et un document proposition technique et financière pour le projet lauréat
+    Et un document convention de raccordement pour le projet lauréat
+    Quand le porteur supprime un document proposition technique et financière pour le projet lauréat
+    Alors une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" n'est plus consultable dans la liste des tâches du porteur pour le projet
+    Et une tâche indiquant de "transmettre une proposition technique et financière" est consultable dans la liste des tâches du porteur pour le projet
 
   Scénario: Supprimer un document pour un projet abandonné avec PPA
     Etant donné une demande complète de raccordement pour le projet lauréat

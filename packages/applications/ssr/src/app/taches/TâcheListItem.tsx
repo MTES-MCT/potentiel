@@ -101,6 +101,20 @@ export const getDescriptionTâche = (
         action: 'Voir le raccordement',
         ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
       }))
+      .with('raccordement.transmettre-convention-de-raccordement', () => ({
+        titre: 'Convention de raccordement à transmettre',
+        description: `La convention de raccordement est manquante pour un dossier du projet ${nomProjet}`,
+        lien: Routes.Raccordement.détail(identifiant),
+        action: 'Voir le raccordement',
+        ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
+      }))
+      .with('raccordement.transmettre-proposition-technique-et-financière', () => ({
+        titre: 'Proposition technique et financière à transmettre',
+        description: `La proposition technique et financière est manquante pour un dossier du projet ${nomProjet}`,
+        lien: Routes.Raccordement.détail(identifiant),
+        action: 'Voir le raccordement',
+        ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
+      }))
       // Garanties financières
       .with('garanties-financières.demander', () => ({
         titre: 'Garanties financières demandées',
