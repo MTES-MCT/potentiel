@@ -272,14 +272,12 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     const dossierAvecDocumentÀTransmettre = dossiersRaccordements.filter(
       (dossier) =>
-        !dossier.propositionTechniqueEtFinancière &&
-        !dossier.conventionDeRaccordement &&
-        !dossier.conventionDeRaccordementDirecte,
+        !dossier.propositionTechniqueEtFinancière && !dossier.conventionDeRaccordementDirecte,
     );
 
     if (dossierAvecDocumentÀTransmettre.length === 0) {
       await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
-    } else if (!this.#tâcheTransmettreUnDocumenDeRaccordement.exists) {
+    } else {
       await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
     }
   }
@@ -687,7 +685,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
 
   async modifierDocumentRaccordement({
@@ -815,7 +813,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
 
   private applyDocumentRaccordementTransmisOuModifiéEventV1({

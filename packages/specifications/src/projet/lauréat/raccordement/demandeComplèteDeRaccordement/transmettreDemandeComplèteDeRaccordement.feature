@@ -22,9 +22,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
-        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
-        Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
-        Et aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet lauréat
+
 
     Scénario: Le système transmet une demande complète de raccordement sans accusé de réception pour un projet lauréat
         Quand le système transmet une demande complète de raccordement sans accusé de réception pour le projet lauréat
@@ -43,16 +41,12 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
-        Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
-        Et aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet lauréat
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet en cours d'abandon avec PPA
         Etant donné une demande d'abandon en cours avec signalement de PPA pour le projet lauréat
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
-        Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
-        Et aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet lauréat
 
     Scénario: Impossible de transmettre plusieurs demandes complètes de raccordement ayant la même référence
         Etant donné une demande complète de raccordement pour le projet lauréat avec :

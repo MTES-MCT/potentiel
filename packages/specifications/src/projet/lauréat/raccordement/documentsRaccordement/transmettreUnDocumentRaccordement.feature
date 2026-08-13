@@ -33,6 +33,12 @@ Fonctionnalité: Transmettre un document
     Quand le porteur transmet un document pour le projet lauréat
     Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
 
+  Scénario: Transmettre une convention de raccordement seule ne finalise pas la tâche de transmission de document
+    Etant donné une demande complète de raccordement pour le projet lauréat
+    Quand le porteur transmet un document pour le projet lauréat avec :
+      | type de document | convention-de-raccordement |
+    Alors une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" est consultable dans la liste des tâches du porteur pour le projet
+
   Plan du Scénario: Transmettre un document compatible avec un document déjà transmis
     Etant donné une demande complète de raccordement pour le projet lauréat
     Et un document <document existant> pour le projet lauréat
