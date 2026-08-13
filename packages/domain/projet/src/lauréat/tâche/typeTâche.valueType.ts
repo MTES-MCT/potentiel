@@ -86,6 +86,13 @@ export const garantiesFinancièresDemander = convertirEnValueType<'garanties-fin
   'garanties-financières.demander',
 );
 
+export const listeTypeTâcheRaccordement: ValueType[] = [
+  raccordementRéférenceNonTransmise,
+  raccordementGestionnaireRéseauInconnuAttribué,
+  raccordementTransmettreUnDocument,
+  raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+];
+
 class TypeTâcheInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type de tâche ne correspond à aucune valeur connue`, {

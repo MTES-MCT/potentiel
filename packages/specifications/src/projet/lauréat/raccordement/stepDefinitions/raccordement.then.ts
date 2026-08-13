@@ -83,18 +83,14 @@ Alors(
         },
       });
 
-      const actualTâches: Lauréat.Tâche.TypeTâche.ValueType[] = tâches.items.map(
-        (t) => t.typeTâche,
+      const actualTâches: Lauréat.Tâche.TypeTâche.RawType[] = tâches.items.map((t) =>
+        t.typeTâche.formatter(),
       );
 
-      const tâchesRaccordement: Lauréat.Tâche.TypeTâche.ValueType[] = [
-        Lauréat.Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
-        Lauréat.Tâche.TypeTâche.raccordementRéférenceNonTransmise,
-        Lauréat.Tâche.TypeTâche.raccordementGestionnaireRéseauInconnuAttribué,
-      ];
-
       const tâchesRaccordementPrésentes = actualTâches.filter((t) =>
-        tâchesRaccordement.includes(t),
+        Lauréat.Tâche.TypeTâche.listeTypeTâcheRaccordement
+          .map((type) => type.formatter())
+          .includes(t),
       );
 
       expect(tâchesRaccordementPrésentes, 'Des tâches de raccordement sont présentes').to.be.empty;

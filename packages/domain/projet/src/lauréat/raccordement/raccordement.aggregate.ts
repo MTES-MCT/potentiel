@@ -236,6 +236,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
     await this.#tâcheTransmettreRéférenceRaccordement.achever();
     await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+    await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
   }
 
   async ajouterTâchesEtTâchesPlanifiées() {
