@@ -1,4 +1,5 @@
 import { computeNombreTotalProjetEnService } from './nombreTotalProjetEnService.statistic.js';
+import { computeNombreTotalProjetPPE2AvecDossierRaccordementComplet } from './nombreTotalProjetPPE2AvecDossierRaccordementComplet.statistic.js';
 import { computeNombreTotalPTFDéposées } from './nombreTotalPTFDéposées.statistic.js';
 import { computeNombreTotalRéférencesRaccordement } from './nombreTotalRéférencesRaccordement.statistic.js';
 import { computepourcentageProjetAvecDCRQuiOntUnePTF } from './pourcentageProjetAvecDCRQuiOntUnePTF.statistic.js';
@@ -12,6 +13,7 @@ export const computeMiseEnService = async () => {
   await computeNombreTotalRéférencesRaccordement();
   await computeNombreTotalPTFDéposées();
   await computeNombreTotalProjetEnService();
+  await computeNombreTotalProjetPPE2AvecDossierRaccordementComplet();
   await computepourcentageProjetAvecDCRQuiOntUnePTF();
   await computePourcentageProjetEnService();
   await computePuissanceTotaleMiseEnService();
