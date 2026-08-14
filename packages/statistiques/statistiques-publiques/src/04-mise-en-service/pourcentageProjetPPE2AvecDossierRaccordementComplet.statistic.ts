@@ -25,6 +25,7 @@ export const computePourcentageProjetPPE2AvecDossierRaccordementComplet = async 
                 'appel-offre|%s',
                 SPLIT_PART(dr.value ->> 'identifiantProjet', '#', 1)
               )
+              INNER JOIN domain_views.projection racc on racc.key = format('raccordement|%s', dr.value->>'identifiantProjet')
               WHERE
                   dr.key LIKE 'dossier-raccordement|%'
                   AND ao.value->>'cycleAppelOffre' = 'PPE2'
@@ -37,6 +38,7 @@ export const computePourcentageProjetPPE2AvecDossierRaccordementComplet = async 
                         AND dr.value->>'propositionTechniqueEtFinancière.dateSignature' IS NOT NULL
                     )
                   )
+                  AND racc.value->>'désactivé' IS NULL
             )::decimal / (
               ${countProjetsPPE2LauréatsNonAbandonnésSaufPPA}
             )::decimal

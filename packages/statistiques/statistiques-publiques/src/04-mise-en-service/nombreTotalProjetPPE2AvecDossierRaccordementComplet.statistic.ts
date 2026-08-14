@@ -15,6 +15,7 @@ export const computeNombreTotalProjetPPE2AvecDossierRaccordementComplet = async 
           count(*)
         FROM
           domain_views.projection lau
+          INNER JOIN domain_views.projection racc on racc.key = format('raccordement|%s', lau.value->>'identifiantProjet')
           INNER JOIN domain_views.projection ao ON ao.key = format(
             'appel-offre|%s',
             SPLIT_PART(lau.value ->> 'identifiantProjet', '#', 1)
@@ -42,6 +43,7 @@ export const computeNombreTotalProjetPPE2AvecDossierRaccordementComplet = async 
             )
           )
           AND ao.value ->> 'cycleAppelOffre' = 'PPE2'
+          AND racc.value->>'désactivé' IS NULL
       )
     )
     `,
