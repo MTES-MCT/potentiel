@@ -1,6 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjetsLauréatsNonAbandonnés.js';
+import { getCountProjetsLauréatsNonAbandonnés } from '#helpers';
 
 const statisticType = 'pourcentageProjetEnService';
 

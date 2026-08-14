@@ -9,6 +9,9 @@
     "build": "tsc",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
+  "imports": {
+    "#helpers": "./dist/helpers/index.js"
+  },
   "dependencies": {
     "@potentiel-libraries/pg-helpers": "*"
   },

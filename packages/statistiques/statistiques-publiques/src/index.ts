@@ -3,7 +3,7 @@ import {
   cleanCartoProjetStatistic,
   cleanScalarStatistic,
   cleanUtilisateurStatistic,
-} from './_utils/index.js';
+} from '#helpers';
 import { computeEnsembleDesProjets } from './01-ensemble-des-projets/index.js';
 import { computeAvancementDesProjets } from './02-avancement-des-projets/index.js';
 import { computeDemandesDeModification } from './03-demandes-de-modification/index.js';
