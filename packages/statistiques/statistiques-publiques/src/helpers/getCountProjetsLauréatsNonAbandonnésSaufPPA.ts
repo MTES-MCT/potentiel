@@ -1,4 +1,4 @@
-export const countProjetsPPE2LauréatsNonAbandonnésSaufPPA = `
+export const countProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: 'PPE2' | 'CRE4') => `
   SELECT
     count(*)
   FROM
@@ -19,5 +19,5 @@ export const countProjetsPPE2LauréatsNonAbandonnésSaufPPA = `
       abandon.key IS NULL
       OR ppa.key IS NOT NULL
     )
-    AND ao.value ->> 'cycleAppelOffre' = 'PPE2'
+    ${cycle ? `AND ao.value->>'cycleAppelOffre' = ${cycle}` : ''}
 `;

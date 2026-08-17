@@ -1,6 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { countProjetsPPE2LauréatsNonAbandonnésSaufPPA } from '#helpers';
+import { countProjetsLauréatsNonAbandonnésSaufPPA } from '#helpers';
 
 const statisticType = 'pourcentageProjetPPE2AvecDCRDéposée';
 
@@ -33,7 +33,7 @@ export const computePourcentageProjetPPE2AvecDCRDéposée = async () => {
               AND r.value ->> 'désactivé' IS NULL
               AND ao.value ->> 'cycleAppelOffre' = 'PPE2'
           )::decimal / (
-            ${countProjetsPPE2LauréatsNonAbandonnésSaufPPA}
+            ${countProjetsLauréatsNonAbandonnésSaufPPA('PPE2')}
           )::decimal * 100
       )
     )
