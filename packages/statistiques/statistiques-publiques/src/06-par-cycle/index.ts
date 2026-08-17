@@ -1,5 +1,5 @@
-import { computeNombreTotalProjetAchevé } from './computeNombreTotalProjetAchevé.js';
-import { computePourcentageProjetEnService } from './computePourcentageProjetEnService.statistic.js';
+import { computeNombreTotalProjetAchevé } from './nombreTotalProjetAchevé.js';
+import { computePourcentageProjetEnService } from './pourcentageProjetEnService.statistic.js';
 
 export const computeParCycle = async () => {
   await computeNombreTotalProjetAchevé('CRE4');

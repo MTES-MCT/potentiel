@@ -1,4 +1,4 @@
-import { computePourcentageProjetEnService } from '../06-par-cycle/computePourcentageProjetEnService.statistic.js';
+import { computePourcentageProjetEnService } from '../06-par-cycle/pourcentageProjetEnService.statistic.js';
 import { computeNombreTotalProjetAvecDCRDéposée } from './nombreTotalProjetAvecDCRDéposée.statistic.js';
 import { computeNombreTotalProjetAvecDossierRaccordementComplet } from './nombreTotalProjetAvecDossierRaccordementComplet.statistic.js';
 import { computeNombreTotalProjetEnService } from './nombreTotalProjetEnService.statistic.js';

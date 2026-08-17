@@ -1,6 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { countProjetsLauréatsNonAbandonnésSaufPPA } from '#helpers';
+import { getCountProjetsLauréatsNonAbandonnésSaufPPA } from '#helpers';
 
 const statisticType = 'pourcentageRéféréncesRaccordement';
 
@@ -24,7 +24,7 @@ export const computePourcentageRéférencesRaccordement = async () => {
             d.key LIKE 'dossier-raccordement|%'
             AND r.value->>'désactivé' IS NULL
         )::decimal / (
-          ${countProjetsLauréatsNonAbandonnésSaufPPA()}
+          ${getCountProjetsLauréatsNonAbandonnésSaufPPA()}
         )::decimal * 100   
       )
     )

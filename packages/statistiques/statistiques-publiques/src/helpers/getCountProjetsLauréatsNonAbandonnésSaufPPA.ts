@@ -1,6 +1,6 @@
 import type { Cycle } from './cycle.type.js';
 
-export const countProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: Cycle) => `
+export const getCountProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: Cycle) => `
   SELECT
     count(*)
   FROM
