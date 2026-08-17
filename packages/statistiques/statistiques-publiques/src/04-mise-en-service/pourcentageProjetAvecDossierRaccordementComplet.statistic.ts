@@ -1,10 +1,16 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { countProjetsLauréatsNonAbandonnésSaufPPA } from '#helpers';
+import { type Cycle, countProjetsLauréatsNonAbandonnésSaufPPA, getQueryParams } from '#helpers';
 
-const statisticType = 'pourcentageProjetPPE2AvecDossierRaccordementComplet';
+export const computePourcentageProjetAvecDossierRaccordementComplet = async (cycle?: Cycle) => {
+  const statisticType = cycle
+    ? cycle === 'PPE2'
+      ? 'pourcentageProjetPPE2AvecDossierRaccordementComplet'
+      : 'pourcentageProjetCRE4AvecDossierRaccordementComplet'
+    : 'pourcentageProjetAvecDossierRaccordementComplet';
 
-export const computePourcentageProjetPPE2AvecDossierRaccordementComplet = async () => {
+  const params = getQueryParams(statisticType, cycle);
+
   await executeQuery(
     `
     insert
@@ -28,24 +34,24 @@ export const computePourcentageProjetPPE2AvecDossierRaccordementComplet = async 
               INNER JOIN domain_views.projection racc on racc.key = format('raccordement|%s', dr.value->>'identifiantProjet')
               WHERE
                   dr.key LIKE 'dossier-raccordement|%'
-                  AND ao.value->>'cycleAppelOffre' = 'PPE2'
                   AND dr.value->>'demandeComplèteRaccordement.transmiseLe' IS NOT NULL
                   AND dr.value->>'miseEnService.transmiseLe' IS NOT null
                   AND (
-                    dr.value->>'conventionDeRaccordementDirecte.dateSignature' IS NOT NULL
+                      dr.value->>'conventionDeRaccordementDirecte.dateSignature' IS NOT NULL
                     OR (
-                        dr.value->>'conventionDeRaccordement.dateSignature' IS NOT NULL
-                        AND dr.value->>'propositionTechniqueEtFinancière.dateSignature' IS NOT NULL
+                      dr.value->>'conventionDeRaccordement.dateSignature' IS NOT NULL
+                      AND dr.value->>'propositionTechniqueEtFinancière.dateSignature' IS NOT NULL
                     )
                   )
                   AND racc.value->>'désactivé' IS NULL
+                  ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
             )::decimal / (
-              ${countProjetsLauréatsNonAbandonnésSaufPPA('PPE2')}
+              ${countProjetsLauréatsNonAbandonnésSaufPPA(cycle)}
             )::decimal
           ) * 100
       )
     )
     `,
-    statisticType,
+    ...params,
   );
 };

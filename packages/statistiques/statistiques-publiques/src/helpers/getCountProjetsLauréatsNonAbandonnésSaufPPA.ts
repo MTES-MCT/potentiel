@@ -1,4 +1,6 @@
-export const countProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: 'PPE2' | 'CRE4') => `
+import type { Cycle } from './cycle.type.js';
+
+export const countProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: Cycle) => `
   SELECT
     count(*)
   FROM
@@ -19,5 +21,5 @@ export const countProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: 'PPE2' | 'CRE
       abandon.key IS NULL
       OR ppa.key IS NOT NULL
     )
-    ${cycle ? `AND ao.value->>'cycleAppelOffre' = ${cycle}` : ''}
+    ${cycle ? `AND ao.value->>'cycleAppelOffre' = '${cycle}'` : ''}
 `;

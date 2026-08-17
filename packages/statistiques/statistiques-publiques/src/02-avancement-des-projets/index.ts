@@ -1,9 +1,9 @@
-import { computeNombreTotalProjetAyantTransmisAttestationConformité } from './nombreTotalProjetAyantTransmisAttestationConformité.statistic.js';
+import { computeNombreTotalProjetAchevé } from '../06-par-cycle/computeNombreTotalProjetAchevé.js';
 import { computePourcentageAttestationTéléchargée } from './pourcentageAttestationTéléchargée.statistic.js';
 import { computePourcentageProjetAyantTransmisAttestationConformité } from './pourcentageProjetAyantTransmisAttestationConformité.statistic.js';
 
 export const computeAvancementDesProjets = async () => {
-  await computeNombreTotalProjetAyantTransmisAttestationConformité();
+  await computeNombreTotalProjetAchevé();
   await computePourcentageProjetAyantTransmisAttestationConformité();
   await computePourcentageAttestationTéléchargée();
 };

@@ -1,10 +1,16 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { countProjetsLauréatsNonAbandonnésSaufPPA } from '#helpers';
+import { type Cycle, countProjetsLauréatsNonAbandonnésSaufPPA, getQueryParams } from '#helpers';
 
-const statisticType = 'pourcentageProjetPPE2AvecDCRDéposée';
+export const computePourcentageProjetAvecDCRDéposée = async (cycle?: Cycle) => {
+  const statisticType = cycle
+    ? cycle === 'PPE2'
+      ? 'pourcentageProjetPPE2AvecDCRDéposée'
+      : 'pourcentageProjetCRE4AvecDCRDéposée'
+    : 'pourcentageProjetAvecDCRDéposée';
 
-export const computePourcentageProjetPPE2AvecDCRDéposée = async () => {
+  const params = getQueryParams(statisticType, cycle);
+
   await executeQuery(
     `
     insert
@@ -31,13 +37,13 @@ export const computePourcentageProjetPPE2AvecDCRDéposée = async () => {
               d.key LIKE 'dossier-raccordement|%'
               AND d.value ->> 'demandeComplèteRaccordement.transmiseLe' IS NOT NULL
               AND r.value ->> 'désactivé' IS NULL
-              AND ao.value ->> 'cycleAppelOffre' = 'PPE2'
+              ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
           )::decimal / (
-            ${countProjetsLauréatsNonAbandonnésSaufPPA('PPE2')}
+            ${countProjetsLauréatsNonAbandonnésSaufPPA(cycle)}
           )::decimal * 100
       )
     )
     `,
-    statisticType,
+    ...params,
   );
 };

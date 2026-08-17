@@ -1,8 +1,16 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-const statisticType = 'nombreTotalProjetPPE2AvecDossierRaccordementComplet';
+import { type Cycle, getQueryParams } from '#helpers';
 
-export const computeNombreTotalProjetPPE2AvecDossierRaccordementComplet = async () => {
+export const computeNombreTotalProjetAvecDossierRaccordementComplet = async (cycle?: Cycle) => {
+  const statisticType = cycle
+    ? cycle === 'PPE2'
+      ? 'nombreTotalProjetPPE2AvecDossierRaccordementComplet'
+      : 'nombreTotalProjetCRE4AvecDossierRaccordementComplet'
+    : 'nombreTotalProjetAvecDossierRaccordementComplet';
+
+  const params = getQueryParams(statisticType, cycle);
+
   await executeQuery(
     `
     insert
@@ -42,11 +50,11 @@ export const computeNombreTotalProjetPPE2AvecDossierRaccordementComplet = async 
               AND dr.value ->> 'propositionTechniqueEtFinancière.dateSignature' IS NOT NULL
             )
           )
-          AND ao.value ->> 'cycleAppelOffre' = 'PPE2'
           AND racc.value->>'désactivé' IS NULL
+            ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
       )
     )
     `,
-    statisticType,
+    ...params,
   );
 };

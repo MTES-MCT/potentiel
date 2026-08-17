@@ -1,4 +1,6 @@
-export const getCountProjetsLauréatsNonAbandonnés = `
+import type { Cycle } from './cycle.type.js';
+
+export const getCountProjetsLauréatsNonAbandonnés = (cycle?: Cycle) => `
   SELECT 
     count(*)
   FROM 
@@ -12,9 +14,6 @@ export const getCountProjetsLauréatsNonAbandonnés = `
     ON abandon.key = format('abandon|%s', lau.value->>'identifiantProjet')
     AND abandon.value->>'estAbandonné' = 'true'
   WHERE lau.key like 'lauréat|%'
-    AND abandon.key IS NULL`;
-
-export const getCountProjetsLauréatsNonAbandonnésParCycle = `
-  ${getCountProjetsLauréatsNonAbandonnés}
-    AND ao.value->>'cycleAppelOffre' = $2
-`;
+    AND abandon.key IS NULL 
+    ${cycle ? `AND ao.value->>'cycleAppelOffre' = '${cycle}'` : ''}
+    `;
