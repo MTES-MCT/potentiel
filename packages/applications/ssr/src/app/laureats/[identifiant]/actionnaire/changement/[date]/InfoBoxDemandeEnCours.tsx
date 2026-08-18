@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -14,9 +14,9 @@ export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCoursProps> = ({
   identifiantProjet,
   dateDemandeEnCours,
 }) => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <div className="p-3">
         Une demande de changement d'actionnaire est en cours,{' '}

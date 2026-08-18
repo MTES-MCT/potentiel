@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { Table } from '@codegouvfr/react-dsfr/Table';
 import type { FC } from 'react';
 
@@ -29,9 +29,9 @@ export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePagePr
       }}
       rightColumn={{
         children: (
-          <Alert
+          <Notice
             severity="info"
-            small
+            title=""
             description={
               <div className="py-4 text-justify">
                 <Table

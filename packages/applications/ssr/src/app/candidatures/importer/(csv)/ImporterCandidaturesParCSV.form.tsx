@@ -1,6 +1,6 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -74,10 +74,10 @@ export const ImporterCandidaturesParCSVForm: FC<ImporterCandidaturesParCSVFormPr
             stateRelatedMessage={validationErrors['fichierImportCandidature']}
           />
         </Form>
-        <Alert
+        <Notice
           severity="info"
-          small
           className="flex-auto md:max-w-lg items-stretch mt-4"
+          title=""
           description={
             <div className="py-4 text-justify">
               Il est possible de corriger des candidat existants:

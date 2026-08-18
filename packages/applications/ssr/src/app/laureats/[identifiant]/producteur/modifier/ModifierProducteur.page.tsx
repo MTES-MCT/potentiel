@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
@@ -28,9 +28,9 @@ export const ModifierProducteurPage: FC<ModifierProducteurPageProps> = ({
     }}
     rightColumn={{
       children: (
-        <Alert
+        <Notice
           severity="info"
-          small
+          title=""
           description={
             <>
               <p>

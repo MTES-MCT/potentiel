@@ -1,6 +1,6 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import type React from 'react';
 import { useState } from 'react';
@@ -79,9 +79,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
       }}
     >
       {!peutRegénérerAttestation && (
-        <Alert
+        <Notice
           severity="info"
-          small
+          title=""
           description={
             <div className="p-1">
               La période de l'appel d'offre de ce projet ne dispose pas de modèle d'attestation de
@@ -98,7 +98,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         </FormRow>
         <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
         {validationErrors['identifiantProjet'] && (
-          <FormAlertError description={validationErrors['identifiantProjet']} />
+          <FormAlertError description={validationErrors['identifiantProjet']} title="" />
         )}
         <FormRow>
           <ProjectField

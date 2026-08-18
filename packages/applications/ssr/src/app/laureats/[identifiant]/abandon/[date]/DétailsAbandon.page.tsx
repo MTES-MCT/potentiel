@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -206,9 +206,9 @@ const mapToInformationsComponents = ({
     <div className="flex flex-col gap-4">
       <Heading2>Informations</Heading2>
       {informations.includes('demande-abandon-pour-recandidature') && (
-        <Alert
+        <Notice
           severity="warning"
-          small
+          title=""
           description={
             <div>
               <div className="font-semibold mb-2">Demande d'abandon pour recandidature</div>

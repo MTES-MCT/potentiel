@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
@@ -31,9 +31,9 @@ export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
       }}
       rightColumn={{
         children: (
-          <Alert
-            small
+          <Notice
             severity="info"
+            title=""
             description="L'invitation d'un porteur de projet se fait depuis la page du projet."
           />
         ),

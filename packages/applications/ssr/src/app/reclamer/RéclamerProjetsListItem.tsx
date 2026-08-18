@@ -1,8 +1,8 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import Image from 'next/image';
 import { type FC, useState } from 'react';
 
@@ -137,10 +137,10 @@ const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
-              <Alert
+              <Notice
                 severity="info"
-                small
                 className="my-4 pr-2"
+                title=""
                 description={
                   <div className="flex flex-col gap-2">
                     <p>

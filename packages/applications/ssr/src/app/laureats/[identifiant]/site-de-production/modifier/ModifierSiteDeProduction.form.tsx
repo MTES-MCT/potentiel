@@ -1,8 +1,8 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -152,10 +152,10 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
       </div>
       {nécessiteLaConfirmationPourChangementDeRégion && (
         <>
-          <Alert
-            small
-            className="mt-8"
+          <Notice
             severity="warning"
+            className="mt-8"
+            title=""
             description={
               <p>
                 La gestion de ce projet sera transférée à la région{' '}

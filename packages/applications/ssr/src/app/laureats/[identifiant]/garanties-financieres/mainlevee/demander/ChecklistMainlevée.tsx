@@ -1,5 +1,5 @@
 import { fr } from '@codegouvfr/react-dsfr';
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import ErrorPicto from '@codegouvfr/react-dsfr/picto/Error';
 import SuccessPicto from '@codegouvfr/react-dsfr/picto/Success';
 import clsx from 'clsx';
@@ -54,9 +54,9 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
   identifiantProjet,
   prérequis,
 }) => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <div className="p-3">
         Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel si votre

@@ -1,10 +1,10 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 export const InfoBoxDemandeActionnaire: FC = () => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <div className="p-3">
         Votre demande de changement d'actionnaire(s) nécessite une instruction si votre projet

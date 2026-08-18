@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -9,9 +9,9 @@ type Props = {
 };
 
 export const InfoBoxMainlevéeSiAbandonAccordé = ({ identifiantProjet }: Props) => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <div className="p-3 flex flex-col">
         <span>

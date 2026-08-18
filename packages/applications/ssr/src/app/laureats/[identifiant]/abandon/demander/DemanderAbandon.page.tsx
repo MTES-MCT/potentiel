@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import type { Lauréat } from '@potentiel-domain/projet';
@@ -35,9 +35,9 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
       rightColumn={{
         children: (
           <div>
-            <Alert
+            <Notice
               severity="info"
-              small
+              title=""
               description={
                 <div className="text-justify">
                   {autoritéCompétenteText}

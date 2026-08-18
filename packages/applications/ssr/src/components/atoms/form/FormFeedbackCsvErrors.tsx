@@ -1,6 +1,6 @@
 import { fr } from '@codegouvfr/react-dsfr';
 import Accordion from '@codegouvfr/react-dsfr/Accordion';
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
@@ -34,9 +34,8 @@ export const FormFeedbackCsvLineErrors: FC<FormFeedbackCsvLineErrorsProps> = ({ 
   );
 
   return (
-    <Alert
-      small
-      severity="error"
+    <Notice
+      severity="alert"
       title={`Le fichier contient les erreurs suivantes :`}
       className="mt-6"
       description={

@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 type Props = {
@@ -7,9 +7,9 @@ type Props = {
 };
 
 export const InfoBoxDemandePuissance: FC<Props> = ({ min, max }) => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <div className="p-3">
         Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}

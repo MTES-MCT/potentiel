@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
@@ -22,7 +22,9 @@ export const CorrigerDemandeDélaiPage: FC<CorrigerDemandeDélaiPageProps> = ({
 }) => (
   <>
     <Heading1>Corriger la demande de délai</Heading1>
-    <Alert
+    <Notice
+      severity="info"
+      title=""
       description={
         <div>
           La date d'achèvement prévisionnel actuelle est{' '}
@@ -32,8 +34,6 @@ export const CorrigerDemandeDélaiPage: FC<CorrigerDemandeDélaiPageProps> = ({
           />
         </div>
       }
-      severity="info"
-      small
     />
     <CorrigerDemandeDélaiForm
       identifiantProjet={identifiantProjet}

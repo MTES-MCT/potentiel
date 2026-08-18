@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
@@ -17,9 +17,9 @@ export const DemanderRecoursPage: FC<DemanderRecoursPageProps> = ({ identifiantP
       rightColumn={{
         children: (
           <div>
-            <Alert
+            <Notice
               severity="info"
-              small
+              title=""
               description={
                 <div className="text-justify">
                   Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une

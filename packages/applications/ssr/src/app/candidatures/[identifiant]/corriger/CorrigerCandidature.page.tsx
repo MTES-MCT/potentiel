@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
@@ -47,9 +47,9 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
       rightColumn={{
         children: (
           <>
-            <Alert
+            <Notice
               severity="info"
-              small
+              title=""
               description={
                 <div className="flex flex-col gap-2">
                   <div>
@@ -66,9 +66,9 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
               }
             />
             {estLauréat && (
-              <Alert
+              <Notice
                 severity="warning"
-                small
+                title=""
                 description={
                   <span>
                     Cette candidature étant déjà notifiée, veuillez utiliser la{' '}
