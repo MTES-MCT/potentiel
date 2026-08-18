@@ -3,7 +3,6 @@ import { match, P } from 'ts-pattern';
 import { DateTime } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import type { IdentifiantProjet } from '../../index.js';
@@ -411,6 +410,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     rôle,
   }: ModifierRéférenceDossierRaccordementOptions) {
     this.vérifierStatutDuLauréat();
+
     if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
       throw new RéférencesDossierRaccordementIdentiquesError();
     }
@@ -430,7 +430,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle.formatter());
 
     if (
-      (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
+      !rôle.aLaPermission('raccordement.référence-dossier.modifier-après-mise-en-service') &&
       Option.isSome(dossier.miseEnService.dateMiseEnService)
     ) {
       throw new RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError(
