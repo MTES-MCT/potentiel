@@ -411,6 +411,13 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: ModifierRéférenceDossierRaccordementOptions) {
     this.vérifierStatutDuLauréat();
 
+    if (
+      this.lauréat.statut.estAchevé() &&
+      !rôle.aLaPermission('raccordement.référence-dossier.modifier-après-achèvement')
+    ) {
+      throw new ChangementImpossibleCarProjetAchevéError();
+    }
+
     if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
       throw new RéférencesDossierRaccordementIdentiquesError();
     }

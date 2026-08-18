@@ -25,7 +25,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | Enedis DDD                | le porteur |
             | OUE-RP-2022-000033        | la dreal   |
 
-    Scénario: Modifier en tant qu'la dgec la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service
+    Scénario: La dgec modifie la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand la dgec modifie la référence de la demande complète de raccordement pour le projet lauréat
@@ -121,3 +121,17 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand la dgec modifie la référence de la demande complète de raccordement pour le projet lauréat
         Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"
+
+    Scénario: Impossible pour un porteur ou la dreal de modifier la référence pour un dossier de raccordement si le projet est achevé
+        Etant donné une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
+        Et l'achèvement réel transmis pour le projet lauréat
+        Quand <rôle> modifie la référence de la demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement          | OUE-RP-2022-000033 |
+            | La nouvelle référence du dossier de raccordement | OUE-RP-2022-000034 |
+        Alors <rôle> devrait être informé que "Impossible de faire un changement pour un projet achevé"
+
+        Exemples:
+            | rôle       |
+            | la dreal   |
+            | le porteur |
