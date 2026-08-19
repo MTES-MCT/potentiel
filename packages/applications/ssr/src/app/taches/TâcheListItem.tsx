@@ -89,7 +89,7 @@ export const getDescriptionTâche = (
       }))
       .with('raccordement.renseigner-accusé-réception-demande-complète-raccordement', () => ({
         titre: "Document d'accusé de réception de la demande complète de raccordement manquant",
-        description: `Le document d'accusé de réception de la demande complète de raccordement est manquant pour ce projet`,
+        description: `Le document d'accusé de réception de la demande complète de raccordement est manquant pour un dossier du projet ${nomProjet}`,
         lien: Routes.Raccordement.détail(identifiant),
         action: 'Voir le raccordement',
         ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
