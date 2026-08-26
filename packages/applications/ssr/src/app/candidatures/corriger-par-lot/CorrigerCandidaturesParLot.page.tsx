@@ -22,7 +22,7 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
       }}
       rightColumn={{
         children: (
-          <>
+          <div className="flex flex-col gap-4">
             <Notice
               severity="info"
               title=""
@@ -70,7 +70,7 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
                 </div>
               }
             />
-          </>
+          </div>
         ),
       }}
     />
