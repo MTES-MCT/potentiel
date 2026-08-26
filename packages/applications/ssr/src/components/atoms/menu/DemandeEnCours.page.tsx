@@ -1,5 +1,5 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { Heading2 } from '../headings';
 
@@ -11,7 +11,7 @@ type Props = {
 export const DemandeEnCoursPage = ({ title, href }: Props) => (
   <div className="flex flex-col gap-6 w-full lg:min-h-96">
     <Heading2>Demande en cours</Heading2>
-    <Alert
+    <Notice
       severity="info"
       title={title}
       description="Une demande étant déjà en cours, vous ne pouvez plus faire de demande ou enregistrer une modification. Si cette demande est obsolète, vous pouvez l'annuler."

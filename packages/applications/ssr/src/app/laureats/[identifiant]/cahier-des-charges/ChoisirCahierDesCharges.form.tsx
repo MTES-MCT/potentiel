@@ -1,6 +1,6 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import type React from 'react';
 import { useState } from 'react';
@@ -90,9 +90,9 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
         />
 
         {showAlerteDélaiCdc2022 && (
-          <Alert
+          <Notice
             severity="warning"
-            small
+            title=""
             className="mb-4"
             description={
               <>
@@ -112,7 +112,7 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
 
         <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
         {validationErrors['identifiantProjet'] && (
-          <FormAlertError description={validationErrors['identifiantProjet']} />
+          <FormAlertError description={validationErrors['identifiantProjet']} title="" />
         )}
       </div>
     </Form>

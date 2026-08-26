@@ -1,9 +1,9 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 export const InfoBoxAttestationConformité = () => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <p className="p-3">
         Vous devez transmettre sur Potentiel la preuve, ainsi que la date de transmission au

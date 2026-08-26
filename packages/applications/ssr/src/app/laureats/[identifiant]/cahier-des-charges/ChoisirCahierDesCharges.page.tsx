@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -14,50 +14,48 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
   cahierDesCharges,
   cahiersDesChargesDisponibles,
   aBénéficiéDuDélaiCDC2022,
-}) => {
-  return (
-    <ColumnPageTemplate
-      leftColumn={{
-        children: (
-          <ChoisirCahierDesChargesForm
-            identifiantProjet={identifiantProjet}
-            cahierDesCharges={cahierDesCharges}
-            cahiersDesChargesDisponibles={cahiersDesChargesDisponibles}
-            aBénéficiéDuDélaiCDC2022={aBénéficiéDuDélaiCDC2022}
-          />
-        ),
-      }}
-      rightColumn={{
-        children: (
-          <div>
-            <Alert
-              severity="info"
-              small
-              description={
-                <div className="py-4 text-justify">
-                  Pour plus d'informations sur les cahiers des charges modificatifs, veuillez
-                  consulter cette&nbsp;
-                  <Link
-                    target="_blank"
-                    href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/gestion-de-mon-projet-sur-potentiel/cahiers-des-charges-modificatifs"
-                  >
-                    page d'aide
+}) => (
+  <ColumnPageTemplate
+    leftColumn={{
+      children: (
+        <ChoisirCahierDesChargesForm
+          identifiantProjet={identifiantProjet}
+          cahierDesCharges={cahierDesCharges}
+          cahiersDesChargesDisponibles={cahiersDesChargesDisponibles}
+          aBénéficiéDuDélaiCDC2022={aBénéficiéDuDélaiCDC2022}
+        />
+      ),
+    }}
+    rightColumn={{
+      children: (
+        <div>
+          <Notice
+            severity="info"
+            title=""
+            description={
+              <div className="py-4 text-justify">
+                Pour plus d'informations sur les cahiers des charges modificatifs, veuillez
+                consulter cette&nbsp;
+                <Link
+                  target="_blank"
+                  href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/gestion-de-mon-projet-sur-potentiel/cahiers-des-charges-modificatifs"
+                >
+                  page d'aide
+                </Link>
+                <br />
+                <span className="block mt-3">
+                  Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
+                  sur&nbsp;
+                  <Link target="_blank" href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}>
+                    cette page de la CRE
                   </Link>
-                  <br />
-                  <span className="block mt-3">
-                    Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
-                    sur&nbsp;
-                    <Link target="_blank" href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}>
-                      cette page de la CRE
-                    </Link>
-                    .
-                  </span>
-                </div>
-              }
-            />
-          </div>
-        ),
-      }}
-    />
-  );
-};
+                  .
+                </span>
+              </div>
+            }
+          />
+        </div>
+      ),
+    }}
+  />
+);

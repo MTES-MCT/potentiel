@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
@@ -29,9 +29,9 @@ export const SoumettreDépôtGarantiesFinancièresPage: FC<
     }}
     rightColumn={{
       children: (
-        <Alert
+        <Notice
           severity="info"
-          small
+          title=""
           description={
             <p className="py-4">
               Une fois les garanties financières déposées dans Potentiel, la DREAL concernée recevra

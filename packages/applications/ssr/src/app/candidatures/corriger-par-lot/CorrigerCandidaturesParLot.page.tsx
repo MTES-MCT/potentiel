@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -22,10 +22,10 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
       }}
       rightColumn={{
         children: (
-          <>
-            <Alert
+          <div className="flex flex-col gap-4">
+            <Notice
               severity="info"
-              small
+              title=""
               description={
                 <div className="flex flex-col gap-2 text-justify">
                   <span>Aucune notification ne sera envoyée suite à cet import.</span>
@@ -40,9 +40,9 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
                 </div>
               }
             />
-            <Alert
+            <Notice
               severity="info"
-              small
+              title=""
               description={
                 <div className="flex flex-col gap-2 text-justify">
                   <span>
@@ -70,7 +70,7 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
                 </div>
               }
             />
-          </>
+          </div>
         ),
       }}
     />

@@ -1,8 +1,11 @@
-import Alert, { type AlertProps } from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
-type FormAlertErrorProps = Omit<AlertProps.Small, 'small'>;
+type FormAlertErrorProps = {
+  title: string;
+  description: string;
+};
 
 export const FormAlertError: FC<FormAlertErrorProps> = ({ title, description }) => (
-  <Alert small closable severity="error" title={title} description={description} className="mb-4" />
+  <Notice isClosable severity="alert" title={title} description={description} className="mb-4" />
 );

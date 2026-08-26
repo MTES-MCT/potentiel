@@ -1,10 +1,10 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 export const InfoBoxDemandeDélai: FC = () => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <div className="p-1">
         Cette demande concerne les délais de <span className="font-semibold">force majeure</span>{' '}

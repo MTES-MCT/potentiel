@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
@@ -18,9 +18,9 @@ export const DemanderChangementPuissanceFormErrors = ({
   return (
     <div>
       {ratioCdcActuel.dépassePuissanceMaxFamille() && (
-        <Alert
-          severity="error"
-          small
+        <Notice
+          severity="alert"
+          title=""
           description={
             <span>
               Les modifications de la puissance installée doivent être strictement inférieures au
@@ -35,9 +35,9 @@ export const DemanderChangementPuissanceFormErrors = ({
       {!ratioCdcActuel.dépassePuissanceMaxDuVolumeRéservé() &&
         !ratioCdcActuel.dépassePuissanceMaxFamille() &&
         ratioCdcActuel.dépasseRatiosChangementPuissance() && (
-          <Alert
+          <Notice
             severity="warning"
-            small
+            title=""
             description={
               <span>
                 Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
@@ -56,9 +56,9 @@ export const DemanderChangementPuissanceFormErrors = ({
         aChoisiCDC2022 &&
         !ratioCdcActuel.dépasseRatiosChangementPuissance() &&
         fourchetteRatioInitialEtCDC2022AlertMessage && (
-          <Alert
+          <Notice
             severity="warning"
-            small
+            title=""
             description={
               <div>
                 <strong>
@@ -74,9 +74,9 @@ export const DemanderChangementPuissanceFormErrors = ({
           />
         )}
       {ratioCdcActuel.dépassePuissanceMaxDuVolumeRéservé() && (
-        <Alert
-          severity="error"
-          small
+        <Notice
+          severity="alert"
+          title=""
           description={
             <span>
               Votre projet étant dans le volume réservé, les modifications de la puissance installée

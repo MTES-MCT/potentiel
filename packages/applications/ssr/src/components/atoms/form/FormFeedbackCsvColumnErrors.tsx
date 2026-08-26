@@ -1,5 +1,5 @@
 import { fr } from '@codegouvfr/react-dsfr';
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
@@ -22,9 +22,8 @@ export const FormFeedbackCsvColumnErrors: FC<FormFeedbackCsvColumnErrorsProps> =
   }
 
   return (
-    <Alert
-      small
-      severity="error"
+    <Notice
+      severity="alert"
       title={
         status === 'csv-missing-column-error'
           ? `Des colonnes essentielles sont manquantes dans le fichier :`

@@ -1,6 +1,6 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import { useRouter } from 'next/navigation';
 
@@ -36,12 +36,12 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
         </p>
 
         {error && (
-          <Alert
+          <Notice
             className="md:w-2/3"
-            severity="error"
-            small
+            title=""
+            severity="alert"
             description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
-            closable
+            isClosable
           />
         )}
         <div className="flex flex-col items-center lg:flex-row  lg:items-stretch gap-6 h-full">

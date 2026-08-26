@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -27,7 +27,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
 }: ModifierGestionnaireRéseauDuRaccordementProps) => {
   if (Option.isNone(gestionnaireRéseau)) {
     return (
-      <Alert
+      <Notice
         severity="warning"
         title="Gestionnaire de réseau inconnu"
         className="mb-6"

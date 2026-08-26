@@ -1,6 +1,7 @@
 'use client';
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
@@ -46,10 +47,10 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
               />
             )}
             {errors.length > 0 && (
-              <Alert
-                small
-                closable
+              <Notice
+                isClosable
                 severity="warning"
+                title=""
                 description={
                   <>
                     <p>Certaines opérations ont rencontré les erreurs suivantes :</p>
@@ -72,19 +73,25 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
 
     case 'rate-limit-error':
     case 'domain-error':
-      return <FormAlertError description={formState.message} />;
+      return <FormAlertError description={formState.message} title="" />;
 
     case 'unknown-error':
-      return <FormAlertError description="Une erreur est survenue" />;
+      return <FormAlertError description="Une erreur est survenue" title="" />;
 
     case 'validation-error':
       return (
-        <FormAlertError description="Erreur lors de la validation des données du formulaire" />
+        <FormAlertError
+          description="Erreur lors de la validation des données du formulaire"
+          title=""
+        />
       );
 
     case 'csrf-error':
       return (
-        <FormAlertError description="L'intégrité des données n'a pas pu être vérifiée. Veuillez recharger la page et réessayer." />
+        <FormAlertError
+          description="L'intégrité des données n'a pas pu être vérifiée. Veuillez recharger la page et réessayer."
+          title=""
+        />
       );
 
     default:

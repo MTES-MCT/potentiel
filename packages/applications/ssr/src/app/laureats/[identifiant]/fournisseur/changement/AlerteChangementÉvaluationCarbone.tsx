@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -13,10 +13,10 @@ export const AlerteChangementÉvaluationCarbone: FC<AlerteChangementÉvaluationC
   const noteECS = Lauréat.Fournisseur.NoteÉvaluationCarbone.bind(props);
 
   return noteECS.estDégradée() ? (
-    <Alert
+    <Notice
       className="mt-2"
       severity="warning"
-      small
+      title=""
       description={
         <div>
           Si la modification de la valeur de l'évaluation carbone était susceptible d'entrainer une

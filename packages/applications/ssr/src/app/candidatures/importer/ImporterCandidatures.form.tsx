@@ -1,7 +1,7 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { type FC, useCallback, useState } from 'react';
@@ -64,10 +64,9 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
   return (
     <div>
       {importMultipleAOEtPeriodesPossible && (
-        <Alert
+        <Notice
           severity="info"
           className="mb-4"
-          small
           title="Autoriser l'import avec plusieurs appel d'offres et périodes"
           description={
             <Checkbox

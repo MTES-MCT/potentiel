@@ -1,6 +1,6 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import * as Sentry from '@sentry/nextjs';
 import { useEffect } from 'react';
 
@@ -17,7 +17,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
   return (
     <html lang="fr">
       <body>
-        <Alert
+        <Notice
           severity="warning"
           title="Erreur dans l'application"
           className="mb-6"

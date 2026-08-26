@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
@@ -6,9 +6,9 @@ import { Link } from '@/components/atoms/LinkNoPrefetch';
 type InfoBoxDemandeEnCourssProps = { lien: string };
 
 export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCourssProps> = ({ lien }) => (
-  <Alert
+  <Notice
     severity="info"
-    small
+    title=""
     description={
       <div className="p-3">
         Une demande de changement de représentant légal est en cours,{' '}

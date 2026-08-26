@@ -1,4 +1,4 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
@@ -19,7 +19,9 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
     heading={
       <>
         <Heading1>Demander un délai</Heading1>
-        <Alert
+        <Notice
+          severity="info"
+          title=""
           description={
             <div>
               La date d'achèvement prévisionnel actuelle est{' '}
@@ -31,8 +33,6 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
               />
             </div>
           }
-          severity="info"
-          small
         />
       </>
     }

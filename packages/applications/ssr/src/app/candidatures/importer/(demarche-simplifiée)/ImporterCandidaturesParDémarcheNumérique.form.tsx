@@ -1,7 +1,7 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import Table from '@codegouvfr/react-dsfr/Table';
 import { type FC, useState } from 'react';
 
@@ -72,10 +72,10 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
             ]}
           />
         </Form>
-        <Alert
+        <Notice
           severity="info"
-          small
           className="flex-auto md:max-w-lg items-stretch mt-4"
+          title=""
           description={
             <div className="flex flex-col gap-2">
               <p>
