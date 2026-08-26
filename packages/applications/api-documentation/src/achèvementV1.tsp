@@ -97,10 +97,10 @@ interface AchevementV1 {
   ): ListResult<ProjetAvecAchevementATransmettre> | Error;
 
 
-  /***
+  /**
    * Transmettre la date d'achèvement de plusieurs projets par lot
    * 
-   * _NB:A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_
+   * _NB: à terme, ce endpoint sera retiré et remplacé par_ ```/laureats/{identifiantProjet}/achevement/confirmer```
    */
   @route("/achevements/transmettre-par-lot")
   @post
