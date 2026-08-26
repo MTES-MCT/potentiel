@@ -8,6 +8,9 @@ export type RechercherTypeTâche =
   | 'transmettre les garanties financières'
   | 'mettre à jour le gestionnaire de réseau'
   | 'transmettre une référence de raccordement'
+  | 'transmettre un document de raccordement (ptf,cr ou crd)'
+  | 'transmettre une convention de raccordement'
+  | 'transmettre une proposition technique et financière'
   | "renseigner l'accusé de réception de la demande complète de raccordement"
   | "renseigner le numéro d'identification";
 
@@ -30,6 +33,18 @@ export class TâcheWorld {
       .with(
         'transmettre une référence de raccordement',
         () => Lauréat.Tâche.TypeTâche.raccordementRéférenceNonTransmise,
+      )
+      .with(
+        'transmettre un document de raccordement (ptf,cr ou crd)',
+        () => Lauréat.Tâche.TypeTâche.raccordementTransmettreUnDocument,
+      )
+      .with(
+        'transmettre une convention de raccordement',
+        () => Lauréat.Tâche.TypeTâche.raccordementTransmettreConventionDeRaccordement,
+      )
+      .with(
+        'transmettre une proposition technique et financière',
+        () => Lauréat.Tâche.TypeTâche.raccordementTransmettrePropositionTechniqueEtFinancière,
       )
       .with(
         "renseigner l'accusé de réception de la demande complète de raccordement",

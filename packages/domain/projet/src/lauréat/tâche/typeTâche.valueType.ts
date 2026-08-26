@@ -11,6 +11,9 @@ export const types = [
   'raccordement.référence-non-transmise',
   'raccordement.gestionnaire-réseau-inconnu-attribué',
   'raccordement.renseigner-accusé-réception-demande-complète-raccordement',
+  'raccordement.transmettre-un-document',
+  'raccordement.transmettre-convention-de-raccordement',
+  'raccordement.transmettre-proposition-technique-et-financière',
   'garanties-financières.demander',
   'producteur.renseigner-numéro-identification',
 ] as const;
@@ -68,6 +71,18 @@ export const raccordementGestionnaireRéseauInconnuAttribué =
   convertirEnValueType<'raccordement.gestionnaire-réseau-inconnu-attribué'>(
     'raccordement.gestionnaire-réseau-inconnu-attribué',
   );
+export const raccordementTransmettreUnDocument =
+  convertirEnValueType<'raccordement.transmettre-un-document'>(
+    'raccordement.transmettre-un-document',
+  );
+export const raccordementTransmettreConventionDeRaccordement =
+  convertirEnValueType<'raccordement.transmettre-convention-de-raccordement'>(
+    'raccordement.transmettre-convention-de-raccordement',
+  );
+export const raccordementTransmettrePropositionTechniqueEtFinancière =
+  convertirEnValueType<'raccordement.transmettre-proposition-technique-et-financière'>(
+    'raccordement.transmettre-proposition-technique-et-financière',
+  );
 export const raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement =
   convertirEnValueType<'raccordement.renseigner-accusé-réception-demande-complète-raccordement'>(
     'raccordement.renseigner-accusé-réception-demande-complète-raccordement',
@@ -80,6 +95,15 @@ export const producteurRenseignerNuméroIdentification =
 export const garantiesFinancièresDemander = convertirEnValueType<'garanties-financières.demander'>(
   'garanties-financières.demander',
 );
+
+export const listeTypeTâcheRaccordement: ValueType[] = [
+  raccordementRéférenceNonTransmise,
+  raccordementGestionnaireRéseauInconnuAttribué,
+  raccordementTransmettreUnDocument,
+  raccordementTransmettreConventionDeRaccordement,
+  raccordementTransmettrePropositionTechniqueEtFinancière,
+  raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+];
 
 class TypeTâcheInvalideError extends InvalidOperationError {
   constructor(value: string) {

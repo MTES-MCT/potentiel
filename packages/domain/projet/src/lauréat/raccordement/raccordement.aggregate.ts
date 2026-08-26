@@ -118,6 +118,9 @@ export class RaccordementAggregate extends AbstractAggregate<
 
   // Tâches
   #tâcheTransmettreRéférenceRaccordement!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettreUnDocumenDeRaccordement!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettreConventionDeRaccordement!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettrePropositionTechniqueEtFinancière!: AggregateType<TâcheAggregate>;
   #tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement!: AggregateType<TâcheAggregate>;
   #tâcheGestionnaireRéseauInconnuAttribué!: AggregateType<TâcheAggregate>;
 
@@ -135,6 +138,18 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     this.#tâcheTransmettreRéférenceRaccordement = await this.lauréat.loadTâche(
       TypeTâche.raccordementRéférenceNonTransmise.type,
+    );
+
+    this.#tâcheTransmettreUnDocumenDeRaccordement = await this.lauréat.loadTâche(
+      TypeTâche.raccordementTransmettreUnDocument.type,
+    );
+
+    this.#tâcheTransmettreConventionDeRaccordement = await this.lauréat.loadTâche(
+      TypeTâche.raccordementTransmettreConventionDeRaccordement.type,
+    );
+
+    this.#tâcheTransmettrePropositionTechniqueEtFinancière = await this.lauréat.loadTâche(
+      TypeTâche.raccordementTransmettrePropositionTechniqueEtFinancière.type,
     );
 
     this.#tâcheGestionnaireRéseauInconnuAttribué = await this.lauréat.loadTâche(
@@ -231,12 +246,18 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
     await this.#tâcheTransmettreRéférenceRaccordement.achever();
     await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+    await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
+    await this.#tâcheTransmettreConventionDeRaccordement.achever();
+    await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
   }
 
-  async ajouterTâchesEtTâchesPlanifiées() {
+  async mettreÀJourTâchesEtTâchesPlanifiées() {
     const dossiersRaccordements = [...this.#dossiers.values()];
+
     if (dossiersRaccordements.length === 0) {
       await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+
+      await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
 
       let àExécuterLe = this.lauréat.notifiéLe.ajouterNombreDeMois(2);
       if (this.lauréat.notifiéLe.estPassée()) {
@@ -250,6 +271,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     const dossierRaccordementSansAccuséDeRéception = dossiersRaccordements.filter((dossier) =>
       Option.isNone(dossier.demandeComplèteRaccordement.format),
     );
+
     if (dossierRaccordementSansAccuséDeRéception.length > 0) {
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     } else {
@@ -258,6 +280,41 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
+    }
+
+    const dossierSansAucunDocument = dossiersRaccordements.filter(
+      (dossier) =>
+        !dossier.propositionTechniqueEtFinancière &&
+        !dossier.conventionDeRaccordement &&
+        !dossier.conventionDeRaccordementDirecte,
+    );
+
+    if (dossierSansAucunDocument.length === 0) {
+      await this.#tâcheTransmettreUnDocumenDeRaccordement.achever();
+    } else {
+      await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
+    }
+
+    const dossierAvecPropositionTechniqueEtFinancièreSansConventionDeRaccordement =
+      dossiersRaccordements.filter(
+        (dossier) => dossier.propositionTechniqueEtFinancière && !dossier.conventionDeRaccordement,
+      );
+
+    if (dossierAvecPropositionTechniqueEtFinancièreSansConventionDeRaccordement.length === 0) {
+      await this.#tâcheTransmettreConventionDeRaccordement.achever();
+    } else {
+      await this.#tâcheTransmettreConventionDeRaccordement.ajouter();
+    }
+
+    const dossierAvecConventionDeRaccordementSansPropositionTechniqueEtFinancière =
+      dossiersRaccordements.filter(
+        (dossier) => dossier.conventionDeRaccordement && !dossier.propositionTechniqueEtFinancière,
+      );
+
+    if (dossierAvecConventionDeRaccordementSansPropositionTechniqueEtFinancière.length === 0) {
+      await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
+    } else {
+      await this.#tâcheTransmettrePropositionTechniqueEtFinancière.ajouter();
     }
   }
   //#endregion helpers
@@ -307,7 +364,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
       await this.publish(event);
     }
-    await this.ajouterTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
   private applyGestionnaireRéseauRaccordemenInconnuEventV1(
     _: GestionnaireRéseauInconnuAttribuéEvent,
@@ -506,7 +563,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(dossierDuRaccordementSupprimé);
-    await this.ajouterTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
 
   private applyDossierDuRaccordementSuppriméEventV1({
@@ -663,6 +720,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
 
   async modifierDocumentRaccordement({
@@ -789,6 +848,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.mettreÀJourTâchesEtTâchesPlanifiées();
   }
 
   private applyDocumentRaccordementTransmisOuModifiéEventV1({
@@ -866,6 +927,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
+
+    await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
   }
   private applyDemandeComplèteDeRaccordementTransmiseEventV1({
     payload: { identifiantGestionnaireRéseau, référenceDossierRaccordement, dateQualification },
