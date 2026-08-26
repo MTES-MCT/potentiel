@@ -84,7 +84,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1 |
-        Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de demander le changement de puissance avec une valeur nulle ou négative
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
@@ -143,7 +143,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
     Scénario: Impossible de demander le changement de puissance avec une valeur identique pour un AO qui ne requiert pas la puissance de site
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1 |
-        Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de demander le changement de puissance si la puissance de site n'est pas également modifiée pour un AO qui requiert la puissance de site
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :

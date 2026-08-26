@@ -33,4 +33,4 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
     Scénario: Impossible de corriger le changement de représentant légal d'un projet lauréat sans modification
         Etant donné une demande de changement de représentant légal en cours
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat avec les mêmes valeurs
-        Alors le porteur devrait être informé que "La correction de la demande ne contient aucune modification"
+        Alors le porteur devrait être informé que "Aucune modification n’a été apportée"

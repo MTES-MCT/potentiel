@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import { GarantiesFinancières } from '../index.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
@@ -19,11 +20,7 @@ import {
 import type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
 import type { ModifierOptions } from './modifier/modifierProducteur.option.js';
 import type { CorrigerNuméroIdentificationOptions } from './numéroIdentification/corriger/corrigerNuméroIdentification.option.js';
-import {
-  NuméroIdentificationIdentiqueError,
-  ProducteurDéjàTransmisError,
-  ProducteurIdentiqueError,
-} from './producteur.error.js';
+import { ProducteurDéjàTransmisError } from './producteur.error.js';
 import type { ProducteurEvent } from './producteur.event.js';
 
 export class ProducteurAggregate extends AbstractAggregate<
@@ -77,7 +74,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
 
     if (this.#producteur === producteur) {
-      throw new ProducteurIdentiqueError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: ChangementProducteurEnregistréEvent = {
@@ -141,7 +138,7 @@ export class ProducteurAggregate extends AbstractAggregate<
           this.#numéroIdentification &&
           numéroIdentification.estÉgaleÀ(this.#numéroIdentification)))
     ) {
-      throw new ProducteurIdentiqueError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: ProducteurModifiéEvent = {
@@ -175,7 +172,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
 
     if (this.#numéroIdentification?.estÉgaleÀ(numéroIdentification)) {
-      throw new NuméroIdentificationIdentiqueError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: NuméroIdentificationCorrigéEvent = {

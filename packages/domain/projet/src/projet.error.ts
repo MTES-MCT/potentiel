@@ -43,3 +43,9 @@ export class AggrégatNonChargéError extends InvalidOperationError {
     super(`L'agrégat n'a pas été chargé`);
   }
 }
+
+export class AucuneModificationApportéeError extends InvalidOperationError {
+  constructor() {
+    super('Aucune modification n’a été apportée');
+  }
+}

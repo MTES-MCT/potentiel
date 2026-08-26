@@ -23,7 +23,7 @@ Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
       | période        | 1                 |
       | numéro siret   | 110 090 016 00053 |
     Quand le porteur corrige le numéro d'identification du projet lauréat avec une valeur identique
-    Alors le porteur devrait être informé que "Le nouveau numéro d'identification est identique à celui associé au projet"
+    Alors le porteur devrait être informé que "Aucune modification n’a été apportée"
 
   Scénario: Impossible de corriger le numéro d'identification d'un projet lauréat abandonné
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

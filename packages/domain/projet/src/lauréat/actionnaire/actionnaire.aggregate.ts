@@ -2,7 +2,15 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import {
+  ActionnaireDéjàTransmisError,
+  ChangementActionnaireInexistanteErreur,
+  DemandeChangementActionnaireImpossibleError,
+  DemandeDeChangementEnCoursError,
+  InstructionObligatoireError,
+} from './actionnaire.error.js';
 import type { ActionnaireEvent } from './actionnaire.event.js';
 import type { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.event.js';
 import type { AccorderChangementOptions } from './changement/accorder/accorderChangementActionnaire.options.js';
@@ -16,14 +24,6 @@ import type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rej
 import type { RejeterChangementOptions } from './changement/rejeter/rejeterChangementActionnaire.options.js';
 import type { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.event.js';
 import type { SupprimerChangementActionnaireOptions } from './changement/supprimer/supprimerChangementActionnaire.options.js';
-import {
-  ActionnaireDéjàTransmisError,
-  ActionnaireOuPièceJustificativeNonModifiésError,
-  ChangementActionnaireInexistanteErreur,
-  DemandeChangementActionnaireImpossibleError,
-  DemandeDeChangementEnCoursError,
-  InstructionObligatoireError,
-} from './errors.js';
 import type { ActionnaireImportéEvent } from './importer/importerActionnaire.event.js';
 import type { ImporterOptions } from './importer/importerActionnaire.options.js';
 import { InstructionChangementActionnaire, StatutChangementActionnaire } from './index.js';
@@ -81,7 +81,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     }
 
     if (!pièceJustificative && this.#actionnaire === actionnaire) {
-      throw new ActionnaireOuPièceJustificativeNonModifiésError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: ActionnaireModifiéEvent = {

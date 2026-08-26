@@ -21,7 +21,7 @@ Fonctionnalité: Modifier l'évaluation carbone du projet
 
     Scénario: Impossible de modifier l'évaluation carbone avec une valeur identique
         Quand la dgec modifie l'évaluation carbone du projet avec la même valeur
-        Alors l'utilisateur devrait être informé que "L'évaluation carbone doit avoir une valeur différente"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier l'évaluation carbone avec une valeur négative
         Quand la dgec modifie l'évaluation carbone du projet avec :

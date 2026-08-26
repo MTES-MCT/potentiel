@@ -14,12 +14,6 @@ export class CandidatureDéjàImportéeError extends InvalidOperationError {
   }
 }
 
-export class CandidatureNonModifiéeError extends InvalidOperationError {
-  constructor(nomProjet: string) {
-    super(`La candidature ne contient aucune modification`, { nomProjet });
-  }
-}
-
 export class CandidatureNonTrouvéeError extends AggregateNotFoundError {
   constructor() {
     super(`La candidature n'existe pas`);

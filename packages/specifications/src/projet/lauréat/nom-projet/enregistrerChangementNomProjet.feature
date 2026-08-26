@@ -35,7 +35,7 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
 
     Scénario: Impossible d'enregistrer un changement de nom d'un projet lauréat avec la même valeur
         Quand un porteur enregistre un changement de nom du projet avec la même valeur
-        Alors l'utilisateur devrait être informé que "Les informations du projet n'ont pas été modifiées"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     # Règle AO
     Scénario: Impossible d'enregistrer un changement de nom d'un projet lauréat si le CDC ne le permet pas

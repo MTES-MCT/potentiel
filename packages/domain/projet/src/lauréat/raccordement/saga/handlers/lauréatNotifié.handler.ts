@@ -12,7 +12,7 @@ import {
 } from '../../../../index.js';
 import type { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
 import type { AttribuerGestionnaireRéseauCommand } from '../../attribuer/attribuerGestionnaireRéseau.command.js';
-import { FormatRéférenceDossierRaccordementInvalideError } from '../../errors.js';
+import { FormatRéférenceDossierRaccordementInvalideError } from '../../raccordement.error.js';
 import type { TransmettreDemandeComplèteRaccordementCommand } from '../../transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
 
 type HandlerLauréatNotifiéProps = {

@@ -25,4 +25,4 @@ Fonctionnalité: Modifier le nom d'un projet lauréat
 
     Scénario: Impossible de modifier un lauréat sans modification
         Quand la dgec modifie le nom du projet avec la même valeur
-        Alors l'utilisateur devrait être informé que "Les informations du projet n'ont pas été modifiées"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"

@@ -6,12 +6,6 @@ export class PuissanceDéjàImportéeError extends DomainError {
   }
 }
 
-export class PuissanceIdentiqueError extends DomainError {
-  constructor() {
-    super('La puissance doit avoir une valeur différente');
-  }
-}
-
 export class ModificationPuissanceDeSiteRequiseError extends DomainError {
   constructor() {
     super('La puissance de site doit être modifiée');

@@ -5,15 +5,3 @@ export class ProducteurDéjàTransmisError extends InvalidOperationError {
     super('Le producteur a déjà été transmis');
   }
 }
-
-export class ProducteurIdentiqueError extends InvalidOperationError {
-  constructor() {
-    super('Le nouveau producteur est identique à celui associé au projet');
-  }
-}
-
-export class NuméroIdentificationIdentiqueError extends InvalidOperationError {
-  constructor() {
-    super("Le nouveau numéro d'identification est identique à celui associé au projet");
-  }
-}

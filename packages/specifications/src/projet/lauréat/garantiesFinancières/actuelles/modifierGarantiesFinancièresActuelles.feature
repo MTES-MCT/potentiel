@@ -129,4 +129,4 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec les mêmes valeurs
-        Alors l'utilisateur devrait être informé que "Les garanties financières n'ont pas été modifiées"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"

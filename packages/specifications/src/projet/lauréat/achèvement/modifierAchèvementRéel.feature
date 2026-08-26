@@ -38,12 +38,12 @@ Fonctionnalité: Modifier un achèvement réel
     Scénario: Impossible de modifier l'achèvement réel si aucune modification n'est transmise
         Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet avec les mêmes valeurs
-        Alors l'admin devrait être informé que "Aucune modification n'a été transmise"
+        Alors l'admin devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier une date d'achèvement réel sans attestation si aucune modification n'est transmise
         Etant donné une date d'achèvement réel transmise pour le projet lauréat
         Quand l'admin modifie l'achèvement réel du projet avec les mêmes valeurs
-        Alors l'admin devrait être informé que "Aucune modification n'a été transmise"
+        Alors l'admin devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier l'achèvement réel si le projet n'est pas achevé
         Quand l'admin modifie l'achèvement réel du projet

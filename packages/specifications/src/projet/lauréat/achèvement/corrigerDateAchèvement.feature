@@ -40,4 +40,4 @@ Fonctionnalité: Corriger la date d'achèvement réel
     Scénario: Impossible de corriger la date d'achèvement si aucune modification n'est transmise
         Etant donné une date d'achèvement réel transmise pour le projet lauréat
         Quand le Cocontractant corrige la date d'achèvement réel avec la même date
-        Alors l'utilisateur devrait être informé que "Aucune modification n'a été transmise"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"

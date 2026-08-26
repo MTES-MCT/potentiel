@@ -24,24 +24,6 @@ export class LauréatDéjàNotifiéError extends InvalidOperationError {
   }
 }
 
-export class CahierDesChargesNonModifiéError extends InvalidOperationError {
-  constructor() {
-    super("Ce cahier des charges est identique à l'actuel");
-  }
-}
-
-export class LauréatNonModifiéError extends InvalidOperationError {
-  constructor() {
-    super("Les informations du projet n'ont pas été modifiées");
-  }
-}
-
-export class StatutLauréatNonModifiéError extends InvalidOperationError {
-  constructor() {
-    super("Le statut du projet n'a pas été modifié");
-  }
-}
-
 export class CahierDesChargesIndisponibleError extends InvalidOperationError {
   constructor() {
     super("Ce cahier des charges n'est pas disponible pour cette période");
@@ -71,11 +53,5 @@ export class ProjetAvecDemandeAbandonEnCoursError extends InvalidOperationError 
 export class ChangementImpossibleCarProjetAchevéError extends InvalidOperationError {
   constructor() {
     super('Impossible de faire un changement pour un projet achevé');
-  }
-}
-
-export class DemandeCorrigéeSansModificationError extends InvalidOperationError {
-  constructor() {
-    super('La correction de la demande ne contient aucune modification');
   }
 }

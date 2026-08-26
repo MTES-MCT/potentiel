@@ -87,7 +87,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat en tant qu'admin
             | période        | 1               |
         Et la dreal "Dreal du nord" associée à la région du projet
         Quand la DGEC modifie le producteur avec des valeurs identiques pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le nouveau producteur est identique à celui associé au projet"
+        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier le producteur d'un projet éliminé
         Etant donné le projet éliminé "Du bouchon lyonnais"

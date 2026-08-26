@@ -6,6 +6,7 @@ import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import { Candidature } from '../index.js';
 import type { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
+import { AucuneModificationApportéeError } from '../projet.error.js';
 import { AbandonAggregate } from './abandon/abandon.aggregate.js';
 import { AchèvementAggregate } from './achèvement/achèvement.aggregate.js';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate.js';
@@ -18,17 +19,14 @@ import { StatutLauréat } from './index.js';
 import { InstallationAggregate } from './installation/installation.aggregate.js';
 import {
   CahierDesChargesIndisponibleError,
-  CahierDesChargesNonModifiéError,
   ChangementImpossibleCarProjetAbandonnéError,
   ChangementImpossibleCarProjetAchevéError,
   LauréatDéjàNotifiéError,
-  LauréatNonModifiéError,
   LauréatNonNotifiéError,
   LauréatNonTrouvéError,
   LauréatSansNomProjetError,
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
-  StatutLauréatNonModifiéError,
 } from './lauréat.error.js';
 import type { LauréatEvent } from './lauréat.event.js';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate.js';
@@ -341,7 +339,7 @@ export class LauréatAggregate extends AbstractAggregate<
     this.vérifierQueLeLauréatExiste();
 
     if (this.#statut.estÉgaleÀ(statut)) {
-      throw new StatutLauréatNonModifiéError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: StatutLauréatModifiéEvent = {
@@ -372,7 +370,7 @@ export class LauréatAggregate extends AbstractAggregate<
         ? coordonnées === undefined
         : coordonnées !== undefined && this.#coordonnées.estÉgaleÀ(coordonnées))
     ) {
-      throw new LauréatNonModifiéError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: SiteDeProductionModifiéEvent = {
@@ -405,7 +403,7 @@ export class LauréatAggregate extends AbstractAggregate<
     }
 
     if (this.#nomProjet === nomProjet) {
-      throw new LauréatNonModifiéError();
+      throw new AucuneModificationApportéeError();
     }
     const event: NomProjetModifiéEvent = {
       type: 'NomProjetModifié-V1',
@@ -437,7 +435,7 @@ export class LauréatAggregate extends AbstractAggregate<
     }
 
     if (this.#nomProjet === nomProjet) {
-      throw new LauréatNonModifiéError();
+      throw new AucuneModificationApportéeError();
     }
 
     const event: ChangementNomProjetEnregistréEvent = {
@@ -466,7 +464,7 @@ export class LauréatAggregate extends AbstractAggregate<
     this.vérifierNiAbandonnéNiEnCoursAbandon();
     this.vérifierNonAchevé();
     if (this.#référenceCahierDesCharges.estÉgaleÀ(cahierDesCharges)) {
-      throw new CahierDesChargesNonModifiéError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (

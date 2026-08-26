@@ -134,7 +134,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
             | La date de mise en service | 2021-12-31 |
         Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
-        Alors le gestionnaire de réseau devrait être informé que "Aucune modification n'a été apportée à la date de mise en service de ce dossier de raccordement"
+        Alors le gestionnaire de réseau devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible de modifier une date de mise en service si le projet a une demande d'abandon en cours
         Etant donné une demande complète de raccordement pour le projet lauréat avec :

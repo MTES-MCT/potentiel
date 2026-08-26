@@ -4,8 +4,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
 import type { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
-import { DemandeCorrigéeSansModificationError } from '../lauréat.error.js';
 import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options.js';
 import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options.js';
@@ -30,7 +30,6 @@ import type { ModifierOptions } from './modifier/modifierReprésentantLégal.opt
 import {
   DemandeDeChangementEnCoursError,
   ReprésentantLégalDéjàImportéError,
-  ReprésentantLégalIdentiqueError,
   ReprésentantLégalMêmeNomError,
   ReprésentantLégalTypeInconnuError,
 } from './représentantLégal.errors.js';
@@ -378,7 +377,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
   ) {
     if (this.#représentantLégal?.nom === nomReprésentantLégal) {
       if (this.#représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)) {
-        throw new ReprésentantLégalIdentiqueError();
+        throw new AucuneModificationApportéeError();
       }
 
       throw new ReprésentantLégalMêmeNomError();
@@ -552,7 +551,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       this.demande.type.estÉgaleÀ(typeReprésentantLégal) &&
       !pièceJustificative
     ) {
-      throw new DemandeCorrigéeSansModificationError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (this.demande.statut.estAccordé()) {

@@ -52,7 +52,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | appel d'offres | PPE2 - Bâtiment |
             | période        | 1               |
         Quand le porteur enregistre un changement de producteur avec une valeur identique pour le projet lauréat
-        Alors le porteur devrait être informé que "Le nouveau producteur est identique à celui associé au projet"
+        Alors le porteur devrait être informé que "Aucune modification n’a été apportée"
 
     Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat abandonné
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
