@@ -1282,6 +1282,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.modifierRéférenceDossier,
         référencielPermissions.lauréat.raccordement.command.modifierRéférenceDossier,
       ],
+      'modifier-après-achèvement': [],
     },
     dossier: {
       supprimer: [
@@ -1711,6 +1712,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.document-raccordement.modifier-ou-supprimer-après-achèvement',
   'raccordement.référence-dossier.modifier',
   'raccordement.référence-dossier.modifier-après-mise-en-service',
+  'raccordement.référence-dossier.modifier-après-achèvement',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
   'raccordement.dossier.supprimer-après-achèvement',
