@@ -63,6 +63,15 @@ model TransmettreDateAchevementBody {
   dateAchevement: string;
 }
 
+model TransmettreDateAchevementParLotBody {
+  identifiantProjet: string;
+
+  @format("date")
+  dateAchevement: string;
+}
+
+
+
 @useAuth(BearerAuth)
 @tag("Achèvement V1")
 interface AchevementV1 {
@@ -86,6 +95,18 @@ interface AchevementV1 {
     @query
     periode?: string,
   ): ListResult<ProjetAvecAchevementATransmettre> | Error;
+
+
+  /**
+   * Transmettre la date d'achèvement de plusieurs projets par lot
+   * 
+   * _NB: à terme, ce endpoint sera retiré et remplacé par_ ```/laureats/{identifiantProjet}/achevement/confirmer```
+   */
+  @route("/achevements/transmettre-par-lot")
+  @post
+  transmettreDateDAchevementParLot(
+    @body body: TransmettreDateAchevementParLotBody[],
+  ): {} | Error;
 
   /**
    * Transmettre la date d'achèvement d'un projet
