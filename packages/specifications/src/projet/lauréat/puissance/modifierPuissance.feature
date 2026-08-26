@@ -105,7 +105,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
             | ratio puissance         | 1.2 |
             | ratio puissance de site | 1   |
-        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
+        Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible de ne pas modifier la puissance de site pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -113,7 +113,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
             | ratio puissance         | 1.2 |
             | ratio puissance de site | 1   |
-        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
+        Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible de modifier la puissance de site pour un AO qui interdit ce champ
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :

@@ -152,7 +152,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance   | 1.2 |
             | puissance de site | 20  |
-        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
+        Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible de demander le changement de puissance de site sans valeur pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -160,7 +160,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance   | 1.2 |
             | puissance de site |     |
-        Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
+        Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible de demander le changement de puissance de site pour un AO qui interdit ce champ
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :

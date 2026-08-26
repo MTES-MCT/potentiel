@@ -32,6 +32,7 @@ import type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.event
 import type { ModifierOptions } from './modifier/modifierPuissance.options.js';
 import {
   DemandeDeChangementPuissanceEnCoursError,
+  ModificationPuissanceDeSiteRequiseError,
   PuissanceDeSiteNulleOuNégativeError,
   PuissanceDéjàImportéeError,
   PuissanceNulleOuNégativeError,
@@ -423,7 +424,7 @@ export class PuissanceAggregate extends AbstractAggregate<
 
     if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite?.type === 'requis') {
       if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
-        throw new AucuneModificationApportéeError();
+        throw new ModificationPuissanceDeSiteRequiseError();
       }
     }
 
