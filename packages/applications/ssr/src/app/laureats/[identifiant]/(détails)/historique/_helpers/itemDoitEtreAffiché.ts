@@ -21,7 +21,7 @@ export const itemDoitÊtreAffiché = (
   }
   // dans de rares cas de projets désignés hors Potentiel,
   // on a pas l'information de la date de notification du projet éliminé
-  // on préfère alors ne pas l'information fausse de la notification de l'éliminé
+  // on choisit de ne pas afficher une date erronnée de notification du projet éliminé
   if (event.category === 'éliminé' && event.type === 'ÉliminéNotifié-V1') {
     const lauréatNotifié = historique.find(isLauréatNotifié);
     if (lauréatNotifié && lauréatNotifié.payload.notifiéLe === event.payload.notifiéLe) {

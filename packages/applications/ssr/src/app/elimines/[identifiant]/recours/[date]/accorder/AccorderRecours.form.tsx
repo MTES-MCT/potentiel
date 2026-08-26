@@ -17,7 +17,6 @@ import { type AccorderRecoursFormKeys, accorderRecoursAction } from './accorderR
 type AccorderRecoursFormProps = {
   identifiantProjet: string;
   date: PlainType<DateTime.ValueType>;
-  dateNotification: DateTime.RawType;
 };
 
 export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursFormProps) => {
