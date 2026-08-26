@@ -1,3 +1,5 @@
+'use client';
+
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import RadioButtons, { type RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
 import { type FC, useState } from 'react';

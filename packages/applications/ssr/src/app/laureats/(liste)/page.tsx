@@ -141,7 +141,7 @@ export default async function Page(props: PageProps) {
                   periode,
                   type: 'laureat',
                 }),
-                target: '_blank',
+                type: 'download-document',
               },
             ]
           : [];

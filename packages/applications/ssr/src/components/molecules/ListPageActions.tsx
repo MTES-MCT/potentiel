@@ -1,13 +1,14 @@
 import type { FrIconClassName, RiIconClassName } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
 
+import { DownloadDocument } from '../atoms/form/document';
 import { Link } from '../atoms/LinkNoPrefetch';
 
 type LinkActionProps = {
   label: string;
   href: string;
   iconId?: FrIconClassName | RiIconClassName;
-  target?: '_blank';
+  type?: 'link' | 'download-document';
 };
 export type ListPageActionsProps = {
   actions: ReadonlyArray<LinkActionProps>;
@@ -15,17 +16,20 @@ export type ListPageActionsProps = {
 
 export const ListPageActions = ({ actions }: ListPageActionsProps) => (
   <div className="mb-4 flex flex-col">
-    {actions.map((a) => (
-      <Link
-        key={a.href}
-        href={a.href}
-        target={a.target}
-        className={clsx(
-          `w-fit fr-link fr-link--icon-right ${a.iconId} ${actions.length === 1 && 'mb-6'}`,
-        )}
-      >
-        {a.label}
-      </Link>
-    ))}
+    {actions.map(({ type = 'link', href, label, iconId }) =>
+      type === 'download-document' ? (
+        <DownloadDocument key={href} format="pdf" label={label} url={href} />
+      ) : (
+        <Link
+          key={href}
+          href={href}
+          className={clsx(
+            `w-fit fr-link fr-link--icon-right ${iconId} ${actions.length === 1 && 'mb-6'}`,
+          )}
+        >
+          {label}
+        </Link>
+      ),
+    )}
   </div>
 );
