@@ -26,6 +26,7 @@ import type { ReprésentantLégalEntity } from '../représentantLégal/index.js'
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
+  nomCandidat: string;
   localité: Localité.ValueType;
   producteur: Producteur.ConsulterProducteurReadModel['producteur'];
   email: Email.ValueType;
@@ -51,7 +52,7 @@ export type ListerLauréatQuery = Message<
   'Lauréat.Query.ListerLauréat',
   {
     utilisateur: Email.RawType;
-    range: RangeOptions;
+    range?: RangeOptions;
     statut?: Array<StatutLauréat.RawType>;
     appelOffre?: Array<string>;
     periode?: string;
@@ -175,6 +176,7 @@ const mapToReadModel: MapToReadModelProps = ({
     prixReference,
     actionnariat,
     unitéPuissance,
+    nomCandidat,
   },
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -182,6 +184,7 @@ const mapToReadModel: MapToReadModelProps = ({
   return {
     identifiantProjet: identifiantProjetValueType,
     nomProjet,
+    nomCandidat,
     localité: Localité.bind(localité),
     producteur: producteur.nom,
     email: Email.convertirEnValueType(emailContact),

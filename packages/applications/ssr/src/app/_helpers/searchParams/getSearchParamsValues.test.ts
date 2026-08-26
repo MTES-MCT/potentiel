@@ -6,14 +6,14 @@ import { getSearchParamsValues } from './getSearchParamsValues';
 
 describe('getSearchParamsValues', () => {
   test('Une URL avec des search params simple et multiple doit retourner un objet contenant les clés renseignées correctement typées', () => {
-    const searchParams = new URLSearchParams('periode=1&appelOffre=bar|baz');
+    const searchParams = new URLSearchParams('periode=1&appelOffre=bar|baz&type=local');
 
     const actual = getSearchParamsValues({
       searchParams,
-      config: { periode: 'single', appelOffre: 'multiple' },
+      config: { periode: 'single', appelOffre: 'multiple', type: ['test', 'local'] as const },
     });
 
-    expect(actual).to.deep.eq({ periode: '1', appelOffre: ['bar', 'baz'] });
+    expect(actual).to.deep.eq({ periode: '1', appelOffre: ['bar', 'baz'], type: 'local' });
   });
 
   test('Une URL sans search params doit retourner un objet contenant les clés renseignées à undefined', () => {
@@ -21,9 +21,9 @@ describe('getSearchParamsValues', () => {
 
     const actual = getSearchParamsValues({
       searchParams,
-      config: { periode: 'single', appelOffre: 'multiple' },
+      config: { periode: 'single', appelOffre: 'multiple', type: ['test', 'local'] as const },
     });
 
-    expect(actual).to.deep.eq({ periode: undefined, appelOffre: undefined });
+    expect(actual).to.deep.eq({ periode: undefined, appelOffre: undefined, type: undefined });
   });
 });

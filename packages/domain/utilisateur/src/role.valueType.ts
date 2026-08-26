@@ -1039,6 +1039,7 @@ const policies = {
     consulter: [référencielPermissions.période.query.consulter],
     consulterSynthèse: [
       référencielPermissions.candidature.query.listerCandidatures,
+      référencielPermissions.lauréat.query.lister,
       référencielPermissions.appelOffre.query.consulter,
     ],
     lister: [référencielPermissions.période.query.lister],

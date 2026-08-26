@@ -32,11 +32,10 @@ export type DonnéesDocument = {
   période: IntroductionProps['période'];
   synthèse: IntroductionProps['synthèse'];
   lauréats: TableauLauréatPériodeProps['lauréats'];
+  typeDeSynthèse: 'laureat' | 'candidature';
 };
 
-const buildDocument: GénérerSynthèsePériodePort = async (
-  props: DonnéesDocument,
-): Promise<ReadableStream> => {
+const buildDocument: GénérerSynthèsePériodePort = async (props) => {
   const document = SynthèsePériode({ ...props, imagesFolderPath });
 
   const buffer = await ReactPDF.renderToStream(document);
