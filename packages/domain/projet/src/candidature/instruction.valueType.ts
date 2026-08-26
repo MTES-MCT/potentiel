@@ -4,13 +4,13 @@ import { StatutCandidature } from './index.js';
 
 export type RawType = {
   statut: StatutCandidature.RawType;
-  noteTotale: number;
+  noteTotale?: number;
   motifÉlimination?: string;
   volumeRéservé?: boolean;
 };
 export type ValueType = ReadonlyValueType<{
   statut: StatutCandidature.ValueType;
-  noteTotale: number;
+  noteTotale?: number;
   motifÉlimination?: string;
   volumeRéservé?: boolean;
   formatter(): RawType;

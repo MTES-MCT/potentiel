@@ -294,15 +294,17 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             required
           />
         </FormRow>
-        <FormRow>
-          <CandidatureField
-            candidature={candidature.noteTotale}
-            label="Note"
-            name="noteTotale"
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
+        {candidature.noteTotale && (
+          <FormRow>
+            <CandidatureField
+              candidature={candidature.noteTotale}
+              label="Note"
+              name="noteTotale"
+              validationErrors={validationErrors}
+              required
+            />
+          </FormRow>
+        )}
         {cdcActuel.période.volumeRéservé && (
           <FormRow>
             <CandidatureSelectField
