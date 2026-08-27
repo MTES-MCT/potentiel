@@ -266,6 +266,8 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.ajouter({
         àExécuterLe,
       });
+    } else {
+      await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
     }
 
     const dossierRaccordementSansAccuséDeRéception = dossiersRaccordements.filter((dossier) =>

@@ -17,6 +17,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Et une tâche indiquant de "transmettre un document de raccordement (ptf,cr ou crd)" est consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et il n'y a pas de tâche "relance transmission de la demande complète raccordement" planifiée pour le projet lauréat
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet achevé
         Etant donné l'achèvement réel transmis pour le projet lauréat
