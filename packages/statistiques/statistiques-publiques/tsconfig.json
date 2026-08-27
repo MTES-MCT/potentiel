@@ -6,6 +6,9 @@
   },
   "references": [
     {
+      "path": "../../domain/appel-offre"
+    },
+    {
       "path": "../../libraries/pg-helpers"
     }
   ]

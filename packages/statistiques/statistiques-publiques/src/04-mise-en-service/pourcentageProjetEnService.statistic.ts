@@ -1,10 +1,16 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjetsLauréatsNonAbandonnés.js';
+import { type Cycle, getCountProjetsLauréatsNonAbandonnésSaufPPA, getQueryParams } from '#helpers';
 
-const statisticType = 'pourcentageProjetEnService';
+export const computePourcentageProjetEnService = async (cycle?: Cycle) => {
+  const statisticType = cycle
+    ? cycle === 'PPE2'
+      ? 'pourcentageProjetPPE2EnService'
+      : 'pourcentageProjetCRE4EnService'
+    : 'pourcentageProjetEnService';
 
-export const computePourcentageProjetEnService = async () => {
+  const params = getQueryParams(statisticType, cycle);
+
   await executeQuery(
     `
     insert
@@ -17,21 +23,24 @@ export const computePourcentageProjetEnService = async () => {
           (
             (
               SELECT
-                count(DISTINCT d.value ->> 'identifiantProjet')
+                count(DISTINCT p1.value ->> 'identifiantProjet')
               FROM
-                domain_views.projection d
-                join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')
+                domain_views.projection p1
+                JOIN domain_views.projection ao ON split_part(p1.value ->> 'identifiantProjet', '#', 1) = ao.value ->> 'id'
+                AND ao.key LIKE 'appel-offre|%'
+                join domain_views.projection racc on racc.key = format('raccordement|%s', p1.value->>'identifiantProjet')
               WHERE
-                d.key LIKE 'dossier-raccordement|%'
-                AND d.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
-                AND r.value->>'désactivé' IS NULL
+                p1.key LIKE 'dossier-raccordement|%'
+                AND p1.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
+                AND racc.value->>'désactivé' IS NULL
+                ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
             )::decimal / (
-              ${getCountProjetsLauréatsNonAbandonnés}
+              ${getCountProjetsLauréatsNonAbandonnésSaufPPA(cycle)}
             )::decimal
           ) * 100
       )
     )
     `,
-    statisticType,
+    ...params,
   );
 };
