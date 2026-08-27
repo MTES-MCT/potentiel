@@ -1,6 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { type Cycle, getCountProjetsLauréatsNonAbandonnés, getQueryParams } from '#helpers';
+import { type Cycle, getCountProjetsLauréatsNonAbandonnésSaufPPA, getQueryParams } from '#helpers';
 
 export const computePourcentageProjetEnService = async (cycle?: Cycle) => {
   const statisticType = cycle
@@ -35,7 +35,7 @@ export const computePourcentageProjetEnService = async (cycle?: Cycle) => {
                 AND racc.value->>'désactivé' IS NULL
                 ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
             )::decimal / (
-              ${getCountProjetsLauréatsNonAbandonnés(cycle)}
+              ${getCountProjetsLauréatsNonAbandonnésSaufPPA(cycle)}
             )::decimal
           ) * 100
       )
