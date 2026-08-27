@@ -28,19 +28,9 @@ export const computeNombreTotalProjetAvecDossierRaccordementComplet = async (cyc
             'appel-offre|%s',
             SPLIT_PART(lau.value ->> 'identifiantProjet', '#', 1)
           )
-          INNER JOIN domain_views.projection dr ON dr.value ->> 'identifiantProjet' = lau.value ->> 'identifiantProjet'
-          LEFT JOIN domain_views.projection abandon ON abandon.key = format('abandon|%s', lau.value ->> 'identifiantProjet')
-          AND abandon.value ->> 'estAbandonné' = 'true'
-          LEFT JOIN domain_views.projection ppa ON ppa.key = format(
-            'power-purchase-agreement|%s',
-            lau.value ->> 'identifiantProjet'
-          )
+          INNER JOIN domain_views.projection dr ON dr.key like 'dossier-raccordement|%' and dr.value ->> 'identifiantProjet' = lau.value ->> 'identifiantProjet'
         WHERE
           lau.key LIKE 'lauréat|%'
-          AND (
-            abandon.key IS NULL
-            OR ppa.key IS NOT NULL
-          )
           AND dr.value ->> 'demandeComplèteRaccordement.transmiseLe' IS NOT NULL
           AND dr.value ->> 'miseEnService.transmiseLe' IS NOT NULL
           AND (
