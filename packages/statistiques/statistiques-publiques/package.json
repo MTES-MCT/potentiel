@@ -13,7 +13,8 @@
     "#helpers": "./dist/helpers/index.js"
   },
   "dependencies": {
-    "@potentiel-libraries/pg-helpers": "*"
+    "@potentiel-libraries/pg-helpers": "*",
+    "@potentiel-domain/appel-offre": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

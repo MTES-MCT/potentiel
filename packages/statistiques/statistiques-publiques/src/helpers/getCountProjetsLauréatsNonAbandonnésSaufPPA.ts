@@ -9,8 +9,6 @@ export const getCountProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: Cycle) => 
       'appel-offre|%s',
       SPLIT_PART(lau.value ->> 'identifiantProjet', '#', 1)
     )
-    LEFT JOIN domain_views.projection abandon ON abandon.key = format('abandon|%s', lau.value ->> 'identifiantProjet')
-    AND abandon.value ->> 'estAbandonné' = 'true'
     LEFT JOIN domain_views.projection ppa ON ppa.key = format(
       'power-purchase-agreement|%s',
       lau.value ->> 'identifiantProjet'
@@ -18,7 +16,7 @@ export const getCountProjetsLauréatsNonAbandonnésSaufPPA = (cycle?: Cycle) => 
   WHERE
     lau.key LIKE 'lauréat|%'
     AND (
-      abandon.key IS NULL
+      lau.value->>'statut' <> 'abandonné'
       OR ppa.key IS NOT NULL
     )
     ${cycle ? `AND ao.value->>'cycleAppelOffre' = '${cycle}'` : ''}

@@ -18,10 +18,10 @@
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../infrastructure/domain-adapters"
+      "path": "../../infrastructure/dn-api-client"
     },
     {
-      "path": "../../infrastructure/dn-api-client"
+      "path": "../../infrastructure/domain-adapters"
     },
     {
       "path": "../../infrastructure/ore-client"

@@ -1,1 +1,3 @@
-export type Cycle = 'PPE2' | 'CRE4';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+
+export type Cycle = AppelOffre.AppelOffreEntity['cycleAppelOffre'];

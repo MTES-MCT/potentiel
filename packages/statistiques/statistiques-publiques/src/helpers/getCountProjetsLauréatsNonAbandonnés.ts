@@ -10,10 +10,7 @@ export const getCountProjetsLauréatsNonAbandonnés = (cycle?: Cycle) => `
       'appel-offre|%s',
       SPLIT_PART(lau.value->>'identifiantProjet', '#', 1)
     )
-  LEFT JOIN domain_views.projection abandon 
-    ON abandon.key = format('abandon|%s', lau.value->>'identifiantProjet')
-    AND abandon.value->>'estAbandonné' = 'true'
   WHERE lau.key like 'lauréat|%'
-    AND abandon.key IS NULL 
+    AND lau.value->>'statut' <> 'abandonné'
     ${cycle ? `AND ao.value->>'cycleAppelOffre' = '${cycle}'` : ''}
     `;
