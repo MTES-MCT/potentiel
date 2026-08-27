@@ -7,11 +7,8 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Heading2, Heading5 } from '@/components/atoms/headings';
-import {
-  StatutDemandeBadge,
-  type StatutDemandeBadgeProps,
-} from '@/components/organisms/demande/StatutDemandeBadge';
+import { Heading2 } from '@/components/atoms/headings';
+import type { StatutDemandeBadgeProps } from '@/components/organisms/demande/StatutDemandeBadge';
 import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
 import { ReadMore } from '../../atoms/ReadMore';
 
@@ -22,37 +19,21 @@ export type DétailsChangementProps = {
     raison?: string;
     pièceJustificative?: DocumentProjet.ValueType;
   }>;
-  title: string;
   statut: StatutDemandeBadgeProps['statut'];
   valeurs: React.ReactNode;
 };
 
-export const DétailsChangement: FC<DétailsChangementProps> = ({
-  changement,
-  title,
-  statut,
-  valeurs,
-}) => {
+export const DétailsChangement: FC<DétailsChangementProps> = ({ changement, statut, valeurs }) => {
   const isInformationEnregistrée = statut === 'information-enregistrée';
 
   return (
     <div className="flex flex-col gap-4">
-      <div>
-        <div className="flex flex-row gap-4">
-          <div className="flex-shrink-0">
-            <Heading2>{title}</Heading2>
-          </div>
-          <div className="flex-shrink-0">
-            <StatutDemandeBadge statut={statut} />
-          </div>
-        </div>
-      </div>
       <div className="flex flex-col">
-        <Heading5>
+        <Heading2>
           {isInformationEnregistrée
             ? 'Détails du changement'
             : 'Détails de la demande de changement'}
-        </Heading5>
+        </Heading2>
         <div className="mb-2 italic">
           {isInformationEnregistrée ? 'Modifié' : 'Demandée'} le{' '}
           <FormattedDate

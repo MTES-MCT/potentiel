@@ -10,7 +10,6 @@ export type DétailsChangementNomProjetProps = {
 export const DétailsChangementNomProjet: FC<DétailsChangementNomProjetProps> = ({ changement }) => {
   return (
     <DétailsChangement
-      title="Changement de nom"
       changement={changement}
       valeurs={<DétailsValeursNomProjet changement={changement} />}
       statut="information-enregistrée"

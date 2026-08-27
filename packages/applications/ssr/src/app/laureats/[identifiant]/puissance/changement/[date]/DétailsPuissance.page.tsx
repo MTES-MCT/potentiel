@@ -3,9 +3,10 @@ import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import type { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
+import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -35,43 +36,58 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
   actions,
   dateDemandeEnCours,
   historique,
-}) => (
-  <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <div className="flex flex-col gap-8">
-          {dateDemandeEnCours && dateDemandeEnCours !== demande.demandéeLe.date && (
-            <InfoBoxDemandeEnCours
-              identifiantProjet={identifiantProjet}
-              dateDemandeEnCours={dateDemandeEnCours}
+}) => {
+  const statut = Lauréat.Puissance.StatutChangementPuissance.bind(demande.statut.statut);
+
+  return (
+    <ColumnPageTemplate
+      heading={
+        <TitrePageDemande
+          statut={statut.statut}
+          titre={
+            statut.estInformationEnregistrée()
+              ? 'Changement de puissance'
+              : 'Demande de changement de puissance'
+          }
+        />
+      }
+      leftColumn={{
+        children: (
+          <div className="flex flex-col gap-8">
+            {dateDemandeEnCours && dateDemandeEnCours !== demande.demandéeLe.date && (
+              <InfoBoxDemandeEnCours
+                identifiantProjet={identifiantProjet}
+                dateDemandeEnCours={dateDemandeEnCours}
+              />
+            )}
+            <DétailsChangementPuissance
+              demande={demande}
+              unitéPuissance={unitéPuissance}
+              puissanceInitiale={puissanceInitiale}
+              statut={statut}
             />
-          )}
-          <DétailsChangementPuissance
-            demande={demande}
-            unitéPuissance={unitéPuissance}
-            puissanceInitiale={puissanceInitiale}
-          />
-          <div className="mb-4">
-            <Heading2>Historique</Heading2>
-            <Timeline items={historique} />
+            <div className="mb-4">
+              <Heading2>Historique</Heading2>
+              <Timeline items={historique} />
+            </div>
           </div>
-        </div>
-      ),
-    }}
-    rightColumn={{
-      className: 'flex flex-col gap-8',
-      children: (
-        <>
-          {mapToActionComponents({
-            actions,
-            identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-            estÀLaBaisse: demande.nouvellePuissance < puissanceInitiale,
-          })}
-        </>
-      ),
-    }}
-  />
-);
+        ),
+      }}
+      rightColumn={{
+        className: 'flex flex-col gap-8',
+        children: (
+          <>
+            {mapToActionComponents({
+              actions,
+              identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+              estÀLaBaisse: demande.nouvellePuissance < puissanceInitiale,
+            })}
+          </>
+        ),
+      }}
+    />
+  );
+};
 
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementPuissanceActions>;

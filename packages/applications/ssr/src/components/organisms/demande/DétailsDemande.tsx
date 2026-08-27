@@ -10,7 +10,6 @@ import { DétailsChangement } from './DétailsChangement';
 import type { StatutDemandeBadgeProps } from './StatutDemandeBadge';
 
 export type DétailsDemandeProps = {
-  title: string;
   statut: StatutDemandeBadgeProps['statut'];
   demande: PlainType<{
     demandéePar: Email.ValueType;
@@ -32,11 +31,10 @@ export type DétailsDemandeProps = {
   valeurs: React.ReactNode;
 };
 
-export const DétailsDemande: FC<DétailsDemandeProps> = ({ title, statut, demande, valeurs }) => {
+export const DétailsDemande: FC<DétailsDemandeProps> = ({ statut, demande, valeurs }) => {
   return (
     <div className="flex flex-col gap-4">
       <DétailsChangement
-        title={title}
         valeurs={valeurs}
         changement={{
           enregistréPar: demande.demandéePar,

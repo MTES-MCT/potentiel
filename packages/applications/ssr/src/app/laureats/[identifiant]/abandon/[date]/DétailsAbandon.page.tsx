@@ -7,8 +7,8 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Heading1, Heading2 } from '@/components/atoms/headings';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { Heading2 } from '@/components/atoms/headings';
+import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -62,13 +62,12 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   ppaSignaléLorsDeLaDemande,
 }) => (
   <ColumnPageTemplate
-    heading={<Heading1>Demande d'abandon</Heading1>}
+    heading={<TitrePageDemande statut={abandon.statut.statut} titre="Demande d'abandon" />}
     leftColumn={{
       children: (
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-4">
             <Heading2>Détails</Heading2>
-            <StatutDemandeBadge statut={abandon.statut.statut} />
           </div>
           <div className="flex flex-col gap-2">
             <div className="text-xs italic gap-2 font-semibold">

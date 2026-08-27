@@ -11,7 +11,6 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
 }) => {
   return demande.statut.statut === 'information-enregistrée' ? (
     <DétailsChangement
-      title="Changement d'actionnaire(s)"
       valeurs={<DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
       changement={{
         enregistréPar: demande.demandéePar,
@@ -26,7 +25,6 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
       demande={demande}
       valeurs={<DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
       statut={demande.statut.statut}
-      title="Demande de changement d'actionnaire(s)"
     />
   );
 };
