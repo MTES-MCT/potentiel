@@ -21,7 +21,7 @@ type CandidatureImportéeEventPayload = {
   nomCandidat: string;
   puissance: number;
   prixReference: number;
-  noteTotale: number;
+  noteTotale?: number;
   nomReprésentantLégal: string;
   emailContact: Email.RawType;
   localité: {

@@ -58,7 +58,7 @@ export type CandidatureEntity = Entity<
     // Peut valoir N/A pour les AOs avec une seule technologie
     technologie: TypeTechnologie.RawType;
     sociétéMère: string;
-    noteTotale: number;
+    noteTotale?: number;
     motifÉlimination?: string;
     volumeRéservé?: boolean;
     puissanceALaPointe: boolean;

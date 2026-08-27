@@ -4,7 +4,7 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import {
   conditionalRequiredError,
-  numberSchema,
+  optionalNumberSchema,
   optionalStringSchema,
   ouiNonSchema,
 } from './schemaBase';
@@ -15,7 +15,7 @@ export const instructionSchema = z
   .object({
     statut: z.enum(Candidature.StatutCandidature.statuts),
     motifÉlimination: optionalStringSchema,
-    noteTotale: numberSchema,
+    noteTotale: optionalNumberSchema,
     volumeRéservé: z.preprocess(
       (value) => (value === '' ? undefined : value),
       z.union([z.boolean(), ouiNonSchema]).optional(),
