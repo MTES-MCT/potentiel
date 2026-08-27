@@ -25,7 +25,6 @@ export type AvailableRecoursAction =
 
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
-  dateNotification: DateTime.RawType;
   recours: PlainType<Éliminé.Recours.ConsulterDemandeRecoursReadModel>;
   historique: Array<TimelineItemProps>;
   actions: ReadonlyArray<AvailableRecoursAction>;
@@ -33,7 +32,6 @@ export type DétailsRecoursPageProps = {
 
 export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   identifiantProjet,
-  dateNotification,
   recours,
   historique,
   actions,
@@ -75,8 +73,6 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
           {mapToActionComponents({
             actions,
             identifiantProjet,
-            dateNotification,
-
             date: recours.demande.demandéLe,
           })}
         </>
@@ -88,7 +84,6 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<AvailableRecoursAction>;
   identifiantProjet: string;
-  dateNotification: DateTime.RawType;
   date: PlainType<DateTime.ValueType>;
 };
 
@@ -96,7 +91,6 @@ const mapToActionComponents = ({
   actions,
   identifiantProjet,
   date,
-  dateNotification,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
@@ -106,11 +100,7 @@ const mapToActionComponents = ({
       />
     )}
     {actions.includes('accorder') && (
-      <AccorderRecours
-        identifiantProjet={identifiantProjet}
-        date={date}
-        dateNotification={dateNotification}
-      />
+      <AccorderRecours identifiantProjet={identifiantProjet} date={date} />
     )}
     {actions.includes('rejeter') && (
       <RejeterRecours identifiantProjet={identifiantProjet} date={date} />

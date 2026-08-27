@@ -142,6 +142,7 @@ export async function accorderRecours(this: PotentielWorld, dateAccordSpécifiqu
   } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
     accordéPar: this.utilisateurWorld.validateurFixture.email,
     dateNotification: this.éliminéWorld.notifierEliminéFixture.notifiéLe,
+    dateDemande: this.éliminéWorld.recoursWorld.demanderRecoursFixture.demandéLe,
     ...(dateAccordSpécifique && { dateAccord: dateAccordSpécifique }),
   });
 

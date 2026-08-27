@@ -1,6 +1,7 @@
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
+import { DateTime } from '@potentiel-domain/common';
 import type { Éliminé } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
@@ -8,9 +9,22 @@ import type { PotentielWorld } from '../../../../potentiel.world.js';
 import { accorderRecours } from './recours.when.js';
 
 EtantDonné(
-  /une demande de recours en cours pour le projet éliminé/,
+  /une demande de recours en cours pour le projet éliminé$/,
   async function (this: PotentielWorld) {
     await créerDemandeRecours.call(this);
+  },
+);
+
+EtantDonné(
+  /une demande de recours en cours pour le projet éliminé avec :$/,
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    await créerDemandeRecours.call(
+      this,
+      exemple['date de la demande']
+        ? DateTime.convertirEnValueType(new Date(exemple['date de la demande'])).formatter()
+        : undefined,
+    );
   },
 );
 
@@ -46,12 +60,13 @@ EtantDonné(
   },
 );
 
-async function créerDemandeRecours(this: PotentielWorld) {
+async function créerDemandeRecours(this: PotentielWorld, dateDemande?: DateTime.RawType) {
   const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
 
   const { raison, demandéLe, demandéPar, pièceJustificative } =
     this.éliminéWorld.recoursWorld.demanderRecoursFixture.créer({
       demandéPar: this.utilisateurWorld.porteurFixture.email,
+      ...(dateDemande && { demandéLe: dateDemande }),
     });
 
   await mediator.send<Éliminé.Recours.DemanderRecoursUseCase>({

@@ -1,6 +1,6 @@
 import { match, P } from 'ts-pattern';
 
-import { Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { GarantiesFinancières } from '../../lauréat/index.js';
@@ -20,6 +20,7 @@ import {
   AucunRecoursEnCours,
   DateRecoursAvantDateNotificationError,
   DateRecoursDansLeFuturError,
+  DateRéponseSignéeAntérieureÀDateDemandeRecours,
   RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
   ÉliminéInexistantError,
 } from './recours.error.js';
@@ -35,6 +36,8 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     instruitPar: Email.ValueType;
   };
 
+  #dateDemande?: DateTime.ValueType;
+
   get éliminé() {
     return this.parent;
   }
@@ -45,18 +48,22 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     identifiantUtilisateur,
     réponseSignée,
   }: AccorderOptions) {
-    this.vérifierQueDemandeRecoursExiste();
+    const dateDemande = this.vérifierQueDemandeRecoursExiste();
 
     if (dateRéponseSignée.estDansLeFutur()) {
       throw new DateRecoursDansLeFuturError();
     }
 
-    /**
-     *
-     * On compare avec l'heure de la réponse signée à midi pour être cohérent avec les dates de notifications. Cela permet d'éviter les erreurs de décalage horaire.
-     *
-     */
+    if (dateRéponseSignée.estJourAntérieurÀ(dateDemande)) {
+      throw new DateRéponseSignéeAntérieureÀDateDemandeRecours();
+    }
+
     if (dateRéponseSignée.estJourAntérieurÀ(this.éliminé.notifiéLe)) {
+      /**
+       *
+       * On compare avec l'heure de la réponse signée à midi pour être cohérent avec les dates de notifications. Cela permet d'éviter les erreurs de décalage horaire.
+       *
+       */
       throw new DateRecoursAvantDateNotificationError();
     }
 
@@ -231,8 +238,9 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     this.instruction = undefined;
   }
 
-  private applyRecoursDemandéV1(_: RecoursDemandéEvent) {
+  private applyRecoursDemandéV1({ payload: { demandéLe } }: RecoursDemandéEvent) {
     this.#statut = StatutRecours.demandé;
+    this.#dateDemande = DateTime.convertirEnValueType(demandéLe);
   }
 
   private applyRecoursRejetéV1(_: RecoursRejetéEvent) {
@@ -249,9 +257,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     };
   }
 
-  private vérifierQueDemandeRecoursExiste() {
-    if (!this.exists) {
+  private vérifierQueDemandeRecoursExiste(): DateTime.ValueType {
+    if (!this.exists || !this.#dateDemande) {
       throw new AucunRecoursEnCours();
     }
+    return this.#dateDemande;
   }
 }
