@@ -95,7 +95,7 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
                 data={[
                   ['numeroDossierDN', 'chaîne de caractères', 'requis'],
                   ['statut', '"retenu" ou "éliminé"', 'requis'],
-                  ['note', 'nombre', 'requis'],
+                  ['note', 'nombre', 'optionnel'],
                   ['motifElimination', 'chaîne de caractères', 'requis pour les projets éliminés'],
                   [
                     'volumeReserve',
