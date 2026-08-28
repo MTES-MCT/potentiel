@@ -251,7 +251,11 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
   }
 
-  async mettreÀJourTâchesEtTâchesPlanifiées() {
+  async mettreÀJourTâchesEtTâchesPlanifiées({
+    inclureTâcheGestionnaireRéseauInconnu,
+  }: {
+    inclureTâcheGestionnaireRéseauInconnu: boolean;
+  }) {
     const dossiersRaccordements = [...this.#dossiers.values()];
 
     if (dossiersRaccordements.length === 0) {
@@ -280,7 +284,10 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
     }
 
-    if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
+    if (
+      inclureTâcheGestionnaireRéseauInconnu &&
+      this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()
+    ) {
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
     }
 
@@ -366,7 +373,9 @@ export class RaccordementAggregate extends AbstractAggregate<
 
       await this.publish(event);
     }
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({
+      inclureTâcheGestionnaireRéseauInconnu: false,
+    });
   }
   private applyGestionnaireRéseauRaccordemenInconnuEventV1(
     _: GestionnaireRéseauInconnuAttribuéEvent,
@@ -565,7 +574,9 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(dossierDuRaccordementSupprimé);
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({
+      inclureTâcheGestionnaireRéseauInconnu: false,
+    });
   }
 
   private applyDossierDuRaccordementSuppriméEventV1({
@@ -723,7 +734,9 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({
+      inclureTâcheGestionnaireRéseauInconnu: false,
+    });
   }
 
   async modifierDocumentRaccordement({
@@ -851,7 +864,9 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({
+      inclureTâcheGestionnaireRéseauInconnu: false,
+    });
   }
 
   private applyDocumentRaccordementTransmisOuModifiéEventV1({
