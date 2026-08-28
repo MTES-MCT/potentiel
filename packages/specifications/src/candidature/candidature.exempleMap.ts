@@ -116,12 +116,14 @@ export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.Insta
 export const natureDeLExploitationExempleMap: FieldToExempleMapper<{
   typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
   tauxPrévisionnelACI: number;
+  tauxPrévisionnelACC: number;
 }> = {
   typeNatureDeLExploitation: [
     "type de nature de l'exploitation",
     mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
   ],
   tauxPrévisionnelACI: ['taux prévisionnel aci', mapNumber],
+  tauxPrévisionnelACC: ['taux prévisionnel acc', mapNumber],
 };
 
 export const raccordementExempleMap: FieldToExempleMapper<Candidature.RaccordementDépôt.RawType> = {
