@@ -1,12 +1,12 @@
 import type { Candidature } from '@potentiel-domain/projet';
 
 import { createDossierAccessor, type GetDossierQuery } from '../../graphql/index.js';
-import { getCoordonnées } from '../getters/getCoordonnées.js';
 import { getDateÉchéanceGarantiesFinancières } from '../getters/getDateÉchéanceGarantiesFinancières.js';
 import { getNuméroIdentification } from '../getters/getNuméroIdentification.js';
 import { getPuissanceInstallée } from '../getters/getPuissanceInstallée.js';
 import {
   getAutorisation,
+  getCoordonnées,
   getDateConstitutionGarantiesFinancières,
   getDispositifDeStockage,
   getFournisseurs,
@@ -82,6 +82,11 @@ export const mapApiResponseToDépôt = ({
     numéroSIREN: 'Numéro SIREN du candidat',
     numéroSIRET: 'Numéro SIRET du candidat',
   }) satisfies Record<keyof Candidature.Dépôt.RawType['numéroIdentification'], string>;
+
+  const accessorCoordonnées = createDossierAccessor(champs, {
+    latitude: 'Latitude du barycentre',
+    longitude: 'Longitude du barycentre',
+  } satisfies Record<keyof Candidature.Dépôt.RawType['coordonnées'], string>);
 
   const typeGarantiesFinancières = getTypeGarantiesFinancières(
     accessor,
@@ -164,7 +169,11 @@ export const mapApiResponseToDépôt = ({
 
     raccordements: getRaccordements(champs),
 
-    coordonnées: getCoordonnées(champs),
+    coordonnées: getCoordonnées({
+      accessor: accessorCoordonnées,
+      nomChampLatitude: 'latitude',
+      nomChampLongitude: 'longitude',
+    }),
 
     numéroIdentification: getNuméroIdentification({
       accessor: accessorNuméroIdentification,

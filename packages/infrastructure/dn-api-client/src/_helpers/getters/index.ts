@@ -1,4 +1,5 @@
 export * from './getAutorisation.js';
+export * from './getCoordonnées.js';
 export * from './getDateConstitutionGarantiesFinancières.js';
 export * from './getDispositifDeStockage.js';
 export * from './getFournisseurs.js';
