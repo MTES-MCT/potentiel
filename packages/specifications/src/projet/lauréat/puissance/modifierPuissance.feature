@@ -93,6 +93,28 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement de puissance est déjà en cours"
 
+    Scénario: Impossible de modifier la puissance si elle dépasse la puissance max par famille
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offres | PPE2 - Innovation |
+            | période        | 1                 |
+            | famille        | 1                 |
+            | puissance      | 1                 |
+        # la puissance max par famille est 3 pour cette famille
+        Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
+            | ratio puissance | 3.1 |
+        Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offres"
+
+    Scénario: Impossible de modifier la puissance si elle dépasse le volume réservé de l'appel d'offre
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offres | PPE2 - Sol |
+            | période        | 3          |
+            | puissance      | 5          |
+            | volume réservé | oui        |
+        # la puissance du volume réservé de la période est de 5
+        Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
+            | ratio puissance | 6 |
+        Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé"
+
     # Règles spécifiques aux AO
     Scénario: Impossible de modifier la puissance avec une valeur identique pour un AO qui ne requiert pas la puissance de site
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
