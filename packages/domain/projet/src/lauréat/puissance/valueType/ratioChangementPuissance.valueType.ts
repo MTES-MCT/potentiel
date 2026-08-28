@@ -9,7 +9,9 @@ export type ValueType = {
   ratios: { min: number; max: number };
   puissanceMaxFamille: number | undefined;
   puissanceMaxVolumeRéservé: number | undefined;
-  vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
+  vérifierQueLeChangementEstPossible: (
+    vérificationRatioAO: 'avec-vérification-ratio-ao' | 'sans-vérification-ratio-ao',
+  ) => void;
   vérifierQueLaDécisionDÉtatEstPossible: () => void;
   dépasseRatiosChangementPuissance: () => boolean;
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
@@ -47,7 +49,9 @@ export const bind = ({
         ? this.nouvellePuissance > this.puissanceMaxVolumeRéservé
         : false;
     },
-    vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
+    vérifierQueLeChangementEstPossible(
+      vérificationRatioAO: 'avec-vérification-ratio-ao' | 'sans-vérification-ratio-ao',
+    ) {
       if (this.dépassePuissanceMaxFamille()) {
         throw new PuissanceDépassePuissanceMaxFamille();
       }
@@ -56,7 +60,7 @@ export const bind = ({
         throw new PuissanceDépasseVolumeRéservéAO();
       }
 
-      if (typeDemande === 'information-enregistrée') {
+      if (vérificationRatioAO === 'avec-vérification-ratio-ao') {
         if (ratio > this.ratios.max) {
           throw new PuissanceDépassePuissanceMaxAO();
         }

@@ -98,7 +98,12 @@ export class PuissanceAggregate extends AbstractAggregate<
     pièceJustificative,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
+
     this.vérifierLaCohérenceDesDonnéesDeLaModification(puissance, puissanceDeSite);
+
+    this.getRatioChangement(puissance).vérifierQueLeChangementEstPossible(
+      'sans-vérification-ratio-ao',
+    );
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementPuissanceEnCoursError();
@@ -314,7 +319,11 @@ export class PuissanceAggregate extends AbstractAggregate<
   ) {
     this.lauréat.vérifierQueLeChangementEstPossible(type, 'puissance');
 
-    this.getRatioChangement(nouvellePuissance).vérifierQueLaDemandeEstPossible(type);
+    this.getRatioChangement(nouvellePuissance).vérifierQueLeChangementEstPossible(
+      type === 'information-enregistrée'
+        ? 'avec-vérification-ratio-ao'
+        : 'sans-vérification-ratio-ao',
+    );
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
