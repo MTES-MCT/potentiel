@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import type { NextConfig } from 'next';
 
 import { fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
@@ -12,7 +14,9 @@ const nextConfig: NextConfig = {
     },
   },
   poweredByHeader: false,
-  turbopack: {},
+  turbopack: {
+    root: path.join(__dirname, '../../../'),
+  },
   serverExternalPackages: [
     '@potentiel-domain/common',
     '@potentiel-domain/core',
