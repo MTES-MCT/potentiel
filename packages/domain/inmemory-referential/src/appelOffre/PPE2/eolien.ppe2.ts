@@ -584,6 +584,24 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       champsSupplémentaires: champsSupplémentairesAPartirDeP11,
       typeImport: 'démarche-numérique',
     },
-    // Pour P12 la puissance appelée sera de 1000 MW
+    {
+      id: '12',
+      title: 'douzième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: '2026/S 467474-2026',
+      },
+      puissanceAppelée: 1000,
+      familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
+      cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      champsSupplémentaires: champsSupplémentairesAPartirDeP11,
+      typeImport: 'démarche-numérique',
+    },
   ],
 };
