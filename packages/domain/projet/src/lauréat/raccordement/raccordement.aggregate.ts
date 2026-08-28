@@ -251,7 +251,11 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
   }
 
-  async mettreÀJourTâchesEtTâchesPlanifiées() {
+  async mettreÀJourTâchesEtTâchesPlanifiées({
+    inclureGestionnaireRéseau,
+  }: {
+    inclureGestionnaireRéseau: boolean;
+  }) {
     const dossiersRaccordements = [...this.#dossiers.values()];
 
     if (dossiersRaccordements.length === 0) {
@@ -280,7 +284,10 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
     }
 
-    if (this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()) {
+    if (
+      inclureGestionnaireRéseau &&
+      this.#gestionnaireRéseau.identifiantGestionnaireRéseau.estInconnu()
+    ) {
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
     }
 
@@ -366,7 +373,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
       await this.publish(event);
     }
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({ inclureGestionnaireRéseau: false });
   }
   private applyGestionnaireRéseauRaccordemenInconnuEventV1(
     _: GestionnaireRéseauInconnuAttribuéEvent,
@@ -565,7 +572,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(dossierDuRaccordementSupprimé);
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({ inclureGestionnaireRéseau: false });
   }
 
   private applyDossierDuRaccordementSuppriméEventV1({
@@ -723,7 +730,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({ inclureGestionnaireRéseau: false });
   }
 
   async modifierDocumentRaccordement({
@@ -851,7 +858,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.mettreÀJourTâchesEtTâchesPlanifiées();
+    await this.mettreÀJourTâchesEtTâchesPlanifiées({ inclureGestionnaireRéseau: false });
   }
 
   private applyDocumentRaccordementTransmisOuModifiéEventV1({

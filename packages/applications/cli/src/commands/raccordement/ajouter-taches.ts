@@ -57,7 +57,9 @@ export class AjouterTâchesRaccordementCommand extends Command {
       const aggregate = await ProjetAdapter.getProjetAggregateRootAdapter(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
       );
-      await aggregate.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées();
+      await aggregate.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées({
+        inclureGestionnaireRéseau: true,
+      });
 
       process.stdout.write('\n');
     }
