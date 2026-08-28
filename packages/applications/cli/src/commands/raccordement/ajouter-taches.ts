@@ -58,7 +58,7 @@ export class AjouterTâchesRaccordementCommand extends Command {
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
       );
       await aggregate.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées({
-        inclureGestionnaireRéseau: true,
+        inclureTâcheGestionnaireRéseauInconnu: true,
       });
 
       process.stdout.write('\n');

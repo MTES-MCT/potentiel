@@ -68,7 +68,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
 
     if (this.lauréat.abandon.statut.estEnCours() || this.lauréat.statut.estAbandonné()) {
       await this.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées({
-        inclureGestionnaireRéseau: true,
+        inclureTâcheGestionnaireRéseauInconnu: true,
       });
     }
 

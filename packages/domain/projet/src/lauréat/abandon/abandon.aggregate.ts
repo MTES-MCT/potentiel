@@ -374,7 +374,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
     await this.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées({
-      inclureGestionnaireRéseau: true,
+      inclureTâcheGestionnaireRéseauInconnu: true,
     });
 
     if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
@@ -411,7 +411,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
     await this.lauréat.raccordement.mettreÀJourTâchesEtTâchesPlanifiées({
-      inclureGestionnaireRéseau: true,
+      inclureTâcheGestionnaireRéseauInconnu: true,
     });
 
     if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
