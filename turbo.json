@@ -1,6 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalDependencies": ["package.json"],
+  "globalDependencies": ["package.json", "package-lock.json"],
   "tasks": {
     "build": {
       "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs,html}", "!src/**/*.d.ts"],

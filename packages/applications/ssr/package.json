@@ -6,7 +6,7 @@
     "dev": "npm run prebuild && tsx watch -r dotenv/config src/server.ts",
     "dev:debug": "node --inspect -r dotenv/config -r tsx/cjs src/server.ts",
     "start": "NODE_ENV=production node -r dotenv/config dist/server.js",
-    "build": "npm run prebuild && npm run build:server && next build",
+    "build": "rm -rf .next && npm run prebuild && npm run build:server && next build",
     "build:server": "tsc -p tsconfig.server.json",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
