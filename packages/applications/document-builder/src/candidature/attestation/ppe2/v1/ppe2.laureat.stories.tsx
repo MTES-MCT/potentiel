@@ -12,7 +12,7 @@ const neutrePPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Neutre')!;
 const solPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Sol')!;
 const innovationPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Innovation')!;
 const autoconsommationMetropolePPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Autoconsommation Métropole',
+  (x) => x.id === 'PPE2 - Autoconsommation métropole',
 )!;
 
 const meta = {
