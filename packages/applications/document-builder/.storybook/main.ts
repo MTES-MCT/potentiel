@@ -16,6 +16,16 @@ export default defineMain({
   viteFinal: async (config) => {
     return {
       ...config,
+      optimizeDeps: {
+        ...config.optimizeDeps,
+        include: [
+          ...(config.optimizeDeps?.include ?? []),
+          '@potentiel-domain/appel-offre',
+          '@potentiel-domain/common',
+          '@potentiel-domain/inmemory-referential',
+          '@potentiel-domain/projet',
+        ],
+      },
       resolve: {
         ...config.resolve,
         alias: {

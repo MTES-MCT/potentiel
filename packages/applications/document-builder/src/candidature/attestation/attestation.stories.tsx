@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
