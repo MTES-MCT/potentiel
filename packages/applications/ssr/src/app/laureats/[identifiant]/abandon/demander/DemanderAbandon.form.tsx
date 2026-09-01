@@ -31,6 +31,9 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Demander',
+        secondaryAction: {
+          type: 'back',
+        },
       }}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
