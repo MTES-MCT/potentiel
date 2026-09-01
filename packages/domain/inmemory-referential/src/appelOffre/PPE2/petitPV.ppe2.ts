@@ -15,7 +15,7 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
-        référence: '🦺 A COMPLETER 🦺',
+        référence: 'JO S 101/2026 365113-2026',
       },
       familles: [],
       puissanceAppelée: 288,
