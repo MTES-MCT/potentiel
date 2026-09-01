@@ -54,11 +54,11 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         const actionnaireInfo = await getActionnaireInfos(identifiantProjet);
         if (actionnaireInfo.attestation) {
           documents.push({
-            type: "Attestation d'actionnariat",
+            type: 'Statuts et composition de l’actionnariat',
             date: actionnaireInfo.attestation.dateCréation,
             format: actionnaireInfo.attestation.format,
             url: Routes.Document.télécharger(actionnaireInfo.attestation.formatter()),
-            ariaLabel: `Télécharger l'attestation d'actionnariat du projet ${nomProjet}`,
+            ariaLabel: `Télécharger l'attestation des statuts et composition de l’actionnariat du projet ${nomProjet}`,
           });
         }
       }
