@@ -5,7 +5,6 @@ import { Routes } from '@potentiel-applications/routes';
 import type { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { LinkAction } from '@/components/molecules/LinkAction';
@@ -32,18 +31,16 @@ export type AlerteGarantiesFinancières = (typeof alertesGarantiesFinancières)[
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
-  actuelles: PlainType<
-    Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>
-  >;
   archivesGarantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
   actions: (ActionGarantiesFinancières | AlerteGarantiesFinancières)[];
+  actuelles?: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
   identifiantProjet,
-  actuelles,
   actions,
   archivesGarantiesFinancières,
+  actuelles,
 }) => {
   const actionMap: ActionMap<ActionGarantiesFinancières> = {
     ['garantiesFinancières.dépôt.soumettre']: () => (
@@ -97,7 +94,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
     ),
   };
 
-  const statut = Option.isSome(actuelles)
+  const statut = actuelles
     ? Lauréat.GarantiesFinancières.StatutGarantiesFinancières.bind(actuelles.statut)
     : undefined;
 
@@ -166,7 +163,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           />
         )}
 
-        {Option.isSome(actuelles) ? (
+        {actuelles ? (
           <GarantiesFinancières
             garantiesFinancières={actuelles.garantiesFinancières}
             document={actuelles.document}

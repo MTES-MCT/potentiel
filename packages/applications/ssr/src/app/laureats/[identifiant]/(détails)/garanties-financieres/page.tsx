@@ -4,13 +4,12 @@ import type { Metadata } from 'next';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
+import { getGarantiesFinancières } from '../../_helpers';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import {
   DétailsGarantiesFinancièresPage,
@@ -32,13 +31,10 @@ export default async function Page(props0: IdentifiantParameter) {
 
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-      const actuelles = await récupérerGarantiesFinancièresActuelles(identifiantProjet.formatter());
-
       const peutAccéderAuxArchivesDesGfs = utilisateur.rôle.aLaPermission(
         'garantiesFinancières.archives.lister',
       );
 
-      // les archives ne sont visibles que pour les DREAL et DGEC
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
         ? await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>(
             {
@@ -48,23 +44,13 @@ export default async function Page(props0: IdentifiantParameter) {
           )
         : [];
 
-      const dépôtEnCours =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        });
-
-      const mainlevée =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
+      const { mainlevée, dépôt, actuelles } = await getGarantiesFinancières(
+        identifiantProjet.formatter(),
+      );
 
       const actions = mapToActionsAndAlertes({
         actuelles,
-        dépôtEnCours,
+        dépôt,
         mainlevée,
         utilisateur,
       });
@@ -82,21 +68,21 @@ export default async function Page(props0: IdentifiantParameter) {
 }
 
 type MapToActionsAndAlertesProps = {
-  actuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel>;
-  dépôtEnCours: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
-  mainlevée: Option.Type<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
+  actuelles?: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel;
+  dépôt?: Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel;
+  mainlevée?: Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel;
   utilisateur: Utilisateur.ValueType;
 };
 
 const mapToActionsAndAlertes = ({
   utilisateur,
   actuelles,
-  dépôtEnCours,
+  dépôt,
   mainlevée,
 }: MapToActionsAndAlertesProps): DétailsGarantiesFinancièresPageProps['actions'] => {
   const actions: DétailsGarantiesFinancièresPageProps['actions'] = [];
 
-  if (Option.isSome(mainlevée)) {
+  if (mainlevée) {
     actions.push('garantiesFinancières.mainlevée.consulter');
 
     const mainlevéeEnCours = mainlevée.statut.estDemandé() || mainlevée.statut.estEnInstruction();
@@ -108,29 +94,28 @@ const mapToActionsAndAlertes = ({
     return actions.filter((action) => utilisateur.rôle.aLaPermission(action));
   }
 
-  if (Option.isSome(actuelles) && actuelles.garantiesFinancières.estExemption()) {
-    return [];
-  }
+  if (actuelles?.garantiesFinancières.estExemption()) return [];
 
-  if (Option.isNone(actuelles)) {
+  if (!actuelles) {
     actions.push('garantiesFinancières.actuelles.enregistrer');
   } else {
     const estConstitué = actuelles.garantiesFinancières.estConstitué();
 
     actions.push('garantiesFinancières.actuelles.modifier');
+
     if (!estConstitué) {
       actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
     }
 
-    if (!actuelles.statut.estÉchu()) {
+    if (actuelles.statut.estÉchu()) {
       actions.push('garantiesFinancières.mainlevée.demander');
     }
   }
 
-  if (Option.isNone(dépôtEnCours)) {
-    actions.push('garantiesFinancières.dépôt.soumettre');
-  } else {
+  if (dépôt) {
     actions.push('garantiesFinancières.dépôt.consulter');
+  } else {
+    actions.push('garantiesFinancières.dépôt.soumettre');
   }
 
   return actions.filter((action) => utilisateur.rôle.aLaPermission(action));

@@ -2155,17 +2155,21 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'tâche.consulter',
 
   // Garanties financières
+  /* dépot */
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.soumettre',
   'garantiesFinancières.dépôt.supprimer',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.lister',
+  /* actuelles */
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.enregistrerAttestation',
+  /* mainlevée */
   'garantiesFinancières.mainlevée.demander',
   'garantiesFinancières.mainlevée.annuler',
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.mainlevée.consulter',
+  /* en attente */
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.consulter',
 
