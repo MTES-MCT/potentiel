@@ -1,5 +1,3 @@
-import { randomUUID } from 'node:crypto';
-
 import { Document, Page, View } from '@react-pdf/renderer';
 
 import type { DonnéesDocument } from './buildDocument.js';
@@ -63,7 +61,7 @@ export const SynthèsePériode = ({
             <Introduction période={période} synthèse={synthèse} />
           </View>
           <TableauLauréatPériode
-            key={`${randomUUID()}`}
+            key={`${crypto.randomUUID()}`}
             lauréats={pages[0]}
             indexPage={0}
             pagesLength={pages.length}
@@ -77,7 +75,7 @@ export const SynthèsePériode = ({
         (page, index) =>
           index > 0 && (
             <Page
-              key={`${randomUUID()}`}
+              key={`${crypto.randomUUID()}`}
               size="A4"
               style={{
                 backgroundColor: '#FFF',
@@ -89,7 +87,7 @@ export const SynthèsePériode = ({
             >
               <View style={{ paddingLeft: 15 }}>
                 <TableauLauréatPériode
-                  key={`${randomUUID()}`}
+                  key={`${crypto.randomUUID()}`}
                   lauréats={page}
                   indexPage={index}
                   pagesLength={pages.length}

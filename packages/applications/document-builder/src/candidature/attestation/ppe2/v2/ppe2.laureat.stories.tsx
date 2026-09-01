@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
@@ -13,7 +13,7 @@ const neutrePPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Neutre')!;
 const solPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Sol')!;
 const innovationPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Innovation')!;
 const autoconsommationMetropolePPE2 = appelsOffreData.find(
-  (x) => x.id === 'PPE2 - Autoconsommation Métropole',
+  (x) => x.id === 'PPE2 - Autoconsommation métropole',
 )!;
 
 const meta = {
