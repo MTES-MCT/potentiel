@@ -7,6 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLauréatInfos } from '@/app/_helpers';
 import {
   getAchèvement,
+  getActionnaireInfos,
   getGarantiesFinancières,
   getOptionalDemandeAbandonEnCours,
 } from '@/app/laureats/[identifiant]/_helpers';
@@ -46,6 +47,20 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           url: Routes.Lauréat.exporter({ identifiantProjet }),
           ariaLabel: `Télécharger l'export des données du projet ${nomProjet}`,
         });
+      }
+
+      // ATTESTATION ACTIONNARIAT
+      if (rôle.aLaPermission('actionnaire.consulter')) {
+        const actionnaireInfo = await getActionnaireInfos(identifiantProjet);
+        if (actionnaireInfo.attestation) {
+          documents.push({
+            type: "Attestation d'actionnariat",
+            date: actionnaireInfo.attestation.dateCréation,
+            format: actionnaireInfo.attestation.format,
+            url: Routes.Document.télécharger(actionnaireInfo.attestation.formatter()),
+            ariaLabel: `Télécharger l'attestation d'actionnariat du projet ${nomProjet}`,
+          });
+        }
       }
 
       // ABANDON
