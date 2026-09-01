@@ -97,7 +97,7 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
     <ActionsPageTemplate<ActionMainlevée>
       heading="Mainlevée des garanties financières"
       /* Si mainlevée n'est pas définit c'est qu'il y a forcémenet 1 ou plusieurs mainlevées rejetées
-         Sinon la page est notFound()
+      Sinon la page est notFound()
       */
       badge={<StatutDemandeBadge statut={mainlevée?.statut.statut ?? 'rejeté'} />}
       actions={actions}
@@ -189,7 +189,7 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
           href: Routes.GarantiesFinancières.détail(identifiantProjet),
         }}
       >
-        Retour aux Garanties Financières
+        Retour
       </Button>
     </ActionsPageTemplate>
   );

@@ -40,7 +40,7 @@ export const ActionsPageTemplate = <TAction extends string>({
       )}
       {children}
     </div>
-    <div className={clsx(`flex-auto mt-5 md:max-w-lg items-stretch`, classes?.actions)}>
+    <div className={clsx(`flex-1 mt-5 md:max-w-lg items-stretch`, classes?.actions)}>
       <ActionsList actionsListLength={actions.length}>
         {Object.keys(actionMap)
           .filter((action) => actions.includes(action as TAction))

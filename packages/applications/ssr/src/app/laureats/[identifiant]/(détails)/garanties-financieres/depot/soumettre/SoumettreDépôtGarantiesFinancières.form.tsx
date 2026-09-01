@@ -35,11 +35,12 @@ export type SoumettreDépôtGarantiesFinancièresFormProps = {
   submitLabel: string;
   typesGarantiesFinancières: GarantiesFinancièresFormInputsProps['typesGarantiesFinancières'];
   dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
+  heading?: string;
 };
 
 export const SoumettreDépôtGarantiesFinancièresForm: FC<
   SoumettreDépôtGarantiesFinancièresFormProps
-> = ({ identifiantProjet, action, submitLabel, typesGarantiesFinancières, dépôt }) => {
+> = ({ identifiantProjet, action, submitLabel, typesGarantiesFinancières, dépôt, heading }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
       | ModifierDépôtGarantiesFinancièresFormKeys
@@ -52,6 +53,7 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
     <Form
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      heading={heading}
       actionButtons={{
         submitLabel,
         secondaryAction: {

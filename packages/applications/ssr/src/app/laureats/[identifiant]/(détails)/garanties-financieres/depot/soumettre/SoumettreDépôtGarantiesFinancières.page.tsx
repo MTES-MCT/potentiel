@@ -1,8 +1,7 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
-import { Heading1 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { PageTemplate } from '@/components/templates/Page.template';
 import type { GarantiesFinancièresFormInputsProps } from '../../components/GarantiesFinancièresFormInputs';
 import { SoumettreDépôtGarantiesFinancièresForm } from './SoumettreDépôtGarantiesFinancières.form';
 import { soumettreDépôtGarantiesFinancièresAction } from './soumettreDépôtGarantiesFinancières.action';
@@ -15,32 +14,26 @@ export type SoumettreDépôtGarantiesFinancièresProps = {
 export const SoumettreDépôtGarantiesFinancièresPage: FC<
   SoumettreDépôtGarantiesFinancièresProps
 > = ({ identifiantProjet, typesGarantiesFinancières }) => (
-  <ColumnPageTemplate
-    heading={<Heading1>Soumettre des garanties financières</Heading1>}
-    leftColumn={{
-      children: (
-        <SoumettreDépôtGarantiesFinancièresForm
-          identifiantProjet={identifiantProjet}
-          action={soumettreDépôtGarantiesFinancièresAction}
-          submitLabel="Soumettre"
-          typesGarantiesFinancières={typesGarantiesFinancières}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <Notice
-          severity="info"
-          title=""
-          description={
-            <p className="py-4">
-              Une fois les garanties financières déposées dans Potentiel, la DREAL concernée recevra
-              une notification par mail l'invitant à vérifier leur conformité. Vous serez à votre
-              tour notifié par mail à la validation des garanties financières.
-            </p>
-          }
-        />
-      ),
-    }}
-  />
+  <PageTemplate>
+    <div className="flex flex-col gap-4">
+      <SoumettreDépôtGarantiesFinancièresForm
+        identifiantProjet={identifiantProjet}
+        action={soumettreDépôtGarantiesFinancièresAction}
+        submitLabel="Soumettre"
+        typesGarantiesFinancières={typesGarantiesFinancières}
+        heading="Soumettre des garanties financières"
+      />
+      <Notice
+        severity="info"
+        title=""
+        description={
+          <span>
+            Une fois les garanties financières déposées dans Potentiel, la DREAL concernée recevra
+            une notification par mail l'invitant à vérifier leur conformité. Vous serez à votre tour
+            notifié par mail à la validation des garanties financières.
+          </span>
+        }
+      />
+    </div>
+  </PageTemplate>
 );

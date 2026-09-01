@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 
-import { Heading1 } from '@/components/atoms/headings';
 import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
@@ -16,14 +15,11 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
   identifiantProjet,
   typesGarantiesFinancières,
 }) => (
-  <>
-    <Heading1>Enregistrer des garanties financières</Heading1>
-
-    <SoumettreDépôtGarantiesFinancièresForm
-      identifiantProjet={identifiantProjet}
-      action={enregistrerGarantiesFinancièresAction}
-      submitLabel="Enregistrer"
-      typesGarantiesFinancières={typesGarantiesFinancières}
-    />
-  </>
+  <SoumettreDépôtGarantiesFinancièresForm
+    identifiantProjet={identifiantProjet}
+    action={enregistrerGarantiesFinancièresAction}
+    submitLabel="Enregistrer"
+    typesGarantiesFinancières={typesGarantiesFinancières}
+    heading="Enregistrer des garanties financières"
+  />
 );

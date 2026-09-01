@@ -36,7 +36,7 @@ export const ConfirmationAction = ({
       <Button
         {...buttonProps}
         onClick={() => setIsOpen(true)}
-        className={clsx('block w-1/2 align-center', buttonProps?.className)}
+        className={clsx('block align-center', buttonProps?.className)}
       >
         {label}
       </Button>

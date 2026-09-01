@@ -27,9 +27,11 @@ export default async function Page({ params }: IdentifiantParameter) {
       const { actuelles: garantiesFinancières } = await getGarantiesFinancières(
         lauréat.identifiantProjet.formatter(),
       );
+
       if (!garantiesFinancières) {
         return notFound();
       }
+
       const mainlevée = await getMainlevéeGarantiesFinancières(
         lauréat.identifiantProjet.formatter(),
       );

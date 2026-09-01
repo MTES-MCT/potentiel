@@ -1,4 +1,3 @@
-import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
@@ -182,16 +181,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         {archivesGarantiesFinancières.length > 0 && (
           <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
         )}
-
-        <Button
-          linkProps={{
-            href: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
-          }}
-          priority="secondary"
-          iconId="fr-icon-arrow-left-line"
-        >
-          Retour au projet
-        </Button>
       </div>
     </ActionsPageTemplate>
   );

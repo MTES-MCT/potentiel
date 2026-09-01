@@ -102,7 +102,7 @@ export const DétailsDépôtGarantiesFinancièresPage: FC<
           href: Routes.GarantiesFinancières.détail(identifiantProjet),
         }}
       >
-        Retour aux Garanties Financières
+        Retour
       </Button>
     </ActionsPageTemplate>
   );
