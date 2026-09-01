@@ -176,4 +176,22 @@ export class ActionnaireWorld {
       },
     };
   }
+
+  mapToAttestation() {
+    if (
+      this.#accorderChangementActionnaireFixture.aÉtéCréé &&
+      this.#demanderChangementActionnaireFixture.aÉtéCréé
+    ) {
+      return this.#demanderChangementActionnaireFixture.pièceJustificative;
+    }
+    if (this.#enregistrerChangementActionnaireFixture.aÉtéCréé) {
+      return this.#enregistrerChangementActionnaireFixture.pièceJustificative;
+    }
+    if (
+      this.#modifierActionnaireFixture.aÉtéCréé &&
+      this.#modifierActionnaireFixture.pièceJustificative
+    ) {
+      return this.#modifierActionnaireFixture.pièceJustificative;
+    }
+  }
 }

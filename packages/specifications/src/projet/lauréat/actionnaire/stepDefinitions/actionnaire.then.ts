@@ -16,7 +16,7 @@ Alors(
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
-      const actionnaire = await mediator.send<Lauréat.Actionnaire.ActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -119,12 +119,14 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const actionnaire = await mediator.send<Lauréat.Actionnaire.ActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
       });
+
+      assert(Option.isSome(actionnaire), "pas d'actionnaire trouvé");
 
       const actual = mapToPlainObject(actionnaire);
       const expected = mapToPlainObject(
@@ -135,6 +137,13 @@ Alors(
       );
 
       actual.should.be.deep.equal(expected);
+
+      if (actionnaire.attestation) {
+        await expectFileContent(
+          actionnaire.attestation,
+          this.lauréatWorld.actionnaireWorld.mapToAttestation(),
+        );
+      }
     });
   },
 );
@@ -145,7 +154,7 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const actionnaire = await mediator.send<Lauréat.Actionnaire.ActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
