@@ -11,12 +11,15 @@ import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur
 import { Option } from '@potentiel-libraries/monads';
 
 import { getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
+import {
+  getPuissanceInfos,
+  getReprésentantLégalInfos,
+} from '@/app/laureats/[identifiant]/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPuissanceInfos, getReprésentantLégalInfos } from '../../../_helpers/getLauréat';
 
 export const GET = async (
   _: NextRequest,

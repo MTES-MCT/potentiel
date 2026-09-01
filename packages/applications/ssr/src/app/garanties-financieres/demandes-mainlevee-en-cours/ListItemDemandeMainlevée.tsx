@@ -5,8 +5,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getMotifMainlevéeLabel';
-import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/mainlevee/StatutMainlevéeBadge';
+import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getMotifMainlevéeLabel';
+import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/mainlevee/StatutMainlevéeBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ListItem } from '@/components/molecules/ListItem';
 import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';

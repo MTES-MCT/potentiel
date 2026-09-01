@@ -8,7 +8,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getGarantiesFinancières } from '../../_helpers';
+import { getGarantiesFinancières } from '../../../_helpers';
 import {
   type ActionDépôtGarantiesFinancières,
   DétailsDépôtGarantiesFinancièresPage,

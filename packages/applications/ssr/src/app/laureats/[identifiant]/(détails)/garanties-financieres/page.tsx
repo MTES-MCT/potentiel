@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récuperérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
+import { récupérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import {
   DétailsGarantiesFinancièresPage,
@@ -32,9 +32,7 @@ export default async function Page(props0: IdentifiantParameter) {
 
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-      const actuelles = await récuperérerGarantiesFinancièresActuelles(
-        identifiantProjet.formatter(),
-      );
+      const actuelles = await récupérerGarantiesFinancièresActuelles(identifiantProjet.formatter());
 
       const peutAccéderAuxArchivesDesGfs = utilisateur.rôle.aLaPermission(
         'garantiesFinancières.archives.lister',

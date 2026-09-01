@@ -11,13 +11,16 @@ import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur
 import { Option } from '@potentiel-libraries/monads';
 
 import { getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
+import {
+  getPuissanceInfos,
+  getReprésentantLégalInfos,
+} from '@/app/laureats/[identifiant]/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPuissanceInfos, getReprésentantLégalInfos } from '../../../_helpers/getLauréat';
-import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
+import { récupérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
 export const GET = async (
   request: NextRequest,
@@ -51,7 +54,7 @@ export const GET = async (
         identifiantProjet.formatter(),
       );
 
-      const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet.formatter());
+      const gf = await récupérerGarantiesFinancièresActuelles(identifiantProjet.formatter());
 
       const mainlevéeEnCours =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({

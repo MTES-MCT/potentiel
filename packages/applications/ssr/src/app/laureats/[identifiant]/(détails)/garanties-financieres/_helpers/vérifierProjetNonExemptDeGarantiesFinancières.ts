@@ -2,12 +2,12 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { récuperérerGarantiesFinancièresActuelles } from './récupérerGarantiesFinancièresActuelles';
+import { récupérerGarantiesFinancièresActuelles } from './récupérerGarantiesFinancièresActuelles';
 
 export const vérifierProjetNonExemptDeGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ) => {
-  const garantiesFinancièresActuelles = await récuperérerGarantiesFinancièresActuelles(
+  const garantiesFinancièresActuelles = await récupérerGarantiesFinancièresActuelles(
     identifiantProjet.formatter(),
   );
 

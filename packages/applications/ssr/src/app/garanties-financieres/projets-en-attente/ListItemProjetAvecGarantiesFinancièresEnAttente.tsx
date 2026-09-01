@@ -5,7 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
+import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ListItem } from '@/components/molecules/ListItem';

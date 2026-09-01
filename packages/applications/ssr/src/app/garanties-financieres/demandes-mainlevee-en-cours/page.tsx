@@ -7,8 +7,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getMotifMainlevéeLabel';
-import { getStatutMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/statutMainlevéeLabels';
+import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getMotifMainlevéeLabel';
+import { getStatutMainlevéeLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/statutMainlevéeLabels';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';

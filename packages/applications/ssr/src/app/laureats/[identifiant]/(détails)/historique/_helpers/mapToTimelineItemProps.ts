@@ -11,13 +11,13 @@ import { mapToAchèvementTimelineItemProps } from '../../../achevement/(historiq
 import { mapToActionnaireTimelineItemProps } from '../../../actionnaire/(historique)/mapToActionnaireTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../../../delai/(historique)/mapToDélaiTimelineItemProps';
 import { mapToFournisseurTimelineItemProps } from '../../../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
-import { mapToGarantiesFinancièresTimelineItemProps } from '../../../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
 import { mapToInstallationTimelineItemProps } from '../../../installation/(historique)/mapToInstallationTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../../../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
 import { mapToPowerPurchaseAgreementTimelineItemProps } from '../../../power-purchase-agreement/(historique)/mapToPowerPurchaseAgreementTimelineItemProps';
 import { mapToProducteurTimelineItemProps } from '../../../producteur/(historique)/mapToProducteurTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '../../../puissance/(historique)/mapToPuissanceTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '../../../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
+import { mapToGarantiesFinancièresTimelineItemProps } from '../../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '../../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapCatégorieToIcon } from './catégories';
 
