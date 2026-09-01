@@ -67,10 +67,10 @@ type ProjetAvecAchevementATransmettreJoins = [
   RaccordementEntity,
   CandidatureEntity,
   DétailCandidatureEntity,
-  InstallationEntity,
   PuissanceEntity,
-  AccèsEntity,
+  LeftJoin<AccèsEntity>,
   LeftJoin<PowerPurchaseAgreementEntity>,
+  LeftJoin<InstallationEntity>,
 ];
 export const registerListerProjetAvecAchevementATransmettreQuery = ({
   list,
@@ -125,20 +125,22 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
             entity: 'détail-candidature',
             on: 'identifiantProjet',
           },
-          {
-            entity: 'installation',
-            on: 'identifiantProjet',
-          },
+
           {
             entity: 'puissance',
             on: 'identifiantProjet',
           },
-          { entity: 'accès', on: 'identifiantProjet' },
+          { entity: 'accès', type: 'left', on: 'identifiantProjet' },
           {
             entity: 'power-purchase-agreement',
             on: 'identifiantProjet',
             type: 'left',
             where: { signaléLe: Where.equalNull() },
+          },
+          {
+            entity: 'installation',
+            on: 'identifiantProjet',
+            type: 'left',
           },
         ],
         orderBy: {
@@ -190,8 +192,8 @@ export const mapToReadModel: MapToReadModelProps = ({
   lauréat: { localité, nomProjet, notifiéLe },
   raccordement: { identifiantGestionnaireRéseau },
   puissance: { puissance },
-  accès: { utilisateursAyantAccès },
-  installation: { typologieInstallation },
+  accès,
+  installation,
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -211,11 +213,11 @@ export const mapToReadModel: MapToReadModelProps = ({
   puissance,
   puissanceInitiale,
   presenceDeTrackers: pv?.trackers,
-  emailPorteurs: utilisateursAyantAccès.map((utilisateur) =>
-    Email.convertirEnValueType(utilisateur),
-  ),
+  emailPorteurs:
+    accès?.utilisateursAyantAccès.map((utilisateur) => Email.convertirEnValueType(utilisateur)) ??
+    [],
   typologieInstallation:
-    typologieInstallation && typologieInstallation.length > 0
-      ? typologieInstallation.map(Candidature.TypologieInstallation.convertirEnValueType)
-      : [],
+    installation?.typologieInstallation?.map(
+      Candidature.TypologieInstallation.convertirEnValueType,
+    ) ?? [],
 });
