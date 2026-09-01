@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   schema:
-    'https://raw.githubusercontent.com/demarches-simplifiees/demarches-simplifiees.fr/refs/heads/main/app/graphql/schema.graphql',
+    'https://raw.githubusercontent.com/demarches-simplifiees/demarches-simplifiees.fr/main/app/graphql/schema.graphql',
 
   documents: ['src/fragments/*.graphql', 'src/queries/*.graphql'],
   ignoreNoDocuments: true,
