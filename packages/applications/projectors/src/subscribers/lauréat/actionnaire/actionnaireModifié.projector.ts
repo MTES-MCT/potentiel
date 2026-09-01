@@ -10,7 +10,9 @@ export const actionnaireModifiéProjector = async ({
       actionnaire: {
         nom: actionnaire,
         miseÀJourLe: modifiéLe,
-        attestation: { format: pièceJustificative?.format, date: modifiéLe },
+        ...(pièceJustificative && {
+          attestation: { format: pièceJustificative.format, date: modifiéLe },
+        }),
       },
     },
   );

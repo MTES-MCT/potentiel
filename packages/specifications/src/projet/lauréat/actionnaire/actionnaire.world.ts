@@ -63,6 +63,34 @@ export class ActionnaireWorld {
           : this.#modifierActionnaireFixture.aÉtéCréé
             ? this.#modifierActionnaireFixture.actionnaire
             : actionnaireInitial,
+      attestation:
+        this.#accorderChangementActionnaireFixture.aÉtéCréé &&
+        this.#demanderChangementActionnaireFixture.aÉtéCréé
+          ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
+              identifiantProjet: identifiantProjet.formatter(),
+              demandéLe: this.#demanderChangementActionnaireFixture.demandéLe,
+              pièceJustificative: {
+                format: this.#demanderChangementActionnaireFixture.pièceJustificative.format,
+              },
+            })
+          : this.#enregistrerChangementActionnaireFixture.aÉtéCréé
+            ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
+                identifiantProjet: identifiantProjet.formatter(),
+                demandéLe: this.#enregistrerChangementActionnaireFixture.demandéLe,
+                pièceJustificative: {
+                  format: this.#enregistrerChangementActionnaireFixture.pièceJustificative.format,
+                },
+              })
+            : this.#modifierActionnaireFixture.aÉtéCréé &&
+                this.#modifierActionnaireFixture.pièceJustificative
+              ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
+                  identifiantProjet: identifiantProjet.formatter(),
+                  demandéLe: this.#modifierActionnaireFixture.dateModification,
+                  pièceJustificative: {
+                    format: this.#modifierActionnaireFixture.pièceJustificative.format,
+                  },
+                })
+              : undefined,
       aUneDemandeEnCours:
         this.#demanderChangementActionnaireFixture.aÉtéCréé &&
         !this.#accorderChangementActionnaireFixture.aÉtéCréé &&
