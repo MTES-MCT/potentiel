@@ -1,9 +1,7 @@
-import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import {
-  updateManyProjections,
-  updateOneProjection,
-} from '@potentiel-infrastructure/pg-projection-write';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
 
 export const changementActionnaireAccordéProjector = async ({
   payload: {
@@ -14,25 +12,43 @@ export const changementActionnaireAccordéProjector = async ({
     réponseSignée: { format },
   },
 }: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent) => {
+  const actionnaire = await findProjection<Lauréat.Actionnaire.ActionnaireEntity>(
+    `actionnaire|${identifiantProjet}`,
+  );
+
+  if (Option.isNone(actionnaire)) {
+    throw new Error(`Actionnaire non trouvé pour le projet ${identifiantProjet}`);
+  }
+
+  const demande = await findProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.dernièreDemande?.date}`,
+  );
+
+  if (Option.isNone(demande)) {
+    throw new Error(
+      `Demande de changement d'actionnaire non trouvée pour le projet ${identifiantProjet}`,
+    );
+  }
+
   await updateOneProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
     {
       actionnaire: {
         nom: nouvelActionnaire,
         miseÀJourLe: accordéLe,
+        attestation: {
+          format: demande.demande.pièceJustificative?.format,
+          date: demande.demande.demandéeLe,
+        },
       },
-      dernièreDemande: { statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut },
+      dernièreDemande: {
+        statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut,
+      },
     },
   );
 
-  await updateManyProjections<Lauréat.Actionnaire.ChangementActionnaireEntity>(
-    'changement-actionnaire',
-    {
-      identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut),
-      },
-    },
+  await updateOneProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${demande.demande.demandéeLe}`,
     {
       miseÀJourLe: accordéLe,
       demande: {

@@ -20,6 +20,7 @@ export const changementActionnaireEnregistréProjector = async ({
       actionnaire: {
         nom: actionnaire,
         miseÀJourLe: enregistréLe,
+        attestation: { date: enregistréLe, format: pièceJustificative.format },
       },
     },
   );
