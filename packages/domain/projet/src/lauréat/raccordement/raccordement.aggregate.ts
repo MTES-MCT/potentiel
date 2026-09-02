@@ -41,7 +41,6 @@ import {
   GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError,
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError,
-  RéférencesDossierRaccordementIdentiquesError,
 } from './raccordement.error.js';
 import type {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
@@ -485,7 +484,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
-      throw new RéférencesDossierRaccordementIdentiquesError();
+      throw new AucuneModificationApportéeError();
     }
 
     if (

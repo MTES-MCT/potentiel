@@ -120,11 +120,6 @@ export class RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceEr
     );
   }
 }
-export class RéférencesDossierRaccordementIdentiquesError extends InvalidOperationError {
-  constructor() {
-    super(`Les références du dossier de raccordement sont identiques`);
-  }
-}
 
 export class DossierRaccordementPasEnServiceError extends InvalidOperationError {
   constructor() {
