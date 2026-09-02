@@ -29,7 +29,7 @@ export const ProducteurSection = ({
     });
 
     const peutCorrigerNuméroIdentification =
-      rôle.aLaPermission('producteur.corrigerNuméroIdentification') &&
+      rôle.aLaPermission('producteur.numéroIdentification.corriger') &&
       (await peutEffectuerUnChangement(identifiantProjet));
 
     return (

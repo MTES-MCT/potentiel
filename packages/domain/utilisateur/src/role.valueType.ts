@@ -1388,14 +1388,16 @@ const policies = {
       référencielPermissions.lauréat.producteur.command.enregistrerChangement,
       référencielPermissions.lauréat.garantiesFinancières.usecase.renouveler,
     ],
-    corrigerNuméroIdentification: [
-      référencielPermissions.lauréat.producteur.query.consulter,
-      référencielPermissions.lauréat.producteur.usecase.corrigerNuméroIdentification,
-      référencielPermissions.lauréat.producteur.command.corrigerNuméroIdentification,
-    ],
-    corrigerNuméroIdentificationAprèsAchèvement: [],
-    corrigerNuméroIdentificationAprèsAbandon: [],
-    corrigerNuméroIdentificationPendantAbandon: [],
+    numéroIdentification: {
+      corriger: [
+        référencielPermissions.lauréat.producteur.query.consulter,
+        référencielPermissions.lauréat.producteur.usecase.corrigerNuméroIdentification,
+        référencielPermissions.lauréat.producteur.command.corrigerNuméroIdentification,
+      ],
+      'corriger-pendant-abandon': [],
+      'corriger-après-abandon': [],
+      'corriger-après-achèvement': [],
+    },
   },
   fournisseur: {
     listerChangement: [référencielPermissions.lauréat.fournisseur.query.listerChangement],
@@ -1797,10 +1799,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.listerChangement',
   'producteur.consulterChangement',
   'producteur.modifier',
-  'producteur.corrigerNuméroIdentification',
-  'producteur.corrigerNuméroIdentificationPendantAbandon',
-  'producteur.corrigerNuméroIdentificationAprèsAbandon',
-  'producteur.corrigerNuméroIdentificationAprèsAchèvement',
+  'producteur.numéroIdentification.corriger',
+  'producteur.numéroIdentification.corriger-pendant-abandon',
+  'producteur.numéroIdentification.corriger-après-abandon',
+  'producteur.numéroIdentification.corriger-après-achèvement',
 
   // Fournisseur
   'fournisseur.consulter',
@@ -2079,10 +2081,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'producteur.modifier',
   'producteur.listerChangement',
   'producteur.consulterChangement',
-  'producteur.corrigerNuméroIdentification',
-  'producteur.corrigerNuméroIdentificationPendantAbandon',
-  'producteur.corrigerNuméroIdentificationAprèsAbandon',
-  'producteur.corrigerNuméroIdentificationAprèsAchèvement',
+  'producteur.numéroIdentification.corriger',
+  'producteur.numéroIdentification.corriger-pendant-abandon',
+  'producteur.numéroIdentification.corriger-après-abandon',
+  'producteur.numéroIdentification.corriger-après-achèvement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
@@ -2230,7 +2232,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'producteur.enregistrerChangement',
   'producteur.consulterChangement',
   'producteur.consulter',
-  'producteur.corrigerNuméroIdentification',
+  'producteur.numéroIdentification.corriger',
 
   // Fournisseur
   'fournisseur.enregistrerChangement',

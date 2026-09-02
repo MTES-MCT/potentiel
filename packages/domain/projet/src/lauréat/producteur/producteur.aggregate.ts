@@ -177,13 +177,15 @@ export class ProducteurAggregate extends AbstractAggregate<
     );
 
     if (
-      !rôleUtilisateur.aLaPermission('producteur.corrigerNuméroIdentificationPendantAbandon') ||
-      !rôleUtilisateur.aLaPermission('producteur.corrigerNuméroIdentificationAprèsAbandon')
+      !rôleUtilisateur.aLaPermission('producteur.numéroIdentification.corriger-pendant-abandon') ||
+      !rôleUtilisateur.aLaPermission('producteur.numéroIdentification.corriger-après-abandon')
     ) {
       this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
     }
 
-    if (!rôleUtilisateur.aLaPermission('producteur.corrigerNuméroIdentificationAprèsAchèvement')) {
+    if (
+      !rôleUtilisateur.aLaPermission('producteur.numéroIdentification.corriger-après-achèvement')
+    ) {
       this.lauréat.vérifierNonAchevé();
     }
 
