@@ -41,6 +41,18 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
+    await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
+      type: 'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',
+      data: {
+        identifiantProjet,
+        nouvelleRéférenceDossierRaccordement,
+        référenceDossierRaccordementActuelle,
+        modifiéeLe,
+        modifiéePar,
+        rôle,
+      },
+    });
+
     const dossierProjetActuelRaccordement = DocumentRaccordement.dossierProjetRaccordement(
       identifiantProjetValue,
       référenceDossierRaccordementActuelleValue,
@@ -80,18 +92,6 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
       data: {
         dossierProjetSource: dossierProjetActuelRaccordement.conventionDeRaccordementDirecte,
         dossierProjetTarget: nouveauDossierProjetRaccordement.conventionDeRaccordementDirecte,
-      },
-    });
-
-    await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
-      type: 'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',
-      data: {
-        identifiantProjet,
-        nouvelleRéférenceDossierRaccordement,
-        référenceDossierRaccordementActuelle,
-        modifiéeLe,
-        modifiéePar,
-        rôle,
       },
     });
   };
