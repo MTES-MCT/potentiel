@@ -70,7 +70,7 @@ Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
     Quand le porteur corrige le numéro d'identification du projet lauréat avec une valeur identique
     Alors le porteur devrait être informé que "Aucune modification n’a été apportée"
 
-  Scénario: Impossible pour porteur de corriger le numéro d'identification d'un projet lauréat abandonné
+  Scénario: Impossible pour le porteur de corriger le numéro d'identification d'un projet lauréat abandonné
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | appel d'offres | PPE2 - Bâtiment |
       | période        | 1               |
@@ -78,7 +78,7 @@ Fonctionnalité: Corriger le numéro d'identification d'un projet lauréat
     Quand le porteur corrige le numéro d'identification du projet lauréat
     Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
-  Scénario: Impossible pour un porteur de corriger le numéro d'identification d'un projet lauréat si une demande d'abandon est en cours
+  Scénario: Impossible pour le porteur de corriger le numéro d'identification d'un projet lauréat si une demande d'abandon est en cours
     Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
       | appel d'offres | PPE2 - Bâtiment |
       | période        | 1               |
