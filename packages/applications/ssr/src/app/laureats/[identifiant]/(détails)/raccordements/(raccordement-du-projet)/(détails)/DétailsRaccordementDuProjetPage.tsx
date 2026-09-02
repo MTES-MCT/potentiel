@@ -1,7 +1,6 @@
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading1 } from '@/components/atoms/headings';
-import { Icon } from '@/components/atoms/Icon';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { DossiersRaccordementSection } from './DossiersRaccordement.section';
 import { GestionnaireRéseauSection } from './GestionnaireRéseau.section';
@@ -14,7 +13,7 @@ type Props = {
 export const DétailsRaccordementDuProjetPage = ({ identifiantProjet, estProjetAchevé }: Props) => {
   return (
     <PageTemplate>
-      <TitrePageRaccordement />
+      <Heading1>Raccordement</Heading1>{' '}
       <div className="my-2 md:my-4 flex flex-col gap-4">
         <div className="w-fit">
           <GestionnaireRéseauSection identifiantProjet={identifiantProjet} />
@@ -27,10 +26,3 @@ export const DétailsRaccordementDuProjetPage = ({ identifiantProjet, estProjetA
     </PageTemplate>
   );
 };
-
-const TitrePageRaccordement = () => (
-  <Heading1 className="flex items-center gap-1">
-    <Icon id="ri-plug-line" size="lg" />
-    Raccordement
-  </Heading1>
-);

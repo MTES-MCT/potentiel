@@ -1,5 +1,6 @@
 'use client';
 
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -36,11 +37,20 @@ export type SoumettreDépôtGarantiesFinancièresFormProps = {
   typesGarantiesFinancières: GarantiesFinancièresFormInputsProps['typesGarantiesFinancières'];
   dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   heading?: string;
+  alert?: string;
 };
 
 export const SoumettreDépôtGarantiesFinancièresForm: FC<
   SoumettreDépôtGarantiesFinancièresFormProps
-> = ({ identifiantProjet, action, submitLabel, typesGarantiesFinancières, dépôt, heading }) => {
+> = ({
+  identifiantProjet,
+  action,
+  submitLabel,
+  typesGarantiesFinancières,
+  dépôt,
+  heading,
+  alert,
+}) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
       | ModifierDépôtGarantiesFinancièresFormKeys
@@ -62,6 +72,8 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
       }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+
+      {alert && <Notice severity="info" title="" description={<span>{alert}</span>} />}
 
       <GarantiesFinancièresFormInputs
         id="type"

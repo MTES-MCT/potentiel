@@ -55,7 +55,7 @@ export const DétailsDépôtGarantiesFinancièresPage: FC<
         linkProps={{ href: Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet) }}
         buttonProps={{
           title: 'Modifier le dépôt de garanties financières',
-          priority: 'secondary',
+          priority: 'primary',
         }}
         label="Modifier"
       />

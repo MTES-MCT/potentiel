@@ -1,4 +1,3 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -22,16 +21,8 @@ export const SoumettreDépôtGarantiesFinancièresPage: FC<
         submitLabel="Soumettre"
         typesGarantiesFinancières={typesGarantiesFinancières}
         heading="Soumettre des garanties financières"
-      />
-      <Notice
-        severity="info"
-        title=""
-        description={
-          <span>
-            Une fois les garanties financières déposées dans Potentiel, la DREAL concernée recevra
-            une notification par mail l'invitant à vérifier leur conformité. Vous serez à votre tour
-            notifié par mail à la validation des garanties financières.
-          </span>
+        alert={
+          "Une fois les garanties financières déposées dans Potentiel, la DREAL concernée recevra une notification par mail l'invitant à vérifier leur conformité. Vous serez à votre tour notifié par mail à la validation des garanties financières."
         }
       />
     </div>

@@ -63,7 +63,6 @@ const mapToTimelineItem = ({
             <FormattedDate className="font-semibold" date={gf.dateÉchéance.formatter()} />
           </div>
         )}
-
         <div>
           {document ? (
             <DownloadDocument
