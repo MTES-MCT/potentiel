@@ -13,7 +13,7 @@ type Props = {
 export const DétailsRaccordementDuProjetPage = ({ identifiantProjet, estProjetAchevé }: Props) => {
   return (
     <PageTemplate>
-      <Heading1>Raccordement</Heading1>{' '}
+      <Heading1>Raccordement</Heading1>
       <div className="my-2 md:my-4 flex flex-col gap-4">
         <div className="w-fit">
           <GestionnaireRéseauSection identifiantProjet={identifiantProjet} />
