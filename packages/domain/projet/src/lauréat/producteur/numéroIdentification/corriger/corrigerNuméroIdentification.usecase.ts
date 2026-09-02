@@ -1,6 +1,7 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
@@ -12,6 +13,7 @@ export type CorrigerNuméroIdentificationUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
+    rôleUtilisateurValue: string;
     dateCorrectionValue: string;
     numéroIdentificationValue: { siren?: string; siret?: string };
     raisonValue?: string;
@@ -26,6 +28,7 @@ export const registerCorrigerNuméroIdentificationUseCase = () => {
   const handler: MessageHandler<CorrigerNuméroIdentificationUseCase> = async ({
     identifiantProjetValue,
     identifiantUtilisateurValue,
+    rôleUtilisateurValue,
     dateCorrectionValue,
     pièceJustificativeValue,
     raisonValue,
@@ -33,6 +36,7 @@ export const registerCorrigerNuméroIdentificationUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
     const dateCorrection = DateTime.convertirEnValueType(dateCorrectionValue);
     const numéroIdentification = NuméroIdentification.bind(numéroIdentificationValue);
 
@@ -47,6 +51,7 @@ export const registerCorrigerNuméroIdentificationUseCase = () => {
       data: {
         identifiantProjet,
         identifiantUtilisateur,
+        rôleUtilisateur,
         dateCorrection,
         pièceJustificative,
         raison: raisonValue,

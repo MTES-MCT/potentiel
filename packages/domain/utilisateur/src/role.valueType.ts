@@ -1393,6 +1393,9 @@ const policies = {
       référencielPermissions.lauréat.producteur.usecase.corrigerNuméroIdentification,
       référencielPermissions.lauréat.producteur.command.corrigerNuméroIdentification,
     ],
+    corrigerNuméroIdentificationAprèsAchèvement: [],
+    corrigerNuméroIdentificationAprèsAbandon: [],
+    corrigerNuméroIdentificationPendantAbandon: [],
   },
   fournisseur: {
     listerChangement: [référencielPermissions.lauréat.fournisseur.query.listerChangement],
@@ -1795,6 +1798,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.consulterChangement',
   'producteur.modifier',
   'producteur.corrigerNuméroIdentification',
+  'producteur.corrigerNuméroIdentificationPendantAbandon',
+  'producteur.corrigerNuméroIdentificationAprèsAbandon',
+  'producteur.corrigerNuméroIdentificationAprèsAchèvement',
 
   // Fournisseur
   'fournisseur.consulter',
@@ -2074,6 +2080,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'producteur.listerChangement',
   'producteur.consulterChangement',
   'producteur.corrigerNuméroIdentification',
+  'producteur.corrigerNuméroIdentificationPendantAbandon',
+  'producteur.corrigerNuméroIdentificationAprèsAbandon',
+  'producteur.corrigerNuméroIdentificationAprèsAchèvement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',

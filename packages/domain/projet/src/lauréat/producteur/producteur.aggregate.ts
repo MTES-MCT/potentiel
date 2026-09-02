@@ -165,11 +165,27 @@ export class ProducteurAggregate extends AbstractAggregate<
     identifiantProjet,
     dateCorrection,
     identifiantUtilisateur,
+    rôleUtilisateur,
     pièceJustificative,
     raison,
     numéroIdentification,
   }: CorrigerNuméroIdentificationOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(
+      'information-enregistrée',
+      'producteur',
+    );
+
+    if (
+      !rôleUtilisateur.aLaPermission('producteur.corrigerNuméroIdentificationPendantAbandon') ||
+      !rôleUtilisateur.aLaPermission('producteur.corrigerNuméroIdentificationAprèsAbandon')
+    ) {
+      this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    }
+
+    if (!rôleUtilisateur.aLaPermission('producteur.corrigerNuméroIdentificationAprèsAchèvement')) {
+      this.lauréat.vérifierNonAchevé();
+    }
 
     if (this.#numéroIdentification?.estÉgaleÀ(numéroIdentification)) {
       throw new AucuneModificationApportéeError();

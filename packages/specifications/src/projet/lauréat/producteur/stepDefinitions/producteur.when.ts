@@ -6,6 +6,7 @@ import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import {
   convertFixtureFileToReadableStream,
   getEmailFromRôle,
+  getRôle,
   type RôleUtilisateur,
 } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
@@ -142,14 +143,18 @@ async function corrigerNuméroIdentification(
   const { pièceJustificative, corrigéLe, corrigéPar, siret } =
     this.lauréatWorld.producteurWorld.corrigerNuméroIdentificationFixture.créer({
       corrigéPar: getEmailFromRôle.call(this, rôle),
+
       ...data,
     });
+
+  const rôleUtilisateurValue = getRôle.call(this, rôle);
 
   await mediator.send<Lauréat.Producteur.CorrigerNuméroIdentificationUseCase>({
     type: 'Lauréat.Producteur.UseCase.CorrigerNuméroIdentification',
     data: {
       dateCorrectionValue: corrigéLe,
       identifiantUtilisateurValue: corrigéPar,
+      rôleUtilisateurValue: rôleUtilisateurValue,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       numéroIdentificationValue: { siret },
