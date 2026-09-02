@@ -13,7 +13,7 @@ export const LinkAction = ({ label, linkProps, buttonProps }: LinkActionProps) =
   <Button
     linkProps={linkProps}
     {...buttonProps}
-    className={clsx('block w-1/2 text-center', buttonProps?.className)}
+    className={clsx('block text-center', buttonProps?.className)}
   >
     {label}
   </Button>

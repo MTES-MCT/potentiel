@@ -9,7 +9,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';

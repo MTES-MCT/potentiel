@@ -9,7 +9,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récuperérerGarantiesFinancièresActuelles } from '../../../garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
+import { récupérerGarantiesFinancièresActuelles } from '../../../(détails)/garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
 import {
   TransmettreAttestationConformitéPage,
   type TransmettreAttestationConformitéPageProps,
@@ -35,7 +35,7 @@ export default async function Page(props0: IdentifiantParameter) {
         IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant)).formatter(),
       );
 
-      const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+      const garantiesFinancières = await récupérerGarantiesFinancièresActuelles(
         projet.identifiantProjet.formatter(),
       );
 

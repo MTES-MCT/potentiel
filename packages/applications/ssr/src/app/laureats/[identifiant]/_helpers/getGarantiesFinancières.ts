@@ -28,12 +28,21 @@ export const getGarantiesFinancières = cache(
         },
       );
 
+    const mainlevée =
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
+        data: {
+          identifiantProjet: identifiantProjet,
+        },
+      });
+
     return {
       actuelles: Option.isSome(garantiesFinancièresActuelles)
         ? garantiesFinancièresActuelles
         : undefined,
       dépôt: Option.isSome(dépôt) ? dépôt : undefined,
       enAttente: Option.isSome(enAttente) ? enAttente : undefined,
+      mainlevée: Option.isSome(mainlevée) ? mainlevée : undefined,
     };
   },
 );

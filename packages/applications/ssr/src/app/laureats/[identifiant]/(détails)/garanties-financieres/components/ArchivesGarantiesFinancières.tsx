@@ -1,0 +1,85 @@
+import { Routes } from '@potentiel-applications/routes';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { Heading3, Heading4 } from '@/components/atoms/headings';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
+import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
+import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinancièresTypeLabel';
+
+type ArchivesGarantiesFinancièresProps = {
+  archives: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
+};
+
+export const ArchivesGarantiesFinancières = ({ archives }: ArchivesGarantiesFinancièresProps) => {
+  const items = archives.map(mapToTimelineItem);
+
+  return (
+    <div className="p-3 flex-1 flex flex-col items-start">
+      <Heading3>Garanties financières archivées</Heading3>
+      <div className="text-xs italic">{archives.length} garanties financières archivées</div>
+      <Timeline items={items} className="mt-3" />
+    </div>
+  );
+};
+const mapToTimelineItem = ({
+  garantiesFinancières,
+  document,
+  validéLe,
+  motif: { motif },
+}: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresListItemReadModel>): TimelineItemProps => {
+  const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.bind(garantiesFinancières);
+  return {
+    status: 'info',
+    date: validéLe.date,
+    title: (
+      <div className="flex gap-2">
+        <Heading4>Garanties financières</Heading4>
+      </div>
+    ),
+    details: (
+      <div>
+        {gf ? (
+          <div>
+            Type :{' '}
+            <span className="font-semibold">
+              {getGarantiesFinancièresTypeLabel(gf.type.formatter())}
+            </span>
+          </div>
+        ) : (
+          <span className="font-semibold italic">Type de garanties financières manquant</span>
+        )}
+        {gf.estConstitué() && (
+          <div>
+            {getGarantiesFinancièresDateLabel(gf.type.formatter())} :{' '}
+            <FormattedDate className="font-semibold" date={gf.constitution.date.formatter()} />
+          </div>
+        )}
+        {gf.estAvecDateÉchéance() && (
+          <div>
+            Date d'échéance :{' '}
+            <FormattedDate className="font-semibold" date={gf.dateÉchéance.formatter()} />
+          </div>
+        )}
+        <div>
+          {document ? (
+            <DownloadDocument
+              format="pdf"
+              label="Télécharger l'attestation de constitution"
+              url={Routes.Document.télécharger(DocumentProjet.bind(document).formatter())}
+            />
+          ) : (
+            <span className="font-semibold italic">
+              Attestation de constitution des garanties financières manquante
+            </span>
+          )}
+        </div>
+        <div>
+          Motif d'archivage : <span className="font-semibold first-letter:capitalize">{motif}</span>
+        </div>
+      </div>
+    ),
+  };
+};
