@@ -8,8 +8,8 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { getNatureDeLExploitationTypeLabel } from '@/app/_helpers/getNatureDeLExploitationTypeLabel';
-import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
-import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { FormattedSIREN, FormattedSIRET } from '@/components/atoms/FormattedNuméroIdentification';
 import { Heading1, Heading2 } from '@/components/atoms/headings';

@@ -94,16 +94,14 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         rôle.aLaPermission('garantiesFinancières.actuelles.consulter') &&
         rôle.aLaPermission('garantiesFinancières.dépôt.consulter')
       ) {
-        const garantiesFinancièresActuelles = await getGarantiesFinancières(identifiantProjet);
+        const { actuelles } = await getGarantiesFinancières(identifiantProjet);
 
-        if (garantiesFinancièresActuelles.actuelles?.document) {
+        if (actuelles?.document) {
           documents.push({
             type: 'Attestation de constitution des garanties financières',
-            date: garantiesFinancièresActuelles.actuelles?.document.dateCréation,
-            format: garantiesFinancièresActuelles.actuelles?.document.format,
-            url: Routes.Document.télécharger(
-              garantiesFinancièresActuelles.actuelles?.document.formatter(),
-            ),
+            date: actuelles.document.dateCréation,
+            format: actuelles.document.format,
+            url: Routes.Document.télécharger(actuelles.document.formatter()),
             ariaLabel: `Télécharger l'attestation de constitution des garanties financières du projet ${nomProjet}`,
           });
         }

@@ -12,8 +12,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
-import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
-import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';

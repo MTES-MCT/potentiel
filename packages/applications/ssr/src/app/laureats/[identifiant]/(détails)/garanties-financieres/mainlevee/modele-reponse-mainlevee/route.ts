@@ -1,0 +1,143 @@
+import { mediator } from 'mediateur';
+import { type NextRequest, NextResponse } from 'next/server';
+
+import {
+  formatDateForDocument,
+  ModèleRéponseSignée,
+} from '@potentiel-applications/document-builder';
+import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+
+import { getLauréatInfos, getPériodeAppelOffres } from '@/app/_helpers';
+import {
+  getPuissanceInfos,
+  getReprésentantLégalInfos,
+} from '@/app/laureats/[identifiant]/_helpers';
+import { apiAction } from '@/utils/apiAction';
+import { decodeParameter } from '@/utils/decodeParameter';
+import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+import { withUtilisateur } from '@/utils/withUtilisateur';
+import { récupérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
+
+export const GET = async (
+  request: NextRequest,
+  ctx: RouteContext<'/laureats/[identifiant]/garanties-financieres/mainlevee/modele-reponse-mainlevee'>,
+) =>
+  apiAction(() =>
+    withUtilisateur(async (utilisateur) => {
+      if (!utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.accorder')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'garantiesFinancières.mainlevée.accorder',
+          utilisateur.rôle.nom,
+        );
+      }
+      if (!utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.rejeter')) {
+        throw new AccèsFonctionnalitéRefuséError(
+          'garantiesFinancières.mainlevée.rejeter',
+          utilisateur.rôle.nom,
+        );
+      }
+
+      const { identifiant } = await ctx.params;
+      const identifiantProjetValue = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';
+
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+      const représentantLégal = await getReprésentantLégalInfos(identifiantProjet.formatter());
+      const puissance = await getPuissanceInfos(identifiantProjet.formatter());
+
+      const { appelOffres, période, famille } = await getPériodeAppelOffres(
+        identifiantProjet.formatter(),
+      );
+
+      const gf = await récupérerGarantiesFinancièresActuelles(identifiantProjet.formatter());
+
+      const mainlevéeEnCours =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue,
+        },
+      });
+
+      let abandon: Option.Type<Lauréat.Abandon.ConsulterAbandonReadModel> = Option.none;
+
+      try {
+        abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
+          type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+          data: {
+            identifiantProjetValue,
+          },
+        });
+      } catch {}
+
+      const { logo, data } = mapLauréatToModèleRéponsePayload({
+        identifiantProjet: identifiantProjetValue,
+        lauréat,
+        puissance,
+        représentantLégal,
+        appelOffres,
+        période,
+        famille,
+        utilisateur,
+      });
+
+      const type = 'mainlevée';
+
+      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
+        type,
+        logo,
+        data: {
+          ...data,
+          cahierDesChargesReference: période.cahierDesCharges.référence,
+          contactDreal: utilisateur.identifiantUtilisateur.email,
+
+          dateCourrier: formatDateForDocument(DateTime.now().date),
+          referenceProjet: data.refPotentiel,
+          adresseProjet: data.adresseCandidat,
+          emailProjet: data.email,
+
+          dateConstitutionGarantiesFinancières: formatDateForDocument(
+            Option.isSome(gf) ? gf.garantiesFinancières.constitution?.date.date : undefined,
+          ),
+          estMotifAchèvement: Option.match(mainlevéeEnCours)
+            .some(({ motif }) => motif.estProjetAchevé())
+            .none(() => false),
+          dateTransmissionAuCocontractant: formatDateForDocument(
+            Option.isSome(achèvement) && achèvement.estAchevé
+              ? achèvement.dateAchèvementRéel.date
+              : undefined,
+          ),
+          estMotifAbandon: Option.match(mainlevéeEnCours)
+            .some(({ motif }) => motif.estProjetAbandonné())
+            .none(() => false),
+          dateAbandonAccordé: formatDateForDocument(
+            Option.isSome(abandon) ? abandon.accordéLe?.date : undefined,
+          ),
+          estAccordée,
+          dateMainlevée: Option.match(mainlevéeEnCours)
+            .some(({ demande }) => formatDateForDocument(demande.demandéeLe.date))
+            .none(() => formatDateForDocument(undefined)),
+        },
+      });
+
+      return new NextResponse(content, {
+        headers: getDocxDocumentHeader({
+          identifiantProjet: identifiantProjetValue,
+          nomProjet: lauréat.nomProjet,
+          type,
+        }),
+      });
+    }),
+  );

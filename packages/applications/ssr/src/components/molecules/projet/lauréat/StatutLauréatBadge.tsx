@@ -8,7 +8,7 @@ const convertStatutLauréatToBadgeSeverity: Record<
   StatutLauréatBadgeProps['statut'],
   AlertProps.Severity
 > = {
-  actif: 'success',
+  actif: 'info',
   abandonné: 'warning',
   achevé: 'success',
 };

@@ -12,7 +12,7 @@ import type { Role } from '@potentiel-domain/utilisateur';
 
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
+import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/(détails)/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';

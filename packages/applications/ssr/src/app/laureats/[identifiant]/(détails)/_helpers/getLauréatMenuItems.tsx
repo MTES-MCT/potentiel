@@ -42,8 +42,10 @@ export const getLauréatMenuItems = async ({
   identifiantProjet,
   utilisateur,
 }: GetLauréatMenuItemsProps): Promise<SideMenuProps.Item[]> => {
+  const { rôle } = utilisateur;
+
   // Fix pour que les GRD puissent avoir accès aux fonctionnalités de raccordement, sans affichage du menu lauréat
-  if (!utilisateur.rôle.aLaPermission('lauréat.consulterMenu')) {
+  if (!rôle.aLaPermission('lauréat.consulterMenu')) {
     return [];
   }
   const link = (text: string, href: string) => ({ linkProps: { href }, text });
@@ -54,23 +56,20 @@ export const getLauréatMenuItems = async ({
   const linkToAction = async (domain: AppelOffre.DomainesConcernésParMiseÀJour) => {
     const nécessiteInstruction =
       domain === 'actionnaire'
-        ? await changementActionnaireNécessiteInstruction(
-            identifiantProjet.formatter(),
-            utilisateur.rôle.nom,
-          )
+        ? await changementActionnaireNécessiteInstruction(identifiantProjet.formatter(), rôle.nom)
         : undefined;
 
     const action = await getAction({
       domain,
       identifiantProjet,
-      rôle: utilisateur.rôle,
+      rôle: rôle,
       nécessiteInstruction,
     });
 
     return action ? link(action.labelMenu, action.url) : undefined;
   };
 
-  const tâchesMenu = utilisateur.rôle.aLaPermission('tâche.consulter')
+  const tâchesMenu = rôle.aLaPermission('tâche.consulter')
     ? {
         ...linkToSection('Tâches', 'taches'),
         text: <BadgeTâches identifiantProjet={identifiantProjet} utilisateur={utilisateur} />,
@@ -94,12 +93,21 @@ export const getLauréatMenuItems = async ({
 
   const raccordementDétailEstConsultable =
     (raccordement && raccordement.dossiers.length > 0) ||
-    utilisateur.rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
+    rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
 
   const raccordementMenu =
     vérifierSiPeutAccéderÀRaccordement(lauréat, abandon) && raccordementDétailEstConsultable
       ? linkToSection('Raccordement', 'raccordements')
       : undefined;
+
+  const garantiesFinancièresDétailEstConsultable =
+    cahierDesCharges.estSoumisAuxGarantiesFinancières() &&
+    rôle.aLaPermission('garantiesFinancières.dépôt.consulter') &&
+    rôle.aLaPermission('garantiesFinancières.actuelles.consulter');
+
+  const garantiesFinancièresMenu = garantiesFinancièresDétailEstConsultable
+    ? linkToSection('Garanties financières', 'garanties-financieres')
+    : undefined;
 
   const installationMenu = afficherInstallation
     ? linkToSection('Installation', 'installation')
@@ -107,19 +115,18 @@ export const getLauréatMenuItems = async ({
 
   const actionsDomaine = await Promise.all(domaines.map(linkToAction));
 
-  const utilisateursMenu = utilisateur.rôle.aLaPermission('accès.consulter')
+  const utilisateursMenu = rôle.aLaPermission('accès.consulter')
     ? linkToSection('Utilisateurs', 'utilisateurs')
     : undefined;
 
-  const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
+  const modifierLauréatOnglet = rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
   const powerPurchaseAgreementOnglet =
-    utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') && !lauréat.estPartiEnPPA
+    rôle.aLaPermission('powerPurchaseAgreement.signaler') && !lauréat.estPartiEnPPA
       ? linkToSection('PPA', 'power-purchase-agreement/signaler')
-      : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.annulerSignalement') &&
-          lauréat.estPartiEnPPA
+      : rôle.aLaPermission('powerPurchaseAgreement.annulerSignalement') && lauréat.estPartiEnPPA
         ? linkToSection('PPA', 'power-purchase-agreement/annuler-signalement')
         : undefined;
 
@@ -138,15 +145,15 @@ export const getLauréatMenuItems = async ({
   const aUnAbandonEnCours = demandesEnCours.find((demande) => demande.text === 'Abandon');
 
   const achèvementOnglet =
-    utilisateur.rôle.aLaPermission('achèvement.transmettreAttestation') &&
+    rôle.aLaPermission('achèvement.transmettreAttestation') &&
     lauréat.statut.estActif() &&
     !aUnAbandonEnCours
       ? linkToSection('Attestation de conformité', 'achevement/attestation-conformite/transmettre')
-      : utilisateur.rôle.aLaPermission('achèvement.transmettreDate') &&
+      : rôle.aLaPermission('achèvement.transmettreDate') &&
           lauréat.statut.estActif() &&
           !aUnAbandonEnCours
         ? linkToSection("Date d'achèvement", 'achevement/date-achevement/transmettre')
-        : utilisateur.rôle.aLaPermission('achèvement.modifier') && lauréat.statut.estAchevé()
+        : rôle.aLaPermission('achèvement.modifier') && lauréat.statut.estAchevé()
           ? linkToSection('Achèvement', 'achevement/modifier')
           : undefined;
 
@@ -179,6 +186,7 @@ export const getLauréatMenuItems = async ({
     },
     modificationMenu,
     demandesEnCoursMenu,
+    garantiesFinancièresMenu,
     raccordementMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
