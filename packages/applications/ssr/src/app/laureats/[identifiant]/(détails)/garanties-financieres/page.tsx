@@ -37,21 +37,32 @@ export default async function Page(props0: IdentifiantParameter) {
 
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
         ? await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
-            data: { identifiantProjetValue: identifiantProjet.formatter() },
-          },
-        )
+            {
+              type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
+              data: { identifiantProjetValue: identifiantProjet.formatter() },
+            },
+          )
         : [];
 
       const { mainlevée, dépôt, actuelles } = await getGarantiesFinancières(
         identifiantProjet.formatter(),
       );
 
+      const archivesMainlevée =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+            statut: ['rejeté'],
+          },
+        });
+
       const actions = mapToActionsAndAlertes({
         actuelles,
         dépôt,
         mainlevée,
+        hasArchivesMainlevée: !!archivesMainlevée?.items.length,
         utilisateur,
       });
 
@@ -71,6 +82,7 @@ type MapToActionsAndAlertesProps = {
   actuelles?: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresActuellesReadModel;
   dépôt?: Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel;
   mainlevée?: Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel;
+  hasArchivesMainlevée: boolean;
   utilisateur: Utilisateur.ValueType;
 };
 
@@ -79,10 +91,15 @@ const mapToActionsAndAlertes = ({
   actuelles,
   dépôt,
   mainlevée,
+  hasArchivesMainlevée,
 }: MapToActionsAndAlertesProps): DétailsGarantiesFinancièresPageProps['actions'] => {
   const actions: DétailsGarantiesFinancièresPageProps['actions'] = [];
 
   if (actuelles?.garantiesFinancières.estExemption()) return [];
+
+  if (hasArchivesMainlevée) {
+    actions.push('garantiesFinancières.mainlevée.lister');
+  }
 
   if (mainlevée) {
     actions.push('garantiesFinancières.mainlevée.consulter');

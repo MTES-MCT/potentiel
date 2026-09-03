@@ -22,6 +22,7 @@ const actionsGarantiesFinancières = [
 ] satisfies Role.Policy[];
 
 const alertesGarantiesFinancières = [
+  'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.dépôt.consulter',
 ] satisfies Role.Policy[];
@@ -133,6 +134,21 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
               }}
             />
           ))}
+
+        {!actions.includes('garantiesFinancières.mainlevée.consulter') && actions.includes('garantiesFinancières.mainlevée.lister') && (
+          <Notice
+            severity="warning"
+            title="Mainlevée rejetée"
+            description="Une ou plusieurs demandes de mainlevée des garanties financières ont été rejetées."
+            link={{
+              linkProps: {
+                href: Routes.GarantiesFinancières.demandeMainlevée.détails(identifiantProjet),
+                target: '_self',
+              },
+              text: 'Consulter',
+            }}
+          />
+        )}
 
         {actions.includes('garantiesFinancières.dépôt.consulter') && (
           <Notice
