@@ -15,8 +15,8 @@ export const SignalerPowerPurchaseAgreementPage: React.FC<
     <>
       <Heading1>Signaler un contrat de vente de gré à gré (PPA)</Heading1>
       <Notice
-        description="Vous pouvez signaler le projet comme étant signataire d'un contrat de vente de gré à gré (PPA). Cela signifie que le projet est sorti du dispositif de l'appel d'offres."
         title=""
+        description="Vous pouvez signaler le projet comme étant signataire d'un contrat de vente de gré à gré (PPA). Cela signifie que le projet est sorti du dispositif de l'appel d'offres."
         severity="info"
         className="print:hidden"
       />

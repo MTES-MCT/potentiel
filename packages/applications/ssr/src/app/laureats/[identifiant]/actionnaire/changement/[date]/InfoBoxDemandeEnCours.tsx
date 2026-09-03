@@ -16,9 +16,10 @@ export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCoursProps> = ({
 }) => (
   <Notice
     severity="info"
-    title=""
+    title="Demande en cours"
     description={
-      <div className="p-3">
+      <span>
+        <br />
         Une demande de changement d'actionnaire est en cours,{' '}
         <Link
           href={Routes.Actionnaire.changement.détails(identifiantProjet, dateDemandeEnCours)}
@@ -27,7 +28,7 @@ export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCoursProps> = ({
           vous pouvez la retrouver ici
         </Link>
         .
-      </div>
+      </span>
     }
   />
 );

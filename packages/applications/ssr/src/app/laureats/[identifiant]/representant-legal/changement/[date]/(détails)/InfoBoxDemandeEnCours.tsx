@@ -8,15 +8,16 @@ type InfoBoxDemandeEnCourssProps = { lien: string };
 export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCourssProps> = ({ lien }) => (
   <Notice
     severity="info"
-    title=""
+    title="Demande en cours"
     description={
-      <div className="p-3">
+      <span>
+        <br />
         Une demande de changement de représentant légal est en cours,{' '}
         <Link href={lien} aria-label="voir le détail de la demande">
           vous pouvez la retrouver ici
         </Link>
         .
-      </div>
+      </span>
     }
   />
 );

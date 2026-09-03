@@ -39,12 +39,12 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
               severity="info"
               title=""
               description={
-                <div className="text-justify">
+                <>
                   {autoritéCompétenteText}
                   <br />
                   Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
                   notification par courriel.
-                </div>
+                </>
               }
             />
           </div>

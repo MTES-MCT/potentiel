@@ -27,8 +27,9 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
               severity="info"
               title=""
               description={
-                <div className="flex flex-col gap-2 text-justify">
+                <>
                   <span>Aucune notification ne sera envoyée suite à cet import.</span>
+                  <br />
                   <span>
                     Il est possible de corriger les données candidature par candidature et de
                     régénérer une attestation post-désignation en consultant{' '}
@@ -37,37 +38,41 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
                     </Link>
                     .
                   </span>
-                </div>
+                </>
               }
             />
             <Notice
               severity="info"
-              title=""
+              title="Si les candidatures que vous modifiez sont notifiées"
               description={
-                <div className="flex flex-col gap-2 text-justify">
+                <span className="flex flex-col">
                   <span>
-                    <b>Si les candidatures que vous modifiez sont notifiées</b>
-                    <br />- La modification de ces champs ne mettra pas à jour le projet
-                    <ul className="p-4 list-disc">
-                      <li>Nom du projet</li>
-                      <li>Localité (adresse, commune, code postal, département, région)</li>
-                      <li>Actionnaire (société mère)</li>
-                      <li>Nom du représentant légal</li>
-                      <li>Puissance (la puissance initiale sera par contre modifiée)</li>
-                      <li>Producteur</li>
-                      <li>Fournisseurs</li>
-                      <li>Évaluation carbone simplifiée</li>
-                    </ul>
+                    La modification des champs suivants ne mettra pas à jour le projet :
+                    <span className="pl-4">
+                      <span className="block">• Nom du projet</span>
+                      <span className="block">
+                        • Localité (adresse, commune, code postal, département, région)
+                      </span>
+                      <span className="block">• Actionnaire (société mère)</span>
+                      <span className="block">• Nom du représentant légal</span>
+                      <span className="block">
+                        • Puissance (la puissance initiale sera par contre modifiée)
+                      </span>
+                      <span className="block">• Producteur</span>
+                      <span className="block">• Fournisseurs</span>
+                      <span className="block">• Évaluation carbone simplifiée</span>
+                    </span>
                     Pour les modifier, utilisez le formulaire disponible sur chaque page Projet.
                   </span>
                   <span>
-                    <br />- Aussi, les données suivantes ne pourront pas être modifiées :
-                    <ul className="p-4 list-disc">
-                      <li>Statut</li>
-                      <li>Garanties financières</li>
-                    </ul>
+                    <br />
+                    Les données suivantes ne pourront pas être modifiées :
+                    <span className="pl-4">
+                      <span className="block">• Statut</span>
+                      <span className="block">• Garanties financières</span>
+                    </span>
                   </span>
-                </div>
+                </span>
               }
             />
           </div>

@@ -33,8 +33,13 @@ export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
         children: (
           <Notice
             severity="info"
-            title=""
-            description="L'invitation d'un porteur de projet se fait depuis la page du projet."
+            title="Porteur de projet"
+            description={
+              <span>
+                <br />
+                L'invitation d'un porteur de projet se fait depuis la page du projet.
+              </span>
+            }
           />
         ),
       }}

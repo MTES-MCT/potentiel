@@ -75,7 +75,6 @@ export default async function Page(props: IdentifiantParameter) {
       if (demandeEnCours) {
         return (
           <DemandeEnCoursPage
-            title="Demande de délai"
             href={Routes.Délai.détail(
               identifiantProjet.formatter(),
               demandeEnCours.demandéLe.formatter(),

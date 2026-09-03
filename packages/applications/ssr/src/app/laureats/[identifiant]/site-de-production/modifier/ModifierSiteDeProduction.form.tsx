@@ -157,10 +157,10 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
             className="mt-8"
             title=""
             description={
-              <p>
+              <span>
                 La gestion de ce projet sera transférée à la région{' '}
                 <span className="font-semilbold">{commune.région}</span>
-              </p>
+              </span>
             }
           />
           <Checkbox

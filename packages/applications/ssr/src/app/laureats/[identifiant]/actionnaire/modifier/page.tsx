@@ -45,7 +45,6 @@ export default async function Page(props: IdentifiantParameter) {
       if (actionnaire.aUneDemandeEnCours && actionnaire.dateDernièreDemande) {
         return (
           <DemandeEnCoursPage
-            title="Demande de changement d'actionnaire"
             href={Routes.Actionnaire.changement.détails(
               identifiantProjet.formatter(),
               actionnaire.dateDernièreDemande.formatter(),

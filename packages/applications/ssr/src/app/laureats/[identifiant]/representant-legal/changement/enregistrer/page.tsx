@@ -34,7 +34,6 @@ export default async function Page(props: IdentifiantParameter) {
   if (représentantLégal.dateDernièreDemande && représentantLégal.aUneDemandeEnCours) {
     return (
       <DemandeEnCoursPage
-        title="Demande de changement de représentant légal"
         href={Routes.ReprésentantLégal.changement.détails(
           identifiantProjet.formatter(),
           représentantLégal.dateDernièreDemande.formatter(),

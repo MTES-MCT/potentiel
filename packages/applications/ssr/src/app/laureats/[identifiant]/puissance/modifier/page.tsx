@@ -38,7 +38,6 @@ export default async function Page(props: IdentifiantParameter) {
       if (puissance.aUneDemandeEnCours && puissance.dateDernièreDemande) {
         return (
           <DemandeEnCoursPage
-            title="Demande de changement de puissance"
             href={Routes.Puissance.changement.détails(
               identifiantProjet.formatter(),
               puissance.dateDernièreDemande.formatter(),

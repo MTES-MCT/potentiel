@@ -17,13 +17,11 @@ export const AlerteChangementÉvaluationCarbone: FC<AlerteChangementÉvaluationC
       className="mt-2"
       severity="warning"
       title=""
-      description={
-        <div>
+      description="
           Si la modification de la valeur de l'évaluation carbone était susceptible d'entrainer une
           dégradation de la note attribuée à la candidature, la remise de l'attestation de
           conformité pourrait être compromise.
-        </div>
-      }
+      "
     />
   ) : null;
 };

@@ -22,8 +22,9 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
         <Notice
           severity="info"
           title=""
+          className="w-fit"
           description={
-            <div>
+            <span>
               La date d'achèvement prévisionnel actuelle est{' '}
               <FormattedDate
                 date={Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
@@ -31,7 +32,7 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
                 ).formatter()}
                 className="font-semibold"
               />
-            </div>
+            </span>
           }
         />
       </>

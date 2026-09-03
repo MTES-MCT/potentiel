@@ -18,9 +18,10 @@ export const InfoBoxDemandeEnCours: FC<Props> = ({
 }: Props) => (
   <Notice
     severity="info"
-    title=""
+    title="Demande en cours"
     description={
-      <div className="p-3">
+      <span>
+        <br />
         Une demande de changement de puissance est en cours,{' '}
         <Link
           href={Routes.Puissance.changement.détails(
@@ -32,7 +33,7 @@ export const InfoBoxDemandeEnCours: FC<Props> = ({
           vous pouvez la retrouver ici
         </Link>
         .
-      </div>
+      </span>
     }
   />
 );
