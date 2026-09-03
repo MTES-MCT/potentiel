@@ -54,43 +54,37 @@ export class ActionnaireWorld {
     identifiantProjet: IdentifiantProjet.ValueType,
     actionnaireInitial: string,
   ): Lauréat.Actionnaire.ConsulterActionnaireReadModel {
-    return {
-      identifiantProjet,
-      actionnaire: this.accorderChangementActionnaireFixture.aÉtéCréé
-        ? this.#demanderChangementActionnaireFixture.actionnaire
-        : this.#enregistrerChangementActionnaireFixture.aÉtéCréé
-          ? this.#enregistrerChangementActionnaireFixture.actionnaire
-          : this.#modifierActionnaireFixture.aÉtéCréé
-            ? this.#modifierActionnaireFixture.actionnaire
-            : actionnaireInitial,
-      attestation:
-        this.#accorderChangementActionnaireFixture.aÉtéCréé &&
-        this.#demanderChangementActionnaireFixture.aÉtéCréé
+    const baseFixture = this.accorderChangementActionnaireFixture.aÉtéCréé
+      ? this.#demanderChangementActionnaireFixture
+      : this.#enregistrerChangementActionnaireFixture.aÉtéCréé
+        ? this.#enregistrerChangementActionnaireFixture
+        : this.#modifierActionnaireFixture.aÉtéCréé
+          ? this.#modifierActionnaireFixture
+          : undefined;
+
+    const actionnaire = baseFixture?.actionnaire ?? actionnaireInitial;
+
+    const attestation =
+      baseFixture?.pièceJustificative && 'demandéLe' in baseFixture && baseFixture.demandéLe
+        ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
+            identifiantProjet: identifiantProjet.formatter(),
+            demandéLe: baseFixture.demandéLe,
+            pièceJustificative: { format: baseFixture.pièceJustificative.format },
+          })
+        : baseFixture?.pièceJustificative &&
+            'dateModification' in baseFixture &&
+            baseFixture.dateModification
           ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
               identifiantProjet: identifiantProjet.formatter(),
-              demandéLe: this.#demanderChangementActionnaireFixture.demandéLe,
-              pièceJustificative: {
-                format: this.#demanderChangementActionnaireFixture.pièceJustificative.format,
-              },
+              demandéLe: baseFixture.dateModification,
+              pièceJustificative: { format: baseFixture.pièceJustificative.format },
             })
-          : this.#enregistrerChangementActionnaireFixture.aÉtéCréé
-            ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
-                identifiantProjet: identifiantProjet.formatter(),
-                demandéLe: this.#enregistrerChangementActionnaireFixture.demandéLe,
-                pièceJustificative: {
-                  format: this.#enregistrerChangementActionnaireFixture.pièceJustificative.format,
-                },
-              })
-            : this.#modifierActionnaireFixture.aÉtéCréé &&
-                this.#modifierActionnaireFixture.pièceJustificative
-              ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
-                  identifiantProjet: identifiantProjet.formatter(),
-                  demandéLe: this.#modifierActionnaireFixture.dateModification,
-                  pièceJustificative: {
-                    format: this.#modifierActionnaireFixture.pièceJustificative.format,
-                  },
-                })
-              : undefined,
+          : undefined;
+
+    return {
+      identifiantProjet,
+      actionnaire,
+      attestation,
       aUneDemandeEnCours:
         this.#demanderChangementActionnaireFixture.aÉtéCréé &&
         !this.#accorderChangementActionnaireFixture.aÉtéCréé &&

@@ -58,7 +58,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             date: actionnaireInfo.attestation.dateCréation,
             format: actionnaireInfo.attestation.format,
             url: Routes.Document.télécharger(actionnaireInfo.attestation.formatter()),
-            ariaLabel: `Télécharger l'attestation des statuts et composition de l’actionnariat du projet ${nomProjet}`,
+            ariaLabel: `Télécharger l'attestation des statuts et de composition de l’actionnariat du projet ${nomProjet}`,
           });
         }
       }

@@ -36,10 +36,12 @@ export const changementActionnaireAccordéProjector = async ({
       actionnaire: {
         nom: nouvelActionnaire,
         miseÀJourLe: accordéLe,
-        attestation: {
-          format: demande.demande.pièceJustificative?.format,
-          date: demande.demande.demandéeLe,
-        },
+        ...(demande.demande.pièceJustificative && {
+          attestation: {
+            format: demande.demande.pièceJustificative.format,
+            date: demande.demande.demandéeLe,
+          },
+        }),
       },
       dernièreDemande: {
         statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut,
