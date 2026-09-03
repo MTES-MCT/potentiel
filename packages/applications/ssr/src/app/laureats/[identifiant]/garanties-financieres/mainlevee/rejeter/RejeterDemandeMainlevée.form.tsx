@@ -28,7 +28,7 @@ export const RejeterDemandeMainlevéeForm = ({
 
   return (
     <>
-      <Button priority="secondary" className="block w-1/2" onClick={() => setIsOpen(true)}>
+      <Button priority="secondary" className="block shrink-0" onClick={() => setIsOpen(true)}>
         Rejeter
       </Button>
 
