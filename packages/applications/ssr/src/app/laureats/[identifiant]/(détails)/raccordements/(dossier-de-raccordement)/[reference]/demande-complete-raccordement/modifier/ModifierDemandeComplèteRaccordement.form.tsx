@@ -65,7 +65,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
   return (
     <Form
       action={modifierDemandeComplèteRaccordementAction}
-      heading="Modifier une demande complète de raccordement"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Modifier',

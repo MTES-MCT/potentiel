@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import { AucunDossierDeRaccordementAlert } from '../../components/AucunDossierDeRaccordementAlert';
 import {
   TransmettreDemandeComplèteRaccordementForm,
@@ -22,19 +22,15 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   identifiantProjet,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }) => (
-  <PageTemplate>
-    <div className="flex flex-col gap-4">
-      {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
-        <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
-      )}
-      <TransmettreDemandeComplèteRaccordementForm
-        identifiantProjet={identifiantProjet}
-        listeGestionnairesRéseau={listeGestionnairesRéseau}
-        gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-        aDéjàTransmisUneDemandeComplèteDeRaccordement={
-          aDéjàTransmisUneDemandeComplèteDeRaccordement
-        }
-      />
-    </div>
-  </PageTemplate>
+  <SectionPage title="Transmettre une demande complète de raccordement">
+    {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
+      <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
+    )}
+    <TransmettreDemandeComplèteRaccordementForm
+      identifiantProjet={identifiantProjet}
+      listeGestionnairesRéseau={listeGestionnairesRéseau}
+      gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+      aDéjàTransmisUneDemandeComplèteDeRaccordement={aDéjàTransmisUneDemandeComplèteDeRaccordement}
+    />
+  </SectionPage>
 );

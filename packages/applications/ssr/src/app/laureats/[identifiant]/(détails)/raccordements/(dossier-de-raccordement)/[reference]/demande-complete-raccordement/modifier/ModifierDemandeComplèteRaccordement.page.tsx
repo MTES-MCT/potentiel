@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import {
   ModifierDemandeComplèteRaccordementForm,
   type ModifierDemandeComplèteRaccordementFormProps,
@@ -12,12 +12,12 @@ export type ModifierDemandeComplèteRaccordementPageProps =
 export const ModifierDemandeComplèteRaccordementPage: FC<
   ModifierDemandeComplèteRaccordementPageProps
 > = ({ identifiantProjet, raccordement, gestionnaireRéseauActuel, listeGestionnairesRéseau }) => (
-  <PageTemplate>
+  <SectionPage title="Modifier une demande complète de raccordement">
     <ModifierDemandeComplèteRaccordementForm
       identifiantProjet={identifiantProjet}
       gestionnaireRéseauActuel={gestionnaireRéseauActuel}
       raccordement={raccordement}
       listeGestionnairesRéseau={listeGestionnairesRéseau}
     />
-  </PageTemplate>
+  </SectionPage>
 );
