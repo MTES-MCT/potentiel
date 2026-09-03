@@ -37,11 +37,11 @@ export default async function Page(props0: IdentifiantParameter) {
 
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
         ? await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>(
-            {
-              type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
-              data: { identifiantProjetValue: identifiantProjet.formatter() },
-            },
-          )
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
+            data: { identifiantProjetValue: identifiantProjet.formatter() },
+          },
+        )
         : [];
 
       const { mainlevée, dépôt, actuelles } = await getGarantiesFinancières(
@@ -82,6 +82,8 @@ const mapToActionsAndAlertes = ({
 }: MapToActionsAndAlertesProps): DétailsGarantiesFinancièresPageProps['actions'] => {
   const actions: DétailsGarantiesFinancièresPageProps['actions'] = [];
 
+  if (actuelles?.garantiesFinancières.estExemption()) return [];
+
   if (mainlevée) {
     actions.push('garantiesFinancières.mainlevée.consulter');
 
@@ -94,8 +96,6 @@ const mapToActionsAndAlertes = ({
     return actions.filter((action) => utilisateur.rôle.aLaPermission(action));
   }
 
-  if (actuelles?.garantiesFinancières.estExemption()) return [];
-
   if (!actuelles) {
     actions.push('garantiesFinancières.actuelles.enregistrer');
   } else {
@@ -107,7 +107,7 @@ const mapToActionsAndAlertes = ({
       actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
     }
 
-    if (actuelles.statut.estÉchu()) {
+    if (!actuelles.statut.estÉchu()) {
       actions.push('garantiesFinancières.mainlevée.demander');
     }
   }
