@@ -61,6 +61,8 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
     [searchParams],
   );
 
+  const [reimportChecked, setReimportChecked] = useState(estUnReimport);
+
   return (
     <div>
       {importMultipleAOEtPeriodesPossible && (
@@ -104,7 +106,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
           <Select
             label="Période"
             state={période ? 'default' : 'info'}
-            className="mb-4"
+            className="mb-4 md:w-[430px]"
             stateRelatedMessage={période ? undefined : `Veuillez saisir une période`}
             options={périodes
               .map(({ identifiantPériode }) => Période.IdentifiantPériode.bind(identifiantPériode))
@@ -127,11 +129,12 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
               {
                 label: "Permettre l'import de candidats oubliés sur une période déjà notifiée",
                 nativeInputProps: {
-                  onChange: (event) => {
-                    router.push(`${pathname}?${setReimportUrlParams(event.target.checked)}`);
+                  checked: reimportChecked,
+                  onChange: ({ target }) => {
+                    setReimportChecked(target.checked);
+                    router.push(`${pathname}?${setReimportUrlParams(target.checked)}`);
                     router.refresh();
                   },
-                  checked: estUnReimport,
                 },
               },
             ]}
