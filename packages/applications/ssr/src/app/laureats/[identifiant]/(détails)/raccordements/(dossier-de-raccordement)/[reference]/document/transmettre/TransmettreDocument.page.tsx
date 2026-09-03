@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import {
   TransmettreDocumentForm,
   type TransmettreDocumentFormProps,
@@ -13,11 +13,11 @@ export const TransmettreDocumentPage: FC<TransmettreDocumentPageProps> = ({
   referenceDossierRaccordement,
   availableTypes,
 }) => (
-  <PageTemplate>
+  <SectionPage>
     <TransmettreDocumentForm
       identifiantProjet={identifiantProjet}
       referenceDossierRaccordement={referenceDossierRaccordement}
       availableTypes={availableTypes}
     />
-  </PageTemplate>
+  </SectionPage>
 );

@@ -26,7 +26,7 @@ export const AccorderDemandeMainlevée = ({ identifiantProjet }: AccorderDemande
 
   return (
     <>
-      <Button priority="primary" className="block w-1/2" onClick={() => setIsOpen(true)}>
+      <Button priority="primary" className="block shrink-0" onClick={() => setIsOpen(true)}>
         Accorder
       </Button>
 

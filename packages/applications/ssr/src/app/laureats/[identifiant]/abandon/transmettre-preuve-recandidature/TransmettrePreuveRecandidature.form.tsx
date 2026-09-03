@@ -64,7 +64,11 @@ export const TransmettrePreuveRecandidatureForm = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => modal.open()} className="block w-1/2 text-center">
+      <Button
+        priority="secondary"
+        onClick={() => modal.open()}
+        className="block text-center shrink-0"
+      >
         Transmettre la preuve
       </Button>
 

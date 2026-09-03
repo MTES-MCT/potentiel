@@ -57,7 +57,6 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   return (
     <Form
       action={transmettreDemandeComplèteRaccordementAction}
-      heading="Transmettre une demande complète de raccordement"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Transmettre',

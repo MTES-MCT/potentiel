@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import {
   CorrigerRéférenceDossierForm,
   type CorrigerRéférenceDossierFormProps,
@@ -9,11 +9,11 @@ import {
 export type CorrigerRéférenceDossierPageProps = CorrigerRéférenceDossierFormProps;
 
 export const CorrigerRéférenceDossierPage: FC<CorrigerRéférenceDossierPageProps> = (props) => (
-  <PageTemplate>
+  <SectionPage title="Corriger une référence de dossier de raccordement">
     <CorrigerRéférenceDossierForm
       dossierRaccordement={props.dossierRaccordement}
       gestionnaireRéseau={props.gestionnaireRéseau}
       identifiantProjet={props.identifiantProjet}
     />
-  </PageTemplate>
+  </SectionPage>
 );
