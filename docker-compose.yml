@@ -60,7 +60,7 @@ services:
     profiles: ['app']
   auth:
     container_name: potentiel_auth
-    image: quay.io/keycloak/keycloak:26.7.0
+    image: quay.io/keycloak/keycloak:26.7.2
     restart: always
     ports:
       - 8080:8080
