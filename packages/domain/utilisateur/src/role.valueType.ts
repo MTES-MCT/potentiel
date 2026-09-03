@@ -1388,11 +1388,14 @@ const policies = {
       référencielPermissions.lauréat.producteur.command.enregistrerChangement,
       référencielPermissions.lauréat.garantiesFinancières.usecase.renouveler,
     ],
-    corrigerNuméroIdentification: [
-      référencielPermissions.lauréat.producteur.query.consulter,
-      référencielPermissions.lauréat.producteur.usecase.corrigerNuméroIdentification,
-      référencielPermissions.lauréat.producteur.command.corrigerNuméroIdentification,
-    ],
+    numéroIdentification: {
+      corriger: [
+        référencielPermissions.lauréat.producteur.query.consulter,
+        référencielPermissions.lauréat.producteur.usecase.corrigerNuméroIdentification,
+        référencielPermissions.lauréat.producteur.command.corrigerNuméroIdentification,
+      ],
+      'corriger-etat-abandon-achevement': [],
+    },
   },
   fournisseur: {
     listerChangement: [référencielPermissions.lauréat.fournisseur.query.listerChangement],
@@ -1794,7 +1797,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.listerChangement',
   'producteur.consulterChangement',
   'producteur.modifier',
-  'producteur.corrigerNuméroIdentification',
+  'producteur.numéroIdentification.corriger',
+  'producteur.numéroIdentification.corriger-etat-abandon-achevement',
 
   // Fournisseur
   'fournisseur.consulter',
@@ -2073,7 +2077,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'producteur.modifier',
   'producteur.listerChangement',
   'producteur.consulterChangement',
-  'producteur.corrigerNuméroIdentification',
+  'producteur.numéroIdentification.corriger',
+  'producteur.numéroIdentification.corriger-etat-abandon-achevement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
@@ -2221,7 +2226,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'producteur.enregistrerChangement',
   'producteur.consulterChangement',
   'producteur.consulter',
-  'producteur.corrigerNuméroIdentification',
+  'producteur.numéroIdentification.corriger',
 
   // Fournisseur
   'fournisseur.enregistrerChangement',

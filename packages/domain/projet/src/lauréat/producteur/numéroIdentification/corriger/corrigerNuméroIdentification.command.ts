@@ -1,6 +1,7 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import type {
   DocumentProjet,
@@ -14,6 +15,7 @@ export type CorrigerNuméroIdentificationCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
+    rôleUtilisateur: Role.ValueType;
     dateCorrection: DateTime.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
     numéroIdentification: NuméroIdentification.ValueType;
