@@ -21,9 +21,9 @@ export const ActionsList: FC<ActionsListPageTemplateProps> = ({
     return null;
   }
   return (
-    <div className={clsx(`flex md:flex-col gap-4 flex-wrap`, className)}>
+    <div className="flex flex-col gap-4 flex-wrap">
       <Heading2 className="mb-1">Actions</Heading2>
-      {children}
+      <div className={clsx(`flex md:flex-col gap-4 flex-wrap`, className)}>{children}</div>
     </div>
   );
 };
