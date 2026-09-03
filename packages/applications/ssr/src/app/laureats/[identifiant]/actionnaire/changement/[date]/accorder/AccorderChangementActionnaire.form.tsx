@@ -31,7 +31,7 @@ export const AccorderChangementActionnaireForm = ({
       <Button
         priority="secondary"
         onClick={() => setIsOpen(true)}
-        className="block w-1/2 text-center"
+        className="block text-center shrink-0"
       >
         Accorder
       </Button>

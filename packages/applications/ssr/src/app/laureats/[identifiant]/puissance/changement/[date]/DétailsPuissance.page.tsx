@@ -116,6 +116,7 @@ const mapToActionComponents = ({
     {actions.includes('demander') && (
       <Button
         priority="secondary"
+        className="whitespace-nowrap shrink-0"
         linkProps={{
           href: Routes.Puissance.changement.demander(identifiantProjet),
         }}

@@ -144,7 +144,7 @@ const mapToActionComponents = ({
         linkProps={{
           href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet, dateDemande),
         }}
-        className="block w-1/2 text-center"
+        className="block text-center shrink-0"
       >
         Corriger
       </Button>

@@ -29,7 +29,7 @@ export const ListItem: React.FC<ListItemProps> = ({
   <div className="flex flex-1 flex-col">
     <div className="flex gap-4 items-start justify-between">
       {heading}
-      <div className="max-md:hidden flex md:max-lg:flex-col gap-2 shrink-0">{actions}</div>
+      <div className="max-md:hidden flex md:max-lg:flex-col gap-2">{actions}</div>
     </div>
 
     <div className="flex flex-col justify-between gap-2 mt-4 lg:flex-row lg:gap-4 md:items-end">
