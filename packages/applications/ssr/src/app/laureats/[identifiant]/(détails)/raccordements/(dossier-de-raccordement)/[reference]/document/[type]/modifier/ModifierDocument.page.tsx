@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
+import { SectionPage } from '@/components/atoms/section/SectionPage';
 import { ModifierDocumentForm, type ModifierDocumentFormProps } from './ModifierDocument.form';
 
 export type ModifierDocumentPageProps = ModifierDocumentFormProps;
@@ -8,10 +8,8 @@ export type ModifierDocumentPageProps = ModifierDocumentFormProps;
 export const ModifierDocumentPage: FC<ModifierDocumentPageProps> = ({
   identifiantProjet,
   raccordement,
-}: ModifierDocumentPageProps) => {
-  return (
-    <PageTemplate>
-      <ModifierDocumentForm identifiantProjet={identifiantProjet} raccordement={raccordement} />
-    </PageTemplate>
-  );
-};
+}: ModifierDocumentPageProps) => (
+  <SectionPage>
+    <ModifierDocumentForm identifiantProjet={identifiantProjet} raccordement={raccordement} />
+  </SectionPage>
+);

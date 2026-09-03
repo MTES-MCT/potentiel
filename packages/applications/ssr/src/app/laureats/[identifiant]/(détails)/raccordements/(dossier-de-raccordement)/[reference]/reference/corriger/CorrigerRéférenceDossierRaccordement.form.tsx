@@ -31,7 +31,6 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
   return (
     <Form
       action={corrigerRéférenceDossierAction}
-      heading="Corriger une référence de dossier de raccordement"
       pendingModal={{
         id: 'form-corriger-reference-dossier',
         title: 'Correction en cours',

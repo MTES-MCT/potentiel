@@ -14,15 +14,13 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauPage
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement,
   contactEmail,
-}) => {
-  return (
-    <PageTemplate banner={<Heading1>Modifier le gestionnaire de réseau {raisonSociale}</Heading1>}>
-      <ModifierGestionnaireRéseauForm
-        identifiantGestionnaireRéseau={identifiantGestionnaireRéseau}
-        raisonSociale={raisonSociale}
-        aideSaisieRéférenceDossierRaccordement={aideSaisieRéférenceDossierRaccordement}
-        contactEmail={contactEmail}
-      />
-    </PageTemplate>
-  );
-};
+}) => (
+  <PageTemplate banner={<Heading1>Modifier le gestionnaire de réseau {raisonSociale}</Heading1>}>
+    <ModifierGestionnaireRéseauForm
+      identifiantGestionnaireRéseau={identifiantGestionnaireRéseau}
+      raisonSociale={raisonSociale}
+      aideSaisieRéférenceDossierRaccordement={aideSaisieRéférenceDossierRaccordement}
+      contactEmail={contactEmail}
+    />
+  </PageTemplate>
+);

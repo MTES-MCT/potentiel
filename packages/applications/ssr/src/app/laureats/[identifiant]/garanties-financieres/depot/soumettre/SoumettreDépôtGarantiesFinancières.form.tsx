@@ -35,11 +35,26 @@ export type SoumettreDépôtGarantiesFinancièresFormProps = {
   submitLabel: string;
   typesGarantiesFinancières: GarantiesFinancièresFormInputsProps['typesGarantiesFinancières'];
   dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
+<<<<<<< Updated upstream:packages/applications/ssr/src/app/laureats/[identifiant]/garanties-financieres/depot/soumettre/SoumettreDépôtGarantiesFinancières.form.tsx
+=======
+  alert?: string;
+>>>>>>> Stashed changes:packages/applications/ssr/src/app/laureats/[identifiant]/(détails)/garanties-financieres/depot/soumettre/SoumettreDépôtGarantiesFinancières.form.tsx
 };
 
 export const SoumettreDépôtGarantiesFinancièresForm: FC<
   SoumettreDépôtGarantiesFinancièresFormProps
+<<<<<<< Updated upstream:packages/applications/ssr/src/app/laureats/[identifiant]/garanties-financieres/depot/soumettre/SoumettreDépôtGarantiesFinancières.form.tsx
 > = ({ identifiantProjet, action, submitLabel, typesGarantiesFinancières, dépôt }) => {
+=======
+> = ({
+  identifiantProjet,
+  action,
+  submitLabel,
+  typesGarantiesFinancières,
+  dépôt,
+  alert,
+}) => {
+>>>>>>> Stashed changes:packages/applications/ssr/src/app/laureats/[identifiant]/(détails)/garanties-financieres/depot/soumettre/SoumettreDépôtGarantiesFinancières.form.tsx
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
       | ModifierDépôtGarantiesFinancièresFormKeys

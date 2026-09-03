@@ -10,6 +10,7 @@ export const AucunDossierDeRaccordementAlert = ({ identifiantProjet, showLink = 
   <Notice
     severity="info"
     title="Données de raccordement à compléter"
+    className="mb-4"
     description={
       <>
         <br />
