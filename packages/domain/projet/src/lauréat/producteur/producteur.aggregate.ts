@@ -177,15 +177,11 @@ export class ProducteurAggregate extends AbstractAggregate<
     );
 
     if (
-      !rôleUtilisateur.aLaPermission('producteur.numéroIdentification.corriger-pendant-abandon') ||
-      !rôleUtilisateur.aLaPermission('producteur.numéroIdentification.corriger-après-abandon')
+      !rôleUtilisateur.aLaPermission(
+        'producteur.numéroIdentification.corriger-etat-abandon-achevement',
+      )
     ) {
       this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
-    }
-
-    if (
-      !rôleUtilisateur.aLaPermission('producteur.numéroIdentification.corriger-après-achèvement')
-    ) {
       this.lauréat.vérifierNonAchevé();
     }
 

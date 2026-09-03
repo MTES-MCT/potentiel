@@ -32,13 +32,10 @@ export const ProducteurSection = ({
       domain: 'producteur',
     });
 
-    const peutCorrigerNuméroIdentification = abandon?.statut.estEnCours()
-      ? rôle.aLaPermission('producteur.numéroIdentification.corriger-pendant-abandon')
-      : lauréat.statut.estAbandonné()
-        ? rôle.aLaPermission('producteur.numéroIdentification.corriger-après-abandon')
-        : lauréat.statut.estAchevé()
-          ? rôle.aLaPermission('producteur.numéroIdentification.corriger-après-achèvement')
-          : rôle.aLaPermission('producteur.numéroIdentification.corriger');
+    const peutCorrigerNuméroIdentification =
+      abandon?.statut.estEnCours() || lauréat.statut.estAbandonné() || lauréat.statut.estAchevé()
+        ? rôle.aLaPermission('producteur.numéroIdentification.corriger-etat-abandon-achevement')
+        : rôle.aLaPermission('producteur.numéroIdentification.corriger');
 
     return (
       <Section title="Producteur">

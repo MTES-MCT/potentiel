@@ -1394,9 +1394,7 @@ const policies = {
         référencielPermissions.lauréat.producteur.usecase.corrigerNuméroIdentification,
         référencielPermissions.lauréat.producteur.command.corrigerNuméroIdentification,
       ],
-      'corriger-pendant-abandon': [],
-      'corriger-après-abandon': [],
-      'corriger-après-achèvement': [],
+      'corriger-etat-abandon-achevement': [],
     },
   },
   fournisseur: {
@@ -1800,9 +1798,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.consulterChangement',
   'producteur.modifier',
   'producteur.numéroIdentification.corriger',
-  'producteur.numéroIdentification.corriger-pendant-abandon',
-  'producteur.numéroIdentification.corriger-après-abandon',
-  'producteur.numéroIdentification.corriger-après-achèvement',
+  'producteur.numéroIdentification.corriger-etat-abandon-achevement',
 
   // Fournisseur
   'fournisseur.consulter',
@@ -2082,9 +2078,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'producteur.listerChangement',
   'producteur.consulterChangement',
   'producteur.numéroIdentification.corriger',
-  'producteur.numéroIdentification.corriger-pendant-abandon',
-  'producteur.numéroIdentification.corriger-après-abandon',
-  'producteur.numéroIdentification.corriger-après-achèvement',
+  'producteur.numéroIdentification.corriger-etat-abandon-achevement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
