@@ -1,10 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { getLauréatInfos } from '@/app/_helpers';
 import {
   getAction,
+  getOptionalAbandon,
   getProducteurInfos,
-  peutEffectuerUnChangement,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { Section } from '@/components/atoms/section/Section';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -22,6 +23,9 @@ export const ProducteurSection = ({
 
     const producteurInfos = await getProducteurInfos(identifiantProjet.formatter());
 
+    const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+
+    const abandon = await getOptionalAbandon(identifiantProjet.formatter());
     const actionProducteur = await getAction({
       identifiantProjet,
       rôle,
@@ -29,8 +33,9 @@ export const ProducteurSection = ({
     });
 
     const peutCorrigerNuméroIdentification =
-      rôle.aLaPermission('producteur.corrigerNuméroIdentification') &&
-      (await peutEffectuerUnChangement(identifiantProjet));
+      abandon?.statut.estEnCours() || lauréat.statut.estAbandonné() || lauréat.statut.estAchevé()
+        ? rôle.aLaPermission('producteur.numéroIdentification.corriger-etat-abandon-achevement')
+        : rôle.aLaPermission('producteur.numéroIdentification.corriger');
 
     return (
       <Section title="Producteur">
