@@ -4,7 +4,7 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { type FC, useCallback, useState } from 'react';
+import { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import { match } from 'ts-pattern';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -61,6 +61,19 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
     [searchParams],
   );
 
+  const reimportCheckboxRef = useRef<HTMLInputElement>(null);
+
+  const [reimportChecked, setReimportChecked] = useState(estUnReimport);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('focus-reimport-checkbox') !== 'true') {
+      return;
+    }
+
+    sessionStorage.removeItem('focus-reimport-checkbox');
+    reimportCheckboxRef.current?.focus();
+  }, []);
+
   return (
     <div>
       {importMultipleAOEtPeriodesPossible && (
@@ -104,7 +117,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
           <Select
             label="Période"
             state={période ? 'default' : 'info'}
-            className="mb-4"
+            className="mb-4 md:w-[430px]"
             stateRelatedMessage={période ? undefined : `Veuillez saisir une période`}
             options={périodes
               .map(({ identifiantPériode }) => Période.IdentifiantPériode.bind(identifiantPériode))
@@ -127,11 +140,14 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
               {
                 label: "Permettre l'import de candidats oubliés sur une période déjà notifiée",
                 nativeInputProps: {
-                  onChange: (event) => {
-                    router.push(`${pathname}?${setReimportUrlParams(event.target.checked)}`);
+                  ref: reimportCheckboxRef,
+                  checked: reimportChecked,
+                  onChange: ({ target }) => {
+                    setReimportChecked(target.checked);
+                    sessionStorage.setItem('focus-reimport-checkbox', 'true');
+                    router.push(`${pathname}?${setReimportUrlParams(target.checked)}`);
                     router.refresh();
                   },
-                  checked: estUnReimport,
                 },
               },
             ]}
