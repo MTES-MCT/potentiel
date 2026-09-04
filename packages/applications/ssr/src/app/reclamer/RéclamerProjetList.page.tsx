@@ -17,6 +17,7 @@ export type RéclamerProjetsListPageProps = {
   projets: ReadonlyArray<RéclamerProjetsListItemProps>;
   range: RangeOptions;
   total: number;
+  complement: React.ReactNode;
 };
 
 export const RéclamerProjetsListPage: FC<RéclamerProjetsListPageProps> = ({
@@ -24,6 +25,7 @@ export const RéclamerProjetsListPage: FC<RéclamerProjetsListPageProps> = ({
   projets,
   range,
   total,
+  complement,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
@@ -41,6 +43,7 @@ export const RéclamerProjetsListPage: FC<RéclamerProjetsListPageProps> = ({
         ...projet,
         key: `${projet.identifiantProjet}`,
       }))}
+      complement={complement}
     />
   );
 };
