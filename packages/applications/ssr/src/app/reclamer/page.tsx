@@ -107,7 +107,7 @@ export default async function Page(props: PageProps) {
           complement={
             <Notice
               className="pb-0"
-              title="Un projet est absent de la liste ?"
+              title="Un projet est absent de la liste des projets à réclamer ?"
               description={
                 <div className="flex flex-col gap-1">
                   <span>
@@ -115,8 +115,8 @@ export default async function Page(props: PageProps) {
                   </span>
                   <span>
                     Après la désignation d’une période, une invitation à gérer votre projet est
-                    envoyée à l’adresse e-mail de candidature. Il peut-être donc déjà rattaché à un
-                    autre utilisateur Potentiel.{' '}
+                    envoyée à l’adresse e-mail de candidature. Nous vous invitons à utiliser cette
+                    même adresse email pour accéder au projet recherché.{' '}
                     <Link
                       href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/pages-daide/en-tant-que-porteur-de-projet/designation-des-projets-sur-potentiel"
                       target="_blank"
