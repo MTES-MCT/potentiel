@@ -50,17 +50,15 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       // ATTESTATION ACTIONNARIAT
-      if (rôle.aLaPermission('actionnaire.consulter')) {
-        const actionnaireInfo = await getActionnaireInfos(identifiantProjet);
-        if (actionnaireInfo.attestation) {
-          documents.push({
-            type: 'Statuts et composition de l’actionnariat',
-            date: actionnaireInfo.attestation.dateCréation,
-            format: actionnaireInfo.attestation.format,
-            url: Routes.Document.télécharger(actionnaireInfo.attestation.formatter()),
-            ariaLabel: `Télécharger l'attestation des statuts et de composition de l’actionnariat du projet ${nomProjet}`,
-          });
-        }
+      const actionnaireInfo = await getActionnaireInfos(identifiantProjet);
+      if (actionnaireInfo.attestation) {
+        documents.push({
+          type: 'Statuts et composition de l’actionnariat',
+          date: actionnaireInfo.attestation.dateCréation,
+          format: actionnaireInfo.attestation.format,
+          url: Routes.Document.télécharger(actionnaireInfo.attestation.formatter()),
+          ariaLabel: `Télécharger l'attestation des statuts et de composition de l’actionnariat du projet ${nomProjet}`,
+        });
       }
 
       // ABANDON
