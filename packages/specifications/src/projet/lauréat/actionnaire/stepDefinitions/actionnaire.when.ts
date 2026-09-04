@@ -231,7 +231,7 @@ async function modifierActionnaire(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: { modifiéPar: string; actionnaire?: string },
 ) {
-  const { actionnaire, dateModification, modifiéPar, raison } =
+  const { actionnaire, dateModification, modifiéPar, raison, pièceJustificative } =
     this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer(props);
 
   await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
@@ -242,6 +242,8 @@ async function modifierActionnaire(
       actionnaireValue: actionnaire,
       dateModificationValue: dateModification,
       raisonValue: raison,
+      pièceJustificativeValue:
+        pièceJustificative && convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }

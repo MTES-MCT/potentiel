@@ -4,14 +4,15 @@ import { DateTime } from '@potentiel-domain/common';
 import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantProjet } from '../../../index.js';
-import type { ActionnaireEntity } from '../index.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import { type ActionnaireEntity, DocumentActionnaire } from '../index.js';
 
 export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
   aUneDemandeEnCours: boolean;
   dateDernièreDemande?: DateTime.ValueType;
+  attestation?: DocumentProjet.ValueType;
 };
 
 export type ConsulterActionnaireQuery = Message<
@@ -53,5 +54,14 @@ export const mapToReadModel = ({
     actionnaire: actionnaire.nom,
     aUneDemandeEnCours: !!(dernièreDemande?.statut === 'demandé'),
     dateDernièreDemande: dernièreDemande && DateTime.convertirEnValueType(dernièreDemande.date),
+    attestation:
+      actionnaire.attestation &&
+      DocumentActionnaire.pièceJustificative({
+        identifiantProjet,
+        demandéLe: actionnaire.attestation.date,
+        pièceJustificative: {
+          format: actionnaire.attestation.format,
+        },
+      }),
   };
 };

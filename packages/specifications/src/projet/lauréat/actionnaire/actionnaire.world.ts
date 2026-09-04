@@ -54,15 +54,37 @@ export class ActionnaireWorld {
     identifiantProjet: IdentifiantProjet.ValueType,
     actionnaireInitial: string,
   ): Lauréat.Actionnaire.ConsulterActionnaireReadModel {
+    const baseFixture = this.accorderChangementActionnaireFixture.aÉtéCréé
+      ? this.#demanderChangementActionnaireFixture
+      : this.#enregistrerChangementActionnaireFixture.aÉtéCréé
+        ? this.#enregistrerChangementActionnaireFixture
+        : this.#modifierActionnaireFixture.aÉtéCréé
+          ? this.#modifierActionnaireFixture
+          : undefined;
+
+    const actionnaire = baseFixture?.actionnaire ?? actionnaireInitial;
+
+    const attestation =
+      baseFixture?.pièceJustificative && 'demandéLe' in baseFixture && baseFixture.demandéLe
+        ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
+            identifiantProjet: identifiantProjet.formatter(),
+            demandéLe: baseFixture.demandéLe,
+            pièceJustificative: { format: baseFixture.pièceJustificative.format },
+          })
+        : baseFixture?.pièceJustificative &&
+            'dateModification' in baseFixture &&
+            baseFixture.dateModification
+          ? Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
+              identifiantProjet: identifiantProjet.formatter(),
+              demandéLe: baseFixture.dateModification,
+              pièceJustificative: { format: baseFixture.pièceJustificative.format },
+            })
+          : undefined;
+
     return {
       identifiantProjet,
-      actionnaire: this.accorderChangementActionnaireFixture.aÉtéCréé
-        ? this.#demanderChangementActionnaireFixture.actionnaire
-        : this.#enregistrerChangementActionnaireFixture.aÉtéCréé
-          ? this.#enregistrerChangementActionnaireFixture.actionnaire
-          : this.#modifierActionnaireFixture.aÉtéCréé
-            ? this.#modifierActionnaireFixture.actionnaire
-            : actionnaireInitial,
+      actionnaire,
+      attestation,
       aUneDemandeEnCours:
         this.#demanderChangementActionnaireFixture.aÉtéCréé &&
         !this.#accorderChangementActionnaireFixture.aÉtéCréé &&
@@ -147,5 +169,23 @@ export class ActionnaireWorld {
           : undefined,
       },
     };
+  }
+
+  mapToAttestation() {
+    if (
+      this.#accorderChangementActionnaireFixture.aÉtéCréé &&
+      this.#demanderChangementActionnaireFixture.aÉtéCréé
+    ) {
+      return this.#demanderChangementActionnaireFixture.pièceJustificative;
+    }
+    if (this.#enregistrerChangementActionnaireFixture.aÉtéCréé) {
+      return this.#enregistrerChangementActionnaireFixture.pièceJustificative;
+    }
+    if (
+      this.#modifierActionnaireFixture.aÉtéCréé &&
+      this.#modifierActionnaireFixture.pièceJustificative
+    ) {
+      return this.#modifierActionnaireFixture.pièceJustificative;
+    }
   }
 }
