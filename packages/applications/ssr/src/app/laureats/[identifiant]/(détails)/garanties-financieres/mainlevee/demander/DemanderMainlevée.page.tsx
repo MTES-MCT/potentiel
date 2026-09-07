@@ -9,6 +9,7 @@ import { ChecklistMainlevée, type ChecklistMainlevéeProps } from './ChecklistM
 import { DemanderMainlevéeForm, type DemanderMainlevéeFormProps } from './DemanderMainlevée.form';
 
 export type DemanderMainlevéePageProps = DemanderMainlevéeFormProps & ChecklistMainlevéeProps;
+
 export const DemanderMainlevéePage = ({
   identifiantProjet,
   motif,
