@@ -13,6 +13,7 @@ import { PageTemplate } from './Page.template';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;
+  complement?: React.ReactNode;
   filters: ListFiltersProps['filters'];
   actions: ListPageActionsProps['actions'];
   currentPage: number;
@@ -27,6 +28,7 @@ export type ListPageTemplateProps<TItem> = {
 
 export const ListPageTemplate = <TItem,>({
   heading,
+  complement,
   actions,
   ItemComponent,
   filters,
@@ -50,6 +52,7 @@ export const ListPageTemplate = <TItem,>({
           },
         ]}
       />
+      {complement && <>{complement}</>}
       {search && (
         <div className="w-full justify-end md:w-1/3 ml-auto">
           <Search label={search.label} params={search.params} />

@@ -1,3 +1,4 @@
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import z from 'zod';
@@ -5,6 +6,7 @@ import z from 'zod';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { Accès } from '@potentiel-domain/projet';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '../../utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '../../utils/pagination';
@@ -102,6 +104,19 @@ export default async function Page(props: PageProps) {
           )}
           range={projetsÀRéclamer.range}
           total={projetsÀRéclamer.total}
+          complement={
+            <Notice
+              title="Vous ne retrouvez pas votre projet ?"
+              description={
+                <Link
+                  href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/pages-daide/en-tant-que-porteur-de-projet/designation-des-projets-sur-potentiel"
+                  target="_blank"
+                >
+                  Consultez notre guide d’utilisation.
+                </Link>
+              }
+            />
+          }
         />
       );
     }),
