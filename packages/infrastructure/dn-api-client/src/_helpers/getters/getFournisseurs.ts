@@ -10,8 +10,6 @@ export const getFournisseurs = (champs: Champs) => {
       'Pour chaque fabricant de dispositif de production, ajouter un bloc contenant les informations du fabricant:',
     posteDeConversion:
       'Pour chaque poste de conversion, ajouter un bloc contenant les informations du poste de conversion:',
-    dispositifDeStockage_nom: 'Stockage - Nom du fabricant',
-    dispositifDeStockage_pays: 'Stockage - Pays de fabrication',
     moduleOuFilmPhotovoltaïque:
       'Pour chaque fabricant de composants (modules ou films) photovoltaïques, ajouter un bloc contenant les informations du fabricant',
     cellulesPhotovoltaïques:
@@ -22,14 +20,33 @@ export const getFournisseurs = (champs: Champs) => {
       'Pour chaque polysilicium, ajouter un bloc contenant les informations de polysilicium',
     postesConversion:
       'Pour chaque poste de conversion, ajouter un bloc contenant les informations de postes de conversion',
+    lingotDeSilicium:
+      'Pour chaque lingot de silicium, ajouter un bloc contenant les informations du lingot de silicium',
+    verreSolaire:
+      'Pour chaque fabricant de verre solaire, ajouter un bloc contenant les informations du verre solaire',
     suiviCourseSoleil_nom: 'Suivi de la course du soleil - Nom du fabricant',
     suiviCourseSoleil_pays: 'Suivi de la course du soleil - Pays de fabrication',
     autreTechnologie_nom: 'Autre technologie - Nom du fabricant',
     autreTechnologie_pays: 'Autre technologie - Pays de fabrication',
+    dispositifDeStockage_nom: 'Stockage - Nom du fabricant',
+    dispositifDeStockage_pays: 'Stockage - Pays de fabrication',
   });
-  // Suivi de la course du soleil  const suiviCourseSoleilNom = rootAccessor.getStringValue('suiviCourseSoleil_nom');
-  const autreTechnologiePays = rootAccessor.getStringValue('suiviCourseSoleil_pays');
-  const autreTechnologieNom = rootAccessor.getStringValue('suiviCourseSoleil_nom');
+
+  // Dispositif de stockage (champ non répétable)
+  const stockageNom = rootAccessor.getStringValue('dispositifDeStockage_nom');
+  const stockagePays = rootAccessor.getStringValue('dispositifDeStockage_pays');
+
+  if (stockageNom && stockagePays) {
+    fournisseurs.push({
+      typeFournisseur: 'dispositif-de-stockage',
+      nomDuFabricant: stockageNom,
+      lieuDeFabrication: stockagePays,
+    });
+  }
+
+  // autres-technologies (champ non répétable)
+  const autreTechnologiePays = rootAccessor.getStringValue('autreTechnologie_pays');
+  const autreTechnologieNom = rootAccessor.getStringValue('autreTechnologie_nom');
 
   if (autreTechnologiePays && autreTechnologieNom) {
     fournisseurs.push({
@@ -39,7 +56,7 @@ export const getFournisseurs = (champs: Champs) => {
     });
   }
 
-  // Suivi de la course du soleil  const suiviCourseSoleilNom = rootAccessor.getStringValue('suiviCourseSoleil_nom');
+  // Suivi de la course du soleil (champ non répétable)
   const suiviCourseSoleilPays = rootAccessor.getStringValue('suiviCourseSoleil_pays');
   const suiviCourseSoleilNom = rootAccessor.getStringValue('suiviCourseSoleil_nom');
 
@@ -166,16 +183,38 @@ export const getFournisseurs = (champs: Champs) => {
     }
   }
 
-  // Dispositif de stockage
-  const stockageNom = rootAccessor.getStringValue('dispositifDeStockage_nom');
-  const stockagePays = rootAccessor.getStringValue('dispositifDeStockage_pays');
-
-  if (stockageNom && stockagePays) {
-    fournisseurs.push({
-      typeFournisseur: 'dispositif-de-stockage',
-      nomDuFabricant: stockageNom,
-      lieuDeFabrication: stockagePays,
+  // Verre solaire
+  for (const { champs } of rootAccessor.getRepetitionChamps('verreSolaire') ?? []) {
+    const accessor = createDossierAccessor(champs, {
+      nomDuFabricant: 'Verre solaire - Nom du fabricant',
+      lieuDeFabrication: 'Verre solaire - Pays de fabrication',
     });
+    const nomDuFabricant = accessor.getStringValue('nomDuFabricant');
+    const lieuDeFabrication = accessor.getStringValue('lieuDeFabrication');
+    if (nomDuFabricant && lieuDeFabrication) {
+      fournisseurs.push({
+        typeFournisseur: 'verre-solaire',
+        nomDuFabricant,
+        lieuDeFabrication,
+      });
+    }
+  }
+
+  // Lingot de silicium
+  for (const { champs } of rootAccessor.getRepetitionChamps('lingotDeSilicium') ?? []) {
+    const accessor = createDossierAccessor(champs, {
+      nomDuFabricant: 'Lingot de silicium - Nom du fabricant',
+      lieuDeFabrication: 'Lingot de silicium - Pays de fabrication',
+    });
+    const nomDuFabricant = accessor.getStringValue('nomDuFabricant');
+    const lieuDeFabrication = accessor.getStringValue('lieuDeFabrication');
+    if (nomDuFabricant && lieuDeFabrication) {
+      fournisseurs.push({
+        typeFournisseur: 'lingot-de-silicium',
+        nomDuFabricant,
+        lieuDeFabrication,
+      });
+    }
   }
 
   return fournisseurs;
