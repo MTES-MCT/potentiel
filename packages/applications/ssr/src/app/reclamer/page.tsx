@@ -106,25 +106,14 @@ export default async function Page(props: PageProps) {
           total={projetsÀRéclamer.total}
           complement={
             <Notice
-              className="pb-0"
-              title="Un projet est absent de la liste des projets à réclamer ?"
+              title="Vous ne retrouvez pas votre projet ?"
               description={
-                <div className="flex flex-col gap-1">
-                  <span>
-                    Cette page liste les projets non rattachés à un utilisateur Potentiel.
-                  </span>
-                  <span>
-                    Après la désignation d’une période, une invitation à gérer votre projet est
-                    envoyée à l’adresse e-mail de candidature. Nous vous invitons à utiliser cette
-                    même adresse email pour accéder au projet recherché.{' '}
-                    <Link
+                <Link
                       href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/pages-daide/en-tant-que-porteur-de-projet/designation-des-projets-sur-potentiel"
                       target="_blank"
                     >
-                      Consultez notre guide d’utilisation pour en savoir plus.
-                    </Link>
-                  </span>
-                </div>
+                      Consultez notre guide d’utilisation.
+                </Link>
               }
             />
           }
