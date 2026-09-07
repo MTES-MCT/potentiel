@@ -1,12 +1,14 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
+import type { PièceJustificative } from '../../../../helpers/PièceJustificative.js';
 
 export interface ModifierActionnaire {
   readonly actionnaire: string;
   readonly dateModification: string;
   readonly modifiéPar: string;
   readonly raison: string;
+  readonly pièceJustificative?: PièceJustificative;
 }
 
 export class ModifierActionnaireFixture
@@ -37,6 +39,12 @@ export class ModifierActionnaireFixture
     return this.#raison;
   }
 
+  #pièceJustificative: PièceJustificative | undefined;
+
+  get pièceJustificative(): PièceJustificative | undefined {
+    return this.#pièceJustificative;
+  }
+
   créer(partialFixture: Partial<Readonly<ModifierActionnaire>>): Readonly<ModifierActionnaire> {
     const fixture = {
       actionnaire: faker.person.fullName(),
@@ -50,6 +58,7 @@ export class ModifierActionnaireFixture
     this.#dateModification = fixture.dateModification;
     this.#modifiéPar = fixture.modifiéPar;
     this.#raison = fixture.raison;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
 
