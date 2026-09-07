@@ -10,11 +10,11 @@ import { DsfrHead, getHtmlAttributes } from '@/dsfr-bootstrap/server-only-index'
 // Tailwind import must happen after DSFR import.
 import './global.css';
 
-import Badge from '@codegouvfr/react-dsfr/Badge';
 import { headers } from 'next/headers';
 
 import { getSessionUser } from '@/auth/getSessionUser';
 import { featureFlag } from './_helpers/getFeatureFlag';
+import { EnvBadge } from './EnvBadge';
 import Providers from './Providers';
 
 export const metadata: Metadata = {
@@ -26,22 +26,6 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
-
-const EnvBadge = () => {
-  if (!process.env.APPLICATION_STAGE) {
-    return null;
-  }
-
-  return process.env.APPLICATION_STAGE === 'production' ? (
-    <Badge className="fixed left-5 top-5 z-50" severity="warning">
-      PRODUCTION
-    </Badge>
-  ) : (
-    <Badge className="fixed left-5 top-5 z-50" severity="info">
-      {process.env.APPLICATION_STAGE.toUpperCase()}
-    </Badge>
-  );
-};
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
   const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
@@ -66,7 +50,7 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
         */}
         <StartDsfrOnHydration />
 
-        {utilisateur?.rôle.estAdmin() && <EnvBadge />}
+        <EnvBadge utilisateur={utilisateur} />
 
         <Providers features={featureFlag}>
           <SkipLinks
