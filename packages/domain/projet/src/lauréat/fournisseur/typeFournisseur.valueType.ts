@@ -14,6 +14,8 @@ export const typesFournisseurPV = [
   'dispositifs-stockage-energie',
   'dispositifs-suivi-course-soleil',
   'autres-technologies',
+  'verre-solaire',
+  'lingot-de-silicium',
 ] as const;
 
 export const typesFournisseurEolien = [

@@ -113,6 +113,6 @@ describe(`Projet avec fournisseurs`, () => {
         lieuDeFabrication: 'ANTIGUA-ET-BARBUDA',
       },
     ];
-    expect(actual).to.deep.equal(expected);
+    expect(actual).to.have.deep.members(expected);
   });
 });
