@@ -38,9 +38,9 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
         {error && (
           <Notice
             className="md:w-2/3"
-            title=""
+            title="Une erreur est survenue"
             severity="alert"
-            description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
+            description="Si le problème persiste, vous pouvez nous contacter."
             isClosable
           />
         )}

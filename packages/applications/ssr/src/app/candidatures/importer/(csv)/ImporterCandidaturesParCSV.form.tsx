@@ -77,21 +77,16 @@ export const ImporterCandidaturesParCSVForm: FC<ImporterCandidaturesParCSVFormPr
         <Notice
           severity="info"
           className="flex-auto md:max-w-lg items-stretch mt-4"
-          title=""
+          title="Correction"
           description={
-            <div className="py-4 text-justify">
-              Il est possible de corriger des candidat existants:
-              <ul className="list-disc px-4">
-                <li>
-                  au cas par cas, via la{' '}
-                  <Link href={Routes.Candidature.lister()}>page des candidatures</Link>
-                </li>
-                <li>
-                  par lot (CSV), via la{' '}
-                  <Link href={Routes.Candidature.corrigerParLot}>page de correction</Link>
-                </li>
-              </ul>
-            </div>
+            <span>
+              <br />
+              Il sera possible de corriger des candidats existants :
+              <br />• au cas par cas, via la{' '}
+              <Link href={Routes.Candidature.lister()}>page des candidatures</Link>
+              <br />• par lot (CSV), via la{' '}
+              <Link href={Routes.Candidature.corrigerParLot}>page de correction</Link>
+            </span>
           }
         />
       </div>

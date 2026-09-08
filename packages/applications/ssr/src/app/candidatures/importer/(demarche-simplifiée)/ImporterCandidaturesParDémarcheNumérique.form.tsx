@@ -7,7 +7,6 @@ import { type FC, useState } from 'react';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
   type ImporterCandidaturesParDémarcheNumériqueFormKeys,
@@ -75,20 +74,13 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
         <Notice
           severity="info"
           className="flex-auto md:max-w-lg items-stretch mt-4"
-          title=""
+          title="Candidatures soumises sur Démarche Numérique"
           description={
-            <div className="flex flex-col gap-2">
-              <p>
-                Pour ce type d'import, les candidatures on été soumises sur{' '}
-                <Link target="_blank" href="https://demarche.numerique.gouv.fr/">
-                  Démarche Numérique
-                </Link>
-                .
-              </p>
-              <p>
+            <span className="flex flex-col gap-2">
+              <span>
                 Seul le fichier CSV contenant le résultat de l'instruction de la CRE doit être
-                transmis ici. Les colonnes attendues sont les suivantes :
-              </p>
+                transmis ici, les colonnes attendues sont les suivantes :
+              </span>
               <Table
                 className="lg:mx-4 my-4 border-spacing-0"
                 headers={['Colonne', 'Format', 'Règle appliquée']}
@@ -104,7 +96,7 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
                   ],
                 ]}
               />
-            </div>
+            </span>
           }
         />
       </div>
