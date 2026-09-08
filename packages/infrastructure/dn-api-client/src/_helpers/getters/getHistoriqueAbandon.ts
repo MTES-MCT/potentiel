@@ -15,4 +15,4 @@ export const getHistoriqueAbandon = <
 >(
   accessor: DossierAccessor<T>,
   nom: TName,
-) => mapSelectToValueType(typeHistoriqueAbandonMap, accessor, nom);
+) => mapSelectToValueType(typeHistoriqueAbandonMap, accessor, nom) ?? 'première-candidature';
