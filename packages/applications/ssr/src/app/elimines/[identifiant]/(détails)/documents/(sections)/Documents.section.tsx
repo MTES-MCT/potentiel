@@ -86,10 +86,8 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       return (
         <>
           <Notice
-            title="À propos"
-            description={
-              <span>Retrouvez dans cette section les documents essentiels de votre projet</span>
-            }
+            title=""
+            description="Retrouvez dans cette section les documents essentiels de votre projet"
             severity="info"
           />
           <DocumentsList

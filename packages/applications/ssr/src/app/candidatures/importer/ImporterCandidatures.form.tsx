@@ -1,7 +1,6 @@
 'use client';
 
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
-import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { type FC, useCallback, useEffect, useRef, useState } from 'react';
@@ -77,38 +76,29 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
   return (
     <div>
       {importMultipleAOEtPeriodesPossible && (
-        <Notice
-          severity="info"
-          className="mb-4"
-          title="Autoriser l'import avec plusieurs appel d'offres et périodes"
-          description={
-            <Checkbox
-              id="importMultipleAOEtPeriode"
-              className="my-2"
-              small
-              options={[
-                {
-                  label:
-                    "Importer un fichier CSV contenant de multiples appels d'offres et périodes",
-                  hintText: (
-                    <>
-                      Cette option est destinée aux{' '}
-                      <span className="font-semibold">environnements de test uniquement</span>.{' '}
-                      <br />
-                    </>
-                  ),
-                  nativeInputProps: {
-                    name: 'importMultipleAOEtPeriode',
-                    value: 'true',
-                    checked: modeMultiple,
-                    onChange: (ev) => {
-                      setModeMultiple(ev.target.checked);
-                    },
-                  },
+        <Checkbox
+          id="importMultipleAOEtPeriode"
+          className="my-2"
+          small
+          options={[
+            {
+              label: "Importer un fichier CSV contenant de multiples appels d'offres et périodes",
+              hintText: (
+                <>
+                  Cette option est destinée aux{' '}
+                  <span className="font-semibold">environnements de test uniquement</span>. <br />
+                </>
+              ),
+              nativeInputProps: {
+                name: 'importMultipleAOEtPeriode',
+                value: 'true',
+                checked: modeMultiple,
+                onChange: (ev) => {
+                  setModeMultiple(ev.target.checked);
                 },
-              ]}
-            />
-          }
+              },
+            },
+          ]}
         />
       )}
 

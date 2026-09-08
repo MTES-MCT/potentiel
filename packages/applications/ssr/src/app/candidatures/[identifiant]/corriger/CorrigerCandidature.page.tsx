@@ -49,20 +49,15 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
           <>
             <Notice
               severity="info"
-              title=""
+              title="Ce formulaire sert à
+                    
+                      corriger des erreurs importées ou transmises à la candidature."
               description={
-                <div className="flex flex-col gap-2">
-                  <div>
-                    Ce formulaire sert à{' '}
-                    <span className="font-semibold">
-                      corriger des erreurs importées ou transmises à la candidature.
-                    </span>
-                  </div>
-                  <div>
-                    Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
-                    <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
-                  </div>
-                </div>
+                <span>
+                  <br />
+                  Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
+                  <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
+                </span>
               }
             />
             {estLauréat && (

@@ -25,49 +25,43 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
           <div className="flex flex-col gap-4">
             <Notice
               severity="info"
-              title=""
+              title="Correction individuelle"
               description={
-                <div className="flex flex-col gap-2 text-justify">
-                  <span>Aucune notification ne sera envoyée suite à cet import.</span>
-                  <span>
-                    Il est possible de corriger les données candidature par candidature et de
-                    régénérer une attestation post-désignation en consultant{' '}
-                    <Link href={Routes.Candidature.lister()} target="_blank">
-                      la liste des candidatures
-                    </Link>
-                    .
-                  </span>
-                </div>
+                <span>
+                  <br />
+                  Il est possible de corriger les données candidature par candidature et de
+                  régénérer une attestation post-désignation en consultant{' '}
+                  <Link href={Routes.Candidature.lister()} target="_blank">
+                    la liste des candidatures
+                  </Link>
+                  .
+                </span>
               }
             />
             <Notice
               severity="info"
-              title=""
+              title="Si les candidatures que vous modifiez sont notifiées"
               description={
-                <div className="flex flex-col gap-2 text-justify">
+                <span className="flex flex-col gap-2 text-justify">
                   <span>
-                    <b>Si les candidatures que vous modifiez sont notifiées</b>
-                    <br />- La modification de ces champs ne mettra pas à jour le projet
-                    <ul className="p-4 list-disc">
-                      <li>Nom du projet</li>
-                      <li>Localité (adresse, commune, code postal, département, région)</li>
-                      <li>Actionnaire (société mère)</li>
-                      <li>Nom du représentant légal</li>
-                      <li>Puissance (la puissance initiale sera par contre modifiée)</li>
-                      <li>Producteur</li>
-                      <li>Fournisseurs</li>
-                      <li>Évaluation carbone simplifiée</li>
-                    </ul>
+                    - La modification de ces champs ne mettra pas à jour le projet :
+                    <br />• Nom du projet
+                    <br />• Localité (adresse, commune, code postal, département, région)
+                    <br />• Actionnaire (société mère)
+                    <br />• Nom du représentant légal
+                    <br />• Puissance (la puissance initiale sera par contre modifiée)
+                    <br />• Producteur
+                    <br />• Fournisseurs
+                    <br />• Évaluation carbone simplifiée
+                    <br />
                     Pour les modifier, utilisez le formulaire disponible sur chaque page Projet.
                   </span>
                   <span>
-                    <br />- Aussi, les données suivantes ne pourront pas être modifiées :
-                    <ul className="p-4 list-disc">
-                      <li>Statut</li>
-                      <li>Garanties financières</li>
-                    </ul>
+                    - Aussi, les données suivantes ne pourront être modifiées :
+                    <br />• Statut
+                    <br />• Garanties financières
                   </span>
-                </div>
+                </span>
               }
             />
           </div>

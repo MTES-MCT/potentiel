@@ -37,14 +37,15 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
           <div>
             <Notice
               severity="info"
-              title=""
+              title="Suite à votre demande d'abandon"
               description={
-                <div className="text-justify">
+                <span>
+                  <br />
                   {autoritéCompétenteText}
                   <br />
                   Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
                   notification par courriel.
-                </div>
+                </span>
               }
             />
           </div>

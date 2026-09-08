@@ -83,10 +83,10 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           severity="info"
           title=""
           description={
-            <div className="p-1">
+            <span>
               La période de l'appel d'offre de ce projet ne dispose pas de modèle d'attestation de
               désignation, il est donc impossible de regénérer l'attestation existante.
-            </div>
+            </span>
           }
         />
       )}

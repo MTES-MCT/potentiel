@@ -15,38 +15,41 @@ export const DateMiseEnServiceAlert = ({
 }: DateMiseEnServiceAlertProps) => (
   <Notice
     severity="info"
-    title=""
+    title="Explication sur la date de mise en service"
     description={
-      <div className="py-4 text-justify">
-        <ul className="flex flex-col gap-3">
-          <li>
-            La mise en service correspond à la mise en exploitation des ouvrages de raccordement
-            permettant la première injection sur le réseau d'électricité pour l'installation.
-          </li>
-          {intervalleDatesMeSDélaiCDC2022 && (
-            <li>
-              Si le projet{' '}
-              <span className="font-bold">
-                a bénéficié du délai supplémentaire relatif du cahier des charges du 30/08/2022
-              </span>
-              , la saisie d'une date de mise en service non comprise entre le{' '}
-              <FormattedDate className="font-bold" date={intervalleDatesMeSDélaiCDC2022.min} /> et
-              le <FormattedDate className="font-bold" date={intervalleDatesMeSDélaiCDC2022.max} />{' '}
-              peut remettre en cause l'application de ce délai et entraîner une modification de la
-              date d'achèvement du projet.
-            </li>
-          )}
-          <li>
+      <>
+        <span>
+          <br />
+          La mise en service correspond à la mise en exploitation des ouvrages de raccordement
+          permettant la première injection sur le réseau d'électricité pour l'installation.
+        </span>
+        {intervalleDatesMeSDélaiCDC2022 && (
+          <span>
+            <br />
+            <br />
             Si le projet{' '}
             <span className="font-bold">
-              n'a pas bénéficié du délai supplémentaire relatif du cahier des charges du 30/08/2022
+              a bénéficié du délai supplémentaire relatif du cahier des charges du 30/08/2022
             </span>
-            , la saisie d'une date de mise en service doit être comprise entre la date de
-            désignation du projet <FormattedDate className="font-bold" date={dateDésignation} /> et{' '}
-            <span className="font-bold">ce jour</span>.
-          </li>
-        </ul>
-      </div>
+            , la saisie d'une date de mise en service non comprise entre le{' '}
+            <FormattedDate className="font-bold" date={intervalleDatesMeSDélaiCDC2022.min} /> et le{' '}
+            <FormattedDate className="font-bold" date={intervalleDatesMeSDélaiCDC2022.max} /> peut
+            remettre en cause l'application de ce délai et entraîner une modification de la date
+            d'achèvement du projet.
+          </span>
+        )}
+        <span>
+          <br />
+          <br />
+          Si le projet{' '}
+          <span className="font-bold">
+            n'a pas bénéficié du délai supplémentaire relatif du cahier des charges du 30/08/2022
+          </span>
+          , la saisie d'une date de mise en service doit être comprise entre la date de désignation
+          du projet <FormattedDate className="font-bold" date={dateDésignation} /> et{' '}
+          <span className="font-bold">ce jour</span>.
+        </span>
+      </>
     }
   />
 );

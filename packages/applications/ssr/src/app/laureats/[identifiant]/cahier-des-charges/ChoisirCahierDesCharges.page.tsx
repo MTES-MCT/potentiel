@@ -31,9 +31,10 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
         <div>
           <Notice
             severity="info"
-            title=""
+            title="Liens vers les cahiers des charges"
             description={
-              <div className="py-4 text-justify">
+              <span>
+                <br />
                 Pour plus d'informations sur les cahiers des charges modificatifs, veuillez
                 consulter cette&nbsp;
                 <Link
@@ -43,7 +44,7 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
                   page d'aide
                 </Link>
                 <br />
-                <span className="block mt-3">
+                <span>
                   Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
                   sur&nbsp;
                   <Link target="_blank" href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}>
@@ -51,7 +52,7 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
                   </Link>
                   .
                 </span>
-              </div>
+              </span>
             }
           />
         </div>
