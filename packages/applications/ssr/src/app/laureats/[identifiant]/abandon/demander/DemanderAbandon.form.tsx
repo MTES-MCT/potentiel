@@ -39,11 +39,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
       {estDéjàSignaléPPA ? (
-        <Notice
-          title={
-            "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA)"
-          }
-        />
+        <Notice title="Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA)" />
       ) : (
         <Select
           state={validationErrors['estPPA'] ? 'error' : 'default'}

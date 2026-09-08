@@ -11,10 +11,11 @@ type Props = {
 export const InfoBoxMainlevéeSiAbandonAccordé = ({ identifiantProjet }: Props) => (
   <Notice
     severity="info"
-    title=""
+    title="Demande de mainlevée si projet abandonnée"
     description={
-      <div className="p-3 flex flex-col">
+      <span>
         <span>
+          <br />
           Votre demande d'abandon ayant été validée, vous pouvez demander la mainlevée de vos
           garanties financières sur Potentiel depuis
           <Link
@@ -26,10 +27,11 @@ export const InfoBoxMainlevéeSiAbandonAccordé = ({ identifiantProjet }: Props)
           </Link>
         </span>
         <span>
+          <br />
           Vos garanties financières doivent toutefois être validées et complètes sur Potentiel et ne
           pas faire l'objet de demande de modification ou de renouvellement.
         </span>
-      </div>
+      </span>
     }
   />
 );

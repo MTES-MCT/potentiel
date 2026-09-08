@@ -31,20 +31,17 @@ export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePagePr
         children: (
           <Notice
             severity="info"
-            title=""
+            title="Résumé du tableau attendu pour l'import des dates de mise en service"
             description={
-              <div className="py-4 text-justify">
-                <Table
-                  className="lg:mx-4 my-4 border-spacing-0"
-                  caption="Résumé du tableau attendu pour l'import des dates de mise en service"
-                  headers={['Colonne', 'Format', 'Optionnel']}
-                  data={[
-                    ['identifiantProjet', 'chaîne de caractères', 'oui'],
-                    ['referenceDossier', 'chaîne de caractères', 'non'],
-                    ['dateMiseEnService', 'date au format JJ/MM/AAAA', 'non'],
-                  ]}
-                />
-              </div>
+              <Table
+                className="lg:mx-4 my-4 border-spacing-0"
+                headers={['Colonne', 'Format', 'Optionnel']}
+                data={[
+                  ['identifiantProjet', 'chaîne de caractères', 'oui'],
+                  ['referenceDossier', 'chaîne de caractères', 'non'],
+                  ['dateMiseEnService', 'date au format JJ/MM/AAAA', 'non'],
+                ]}
+              />
             }
           />
         ),

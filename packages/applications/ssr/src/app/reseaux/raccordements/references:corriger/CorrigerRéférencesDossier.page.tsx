@@ -16,20 +16,17 @@ export const CorrigerRéférencesDossierPage = () => (
         children: (
           <Notice
             severity="info"
-            title=""
+            title="Résumé du tableau attendu pour la correction des références de raccordement"
             description={
-              <div className="py-4 text-justify">
-                <Table
-                  className="lg:mx-4 my-4 border-spacing-0"
-                  caption="Résumé du tableau attendu pour la correction des références de raccordement"
-                  headers={['Colonne', 'Format']}
-                  data={[
-                    ['identifiantProjet', 'chaîne de caractères'],
-                    ['referenceDossier', 'chaîne de caractères'],
-                    ['referenceDossierCorrigee', 'chaîne de caractères'],
-                  ]}
-                />
-              </div>
+              <Table
+                className="lg:mx-4 my-4 border-spacing-0"
+                headers={['Colonne', 'Format']}
+                data={[
+                  ['identifiantProjet', 'chaîne de caractères'],
+                  ['referenceDossier', 'chaîne de caractères'],
+                  ['referenceDossierCorrigee', 'chaîne de caractères'],
+                ]}
+              />
             }
           />
         ),

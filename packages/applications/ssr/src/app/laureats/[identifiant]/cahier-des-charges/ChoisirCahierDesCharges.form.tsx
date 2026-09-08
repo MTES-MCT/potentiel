@@ -96,15 +96,15 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
             className="mb-4"
             description={
               <>
-                <div>
+                <span>
                   Le cahier des charges que vous sélectionnez ne permet plus au projet de bénéficier
                   du délai relatif au cahier des charges modificatif du 30/08/2022.{' '}
-                </div>
-
-                <div className="font-bold">
+                </span>
+                <br />
+                <span className="font-bold">
                   Si vous validez ce changement de cahier des charges, la date limite d'achèvement
                   du projet sera impactée.
-                </div>
+                </span>
               </>
             }
           />

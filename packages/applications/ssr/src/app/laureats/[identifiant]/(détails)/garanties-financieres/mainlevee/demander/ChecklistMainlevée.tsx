@@ -58,42 +58,44 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
     severity="info"
     title=""
     description={
-      <div className="p-3">
+      <span className="p-3">
         Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel si votre
         projet remplit <span className="font-semibold">toutes</span> les conditions suivantes :
-        <ul className="list-none cursor-default list-inside my-2 ">
+        <span className="cursor-default my-2 ">
           {Object.entries(prérequisMainlevée).map(([key, { label, action }]) => {
             const complété = prérequis[key as keyof typeof prérequisMainlevée];
             if (complété === undefined) {
               return null;
             }
             return (
-              <li
-                key={key}
-                className="flex flex-row items-center gap-3"
-                aria-label={complété ? 'Ce prérequis est rempli' : "L'action reste à compléter"}
-              >
-                <span aria-hidden>
+              <span key={key} className="flex items-start gap-2">
+                <span>
                   {complété ? (
                     <SuccessPicto fontSize="medium" color="green-emeraude" />
                   ) : (
                     <ErrorPicto fontSize="medium" color="blue-ecume" />
                   )}
                 </span>
+
                 <span className={clsx({ 'line-through': complété })}>{label}</span>
+
                 {!complété && action && (
-                  <Link
-                    href={`${action.lien(identifiantProjet)}?retour=${encodeURIComponent(Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet))}`}
-                    className={fr.cx('fr-link', 'fr-link--icon-right')}
-                  >
-                    {action.label}
-                  </Link>
+                  <span>
+                    <Link
+                      href={`${action.lien(identifiantProjet)}?retour=${encodeURIComponent(
+                        Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet),
+                      )}`}
+                      className={fr.cx('fr-link', 'fr-link--icon-right')}
+                    >
+                      {action.label}
+                    </Link>
+                  </span>
                 )}
-              </li>
+              </span>
             );
           })}
-        </ul>
-      </div>
+        </span>
+      </span>
     }
   />
 );

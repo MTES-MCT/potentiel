@@ -19,12 +19,13 @@ export const DemanderRecoursPage: FC<DemanderRecoursPageProps> = ({ identifiantP
           <div>
             <Notice
               severity="info"
-              title=""
+              title="À la suite de votre demande"
               description={
-                <div className="text-justify">
-                  Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
+                <span>
+                  <br />
+                  Toute réponse sera mise à disposition dans Potentiel et donnera lieu à une
                   notification par courriel.
-                </div>
+                </span>
               }
             />
           </div>

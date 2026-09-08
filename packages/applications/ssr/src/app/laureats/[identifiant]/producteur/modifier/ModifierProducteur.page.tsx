@@ -30,17 +30,19 @@ export const ModifierProducteurPage: FC<ModifierProducteurPageProps> = ({
       children: (
         <Notice
           severity="info"
-          title=""
+          title="Révocation des droits"
           description={
             <>
-              <p>
-                Les droits du producteur actuel <b>ne seront pas révoqués</b> à la soumission de ce
+              <span>
+                <br />
+                Les droits du producteur actuel{' '}
+                <span className="font-semibold">ne seront pas révoqués</span> à la soumission de ce
                 formulaire.
-              </p>
-              <p>
+              </span>
+              <span>
                 Les porteurs de projet peuvent déclarer ce changement eux-même, auquel cas leurs
                 droits seront révoqués.
-              </p>
+              </span>
             </>
           }
         />

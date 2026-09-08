@@ -38,7 +38,7 @@ export const GarantiesFinancièresDétails = ({
     <>
       {!estAchevé && motifGarantiesFinancièresEnAttente && (
         <Notice
-          description={`Des garanties financières sont en attente pour ce projet (${motifGarantiesFinancièresEnAttente})`}
+          description={`Des garanties financières sont en attente (${motifGarantiesFinancièresEnAttente})`}
           title=""
           severity="info"
           className="print:hidden"

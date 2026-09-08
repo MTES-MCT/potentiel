@@ -1,10 +1,7 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
-import { DateTime } from '@potentiel-domain/common';
-
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading1 } from '@/components/atoms/headings';
+import { InfoBoxDateAchèvementPrévisionnel } from '../../InfoBoxDateAchèvementPrévisionnel';
 import {
   CorrigerDemandeDélaiForm,
   type CorrigerDemandeDélaiFormProps,
@@ -22,18 +19,8 @@ export const CorrigerDemandeDélaiPage: FC<CorrigerDemandeDélaiPageProps> = ({
 }) => (
   <>
     <Heading1>Corriger la demande de délai</Heading1>
-    <Notice
-      severity="info"
-      title=""
-      description={
-        <div>
-          La date d'achèvement prévisionnel actuelle est{' '}
-          <FormattedDate
-            date={DateTime.bind(dateAchèvementPrévisionnelActuelle.dateTime).formatter()}
-            className="font-semibold"
-          />
-        </div>
-      }
+    <InfoBoxDateAchèvementPrévisionnel
+      dateAchèvementPrévisionnelActuelle={dateAchèvementPrévisionnelActuelle}
     />
     <CorrigerDemandeDélaiForm
       identifiantProjet={identifiantProjet}

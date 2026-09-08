@@ -37,14 +37,15 @@ export const DemanderChangementPuissanceFormErrors = ({
         ratioCdcActuel.dépasseRatiosChangementPuissance() && (
           <Notice
             severity="warning"
-            title=""
+            title="Instruction obligatoire"
             description={
               <span>
+                <br />
                 Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
                 <strong>{Math.round(ratioCdcActuel.ratios.min * 100)}%</strong> de la puissance
                 initiale ou supérieure à{' '}
-                <strong>{Math.round(ratioCdcActuel.ratios.max * 100)}%</strong>. Dans ces cas, il
-                est nécessaire de{' '}
+                <strong>{Math.round(ratioCdcActuel.ratios.max * 100)}%</strong>. <br />
+                Dans ces cas, il est nécessaire de{' '}
                 <strong>joindre une justification, assortie d'un justificatif</strong> à votre
                 demande .
               </span>
@@ -60,7 +61,7 @@ export const DemanderChangementPuissanceFormErrors = ({
             severity="warning"
             title=""
             description={
-              <div>
+              <span>
                 <strong>
                   Si vous ne respectez pas les conditions suivantes, cela pourrait impacter la
                   remise de votre attestation de conformité.
@@ -69,7 +70,7 @@ export const DemanderChangementPuissanceFormErrors = ({
                 <span className="whitespace-pre-line">
                   {fourchetteRatioInitialEtCDC2022AlertMessage}
                 </span>
-              </div>
+              </span>
             }
           />
         )}
