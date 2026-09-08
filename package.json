@@ -54,7 +54,7 @@
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
-    "@faker-js/faker": "9.6.0",
+    "@faker-js/faker": "10.6.0",
     "@types/chai": "4.3.20",
     "chai": "4.5.0",
     "foreman": "3.0.1",
