@@ -13,4 +13,6 @@ export const typeFournisseurLabel: Record<Lauréat.Fournisseur.TypeFournisseur.R
   'dispositif-de-production': 'Dispositif de production',
   'dispositif-de-stockage': 'Dispositif de stockage',
   'poste-conversion': 'Poste de conversion',
+  'lingot-de-silicium': 'Lingot de silicium',
+  'verre-solaire': 'Verre solaire',
 };

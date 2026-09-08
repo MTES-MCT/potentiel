@@ -14,6 +14,8 @@ const champsCsvFournisseur: Record<Lauréat.Fournisseur.TypeFournisseur.RawType,
   'dispositif-de-production': 'dispositif de production',
   'dispositif-de-stockage': 'Dispositif de stockage',
   'poste-conversion': 'Poste de conversion',
+  'lingot-de-silicium': 'Lingot de silicium',
+  'verre-solaire': 'Verre solaire',
 };
 
 // on garde le sens "type" -> "label CSV" ci-dessus pour bénéficier du typage exhaustif
