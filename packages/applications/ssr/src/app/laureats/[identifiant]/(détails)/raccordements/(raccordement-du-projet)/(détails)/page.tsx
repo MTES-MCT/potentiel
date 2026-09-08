@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { getLauréatOrRedirect } from './_helpers';
-import { DétailsRaccordementDuProjetPage } from './DétailsRaccordementDuProjetPage';
+import { DétailsRaccordementDuProjetPage } from './DétailsRaccordementDuProjet.page';
 
 type PageProps = IdentifiantParameter;
 

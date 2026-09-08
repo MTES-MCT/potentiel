@@ -1,4 +1,3 @@
-import Badge from '@codegouvfr/react-dsfr/Badge';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -7,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import type { ChampAvecAction } from '../../_helpers';
+import { BadgeDossierRaccordement } from '../raccordements/(dossier-de-raccordement)/components/BadgeDossierRaccordement';
 
 export type RaccordementDétailsProps = {
   raccordement: ChampAvecAction<PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>>;
@@ -18,23 +18,17 @@ type DossierProps = {
 };
 
 const Dossier = ({ dossier }: DossierProps) => {
-  const estComplet =
+  const estComplet = !!(
     dossier.demandeComplèteRaccordement?.accuséRéception &&
     dossier.demandeComplèteRaccordement?.dateQualification &&
     ((dossier.propositionTechniqueEtFinancière && dossier.conventionDeRaccordement) ||
-      dossier.conventionDeRaccordementDirecte);
+      dossier.conventionDeRaccordementDirecte) &&
+    dossier.dateMiseEnService
+  );
 
   return (
     <div className="flex items-center gap-2">
-      {estComplet ? (
-        <Badge noIcon small severity="success">
-          Complet
-        </Badge>
-      ) : (
-        <Badge noIcon small severity="warning">
-          Incomplet
-        </Badge>
-      )}
+      <BadgeDossierRaccordement estComplet={estComplet} />
       <div>
         Dossier <strong>{dossier.référence.référence}</strong>
       </div>

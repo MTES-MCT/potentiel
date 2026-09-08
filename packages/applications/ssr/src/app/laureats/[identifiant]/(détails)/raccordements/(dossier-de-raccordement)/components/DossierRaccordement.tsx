@@ -12,6 +12,7 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading3 } from '@/components/atoms/headings';
 import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
 import { SupprimerDocumentForm } from '../[reference]/document/[type]/supprimer/SupprimerDocument.form';
+import { BadgeDossierRaccordement } from './BadgeDossierRaccordement';
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 
 type TypeDossier =
@@ -53,9 +54,12 @@ export const DossierRaccordement: FC<DossierProps> = ({
 }) => {
   return (
     <section className="md:w-[47%] flex flex-col items-start gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] relative">
-      <Heading3 className="font-normal">
-        Dossier <span className="font-semibold">{référence}</span>
-      </Heading3>
+      <div className="flex items-center gap-4">
+        <Heading3 className="font-normal">
+          Dossier <span className="font-semibold">{référence}</span>
+        </Heading3>
+        <BadgeDossierRaccordement estComplet={dossierEtapes.length === 0} />
+      </div>
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {dossierEtapes.map((étape) => (
           <DossierEtape
