@@ -9,15 +9,34 @@ import { computePourcentageRéférencesRaccordement } from './pourcentageRéfér
 import { computePuissanceTotaleMiseEnService } from './puissanceTotaleMiseEnService.stastistic.js';
 
 export const computeMiseEnService = async () => {
+  // Référence raccordement
   await computeNombreTotalRéférencesRaccordement();
-  await computeNombreTotalProjetAvecDCRDéposée('PPE2');
-  await computeNombreTotalProjetEnService();
+
+  // Dossier raccordement
+  await computeNombreTotalProjetAvecDossierRaccordementComplet();
   await computeNombreTotalProjetAvecDossierRaccordementComplet('PPE2');
+  await computeNombreTotalProjetAvecDossierRaccordementComplet('CRE4');
+  await computePourcentageProjetAvecDossierRaccordementComplet();
+  await computePourcentageProjetAvecDossierRaccordementComplet('PPE2');
+  await computePourcentageProjetAvecDossierRaccordementComplet('CRE4');
+  await computePourcentageRéférencesRaccordement();
+
+  // DCR
+  await computeNombreTotalProjetAvecDCRDéposée();
+  await computeNombreTotalProjetAvecDCRDéposée('PPE2');
+  await computeNombreTotalProjetAvecDCRDéposée('CRE4');
+  await computePourcentageProjetAvecDCRDéposée();
+  await computePourcentageProjetAvecDCRDéposée('PPE2');
+  await computePourcentageProjetAvecDCRDéposée('CRE4');
+
+  // Mise en service
+  await computeNombreTotalProjetEnService();
+  await computeNombreTotalProjetEnService('PPE2');
+  await computeNombreTotalProjetEnService('CRE4');
   await computePourcentageProjetEnService();
   await computePourcentageProjetEnService('PPE2');
   await computePourcentageProjetEnService('CRE4');
   await computePuissanceTotaleMiseEnService();
-  await computePourcentageProjetAvecDCRDéposée('PPE2');
-  await computePourcentageRéférencesRaccordement();
-  await computePourcentageProjetAvecDossierRaccordementComplet('PPE2');
+  await computePuissanceTotaleMiseEnService('PPE2');
+  await computePuissanceTotaleMiseEnService('CRE4');
 };

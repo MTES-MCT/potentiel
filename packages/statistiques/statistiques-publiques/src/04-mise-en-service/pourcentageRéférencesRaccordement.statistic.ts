@@ -1,10 +1,16 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getCountProjetsLauréatsNonAbandonnésSaufPPA } from '#helpers';
+import { type Cycle, getCountProjetsLauréatsNonAbandonnésSaufPPA, getQueryParams } from '#helpers';
 
-const statisticType = 'pourcentageRéféréncesRaccordement';
+export const computePourcentageRéférencesRaccordement = async (cycle?: Cycle) => {
+  const statisticType = cycle
+    ? cycle === 'PPE2'
+      ? 'pourcentageRéféréncesRaccordementPPE2'
+      : 'pourcentageRéféréncesRaccordementCRE4'
+    : 'pourcentageRéféréncesRaccordement';
 
-export const computePourcentageRéférencesRaccordement = async () => {
+  const params = getQueryParams(statisticType, cycle);
+
   await executeQuery(
     `
     insert
@@ -20,16 +26,22 @@ export const computePourcentageRéférencesRaccordement = async () => {
           FROM
             domain_views.projection d
             join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')
+            join
+              	domain_views.projection ao ON ao.key = format(
+                'appel-offre|%s',
+                SPLIT_PART(d.value ->> 'identifiantProjet', '#', 1)
+              )
           WHERE
             d.key LIKE 'dossier-raccordement|%'
             AND r.value->>'désactivé' IS NULL
             AND r.value->>'identifiantGestionnaireRéseau' <> 'inconnu'
+             ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
         )::decimal / (
-          ${getCountProjetsLauréatsNonAbandonnésSaufPPA()}
+          ${getCountProjetsLauréatsNonAbandonnésSaufPPA(cycle)}
         )::decimal * 100   
       )
     )
     `,
-    statisticType,
+    ...params,
   );
 };
