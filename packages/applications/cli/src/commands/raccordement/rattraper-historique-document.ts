@@ -6,8 +6,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
 
-export class QualifierDocumentsCommand extends Command {
-  static description = "Qualifie les documents PTF d'un raccordement";
+export class RattraperHistoriqueDocumentsCommand extends Command {
+  static description = "Rattraper l'historique des documents PTF en les requalifiant";
 
   static flags = {
     projet: Flags.string({}),
@@ -15,7 +15,7 @@ export class QualifierDocumentsCommand extends Command {
   };
 
   async run(): Promise<void> {
-    const { flags } = await this.parse(QualifierDocumentsCommand);
+    const { flags } = await this.parse(RattraperHistoriqueDocumentsCommand);
 
     const data = await listProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
       `dossier-raccordement`,
@@ -28,31 +28,43 @@ export class QualifierDocumentsCommand extends Command {
           },
           identifiantProjet: Where.startWith(flags.projet),
           référence: Where.equal(flags.référence),
-          mise
+          // '2026-07-27T13:57:06.740Z' est la date de la première transmission d'un nouveau type de document
+          miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
         },
         range: {
           startPosition: 0,
-          endPosition: 100,
+          // env. 1900 documents concernés
+          endPosition: 2500,
         },
       },
     );
 
     const stats = {
       total: data.items.length,
-      cr: 0,
-      crd: 0,
-      ptf: 0,
-      scans: 0,
-      inconnu: 0,
-      errors: [] as {
-        identifiantProjet: string;
-        référence: string;
-        error: string;
-      }[],
-      fileNotFound: 0,
+      qualification: {
+        cr: [] as { identifiantProjet: string; référence: string }[],
+        crd: [] as { identifiantProjet: string; référence: string }[],
+        scans: 0,
+        inconnu: 0,
+        errors: [] as {
+          identifiantProjet: string;
+          référence: string;
+          error: string;
+        }[],
+        fileNotFound: 0,
+      },
+      documentMigrés: {
+        versCR: 0,
+        versCRD: 0,
+      },
     };
 
     console.log(`starting qualification for ${data.items.length} dossiers`);
+
+    // nombre de dossier
+    // je qualifie les documents actuels
+    // si ce n'est pas une PTF, je regarde si y'a eu des events de modifications
+    // si y'en a pas eu => go
 
     for (const dossier of data.items) {
       try {
@@ -66,18 +78,20 @@ export class QualifierDocumentsCommand extends Command {
               dossier.propositionTechniqueEtFinancière?.document,
           },
         );
+
         const stream = await download(document.formatter());
         const { type, text } = await getDocumentType(await streamToArrayBuffer(stream));
 
-        if (type === 'cr') {
+        if (type === 'cr' || type === 'crd') {
           console.log(`CR trouvé pour ${dossier.identifiantProjet} / ${dossier.référence}`, {
             projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
           });
+          stats.qualification[type].push({ référence: dossier.référence });
         }
         if (type !== 'unknown') {
-          stats[type]++;
-        } else if (text.length < 5) {
-          stats.scans++;
+          stats.qualification[type]++;
+        } else if (text?.length < 5) {
+          stats.qualification.scans++;
         } else {
           process.stdout.write('\r');
           console.log('Type non trouvé', {
@@ -85,7 +99,7 @@ export class QualifierDocumentsCommand extends Command {
             référence: dossier.référence,
             text,
           });
-          stats.inconnu++;
+          stats.qualification.inconnu++;
         }
       } catch (e) {
         process.stdout.write('\r');
@@ -94,10 +108,10 @@ export class QualifierDocumentsCommand extends Command {
             projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
             référence: dossier.référence,
           });
-          stats.fileNotFound++;
+          stats.qualification.fileNotFound++;
         } else {
           console.log(dossier, e);
-          stats.errors.push({
+          stats.qualification.errors.push({
             identifiantProjet: dossier.identifiantProjet,
             référence: dossier.référence,
             error: (e as Error).message,
