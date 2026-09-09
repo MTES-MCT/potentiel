@@ -5,6 +5,7 @@ import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 export class RattraperHistoriqueDocumentsCommand extends Command {
   static description = "Rattraper l'historique des documents PTF en les requalifiant";
@@ -39,11 +40,17 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       },
     );
 
+    const documentQualifiés: {
+      identifiantProjet: string;
+      référence: string;
+      type: 'cr' | 'crd';
+    }[] = [];
+
     const stats = {
       total: data.items.length,
       qualification: {
-        cr: [] as { identifiantProjet: string; référence: string }[],
-        crd: [] as { identifiantProjet: string; référence: string }[],
+        cr: 0,
+        crd: 0,
         scans: 0,
         inconnu: 0,
         errors: [] as {
@@ -60,11 +67,6 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     };
 
     console.log(`starting qualification for ${data.items.length} dossiers`);
-
-    // nombre de dossier
-    // je qualifie les documents actuels
-    // si ce n'est pas une PTF, je regarde si y'a eu des events de modifications
-    // si y'en a pas eu => go
 
     for (const dossier of data.items) {
       try {
@@ -86,11 +88,14 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           console.log(`CR trouvé pour ${dossier.identifiantProjet} / ${dossier.référence}`, {
             projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
           });
-          stats.qualification[type].push({ référence: dossier.référence });
-        }
-        if (type !== 'unknown') {
+          documentQualifiés.push({
+            référence: dossier.référence,
+            identifiantProjet: dossier.identifiantProjet,
+            type,
+          });
           stats.qualification[type]++;
-        } else if (text?.length < 5) {
+        }
+        if (!text || text.length < 5) {
           stats.qualification.scans++;
         } else {
           process.stdout.write('\r');
@@ -120,8 +125,72 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       }
 
       process.stdout.write(
-        `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.cr} CR / ${stats.crd} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
+        `\r⏳ ${stats.total} TOTAL / ${stats.qualification.cr} CR à traiter / ${stats.qualification.crd} CRD à traiter / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
       );
+
+      for (const document of documentQualifiés) {
+        // on exclue les stream pour lesquels il y a eu modification de la PTF
+        // on a ensuite plusieurs règles de récupération des données en fonction des événements
+        const evenement = await executeSelect<{
+          identifiantProjet: Lauréat.LauréatEntity['identifiantProjet'];
+        }>(`
+SELECT
+  e.payload->>'référenceDossierRaccordement' AS référenceDossierRaccordement,
+  e.payload->>'dateSignature' AS dateSignature,
+  CASE
+    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
+      signed.payload->>'format'
+    ELSE
+      e.payload->>'format'
+  END AS format,
+  CASE
+    WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
+      e.created_at
+    ELSE
+      e.payload->>'transmisLe'
+  END AS transmisLe,
+  CASE
+    WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
+      'unknown-user@unknown-email.com'
+    ELSE
+      e.payload->>'transmisPar'
+  END AS transmisPar,
+  e.type
+FROM event_store.event_stream e
+LEFT JOIN event_store.event_stream signed
+  ON signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
+  AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
+WHERE
+  -- Filtrage par stream_id dynamique (remplace :identifiantProjet par ta variable)
+  e.stream_id = CONCAT('raccordement|', :identifiantProjet)
+  -- Filtrage par référenceDossierRaccordement (remplace :référenceDossierRaccordement par ta variable)
+  AND e.payload->>'référenceDossierRaccordement' = :référenceDossierRaccordement
+  -- Exclusion des événements Modifié%
+  AND e.type NOT LIKE 'PropositionTechniqueEtFinancièreModifié%'
+  -- Inclusion des types souhaités
+  AND (
+    e.type LIKE 'PropositionTechniqueEtFinancièreTransmise%'
+    OR e.type LIKE 'PropositionTechniqueEtFinancièreSignéeTransmise%'
+  )
+  -- Condition pour V1 : doit avoir un événement signé correspondant
+  AND (
+    e.type != 'PropositionTechniqueEtFinancièreTransmise-V1'
+    OR signed.type IS NOT NULL
+  )
+        `);
+
+        if (!data) {
+        }
+
+        // on ne traite pas les
+        // si ce n'est pas une PTF, je regarde si y'a eu des events de modifications
+        // si y'en a pas eu => go
+        // faire un truc
+      }
+
+      // process.stdout.write(
+      //   `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.cr} CR / ${stats.crd} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
+      // );
     }
 
     process.stdout.write('\r');
