@@ -23,6 +23,7 @@ export const computePourcentageRéférencesRaccordement = async () => {
           WHERE
             d.key LIKE 'dossier-raccordement|%'
             AND r.value->>'désactivé' IS NULL
+            AND r.value->>'identifiantGestionnaireRéseau' <> 'inconnu'
         )::decimal / (
           ${getCountProjetsLauréatsNonAbandonnésSaufPPA()}
         )::decimal * 100   
