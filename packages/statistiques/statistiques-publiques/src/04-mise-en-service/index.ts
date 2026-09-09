@@ -11,6 +11,8 @@ import { computePuissanceTotaleMiseEnService } from './puissanceTotaleMiseEnServ
 export const computeMiseEnService = async () => {
   // Référence raccordement
   await computeNombreTotalRéférencesRaccordement();
+  await computeNombreTotalRéférencesRaccordement('PPE2');
+  await computeNombreTotalRéférencesRaccordement('CRE4');
 
   // Dossier raccordement
   await computeNombreTotalProjetAvecDossierRaccordementComplet();
@@ -20,6 +22,8 @@ export const computeMiseEnService = async () => {
   await computePourcentageProjetAvecDossierRaccordementComplet('PPE2');
   await computePourcentageProjetAvecDossierRaccordementComplet('CRE4');
   await computePourcentageRéférencesRaccordement();
+  await computePourcentageRéférencesRaccordement('PPE2');
+  await computePourcentageRéférencesRaccordement('CRE4');
 
   // DCR
   await computeNombreTotalProjetAvecDCRDéposée();

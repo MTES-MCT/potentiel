@@ -22,20 +22,15 @@ export const computePourcentageRéférencesRaccordement = async (cycle?: Cycle) 
         SELECT
         (
           SELECT
-            count(distinct d.value->>'identifiantProjet')
+            count(distinct d.value->>'référence') 
           FROM
             domain_views.projection d
-            join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')
-            join
-              	domain_views.projection ao ON ao.key = format(
-                'appel-offre|%s',
-                SPLIT_PART(d.value ->> 'identifiantProjet', '#', 1)
-              )
+           join domain_views.projection r on r."key" = format('raccordement|%s', d.value->>'identifiantProjet')
+           join domain_views.projection ao ON ao.key = format('appel-offre|%s', SPLIT_PART(d.value ->> 'identifiantProjet', '#', 1))
           WHERE
             d.key LIKE 'dossier-raccordement|%'
             AND r.value->>'désactivé' IS NULL
-            AND r.value->>'identifiantGestionnaireRéseau' <> 'inconnu'
-             ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
+            ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
         )::decimal / (
           ${getCountProjetsLauréatsNonAbandonnésSaufPPA(cycle)}
         )::decimal * 100   

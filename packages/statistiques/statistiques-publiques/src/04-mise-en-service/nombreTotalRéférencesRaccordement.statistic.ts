@@ -1,8 +1,16 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-const statisticType = 'nombreTotalRéférencesRaccordement';
+import { type Cycle, getQueryParams } from '#helpers';
 
-export const computeNombreTotalRéférencesRaccordement = async () => {
+export const computeNombreTotalRéférencesRaccordement = async (cycle?: Cycle) => {
+  const statisticType = cycle
+    ? cycle === 'PPE2'
+      ? 'nombreTotalRéférencesRaccordementPPE2'
+      : 'nombreTotalRéférencesRaccordementCRE4'
+    : 'nombreTotalRéférencesRaccordement';
+
+  const params = getQueryParams(statisticType, cycle);
+
   await executeQuery(
     `
     insert
@@ -12,16 +20,17 @@ export const computeNombreTotalRéférencesRaccordement = async () => {
       $1, 
       (
         select 
-            count(distinct d.value->>'identifiantProjet') 
-        from 
-            domain_views.projection d
-            join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')
+	        count(distinct d.value->>'référence') 
+        from domain_views.projection d 
+        join domain_views.projection r on r."key" = format('raccordement|%s', d.value->>'identifiantProjet')
+        join domain_views.projection ao ON ao.key = format('appel-offre|%s', SPLIT_PART(d.value ->> 'identifiantProjet', '#', 1))
         where 
-            d.key like 'dossier-raccordement|%'
-            and r.value->>'désactivé' is null
+          d.key like 'dossier-raccordement|%' 
+          and r.value->>'désactivé' is null   
+          ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
       )
     )
     `,
-    statisticType,
+    ...params,
   );
 };
