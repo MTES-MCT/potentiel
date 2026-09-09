@@ -129,7 +129,8 @@ export const mapApiResponseToDépôt = ({
     dateConstitutionGf: dateConstitutionGarantiesFinancières,
     dateÉchéanceGf: dateÉchéanceGarantiesFinancieres,
 
-    historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
+    historiqueAbandon:
+      getHistoriqueAbandon(accessor, 'historiqueAbandon') ?? 'première-candidature',
 
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
     coefficientKChoisi: accessor.getBooleanValue('coefficientKChoisi'),
