@@ -59,10 +59,7 @@ export class TâcheAggregate extends AbstractAggregate<TâcheEvent, 'tâche', La
             },
           };
 
-    if (event.type !== 'TâcheRelancée-V1') {
-      // temporaire, pour éviter les events inutiles
-      await this.publish(event);
-    }
+    await this.publish(event);
   }
 
   async achever() {
