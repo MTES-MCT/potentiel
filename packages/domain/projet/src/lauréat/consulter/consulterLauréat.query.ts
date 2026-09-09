@@ -31,13 +31,18 @@ export type ConsulterLauréatReadModel = {
   estPartiEnPPA?: true;
   /** non définie en cas de recours accordé ou projet d'une période "legacy" */
   attestationDésignation?: DocumentProjet.ValueType;
-  autorisation: Candidature.Dépôt.ValueType['autorisation'];
-} & Pick<
-  Candidature.Dépôt.ValueType,
   // on ne sélectionne que des propriétés non modifiable dans la vie du projet, issues de Candidature
   // Pour des propriétés modifiables comme la puissance, on utilisera ConsulterPuissance
-  'emailContact' | 'nomCandidat' | 'prixReference' | 'coefficientKChoisi' | 'actionnariat'
->;
+} & Pick<
+  Candidature.Dépôt.ValueType,
+  | 'emailContact'
+  | 'nomCandidat'
+  | 'prixReference'
+  | 'coefficientKChoisi'
+  | 'actionnariat'
+  | 'autorisation'
+> &
+  Pick<Candidature.ConsulterCandidatureReadModel, 'volumeRéservé'>;
 
 export type ConsulterLauréatQuery = Message<
   'Lauréat.Query.ConsulterLauréat',
@@ -129,6 +134,7 @@ const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
       : undefined,
     autorisation: candidature.dépôt.autorisation,
     actionnariat: candidature.dépôt.actionnariat,
+    volumeRéservé: candidature.volumeRéservé,
     estPartiEnPPA: lauréat['power-purchase-agreement'] ? true : undefined,
   };
 };

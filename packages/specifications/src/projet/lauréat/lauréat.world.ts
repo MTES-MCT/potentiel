@@ -202,6 +202,7 @@ export class LauréatWorld {
       },
       technologie,
       unitéPuissance,
+      volumeRéservé,
     } = this.potentielWorld.candidatureWorld.mapToExpected();
 
     const coefficientKRègles = this.cahierDesCharges.getChampsSupplémentaires()?.coefficientKChoisi;
@@ -227,6 +228,7 @@ export class LauréatWorld {
           ? Lauréat.StatutLauréat.achevé
           : Lauréat.StatutLauréat.actif,
       autorisation,
+      volumeRéservé,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé
         ? undefined
