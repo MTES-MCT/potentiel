@@ -11,8 +11,8 @@ export const computeTotalPuissanceProjetAvecMainlevéeAccordée = async () => {
     values(
       $1, 
       (
-        select 
-            sum( (puiss.value->>'puissance')::float) as "value"
+        select
+            coalesce(sum( (puiss.value->>'puissance')::float), 0) as "value"
         from
             domain_views.projection ml
             join domain_views.projection puiss on puiss.key=format('puissance|%s',ml.value->>'identifiantProjet')
