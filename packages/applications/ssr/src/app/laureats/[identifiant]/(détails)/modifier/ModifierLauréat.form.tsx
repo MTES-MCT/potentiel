@@ -175,7 +175,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Actionnaire(s)"
             name="sociétéMère"
             validationErrors={validationErrors}
-            required
+            required={candidature.sociétéMère !== ''}
           />
         </FormRow>
         <LocalitéField

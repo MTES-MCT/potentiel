@@ -57,6 +57,7 @@ export const ProjectField = <T extends string | number | undefined>({
             ...getInputTypeNativeProps(candidature),
             ...nativeInputProps,
             value: candidatureValue,
+            required,
             onChange: (ev) => {
               setCandidatureValue(ev.target.value as T);
               if (linked) {
@@ -83,6 +84,7 @@ export const ProjectField = <T extends string | number | undefined>({
             ...getInputTypeNativeProps(candidature),
             ...nativeInputProps,
             value: lauréatValue,
+            required,
             onChange: (ev) => {
               setLauréatValue(ev.target.value as T);
               if (linked) {
