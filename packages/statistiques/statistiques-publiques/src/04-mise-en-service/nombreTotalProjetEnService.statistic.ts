@@ -20,15 +20,14 @@ export const computeNombreTotalProjetEnService = async (cycle?: Cycle) => {
       $1, 
       (
         select 
-            count(distinct d.value->>'identifiantProjet')
+            count(distinct r.value->>'identifiantProjet')
         from
-            domain_views.projection d
-            join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')  
-            join domain_views.projection ao ON split_part(d.value ->> 'identifiantProjet', '#', 1) = ao.value ->> 'id'
+            domain_views.projection r
+            join domain_views.projection ao ON split_part(r.value->>'identifiantProjet', '#', 1) = ao.value ->> 'id'
         where 
-            d.key like 'dossier-raccordement|%'
-            and d.value->>'miseEnService.dateMiseEnService' is not null
+            r.key like 'raccordement|%'
             and r.value->>'désactivé' is null
+            and r.value->>'miseEnService.date' is not null
             ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
       )
     )
