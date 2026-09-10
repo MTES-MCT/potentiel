@@ -18,9 +18,9 @@ export const computeIndicateursProjetsAgrégés = async () => {
       "typeActionnariat" as "type_actionnariat",
       "dateNotification" as "date_de_notification", 
       "unitePuissance" as "unite_puissance",
-      SUM("puissance") as "puissance_cumulee",
-      AVG("puissance") as "puissance_moyenne",
-      AVG("evaluationCarbone") as "ecs_moyenne",
+      coalesce(SUM("puissance"), 0) as "puissance_cumulee",
+      coalesce(AVG("puissance"), 0) as "puissance_moyenne",
+      coalesce(AVG("evaluationCarbone"), 0) as "ecs_moyenne",
       count(*) as "nombre_de_projets"
     from 
       domain_views.stats_projets
