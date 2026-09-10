@@ -22,17 +22,15 @@ export const computePourcentageProjetEnService = async (cycle?: Cycle) => {
         SELECT
           (
             (
-              SELECT
-                count(DISTINCT p1.value ->> 'identifiantProjet')
-              FROM
-                domain_views.projection p1
-                JOIN domain_views.projection ao ON split_part(p1.value ->> 'identifiantProjet', '#', 1) = ao.value ->> 'id'
-                AND ao.key LIKE 'appel-offre|%'
-                join domain_views.projection racc on racc.key = format('raccordement|%s', p1.value->>'identifiantProjet')
-              WHERE
-                p1.key LIKE 'dossier-raccordement|%'
-                AND p1.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
-                AND racc.value->>'désactivé' IS NULL
+              select 
+                count(distinct r.value->>'identifiantProjet')
+            from
+                domain_views.projection r
+                join domain_views.projection ao ON split_part(r.value->>'identifiantProjet', '#', 1) = ao.value ->> 'id'
+            where 
+                r.key like 'raccordement|%'
+                and r.value->>'désactivé' is null
+                and r.value->>'miseEnService.date' is not null
                 ${cycle ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
             )::decimal / (
               ${getCountProjetsLauréatsNonAbandonnésSaufPPA(cycle)}
