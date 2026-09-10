@@ -3,10 +3,11 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
-import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 export class RattraperHistoriqueDocumentsCommand extends Command {
   static description = "Rattraper l'historique des documents PTF en les requalifiant";
@@ -18,6 +19,12 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
 
   async run(): Promise<void> {
     const { flags } = await this.parse(RattraperHistoriqueDocumentsCommand);
+
+    // On a besoin de supprimer des événements par la suite
+    // à exécuter via le tunnel
+    // await executeQuery(
+    //   'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
+    // );
 
     const data = await listProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
       `dossier-raccordement`,
@@ -133,19 +140,18 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       );
 
       for (const document of documentQualifiés) {
-        // on exclue les stream pour lesquels il y a eu modification de la PTF
-        // on a ensuite plusieurs règles de récupération des données en fonction des événements
-
+        // quelques règles
+        // on a besoin d'un événement PropositionTechniqueEtFinancièreSignéeTransmise-V1 si PropositionTechniqueEtFinancièreTransmise-V1
+        // on exclue les stream pour lesquels il y a eu modification de la PTF (67) car complexe à gérer
+        // on a ensuite différentes règles de récupération des données en fonction des événements
         const data = await executeSelect<{
-          identifiantProjet: IdentifiantProjet.RawType;
-          référenceDossierRaccordement: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType;
           dateSignature: DateTime.RawType;
           format: string;
           transmisLe: DateTime.RawType;
           transmisPar: Email.RawType;
+          eventToDelete: string;
         }>(`
 SELECT
-  e.payload->>'référenceDossierRaccordement' AS référenceDossierRaccordement,
   e.payload->>'dateSignature' AS dateSignature,
   CASE
     WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
@@ -153,9 +159,20 @@ SELECT
     ELSE
       e.payload->>'format'
   END AS format,
+  -- Champ pour identifier les événements à supprimer
+  CASE
+    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
+      'PropositionTechniqueEtFinancièreTransmise-V1'
+    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN
+      'PropositionTechniqueEtFinancièreTransmise-V2'
+    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN
+      'PropositionTechniqueEtFinancièreTransmise-V3'
+    ELSE
+      NULL
+  END AS eventToDelete,
   CASE
     WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
-      e.convention-de-raccordementeated_at
+      e.created_at
     ELSE
       (e.payload->>'transmisLe')::timestamp
   END AS transmisLe,
@@ -182,7 +199,6 @@ WHERE
     e.type != 'PropositionTechniqueEtFinancièreTransmise-V1'
     OR signed.type IS NOT NULL
   );
-  )
         `);
 
         if (!data) {
@@ -192,15 +208,47 @@ WHERE
           continue;
         }
 
+
+        const event: Lauréat.Raccordement.DocumentRaccordementTransmisEventV1 = {
+          type: 'DocumentRaccordementTransmis-V1',
+          payload: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(document.identifiantProjet).formatter(),
+            référenceDossierRaccordement: document.référence,
+                      dateSignature: data.;
+          format: string;
+          transmisLe: DateTime.RawType;
+          transmisPar: Email.RawType;,
+            type: Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
+              document.type,
+            ).formatter(),
+          },
+        };
+
         const payload = {
           ...data,
           type: Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
             document.type,
           ).formatter(),
         };
+
+        // flag => j'annule le process mais on peut logger
+
+        // supprimer les événements concernés puis insérer
+        try {
+          await executeQuery(`DELETE FROM event_store.event_stream
+WHERE type IN (SELECT eventType FROM events_to_delete)
+  AND stream_id = 'raccordement|' || $1
+  AND payload->>'référenceDossierRaccordement' = $2;`);
+
+          await publish(`raccordement|${document.identifiantProjet}`, payload);
+        } catch (e) {
+          console.log(`Un problème a eu lieu lors de la mise à jour des événements : ${e}`, {
+            référence: document.référence,
+            identifiantProjet: document.identifiantProjet,
+          });
+        }
       }
 
-      // on ne traite pas les
       // si ce n'est pas une PTF, je regarde si y'a eu des events de modifications
       // si y'en a pas eu => go
       // faire un truc
@@ -209,10 +257,25 @@ WHERE
     // process.stdout.write(
     //   `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.convention-de-raccordement} CR / ${stats.convention-de-raccordement-directe} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
     // );
-    process.stdout.write('\r');
-    console.log(stats);
+
+    process;
+    .
+  stdout
+    .
+  write('\r')
+    console
+.
+  log(stats)
   }
 }
+
+// Remettre la rule
+// à exécuter via le tunnel
+// await executeQuery(
+//   'create or replace rule prevent_delete_on_event_stream as on delete to event_store.event_stream do instead select event_store.throw_when_trying_to_delete_event()',
+// );
+
+// rebuild raccordement
 
 async function getDocumentType(pdfUrl: Uint8Array) {
   var pdf = await getDocument({
