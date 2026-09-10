@@ -1,8 +1,9 @@
 import { Command, Flags } from '@oclif/core';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
+import type { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
@@ -43,7 +44,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     const documentQualifiés: {
       identifiantProjet: string;
       référence: string;
-      type: 'cr' | 'crd';
+      type: 'convention-de-raccordement' | 'convention-de-raccordement-directe';
     }[] = [];
 
     const stats = {
@@ -84,7 +85,10 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
         const stream = await download(document.formatter());
         const { type, text } = await getDocumentType(await streamToArrayBuffer(stream));
 
-        if (type === 'cr' || type === 'crd') {
+        if (
+          type === 'convention-de-raccordement' ||
+          type === 'convention-de-raccordement-directe'
+        ) {
           console.log(`CR trouvé pour ${dossier.identifiantProjet} / ${dossier.référence}`, {
             projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
           });
@@ -93,7 +97,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             identifiantProjet: dossier.identifiantProjet,
             type,
           });
-          stats.qualification[type]++;
+          stats.qualification[type === 'convention-de-raccordement' ? 'cr' : 'crd']++;
         }
         if (!text || text.length < 5) {
           stats.qualification.scans++;
@@ -131,8 +135,14 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       for (const document of documentQualifiés) {
         // on exclue les stream pour lesquels il y a eu modification de la PTF
         // on a ensuite plusieurs règles de récupération des données en fonction des événements
-        const evenement = await executeSelect<{
-          identifiantProjet: Lauréat.LauréatEntity['identifiantProjet'];
+
+        const data = await executeSelect<{
+          identifiantProjet: IdentifiantProjet.RawType;
+          référenceDossierRaccordement: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType;
+          dateSignature: DateTime.RawType;
+          format: string;
+          transmisLe: DateTime.RawType;
+          transmisPar: Email.RawType;
         }>(`
 SELECT
   e.payload->>'référenceDossierRaccordement' AS référenceDossierRaccordement,
@@ -145,9 +155,9 @@ SELECT
   END AS format,
   CASE
     WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
-      e.created_at
+      e.convention-de-raccordementeated_at
     ELSE
-      e.payload->>'transmisLe'
+      (e.payload->>'transmisLe')::timestamp
   END AS transmisLe,
   CASE
     WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
@@ -161,38 +171,44 @@ LEFT JOIN event_store.event_stream signed
   ON signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
   AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
 WHERE
-  -- Filtrage par stream_id dynamique (remplace :identifiantProjet par ta variable)
-  e.stream_id = CONCAT('raccordement|', :identifiantProjet)
-  -- Filtrage par référenceDossierRaccordement (remplace :référenceDossierRaccordement par ta variable)
-  AND e.payload->>'référenceDossierRaccordement' = :référenceDossierRaccordement
-  -- Exclusion des événements Modifié%
+  e.stream_id = 'raccordement|' || $1
+  AND e.payload->>'référenceDossierRaccordement' = $2
   AND e.type NOT LIKE 'PropositionTechniqueEtFinancièreModifié%'
-  -- Inclusion des types souhaités
   AND (
     e.type LIKE 'PropositionTechniqueEtFinancièreTransmise%'
     OR e.type LIKE 'PropositionTechniqueEtFinancièreSignéeTransmise%'
   )
-  -- Condition pour V1 : doit avoir un événement signé correspondant
   AND (
     e.type != 'PropositionTechniqueEtFinancièreTransmise-V1'
     OR signed.type IS NOT NULL
+  );
   )
         `);
 
         if (!data) {
+          console.log(`CR trouvé pour ${dossier.identifiantProjet} / ${dossier.référence}`, {
+            projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
+          });
+          continue;
         }
 
-        // on ne traite pas les
-        // si ce n'est pas une PTF, je regarde si y'a eu des events de modifications
-        // si y'en a pas eu => go
-        // faire un truc
+        const payload = {
+          ...data,
+          type: Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
+            document.type,
+          ).formatter(),
+        };
       }
 
-      // process.stdout.write(
-      //   `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.cr} CR / ${stats.crd} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
-      // );
+      // on ne traite pas les
+      // si ce n'est pas une PTF, je regarde si y'a eu des events de modifications
+      // si y'en a pas eu => go
+      // faire un truc
     }
 
+    // process.stdout.write(
+    //   `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.convention-de-raccordement} CR / ${stats.convention-de-raccordement-directe} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
+    // );
     process.stdout.write('\r');
     console.log(stats);
   }
@@ -231,10 +247,10 @@ async function getDocumentType(pdfUrl: Uint8Array) {
     }
 
     if (isCRD) {
-      return { type: 'crd' as const };
+      return { type: 'convention-de-raccordement-directe' as const };
     }
     if (isCR) {
-      return { type: 'cr' as const };
+      return { type: 'convention-de-raccordement' as const };
     }
     if (isPTF) {
       return { type: 'ptf' as const };
