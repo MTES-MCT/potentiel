@@ -2,12 +2,12 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { type Cycle, getQueryParams } from '#helpers';
 
-export const computeNombreTotalRéférencesRaccordement = async (cycle?: Cycle) => {
+export const computeNombreProjetQuiOntAuMoinsUneRéférenceDeRaccordement = async (cycle?: Cycle) => {
   const statisticType = cycle
     ? cycle === 'PPE2'
-      ? 'nombreTotalRéférencesRaccordementPPE2'
-      : 'nombreTotalRéférencesRaccordementCRE4'
-    : 'nombreTotalRéférencesRaccordement';
+      ? 'nombreProjetPPE2QuiOntAuMoinsUneRéférenceDeRaccordement'
+      : 'nombreProjetCRE4QuiOntAuMoinsUneRéférenceDeRaccordement'
+    : 'nombreProjetQuiOntAuMoinsUneRéférenceDeRaccordement';
 
   const params = getQueryParams(statisticType, cycle);
 
@@ -20,7 +20,7 @@ export const computeNombreTotalRéférencesRaccordement = async (cycle?: Cycle) 
       $1, 
       (
         select 
-	        count(distinct d.value->>'référence') 
+	        count(distinct d.value->>'identifiantProjet') 
         from domain_views.projection d 
         join domain_views.projection r on r."key" = format('raccordement|%s', d.value->>'identifiantProjet')
         join domain_views.projection ao ON ao.key = format('appel-offre|%s', SPLIT_PART(d.value ->> 'identifiantProjet', '#', 1))

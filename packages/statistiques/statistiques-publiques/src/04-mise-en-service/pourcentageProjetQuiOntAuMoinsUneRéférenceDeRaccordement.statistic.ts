@@ -2,12 +2,14 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { type Cycle, getCountProjetsLauréatsNonAbandonnésSaufPPA, getQueryParams } from '#helpers';
 
-export const computePourcentageRéférencesRaccordement = async (cycle?: Cycle) => {
+export const computePourcentageProjetQuiOntAuMoinsUneRéférenceDeRaccordement = async (
+  cycle?: Cycle,
+) => {
   const statisticType = cycle
     ? cycle === 'PPE2'
-      ? 'pourcentageRéféréncesRaccordementPPE2'
-      : 'pourcentageRéféréncesRaccordementCRE4'
-    : 'pourcentageRéféréncesRaccordement';
+      ? 'pourcentageProjetPPE2QuiOntAuMoinsUneRéférenceDeRaccordement'
+      : 'pourcentageProjetCRE4QuiOntAuMoinsUneRéférenceDeRaccordement'
+    : 'pourcentageProjetQuiOntAuMoinsUneRéférenceDeRaccordement';
 
   const params = getQueryParams(statisticType, cycle);
 
@@ -22,7 +24,7 @@ export const computePourcentageRéférencesRaccordement = async (cycle?: Cycle) 
         SELECT
         (
           SELECT
-            count(distinct d.value->>'référence') 
+            count(distinct d.value->>'identifiantProjet')
           FROM
             domain_views.projection d
            join domain_views.projection r on r."key" = format('raccordement|%s', d.value->>'identifiantProjet')
