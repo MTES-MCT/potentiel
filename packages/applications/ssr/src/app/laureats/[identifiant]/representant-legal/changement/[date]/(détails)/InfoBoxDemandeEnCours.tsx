@@ -3,9 +3,9 @@ import type { FC } from 'react';
 
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 
-type InfoBoxDemandeEnCourssProps = { lien: string };
+type InfoBoxDemandeEnCoursProps = { lien: string };
 
-export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCourssProps> = ({ lien }) => (
+export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCoursProps> = ({ lien }) => (
   <Notice
     severity="info"
     title="Demande en cours"

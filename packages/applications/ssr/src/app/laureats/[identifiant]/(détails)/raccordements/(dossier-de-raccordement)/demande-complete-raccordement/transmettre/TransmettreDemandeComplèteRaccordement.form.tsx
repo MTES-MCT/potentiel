@@ -71,7 +71,10 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           <div className="flex gap-3">
             <legend className="font-bold">Gestionnaire réseau actuel</legend>
             {aDéjàTransmisUneDemandeComplèteDeRaccordement ? null : (
-              <Link href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}>
+              <Link
+                href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
+                aria-label="Modifier le gestionnaire de réseau"
+              >
                 <Icon id="fr-icon-edit-box-line" size="sm" /> Modifier
               </Link>
             )}

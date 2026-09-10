@@ -31,7 +31,7 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
           L'inscription autonome n'est possible qu'en tant que Porteur de Projet. Vous êtes
           partenaire ?
           <Link href="mailto:contact@potentiel.beta.gouv.fr" className="ml-2">
-            Contactez-nous
+            Contactez-nous par email
           </Link>
         </p>
 

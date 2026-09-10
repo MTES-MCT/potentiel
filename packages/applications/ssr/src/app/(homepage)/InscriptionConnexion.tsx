@@ -64,14 +64,16 @@ export const InscriptionConnexion = () => (
                 aria-labelledby="tabpanel-405"
               >
                 <p className="m-0 p-0 font-semibold text-lg">
-                  Contactez-nous <Link href="mailto:contact@potentiel.beta.gouv.fr">par email</Link>{' '}
+                  <Link href="mailto:contact@potentiel.beta.gouv.fr">Contactez-nous par email</Link>{' '}
                   <br />
                   pour obtenir un accès à Potentiel.
                 </p>
               </div>
             </div>
             <p className="m-0 text-theme-blueFrance">
-              <Link href={Routes.Auth.signIn()}>Vous avez déjà un compte ?</Link>
+              Vous avez déjà un compte ?
+              <br />
+              <Link href={Routes.Auth.signIn()}>Accédez à la page de connexion</Link>
             </p>
           </div>
         </div>

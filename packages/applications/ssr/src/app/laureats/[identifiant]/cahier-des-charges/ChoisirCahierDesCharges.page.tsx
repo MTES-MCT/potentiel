@@ -47,7 +47,11 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
                 <span>
                   Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
                   sur&nbsp;
-                  <Link target="_blank" href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}>
+                  <Link
+                    target="_blank"
+                    href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}
+                    aria-label="Page de la CRE listant les cahiers des charges disponibles pour votre appel d'offres"
+                  >
                     cette page de la CRE
                   </Link>
                   .
