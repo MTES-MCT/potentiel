@@ -201,71 +201,60 @@ WHERE
   );
         `);
 
-        if (!data) {
+        if (!data.length) {
           console.log(`CR trouvé pour ${dossier.identifiantProjet} / ${dossier.référence}`, {
             projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
           });
           continue;
         }
 
-
         const event: Lauréat.Raccordement.DocumentRaccordementTransmisEventV1 = {
           type: 'DocumentRaccordementTransmis-V1',
           payload: {
-            identifiantProjet: IdentifiantProjet.convertirEnValueType(document.identifiantProjet).formatter(),
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(
+              document.identifiantProjet,
+            ).formatter(),
             référenceDossierRaccordement: document.référence,
-                      dateSignature: data.;
-          format: string;
-          transmisLe: DateTime.RawType;
-          transmisPar: Email.RawType;,
+            dateSignature: data[0].dateSignature,
+            document: {
+              format: data[0].format,
+            },
+            transmisLe: data[0].transmisLe,
+            transmisPar: data[0].transmisPar,
             type: Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
               document.type,
             ).formatter(),
           },
         };
 
-        const payload = {
-          ...data,
-          type: Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
-            document.type,
-          ).formatter(),
-        };
-
         // flag => j'annule le process mais on peut logger
 
-        // supprimer les événements concernés puis insérer
+        // supprimer les événements concernés (WARNING ??)
         try {
           await executeQuery(`DELETE FROM event_store.event_stream
 WHERE type IN (SELECT eventType FROM events_to_delete)
   AND stream_id = 'raccordement|' || $1
   AND payload->>'référenceDossierRaccordement' = $2;`);
+          // insérer le nouvel événement
 
-          await publish(`raccordement|${document.identifiantProjet}`, payload);
+          await publish(`raccordement|${document.identifiantProjet}`, event);
         } catch (e) {
           console.log(`Un problème a eu lieu lors de la mise à jour des événements : ${e}`, {
             référence: document.référence,
             identifiantProjet: document.identifiantProjet,
           });
         }
-      }
 
-      // si ce n'est pas une PTF, je regarde si y'a eu des events de modifications
-      // si y'en a pas eu => go
-      // faire un truc
+        // incrémenter stats
+      }
     }
 
     // process.stdout.write(
     //   `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.convention-de-raccordement} CR / ${stats.convention-de-raccordement-directe} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
     // );
 
-    process;
-    .
-  stdout
-    .
-  write('\r')
-    console
-.
-  log(stats)
+    process.stdout.write('\r');
+    console.log(stats);
   }
 }
 
