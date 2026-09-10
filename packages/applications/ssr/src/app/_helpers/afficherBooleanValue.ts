@@ -1,2 +1,2 @@
 export const afficherBooleanValue = (value: boolean | undefined) =>
-  value === undefined ? '' : value ? 'oui' : 'non';
+  value === undefined ? 'N/A' : value ? 'oui' : 'non';
