@@ -12,6 +12,7 @@ export type TransmettreDemandeComplèteRaccordementPageProps = {
   gestionnaireRéseauActuel: TransmettreDemandeComplèteRaccordementFormProps['gestionnaireRéseauActuel'];
   identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
+  ajouterLienVersLaModificationDuGestionnaire: boolean;
 };
 
 export const TransmettreDemandeComplèteRaccordementPage: FC<
@@ -21,6 +22,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   gestionnaireRéseauActuel,
   identifiantProjet,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
+  ajouterLienVersLaModificationDuGestionnaire,
 }) => (
   <SectionPage title="Transmettre une demande complète de raccordement">
     {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
@@ -30,7 +32,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
       identifiantProjet={identifiantProjet}
       listeGestionnairesRéseau={listeGestionnairesRéseau}
       gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-      aDéjàTransmisUneDemandeComplèteDeRaccordement={aDéjàTransmisUneDemandeComplèteDeRaccordement}
+      ajouterLienVersLaModificationDuGestionnaire={ajouterLienVersLaModificationDuGestionnaire}
     />
   </SectionPage>
 );
