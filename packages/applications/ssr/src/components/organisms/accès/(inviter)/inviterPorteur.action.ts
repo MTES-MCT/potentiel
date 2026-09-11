@@ -32,9 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (
       );
 
       if (!identifiantsProjet.length) {
-        throw new Error(
-          `Il n'existe pas de projet auquel inviter ${identifiantUtilisateurInvité}`,
-        );
+        throw new Error(`Il n'existe pas de projet auquel inviter ${identifiantUtilisateurInvité}`);
       }
 
       await mediator.send<InviterPorteurUseCase>({
@@ -107,9 +105,7 @@ const récupérerTousLesProjetsDuPorteurEnExcluantCeuxDeLInvité = async (
   utilisateurInvité: string,
 ) => {
   if (!utilisateur.rôle.estPorteur()) {
-    throw new OperationRejectedError(
-      'Cette action est réservée aux porteurs de projet',
-    );
+    throw new OperationRejectedError('Cette action est réservée aux porteurs de projet');
   }
 
   const accèsInvité = await mediator.send<Accès.ListerAccèsQuery>({
