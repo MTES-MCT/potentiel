@@ -45,7 +45,7 @@ export const Search = ({ params, label }: SearchProps) => {
           type={type}
           value={search}
           onChange={(event) => {
-            setSearch(event.currentTarget.value);
+            setSearch(event.currentTarget.value.trim());
             if (event.currentTarget.value === '') {
               updateSearch('');
             }
