@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Document } from '@potentiel-domain/projet';
 
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
@@ -48,7 +48,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
         actions={getCandidatureListActions({
-          aUneAttestation: !!attestation,
+        attestation: attestation && Document.DocumentProjet.bind(attestation).formatter(),
           estNotifiée,
         })}
       />

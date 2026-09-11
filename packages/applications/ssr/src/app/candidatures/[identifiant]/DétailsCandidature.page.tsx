@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { getNatureDeLExploitationTypeLabel } from '@/app/_helpers/getNatureDeLExploitationTypeLabel';
@@ -267,6 +267,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
         children: mapToActionComponents({
           actions,
           identifiantProjet,
+          attestation: notification?.attestation ? Document.DocumentProjet.bind(notification.attestation).formatter() : undefined
         }),
       }}
     />
@@ -274,11 +275,12 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
 };
 
 type MapToActionsComponentsProps = {
-  actions: AvailableActions;
   identifiantProjet: IdentifiantProjet.ValueType;
+  actions: AvailableActions;
+  attestation?: string;
 };
 
-const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsComponentsProps) => (
+const mapToActionComponents = ({ identifiantProjet, actions, attestation}: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={Object.keys(actions).length}>
     {actions.corriger && (
       <Button
@@ -298,11 +300,11 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
         Corriger
       </Button>
     )}
-    {actions.téléchargerAttestation && (
+    {actions.téléchargerAttestation && attestation && (
       <Button
         linkProps={{
-          href: Routes.Candidature.téléchargerAttestation(
-            IdentifiantProjet.bind(identifiantProjet).formatter(),
+          href: Routes.Document.télécharger(
+            attestation,
           ),
         }}
         title={`Télécharger l'attestation de désignation`}

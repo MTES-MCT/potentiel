@@ -32,6 +32,4 @@ export const détails = candidatureRoute();
 export const corriger = candidatureRoute('/corriger');
 
 export const prévisualiserAttestation = candidatureRoute('/previsualiser-attestation');
-// TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
-// une fois qu'on aura migré la page Projet
-export const téléchargerAttestation = candidatureRoute('/telecharger-attestation');
+

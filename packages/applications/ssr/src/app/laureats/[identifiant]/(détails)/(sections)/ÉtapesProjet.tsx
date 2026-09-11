@@ -1,6 +1,5 @@
 import Information from '@codegouvfr/react-dsfr/picto/Information';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
-import type React from 'react';
 import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
@@ -22,7 +21,7 @@ export type ÉtapeProjet = (
       type: 'mise-en-service' | 'achèvement-réel';
       date?: DateTime.RawType;
     }
-) & { hasNoDocument?: true };
+) & { document?: string };
 
 export type EtapesProjetProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -30,21 +29,18 @@ export type EtapesProjetProps = {
 };
 
 export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes }) => {
+  console.log("viovio", étapes);
   return (
     <aside aria-label="Progress">
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {étapes.map((étape) =>
           match(étape)
-            .with({ type: 'designation' }, ({ date }) => (
+            .with({ type: 'designation' }, ({ date, document}) => (
               <ÉtapeProjet
                 key={étape.type}
                 titre="Notification"
                 date={date}
-                document={
-                  étape.hasNoDocument
-                    ? undefined
-                    : { url: Routes.Candidature.téléchargerAttestation(identifiantProjet) }
-                }
+                documentUrl={document ? Routes.Document.télécharger(document) : undefined }
               />
             ))
             .with({ type: 'recours' }, ({ date, dateDemande }) => (
@@ -88,16 +84,14 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes
 type ÉtapeProjetProps = {
   titre: string;
   date: DateTime.RawType | undefined;
-  document?: {
-    url: string;
-  };
+  documentUrl?: string;
   action?: {
     href: string;
     label: string;
   };
 };
 
-const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, document, action }) => {
+const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, documentUrl, action }) => {
   return (
     <TimelineItem>
       {date ? (
@@ -108,12 +102,12 @@ const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, document, action }) 
       <ContentArea>
         {date ? <FormattedDate date={date} /> : <span className="italic">À transmettre</span>}
         <ItemTitle title={titre} />
-        {document && (
+        {documentUrl && (
           <DownloadDocument
             className="mb-0"
             label="Télécharger l'attestation"
             format="pdf"
-            url={document.url}
+            url={documentUrl}
             small
           />
         )}
