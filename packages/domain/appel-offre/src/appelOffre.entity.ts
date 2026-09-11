@@ -24,6 +24,15 @@ const emailsDGEC = [
 ] as const;
 type EmailDGEC = (typeof emailsDGEC)[number];
 
+// Evaluation Carbone Simplifiée et prix
+
+/**
+ * Le lauréat doit s'engager sur une valeur ECS cible ou plafond selon son appel d'offres
+ */
+type ParagrapheEvaluationCarboneSimplifiée =
+  | { affichageParagrapheECS: true; typeEngagementECS: 'cible' | 'plafond' }
+  | { affichageParagrapheECS: false; typeEngagementECS?: undefined };
+
 type Addendums = {
   addendums?: {
     /**
@@ -357,7 +366,6 @@ export type AppelOffreReadModel = {
   paragrapheEngagementIPFPGPFC: string;
   afficherParagrapheInstallationMiseEnServiceModification: boolean;
   renvoiModification: string;
-  affichageParagrapheECS: boolean;
   renvoiDemandeCompleteRaccordement: string;
   renvoiEngagementIPFPGPFC: string;
   paragrapheClauseCompetitivite: string;
@@ -377,6 +385,7 @@ export type AppelOffreReadModel = {
   garantiesFinancières: GarantiesFinancièresAppelOffre;
   puissanceInitialeCandidatureEnKWc?: true;
 } & TechnologieAppelOffre &
-  Addendums;
+  Addendums &
+  ParagrapheEvaluationCarboneSimplifiée;
 
 export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

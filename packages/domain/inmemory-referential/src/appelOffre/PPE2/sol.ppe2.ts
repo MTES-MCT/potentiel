@@ -123,6 +123,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.2',
   affichageParagrapheECS: true,
+  typeEngagementECS: 'cible',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiEngagementIPFPGPFC: '3.2.7',
   paragrapheClauseCompetitivite: '2.10',

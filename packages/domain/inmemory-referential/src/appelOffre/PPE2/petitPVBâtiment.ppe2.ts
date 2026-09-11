@@ -88,6 +88,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.2',
   affichageParagrapheECS: true,
+  typeEngagementECS: 'plafond',
   renvoiDemandeCompleteRaccordement: '6.1',
   garantiesFinancières: {
     typeGarantiesFinancièresDisponibles: ['consignation', 'avec-date-échéance', 'exemption'],

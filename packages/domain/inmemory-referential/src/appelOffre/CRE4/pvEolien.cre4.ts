@@ -112,6 +112,7 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
+  typeEngagementECS: 'cible',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiEngagementIPFPGPFC: '3.3.7',
   paragrapheClauseCompetitivite: '',

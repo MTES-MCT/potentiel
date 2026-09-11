@@ -119,6 +119,7 @@ export const sol: AppelOffre.AppelOffreReadModel = {
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
+  typeEngagementECS: 'cible',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiEngagementIPFPGPFC: '3.2.6 et 7.2.2',
   paragrapheClauseCompetitivite: '2.8',

@@ -64,9 +64,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
         </Text>
         <Text style={{ marginTop: 10 }}>
           {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
-            ? 'La valeur de l’évaluation carbone des modules est de ' +
-              formatNumber(project.evaluationCarbone) +
-              ' kg eq CO2/kWc.'
+            ? `La valeur de l’évaluation carbone des modules est ${appelOffre.typeEngagementECS === 'plafond' ? 'inférieure ou égale à' : 'de'} ${formatNumber(project.evaluationCarbone)} kg eq CO2/kWc.`
             : ' '}
           {addendumParagraphePrix && <Text> {addendumParagraphePrix}</Text>}
           {project.isGouvernancePartagée && (
