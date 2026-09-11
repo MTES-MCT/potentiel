@@ -4,7 +4,7 @@ import type { CandidatureListItemActionsProps } from '@/app/candidatures/(liste)
 
 type Props = {
   estNotifiée: boolean;
-  attestation?: string
+  attestation?: string;
 };
 
 export const getCandidatureListActions = (
@@ -13,8 +13,8 @@ export const getCandidatureListActions = (
   match(props)
     .returnType<CandidatureListItemActionsProps['actions']>()
     .with({ estNotifiée: false }, () => ({ télécharger: undefined, prévisualiser: true }))
-    .with({ estNotifiée: true, attestation: P.string }, ({attestation}) => ({
-      télécharger: {url: attestation},
+    .with({ estNotifiée: true, attestation: P.string }, ({ attestation }) => ({
+      télécharger: { url: attestation },
       prévisualiser: false,
     }))
     .otherwise(() => ({ télécharger: undefined, prévisualiser: false }));

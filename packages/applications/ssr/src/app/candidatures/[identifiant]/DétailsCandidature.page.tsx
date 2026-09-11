@@ -267,7 +267,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
         children: mapToActionComponents({
           actions,
           identifiantProjet,
-          attestation: notification?.attestation ? Document.DocumentProjet.bind(notification.attestation).formatter() : undefined
+          attestation: notification?.attestation
+            ? Document.DocumentProjet.bind(notification.attestation).formatter()
+            : undefined,
         }),
       }}
     />
@@ -280,7 +282,11 @@ type MapToActionsComponentsProps = {
   attestation?: string;
 };
 
-const mapToActionComponents = ({ identifiantProjet, actions, attestation}: MapToActionsComponentsProps) => (
+const mapToActionComponents = ({
+  identifiantProjet,
+  actions,
+  attestation,
+}: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={Object.keys(actions).length}>
     {actions.corriger && (
       <Button
@@ -303,9 +309,7 @@ const mapToActionComponents = ({ identifiantProjet, actions, attestation}: MapTo
     {actions.téléchargerAttestation && attestation && (
       <Button
         linkProps={{
-          href: Routes.Document.télécharger(
-            attestation,
-          ),
+          href: Routes.Document.télécharger(attestation),
         }}
         title={`Télécharger l'attestation de désignation`}
         aria-label={`Télécharger l'attestation de désignation`}

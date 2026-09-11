@@ -9,7 +9,7 @@ export type CandidatureListItemActionsProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   nomProjet: Candidature.Dépôt.RawType['nomProjet'];
   actions: {
-    télécharger?: {url: string};
+    télécharger?: { url: string };
     prévisualiser: boolean;
   };
 };

@@ -48,7 +48,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
         actions={getCandidatureListActions({
-        attestation: attestation && Document.DocumentProjet.bind(attestation).formatter(),
+          attestation: attestation && Document.DocumentProjet.bind(attestation).formatter(),
           estNotifiée,
         })}
       />

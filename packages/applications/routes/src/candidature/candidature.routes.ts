@@ -32,4 +32,3 @@ export const détails = candidatureRoute();
 export const corriger = candidatureRoute('/corriger');
 
 export const prévisualiserAttestation = candidatureRoute('/previsualiser-attestation');
-

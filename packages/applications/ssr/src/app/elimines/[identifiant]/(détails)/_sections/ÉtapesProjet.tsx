@@ -15,7 +15,8 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 export type ÉtapeProjet = {
   type: 'designation' | 'recours-demandé' | 'recours-annulé' | 'recours-rejeté';
   date: DateTime.RawType;
-  document?: string };
+  document?: string;
+};
 
 export type EtapesProjetProps = {
   identifiantProjet: IdentifiantProjet.RawType;
