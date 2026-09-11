@@ -18,6 +18,12 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
   const paragrapheEngagementIPFPGPFC =
     période.paragrapheEngagementIPFPGPFC ?? appelOffre.paragrapheEngagementIPFPGPFC;
 
+  const addendumParagrapheECS =
+    période.addendums?.paragrapheECS ?? appelOffre.addendums?.paragrapheECS;
+
+  const addendumParagraphePrix =
+    période.addendums?.paragraphePrix ?? appelOffre.addendums?.paragraphePrix;
+
   const afficherObligationGarantiesFinancières6MoisAprèsAchèvement =
     !!appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres &&
     (appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres === 'après candidature' ||
@@ -62,9 +68,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               formatNumber(project.evaluationCarbone) +
               ' kg eq CO2/kWc.'
             : ' '}
-          {période.addendums?.paragraphePrix ? (
-            <Text> {période.addendums.paragraphePrix}</Text>
-          ) : null}
+          {addendumParagraphePrix && <Text> {addendumParagraphePrix}</Text>}
           {project.isGouvernancePartagée && (
             <Text>
               {' '}
@@ -183,9 +187,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
                     : 'Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés.'}
                 </Text>
 
-                {période.addendums?.paragrapheECS && (
-                  <Text> {période.addendums.paragrapheECS}</Text>
-                )}
+                {addendumParagrapheECS && <Text> {addendumParagrapheECS}</Text>}
               </>
             )}
             {appelOffre.typeAppelOffre === 'innovation' && (

@@ -142,6 +142,12 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
     coefficientKChoisi: { type: 'requis' },
     typologieInstallation: { type: 'requis' },
   },
+  addendums: {
+    paragrapheECS:
+      "Pour rappel, la conformité de l’autorisation d’urbanisme et  le respect du bilan carbone déclaré dans l’offre, arrondi au multiple de 10 le plus proche conformément au cahier des charges, fait l’objet d’une vérification pour la délivrance de l’attestation de conformité qui est obligatoire pour la prise d'effet du contrat",
+    paragraphePrix:
+      "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 de l'annexe 2 du cahier des charges.",
+  },
   periodes: [
     {
       id: '1',
@@ -156,12 +162,6 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
       cahiersDesChargesModifiésDisponibles: [],
       // si CDC modifié ajouté, vérifier si retour au CDC initial possible
       champsSupplémentaires: {},
-      addendums: {
-        paragrapheECS:
-          "Pour rappel, la conformité de l’autorisation d’urbanisme et  le respect du bilan carbone déclaré dans l’offre, arrondi au multiple de 10 le plus proche conformément au cahier des charges, fait l’objet d’une vérification pour la délivrance de l’attestation de conformité qui est obligatoire pour la prise d'effet du contrat",
-        paragraphePrix:
-          "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 de l'annexe 2 du cahier des charges.",
-      },
       typeImport: 'démarche-numérique',
     },
     // première et dernière période de cet appel d'offres, les suivantes seront sur l'AO "PPE2 - Petit PV"
