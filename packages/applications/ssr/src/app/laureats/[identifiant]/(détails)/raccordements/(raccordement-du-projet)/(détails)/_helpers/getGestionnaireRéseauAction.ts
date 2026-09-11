@@ -49,4 +49,15 @@ export const getGestionnaireRéseauAction = ({
       href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
     };
   }
+
+  if (
+    estProjetAchevé &&
+    estInconnuGestionnaire &&
+    rôle.aLaPermission('raccordement.gestionnaire.transmettre-après-achèvement')
+  ) {
+    return {
+      label: 'Renseigner',
+      href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
+    };
+  }
 };
