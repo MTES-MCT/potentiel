@@ -36,6 +36,10 @@ const getTestUtilisateur = (req) => {
  * Serveur de test de l'API
  **/
 const main = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('api/bin/dev.js ne doit jamais être exécuté en production (JWT non vérifié)');
+  }
+
   initLogger(createLogger({}));
 
   const { bootstrap } = await import('@potentiel-applications/bootstrap');
