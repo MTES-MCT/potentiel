@@ -22,7 +22,7 @@ export const Search = ({ params, label }: SearchProps) => {
     if (search) {
       newSearchParams.delete('page');
 
-      newSearchParams.set(params, search);
+      newSearchParams.set(params, search.trim());
     } else {
       newSearchParams.delete(params);
     }
@@ -45,7 +45,7 @@ export const Search = ({ params, label }: SearchProps) => {
           type={type}
           value={search}
           onChange={(event) => {
-            setSearch(event.currentTarget.value.trim());
+            setSearch(event.currentTarget.value);
             if (event.currentTarget.value === '') {
               updateSearch('');
             }
