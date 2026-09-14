@@ -1,11 +1,17 @@
 import { Command } from '@oclif/core';
+import z from 'zod';
 
 import {
   cleanStatistiquesPubliques,
   computeStatistiquesPubliques,
 } from '@potentiel-statistiques/statistiques-publiques';
 
-import { dbSchema } from '#helpers';
+import { appSchema, dbSchema, verifyIfEnvIsProduction } from '#helpers';
+
+const envSchema = z.object({
+  ...appSchema.shape,
+  ...dbSchema.shape,
+});
 
 export default class ExtraireStats extends Command {
   static monitoringSlug = 'extraire-donnees-statistiques-publiques';
@@ -13,7 +19,9 @@ export default class ExtraireStats extends Command {
   static override description = 'Extrait les données des statistiques publiques';
 
   async init() {
-    dbSchema.parse(process.env);
+    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+
+    verifyIfEnvIsProduction(APPLICATION_STAGE);
   }
 
   public async run(): Promise<void> {
