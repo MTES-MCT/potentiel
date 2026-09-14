@@ -12,9 +12,8 @@ import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 export class RattraperHistoriqueDocumentsCommand extends Command {
   static description = "Rattraper l'historique des documents PTF en les requalifiant";
 
-  static flags = {
-    projet: Flags.string({}),
-    référence: Flags.string({}),
+  static override flags = {
+    dryRun: Flags.boolean({ name: 'dryRun' }),
   };
 
   async run(): Promise<void> {
@@ -35,10 +34,8 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
               format: Where.notEqualNull(),
             },
           },
-          identifiantProjet: Where.startWith(flags.projet),
-          référence: Where.equal(flags.référence),
           // Date de mise en ligne de la nouvelle fonctionnalité PTF / CR / CRD
-          miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
+          // miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
         },
         range: {
           startPosition: 0,
@@ -100,8 +97,9 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           type === 'convention-de-raccordement' ||
           type === 'convention-de-raccordement-directe'
         ) {
-          console.log(`CR trouvé pour ${dossier.identifiantProjet} / ${dossier.référence}`, {
-            projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
+          console.log(`CR ou CRD trouvée`, {
+            identifiantProjet: dossier.identifiantProjet,
+            référence: dossier.référence,
           });
           documentQualifiés.push({
             référence: dossier.référence,
@@ -115,7 +113,8 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           stats.qualification.scans++;
         } else {
           console.log('Type non trouvé', {
-            projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
+            identifiantProjet: dossier.identifiantProjet,
+
             référence: dossier.référence,
             text,
           });
@@ -124,7 +123,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       } catch (e) {
         if (e instanceof FichierInexistant) {
           console.log('Fichier inexistant', {
-            projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
+            identifiantProjet: dossier.identifiantProjet,
             référence: dossier.référence,
           });
           stats.qualification.fileNotFound++;
@@ -137,11 +136,11 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           });
         }
       }
-
-      process.stdout.write(
-        `\r⏳ ${stats.total} TOTAL / ${stats.qualification.cr} CR / ${stats.qualification.crd} CRD / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
-      );
     }
+
+    process.stdout.write(
+      `\r⏳ ${stats.total} TOTAL / ${stats.qualification.cr} CR / ${stats.qualification.crd} CRD / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
+    );
 
     for (const document of documentQualifiés) {
       const data = await executeSelect<{
@@ -228,19 +227,23 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       };
 
       try {
-        // Supprimer les événements concernés
-        await executeQuery(
-          `DELETE FROM event_store.event_stream
+        if (flags.dryRun) {
+          console.log('dryRun');
+        } else {
+          // Supprimer les événements concernés
+          await executeQuery(
+            `DELETE FROM event_store.event_stream
            WHERE type = ANY($1)
              AND stream_id = #2
              AND payload->>'référenceDossierRaccordement' = $3;`,
-          data[0].eventToDelete,
-          `raccordement|${document.identifiantProjet}`,
-          document.référence,
-        );
+            data[0].eventToDelete,
+            `raccordement|${document.identifiantProjet}`,
+            document.référence,
+          );
 
-        // Insérer le nouvel événement
-        await publish(`raccordement|${document.identifiantProjet}`, event);
+          // Insérer le nouvel événement
+          await publish(`raccordement|${document.identifiantProjet}`, event);
+        }
 
         if (type === 'convention-de-raccordement') {
           stats.documentMigrés.versCR++;
