@@ -128,20 +128,14 @@ const mapToProps = (
   emailUtilisateur: string,
   iv: string,
 ): Array<RéclamerProjetsListItemProps> =>
-  projets.map((projet) => {
-    const identifiantProjetChiffré = chiffrerIdentifiantProjet(
-      projet.identifiantProjet.formatter(),
-      iv,
-    );
-    return {
-      identifiantProjet: identifiantProjetChiffré,
-      appelOffre: projet.identifiantProjet.appelOffre,
-      période: projet.identifiantProjet.période,
-      famille: projet.identifiantProjet.famille,
-      nomProjet: projet.nomProjet,
-      userHasSameEmail: projet.emailContact === emailUtilisateur,
-      puissance: projet.puissance,
-      région: projet.région,
-      iv,
-    };
-  });
+  projets.map((projet) => ({
+    identifiantProjet: chiffrerIdentifiantProjet(projet.identifiantProjet.formatter(), iv),
+    appelOffre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
+    famille: projet.identifiantProjet.famille,
+    nomProjet: projet.nomProjet,
+    userHasSameEmail: projet.emailContact === emailUtilisateur,
+    puissance: projet.puissance,
+    région: projet.région,
+    iv,
+  }));

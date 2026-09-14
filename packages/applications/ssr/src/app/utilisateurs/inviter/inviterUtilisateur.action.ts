@@ -12,7 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   role: zod.string(),
-  identifiantUtilisateurInvite: zod.string().min(1),
+  identifiantUtilisateurInvité: zod.string().min(1),
   region: zod.string().optional(),
   identifiantGestionnaireReseau: zod.string().optional(),
   zone: zod.string().optional(),
@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   {
     role,
-    identifiantUtilisateurInvite,
+    identifiantUtilisateurInvité,
     identifiantGestionnaireReseau,
     region,
     zone,
@@ -38,7 +38,7 @@ const action: FormAction<FormState, typeof schema> = async (
     await mediator.send<InviterUtilisateurUseCase>({
       type: 'Utilisateur.UseCase.InviterUtilisateur',
       data: {
-        identifiantUtilisateurValue: identifiantUtilisateurInvite,
+        identifiantUtilisateurValue: identifiantUtilisateurInvité,
         rôleValue: role,
         invitéLeValue: DateTime.now().formatter(),
         invitéParValue: utilisateur.identifiantUtilisateur.formatter(),

@@ -20,19 +20,21 @@ const getSecret = () => {
 };
 
 export const chiffrerIdentifiantProjet = (identifiantProjet: string, iv: string) => {
-  const cipher = crypto.createCipheriv('aes-256-cbc', getSecret(), Buffer.from(iv, 'hex'));
+  const cipher = crypto.createCipheriv('aes-256-gcm', getSecret(), Buffer.from(iv, 'hex'));
   const encrypted = Buffer.concat([
     cipher.update(Buffer.from(identifiantProjet, 'utf8')),
     cipher.final(),
   ]);
-  return encrypted.toString('base64');
+  return Buffer.concat([encrypted, cipher.getAuthTag()]).toString('base64');
 };
 
 export const déchiffrerIdentifiantProjet = (identifiantProjetChiffré: string, iv: string) => {
-  const decipher = crypto.createDecipheriv('aes-256-cbc', getSecret(), Buffer.from(iv, 'hex'));
-  const decrypted = Buffer.concat([
-    decipher.update(Buffer.from(identifiantProjetChiffré, 'base64')),
-    decipher.final(),
-  ]);
+  const data = Buffer.from(identifiantProjetChiffré, 'base64');
+  const authTag = data.subarray(data.length - 16);
+  const encrypted = data.subarray(0, data.length - 16);
+
+  const decipher = crypto.createDecipheriv('aes-256-gcm', getSecret(), Buffer.from(iv, 'hex'));
+  decipher.setAuthTag(authTag);
+  const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
   return decrypted.toString('utf8');
 };
