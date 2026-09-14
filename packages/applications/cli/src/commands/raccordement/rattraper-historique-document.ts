@@ -37,12 +37,11 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           },
           identifiantProjet: Where.startWith(flags.projet),
           référence: Where.equal(flags.référence),
-          // '2026-07-27T13:57:06.740Z' est la date de la première transmission d'un nouveau type de document
+          // Date de mise en ligne de la nouvelle fonctionnalité PTF / CR / CRD
           miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
         },
         range: {
           startPosition: 0,
-          // env. 1900 documents concernés
           endPosition: 2500,
         },
       },
@@ -71,10 +70,15 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       documentMigrés: {
         versCR: 0,
         versCRD: 0,
+        errors: [] as {
+          identifiantProjet: string;
+          référence: string;
+          error: string;
+        }[],
       },
     };
 
-    console.log(`starting qualification for ${data.items.length} dossiers`);
+    console.log(`Starting qualification for ${data.items.length} dossiers`);
 
     for (const dossier of data.items) {
       try {
@@ -106,10 +110,10 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           });
           stats.qualification[type === 'convention-de-raccordement' ? 'cr' : 'crd']++;
         }
+
         if (!text || text.length < 5) {
           stats.qualification.scans++;
         } else {
-          process.stdout.write('\r');
           console.log('Type non trouvé', {
             projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
             référence: dossier.référence,
@@ -118,7 +122,6 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           stats.qualification.inconnu++;
         }
       } catch (e) {
-        process.stdout.write('\r');
         if (e instanceof FichierInexistant) {
           console.log('Fichier inexistant', {
             projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
@@ -136,125 +139,130 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       }
 
       process.stdout.write(
-        `\r⏳ ${stats.total} TOTAL / ${stats.qualification.cr} CR à traiter / ${stats.qualification.crd} CRD à traiter / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
+        `\r⏳ ${stats.total} TOTAL / ${stats.qualification.cr} CR / ${stats.qualification.crd} CRD / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
+      );
+    }
+
+    for (const document of documentQualifiés) {
+      const data = await executeSelect<{
+        dateSignature: DateTime.RawType;
+        format: string;
+        transmisLe: DateTime.RawType;
+        transmisPar: Email.RawType;
+        eventToDelete: string[];
+      }>(
+        `
+        SELECT
+          e.payload->>'dateSignature' AS dateSignature,
+          CASE
+            WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
+              signed.payload->>'format'
+            ELSE
+              e.payload->>'format'
+          END AS format,
+          ARRAY[
+            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN 'PropositionTechniqueEtFinancièreTransmise-V1' ELSE NULL END,
+            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN 'PropositionTechniqueEtFinancièreTransmise-V2' ELSE NULL END,
+            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN 'PropositionTechniqueEtFinancièreTransmise-V3' ELSE NULL END,
+            CASE WHEN signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' THEN 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' ELSE NULL END
+          ] FILTER (WHERE $ IS NOT NULL) AS eventToDelete,
+          CASE
+            WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
+              e.created_at
+            ELSE
+              (e.payload->>'transmisLe')::timestamp
+          END AS transmisLe,
+          CASE
+            WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
+              'unknown-user@unknown-email.com'
+            ELSE
+              e.payload->>'transmisPar'
+          END AS transmisPar
+        FROM event_store.event_stream e
+        LEFT JOIN event_store.event_stream signed
+          ON signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
+          AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
+        WHERE
+          e.stream_id = $1
+          AND e.payload->>'référenceDossierRaccordement' = $2
+          AND e.type NOT LIKE 'PropositionTechniqueEtFinancièreModifié%'
+          AND (
+            e.type LIKE 'PropositionTechniqueEtFinancièreTransmise%'
+            OR e.type LIKE 'PropositionTechniqueEtFinancièreSignéeTransmise%'
+          )
+          AND (
+            e.type != 'PropositionTechniqueEtFinancièreTransmise-V1'
+            OR signed.type IS NOT NULL
+          );
+      `,
+        `raccordement|${document.identifiantProjet}`,
+        document.référence,
       );
 
-      for (const document of documentQualifiés) {
-        // quelques règles
-        // on a besoin d'un événement PropositionTechniqueEtFinancièreSignéeTransmise-V1 si PropositionTechniqueEtFinancièreTransmise-V1
-        // on exclue les stream pour lesquels il y a eu modification de la PTF (67) car complexe à gérer
-        // on a ensuite différentes règles de récupération des données en fonction des événements
-        const data = await executeSelect<{
-          dateSignature: DateTime.RawType;
-          format: string;
-          transmisLe: DateTime.RawType;
-          transmisPar: Email.RawType;
-          eventToDelete: string;
-        }>(`
-SELECT
-  e.payload->>'dateSignature' AS dateSignature,
-  CASE
-    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
-      signed.payload->>'format'
-    ELSE
-      e.payload->>'format'
-  END AS format,
-  -- Champ pour identifier les événements à supprimer
-  CASE
-    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
-      'PropositionTechniqueEtFinancièreTransmise-V1'
-    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN
-      'PropositionTechniqueEtFinancièreTransmise-V2'
-    WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN
-      'PropositionTechniqueEtFinancièreTransmise-V3'
-    ELSE
-      NULL
-  END AS eventToDelete,
-  CASE
-    WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
-      e.created_at
-    ELSE
-      (e.payload->>'transmisLe')::timestamp
-  END AS transmisLe,
-  CASE
-    WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
-      'unknown-user@unknown-email.com'
-    ELSE
-      e.payload->>'transmisPar'
-  END AS transmisPar,
-  e.type
-FROM event_store.event_stream e
-LEFT JOIN event_store.event_stream signed
-  ON signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
-  AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
-WHERE
-  e.stream_id = 'raccordement|' || $1
-  AND e.payload->>'référenceDossierRaccordement' = $2
-  AND e.type NOT LIKE 'PropositionTechniqueEtFinancièreModifié%'
-  AND (
-    e.type LIKE 'PropositionTechniqueEtFinancièreTransmise%'
-    OR e.type LIKE 'PropositionTechniqueEtFinancièreSignéeTransmise%'
-  )
-  AND (
-    e.type != 'PropositionTechniqueEtFinancièreTransmise-V1'
-    OR signed.type IS NOT NULL
-  );
-        `);
+      if (!data.length) {
+        console.log(
+          `Aucune donnée trouvée pour ${document.identifiantProjet} / ${document.référence}`,
+        );
+        continue;
+      }
 
-        if (!data.length) {
-          console.log(`CR trouvé pour ${dossier.identifiantProjet} / ${dossier.référence}`, {
-            projet: `https://potentiel.beta.gouv.fr/laureats/${encodeURIComponent(dossier.identifiantProjet)}/raccordements`,
-          });
-          continue;
-        }
+      const type = Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
+        document.type,
+      ).formatter();
 
-        const event: Lauréat.Raccordement.DocumentRaccordementTransmisEventV1 = {
-          type: 'DocumentRaccordementTransmis-V1',
-          payload: {
-            identifiantProjet: IdentifiantProjet.convertirEnValueType(
-              document.identifiantProjet,
-            ).formatter(),
-            référenceDossierRaccordement: document.référence,
-            dateSignature: data[0].dateSignature,
-            document: {
-              format: data[0].format,
-            },
-            transmisLe: data[0].transmisLe,
-            transmisPar: data[0].transmisPar,
-            type: Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
-              document.type,
-            ).formatter(),
+      const event: Lauréat.Raccordement.DocumentRaccordementTransmisEventV1 = {
+        type: 'DocumentRaccordementTransmis-V1',
+        payload: {
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(
+            document.identifiantProjet,
+          ).formatter(),
+          référenceDossierRaccordement: document.référence,
+          dateSignature: data[0].dateSignature,
+          document: {
+            format: data[0].format,
           },
-        };
+          transmisLe: data[0].transmisLe,
+          transmisPar: data[0].transmisPar,
+          type,
+        },
+      };
 
-        // flag => j'annule le process mais on peut logger
+      try {
+        // Supprimer les événements concernés
+        await executeQuery(
+          `DELETE FROM event_store.event_stream
+           WHERE type = ANY($1)
+             AND stream_id = #2
+             AND payload->>'référenceDossierRaccordement' = $3;`,
+          data[0].eventToDelete,
+          `raccordement|${document.identifiantProjet}`,
+          document.référence,
+        );
 
-        // supprimer les événements concernés (WARNING ??)
-        try {
-          await executeQuery(`DELETE FROM event_store.event_stream
-WHERE type IN (SELECT eventType FROM events_to_delete)
-  AND stream_id = 'raccordement|' || $1
-  AND payload->>'référenceDossierRaccordement' = $2;`);
-          // insérer le nouvel événement
+        // Insérer le nouvel événement
+        await publish(`raccordement|${document.identifiantProjet}`, event);
 
-          await publish(`raccordement|${document.identifiantProjet}`, event);
-        } catch (e) {
-          console.log(`Un problème a eu lieu lors de la mise à jour des événements : ${e}`, {
-            référence: document.référence,
-            identifiantProjet: document.identifiantProjet,
-          });
+        if (type === 'convention-de-raccordement') {
+          stats.documentMigrés.versCR++;
+        } else {
+          stats.documentMigrés.versCRD++;
         }
-
-        // incrémenter stats
+      } catch (e) {
+        console.log(`Erreur lors de la mise à jour des événements : ${e}`, {
+          référence: document.référence,
+          identifiantProjet: document.identifiantProjet,
+        });
+        stats.qualification.errors.push({
+          identifiantProjet: document.identifiantProjet,
+          référence: document.référence,
+          error: (e as Error).message,
+        });
       }
     }
 
-    // process.stdout.write(
-    //   `\r⏳ ${stats.total} TOTAL / ${stats.ptf} PTF / ${stats.convention-de-raccordement} CR / ${stats.convention-de-raccordement-directe} CRD / ${stats.scans} SCANS / ${stats.fileNotFound} FILE NOT FOUND / ${stats.errors.length} ERRORS`,
-    // );
-
     process.stdout.write('\r');
-    console.log(stats);
+    console.log('\n--- Statistiques migration ---');
+    console.log(stats.documentMigrés);
   }
 }
 
@@ -267,7 +275,7 @@ WHERE type IN (SELECT eventType FROM events_to_delete)
 // rebuild raccordement
 
 async function getDocumentType(pdfUrl: Uint8Array) {
-  var pdf = await getDocument({
+  const pdf = await getDocument({
     data: pdfUrl,
     verbosity: 0,
   }).promise;
@@ -311,7 +319,6 @@ async function getDocumentType(pdfUrl: Uint8Array) {
   return { type: 'unknown' as const, text: allPages.join('\n') };
 }
 
-// https://stackoverflow.com/questions/40385133/retrieve-data-from-a-readablestream-object
 function concatArrayBuffers(chunks: Uint8Array[]): Uint8Array {
   const result = new Uint8Array(chunks.reduce((a, c) => a + c.length, 0));
   let offset = 0;
