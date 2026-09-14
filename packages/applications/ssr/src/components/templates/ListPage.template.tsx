@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import type { FC } from 'react';
 
 import { Heading1 } from '../atoms/headings';
+import { CommuneSearch } from '../molecules/CommuneSearch';
 import { ListFilters, type ListFiltersProps } from '../molecules/ListFilters';
 import { ListLegend, type ListLegendProps } from '../molecules/ListLegend';
 import { ListPageActions, type ListPageActionsProps } from '../molecules/ListPageActions';
@@ -62,7 +63,13 @@ export const ListPageTemplate = <TItem,>({
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
         <div className="flex flex-col gap-3 pb-2 md:w-1/4">
           {actions.length ? <ListPageActions actions={actions} /> : null}
-          {filters.length ? <ListFilters filters={filters} /> : null}
+          {filters.length ? (
+            <>
+              <ListFilters filters={filters} />
+              <Search params="commune" label="Rechercher une commune" />
+            </>
+          ) : null}
+
           {legend.symbols.length ? <ListLegend symbols={legend.symbols} /> : null}
         </div>
 
