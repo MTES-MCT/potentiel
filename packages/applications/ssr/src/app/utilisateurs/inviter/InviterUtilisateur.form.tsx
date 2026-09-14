@@ -57,14 +57,14 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
 
           <Input
             nativeInputProps={{
-              name: 'identifiantUtilisateurInvite',
+              name: 'identifiantUtilisateurInvité',
               type: 'email',
               required: true,
               'aria-required': true,
             }}
             label="Courrier électronique de la personne"
-            state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
+            state={validationErrors['identifiantUtilisateurInvité'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['identifiantUtilisateurInvité']}
           />
 
           {rôle && (

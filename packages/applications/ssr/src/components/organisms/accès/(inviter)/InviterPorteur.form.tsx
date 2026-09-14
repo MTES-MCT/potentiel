@@ -56,14 +56,14 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
                 <div>
                   <Input
                     nativeInputProps={{
-                      name: 'identifiantUtilisateurInvite',
+                      name: 'identifiantUtilisateurInvité',
                       required: true,
                       type: 'email',
                       'aria-required': true,
                     }}
                     label="Courrier électronique de la personne habilitée à suivre ce projet"
-                    state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
-                    stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
+                    state={validationErrors['identifiantUtilisateurInvité'] ? 'error' : 'default'}
+                    stateRelatedMessage={validationErrors['identifiantUtilisateurInvité']}
                   />
                   {nombreDeProjets && nombreDeProjets > 1 && (
                     <Checkbox
