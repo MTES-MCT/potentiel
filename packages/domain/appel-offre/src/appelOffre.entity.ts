@@ -24,6 +24,29 @@ const emailsDGEC = [
 ] as const;
 type EmailDGEC = (typeof emailsDGEC)[number];
 
+// Evaluation Carbone Simplifiée et prix
+
+/**
+ * Le lauréat doit s'engager sur une valeur ECS cible ou plafond selon son appel d'offres
+ */
+type ParagrapheEvaluationCarboneSimplifiée =
+  | { affichageParagrapheECS: true; typeEngagementECS: 'cible' | 'plafond' }
+  | { affichageParagrapheECS: false; typeEngagementECS?: undefined };
+
+type Addendums = {
+  addendums?: {
+    /**
+     * Permet un ajout personalisé dans le paragraphe Prix.
+     */
+    paragraphePrix?: string;
+    /**
+     * Permet un ajout personalisé dans le paragraphe Évaluation Carbone.
+     * nécessite que affichageParagrapheECS soit true dans l'appel d'offre
+     */
+    paragrapheECS?: string;
+  };
+};
+
 // Type des Garanties Financières
 export type TypeGarantiesFinancières =
   | 'consignation'
@@ -306,24 +329,14 @@ export type Periode = {
     changement?: Partial<RèglesMiseÀJourPorteur> | 'indisponible';
     modification?: Partial<Record<DomainesConcernésParMiseÀJour, Modification>>;
   };
-  addendums?: {
-    /**
-     * Permet un ajout personalisé dans le paragraphe Prix.
-     */
-    paragraphePrix?: string;
-    /**
-     * Permet un ajout personalisé dans le paragraphe Évaluation Carbone.
-     * nécessite que affichageParagrapheECS soit true dans l'appel d'offre
-     */
-    paragrapheECS?: string;
-  };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   typeImport: 'démarche-numérique' | 'csv';
   /** Partie du volume total de puissance appelé spécifiquement allouée aux faibles puissance */
   volumeRéservé?: {
     puissanceMax: number;
   };
-} & (NotifiedPeriode | LegacyPeriode);
+} & (NotifiedPeriode | LegacyPeriode) &
+  Addendums;
 
 // Territoire
 export const territoires = [
@@ -353,7 +366,6 @@ export type AppelOffreReadModel = {
   paragrapheEngagementIPFPGPFC: string;
   afficherParagrapheInstallationMiseEnServiceModification: boolean;
   renvoiModification: string;
-  affichageParagrapheECS: boolean;
   renvoiDemandeCompleteRaccordement: string;
   renvoiEngagementIPFPGPFC: string;
   paragrapheClauseCompetitivite: string;
@@ -372,6 +384,8 @@ export type AppelOffreReadModel = {
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
   puissanceInitialeCandidatureEnKWc?: true;
-} & TechnologieAppelOffre;
+} & TechnologieAppelOffre &
+  Addendums &
+  ParagrapheEvaluationCarboneSimplifiée;
 
 export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

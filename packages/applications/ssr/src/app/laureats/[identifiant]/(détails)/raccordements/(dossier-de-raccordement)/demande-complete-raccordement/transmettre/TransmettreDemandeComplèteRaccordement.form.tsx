@@ -26,14 +26,14 @@ export type TransmettreDemandeComplèteRaccordementFormProps = {
   identifiantProjet: PlainType<IdentifiantProjet.RawType>;
   gestionnaireRéseauActuel: GestionnaireRéseauSelectProps['gestionnaireRéseauActuel'];
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
-  aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
+  ajouterLienVersLaModificationDuGestionnaire: boolean;
 };
 
 export const TransmettreDemandeComplèteRaccordementForm = ({
   identifiantProjet,
   gestionnaireRéseauActuel,
   listeGestionnairesRéseau,
-  aDéjàTransmisUneDemandeComplèteDeRaccordement,
+  ajouterLienVersLaModificationDuGestionnaire,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
@@ -70,7 +70,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         <div className="flex flex-col">
           <div className="flex gap-3">
             <legend className="font-bold">Gestionnaire réseau actuel</legend>
-            {aDéjàTransmisUneDemandeComplèteDeRaccordement ? null : (
+            {ajouterLienVersLaModificationDuGestionnaire && (
               <Link
                 href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
                 aria-label="Modifier le gestionnaire de réseau"

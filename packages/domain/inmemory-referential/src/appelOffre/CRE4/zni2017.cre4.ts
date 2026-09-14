@@ -120,6 +120,7 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   afficherParagrapheInstallationMiseEnServiceModification: true,
   renvoiModification: '5.3',
   affichageParagrapheECS: true,
+  typeEngagementECS: 'cible',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '',

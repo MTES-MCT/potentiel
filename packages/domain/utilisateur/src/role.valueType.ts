@@ -1301,6 +1301,7 @@ const policies = {
       ],
       'modifier-après-achèvement': [],
       'modifier-après-mise-en-service': [],
+      'transmettre-après-achèvement': [],
     },
   },
   actionnaire: {
@@ -1705,6 +1706,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.gestionnaire.modifier',
   'raccordement.gestionnaire.modifier-après-mise-en-service',
   'raccordement.gestionnaire.modifier-après-achèvement',
+  'raccordement.gestionnaire.transmettre-après-achèvement',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
@@ -2149,6 +2151,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Raccordement
   'raccordement.gestionnaire.modifier',
+  'raccordement.gestionnaire.transmettre-après-achèvement',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.document-raccordement.transmettre',

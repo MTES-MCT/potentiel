@@ -37,7 +37,7 @@ export default async function Page(props: PageProps) {
         decodeParameter(identifiant),
       ).formatter();
 
-      await getLauréatOrRedirect(identifiantProjet);
+      const lauréat = await getLauréatOrRedirect(identifiantProjet);
 
       const gestionnairesRéseau =
         await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -59,6 +59,23 @@ export default async function Page(props: PageProps) {
       const aDéjàTransmisUneDemandeComplèteDeRaccordement =
         Option.isSome(raccordements) && raccordements.dossiers.length > 0;
 
+      const peutModifierLeGestionnaire =
+        (lauréat.statut.estActif() &&
+          utilisateur.rôle.aLaPermission('raccordement.gestionnaire.modifier')) ||
+        (lauréat.statut.estAchevé() &&
+          utilisateur.rôle.aLaPermission('raccordement.gestionnaire.modifier-après-achèvement')) ||
+        (Option.isSome(raccordements) &&
+          !!raccordements.miseEnService &&
+          utilisateur.rôle.aLaPermission(
+            'raccordement.gestionnaire.modifier-après-mise-en-service',
+          ));
+
+      const ajouterLienVersLaModificationDuGestionnaire =
+        peutModifierLeGestionnaire &&
+        Option.isSome(gestionnaireRéseauActuel) &&
+        !gestionnaireRéseauActuel.identifiantGestionnaireRéseau.estInconnu() &&
+        !aDéjàTransmisUneDemandeComplèteDeRaccordement;
+
       return (
         <TransmettreDemandeComplèteRaccordementPage
           aDéjàTransmisUneDemandeComplèteDeRaccordement={
@@ -67,6 +84,7 @@ export default async function Page(props: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           listeGestionnairesRéseau={mapToPlainObject(gestionnairesRéseau.items)}
           gestionnaireRéseauActuel={mapToPlainObject(gestionnaireRéseauActuel)}
+          ajouterLienVersLaModificationDuGestionnaire={ajouterLienVersLaModificationDuGestionnaire}
         />
       );
     }),
