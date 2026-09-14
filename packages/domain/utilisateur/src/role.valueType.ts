@@ -2297,6 +2297,7 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
 
   // Puissance
   'puissance.listerChangement',
+  'puissance.consulterChangement',
 
   // Producteur
   'producteur.consulterChangement',

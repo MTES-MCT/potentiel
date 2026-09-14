@@ -52,7 +52,7 @@ const mapToÉtapesData = ({ éliminé, recours }: GetÉtapesData) => {
     {
       type: 'designation',
       date: éliminé.notifiéLe.formatter(),
-      hasNoDocument: éliminé.attestationDésignation ? undefined : true,
+      document: éliminé.attestationDésignation?.formatter(),
     },
   ];
 

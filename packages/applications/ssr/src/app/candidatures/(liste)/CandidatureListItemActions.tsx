@@ -9,7 +9,7 @@ export type CandidatureListItemActionsProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   nomProjet: Candidature.Dépôt.RawType['nomProjet'];
   actions: {
-    télécharger: boolean;
+    télécharger?: { url: string };
     prévisualiser: boolean;
   };
 };
@@ -27,7 +27,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
         <Button
           className="md:flex ml-auto"
           linkProps={{
-            href: Routes.Candidature.téléchargerAttestation(idProjet),
+            href: Routes.Document.télécharger(actions.télécharger.url),
           }}
           title={`Télécharger l'attestation de désignation de ${nomProjet}`}
           aria-label={`Télécharger l'attestation de désignation de ${nomProjet}`}
