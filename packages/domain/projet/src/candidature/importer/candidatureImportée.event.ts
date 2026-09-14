@@ -4,6 +4,7 @@ import type { DomainEvent } from '@potentiel-domain/core';
 import type { IdentifiantProjet, Lauréat } from '../../index.js';
 import type { Fournisseur } from '../../lauréat/fournisseur/index.js';
 import type { Raccordement } from '../../lauréat/index.js';
+import type { DispositifDeStockage } from '../../lauréat/installation/index.js';
 import type * as HistoriqueAbandon from '../historiqueAbandon.valueType.js';
 import type { TypologieInstallation } from '../index.js';
 import type * as StatutCandidature from '../statutCandidature.valueType.js';
@@ -63,6 +64,7 @@ type CandidatureImportéeEventPayload = {
     référence: Raccordement.RéférenceDossierRaccordement.RawType;
     dateQualification: DateTime.RawType;
   }>;
+  dispositifDeStockage?: DispositifDeStockage.RawType;
 };
 
 /**
