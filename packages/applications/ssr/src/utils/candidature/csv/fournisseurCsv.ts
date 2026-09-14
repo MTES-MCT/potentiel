@@ -1,22 +1,28 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 // Etat actuel des colonnes du CSV
-const labelCsvToTypeFournisseur: Record<string, Lauréat.Fournisseur.TypeFournisseur.RawType> = {
-  'Modules ou films': 'module-ou-films',
-  Cellules: 'cellules',
-  'Plaquettes de silicium (wafers)': 'plaquettes-silicium',
-  Polysilicium: 'polysilicium',
-  'Postes de conversion': 'postes-conversion',
-  Structure: 'structure',
-  "Dispositifs de stockage de l'énergie *": 'dispositifs-stockage-energie',
-  'Dispositifs de suivi de la course du soleil *': 'dispositifs-suivi-course-soleil',
-  'Autres technologies': 'autres-technologies',
-  'dispositif de production': 'dispositif-de-production',
-  'Dispositif de stockage': 'dispositifs-stockage-energie',
-  'Poste de conversion': 'poste-conversion',
-  'Lingot de silicium': 'lingot-de-silicium',
-  'Verre solaire': 'verre-solaire',
+const champsCsvFournisseur: Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string> = {
+  'module-ou-films': 'Modules ou films',
+  cellules: 'Cellules',
+  'plaquettes-silicium': 'Plaquettes de silicium (wafers)',
+  polysilicium: 'Polysilicium',
+  'postes-conversion': 'Postes de conversion',
+  structure: 'Structure',
+  'dispositifs-stockage-energie': "Dispositifs de stockage de l'énergie *",
+  'dispositifs-suivi-course-soleil': 'Dispositifs de suivi de la course du soleil *',
+  'autres-technologies': 'Autres technologies',
+  'dispositif-de-production': 'dispositif de production',
+  'dispositif-de-stockage': 'Dispositif de stockage',
+  'poste-conversion': 'Poste de conversion',
+  'lingot-de-silicium': 'Lingot de silicium',
+  'verre-solaire': 'Verre solaire',
 };
+
+// on garde le sens "type" -> "label CSV" ci-dessus pour bénéficier du typage exhaustif
+// mais on l'inverse pour l'utilisation
+const labelCsvToTypeFournisseur = Object.fromEntries(
+  Object.entries(champsCsvFournisseur).map(([key, value]) => [value, key]),
+) as Record<string, Lauréat.Fournisseur.TypeFournisseur.RawType>;
 
 // both field and type can contain parenthesis, for instance: "Lieu(x) de fabrication (Plaquettes de silicium (wafers)) 1"
 const regex = /^(?<field>[\w\s()]*)\s+\((?<type>(?:[^()]|\([^()]*\))*)\)\s(?<index>\d)$/;

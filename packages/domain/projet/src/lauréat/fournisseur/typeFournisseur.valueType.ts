@@ -19,7 +19,7 @@ export const typesFournisseurPV = [
 ] as const;
 
 export const typesFournisseurEolien = [
-  'dispositifs-stockage-energie',
+  'dispositif-de-stockage',
   'poste-conversion',
   'dispositif-de-production',
 ] as const;

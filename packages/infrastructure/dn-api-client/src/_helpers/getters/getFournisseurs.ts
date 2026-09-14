@@ -28,17 +28,17 @@ export const getFournisseurs = (champs: Champs) => {
     suiviCourseSoleil_pays: 'Suivi de la course du soleil - Pays de fabrication',
     autreTechnologie_nom: 'Autre technologie - Nom du fabricant',
     autreTechnologie_pays: 'Autre technologie - Pays de fabrication',
-    dispositifsStockageEnergie_nom: 'Stockage - Nom du fabricant',
-    dispositifsStockageEnergie_pays: 'Stockage - Pays de fabrication',
+    dispositifDeStockage_nom: 'Stockage - Nom du fabricant',
+    dispositifDeStockage_pays: 'Stockage - Pays de fabrication',
   });
 
-  // Dispositifs de stockage de l'énergie (champ non répétable)
-  const stockageNom = rootAccessor.getStringValue('dispositifsStockageEnergie_nom');
-  const stockagePays = rootAccessor.getStringValue('dispositifsStockageEnergie_pays');
+  // Dispositif de stockage (champ non répétable)
+  const stockageNom = rootAccessor.getStringValue('dispositifDeStockage_nom');
+  const stockagePays = rootAccessor.getStringValue('dispositifDeStockage_pays');
 
   if (stockageNom && stockagePays) {
     fournisseurs.push({
-      typeFournisseur: 'dispositifs-stockage-energie',
+      typeFournisseur: 'dispositif-de-stockage',
       nomDuFabricant: stockageNom,
       lieuDeFabrication: stockagePays,
     });

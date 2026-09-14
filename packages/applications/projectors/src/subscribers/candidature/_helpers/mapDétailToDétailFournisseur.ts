@@ -13,7 +13,7 @@ const labelToTypeFournisseur: Record<string, string> = {
   'dispositifs de suivi de la course du soleil': 'dispositifs-suivi-course-soleil',
   'autres technologies': 'autres-technologies',
   'dispositif de production': 'dispositif-de-production',
-  'dispositif de stockage': 'dispositifs-stockage-energie',
+  'dispositif de stockage': 'dispositif-de-stockage',
   'poste de conversion': 'poste-conversion',
   développement: 'développement',
   developpement: 'développement',

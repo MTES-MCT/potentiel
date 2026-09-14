@@ -11,6 +11,7 @@ export const typeFournisseurLabel: Record<Lauréat.Fournisseur.TypeFournisseur.R
   'dispositifs-suivi-course-soleil': 'Dispositifs de suivi de la course du soleil',
   'autres-technologies': 'Autres technologies',
   'dispositif-de-production': 'Dispositif de production',
+  'dispositif-de-stockage': 'Dispositif de stockage',
   'poste-conversion': 'Poste de conversion',
   'lingot-de-silicium': 'Lingot de silicium',
   'verre-solaire': 'Verre solaire',
