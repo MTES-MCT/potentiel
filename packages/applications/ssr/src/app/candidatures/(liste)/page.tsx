@@ -2,15 +2,14 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import z from 'zod';
 
-import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
+import { getFiltersFromSearch } from '@/app/_helpers/getFiltersFromSearch';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { redirigerPageProjet } from '@/app/_helpers/redirigerPageProjet';
 import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -26,7 +25,7 @@ export const metadata: Metadata = { title: 'Candidatures' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
-  nomProjet: z.string().optional(),
+  search: z.string().optional(),
   statut: instructionSchema.shape.statut.optional(),
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
@@ -43,12 +42,10 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () => {
-    const { page, appelOffre, famille, nomProjet, periode, statut, notifie, typeActionnariat } =
+    const { page, appelOffre, famille, search, periode, statut, notifie, typeActionnariat } =
       paramsSchema.parse(searchParams);
 
-    if (nomProjet) {
-      redirigerPageProjet(nomProjet, Routes.Candidature.détails);
-    }
+    const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
 
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
@@ -64,6 +61,7 @@ export default async function Page(props: PageProps) {
         statut,
         typeActionnariat,
         estNotifiée: notifie,
+        identifiantProjets: identifiantProjet && [identifiantProjet],
       },
     });
 

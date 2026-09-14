@@ -9,9 +9,9 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
+import { getFiltersFromSearch } from '@/app/_helpers/getFiltersFromSearch';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { redirigerPageProjet } from '@/app/_helpers/redirigerPageProjet';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -27,7 +27,7 @@ export const metadata: Metadata = { title: 'Projets lauréats' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
-  nomProjet: z.string().optional(),
+  search: z.string().optional(),
   statut: transformToOptionalEnumArray(z.enum(Lauréat.StatutLauréat.statuts)),
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
@@ -42,12 +42,10 @@ export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
+      const { page, search, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
         paramsSchema.parse(searchParams);
 
-      if (nomProjet) {
-        redirigerPageProjet(nomProjet);
-      }
+      const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
 
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({
         type: 'Lauréat.Query.ListerLauréat',
@@ -60,6 +58,7 @@ export default async function Page(props: PageProps) {
           statut,
           typeActionnariat,
           estPartiEnPPA: PPA,
+          identifiantProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
