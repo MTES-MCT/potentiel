@@ -118,7 +118,6 @@ const récupérerTousLesProjetsDuPorteurEnExcluantCeuxDeLInvité = async (
     },
   });
 
-
   return accèsPorteur.items
     .filter((accès) => {
       return !accèsInvité.items.some((accèsInvité) =>
