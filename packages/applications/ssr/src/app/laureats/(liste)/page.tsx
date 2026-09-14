@@ -40,7 +40,6 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
-  console.log('viovio', searchParams);
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, search, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
