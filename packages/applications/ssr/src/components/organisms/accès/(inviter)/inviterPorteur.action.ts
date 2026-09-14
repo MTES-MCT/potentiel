@@ -31,10 +31,6 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurInvité,
       );
 
-      if (!identifiantsProjet.length) {
-        throw new Error(`Il n'existe pas de projet auquel inviter ${identifiantUtilisateurInvité}`);
-      }
-
       await mediator.send<InviterPorteurUseCase>({
         type: 'Utilisateur.UseCase.InviterPorteur',
         data: {
@@ -121,6 +117,7 @@ const récupérerTousLesProjetsDuPorteurEnExcluantCeuxDeLInvité = async (
       identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
     },
   });
+
 
   return accèsPorteur.items
     .filter((accès) => {
