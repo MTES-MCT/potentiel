@@ -9,9 +9,9 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
+import { getFiltersFromSearch } from '@/app/_helpers/getFiltersFromSearch';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { redirigerPageProjet } from '@/app/_helpers/redirigerPageProjet';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -40,14 +40,21 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
+  console.log('viovio', searchParams);
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
-        paramsSchema.parse(searchParams);
+      const {
+        page,
+        nomProjet: search,
+        appelOffre,
+        periode,
+        famille,
+        statut,
+        typeActionnariat,
+        PPA,
+      } = paramsSchema.parse(searchParams);
 
-      if (nomProjet) {
-        redirigerPageProjet(nomProjet);
-      }
+      const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
 
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({
         type: 'Lauréat.Query.ListerLauréat',
@@ -60,6 +67,7 @@ export default async function Page(props: PageProps) {
           statut,
           typeActionnariat,
           estPartiEnPPA: PPA,
+          identifiantProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,

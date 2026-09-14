@@ -8,8 +8,8 @@ import { Candidature, type Éliminé } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
+import { redirigerPageProjet } from '@/app/_helpers/getFiltersFromSearch';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { redirigerPageProjet } from '@/app/_helpers/redirigerPageProjet';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
