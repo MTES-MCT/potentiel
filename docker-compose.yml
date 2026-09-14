@@ -45,7 +45,7 @@ services:
       - 9090:9090
     profiles: ['app']
   create_bucket:
-    image: minio/mc
+    image: quay.io/minio/minio
     depends_on:
       - s3
     entrypoint: /bin/sh -c
