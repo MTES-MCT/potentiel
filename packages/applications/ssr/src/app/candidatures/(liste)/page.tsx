@@ -25,7 +25,7 @@ export const metadata: Metadata = { title: 'Candidatures' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
-  nomProjet: z.string().optional(),
+  search: z.string().optional(),
   statut: instructionSchema.shape.statut.optional(),
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
@@ -42,16 +42,8 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () => {
-    const {
-      page,
-      appelOffre,
-      famille,
-      nomProjet: search,
-      periode,
-      statut,
-      notifie,
-      typeActionnariat,
-    } = paramsSchema.parse(searchParams);
+    const { page, appelOffre, famille, search, periode, statut, notifie, typeActionnariat } =
+      paramsSchema.parse(searchParams);
 
     const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
 
@@ -69,6 +61,7 @@ export default async function Page(props: PageProps) {
         statut,
         typeActionnariat,
         estNotifiée: notifie,
+        identifiantProjets: identifiantProjet && [identifiantProjet],
       },
     });
 

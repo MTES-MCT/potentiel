@@ -27,7 +27,7 @@ export const metadata: Metadata = { title: 'Projets lauréats' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
-  nomProjet: z.string().optional(),
+  search: z.string().optional(),
   statut: transformToOptionalEnumArray(z.enum(Lauréat.StatutLauréat.statuts)),
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
@@ -43,16 +43,8 @@ export default async function Page(props: PageProps) {
   console.log('viovio', searchParams);
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const {
-        page,
-        nomProjet: search,
-        appelOffre,
-        periode,
-        famille,
-        statut,
-        typeActionnariat,
-        PPA,
-      } = paramsSchema.parse(searchParams);
+      const { page, search, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
+        paramsSchema.parse(searchParams);
 
       const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
 

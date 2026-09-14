@@ -8,7 +8,7 @@ import { Candidature, type Éliminé } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
-import { redirigerPageProjet } from '@/app/_helpers/getFiltersFromSearch';
+import { getFiltersFromSearch } from '@/app/_helpers/getFiltersFromSearch';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
@@ -28,7 +28,7 @@ const paramsSchema = z.object({
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),
-  nomProjet: z.string().optional(),
+  search: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
 });
 
@@ -38,12 +38,10 @@ export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, appelOffre, periode, famille, nomProjet, typeActionnariat } =
+      const { page, appelOffre, periode, famille, search, typeActionnariat } =
         paramsSchema.parse(searchParams);
 
-      if (nomProjet) {
-        redirigerPageProjet(nomProjet);
-      }
+      const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
 
       const éliminés = await mediator.send<Éliminé.ListerÉliminéQuery>({
         type: 'Éliminé.Query.ListerÉliminé',
@@ -53,6 +51,7 @@ export default async function Page(props: PageProps) {
           periode,
           famille,
           nomProjet,
+          identifiantProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
