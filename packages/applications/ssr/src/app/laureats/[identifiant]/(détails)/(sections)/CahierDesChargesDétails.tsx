@@ -36,6 +36,7 @@ export const CahierDesChargesDétails = ({ value, action }: CahierDesChargesDét
         rel="noopener noreferrer"
       >
         Voir le cahier des charges
+        <span className="sr-only"> dans un nouvel onglet</span>
       </TertiaryLink>
       {value.doitChoisirUnCahierDesChargesModificatif && (
         <Notice

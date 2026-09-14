@@ -32,6 +32,7 @@ export const Header = async () => {
           linkProps: {
             target: '_blank',
             href: 'https://docs.potentiel.beta.gouv.fr/guide-dutilisation/sommaire-du-guide-dutilisation',
+            'aria-label': "guide d'utilisation - nouvel onglet",
           },
           text: 'Aide',
         },

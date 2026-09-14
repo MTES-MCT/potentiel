@@ -20,7 +20,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
   label,
   url,
   format,
-  ariaLabel = '',
+  ariaLabel,
   small,
   download,
   hideFormat,
@@ -30,7 +30,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
       className={clsx(fr.cx('fr-download__link'), { '!text-sm': small })}
       href={url}
       target="_blank"
-      aria-label={ariaLabel}
+      aria-label={`${ariaLabel ?? label} nouvel onglet`}
       download={download ?? (extension(format) || format).toLowerCase() !== 'pdf'}
       prefetch={false}
     >

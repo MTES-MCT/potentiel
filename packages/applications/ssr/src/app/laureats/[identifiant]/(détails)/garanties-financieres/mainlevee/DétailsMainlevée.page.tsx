@@ -171,7 +171,7 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
           )}
           <Accordion label="Cahier des charges">
             <Link href={urlAppelOffre} target="_blank">
-              Voir le cahier des charges
+              Voir le cahier des charges <span className="sr-only">dans un nouvel onglet</span>
             </Link>
           </Accordion>
           {mainlevéesRejetées.length > 0 && (

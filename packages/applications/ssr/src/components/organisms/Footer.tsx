@@ -14,6 +14,7 @@ export const Footer = () => (
     accessibilityLinkProps={{
       href: `https://docs.potentiel.beta.gouv.fr/declaration-daccessibilite`,
       target: '_blank',
+      'aria-label': `déclaration d'accessibilité - nouvel onglet`,
     }}
     contentDescription={
       <>
@@ -25,6 +26,7 @@ export const Footer = () => (
     termsLinkProps={{
       href: 'https://docs.potentiel.beta.gouv.fr/info/cgu',
       target: '_blank',
+      'aria-label': `mentions légales - nouvel onglet`,
     }}
     bottomItems={[
       {
@@ -32,6 +34,7 @@ export const Footer = () => (
         linkProps: {
           href: 'https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation',
           target: '_blank',
+          'aria-label': `conditions générales d'utilisation - nouvel onglet`,
         },
       },
       {
@@ -39,6 +42,7 @@ export const Footer = () => (
         linkProps: {
           href: 'https://docs.potentiel.beta.gouv.fr/info/vie-privee-et-politique-de-confidentialite',
           target: '_blank',
+          'aria-label': `politique de confidentialité - nouvel onglet`,
         },
       },
       {
@@ -46,6 +50,7 @@ export const Footer = () => (
         linkProps: {
           href: 'https://docs.potentiel.beta.gouv.fr/',
           target: '_blank',
+          'aria-label': `guide d'utilisation - nouvel onglet`,
         },
       },
       {
@@ -60,6 +65,7 @@ export const Footer = () => (
         linkProps: {
           href: 'https://www.data.gouv.fr/datasets/projets-denergies-renouvelables-soumis-a-appel-doffres-en-france',
           target: '_blank',
+          'aria-label': `jeu de données sur data.gouv - nouvel onglet`,
         },
       },
     ]}
