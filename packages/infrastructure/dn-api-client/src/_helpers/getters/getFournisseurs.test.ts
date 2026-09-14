@@ -108,7 +108,7 @@ describe(`Projet avec fournisseurs`, () => {
         lieuDeFabrication: 'ÎLES COOK',
       },
       {
-        typeFournisseur: 'dispositif-de-stockage',
+        typeFournisseur: 'dispositifs-stockage-energie',
         nomDuFabricant: 'nom fabricant 4',
         lieuDeFabrication: 'ANTIGUA-ET-BARBUDA',
       },
