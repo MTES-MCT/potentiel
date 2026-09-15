@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { Command, Flags } from '@oclif/core';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
@@ -35,7 +38,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             },
           },
           // Date de mise en ligne de la nouvelle fonctionnalité PTF / CR / CRD
-          // miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
+          miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
         },
         range: {
           startPosition: 0,
@@ -97,7 +100,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           type === 'convention-de-raccordement' ||
           type === 'convention-de-raccordement-directe'
         ) {
-          console.log(`CR ou CRD trouvée`, {
+          console.log(`🔥 CR ou CRD trouvée`, {
             identifiantProjet: dossier.identifiantProjet,
             référence: dossier.référence,
           });
@@ -114,7 +117,6 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
         } else {
           console.log('Type non trouvé', {
             identifiantProjet: dossier.identifiantProjet,
-
             référence: dossier.référence,
             text,
           });
@@ -148,7 +150,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
         format: string;
         transmisLe: DateTime.RawType;
         transmisPar: Email.RawType;
-        eventToDelete: string[];
+        eventsToDelete: string[];
       }>(
         `
         SELECT
@@ -164,7 +166,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN 'PropositionTechniqueEtFinancièreTransmise-V2' ELSE NULL END,
             CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN 'PropositionTechniqueEtFinancièreTransmise-V3' ELSE NULL END,
             CASE WHEN signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' THEN 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' ELSE NULL END
-          ] FILTER (WHERE $ IS NOT NULL) AS eventToDelete,
+          ] FILTER (WHERE $ IS NOT NULL) AS eventsToDelete,
           CASE
             WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
               e.created_at
@@ -200,7 +202,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
 
       if (!data.length) {
         console.log(
-          `Aucune donnée trouvée pour ${document.identifiantProjet} / ${document.référence}`,
+          `😡 Aucune donnée trouvée pour ${document.identifiantProjet} / ${document.référence}`,
         );
         continue;
       }
@@ -228,18 +230,20 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
 
       try {
         if (flags.dryRun) {
-          console.log('dryRun');
+          console.log(`dryRun -- nouvel event: ${event}`);
         } else {
-          // Supprimer les événements concernés
-          await executeQuery(
-            `DELETE FROM event_store.event_stream
-           WHERE type = ANY($1)
-             AND stream_id = #2
-             AND payload->>'référenceDossierRaccordement' = $3;`,
-            data[0].eventToDelete,
-            `raccordement|${document.identifiantProjet}`,
-            document.référence,
-          );
+          // Supprimer les événements d'où sont extraits les données
+          for (const eventToDelete of data[0].eventsToDelete) {
+            await executeQuery(
+              `DELETE FROM event_store.event_stream
+             WHERE type = ANY($1)
+               AND stream_id = #2
+               AND payload->>'référenceDossierRaccordement' = $3;`,
+              eventToDelete,
+              `raccordement|${document.identifiantProjet}`,
+              document.référence,
+            );
+          }
 
           // Insérer le nouvel événement
           await publish(`raccordement|${document.identifiantProjet}`, event);
@@ -251,11 +255,11 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           stats.documentMigrés.versCRD++;
         }
       } catch (e) {
-        console.log(`Erreur lors de la mise à jour des événements : ${e}`, {
+        console.log(`⚠️ Erreur lors de la mise à jour des événements : ${e}`, {
           référence: document.référence,
           identifiantProjet: document.identifiantProjet,
         });
-        stats.qualification.errors.push({
+        stats.documentMigrés.errors.push({
           identifiantProjet: document.identifiantProjet,
           référence: document.référence,
           error: (e as Error).message,
@@ -263,9 +267,14 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       }
     }
 
+    // À la fin de votre script (après la boucle)
+    const outputPath = path.join(__dirname, 'erreurs_migration.json');
+    fs.writeFileSync(outputPath, JSON.stringify(stats.documentMigrés.errors, null, 2), 'utf-8');
+
     process.stdout.write('\r');
-    console.log('\n--- Statistiques migration ---');
+    console.log('🔥--- Statistiques migration ---🔥');
     console.log(stats.documentMigrés);
+    console.log(`⚠️ Fichier des erreurs généré : ${outputPath}`);
   }
 }
 
