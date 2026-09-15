@@ -1,8 +1,8 @@
 import fs from 'node:fs';
-import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { Command, Flags } from '@oclif/core';
-import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { getDocument } from 'pdfjs-dist';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
@@ -150,40 +150,42 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     );
 
     for (const document of documentQualifiés) {
+      console.log(document);
+
       const data = await executeSelect<{
-        dateSignature: DateTime.RawType;
+        datesignature: DateTime.RawType;
         format: string;
-        transmisLe: DateTime.RawType;
-        transmisPar: Email.RawType;
-        eventsToDelete: string[];
+        transmisle: DateTime.RawType;
+        transmispar: Email.RawType;
+        eventstodelete: string[];
       }>(
         `
         SELECT
-          e.payload->>'dateSignature' AS dateSignature,
+          e.payload->>'dateSignature' AS datesignature,
           CASE
             WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
               signed.payload->>'format'
             ELSE
-              e.payload->>'format'
+              (e.payload->'propositionTechniqueEtFinancièreSignée'->>'format')
           END AS format,
 ARRAY[
   CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN 'PropositionTechniqueEtFinancièreTransmise-V1' ELSE NULL END,
   CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN 'PropositionTechniqueEtFinancièreTransmise-V2' ELSE NULL END,
   CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN 'PropositionTechniqueEtFinancièreTransmise-V3' ELSE NULL END,
   CASE WHEN signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' THEN 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' ELSE NULL END
-] FILTER (WHERE x IS NOT NULL) AS eventsToDelete,
+] AS eventstodelete,
           CASE
             WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
               e.created_at
             ELSE
-              (e.payload->>'transmisLe')::timestamp
-          END AS transmisLe,
+              (e.payload->>'transmisLe')
+          END AS transmisle,
           CASE
             WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
               'unknown-user@unknown-email.com'
             ELSE
               e.payload->>'transmisPar'
-          END AS transmisPar
+          END AS transmispar
         FROM event_store.event_stream e
         LEFT JOIN event_store.event_stream signed
           ON signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
@@ -194,7 +196,6 @@ ARRAY[
           AND e.type NOT LIKE 'PropositionTechniqueEtFinancièreModifié%'
           AND (
             e.type LIKE 'PropositionTechniqueEtFinancièreTransmise%'
-            OR e.type LIKE 'PropositionTechniqueEtFinancièreSignéeTransmise%'
           )
           AND (
             e.type != 'PropositionTechniqueEtFinancièreTransmise-V1'
@@ -212,6 +213,8 @@ ARRAY[
         continue;
       }
 
+      console.log(data);
+
       const type = Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(
         document.type,
       ).formatter();
@@ -223,12 +226,12 @@ ARRAY[
             document.identifiantProjet,
           ).formatter(),
           référenceDossierRaccordement: document.référence,
-          dateSignature: data[0].dateSignature,
+          dateSignature: data[0].datesignature,
           document: {
             format: data[0].format,
           },
-          transmisLe: data[0].transmisLe,
-          transmisPar: data[0].transmisPar,
+          transmisLe: data[0].transmisle,
+          transmisPar: data[0].transmispar,
           type,
         },
       };
@@ -238,7 +241,7 @@ ARRAY[
           console.log(`dryRun -- nouvel event: ${event}`);
         } else {
           // Supprimer les événements d'où sont extraits les données
-          for (const eventToDelete of data[0].eventsToDelete) {
+          for (const eventToDelete of data[0].eventstodelete.filter((e) => !!e)) {
             await executeQuery(
               `DELETE FROM event_store.event_stream
              WHERE type = ANY($1)
@@ -273,13 +276,15 @@ ARRAY[
     }
 
     // À la fin de votre script (après la boucle)
-    const outputPath = path.join(__dirname, 'erreurs_migration.json');
-    fs.writeFileSync(outputPath, JSON.stringify(stats.documentMigrés.errors, null, 2), 'utf-8');
-
+    fs.writeFileSync(
+      fileURLToPath(new URL('./erreurs_migration.json', import.meta.url)),
+      JSON.stringify(stats.documentMigrés.errors, null, 2),
+      'utf-8',
+    );
     process.stdout.write('\r');
     console.log('🔥--- Statistiques migration ---🔥');
     console.log(stats.documentMigrés);
-    console.log(`⚠️ Fichier des erreurs généré : ${outputPath}`);
+    console.log(`⚠️ Fichier des erreurs généré`);
   }
 }
 
