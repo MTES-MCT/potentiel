@@ -1,0 +1,200 @@
+N°CRE;Appel d'offres;Période;Famille;Classé ?;Candidat;Nom projet;Volume réservé;"1. Garantie financière jusqu'à 6 mois après la date d'achèvement
+2. Garantie financière avec date d'échéance et à renouveler
+3. Consignation";Date d'échéance au format JJ/MM/AAAA;"1. Lauréat d'aucun AO
+2. Abandon classique
+3. Abandon avec recandidature
+4. Lauréat d'un AO";Installation couplée à un dispositif de stockage;Capacité du dispositif de stockage;Puissance du dispositif de stockage;Identité de l'installateur;Nature de l'exploitation;Taux d'autoconsommation individuelle (ACI) prévisionnel;puissance;prix_reference;Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc);Note prix;Note carbone;Note environnementale;Note totale;Nom (personne physique) ou raison sociale (personne morale) :;Nature du candidat;Numéro SIREN ou SIRET*;Code NACE;Type entreprise;Société mère;Région d'implantation;Adresse;Nom et prénom du représentant légal;Titre du représentant légal;Nom et prénom du contact;Société du contact;Titre du contact;Adresse postale du contact;Adresse électronique du contact;Téléphone;Famille de candidature;Numéro SIRET de l'installation;N°, voie, lieu-dit 1;N°, voie, lieu-dit 2;CP;Commune;Département;Région;Deuxième commune si le projet est implanté sur deux communes;puissance_projet_initial;Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes);Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes);"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(degrés)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(minutes)";"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(secondes)";Valeur de l’évaluation carbone des modules (kg eq CO2/kWc);Financement collectif (Oui/Non);Part minimale du financement collectif (%);Origine du financement collectif;Gouvernance partagée (Oui/Non);Niveau d'engagement gouvernance partagée (%);Type d'utorisation d'Urbanisme (pièce n°3);Commentaire si plusieurs autorisation d'urbanisme;Dépôt 1ère périodes précédentes ? 1;Dépôt 1ère périodes précédentes ? 2;Dépôt 1ère périodes précédentes ? 3;Date d'obtention du CETI;"Type de terrain d'implantation 
+(pièce n°3)";"Types Cas 3 
+(pièce n°3)";Surface projetée au sol de l’ensemble des Capteurs solaires (ha);Surface du Terrain d’implantation (ha);Typologie de projet;Ensoleillement de référence (kWh/m²/an);"Nb d'aérogénérateurs
+(AO éolien)";Puissance unitaire des aérogénérateurs (AO éolien);"Diamètre du rotor (m)
+(AO éolien)";"Hauteur bout de pâle (m)
+(AO éolien)";Technologie (AO éolien);Installation renouvellée (AO éolien);Référence du dossier de raccordement*;Date de mise en service du raccordement attendue (mm/aaaa);Capacité du raccordement (kW);"Type de consommateur associé
+(AO autoconsommation)";"Nature et nombre du ou des consommateur(s)
+(AO autoconsommation)";Nom et prénom du signataire du formulaire;"date
+(candidature)";"heure
+(candidature)";"Reference Pli
+(candidature)";Respect de toutes les conditions d'admissibilité ?;;Suspicion de doublon ? Colonnes DL à DP;Vérif précédentes périodes (colonnes BC à BE);Suspicion de 250m ? Colonnes DL à DP;Avis admissibilité du projet;Identification du candidat (pièce n°1);Comm identification du candidat;Avis identification du candidat;Comm 1 formulaire de candidature;Comm2 formulaire de candidature;Avis formulaire de candidature;;;;;;Comm 1 garanties financières (Pièce n°5);Montant garanties financières (Pièce n°5);Vérification montant garanties financières (Pièce n°5);Date d'effet garanties financières (Pièce n°5);Avis garanties financières (Pièce n°5);;;;;;;;;;;;;;;;;;;;;;;;;;"Technologie
+(dispositif de production)";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Technologie (Modules ou films);"Référence commerciale 
+(Modules ou films)";"Nom du fabricant 
+(Modules ou films) 1";"Nom du fabricant 
+(Modules ou films) 2";"Nom du fabricant 
+(Modules ou films) 3";"Nom du fabricant 
+(Modules ou films) 4";"Nom du fabricant 
+(Modules ou films) 5";"Lieu(x) de fabrication 
+(Modules ou films) 1";"Lieu(x) de fabrication 
+(Modules ou films) 2";"Lieu(x) de fabrication 
+(Modules ou films) 3";"Lieu(x) de fabrication 
+(Modules ou films) 4";"Lieu(x) de fabrication 
+(Modules ou films) 5";"Puissance crête (Wc) 
+(Modules ou films)";"Rendement nominal 
+(Modules ou films)";Nom du fabricant (Cellules) 1;Nom du fabricant (Cellules) 2;Nom du fabricant (Cellules) 3;Nom du fabricant (Cellules) 4;Nom du fabricant (Cellules) 5;Lieu(x) de fabrication (Cellules) 1;Lieu(x) de fabrication (Cellules) 2;Lieu(x) de fabrication (Cellules) 3;Lieu(x) de fabrication (Cellules) 4;Lieu(x) de fabrication (Cellules) 5;"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 1";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 2";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 3";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 4";"Nom du fabricant 
+(Plaquettes de silicium (wafers)) 5";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 1";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 2";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 3";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 4";"Lieu(x) de fabrication 
+(Plaquettes de silicium (wafers)) 5";"Nom du fabricant 
+(Polysilicium) 1";"Nom du fabricant 
+(Polysilicium) 2";"Nom du fabricant 
+(Polysilicium) 3";"Nom du fabricant 
+(Polysilicium) 4";"Nom du fabricant 
+(Polysilicium) 5";"Lieu(x) de fabrication 
+(Polysilicium) 1";"Lieu(x) de fabrication 
+(Polysilicium) 2";"Lieu(x) de fabrication 
+(Polysilicium) 3";"Lieu(x) de fabrication 
+(Polysilicium) 4";"Lieu(x) de fabrication 
+(Polysilicium) 5";"Nom du fabricant 
+(Postes de conversion) 1";"Nom du fabricant 
+(Postes de conversion) 2";"Nom du fabricant 
+(Postes de conversion) 3";"Nom du fabricant 
+(Postes de conversion) 4";"Nom du fabricant 
+(Postes de conversion) 5";"Lieu(x) de fabrication 
+(Postes de conversion) 1";"Lieu(x) de fabrication 
+(Postes de conversion) 2";"Lieu(x) de fabrication 
+(Postes de conversion) 3";"Lieu(x) de fabrication 
+(Postes de conversion) 4";"Lieu(x) de fabrication 
+(Postes de conversion) 5";"Technologie 
+(Dispositifs de stockage de l’énergie *)";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 1";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 2";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 3";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 4";"Nom du fabricant 
+(Dispositifs de stockage de l’énergie *) 5";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 1";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 2";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 3";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 4";"Lieu(x) de fabrication 
+(Dispositifs de stockage de l’énergie *) 5";"Technologie 
+(Dispositifs de suivi de la course du soleil *)";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 1";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 2";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 3";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 4";"Nom du fabricant 
+(Dispositifs de suivi de la course du soleil *) 5";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 1";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 2";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 3";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 4";"Lieu(x) de fabrication 
+(Dispositifs de suivi de la course du soleil *) 5";"Référence commerciale 
+(Autres technologies)";"Nom du fabricant 
+(Autres technologies) 1";"Nom du fabricant 
+(Autres technologies) 2";"Nom du fabricant 
+(Autres technologies) 3";"Nom du fabricant 
+(Autres technologies) 4";"Nom du fabricant 
+(Autres technologies) 5";"Lieu(x) de fabrication 
+(Autres technologies) 1";"Lieu(x) de fabrication 
+(Autres technologies) 2";"Lieu(x) de fabrication 
+(Autres technologies) 3";"Lieu(x) de fabrication 
+(Autres technologies) 4";"Lieu(x) de fabrication 
+(Autres technologies) 5";;;;;;;;;;;;;;"Coût total du lot (M€)
+(Développement)";"Coût total du lot (M€)
+(Modules ou films)";"Coût total du lot (M€)
+(Cellules)";"Coût total du lot (M€)
+(Plaquettes de silicium (wafers))";"Coût total du lot (M€)
+(Polysilicium)";"Coût total du lot (M€)
+(Postes de conversion)";"Coût total du lot (M€)
+(Structure)";"Coût total du lot (M€)
+(Dispositifs de stockage de l’énergie *)";"Coût total du lot (M€)
+(Dispositifs de suivi de la course du soleil *)";"Coût total du lot (M€)
+(Autres technologies)";"Coût total du lot (M€)
+(Installation et mise en service )";"Coût total du lot (M€)
+(raccordement)";"Contenu local français (%)
+(Développement)";"Contenu local français (%)
+(Modules ou films)";"Contenu local français (%)
+(Cellules)";"Contenu local français (%)
+(Plaquettes de silicium (wafers))";"Contenu local français (%)
+(Polysilicium)";"Contenu local français (%)
+(Postes de conversion)";"Contenu local français (%)
+(Structure)";"Contenu local français (%)
+(Dispositifs de stockage de l’énergie *)";"Contenu local français (%)
+(Dispositifs de suivi de la course du soleil *)";"Contenu local français (%)
+(Autres technologies)";"Contenu local français (%)
+(Installation et mise en service) ";"Contenu local français (%)
+(raccordement)";"Contenu local européen (%)
+(Développement)";"Contenu local européen (%)
+(Modules ou films)";"Contenu local européen (%)
+(Cellules)";"Contenu local européen (%)
+(Plaquettes de silicium (wafers))";"Contenu local européen (%)
+(Polysilicium)";"Contenu local européen (%)
+(Postes de conversion)";"Contenu local européen (%)
+(Structure)";"Contenu local européen (%)
+(Dispositifs de stockage de l’énergie *)";"Contenu local européen (%)
+(Dispositifs de suivi de la course du soleil *)";"Contenu local européen (%)
+(Autres technologies)";"Contenu local européen (%)
+(Installation et mise en service)";"Contenu local européen (%)
+(raccordement)";"Contenu local développement :
+Commentaires";Puissance cumulée;Motif d'élimination;"Territoire
+(AO ZNI)";"Note innovation
+(AO innovation)";Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal);"Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude
+(cardinal)";"Taux occupation toiture
+(AO autoconsommation)";"Engagement de fourniture de puissance à la pointe
+(AO ZNI)";Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6;"Contenu local Fabrication de composants et assemblage :
+Commentaires";Coût des modules €/Wc;"Nom du fabricant 
+(Structure)";"Lieu(x) de fabrication 
+(Structure)";"Commentaires contenu local
+(Installation et mise en service)";"Contenu local TOTAL :
+coût total (M€)";Contenu local TOTAL français (%);Contenu local TOTAL européen (%);"Contenu local TOTAL :
+Commentaires";Productible annuel (MWh/an);Facteur de charges (kWh/kWc);Montant estimé du raccordement (k€);Raccordement € / kWc;Investissement total (k€); dont quantité de fonds propres (k€) ;dont quantité d'endettement  (k€);dont quantité de subventions à l'investissement  (k€);dont quantité d'autres avantages financiers  (k€);Location (€/an/MWc);"CAPEX Moyen
+(k€ / MWc)";"Condition d'admissibilité ?
+(AO éolien)";€/MWh bonus participatif;"Note degré d’innovation (/20pt)
+(AO innovation)";"Commentaire final sur note degré d’innovation
+(AO innovation)";"Nom de l'innovation (ADEME)
+(AO innovation)";"Type de l'innovation (ADEME)
+(AO innovation)";"Note synergie avec l'usage agricole (/10pt)
+(AO Innovation)";"Commentaire final sur note synergie avec l'usage agricole 
+(AO Innovation)";"Note positionnement sur le marché (/10pt)
+(AO innovation)";"Commentaire final sur note positionnement sur le marché 
+(AO innovation)";"Note qualité technique (/5pt)
+(AO innovation)";"Commentaire final sur note qualité technique
+(AO innovation)";"Note adéquation du projet avec les ambitions industrielles (/5pt)
+(AO innovation)";"Commentaire final sur note adéquation du projet avec les ambitions industrielles
+(AO innovation)";"Note aspects environnementaux et sociaux (/5pt)
+(AO innovation)";"Commentaire final sur note aspects environnementaux et sociaux
+(AO innovation)";Suspicion de doublon ? ;Oui projet ;Suspicion de 500m inter-famille ? ;Avis admissibilité;"Comm 1 
+(pièce n°1)";"Comm 2 
+(pièce n°1)";"Avis 
+(pièce n°1)";"Comm 1 
+(pièce n°2)";"Comm 2 
+(pièce n°2)";"Avis 
+(pièce n°2)";"Période visée par certificat d'éligibilité du terrain 
+(pièce n°3)";"Comm 1 
+(pièce n°3)";"Comm 2
+(pièce n°3)";"Avis 
+(pièce n°3)";"Comm 1
+(pièce n°4 AO innovation)";"Comm 2
+(pièce n°4 AO innovation)";"Avis
+(pièce n°4 AO innovation)";"Comm 1
+(pièce n°5 AO innovation)";"Comm 2
+(pièce n°5 AO innovation)";"Avis
+(pièce n°5 AO innovation)";"Date 
+(pièce n°4)";"Comm 2 
+(pièce n°4)";"Avis 
+(pièce n°4)";"Comm 1 
+(pièce n°6)";"Comm 2 
+(pièce n°6)";"Avis 
+(pièce n°6)";"Oui/non ? 
+(pièce n°7)";"Comm 1 
+(pièce n°7)";"Comm 2 
+(pièce n°7)";"Avis 
+(pièce n°7)";"Comm 1 
+(Délégation de signature)";"Comm 2 
+(Délégation de signature)";"Avis 
+(Délégation de signature)";Commentaire final;Avis final;Avis final CRE + ADEME;Prix Majoré;"Codes cas
+(AO sol)";Nom projet (doublon);CP (doublon);Commune (doublon);Modifications;Statut;Commentaires;;Type de modification 1;Date de modification 1;Colonne concernée 1;Ancienne valeur 1;Type de modification 2;Date de modification 2;Colonne concernée 2;Ancienne valeur 2;Type de modification 3;Date de modification 3;Colonne concernée 3;Ancienne valeur 3;Type de modification 4;Date de modification 4;Colonne concernée 4;Ancienne valeur 4;Type de modification 5;Date de modification 5;Colonne concernée 5;Ancienne valeur 5;indexation_k;Installations agrivoltaïques;Eléments sous l’ombrière;Typologie de bâtiment;Obligation de solarisation;Date d'obtention de l'autorisation;Numéro de l'autorisation;Puissance de site
+26680752;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET1;;3;;4;Non;;;INSTALL1;Vente avec injection en totalité;;0.49956;84.95;;;;;;;;;;;ACTIONNAIRE1;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Rue Combe;;12000;Rodez;Aveyron;Occitanie;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Oui;;;Bâtiment neuf;;02/01/2026;PC 012 253 250 00003;0.49956
+26587180;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET2;;3;;4;Non;;;;Vente avec injection en totalité;;0.199745;84.984;;;;;;;;;;;ACTIONNAIRE2;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Rue Gautier;;13000;Marseille;Bouches-du-Rhône;Occitanie;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Oui;;ombrière;;;03/01/2026;PC 053 276 25 00005;0.199745
+26684668;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET3;;3;;4;Non;;;INSTALL3;Vente avec injection du surplus;40;0.14;89.9;;;;;;;;;;;;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Rue Bichot;;21000;Dijon;Côte-d’Or;Bourgogne-Franche-Comté;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Non;;;Bâtiment neuf;;04/01/2026;PC 021 054 24 B0012;0.14
+26689066;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET4;;3;;4;Non;;;INSTALL4;Vente avec injection en totalité;;0.194835;93.23;;;;;;;;;;;ACTIONNAIRE4;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Rue Dupuit;;18000;Bourges;Cher;Centre-Val de Loire;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Oui;;;Bâtiment existant avec rénovation de toiture;;05/01/2026;DP 018 245 25 30007;0.194835
+26797997;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET5;;3;;4;Non;;;INSTALL5;Vente avec injection en totalité;;0.34592;88.6;;;;;;;;;;;;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Rue Forts;;77000;Melun;Seine-et-Marne;Île-de-France;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Non;;;Bâtiment existant avec rénovation de toiture;;06/01/2026;770492500005;0.34592
+26612434;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET6;;3;;4;Non;;;INSTALL6;Vente avec injection du surplus;18;0.1899;80;;;;;;;;;;;;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Chemin  Gramp;;1000;Bourg-en-Bresse;Ain;Auvergne-Rhône-Alpes;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Non;;;Bâtiment existant sans rénovation de toiture;;07/01/2026;DP00129425C0014;0.1899
+26651402;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET7;;3;;4;Non;;;;Vente avec injection du surplus;40;0.313;92.5;;;;;;;;;;;ACTIONNAIRE 7;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Rue Colier;;44000;Nantes;Loire-Atlantique;Pays de la Loire;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Non;;;Bâtiment neuf;;08/01/2026;PC04416224Z1082;0.313
+26789439;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET8;;3;;4;Non;;;INSTALL8;Vente avec injection en totalité;;0.271;85;;;;;;;;;;;;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Chemin Faux;;3000;Moulins;Allier;Auvergne-Rhône-Alpes;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Non;;;Bâtiment existant sans rénovation de toiture;;09/01/2026;DP 003 296 25 M0005;0.496
+26817718;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET9;;3;;4;Non;;;INSTALL9;Vente avec injection en totalité;;0.16896;92;;;;;;;;;;;;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Rue Gusse;;72000;Le Mans;Sarthe;Pays de la Loire;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Non;;;Bâtiment neuf;;10/01/2026;PC0721892500011;0.16896
+26867598;PPE2 - Petit PV Bâtiment;1;;Classé;Test EDF OA;PROJET10;;3;;4;Non;;;INSTALL10;Vente avec injection en totalité;;0.33271;93;;;;;;;;;;;;;;Test EDF OA;;;;;;test@edfoa.fr;;;;Route de rens;;74000;Annecy;Haute-Savoie;Auvergne-Rhône-Alpes;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Oui;;;Bâtiment existant avec rénovation de toiture;;11/01/2026;DP07422425A0107;0.33271
