@@ -29,6 +29,7 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
       const raccordement = await getRaccordement(identifiantProjet);
 
       const lauréat = await getLauréatInfos(identifiantProjet);
+
       const abandon = rôle.aLaPermission('abandon.consulter.enCours')
         ? await getOptionalAbandon(identifiantProjet)
         : undefined;
@@ -73,7 +74,11 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
 
       return (
         <Section title={sectionTitle}>
-          <RaccordementDétails raccordement={{ value, action }} alertes={alertes} />
+          <RaccordementDétails
+            raccordement={{ value, action }}
+            alertes={alertes}
+            estAchevé={lauréat.statut.estAchevé()}
+          />
         </Section>
       );
     }),

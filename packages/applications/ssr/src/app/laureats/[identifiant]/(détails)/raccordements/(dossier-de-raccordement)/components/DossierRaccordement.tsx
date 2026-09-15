@@ -42,6 +42,7 @@ type EnrichedDossierEtape = DossierEtape & { référence: string; identifiantPro
 export type DossierProps = {
   dossierEtapes: Array<DossierEtape>;
   peutSupprimerDossier: boolean;
+  estComplet: boolean;
   référence: string;
   identifiantProjet: string;
 };
@@ -50,6 +51,7 @@ export const DossierRaccordement: FC<DossierProps> = ({
   dossierEtapes,
   référence,
   peutSupprimerDossier,
+  estComplet,
   identifiantProjet,
 }) => {
   return (
@@ -58,7 +60,7 @@ export const DossierRaccordement: FC<DossierProps> = ({
         <Heading3 className="font-normal">
           Dossier <span className="font-semibold">{référence}</span>
         </Heading3>
-        <BadgeDossierRaccordement estComplet={dossierEtapes.length === 0} />
+        <BadgeDossierRaccordement estComplet={estComplet} />
       </div>
       <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {dossierEtapes.map((étape) => (
