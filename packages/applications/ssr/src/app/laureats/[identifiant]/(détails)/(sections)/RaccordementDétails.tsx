@@ -11,19 +11,20 @@ import { BadgeDossierRaccordement } from '../raccordements/(dossier-de-raccordem
 export type RaccordementDétailsProps = {
   raccordement: ChampAvecAction<PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>>;
   alertes: Array<{ label: string }>;
+  estAchevé: boolean;
 };
 
 type DossierProps = {
   dossier: PlainType<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel>;
+  estAchevé: boolean;
 };
 
-const Dossier = ({ dossier }: DossierProps) => {
+const Dossier = ({ dossier, estAchevé }: DossierProps) => {
   const estComplet = !!(
-    dossier.demandeComplèteRaccordement?.accuséRéception &&
-    dossier.demandeComplèteRaccordement?.dateQualification &&
-    ((dossier.propositionTechniqueEtFinancière && dossier.conventionDeRaccordement) ||
-      dossier.conventionDeRaccordementDirecte) &&
-    dossier.dateMiseEnService
+    (dossier.propositionTechniqueEtFinancière && dossier.conventionDeRaccordement) ||
+    dossier.conventionDeRaccordementDirecte ||
+    dossier.dateMiseEnService ||
+    estAchevé
   );
 
   return (
@@ -39,6 +40,7 @@ const Dossier = ({ dossier }: DossierProps) => {
 export const RaccordementDétails = async ({
   raccordement: { action, value: raccordement },
   alertes,
+  estAchevé,
 }: RaccordementDétailsProps) => (
   <>
     {raccordement && (
@@ -53,7 +55,7 @@ export const RaccordementDétails = async ({
         </div>
         <div className="mb-0">
           {raccordement.dossiers.map((dossier) => (
-            <Dossier key={dossier.référence.référence} dossier={dossier} />
+            <Dossier key={dossier.référence.référence} dossier={dossier} estAchevé={estAchevé} />
           ))}
           {raccordement.dossiers.length === 0 && (
             <span>Aucun dossier de raccordement renseigné</span>
