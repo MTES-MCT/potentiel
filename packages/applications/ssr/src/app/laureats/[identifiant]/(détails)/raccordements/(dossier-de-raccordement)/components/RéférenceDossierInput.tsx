@@ -77,7 +77,8 @@ const RéférenceDossierTooltip = () => (
           href="https://docs.potentiel.beta.gouv.fr/faq/ou-trouver-la-reference-du-dossier-de-raccordement-de-mon-projet"
           target="_blank"
         >
-          voir un exemple d'accusé de réception
+          voir un exemple d'accusé de réception{' '}
+          <span className="sr-only">dans un nouvel onglet</span>
         </Link>
         )
       </>

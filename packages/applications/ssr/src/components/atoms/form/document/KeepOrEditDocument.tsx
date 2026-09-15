@@ -150,7 +150,7 @@ const KeepManyDocuments: FC<{ showLink: boolean; name: string; documentKeys: Arr
                     href={Routes.Document.télécharger(documentKey)}
                     target="_blank"
                   >
-                    télécharger
+                    télécharger <span className="sr-only">nouvel onglet</span>
                   </Link>
                 </li>
               ))}
@@ -166,7 +166,7 @@ const KeepSingleDocument: FC<{ documentKey: string }> = ({ documentKey }) => (
   <>
     Conserver le document existant (
     <Link href={Routes.Document.télécharger(documentKey)} target="_blank">
-      télécharger
+      télécharger <span className="sr-only">(ouverture dans un nouvel onglet)</span>
     </Link>
     )
   </>

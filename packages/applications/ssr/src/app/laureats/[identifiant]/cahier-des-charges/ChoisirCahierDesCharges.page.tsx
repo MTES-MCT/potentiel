@@ -41,7 +41,7 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
                   target="_blank"
                   href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/gestion-de-mon-projet-sur-potentiel/cahiers-des-charges-modificatifs"
                 >
-                  page d'aide
+                  page d'aide <span className="sr-only">dans un nouvel onglet</span>
                 </Link>
                 <br />
                 <span>
@@ -52,7 +52,7 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
                     href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}
                     aria-label="Page de la CRE listant les cahiers des charges disponibles pour votre appel d'offres"
                   >
-                    cette page de la CRE
+                    cette page de la CRE <span className="sr-only">dans un nouvel onglet</span>
                   </Link>
                   .
                 </span>

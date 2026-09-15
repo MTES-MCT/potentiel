@@ -42,7 +42,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         Un filigrane sera appliqué sur l'ensemble des pièces transmises (nous utilisons le service
         de la plateforme d'état{' '}
         <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
-          filigrane.beta.gouv.fr
+          filigrane.beta.gouv.fr <span className="sr-only">nouvel onglet</span>
         </Link>
         . ). Ces pièces seront automatiquement supprimées après traitement de votre demande.
       </Highlight>

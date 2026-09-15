@@ -112,7 +112,8 @@ export default async function Page(props: PageProps) {
                   href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/pages-daide/en-tant-que-porteur-de-projet/designation-des-projets-sur-potentiel"
                   target="_blank"
                 >
-                  Consultez notre guide d’utilisation.
+                  Consultez notre guide d’utilisation{' '}
+                  <span className="sr-only">dans un nouvel onglet</span>
                 </Link>
               }
             />

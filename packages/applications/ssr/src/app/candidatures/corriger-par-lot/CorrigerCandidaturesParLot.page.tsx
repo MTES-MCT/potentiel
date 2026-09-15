@@ -31,10 +31,7 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
                   <br />
                   Il est possible de corriger les données candidature par candidature et de
                   régénérer une attestation post-désignation en consultant{' '}
-                  <Link href={Routes.Candidature.lister()} target="_blank">
-                    la liste des candidatures
-                  </Link>
-                  .
+                  <Link href={Routes.Candidature.lister()}>la liste des candidatures</Link>.
                 </span>
               }
             />

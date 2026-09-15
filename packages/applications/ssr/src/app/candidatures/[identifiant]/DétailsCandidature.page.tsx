@@ -65,7 +65,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   {dépôtVT.coordonnées && (
                     <Link
                       href={`https://www.openstreetmap.org/?mlat=${dépôtVT.coordonnées.latitude}&mlon=${dépôtVT.coordonnées.longitude}`}
-                      aria-label="Ouvrir la carte"
+                      aria-label="Ouvrir la carte dans un nouvel onglet"
                       title="Ouvrir la carte"
                       target="_blank"
                       className="no-underline bg-none "

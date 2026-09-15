@@ -29,7 +29,7 @@ export const CandidatDétails = ({ localité, emailContact, coordonnées }: Cand
           {Candidature.Coordonnées.bind(coordonnées).formatter()}
           <Link
             href={`https://www.openstreetmap.org/?mlat=${coordonnées.latitude}&mlon=${coordonnées.longitude}`}
-            aria-label="Ouvrir la carte"
+            aria-label="Ouvrir la carte dans un nouvel onglet"
             title="Ouvrir la carte"
             target="_blank"
             className="no-underline bg-none ml-2"

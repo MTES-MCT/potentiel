@@ -46,7 +46,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
             target: '_blank',
           }}
           title={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
-          aria-label={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
+          aria-label={`Prévisualiser l'attestation de désignation de ${nomProjet} dans un nouvel onglet`}
           priority="secondary"
         >
           Attestation

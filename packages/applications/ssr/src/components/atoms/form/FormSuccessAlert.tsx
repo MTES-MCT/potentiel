@@ -41,11 +41,7 @@ export const FormSuccessAlert: FC<Props> = ({ message, linkUrl, linkUrlLabel }) 
         description={
           <>
             <p>{message}</p>
-            {linkUrl && linkUrlLabel && (
-              <Link target="_blank" rel="noopener noreferrer" href={linkUrl}>
-                {linkUrlLabel}
-              </Link>
-            )}
+            {linkUrl && linkUrlLabel && <Link href={linkUrl}>{linkUrlLabel}</Link>}
           </>
         }
         className="min-h-10"
