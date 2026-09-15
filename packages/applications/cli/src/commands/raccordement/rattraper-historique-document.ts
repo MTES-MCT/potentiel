@@ -1,5 +1,8 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { Command, Flags } from '@oclif/core';
-import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { getDocument } from 'pdfjs-dist';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
@@ -14,6 +17,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
 
   static override flags = {
     dryRun: Flags.boolean({ name: 'dryRun' }),
+    identifiantProjet: Flags.string(),
   };
 
   async run(): Promise<void> {
@@ -25,6 +29,15 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     //   'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
     // );
 
+    // on exclue directement quelques identifiants projet pour gagner en efficacité
+    const identifiantsToExclude = await executeSelect<{
+      identifiants: string[];
+    }>(`
+  SELECT array_agg(DISTINCT payload->>'identifiantProjet') AS identifiants
+  FROM event_store.event_stream
+  WHERE type LIKE 'PropositionTechniqueEtFinancièreModifié%'
+`);
+
     const data = await listProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
       `dossier-raccordement`,
       {
@@ -34,12 +47,15 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
               format: Where.notEqualNull(),
             },
           },
+          identifiantProjet: flags.identifiantProjet
+            ? Where.equal(flags.identifiantProjet)
+            : Where.notMatchAny(identifiantsToExclude[0].identifiants),
           // Date de mise en ligne de la nouvelle fonctionnalité PTF / CR / CRD
-          // miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
+          miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
         },
         range: {
           startPosition: 0,
-          endPosition: 2500,
+          endPosition: 3000,
         },
       },
     );
@@ -53,8 +69,10 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     const stats = {
       total: data.items.length,
       qualification: {
+        exlus: identifiantsToExclude.length,
         cr: 0,
         crd: 0,
+        ptf: 0,
         scans: 0,
         inconnu: 0,
         errors: [] as {
@@ -97,7 +115,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           type === 'convention-de-raccordement' ||
           type === 'convention-de-raccordement-directe'
         ) {
-          console.log(`CR ou CRD trouvée`, {
+          console.log(`🔥 CR ou CRD trouvée`, {
             identifiantProjet: dossier.identifiantProjet,
             référence: dossier.référence,
           });
@@ -107,14 +125,17 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             type,
           });
           stats.qualification[type === 'convention-de-raccordement' ? 'cr' : 'crd']++;
-        }
-
-        if (!text || text.length < 5) {
+        } else if (type === 'ptf') {
+          console.log(`🔥 PTF trouvée`, {
+            identifiantProjet: dossier.identifiantProjet,
+            référence: dossier.référence,
+          });
+          stats.qualification['ptf']++;
+        } else if (!text || text.length < 5) {
           stats.qualification.scans++;
         } else {
           console.log('Type non trouvé', {
             identifiantProjet: dossier.identifiantProjet,
-
             référence: dossier.référence,
             text,
           });
@@ -139,69 +160,112 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     }
 
     process.stdout.write(
-      `\r⏳ ${stats.total} TOTAL / ${stats.qualification.cr} CR / ${stats.qualification.crd} CRD / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
+      `\r⏳ ${stats.total} TOTAL / ${stats.qualification.exlus} identifiantProjetsExclus / ${stats.qualification.ptf} PTF / ${stats.qualification.cr} CR / ${stats.qualification.crd} CRD / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
     );
 
     for (const document of documentQualifiés) {
-      const data = await executeSelect<{
-        dateSignature: DateTime.RawType;
-        format: string;
-        transmisLe: DateTime.RawType;
-        transmisPar: Email.RawType;
-        eventToDelete: string[];
+      // récupérer les anciennes références de raccordement si existantes
+      const références = await executeSelect<{
+        nouvelleréférence: string | null;
+        ancienneréférence: string | null;
       }>(
         `
         SELECT
-          e.payload->>'dateSignature' AS dateSignature,
-          CASE
-            WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
-              signed.payload->>'format'
-            ELSE
-              e.payload->>'format'
-          END AS format,
-          ARRAY[
-            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN 'PropositionTechniqueEtFinancièreTransmise-V1' ELSE NULL END,
-            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN 'PropositionTechniqueEtFinancièreTransmise-V2' ELSE NULL END,
-            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN 'PropositionTechniqueEtFinancièreTransmise-V3' ELSE NULL END,
-            CASE WHEN signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' THEN 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' ELSE NULL END
-          ] FILTER (WHERE $ IS NOT NULL) AS eventToDelete,
-          CASE
-            WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
-              e.created_at
-            ELSE
-              (e.payload->>'transmisLe')::timestamp
-          END AS transmisLe,
-          CASE
-            WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
-              'unknown-user@unknown-email.com'
-            ELSE
-              e.payload->>'transmisPar'
-          END AS transmisPar
+          e.payload->>'référenceDossierRaccordementActuelle' AS ancienneréférence,
+          e.payload->>'nouvelleRéférenceDossierRaccordement' AS nouvelleréférence
         FROM event_store.event_stream e
-        LEFT JOIN event_store.event_stream signed
-          ON signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
-          AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
         WHERE
           e.stream_id = $1
-          AND e.payload->>'référenceDossierRaccordement' = $2
-          AND e.type NOT LIKE 'PropositionTechniqueEtFinancièreModifié%'
-          AND (
-            e.type LIKE 'PropositionTechniqueEtFinancièreTransmise%'
-            OR e.type LIKE 'PropositionTechniqueEtFinancièreSignéeTransmise%'
-          )
-          AND (
-            e.type != 'PropositionTechniqueEtFinancièreTransmise-V1'
-            OR signed.type IS NOT NULL
-          );
+          AND e.payload->>'nouvelleRéférenceDossierRaccordement' = $2
+          AND e.type LIKE 'RéférenceDossierRacordementModifiée-V%'
       `,
         `raccordement|${document.identifiantProjet}`,
         document.référence,
       );
 
+      // récupérer les données
+      const data = await executeSelect<{
+        datesignature: DateTime.RawType;
+        format: string;
+        référence: string;
+        transmisle: DateTime.RawType;
+        transmispar: Email.RawType;
+        eventstodelete: string[];
+      }>(
+        `
+SELECT
+    e.payload->>'référenceDossierRaccordement' AS référence,
+    e.payload->>'dateSignature' AS datesignature,
+    CASE
+        WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
+            (
+                SELECT signed.payload->>'format'
+                FROM event_store.event_stream signed
+                WHERE signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
+                AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
+                LIMIT 1
+            )
+        ELSE
+            (e.payload->'propositionTechniqueEtFinancièreSignée'->>'format')
+    END AS format,
+    ARRAY[
+        CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN 'PropositionTechniqueEtFinancièreTransmise-V1' ELSE NULL END,
+        CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN 'PropositionTechniqueEtFinancièreTransmise-V2' ELSE NULL END,
+        CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN 'PropositionTechniqueEtFinancièreTransmise-V3' ELSE NULL END,
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM event_store.event_stream signed
+                WHERE signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
+                AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
+            ) THEN 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
+            ELSE NULL
+        END
+    ] AS eventstodelete,
+    CASE
+        WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
+            e.created_at
+        ELSE
+            (e.payload->>'transmisLe')
+    END AS transmisle,
+    CASE
+        WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
+            'unknown-user@unknown-email.com'
+        ELSE
+            e.payload->>'transmisPar'
+    END AS transmispar
+FROM event_store.event_stream e
+WHERE
+    e.stream_id = $1
+    AND (e.payload->>'référenceDossierRaccordement' = $2 OR e.payload->>'référenceDossierRaccordement' = $3)
+    AND (
+        e.type = 'PropositionTechniqueEtFinancièreTransmise-V2'
+        OR e.type = 'PropositionTechniqueEtFinancièreTransmise-V3'
+        OR (
+            e.type = 'PropositionTechniqueEtFinancièreTransmise-V1'
+            AND EXISTS (
+                SELECT 1
+                FROM event_store.event_stream signed
+                WHERE signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1'
+                AND signed.payload->>'référenceDossierRaccordement' = e.payload->>'référenceDossierRaccordement'
+            )
+        )
+    );
+      `,
+        `raccordement|${document.identifiantProjet}`,
+        document.référence,
+        références[0]?.ancienneréférence,
+      );
+
       if (!data.length) {
         console.log(
-          `Aucune donnée trouvée pour ${document.identifiantProjet} / ${document.référence}`,
+          `😡 Aucune donnée trouvée pour ${document.identifiantProjet} / ${document.référence}`,
         );
+        stats.documentMigrés.errors.push({
+          identifiantProjet: document.identifiantProjet,
+          référence: document.référence,
+          error: 'Pas de donnée',
+        });
         continue;
       }
 
@@ -215,31 +279,34 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           identifiantProjet: IdentifiantProjet.convertirEnValueType(
             document.identifiantProjet,
           ).formatter(),
-          référenceDossierRaccordement: document.référence,
-          dateSignature: data[0].dateSignature,
+          référenceDossierRaccordement: data[0].référence,
+          dateSignature: data[0].datesignature,
           document: {
             format: data[0].format,
           },
-          transmisLe: data[0].transmisLe,
-          transmisPar: data[0].transmisPar,
+          transmisLe: data[0].transmisle,
+          transmisPar: data[0].transmispar,
           type,
         },
       };
 
       try {
         if (flags.dryRun) {
-          console.log('dryRun');
+          console.log(`dryRun -- nouvel event`);
         } else {
-          // Supprimer les événements concernés
-          await executeQuery(
-            `DELETE FROM event_store.event_stream
-           WHERE type = ANY($1)
-             AND stream_id = #2
-             AND payload->>'référenceDossierRaccordement' = $3;`,
-            data[0].eventToDelete,
-            `raccordement|${document.identifiantProjet}`,
-            document.référence,
-          );
+          // Supprimer les événements d'où sont extraits les données
+          for (const eventToDelete of data[0].eventstodelete.filter((e) => !!e)) {
+            await executeQuery(
+              `DELETE FROM event_store.event_stream
+              WHERE type = ANY($1)
+               AND stream_id = #2
+               AND (payload->>'référenceDossierRaccordement' = $3 OR payload->>'référenceDossierRaccordement' = $4);`,
+              eventToDelete,
+              `raccordement|${document.identifiantProjet}`,
+              document.référence,
+              références[0]?.ancienneréférence,
+            );
+          }
 
           // Insérer le nouvel événement
           await publish(`raccordement|${document.identifiantProjet}`, event);
@@ -251,11 +318,11 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           stats.documentMigrés.versCRD++;
         }
       } catch (e) {
-        console.log(`Erreur lors de la mise à jour des événements : ${e}`, {
+        console.log(`⚠️ Erreur lors de la mise à jour des événements : ${e}`, {
           référence: document.référence,
           identifiantProjet: document.identifiantProjet,
         });
-        stats.qualification.errors.push({
+        stats.documentMigrés.errors.push({
           identifiantProjet: document.identifiantProjet,
           référence: document.référence,
           error: (e as Error).message,
@@ -263,9 +330,14 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       }
     }
 
+    // À la fin de votre script (après la boucle)
+    const outputPath = path.join(process.cwd(), 'erreurs_migration.json');
+    fs.writeFileSync(outputPath, JSON.stringify(stats.documentMigrés.errors, null, 2), 'utf-8');
+
     process.stdout.write('\r');
-    console.log('\n--- Statistiques migration ---');
+    console.log('🔥--- Statistiques migration ---🔥');
     console.log(stats.documentMigrés);
+    console.log(`⚠️ Fichier des erreurs généré : ${outputPath}`);
   }
 }
 
