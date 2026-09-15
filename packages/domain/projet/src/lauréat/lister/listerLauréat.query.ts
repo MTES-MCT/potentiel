@@ -111,7 +111,10 @@ export const registerListerLauréatQuery = ({
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        localité: { région: Where.matchAny(scope.régions), commune: Where.like(commune) },
+        localité: {
+          région: Where.matchAny(scope.régions),
+          commune: Where.startWith(commune),
+        },
         statut: statut?.length ? Where.matchAny(statut) : undefined,
       },
       join: [

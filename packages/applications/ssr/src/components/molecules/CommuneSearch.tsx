@@ -79,7 +79,7 @@ export const CommuneSearch = () => {
       value={selectedCommune}
       onChange={(_, value) => {
         setSelectedCommune(value);
-        updateSearch(value ? value.commune : null);
+        updateSearch(value ? normaliserCommune(value.commune) : null);
       }}
       onInputChange={(_, newInputValue) => searchDelayed(newInputValue)}
       renderInput={({ inputProps, InputProps }) => {
@@ -103,3 +103,20 @@ export const CommuneSearch = () => {
 
 const buildUrl = (pathname: string, searchParams: URLSearchParams) =>
   `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;
+
+const normaliserCommune = (nom?: string) => {
+  if (!nom) return '';
+
+  let normalise = nom.toLowerCase();
+
+  // Supprimer les accents
+  normalise = normalise.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  normalise = normalise.replace(/[-_.@#$%&*()+=,;:"'<>\\/|`~]/g, ' ');
+
+  normalise = normalise.replace(/\s+/g, ' ');
+
+  normalise = normalise.trim();
+
+  return normalise;
+};
