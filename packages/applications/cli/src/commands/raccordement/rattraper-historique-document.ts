@@ -42,7 +42,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
         },
         range: {
           startPosition: 0,
-          endPosition: 2500,
+          endPosition: 3000,
         },
       },
     );
@@ -58,6 +58,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       qualification: {
         cr: 0,
         crd: 0,
+        ptf: 0,
         scans: 0,
         inconnu: 0,
         errors: [] as {
@@ -110,9 +111,13 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             type,
           });
           stats.qualification[type === 'convention-de-raccordement' ? 'cr' : 'crd']++;
-        }
-
-        if (!text || text.length < 5) {
+        } else if (type === 'ptf') {
+          console.log(`🔥 PTF trouvée`, {
+            identifiantProjet: dossier.identifiantProjet,
+            référence: dossier.référence,
+          });
+          stats.qualification['ptf']++;
+        } else if (!text || text.length < 5) {
           stats.qualification.scans++;
         } else {
           console.log('Type non trouvé', {
@@ -141,7 +146,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     }
 
     process.stdout.write(
-      `\r⏳ ${stats.total} TOTAL / ${stats.qualification.cr} CR / ${stats.qualification.crd} CRD / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
+      `\r⏳ ${stats.total} TOTAL / ${stats.qualification.ptf} PTF/ ${stats.qualification.cr} CR / ${stats.qualification.crd} CRD / ${stats.qualification.scans} SCANS / ${stats.qualification.fileNotFound} FILE NOT FOUND / ${stats.qualification.errors.length} ERRORS`,
     );
 
     for (const document of documentQualifiés) {
@@ -161,12 +166,12 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             ELSE
               e.payload->>'format'
           END AS format,
-          ARRAY[
-            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN 'PropositionTechniqueEtFinancièreTransmise-V1' ELSE NULL END,
-            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN 'PropositionTechniqueEtFinancièreTransmise-V2' ELSE NULL END,
-            CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN 'PropositionTechniqueEtFinancièreTransmise-V3' ELSE NULL END,
-            CASE WHEN signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' THEN 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' ELSE NULL END
-          ] FILTER (WHERE $ IS NOT NULL) AS eventsToDelete,
+ARRAY[
+  CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN 'PropositionTechniqueEtFinancièreTransmise-V1' ELSE NULL END,
+  CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V2' THEN 'PropositionTechniqueEtFinancièreTransmise-V2' ELSE NULL END,
+  CASE WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V3' THEN 'PropositionTechniqueEtFinancièreTransmise-V3' ELSE NULL END,
+  CASE WHEN signed.type = 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' THEN 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' ELSE NULL END
+] FILTER (WHERE x IS NOT NULL) AS eventsToDelete,
           CASE
             WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
               e.created_at
