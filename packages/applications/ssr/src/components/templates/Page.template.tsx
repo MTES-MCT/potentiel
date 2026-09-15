@@ -5,6 +5,7 @@ import type { FC } from 'react';
 
 import { FormSuccessAlert } from '@/components/atoms/form/FormSuccessAlert';
 import { FeatureFlaggedComponent } from '@/utils/feature-flag/FeatureFlaggedComponent.template';
+import { FilAriane } from '../molecules/FilAriane';
 
 type PageTemplateProps = {
   children: React.ReactNode;
@@ -26,6 +27,7 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children, feature 
         </div>
       )}
       <div className="fr-container my-10 print:my-4">
+        <FilAriane />
         {successMessage && (
           <FormSuccessAlert
             message={successMessage}
