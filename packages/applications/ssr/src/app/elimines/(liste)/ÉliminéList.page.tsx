@@ -36,7 +36,10 @@ export const ÉliminéListPage: FC<ÉliminéListPageProps> = ({
     legend={legend}
     totalItems={totalItems}
     ItemComponent={ÉliminéListItem}
-    search={{ label: 'Rechercher par nom ou identifiant', params: 'search' }}
+    search={{
+      topSearch: { label: 'Rechercher par nom ou identifiant', params: 'search' },
+      communeSearch: true,
+    }}
     items={éliminés.map((projet) => ({
       ...projet,
       key: IdentifiantProjet.bind(projet.identifiantProjet).formatter(),

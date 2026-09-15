@@ -41,6 +41,6 @@ export const ChangementFournisseurListPage: FC<ChangementFournisseurListPageProp
     itemsPerPage={itemsPerPage}
     ItemComponent={ChangementFournisseurListItem}
     filters={filters}
-    search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    search={{ topSearch: { label: 'Rechercher par nom de projet', params: 'nomProjet' } }}
   />
 );

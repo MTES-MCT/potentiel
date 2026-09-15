@@ -31,7 +31,7 @@ export const RéclamerProjetsListPage: FC<RéclamerProjetsListPageProps> = ({
 
   return (
     <ListPageTemplate
-      search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+      search={{ topSearch: { label: 'Rechercher par nom de projet', params: 'nomProjet' } }}
       heading="Projets à réclamer"
       actions={[]}
       currentPage={currentPage}

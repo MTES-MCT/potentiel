@@ -39,6 +39,7 @@ export type ListerÉliminéQuery = Message<
     periode?: string;
     famille?: string;
     nomProjet?: string;
+    commune?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
     identifiantProjet?: IdentifiantProjet.RawType;
   },
@@ -62,6 +63,7 @@ export const registerListerÉliminéQuery = ({
     nomProjet,
     range,
     typeActionnariat,
+    commune,
     identifiantProjet,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
@@ -80,7 +82,7 @@ export const registerListerÉliminéQuery = ({
           période: Where.equal(periode),
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),
-          localité: { région: Where.matchAny(scope.régions) },
+          localité: { région: Where.matchAny(scope.régions), commune: Where.like(commune) },
           actionnariat: Where.matchAny(
             Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
               typeActionnariat,

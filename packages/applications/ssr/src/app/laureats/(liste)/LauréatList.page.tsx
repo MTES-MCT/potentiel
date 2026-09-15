@@ -28,7 +28,7 @@ export const LauréatListPage: FC<LauréatListPageProps> = ({
   actions,
 }) => (
   <ListPageTemplate
-    heading="Projets lauréats"
+    heading="Projets lauréats "
     currentPage={currentPage}
     itemsPerPage={itemsPerPage}
     filters={filters}
@@ -36,7 +36,10 @@ export const LauréatListPage: FC<LauréatListPageProps> = ({
     legend={legend}
     totalItems={totalItems}
     ItemComponent={LauréatListItem}
-    search={{ label: 'Rechercher par nom ou identifiant', params: 'search' }}
+    search={{
+      topSearch: { label: 'Rechercher par nom ou identifiant', params: 'search' },
+      communeSearch: true,
+    }}
     items={lauréats.map((projet) => ({
       ...projet,
       key: IdentifiantProjet.bind(projet.identifiantProjet).formatter(),

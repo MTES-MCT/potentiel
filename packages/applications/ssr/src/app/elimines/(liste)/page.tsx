@@ -29,6 +29,7 @@ const paramsSchema = z.object({
   periode: z.string().optional(),
   famille: z.string().optional(),
   search: z.string().optional(),
+  commune: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
 });
 
@@ -38,7 +39,7 @@ export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, appelOffre, periode, famille, search, typeActionnariat } =
+      const { page, appelOffre, periode, famille, search, typeActionnariat, commune } =
         paramsSchema.parse(searchParams);
 
       const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
@@ -52,6 +53,7 @@ export default async function Page(props: PageProps) {
           famille,
           nomProjet,
           identifiantProjet,
+          commune,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,

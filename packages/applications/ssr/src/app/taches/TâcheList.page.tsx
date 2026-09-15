@@ -37,7 +37,7 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
       itemsPerPage={itemsPerPage}
       ItemComponent={TâcheListItem}
       filters={filters}
-      search={search}
+      search={search && { topSearch: search }}
     />
   );
 };
