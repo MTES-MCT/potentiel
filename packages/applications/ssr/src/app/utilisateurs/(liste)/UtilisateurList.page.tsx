@@ -34,6 +34,6 @@ export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
     itemsPerPage={itemsPerPage}
     ItemComponent={UtilisateurListItem}
     filters={filters}
-    search={{ label: 'Rechercher par email', params: 'identifiantUtilisateur' }}
+    search={{ topSearch: { label: 'Rechercher par email', params: 'identifiantUtilisateur' } }}
   />
 );

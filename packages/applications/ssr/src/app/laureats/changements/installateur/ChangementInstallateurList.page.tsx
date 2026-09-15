@@ -39,6 +39,6 @@ export const ChangementInstallateurListPage: FC<ChangementInstallateurListPagePr
     itemsPerPage={itemsPerPage}
     ItemComponent={ChangementInstallateurListItem}
     filters={filters}
-    search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    search={{ topSearch: { label: 'Rechercher par nom de projet', params: 'nomProjet' } }}
   />
 );
