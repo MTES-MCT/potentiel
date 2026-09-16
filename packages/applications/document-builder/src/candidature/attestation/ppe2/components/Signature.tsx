@@ -11,13 +11,19 @@ export const Signature = ({ validateur }: SignatureProps) => (
     <Text style={{ marginTop: 25 }}>
       Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.
     </Text>
-    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>
-      Pour le ministre chargé de l'énergie et par délégation :
-    </Text>
+    <View
+      style={{
+        marginTop: 30,
+        width: '100%',
+        alignItems: 'flex-end',
+      }}
+    >
+      <Text style={{ fontSize: 10 }}>Pour le ministre chargé de l'énergie et par délégation :</Text>
+    </View>
     <View
       style={{
         width: 200,
-        marginTop: 30,
+        marginTop: 25,
         display: 'flex',
         flexDirection: 'column',
         marginLeft: 'auto',
