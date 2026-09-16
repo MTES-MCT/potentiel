@@ -11,7 +11,7 @@ import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet'
 import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { copyFolder, download, FichierInexistant } from '@potentiel-libraries/file-storage';
+import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 export class RattraperHistoriqueDocumentsCommand extends Command {
@@ -320,10 +320,7 @@ WHERE
             );
           }
 
-          await copyFolder('', '');
-
           // Enregistrer le document
-          // Attention à la référence !!
           const documentRaccordement =
             Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(document.type)({
               identifiantProjet: document.identifiantProjet,
@@ -365,7 +362,6 @@ WHERE
       }
     }
 
-    // À la fin de votre script (après la boucle)
     const outputPath = path.join(process.cwd(), 'erreurs_migration.json');
     fs.writeFileSync(outputPath, JSON.stringify(stats.documentMigrés.errors, null, 2), 'utf-8');
 
