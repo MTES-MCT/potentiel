@@ -5,7 +5,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { appSchema, dbSchema, verifyIfEnvIsProduction } from '#helpers';
+import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
 
 const envSchema = zod.object({
   ...dbSchema.shape,
@@ -41,7 +41,7 @@ export class PublierDatagouvStats extends Command {
     try {
       const env = envSchema.parse(process.env);
 
-      verifyIfEnvIsProduction(env.APPLICATION_STAGE);
+      throwIfEnvIsNotProduction(env.APPLICATION_STAGE);
 
       const buffer = await this.generateCsvBuffer();
 

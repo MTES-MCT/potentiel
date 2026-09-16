@@ -23,7 +23,7 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema, verifyIfEnvIsProduction } from '#helpers';
+import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
 
 const envSchema = z.object({
   ...appSchema.shape,
@@ -39,7 +39,7 @@ export class NotifierGestionnaireRéseau extends Command {
   async init() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
 
-    verifyIfEnvIsProduction(APPLICATION_STAGE);
+    throwIfEnvIsNotProduction(APPLICATION_STAGE);
 
     registerNotificationsCommands({ sendEmail });
     registerRéseauQueries({

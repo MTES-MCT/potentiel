@@ -20,7 +20,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 
-import { appSchema, dbSchema } from '#helpers';
+import { appSchema, dbSchema, throwIfEnvProduction } from '#helpers';
 
 const envSchema = zod.object({
   ...appSchema.shape,
@@ -35,10 +35,8 @@ export class NotifierCandidatures extends Command {
 
   async init() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
-    if (APPLICATION_STAGE === 'production') {
-      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
-      this.exit(1);
-    }
+
+    throwIfEnvProduction(APPLICATION_STAGE);
 
     Période.registerPériodeUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,

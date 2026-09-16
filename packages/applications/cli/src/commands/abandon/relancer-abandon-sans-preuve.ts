@@ -6,7 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema, verifyIfEnvIsProduction } from '#helpers';
+import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
 
 const envSchema = z.object({
   ...dbSchema.shape,
@@ -19,7 +19,7 @@ export class Relancer extends Command {
   async run() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
 
-    verifyIfEnvIsProduction(APPLICATION_STAGE);
+    throwIfEnvIsNotProduction(APPLICATION_STAGE);
 
     const abandonsÀRelancer =
       await mediator.send<Lauréat.Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
