@@ -75,7 +75,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       identifiantProjet: string;
       référence: string;
       type: 'convention-de-raccordement' | 'convention-de-raccordement-directe';
-      content: ReadableStream<any>;
+      content: ReadableStream;
     }[] = [];
 
     const stats = {
