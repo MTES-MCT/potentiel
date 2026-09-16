@@ -2,14 +2,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { Command, Flags } from '@oclif/core';
+import { mediator } from 'mediateur';
 import { getDocument } from 'pdfjs-dist';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
+import { copyFolder, download, FichierInexistant } from '@potentiel-libraries/file-storage';
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 export class RattraperHistoriqueDocumentsCommand extends Command {
@@ -19,6 +21,15 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     dryRun: Flags.boolean({ name: 'dryRun' }),
     identifiantProjet: Flags.string(),
   };
+
+  async init() {
+    Document.registerDocumentProjetCommand({
+      enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+      déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+      archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+      enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
+    });
+  }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(RattraperHistoriqueDocumentsCommand);
@@ -64,6 +75,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       identifiantProjet: string;
       référence: string;
       type: 'convention-de-raccordement' | 'convention-de-raccordement-directe';
+      content: ReadableStream<any>;
     }[] = [];
 
     const stats = {
@@ -123,6 +135,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             référence: dossier.référence,
             identifiantProjet: dossier.identifiantProjet,
             type,
+            content: stream,
           });
           stats.qualification[type === 'convention-de-raccordement' ? 'cr' : 'crd']++;
         } else if (type === 'ptf') {
@@ -298,18 +311,40 @@ WHERE
           for (const eventToDelete of data[0].eventstodelete.filter((e) => !!e)) {
             await executeQuery(
               `DELETE FROM event_store.event_stream
-              WHERE type = ANY($1)
-               AND stream_id = #2
-               AND (payload->>'référenceDossierRaccordement' = $3 OR payload->>'référenceDossierRaccordement' = $4);`,
+               WHERE type = $1
+               AND stream_id = $2
+               AND payload->>'référenceDossierRaccordement' = $3;`,
               eventToDelete,
               `raccordement|${document.identifiantProjet}`,
-              document.référence,
-              références[0]?.ancienneréférence,
+              data[0].référence,
             );
           }
 
+          await copyFolder('', '');
+
+          // Enregistrer le document
+          // Attention à la référence !!
+          const documentRaccordement =
+            Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(document.type)({
+              identifiantProjet: document.identifiantProjet,
+              référenceDossierRaccordement: data[0].référence,
+              dateSignature: data[0].datesignature,
+              document: { format: data[0].format },
+            });
+
+          await mediator.send<Document.EnregistrerDocumentProjetCommand>({
+            type: 'Document.Command.EnregistrerDocumentProjet',
+            data: {
+              content: document.content,
+              documentProjet: documentRaccordement,
+            },
+          });
+
           // Insérer le nouvel événement
-          await publish(`raccordement|${document.identifiantProjet}`, event);
+          await publish(`raccordement|${document.identifiantProjet}`, {
+            ...event,
+            created_at: event.payload.transmisLe,
+          });
         }
 
         if (type === 'convention-de-raccordement') {
