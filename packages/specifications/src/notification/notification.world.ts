@@ -29,46 +29,73 @@ export class NotificationWorld {
   vérifierNotification(emailValue: string, sujet?: string, variables?: Record<string, string>) {
     const logger = getLogger('NotificationWorld');
     const email = Email.convertirEnValueType(emailValue);
+
+    const erreurs: string[] = [];
+
     const notif = this.#notifications.find((notif) => {
       if (notif.checked) {
         return false;
       }
 
-      if (sujet && !(notif.subject.match(new RegExp(sujet)) || sujet === notif.subject)) {
+      if (!notif.email.estÉgaleÀ(email)) {
         return false;
       }
+
+      if (sujet && !(notif.subject.match(new RegExp(sujet)) || sujet === notif.subject)) {
+        erreurs.push(
+          `Le sujet attendu par le test ("${sujet}") ne correspond pas au sujet reçu ("${notif.subject}")`,
+        );
+        return false;
+      }
+
       if (variables) {
+        if (Object.keys(notif.values).length === 0) {
+          erreurs.push(
+            `Le test attend des variables (${Object.keys(variables).join(', ')}) mais la valeur reçue n'en contient aucune`,
+          );
+          return false;
+        }
+
         for (const [key, value] of Object.entries(variables)) {
           if (!new RegExp(value).test(notif.values[key])) {
-            logger.warn(
-              "Une notification correspond au sujet et à l'email, mais pas aux variables",
-              {
-                key,
-                expected: value,
-                actual: notif.values[key],
-                email: email.formatter(),
-                sujet,
-              },
-            );
+            if (notif.values[key] === undefined) {
+              erreurs.push(`${key} -> La variable est manquante`);
+
+              return false;
+            }
+
+            erreurs.push(`${key} -> Expected : ${value} | Actual : ${notif.values[key]}`);
 
             return false;
           }
         }
       }
-      return notif.email.estÉgaleÀ(email);
+      return true;
     });
 
     if (!notif) {
       logger.error(`Aucune notification trouvée`, {
         sujet,
         emailValue,
+        erreurs,
         notificationsEnvoyées: this.#notifications.map((x) => ({
           sujet: x.subject,
           recipients: x.email,
+          values: x.values,
         })),
       });
     }
-    assert(notif, 'Pas de notification');
+    assert(
+      notif,
+      `Pas de notification correspondante : 
+        ${sujet ? `- Sujet: "${sujet}")` : ''}
+        ${
+          erreurs.length
+            ? `- Raisons de rejet :
+              - ${erreurs.join('\n- ')}`
+            : ''
+        }`,
+    );
 
     notif.checked = true;
   }
