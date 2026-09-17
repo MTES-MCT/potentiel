@@ -36,7 +36,6 @@ export class Executer extends Command {
   };
 
   async init() {
-    dbSchema.parse(process.env);
     registerProjetQueries({
       list: listProjection,
       find: findProjection,
@@ -53,8 +52,10 @@ export class Executer extends Command {
   }
 
   async run() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
     const { flags } = await this.parse(Executer);
+
+    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+
     if (!flags.date && APPLICATION_STAGE !== 'production') {
       console.log(
         `This job only runs in production. For other environments, please specify a date with the --date flag.`,

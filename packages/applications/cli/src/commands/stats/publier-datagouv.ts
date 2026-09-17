@@ -5,10 +5,11 @@ import { DateTime } from '@potentiel-domain/common';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { dbSchema } from '#helpers';
+import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
 
 const envSchema = zod.object({
   ...dbSchema.shape,
+  ...appSchema.shape,
   // Datagouv env variables
   DATAGOUV_API_URL: zod.url(),
   DATAGOUV_API_KEY: zod.string(),
@@ -39,6 +40,8 @@ export class PublierDatagouvStats extends Command {
   async run() {
     try {
       const env = envSchema.parse(process.env);
+
+      throwIfEnvIsNotProduction(env.APPLICATION_STAGE);
 
       const buffer = await this.generateCsvBuffer();
 

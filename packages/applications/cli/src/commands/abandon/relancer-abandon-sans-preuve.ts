@@ -6,7 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema } from '#helpers';
+import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
 
 const envSchema = z.object({
   ...dbSchema.shape,
@@ -18,10 +18,9 @@ export class Relancer extends Command {
 
   async run() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
-    if (APPLICATION_STAGE !== 'production') {
-      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
-      return;
-    }
+
+    throwIfEnvIsNotProduction(APPLICATION_STAGE);
+
     const abandonsÀRelancer =
       await mediator.send<Lauréat.Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
