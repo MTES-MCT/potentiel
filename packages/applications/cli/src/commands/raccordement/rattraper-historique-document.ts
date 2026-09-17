@@ -2,16 +2,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { Command, Flags } from '@oclif/core';
-import { mediator } from 'mediateur';
 import { getDocument } from 'pdfjs-dist';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
-import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
+import { copyFolder, download, FichierInexistant } from '@potentiel-libraries/file-storage';
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 
 export class RattraperHistoriqueDocumentsCommand extends Command {
@@ -22,19 +20,9 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     identifiantProjet: Flags.string(),
   };
 
-  async init() {
-    Document.registerDocumentProjetCommand({
-      enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
-      déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
-      archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
-      enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
-    });
-  }
-
   async run(): Promise<void> {
     const { flags } = await this.parse(RattraperHistoriqueDocumentsCommand);
 
-    // On a besoin de supprimer des événements par la suite
     // à exécuter via le tunnel
     // await executeQuery(
     //   'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
@@ -75,13 +63,12 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       identifiantProjet: string;
       référence: string;
       type: 'convention-de-raccordement' | 'convention-de-raccordement-directe';
-      content: ReadableStream;
     }[] = [];
 
     const stats = {
       total: data.items.length,
       qualification: {
-        exlus: identifiantsToExclude.length,
+        exlus: identifiantsToExclude[0].identifiants.length,
         cr: 0,
         crd: 0,
         ptf: 0,
@@ -135,7 +122,6 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
             référence: dossier.référence,
             identifiantProjet: dossier.identifiantProjet,
             type,
-            content: stream,
           });
           stats.qualification[type === 'convention-de-raccordement' ? 'cr' : 'crd']++;
         } else if (type === 'ptf') {
@@ -200,14 +186,12 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       const data = await executeSelect<{
         datesignature: DateTime.RawType;
         format: string;
-        référence: string;
         transmisle: DateTime.RawType;
         transmispar: Email.RawType;
         eventstodelete: string[];
       }>(
         `
 SELECT
-    e.payload->>'référenceDossierRaccordement' AS référence,
     e.payload->>'dateSignature' AS datesignature,
     CASE
         WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
@@ -239,13 +223,13 @@ SELECT
         WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
             e.created_at
         ELSE
-            (e.payload->>'transmisLe')
+            (e.payload->>'transmiseLe')
     END AS transmisle,
     CASE
         WHEN e.type IN ('PropositionTechniqueEtFinancièreTransmise-V1', 'PropositionTechniqueEtFinancièreTransmise-V2') THEN
             'unknown-user@unknown-email.com'
         ELSE
-            e.payload->>'transmisPar'
+            e.payload->>'transmisePar'
     END AS transmispar
 FROM event_store.event_stream e
 WHERE
@@ -267,7 +251,7 @@ WHERE
       `,
         `raccordement|${document.identifiantProjet}`,
         document.référence,
-        références[0]?.ancienneréférence,
+        références?.[0]?.ancienneréférence,
       );
 
       if (!data.length) {
@@ -277,7 +261,7 @@ WHERE
         stats.documentMigrés.errors.push({
           identifiantProjet: document.identifiantProjet,
           référence: document.référence,
-          error: 'Pas de donnée',
+          error: 'Pas de donnée pour ce document',
         });
         continue;
       }
@@ -292,7 +276,7 @@ WHERE
           identifiantProjet: IdentifiantProjet.convertirEnValueType(
             document.identifiantProjet,
           ).formatter(),
-          référenceDossierRaccordement: data[0].référence,
+          référenceDossierRaccordement: références?.[0]?.nouvelleréférence ?? document.référence,
           dateSignature: data[0].datesignature,
           document: {
             format: data[0].format,
@@ -307,35 +291,24 @@ WHERE
         if (flags.dryRun) {
           console.log(`dryRun -- nouvel event`);
         } else {
+          // Enregistrer le nouveau document
+          await copyFolder(
+            `${document.identifiantProjet}/raccordement/${document.référence}/proposition-technique-et-financière`,
+            `${document.identifiantProjet}/raccordement/${document.référence}/${document.type}`,
+          );
+
           // Supprimer les événements d'où sont extraits les données
           for (const eventToDelete of data[0].eventstodelete.filter((e) => !!e)) {
             await executeQuery(
               `DELETE FROM event_store.event_stream
-               WHERE type = $1
-               AND stream_id = $2
-               AND payload->>'référenceDossierRaccordement' = $3;`,
+              WHERE type = $1
+              AND stream_id = $2
+              AND payload->>'référenceDossierRaccordement' = $3;`,
               eventToDelete,
               `raccordement|${document.identifiantProjet}`,
-              data[0].référence,
+              document.référence,
             );
           }
-
-          // Enregistrer le document
-          const documentRaccordement =
-            Lauréat.Raccordement.DocumentRaccordement.documentRaccordement(document.type)({
-              identifiantProjet: document.identifiantProjet,
-              référenceDossierRaccordement: data[0].référence,
-              dateSignature: data[0].datesignature,
-              document: { format: data[0].format },
-            });
-
-          await mediator.send<Document.EnregistrerDocumentProjetCommand>({
-            type: 'Document.Command.EnregistrerDocumentProjet',
-            data: {
-              content: document.content,
-              documentProjet: documentRaccordement,
-            },
-          });
 
           // Insérer le nouvel événement
           await publish(`raccordement|${document.identifiantProjet}`, {
