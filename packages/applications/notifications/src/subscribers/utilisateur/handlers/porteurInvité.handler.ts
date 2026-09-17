@@ -9,13 +9,11 @@ import { sendEmail } from '#sendEmail';
 export const handlePorteurInvité = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
 }: PorteurInvitéEvent) => {
-  const projets = await Promise.all(
+  const candidatures = await Promise.all(
     identifiantsProjet.map((identifiantProjet) =>
       getCandidature(IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()),
     ),
   );
-
-  const urlPageProjets = buildUrl(Routes.Lauréat.lister());
 
   // On ne notifie pas le porteur invité par le système,
   // car cela correspond à l'invitation liée à la candidature,
@@ -24,14 +22,25 @@ export const handlePorteurInvité = async ({
     return;
   }
 
+  const projets = candidatures.filter(Boolean);
+
+  const tousLesProjets = projets.length > 1;
+
+  const urlPageProjets = tousLesProjets
+    ? buildUrl(Routes.Lauréat.lister())
+    : buildUrl(Routes.Lauréat.détails.tableauDeBord(projets[0].identifiantProjet));
+
+  const projetALister = projets
+    .map(({ nom, appelOffre, période }) => `• ${nom} (${appelOffre} période ${période})`)
+    .join('<br>');
+
   await sendEmail({
     key: 'utilisateur/inviter_porteur',
     recipients: [identifiantUtilisateur],
     values: {
-      nomProjet: projets
-        .filter(Boolean)
-        .map(({ nom }) => nom)
-        .join(', '),
+      invitéPar,
+      tousLesProjets: tousLesProjets ? 'true' : '',
+      projetALister,
       url: urlPageProjets,
     },
   });
