@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import {
@@ -17,6 +18,7 @@ import { mapToChangementReprésentantLégalSuppriméTimelineItemProps } from './
 
 export const mapToReprésentantLégalTimelineItemProps = (
   event: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -36,7 +38,7 @@ export const mapToReprésentantLégalTimelineItemProps = (
       {
         type: 'ChangementReprésentantLégalDemandé-V1',
       },
-      mapToChangementReprésentantLégalDemandéTimelineItemProps,
+      (event) => mapToChangementReprésentantLégalDemandéTimelineItemProps(event, rôleUtilisateur),
     )
     .with(
       {
@@ -66,7 +68,8 @@ export const mapToReprésentantLégalTimelineItemProps = (
       {
         type: 'ChangementReprésentantLégalEnregistré-V1',
       },
-      mapToChangementReprésentantLégalEnregistréTimelineItemProps,
+      (event) =>
+        mapToChangementReprésentantLégalEnregistréTimelineItemProps(event, rôleUtilisateur),
     )
     .with(
       {

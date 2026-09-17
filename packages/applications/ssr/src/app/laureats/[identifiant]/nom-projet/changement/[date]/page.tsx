@@ -8,6 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   type LauréatHistoryRecord,
   mapToLauréatTimelineItemProps,
@@ -28,44 +29,49 @@ export default async function Page(props: PageProps) {
 
   const { identifiant, date } = params;
 
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const enregistréLe = decodeParameter(date);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      const enregistréLe = decodeParameter(date);
 
-    const changement = await mediator.send<Lauréat.ConsulterChangementNomProjetQuery>({
-      type: 'Lauréat.Query.ConsulterChangementNomProjet',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-        enregistréLe,
-      },
-    });
+      const changement = await mediator.send<Lauréat.ConsulterChangementNomProjetQuery>({
+        type: 'Lauréat.Query.ConsulterChangementNomProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe,
+        },
+      });
 
-    if (Option.isNone(changement)) {
-      return notFound();
-    }
+      if (Option.isNone(changement)) {
+        return notFound();
+      }
 
-    const historique = await mediator.send<Lauréat.ListerHistoriqueLauréatQuery>({
-      type: 'Lauréat.Query.ListerHistoriqueLauréat',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const historique = await mediator.send<Lauréat.ListerHistoriqueLauréatQuery>({
+        type: 'Lauréat.Query.ListerHistoriqueLauréat',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
-    const historiqueChangementNomProjet = historique.items.filter((v) =>
-      ['NomProjetModifié-V1', 'ChangementNomProjetEnregistré-V1'].includes(v.type),
-    );
+      const historiqueChangementNomProjet = historique.items.filter((v) =>
+        ['NomProjetModifié-V1', 'ChangementNomProjetEnregistré-V1'].includes(v.type),
+      );
 
-    return (
-      <DétailsNomProjetPage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        changement={mapToPlainObject(changement.changement)}
-        historique={historiqueChangementNomProjet.map((readmodel) =>
-          mapToLauréatTimelineItemProps({
-            readmodel: readmodel as LauréatHistoryRecord,
-            doitAfficherLienAttestationDésignation: false,
-          }),
-        )}
-      />
-    );
-  });
+      return (
+        <DétailsNomProjetPage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          changement={mapToPlainObject(changement.changement)}
+          historique={historiqueChangementNomProjet.map((readmodel) =>
+            mapToLauréatTimelineItemProps({
+              readmodel: readmodel as LauréatHistoryRecord,
+              doitAfficherLienAttestationDésignation: false,
+              rôleUtilisateur: utilisateur.rôle,
+            }),
+          )}
+        />
+      );
+    }),
+  );
 }

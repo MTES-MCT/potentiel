@@ -1,6 +1,7 @@
 import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToDispositifDeStockageEnregistréTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageEnregistréTimelineItemsProps';
@@ -9,10 +10,12 @@ import { mapToDispositifDeStockageImportéTimelineItemProps } from './events/map
 
 type MapToInstallationTimelineItemProps = (
   readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ) => TimelineItemProps | null;
 
 export const mapToDispositifDeStockageTimelineItemProps: MapToInstallationTimelineItemProps = (
   readmodel,
+  rôleUtilisateur,
 ) =>
   match(readmodel)
     .with({ type: 'InstallationImportée-V1' }, (readmodel) =>
@@ -22,7 +25,7 @@ export const mapToDispositifDeStockageTimelineItemProps: MapToInstallationTimeli
       mapToDispositifDeStockageModifiéTimelineItemsProps(readmodel),
     )
     .with({ type: 'ChangementDispositifDeStockageEnregistré-V1' }, (readmodel) =>
-      mapToDispositifDeStockageEnregistréTimelineItemsProps(readmodel),
+      mapToDispositifDeStockageEnregistréTimelineItemsProps(readmodel, rôleUtilisateur),
     )
     .with(
       {

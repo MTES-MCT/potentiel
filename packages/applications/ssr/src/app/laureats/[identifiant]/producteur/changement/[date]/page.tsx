@@ -8,6 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '../../(historique)/mapToProducteurTimelineItemProps';
 import { DétailsProducteurPage } from './DétailsChangementProducteur.page';
 
@@ -25,36 +26,44 @@ export default async function Page(props: PageProps) {
 
   const { identifiant, date } = params;
 
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const enregistréLe = decodeParameter(date);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      const enregistréLe = decodeParameter(date);
 
-    const changement = await mediator.send<Lauréat.Producteur.ConsulterChangementProducteurQuery>({
-      type: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-        enregistréLe,
-      },
-    });
-
-    if (Option.isNone(changement)) {
-      return notFound();
-    }
-
-    const historique =
-      await mediator.send<Lauréat.Producteur.ListerHistoriqueProducteurProjetQuery>({
-        type: 'Lauréat.Producteur.Query.ListerHistoriqueProducteurProjet',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
+      const changement = await mediator.send<Lauréat.Producteur.ConsulterChangementProducteurQuery>(
+        {
+          type: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            enregistréLe,
+          },
         },
-      });
+      );
 
-    return (
-      <DétailsProducteurPage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        changement={mapToPlainObject(changement.changement)}
-        historique={historique.items.map(mapToProducteurTimelineItemProps)}
-      />
-    );
-  });
+      if (Option.isNone(changement)) {
+        return notFound();
+      }
+
+      const historique =
+        await mediator.send<Lauréat.Producteur.ListerHistoriqueProducteurProjetQuery>({
+          type: 'Lauréat.Producteur.Query.ListerHistoriqueProducteurProjet',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      return (
+        <DétailsProducteurPage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          changement={mapToPlainObject(changement.changement)}
+          historique={historique.items.map((item) =>
+            mapToProducteurTimelineItemProps(item, utilisateur.rôle),
+          )}
+        />
+      );
+    }),
+  );
 }

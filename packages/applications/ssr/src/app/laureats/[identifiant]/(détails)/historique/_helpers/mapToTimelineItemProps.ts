@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
@@ -25,44 +26,64 @@ type MapToTimelineItemProps = {
   readmodel: Lauréat.HistoriqueListItemReadModels;
   unitéPuissance: string;
   doitAfficherLienAttestationDésignation: boolean;
+  rôleUtilisateur: Utilisateur.ValueType['rôle'];
 };
 
 export const mapToTimelineItemProps = ({
   readmodel,
   unitéPuissance,
   doitAfficherLienAttestationDésignation,
+  rôleUtilisateur,
 }: MapToTimelineItemProps) => {
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
-    .with({ category: 'abandon' }, mapToAbandonTimelineItemProps)
-    .with({ category: 'recours' }, mapToRecoursTimelineItemProps)
-    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
-    .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
+    .with({ category: 'abandon' }, (readmodel) =>
+      mapToAbandonTimelineItemProps(readmodel, rôleUtilisateur),
+    )
+    .with({ category: 'recours' }, (readmodel) =>
+      mapToRecoursTimelineItemProps(readmodel, rôleUtilisateur),
+    )
+    .with({ category: 'actionnaire' }, (readmodel) =>
+      mapToActionnaireTimelineItemProps(readmodel, rôleUtilisateur),
+    )
+    .with({ category: 'représentant-légal' }, (readmodel) =>
+      mapToReprésentantLégalTimelineItemProps(readmodel, rôleUtilisateur),
+    )
     .with({ category: 'lauréat' }, (readmodel) =>
       mapToLauréatTimelineItemProps({
         readmodel,
         doitAfficherLienAttestationDésignation,
+        rôleUtilisateur,
       }),
     )
     .with({ category: 'éliminé' }, mapToÉliminéTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
-    .with({ category: 'producteur' }, mapToProducteurTimelineItemProps)
+    .with({ category: 'producteur' }, (readmodel) =>
+      mapToProducteurTimelineItemProps(readmodel, rôleUtilisateur),
+    )
     .with({ category: 'puissance' }, (readmodel) =>
       mapToPuissanceTimelineItemProps({
         event: readmodel,
         unitéPuissance,
+        rôleUtilisateur,
       }),
     )
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
-    .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
-    .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
-    .with({ category: 'installation' }, mapToInstallationTimelineItemProps)
+    .with({ category: 'délai' }, (readmodel) =>
+      mapToDélaiTimelineItemProps(readmodel, rôleUtilisateur),
+    )
+    .with({ category: 'fournisseur' }, (readmodel) =>
+      mapToFournisseurTimelineItemProps(readmodel, rôleUtilisateur),
+    )
+    .with({ category: 'installation' }, (readmodel) =>
+      mapToInstallationTimelineItemProps(readmodel, rôleUtilisateur),
+    )
     .with(
       {
         category: 'nature-de-l-exploitation',
       },
-      mapToNatureDeLExploitationTimelineItemProps,
+      (readmodel) => mapToNatureDeLExploitationTimelineItemProps(readmodel, rôleUtilisateur),
     )
     .with({ category: 'power-purchase-agreement' }, mapToPowerPurchaseAgreementTimelineItemProps)
     .exhaustive(() => undefined);

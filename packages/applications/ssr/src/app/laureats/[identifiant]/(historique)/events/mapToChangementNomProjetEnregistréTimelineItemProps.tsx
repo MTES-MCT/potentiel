@@ -1,11 +1,13 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementNomProjetEnregistréTimelineItemProps = (
   event: Lauréat.ChangementNomProjetEnregistréEvent,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ): TimelineItemProps => {
   const {
     nomProjet,
@@ -16,6 +18,8 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
     ancienNomProjet,
     pièceJustificative,
   } = event.payload;
+
+  const afficherLien = rôleUtilisateur.aLaPermission('nomProjet.consulterChangement');
 
   return {
     date: enregistréLe,
@@ -40,10 +44,12 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: {
-      url: Routes.Lauréat.changement.nomProjet.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement de nom du projet enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: afficherLien
+      ? {
+          url: Routes.Lauréat.changement.nomProjet.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement de nom du projet enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

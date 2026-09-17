@@ -1,11 +1,13 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementActionnaireEnregistréTimelineItemProps = (
   event: Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -15,6 +17,8 @@ export const mapToChangementActionnaireEnregistréTimelineItemProps = (
     actionnaire,
     raison,
   } = event.payload;
+
+  const afficherLien = rôleUtilisateur.aLaPermission('actionnaire.consulterChangement');
   return {
     date: enregistréLe,
     title: 'Actionnaire modifié',
@@ -37,10 +41,12 @@ export const mapToChangementActionnaireEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: {
-      url: Routes.Actionnaire.changement.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement d'actionnaire enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: afficherLien
+      ? {
+          url: Routes.Actionnaire.changement.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement d'actionnaire enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

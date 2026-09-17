@@ -1,5 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
@@ -7,6 +8,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 export const mapToChangementPuissanceEnregistréTimelineItemProps = (
   event: Lauréat.Puissance.ChangementPuissanceEnregistréEvent,
   unitéPuissance: string,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -17,6 +19,8 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
     puissanceDeSite,
     raison,
   } = event.payload;
+
+  const afficherLien = rôleUtilisateur.aLaPermission('puissance.consulterChangement');
   return {
     date: enregistréLe,
     title: 'Puissance modifiée',
@@ -48,10 +52,12 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: {
-      url: Routes.Puissance.changement.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement de puissance enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: afficherLien
+      ? {
+          url: Routes.Puissance.changement.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement de puissance enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

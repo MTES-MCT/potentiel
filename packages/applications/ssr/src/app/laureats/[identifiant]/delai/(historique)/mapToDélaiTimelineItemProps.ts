@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import {
@@ -15,6 +16,7 @@ import { mapToDemandeDélaiSuppriméeTimelineItemProps } from './events/mapToDem
 
 export const mapToDélaiTimelineItemProps = (
   event: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -22,7 +24,7 @@ export const mapToDélaiTimelineItemProps = (
       {
         type: 'DélaiDemandé-V1',
       },
-      mapToDélaiDemandéTimelineItemProps,
+      (event) => mapToDélaiDemandéTimelineItemProps(event, rôleUtilisateur),
     )
     .with(
       {

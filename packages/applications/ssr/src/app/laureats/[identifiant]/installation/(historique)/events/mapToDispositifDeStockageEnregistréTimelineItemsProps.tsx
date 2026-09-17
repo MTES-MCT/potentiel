@@ -1,20 +1,24 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { DétailsDispositifDeStockage } from '../../dispositif-de-stockage/DétailsDispositifDeStockage';
 
-export const mapToDispositifDeStockageEnregistréTimelineItemsProps = ({
-  payload: {
-    dispositifDeStockage,
-    raison,
-    pièceJustificative,
-    identifiantProjet,
-    enregistréLe,
-    enregistréPar,
-  },
-}: Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent): TimelineItemProps => ({
+export const mapToDispositifDeStockageEnregistréTimelineItemsProps = (
+  {
+    payload: {
+      dispositifDeStockage,
+      raison,
+      pièceJustificative,
+      identifiantProjet,
+      enregistréLe,
+      enregistréPar,
+    },
+  }: Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+): TimelineItemProps => ({
   date: enregistréLe,
   actor: enregistréPar,
   title: 'Dispositif de stockage modifié',
@@ -36,12 +40,14 @@ export const mapToDispositifDeStockageEnregistréTimelineItemsProps = ({
     </div>
   ),
   reason: raison,
-  link: {
-    url: Routes.Installation.changement.dispositifDeStockage.détails(
-      identifiantProjet,
-      enregistréLe,
-    ),
-    label: 'Détail du changement',
-    ariaLabel: `Voir le détail du changement de dispositif de stockage enregistré le ${formatDateToText(enregistréLe)}`,
-  },
+  link: rôleUtilisateur.aLaPermission('installation.dispositifDeStockage.consulterChangement')
+    ? {
+        url: Routes.Installation.changement.dispositifDeStockage.détails(
+          identifiantProjet,
+          enregistréLe,
+        ),
+        label: 'Détail du changement',
+        ariaLabel: `Voir le détail du changement de dispositif de stockage enregistré le ${formatDateToText(enregistréLe)}`,
+      }
+    : undefined,
 });

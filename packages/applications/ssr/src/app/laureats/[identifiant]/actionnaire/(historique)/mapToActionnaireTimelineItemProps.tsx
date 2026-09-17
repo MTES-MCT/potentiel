@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import {
@@ -16,6 +17,7 @@ import { mapToChangementActionnaireSuppriméTimelineItemProps } from './events/m
 
 export const mapToActionnaireTimelineItemProps = (
   event: Lauréat.Actionnaire.HistoriqueActionnaireProjetListItemReadModel,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -35,13 +37,13 @@ export const mapToActionnaireTimelineItemProps = (
       {
         type: 'ChangementActionnaireEnregistré-V1',
       },
-      mapToChangementActionnaireEnregistréTimelineItemProps,
+      (event) => mapToChangementActionnaireEnregistréTimelineItemProps(event, rôleUtilisateur),
     )
     .with(
       {
         type: 'ChangementActionnaireDemandé-V1',
       },
-      mapToChangementActionnaireDemandéTimelineItemProps,
+      (event) => mapToChangementActionnaireDemandéTimelineItemProps(event, rôleUtilisateur),
     )
     .with(
       {

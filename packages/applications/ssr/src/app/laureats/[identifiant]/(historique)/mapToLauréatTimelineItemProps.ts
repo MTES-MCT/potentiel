@@ -2,6 +2,7 @@ import { match, P } from 'ts-pattern';
 
 import type { HistoryRecord } from '@potentiel-domain/entity';
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
@@ -16,11 +17,13 @@ export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatE
 type MapToLauréatTimelineItemProps = (args: {
   readmodel: LauréatHistoryRecord;
   doitAfficherLienAttestationDésignation: boolean;
+  rôleUtilisateur: Utilisateur.ValueType['rôle'];
 }) => TimelineItemProps;
 
 export const mapToLauréatTimelineItemProps: MapToLauréatTimelineItemProps = ({
   readmodel,
   doitAfficherLienAttestationDésignation,
+  rôleUtilisateur,
 }) =>
   match(readmodel)
     .with(
@@ -52,7 +55,7 @@ export const mapToLauréatTimelineItemProps: MapToLauréatTimelineItemProps = ({
       {
         type: 'ChangementNomProjetEnregistré-V1',
       },
-      mapToChangementNomProjetEnregistréTimelineItemProps,
+      (event) => mapToChangementNomProjetEnregistréTimelineItemProps(event, rôleUtilisateur),
     )
     .with(
       {

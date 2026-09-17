@@ -1,6 +1,7 @@
 import { match, P } from 'ts-pattern';
 
 import type { Éliminé } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import {
@@ -13,6 +14,7 @@ import {
 
 export const mapToRecoursTimelineItemProps = (
   event: Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel,
+  rôleUtilisateur: Utilisateur.ValueType['rôle'],
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -20,7 +22,7 @@ export const mapToRecoursTimelineItemProps = (
       {
         type: 'RecoursDemandé-V1',
       },
-      mapToRecoursDemandéTimelineItemProps,
+      (event) => mapToRecoursDemandéTimelineItemProps(event, rôleUtilisateur),
     )
     .with(
       {

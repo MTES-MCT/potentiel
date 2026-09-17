@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToChangementPuissanceAccordéTimelineItemProps } from './events/mapToChangementPuissanceAccordéTimelineItemProps';
@@ -15,9 +16,11 @@ import { mapToPuissanceModifiéeTimelineItemsProps } from './events/mapToPuissan
 export const mapToPuissanceTimelineItemProps = ({
   event,
   unitéPuissance,
+  rôleUtilisateur,
 }: {
   event: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel;
   unitéPuissance: string;
+  rôleUtilisateur: Utilisateur.ValueType['rôle'];
 }) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -35,6 +38,7 @@ export const mapToPuissanceTimelineItemProps = ({
         mapToChangementPuissanceDemandéTimelineItemProps({
           event,
           unitéPuissance,
+          rôleUtilisateur,
         }),
     )
     .with(
@@ -44,7 +48,7 @@ export const mapToPuissanceTimelineItemProps = ({
       mapToChangementPuissanceAnnuléTimelineItemProps,
     )
     .with({ type: 'ChangementPuissanceEnregistré-V1' }, (event) =>
-      mapToChangementPuissanceEnregistréTimelineItemProps(event, unitéPuissance),
+      mapToChangementPuissanceEnregistréTimelineItemProps(event, unitéPuissance, rôleUtilisateur),
     )
     .with(
       {
