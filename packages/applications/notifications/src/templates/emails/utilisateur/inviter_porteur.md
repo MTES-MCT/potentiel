@@ -8,8 +8,4 @@ Ceci est une invitation de la part de **{{invitéPar}}** à rejoindre Potentiel 
 
 {{{projetALister}}}
 
-{{#if tousLesProjets}}
-{{cta url 'Accéder aux projets'}}
-{{else}}
-{{cta url 'Accéder au projet'}}
-{{/if}}
+{{cta url 'Accéder à mes projets (lauréat)'}}

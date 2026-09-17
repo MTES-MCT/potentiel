@@ -26,13 +26,13 @@ export const handlePorteurInvité = async ({
 
   const tousLesProjets = projets.length > 1;
 
-  const urlPageProjets = tousLesProjets
-    ? buildUrl(Routes.Lauréat.lister())
-    : buildUrl(Routes.Lauréat.détails.tableauDeBord(projets[0].identifiantProjet));
-
   const projetALister = projets
-    .map(({ nom, appelOffre, période }) => `• ${nom} (${appelOffre} période ${période})`)
-    .join('<br>');
+    .map(({ identifiantProjet, nom, appelOffre, période }) => {
+      const urlProjet = buildUrl(Routes.Projet.details(identifiantProjet));
+
+      return `• <a href="${urlProjet}">${nom} (${appelOffre} période ${période})</a>`;
+    })
+    .join('<br><br>');
 
   await sendEmail({
     key: 'utilisateur/inviter_porteur',
@@ -41,7 +41,7 @@ export const handlePorteurInvité = async ({
       invitéPar,
       tousLesProjets: tousLesProjets ? 'true' : '',
       projetALister,
-      url: urlPageProjets,
+      url: buildUrl(Routes.Lauréat.lister()),
     },
   });
 };
