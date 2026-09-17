@@ -38,7 +38,9 @@ export const DossierRaccordementListPage: FC<DossierRaccordementListPageProps> =
       itemsPerPage={itemsPerPage}
       ItemComponent={DossierRaccordementListItem}
       filters={filters}
-      search={{ label: 'Rechercher par référence de dossier', params: 'referenceDossier' }}
+      search={{
+        topSearch: { label: 'Rechercher par référence de dossier', params: 'referenceDossier' },
+      }}
     />
   );
 };

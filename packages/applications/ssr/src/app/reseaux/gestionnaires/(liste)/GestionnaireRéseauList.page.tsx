@@ -44,7 +44,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
       itemsPerPage={itemsPerPage}
       ItemComponent={GestionnaireRéseauListItem}
       filters={[]}
-      search={{ label: 'Recherche par raison sociale', params: 'raisonSociale' }}
+      search={{ topSearch: { label: 'Recherche par raison sociale', params: 'raisonSociale' } }}
     />
   );
 };

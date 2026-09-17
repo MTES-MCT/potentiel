@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import type { FC } from 'react';
 
 import { Heading1 } from '../atoms/headings';
+import { CommuneSearch } from '../molecules/CommuneSearch';
 import { ListFilters, type ListFiltersProps } from '../molecules/ListFilters';
 import { ListLegend, type ListLegendProps } from '../molecules/ListLegend';
 import { ListPageActions, type ListPageActionsProps } from '../molecules/ListPageActions';
@@ -21,7 +22,7 @@ export type ListPageTemplateProps<TItem> = {
   itemsPerPage: number;
   items: Array<TItem & { key: string }>;
   ItemComponent: FC<Omit<TItem, 'key'>>;
-  search?: SearchProps;
+  search?: { topSearch: SearchProps; communeSearch?: true };
   legend?: ListLegendProps;
   feature?: string;
 };
@@ -53,9 +54,9 @@ export const ListPageTemplate = <TItem,>({
         ]}
       />
       {complement && <>{complement}</>}
-      {search && (
+      {search?.topSearch && (
         <div className="w-full justify-end md:w-1/3 ml-auto">
-          <Search label={search.label} params={search.params} />
+          <Search label={search.topSearch.label} params={search.topSearch.params} />
         </div>
       )}
 
@@ -63,6 +64,8 @@ export const ListPageTemplate = <TItem,>({
         <div className="flex flex-col gap-3 pb-2 md:w-1/4">
           {actions.length ? <ListPageActions actions={actions} /> : null}
           {filters.length ? <ListFilters filters={filters} /> : null}
+          {search?.communeSearch ? <CommuneSearch /> : null}
+
           {legend.symbols.length ? <ListLegend symbols={legend.symbols} /> : null}
         </div>
 
@@ -73,7 +76,11 @@ export const ListPageTemplate = <TItem,>({
             'flex flex-col gap-3 flex-grow',
           )}
         >
-          <ListHeader searchBarParams={search?.params} filters={filters} totalCount={totalItems} />
+          <ListHeader
+            searchBarParams={search?.topSearch.params}
+            filters={filters}
+            totalCount={totalItems}
+          />
           {items.length ? (
             <List
               items={items}

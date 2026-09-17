@@ -39,6 +39,6 @@ export const ChangementReprésentantLégalListPage: FC<ChangementReprésentantL�
     itemsPerPage={itemsPerPage}
     ItemComponent={ChangementReprésentantLégalListItem}
     filters={filters}
-    search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    search={{ topSearch: { label: 'Rechercher par nom de projet', params: 'nomProjet' } }}
   />
 );
