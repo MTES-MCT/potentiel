@@ -16,11 +16,13 @@ export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatE
 type MapToLauréatTimelineItemProps = (args: {
   readmodel: LauréatHistoryRecord;
   doitAfficherLienAttestationDésignation: boolean;
+  permissionConsulterChangementNom: boolean;
 }) => TimelineItemProps;
 
 export const mapToLauréatTimelineItemProps: MapToLauréatTimelineItemProps = ({
   readmodel,
   doitAfficherLienAttestationDésignation,
+  permissionConsulterChangementNom,
 }) =>
   match(readmodel)
     .with(
@@ -52,7 +54,11 @@ export const mapToLauréatTimelineItemProps: MapToLauréatTimelineItemProps = ({
       {
         type: 'ChangementNomProjetEnregistré-V1',
       },
-      mapToChangementNomProjetEnregistréTimelineItemProps,
+      (event) =>
+        mapToChangementNomProjetEnregistréTimelineItemProps(
+          event,
+          permissionConsulterChangementNom,
+        ),
     )
     .with(
       {

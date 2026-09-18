@@ -15,6 +15,7 @@ import { mapToDemandeDélaiSuppriméeTimelineItemProps } from './events/mapToDem
 
 export const mapToDélaiTimelineItemProps = (
   event: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
+  permissionConsulterChangement: boolean,
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -22,7 +23,7 @@ export const mapToDélaiTimelineItemProps = (
       {
         type: 'DélaiDemandé-V1',
       },
-      mapToDélaiDemandéTimelineItemProps,
+      (event) => mapToDélaiDemandéTimelineItemProps(event, permissionConsulterChangement),
     )
     .with(
       {

@@ -51,6 +51,7 @@ export default async function Page(props: PageProps) {
         items: historique.items,
         unitéPuissance: lauréat.unitéPuissance.formatter(),
         attestationDésignation: lauréat.attestationDésignation,
+        rôleUtilisateur: utilisateur.rôle,
       });
 
       const catégories = categoriesDisponibles

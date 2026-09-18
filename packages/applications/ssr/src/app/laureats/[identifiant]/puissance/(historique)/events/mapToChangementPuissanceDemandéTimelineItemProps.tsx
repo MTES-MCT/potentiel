@@ -7,9 +7,11 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 export const mapToChangementPuissanceDemandéTimelineItemProps = ({
   event,
   unitéPuissance,
+  permissionConsulterChangement,
 }: {
   event: Lauréat.Puissance.ChangementPuissanceDemandéEvent;
   unitéPuissance: string;
+  permissionConsulterChangement: boolean;
 }): TimelineItemProps => {
   const {
     identifiantProjet,
@@ -28,11 +30,13 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = ({
       document: Lauréat.Puissance.DocumentPuissance.pièceJustificative(event.payload),
       ariaLabel: `Télécharger le justificatif de la demande de changement de puissance en date du ${formatDateToText(demandéLe)}`,
     },
-    link: {
-      url: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
-      label: 'Détail de la demande',
-      ariaLabel: `Voir le détail de la demande de changement de puissance en date du ${formatDateToText(demandéLe)}`,
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
+          label: 'Détail de la demande',
+          ariaLabel: `Voir le détail de la demande de changement de puissance en date du ${formatDateToText(demandéLe)}`,
+        }
+      : undefined,
     details: (
       <div className="flex flex-col gap-2">
         <div>

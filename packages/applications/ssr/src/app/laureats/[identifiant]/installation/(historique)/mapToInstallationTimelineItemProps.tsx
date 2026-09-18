@@ -2,7 +2,6 @@ import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToChangementInstallateurEnregistréTimelineItemsProps } from './events/mapToChangementInstallateurEnregistréTimelineItemsProps';
 import { mapToDispositifDeStockageEnregistréTimelineItemsProps } from './events/mapToDispositifDeStockageEnregistréTimelineItemsProps';
 import { mapToDispositifDeStockageModifiéTimelineItemsProps } from './events/mapToDispositifDeStockageModifiéTimelineItemsProps';
@@ -10,11 +9,17 @@ import { mapToInstallateurModifiéTimelineItemsProps } from './events/mapToInsta
 import { mapToInstallationImportéeTimelineItemProps } from './events/mapToInstallationImportéeTimelineItemProps';
 import { mapToTypologieInstallationModifiéeTimelineItemsProps } from './events/mapToTypologieInstallationModifiéeTimelineItemsProps';
 
-type MapToInstallationTimelineItemProps = (
-  readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
-) => TimelineItemProps;
+type MapToInstallationTimelineItemProps = {
+  readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel;
+  permissionConsulterChangementInstallateur: boolean;
+  permissionConsulterChangementDispositifDeStockage: boolean;
+};
 
-export const mapToInstallationTimelineItemProps: MapToInstallationTimelineItemProps = (readmodel) =>
+export const mapToInstallationTimelineItemProps = ({
+  readmodel,
+  permissionConsulterChangementInstallateur,
+  permissionConsulterChangementDispositifDeStockage,
+}: MapToInstallationTimelineItemProps) =>
   match(readmodel)
     .with({ type: 'InstallationImportée-V1' }, (readmodel) =>
       mapToInstallationImportéeTimelineItemProps(readmodel),
@@ -29,9 +34,15 @@ export const mapToInstallationTimelineItemProps: MapToInstallationTimelineItemPr
       mapToDispositifDeStockageModifiéTimelineItemsProps(readmodel),
     )
     .with({ type: 'ChangementInstallateurEnregistré-V1' }, (readmodel) =>
-      mapToChangementInstallateurEnregistréTimelineItemsProps(readmodel),
+      mapToChangementInstallateurEnregistréTimelineItemsProps(
+        readmodel,
+        permissionConsulterChangementInstallateur,
+      ),
     )
     .with({ type: 'ChangementDispositifDeStockageEnregistré-V1' }, (readmodel) =>
-      mapToDispositifDeStockageEnregistréTimelineItemsProps(readmodel),
+      mapToDispositifDeStockageEnregistréTimelineItemsProps(
+        readmodel,
+        permissionConsulterChangementDispositifDeStockage,
+      ),
     )
     .exhaustive();

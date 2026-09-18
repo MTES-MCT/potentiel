@@ -6,6 +6,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAbandonDemandéTimelineItemProps = (
   event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const { demandéLe, demandéPar, identifiantProjet, pièceJustificative } = event.payload;
 
@@ -21,11 +22,13 @@ export const mapToAbandonDemandéTimelineItemProps = (
       }),
       ariaLabel: `Télécharger le justificatif de la demande d'abandon en date du ${formatDateToText(demandéLe)}`,
     },
-    link: {
-      url: Routes.Abandon.détail(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande d'abandon en date du ${formatDateToText(demandéLe)}`,
-      label: 'Détail de la demande',
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Abandon.détail(identifiantProjet, demandéLe),
+          ariaLabel: `Voir le détail de la demande d'abandon en date du ${formatDateToText(demandéLe)}`,
+          label: 'Détail de la demande',
+        }
+      : undefined,
     details: (
       <>
         {event.type === 'AbandonDemandé-V2' && event.payload.ppaSignalé && (

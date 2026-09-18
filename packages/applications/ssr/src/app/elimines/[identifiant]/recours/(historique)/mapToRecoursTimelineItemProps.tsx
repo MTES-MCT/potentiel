@@ -13,6 +13,7 @@ import {
 
 export const mapToRecoursTimelineItemProps = (
   event: Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel,
+  permissionConsulterChangement: boolean,
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -20,7 +21,7 @@ export const mapToRecoursTimelineItemProps = (
       {
         type: 'RecoursDemandé-V1',
       },
-      mapToRecoursDemandéTimelineItemProps,
+      (event) => mapToRecoursDemandéTimelineItemProps(event, permissionConsulterChangement),
     )
     .with(
       {
