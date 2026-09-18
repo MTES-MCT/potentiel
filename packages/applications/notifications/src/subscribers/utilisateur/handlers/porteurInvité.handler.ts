@@ -9,13 +9,11 @@ import { sendEmail } from '#sendEmail';
 export const handlePorteurInvité = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
 }: PorteurInvitéEvent) => {
-  const projets = await Promise.all(
+  const candidatures = await Promise.all(
     identifiantsProjet.map((identifiantProjet) =>
       getCandidature(IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()),
     ),
   );
-
-  const urlPageProjets = buildUrl(Routes.Lauréat.lister());
 
   // On ne notifie pas le porteur invité par le système,
   // car cela correspond à l'invitation liée à la candidature,
@@ -24,15 +22,26 @@ export const handlePorteurInvité = async ({
     return;
   }
 
+  const projets = candidatures.filter(Boolean);
+
+  const tousLesProjets = projets.length > 1;
+
+  const projetALister = projets
+    .map(({ identifiantProjet, nom, appelOffre, période }) => {
+      const urlProjet = buildUrl(Routes.Projet.details(identifiantProjet));
+
+      return `• <a href="${urlProjet}">${nom} (${appelOffre} période ${période})</a>`;
+    })
+    .join('<br><br>');
+
   await sendEmail({
     key: 'utilisateur/inviter_porteur',
     recipients: [identifiantUtilisateur],
     values: {
-      nomProjet: projets
-        .filter(Boolean)
-        .map(({ nom }) => nom)
-        .join(', '),
-      url: urlPageProjets,
+      invitéPar,
+      tousLesProjets: tousLesProjets ? 'true' : '',
+      projetALister,
+      url: buildUrl(Routes.Lauréat.lister()),
     },
   });
 };
