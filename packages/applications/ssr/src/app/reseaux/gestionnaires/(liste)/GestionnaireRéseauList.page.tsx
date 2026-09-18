@@ -6,6 +6,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { mapToPagination } from '@/utils/pagination';
 import { GestionnaireRéseauListItem } from './GestionnaireRéseauListItem';
 
@@ -16,6 +17,7 @@ export type GestionnaireAvecNombreDeRaccordement =
 export type GestionnaireRéseauListPageProps = PlainType<
   Omit<GestionnaireRéseau.ListerGestionnaireRéseauReadModel, 'items'> & {
     items: ReadonlyArray<GestionnaireAvecNombreDeRaccordement>;
+    breadcrumbProps: BreadcrumbProps;
   }
 >;
 
@@ -23,6 +25,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
   items: gestionnaireRéseaux,
   range,
   total,
+  breadcrumbProps,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
@@ -45,6 +48,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
       ItemComponent={GestionnaireRéseauListItem}
       filters={[]}
       search={{ label: 'Recherche par raison sociale', params: 'raisonSociale' }}
+      breadcrumbProps={breadcrumbProps}
     />
   );
 };

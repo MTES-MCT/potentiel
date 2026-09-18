@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 import { ChangementReprésentantLégalListItem } from './ChangementReprésentantLégalListItem';
 
@@ -17,6 +18,7 @@ export type ChangementReprésentantLégalListPageProps = {
     total: number;
   };
   filters: ListPageTemplateProps<typeof ChangementReprésentantLégalListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ChangementReprésentantLégalListPage: FC<ChangementReprésentantLégalListPageProps> = ({
@@ -26,6 +28,7 @@ export const ChangementReprésentantLégalListPage: FC<ChangementReprésentantL�
     total,
   },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Représentant légal"
@@ -40,5 +43,6 @@ export const ChangementReprésentantLégalListPage: FC<ChangementReprésentantL�
     ItemComponent={ChangementReprésentantLégalListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

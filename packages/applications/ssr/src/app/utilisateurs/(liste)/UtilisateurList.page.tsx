@@ -4,6 +4,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { UtilisateurListItem, type UtilisateurListItemProps } from './UtilisateurListItem';
 
 export type UtilisateurListPageProps = {
@@ -15,12 +16,14 @@ export type UtilisateurListPageProps = {
   };
   filters: ListPageTemplateProps<typeof UtilisateurListItem>['filters'];
   actions: ListPageTemplateProps<typeof UtilisateurListItem>['actions'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
   list: { items, currentPage, totalItems, itemsPerPage },
   filters,
   actions,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Utilisateurs"
@@ -35,5 +38,6 @@ export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
     ItemComponent={UtilisateurListItem}
     filters={filters}
     search={{ label: 'Rechercher par email', params: 'identifiantUtilisateur' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

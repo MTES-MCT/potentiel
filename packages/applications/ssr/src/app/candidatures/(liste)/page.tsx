@@ -137,6 +137,7 @@ export default async function Page(props: PageProps) {
           symbols: candidatureListLegendSymbols,
         }}
         actions={[]}
+        breadcrumbProps={{ currentPagelabel: 'Candidatures', parentSegments: [] }}
       />
     );
   });

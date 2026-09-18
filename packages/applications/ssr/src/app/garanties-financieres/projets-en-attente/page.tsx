@@ -124,6 +124,10 @@ export default async function Page(props: PageProps) {
             role: utilisateur.rôle,
           })}
           filters={filters}
+          breadcrumbProps={{
+            currentPagelabel: 'Garanties financières en attente',
+            parentSegments: [{ label: 'Lauréats', href: Routes.Lauréat.lister() }],
+          }}
         />
       );
     }),

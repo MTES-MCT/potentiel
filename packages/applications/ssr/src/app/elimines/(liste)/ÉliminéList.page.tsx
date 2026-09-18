@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { ÉliminéListItem, type ÉliminéListItemProps } from './ÉliminéListItem';
 
 export type ÉliminéListPageProps = {
@@ -19,6 +20,7 @@ export type ÉliminéListPageProps = {
   legend: ListPageTemplateProps<typeof ProjectListItem>['legend'];
   filters: ListPageTemplateProps<typeof ProjectListItem>['filters'];
   actions: ListPageTemplateProps<typeof ProjectListItem>['actions'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ÉliminéListPage: FC<ÉliminéListPageProps> = ({
@@ -26,6 +28,7 @@ export const ÉliminéListPage: FC<ÉliminéListPageProps> = ({
   legend,
   filters,
   actions,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Projets éliminés"
@@ -41,5 +44,6 @@ export const ÉliminéListPage: FC<ÉliminéListPageProps> = ({
       ...projet,
       key: IdentifiantProjet.bind(projet.identifiantProjet).formatter(),
     }))}
+    breadcrumbProps={breadcrumbProps}
   />
 );

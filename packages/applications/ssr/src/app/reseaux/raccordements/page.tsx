@@ -137,6 +137,10 @@ export default async function Page(props: PageProps) {
         <DossierRaccordementListPage
           list={mapToPlainObject(mapToProps(dossiers))}
           filters={filteredFilters}
+          breadcrumbProps={{
+            currentPagelabel: 'Dossiers de raccordement',
+            parentSegments: [],
+          }}
         />
       );
     }),
