@@ -17,7 +17,8 @@ export type GestionnaireAvecNombreDeRaccordement =
 export type GestionnaireRéseauListPageProps = PlainType<
   Omit<GestionnaireRéseau.ListerGestionnaireRéseauReadModel, 'items'> & {
     items: ReadonlyArray<GestionnaireAvecNombreDeRaccordement>;
-  } & { breadcrumbProps: BreadcrumbProps }
+    breadcrumbProps: BreadcrumbProps;
+  }
 >;
 
 export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> = ({

@@ -13,7 +13,7 @@ export type BreadcrumbProps =
   | undefined;
 
 type BreadcrumbContextValue = {
-  breadcrumbProps?: BreadcrumbProps;
+  breadcrumbProps: BreadcrumbProps;
   setBreadcrumbProps: (props: BreadcrumbProps) => void;
 };
 
