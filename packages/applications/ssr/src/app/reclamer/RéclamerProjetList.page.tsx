@@ -6,6 +6,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { mapToPagination } from '@/utils/pagination';
 import {
   RéclamerProjetsListItem,
@@ -18,6 +19,7 @@ export type RéclamerProjetsListPageProps = {
   range: RangeOptions;
   total: number;
   complement: React.ReactNode;
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const RéclamerProjetsListPage: FC<RéclamerProjetsListPageProps> = ({
@@ -26,6 +28,7 @@ export const RéclamerProjetsListPage: FC<RéclamerProjetsListPageProps> = ({
   range,
   total,
   complement,
+  breadcrumbProps,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
@@ -44,6 +47,7 @@ export const RéclamerProjetsListPage: FC<RéclamerProjetsListPageProps> = ({
         key: `${projet.identifiantProjet}`,
       }))}
       complement={complement}
+      breadcrumbProps={breadcrumbProps}
     />
   );
 };

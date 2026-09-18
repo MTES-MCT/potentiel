@@ -101,6 +101,10 @@ export default async function Page(props0: PageProps) {
           périodes={props}
           range={périodes.range}
           total={périodes.total + périodesPartiellementNotifiées.length}
+          breadcrumbProps={{
+            currentPagelabel: 'Périodes',
+            parentSegments: [],
+          }}
         />
       );
     }),

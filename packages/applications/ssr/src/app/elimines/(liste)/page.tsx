@@ -117,6 +117,7 @@ export default async function Page(props: PageProps) {
             symbols: projectListLegendSymbols,
           }}
           actions={[]}
+          breadcrumbProps={{ currentPagelabel: 'Éliminés', parentSegments: [] }}
         />
       );
     }),

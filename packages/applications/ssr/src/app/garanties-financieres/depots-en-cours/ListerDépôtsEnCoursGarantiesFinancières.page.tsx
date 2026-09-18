@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import {
   ListItemDépôtGarantiesFinancières,
   type ListItemDépôtGarantiesFinancièresProps,
@@ -21,12 +22,14 @@ export type ListDépôtsGarantiesFinancièresProps = {
   };
   filters: ListPageTemplateProps<ListItemDépôtGarantiesFinancièresProps>['filters'];
   role: PlainType<Role.ValueType>;
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ListDépôtsGarantiesFinancièresPage: FC<ListDépôtsGarantiesFinancièresProps> = ({
   list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage },
   filters,
   role,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading={
@@ -44,5 +47,6 @@ export const ListDépôtsGarantiesFinancièresPage: FC<ListDépôtsGarantiesFina
     itemsPerPage={itemsPerPage}
     ItemComponent={ListItemDépôtGarantiesFinancières}
     filters={filters}
+    breadcrumbProps={breadcrumbProps}
   />
 );
