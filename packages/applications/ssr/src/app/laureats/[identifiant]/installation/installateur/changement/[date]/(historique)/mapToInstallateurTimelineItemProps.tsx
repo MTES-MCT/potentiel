@@ -1,7 +1,6 @@
 import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToChangementInstallateurEnregistréTimelineItemsProps } from '../../../../(historique)/events/mapToChangementInstallateurEnregistréTimelineItemsProps';
@@ -10,12 +9,12 @@ import { mapToInstallateurImportéTimelineItemProps } from './events/mapToInstal
 
 type MapToInstallateurTimelineItemProps = (
   readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ) => TimelineItemProps | null;
 
 export const mapToInstallateurTimelineItemProps: MapToInstallateurTimelineItemProps = (
   readmodel,
-  rôleUtilisateur,
+  permissionConsulterChangement,
 ) =>
   match(readmodel)
     .with({ type: 'InstallationImportée-V1' }, (readmodel) =>
@@ -25,7 +24,10 @@ export const mapToInstallateurTimelineItemProps: MapToInstallateurTimelineItemPr
       mapToInstallateurModifiéTimelineItemsProps(readmodel),
     )
     .with({ type: 'ChangementInstallateurEnregistré-V1' }, (readmodel) =>
-      mapToChangementInstallateurEnregistréTimelineItemsProps(readmodel, rôleUtilisateur),
+      mapToChangementInstallateurEnregistréTimelineItemsProps(
+        readmodel,
+        permissionConsulterChangement,
+      ),
     )
     .with(
       {

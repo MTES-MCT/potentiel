@@ -1,7 +1,6 @@
 import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import {
@@ -13,12 +12,12 @@ import {
 
 type MapToFournisseurTimelineItemProps = (
   readmodel: Lauréat.Fournisseur.HistoriqueFournisseurProjetListItemReadModel,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ) => TimelineItemProps;
 
 export const mapToFournisseurTimelineItemProps: MapToFournisseurTimelineItemProps = (
   readmodel,
-  rôleUtilisateur,
+  permissionConsulterChangement,
 ) =>
   match(readmodel)
     .with({ type: 'FournisseurImporté-V1' }, mapToFournisseurImportéTimelineItemProps)
@@ -27,7 +26,7 @@ export const mapToFournisseurTimelineItemProps: MapToFournisseurTimelineItemProp
       mapToÉvaluationCarboneModifiéeTimelineItemsProps,
     )
     .with({ type: 'ChangementFournisseurEnregistré-V1' }, (event) =>
-      mapToChangementFournisseurEnregistréTimelineItemProps(event, rôleUtilisateur),
+      mapToChangementFournisseurEnregistréTimelineItemProps(event, permissionConsulterChangement),
     )
     .with({ type: 'FournisseurModifié-V1' }, mapToFournisseurModifiéTimelineItemProps)
     .exhaustive();

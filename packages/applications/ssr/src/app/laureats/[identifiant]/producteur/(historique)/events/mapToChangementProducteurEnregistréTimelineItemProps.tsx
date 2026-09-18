@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import { FormattedSIRET } from '@/components/atoms/FormattedNuméroIdentification';
@@ -8,7 +7,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
   event: Lauréat.Producteur.ChangementProducteurEnregistréEvent,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -19,7 +18,6 @@ export const mapToChangementProducteurEnregistréTimelineItemProps = (
     numéroIdentification,
   } = event.payload;
 
-  const afficherLien = rôleUtilisateur.aLaPermission('producteur.consulterChangement');
   return {
     date: enregistréLe,
     title: 'Producteur modifié',
@@ -42,7 +40,7 @@ export const mapToChangementProducteurEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: afficherLien
+    link: permissionConsulterChangement
       ? {
           url: Routes.Producteur.changement.détails(identifiantProjet, enregistréLe),
           label: `Détail du changement`,

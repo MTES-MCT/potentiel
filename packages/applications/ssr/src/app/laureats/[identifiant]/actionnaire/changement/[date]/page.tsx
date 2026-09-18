@@ -83,7 +83,10 @@ export default async function Page(props: PageProps) {
           demande={mapToPlainObject(changement.demande)}
           actions={mapToActions(changement.demande.statut, utilisateur.rôle)}
           historique={historique.items.map((item) =>
-            mapToActionnaireTimelineItemProps(item, utilisateur.rôle),
+            mapToActionnaireTimelineItemProps(
+              item,
+              utilisateur.rôle.aLaPermission('actionnaire.consulterChangement'),
+            ),
           )}
           dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente}
         />

@@ -92,7 +92,10 @@ export default async function Page(props: PageProps) {
             informationEnregistréeEstPossible,
           )}
           historique={historique.items.map((item) =>
-            mapToReprésentantLégalTimelineItemProps(item, utilisateur.rôle),
+            mapToReprésentantLégalTimelineItemProps(
+              item,
+              utilisateur.rôle.aLaPermission('représentantLégal.consulterChangement'),
+            ),
           )}
           dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente?.formatter()}
         />

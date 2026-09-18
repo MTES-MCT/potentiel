@@ -1,19 +1,14 @@
 import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementInstallateurEnregistréTimelineItemsProps = (
   event: Lauréat.Installation.ChangementInstallateurEnregistréEvent,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const { enregistréLe, enregistréPar, installateur, identifiantProjet } = event.payload;
-
-  const afficherLien = rôleUtilisateur.aLaPermission(
-    'installation.installateur.consulterChangement',
-  );
 
   return {
     date: enregistréLe,
@@ -26,7 +21,7 @@ export const mapToChangementInstallateurEnregistréTimelineItemsProps = (
         </div>
       </div>
     ),
-    link: afficherLien
+    link: permissionConsulterChangement
       ? {
           url: Routes.Installation.changement.installateur.détails(identifiantProjet, enregistréLe),
           label: 'Détail du changement',

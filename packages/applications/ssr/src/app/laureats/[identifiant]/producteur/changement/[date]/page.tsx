@@ -60,7 +60,10 @@ export default async function Page(props: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           changement={mapToPlainObject(changement.changement)}
           historique={historique.items.map((item) =>
-            mapToProducteurTimelineItemProps(item, utilisateur.rôle),
+            mapToProducteurTimelineItemProps(
+              item,
+              utilisateur.rôle.aLaPermission('producteur.consulterChangement'),
+            ),
           )}
         />
       );

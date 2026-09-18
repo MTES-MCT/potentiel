@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
@@ -17,7 +16,7 @@ export const mapToDispositifDeStockageEnregistréTimelineItemsProps = (
       enregistréPar,
     },
   }: Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => ({
   date: enregistréLe,
   actor: enregistréPar,
@@ -40,7 +39,7 @@ export const mapToDispositifDeStockageEnregistréTimelineItemsProps = (
     </div>
   ),
   reason: raison,
-  link: rôleUtilisateur.aLaPermission('installation.dispositifDeStockage.consulterChangement')
+  link: permissionConsulterChangement
     ? {
         url: Routes.Installation.changement.dispositifDeStockage.détails(
           identifiantProjet,

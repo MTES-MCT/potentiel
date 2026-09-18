@@ -59,7 +59,12 @@ export default async function Page(props: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           changement={mapToPlainObject(changement.changement)}
           historique={historique.items
-            .map((item) => mapToInstallateurTimelineItemProps(item, utilisateur.rôle))
+            .map((item) =>
+              mapToInstallateurTimelineItemProps(
+                item,
+                utilisateur.rôle.aLaPermission('installation.installateur.consulterChangement'),
+              ),
+            )
             .filter((i) => i !== null)}
         />
       );

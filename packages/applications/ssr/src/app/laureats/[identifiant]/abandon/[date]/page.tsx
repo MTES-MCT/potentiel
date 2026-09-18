@@ -88,7 +88,10 @@ export default async function Page(props: PageProps) {
           })}
           projetsÀSélectionner={projetsÀSélectionner}
           historique={historique.items.map((item) =>
-            mapToAbandonTimelineItemProps(item, utilisateur.rôle),
+            mapToAbandonTimelineItemProps(
+              item,
+              utilisateur.rôle.aLaPermission('abandon.consulter.demande'),
+            ),
           )}
         />
       );

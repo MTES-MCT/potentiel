@@ -1,13 +1,12 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Éliminé } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToRecoursDemandéTimelineItemProps = (
   event: Éliminé.Recours.RecoursDemandéEvent,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     demandéLe,
@@ -15,8 +14,6 @@ export const mapToRecoursDemandéTimelineItemProps = (
     identifiantProjet,
     pièceJustificative: { format },
   } = event.payload;
-
-  const afficherLien = rôleUtilisateur.aLaPermission('recours.consulter.détail');
 
   return {
     date: demandéLe,
@@ -32,7 +29,7 @@ export const mapToRecoursDemandéTimelineItemProps = (
       }),
       ariaLabel: `Télécharger le justificatif de la demande de recours en date du ${formatDateToText(demandéLe)}`,
     },
-    link: afficherLien
+    link: permissionConsulterChangement
       ? {
           label: 'Détail de la demande',
           ariaLabel: `Aller sur la page du détail du recours déposé le ${formatDateToText(demandéLe)}`,

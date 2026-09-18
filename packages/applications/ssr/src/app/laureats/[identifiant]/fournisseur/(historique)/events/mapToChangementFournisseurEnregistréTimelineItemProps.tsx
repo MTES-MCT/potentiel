@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
@@ -8,7 +7,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   event: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -19,8 +18,6 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
     fournisseurs,
     raison,
   } = event.payload;
-
-  const afficherLien = rôleUtilisateur.aLaPermission('fournisseur.consulterChangement');
 
   return {
     date: enregistréLe,
@@ -55,7 +52,7 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: afficherLien
+    link: permissionConsulterChangement
       ? {
           url: Routes.Fournisseur.changement.détails(identifiantProjet, enregistréLe),
           label: 'Détail du changement',

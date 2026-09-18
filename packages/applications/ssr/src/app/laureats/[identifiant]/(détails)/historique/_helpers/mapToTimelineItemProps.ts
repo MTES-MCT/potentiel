@@ -38,52 +38,89 @@ export const mapToTimelineItemProps = ({
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
     .with({ category: 'abandon' }, (readmodel) =>
-      mapToAbandonTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToAbandonTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('abandon.consulter.demande'),
+      ),
     )
     .with({ category: 'recours' }, (readmodel) =>
-      mapToRecoursTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToRecoursTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('recours.consulter.détail'),
+      ),
     )
     .with({ category: 'actionnaire' }, (readmodel) =>
-      mapToActionnaireTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToActionnaireTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('actionnaire.consulterChangement'),
+      ),
     )
     .with({ category: 'représentant-légal' }, (readmodel) =>
-      mapToReprésentantLégalTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToReprésentantLégalTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('représentantLégal.consulterChangement'),
+      ),
     )
     .with({ category: 'lauréat' }, (readmodel) =>
       mapToLauréatTimelineItemProps({
         readmodel,
         doitAfficherLienAttestationDésignation,
-        rôleUtilisateur,
+        permissionConsulterChangementNom: rôleUtilisateur.aLaPermission(
+          'nomProjet.consulterChangement',
+        ),
       }),
     )
     .with({ category: 'éliminé' }, mapToÉliminéTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
     .with({ category: 'producteur' }, (readmodel) =>
-      mapToProducteurTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToProducteurTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('producteur.consulterChangement'),
+      ),
     )
     .with({ category: 'puissance' }, (readmodel) =>
       mapToPuissanceTimelineItemProps({
         event: readmodel,
         unitéPuissance,
-        rôleUtilisateur,
+        permissionConsulterChangement: rôleUtilisateur.aLaPermission(
+          'puissance.consulterChangement',
+        ),
       }),
     )
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
     .with({ category: 'délai' }, (readmodel) =>
-      mapToDélaiTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToDélaiTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('délai.consulterDemande'),
+      ),
     )
     .with({ category: 'fournisseur' }, (readmodel) =>
-      mapToFournisseurTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToFournisseurTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('fournisseur.consulterChangement'),
+      ),
     )
     .with({ category: 'installation' }, (readmodel) =>
-      mapToInstallationTimelineItemProps(readmodel, rôleUtilisateur),
+      mapToInstallationTimelineItemProps({
+        readmodel,
+        permissionConsulterChangementDispositifDeStockage: rôleUtilisateur.aLaPermission(
+          'installation.dispositifDeStockage.consulterChangement',
+        ),
+        permissionConsulterChangementInstallateur: rôleUtilisateur.aLaPermission(
+          'installation.installateur.consulterChangement',
+        ),
+      }),
     )
     .with(
       {
         category: 'nature-de-l-exploitation',
       },
-      (readmodel) => mapToNatureDeLExploitationTimelineItemProps(readmodel, rôleUtilisateur),
+      (readmodel) =>
+        mapToNatureDeLExploitationTimelineItemProps(
+          readmodel,
+          rôleUtilisateur.aLaPermission('natureDeLExploitation.consulterChangement'),
+        ),
     )
     .with({ category: 'power-purchase-agreement' }, mapToPowerPurchaseAgreementTimelineItemProps)
     .exhaustive(() => undefined);

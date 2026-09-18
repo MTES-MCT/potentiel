@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
@@ -8,7 +7,7 @@ import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésen
 
 export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
   event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalEnregistréEvent,
-  rôleUtilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -17,8 +16,6 @@ export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
     typeReprésentantLégal,
     identifiantProjet,
   } = event.payload;
-
-  const afficherLien = rôleUtilisateur.aLaPermission('représentantLégal.consulterChangement');
 
   return {
     date: enregistréLe,
@@ -37,7 +34,7 @@ export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
         </div>
       </div>
     ),
-    link: afficherLien
+    link: permissionConsulterChangement
       ? {
           url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, enregistréLe),
           label: 'Détail du changement',

@@ -1,7 +1,6 @@
 import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import {
@@ -18,7 +17,7 @@ import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapTo
 
 export const mapToAbandonTimelineItemProps = (
   event: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
-  utilisateur: Utilisateur.ValueType['rôle'],
+  permissionConsulterChangement: boolean,
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -26,7 +25,7 @@ export const mapToAbandonTimelineItemProps = (
       {
         type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2'),
       },
-      (event) => mapToAbandonDemandéTimelineItemProps(event, utilisateur),
+      (event) => mapToAbandonDemandéTimelineItemProps(event, permissionConsulterChangement),
     )
     .with(
       {

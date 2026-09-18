@@ -59,7 +59,14 @@ export default async function Page(props: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           changement={mapToPlainObject(changement.changement)}
           historique={historique.items
-            .map((item) => mapToDispositifDeStockageTimelineItemProps(item, utilisateur.rôle))
+            .map((item) =>
+              mapToDispositifDeStockageTimelineItemProps(
+                item,
+                utilisateur.rôle.aLaPermission(
+                  'installation.dispositifDeStockage.consulterChangement',
+                ),
+              ),
+            )
             .filter((i) => i !== null)}
         />
       );

@@ -67,7 +67,9 @@ export default async function Page(props: PageProps) {
             mapToLauréatTimelineItemProps({
               readmodel: readmodel as LauréatHistoryRecord,
               doitAfficherLienAttestationDésignation: false,
-              rôleUtilisateur: utilisateur.rôle,
+              permissionConsulterChangementNom: utilisateur.rôle.aLaPermission(
+                'nomProjet.consulterChangement',
+              ),
             }),
           )}
         />
