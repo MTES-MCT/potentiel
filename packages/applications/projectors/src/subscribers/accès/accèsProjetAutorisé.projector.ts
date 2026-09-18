@@ -1,6 +1,6 @@
 import type { Accès } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { createProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
 export const accèsProjetAutoriséProjector = async ({
@@ -8,10 +8,20 @@ export const accèsProjetAutoriséProjector = async ({
 }: Accès.AccèsProjetAutoriséEvent) => {
   const accèsProjetActuel = await findProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`);
 
+  if (Option.isNone(accèsProjetActuel)) {
+    await createProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`, {
+      identifiantProjet,
+      utilisateursAyantAccès: [identifiantUtilisateur],
+    });
+    return;
+  }
+
+  const utilisateursAyantAccès = new Set(accèsProjetActuel.utilisateursAyantAccès);
+
+  utilisateursAyantAccès.add(identifiantUtilisateur);
+
   await upsertProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`, {
     identifiantProjet,
-    utilisateursAyantAccès: Option.match(accèsProjetActuel)
-      .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.concat(identifiantUtilisateur))
-      .none(() => [identifiantUtilisateur]),
+    utilisateursAyantAccès: Array.from(utilisateursAyantAccès),
   });
 };
