@@ -4,10 +4,11 @@ import { notFound, useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
 import { FormSuccessAlert } from '@/components/atoms/form/FormSuccessAlert';
+import { BreadcrumbProvider } from '@/utils/breadcrumb/breadcrumbProvider';
 import { FeatureFlaggedComponent } from '@/utils/feature-flag/FeatureFlaggedComponent.template';
 import { FilAriane } from '../molecules/FilAriane';
 
-type PageTemplateProps = {
+export type PageTemplateProps = {
   children: React.ReactNode;
   banner?: React.ReactNode;
   feature?: string;
@@ -40,11 +41,15 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children, feature 
     </>
   );
 
-  return feature ? (
-    <FeatureFlaggedComponent feature={feature} isOff={notFound}>
-      {pageContent}
-    </FeatureFlaggedComponent>
-  ) : (
-    pageContent
+  return (
+    <BreadcrumbProvider>
+      {feature ? (
+        <FeatureFlaggedComponent feature={feature} isOff={notFound}>
+          {pageContent}
+        </FeatureFlaggedComponent>
+      ) : (
+        pageContent
+      )}
+    </BreadcrumbProvider>
   );
 };
