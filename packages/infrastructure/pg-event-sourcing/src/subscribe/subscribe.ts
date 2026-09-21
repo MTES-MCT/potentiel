@@ -110,6 +110,10 @@ const handleClientError = async (error: Error) => {
 
     isReconnecting = true;
 
+    /* 
+      On ferme explicitement l'ancien client avant de le remplacer : sinon sa connexion PG (et son LISTEN) 
+      peut rester ouverte côté serveur, et le même event est alors dispatché deux fois
+    */
     const previousClient = client;
     client = undefined;
 
