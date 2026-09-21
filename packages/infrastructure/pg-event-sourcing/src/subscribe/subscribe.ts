@@ -110,6 +110,19 @@ const handleClientError = async (error: Error) => {
 
     isReconnecting = true;
 
+    const previousClient = client;
+    client = undefined;
+
+    if (previousClient) {
+      try {
+        await previousClient.end();
+      } catch (endError) {
+        logger.warn(`Failed to close previous subscribe Postgresql client after error`, {
+          error: endError,
+        });
+      }
+    }
+
     const retryPolicy = retry(handleAll, {
       maxAttempts: 10,
       backoff: new ExponentialBackoff(),
@@ -123,7 +136,7 @@ const handleClientError = async (error: Error) => {
       client = await connect();
 
       /*
-        size listeners des emitters existants + 2 listeners error/notification de connect() 
+        size listeners des emitters existants + 2 listeners error/notification de connect()
       */
       client.setMaxListeners(eventStreamEmitters.size + 2);
 
