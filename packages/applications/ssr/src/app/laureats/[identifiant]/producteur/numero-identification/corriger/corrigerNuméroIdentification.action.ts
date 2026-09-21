@@ -44,7 +44,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Lauréat.détails.informationGénérales(identifiantProjet),
-        message: "La correction de votre numéro d'identification (SIRET) a été prise en compte",
+        message: "Le numéro d'identification (SIRET) a été mis à jour",
       },
     };
   });

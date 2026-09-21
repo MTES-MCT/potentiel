@@ -10,7 +10,7 @@ export const mapToNuméroIdentificationCorrigéTimelineItemProps = (
   const { corrigéLe, corrigéPar, raison, numéroIdentification } = event.payload;
   return {
     date: corrigéLe,
-    title: "Numéro d'identification corrigé",
+    title: "Numéro d'identification mis à jour",
     actor: corrigéPar,
     file: {
       document: Lauréat.Producteur.DocumentProducteur.numéroIdentificationCorrigé(event.payload),
