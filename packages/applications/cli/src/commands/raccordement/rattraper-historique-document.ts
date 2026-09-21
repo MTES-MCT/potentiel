@@ -185,6 +185,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
       // récupérer les données
       const data = await executeSelect<{
         datesignature: DateTime.RawType;
+        reference: string;
         format: string;
         transmisle: DateTime.RawType;
         transmispar: Email.RawType;
@@ -193,6 +194,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
         `
 SELECT
     e.payload->>'dateSignature' AS datesignature,
+    e.payload->>'référenceDossierRaccordement' as reference,
     CASE
         WHEN e.type = 'PropositionTechniqueEtFinancièreTransmise-V1' THEN
             (
@@ -270,13 +272,15 @@ WHERE
         document.type,
       ).formatter();
 
+      const référenceEvent = data[0].reference;
+
       const event: Lauréat.Raccordement.DocumentRaccordementTransmisEventV1 = {
         type: 'DocumentRaccordementTransmis-V1',
         payload: {
           identifiantProjet: IdentifiantProjet.convertirEnValueType(
             document.identifiantProjet,
           ).formatter(),
-          référenceDossierRaccordement: références?.[0]?.nouvelleréférence ?? document.référence,
+          référenceDossierRaccordement: référenceEvent,
           dateSignature: data[0].datesignature,
           document: {
             format: data[0].format,
@@ -292,6 +296,7 @@ WHERE
           console.log(`dryRun -- nouvel event`);
         } else {
           // Enregistrer le nouveau document
+          // Sous la référence la plus "récente"
           await copyFolder(
             `${document.identifiantProjet}/raccordement/${document.référence}/proposition-technique-et-financière`,
             `${document.identifiantProjet}/raccordement/${document.référence}/${document.type}`,
@@ -306,7 +311,7 @@ WHERE
               AND payload->>'référenceDossierRaccordement' = $3;`,
               eventToDelete,
               `raccordement|${document.identifiantProjet}`,
-              document.référence,
+              référenceEvent,
             );
           }
 
