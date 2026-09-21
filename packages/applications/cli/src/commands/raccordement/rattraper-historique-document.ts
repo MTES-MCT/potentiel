@@ -23,10 +23,13 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
   async run(): Promise<void> {
     const { flags } = await this.parse(RattraperHistoriqueDocumentsCommand);
 
-    // à exécuter via le tunnel
+    // Maintenance
+    // RULES
     // await executeQuery(
     //   'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
     // );
+    // Variable S3 à exporter (prod)
+    // DATABASE
 
     // on exclue directement quelques identifiants projet pour gagner en efficacité
     const identifiantsToExclude = await executeSelect<{
@@ -355,8 +358,8 @@ WHERE
 // await executeQuery(
 //   'create or replace rule prevent_delete_on_event_stream as on delete to event_store.event_stream do instead select event_store.throw_when_trying_to_delete_event()',
 // );
-
 // rebuild raccordement
+// RESET Variables
 
 async function getDocumentType(pdfUrl: Uint8Array) {
   const pdf = await getDocument({
