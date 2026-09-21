@@ -15,7 +15,7 @@ export const EnvBadge = ({ utilisateur }: EnvBadgeProps) => {
    */
   if (process.env.APPLICATION_STAGE !== 'production') {
     return (
-      <Badge className="fixed left-5 top-5 z-50" severity="info">
+      <Badge className="print:hidden fixed left-5 top-5 z-50" severity="info">
         {process.env.APPLICATION_STAGE.toUpperCase()}
       </Badge>
     );
@@ -25,7 +25,7 @@ export const EnvBadge = ({ utilisateur }: EnvBadgeProps) => {
    * Pour la production, c'est uniquement réservé aux admin (nous)
    */
   return utilisateur.rôle.estAdmin() ? (
-    <Badge className="fixed left-5 top-5 z-50" severity="warning">
+    <Badge className="print:hidden fixed left-5 top-5 z-50" severity="warning">
       PRODUCTION
     </Badge>
   ) : null;
