@@ -23,19 +23,21 @@ export const useFilter = () => {
     newSearchParams.delete('page');
 
     newSearchParams.delete(searchParamKey);
+
     for (const v of value) {
       newSearchParams.append(searchParamKey, v);
     }
-    if (value.length === 0 || (value.length > 1 && multiple)) {
-      for (const affected of affects ?? []) {
-        newSearchParams.delete(affected);
-      }
+
+    for (const affected of affects ?? []) {
+      newSearchParams.delete(affected);
     }
 
     if (newSearchParams.size === 0) {
       return router.push(pathname, { scroll: false });
     }
+
     return router.push(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
   };
+
   return { handleOnChange, searchParams };
 };
