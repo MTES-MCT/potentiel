@@ -24,13 +24,13 @@ export const mapChangements: MapChangements = {
       permission: 'fournisseur.modifier',
       url: Routes.Fournisseur.modifier,
       label: 'Modifier le(s) fournisseur(s)',
-      labelMenu: 'Fournisseur',
+      labelMenu: 'Fournisseurs',
     },
     enregistrerChangement: {
       permission: 'fournisseur.enregistrerChangement',
       url: Routes.Fournisseur.changement.enregistrer,
       label: 'Changer de fournisseur',
-      labelMenu: 'Fournisseur',
+      labelMenu: 'Fournisseurs',
     },
   },
   producteur: {
