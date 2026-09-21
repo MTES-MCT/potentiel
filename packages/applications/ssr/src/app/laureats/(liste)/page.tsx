@@ -131,7 +131,8 @@ export default async function Page(props: PageProps) {
       const actions: LauréatListPageProps['actions'] =
         utilisateur.rôle.aLaPermission('période.consulterSynthèse') &&
         appelOffre?.length === 1 &&
-        periode
+        periode &&
+        lauréats.total > 0
           ? [
               {
                 label: `Télécharger la synthèse des lauréats de la période`,
