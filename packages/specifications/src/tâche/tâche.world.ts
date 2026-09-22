@@ -6,6 +6,7 @@ export type RechercherTypeTâche =
   | 'transmettre la preuve de recandidature'
   | 'confirmer un abandon'
   | 'transmettre les garanties financières'
+  | "transmettre l'attestation de constitution"
   | 'mettre à jour le gestionnaire de réseau'
   | 'transmettre une référence de raccordement'
   | 'transmettre un document de raccordement (ptf,cr ou crd)'
@@ -24,6 +25,10 @@ export class TâcheWorld {
       .with('confirmer un abandon', () => Lauréat.Tâche.TypeTâche.abandonConfirmer)
       .with(
         'transmettre les garanties financières',
+        () => Lauréat.Tâche.TypeTâche.garantiesFinancièresDemander,
+      )
+      .with(
+        "transmettre l'attestation de constitution",
         () => Lauréat.Tâche.TypeTâche.garantiesFinancièresDemander,
       )
       .with(

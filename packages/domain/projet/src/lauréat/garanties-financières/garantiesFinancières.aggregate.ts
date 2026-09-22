@@ -6,9 +6,9 @@ import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 import type { TypeGarantiesFinancières } from '../../candidature/index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
-import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { DemanderOptions } from './actuelles/demander/demanderGarantiesFinancières.options.js';
 import type { EffacerHistoriqueOptions } from './actuelles/effacer/efffacerHistoriqueGarantiesFinancières.js';
 import type { EnregistrerOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options.js';
@@ -113,6 +113,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   // Tâches porteur
   #tâcheDemanderGarantiesFinancières!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettreAttestationConstitution!: AggregateType<TâcheAggregate>;
 
   #motifDemande: MotifDemandeGarantiesFinancières.ValueType | undefined;
   #dateLimiteSoumission: DateTime.ValueType | undefined;
@@ -136,6 +137,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     this.#tâcheDemanderGarantiesFinancières = await this.lauréat.loadTâche(
       TypeTâche.garantiesFinancièresDemander.type,
+    );
+    this.#tâcheTransmettreAttestationConstitution = await this.lauréat.loadTâche(
+      TypeTâche.garantiesFinancièresAttestationTransmettre.type,
     );
   }
 
@@ -296,6 +300,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async annulerTâchePorteurDemanderGarantiesFinancières() {
     await this.#tâcheDemanderGarantiesFinancières.achever();
   }
+  async annulerTâchePorteurTransmettreAttestationConstitution() {
+    await this.#tâcheTransmettreAttestationConstitution.achever();
+  }
 
   //#endregion Utilitaires
 
@@ -327,6 +334,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
           ...garantiesFinancières.formatter(),
         },
       };
+
+      // TODO: viovio, ajouter tâche attestation de constitution?
       await this.publish(eventTypeGFImporté);
     }
 
@@ -453,6 +462,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         enregistréPar: enregistréPar.formatter(),
       },
     };
+
+    await this.annulerTâchePorteurTransmettreAttestationConstitution();
 
     await this.publish(event);
   }
