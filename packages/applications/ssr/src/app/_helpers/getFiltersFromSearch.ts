@@ -7,14 +7,14 @@ export const getFiltersFromSearch = (nomProjet?: string) => {
 
   if (IdentifiantProjet.estValide(cleanedNomProjet)) {
     return {
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(cleanedNomProjet).formatter(),
+      identifiantProjet: [IdentifiantProjet.convertirEnValueType(cleanedNomProjet).formatter()],
       nomProjet: undefined,
     };
   }
 
   if (IdentifiantProjet.estValideMétier(cleanedNomProjet)) {
     return {
-      identifiantProjet: IdentifiantProjet.depuisIdentifiantMétier(cleanedNomProjet).formatter(),
+      identifiantProjet: [IdentifiantProjet.depuisIdentifiantMétier(cleanedNomProjet).formatter()],
       nomProjet: undefined,
     };
   }

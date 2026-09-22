@@ -59,7 +59,7 @@ export type ListerLauréatQuery = Message<
     famille?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
     nomProjet?: string;
-    identifiantProjet?: IdentifiantProjet.RawType;
+    identifiants?: Array<IdentifiantProjet.RawType>;
     estPartiEnPPA?: boolean;
   },
   ListerLauréatReadModel
@@ -91,11 +91,11 @@ export const registerListerLauréatQuery = ({
     range,
     statut,
     typeActionnariat,
-    identifiantProjet,
+    identifiants,
     estPartiEnPPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
-      identifiantProjets: identifiantProjet && [identifiantProjet],
+      identifiantProjets: identifiants,
     });
 
     const lauréats = await list<LauréatEntity, JoinedEntities>('lauréat', {

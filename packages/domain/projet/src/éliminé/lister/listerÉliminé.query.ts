@@ -40,7 +40,7 @@ export type ListerÉliminéQuery = Message<
     famille?: string;
     nomProjet?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
-    identifiantProjet?: IdentifiantProjet.RawType;
+    identifiants?: Array<IdentifiantProjet.RawType>;
   },
   ListerÉliminéReadModel
 >;
@@ -62,10 +62,10 @@ export const registerListerÉliminéQuery = ({
     nomProjet,
     range,
     typeActionnariat,
-    identifiantProjet,
+    identifiants,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
-      identifiantProjets: identifiantProjet && [identifiantProjet],
+      identifiantProjets: identifiants,
     });
     const éliminés = await list<CandidatureEntity, [ÉliminéEntity, AppelOffre.AppelOffreEntity]>(
       'candidature',

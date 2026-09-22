@@ -61,7 +61,7 @@ export default async function Page(props: PageProps) {
         statut,
         typeActionnariat,
         estNotifiée: notifie,
-        identifiantProjets: identifiantProjet && [identifiantProjet],
+        identifiantProjets: identifiantProjet,
       },
     });
 

@@ -58,7 +58,7 @@ export default async function Page(props: PageProps) {
           statut,
           typeActionnariat,
           estPartiEnPPA: PPA,
-          identifiantProjet,
+          identifiants: identifiantProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,

@@ -51,7 +51,7 @@ export default async function Page(props: PageProps) {
           periode,
           famille,
           nomProjet,
-          identifiantProjet,
+          identifiants: identifiantProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
