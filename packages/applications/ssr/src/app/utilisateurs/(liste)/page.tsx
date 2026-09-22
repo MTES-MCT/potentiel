@@ -179,6 +179,10 @@ export default async function Page(props: PageProps) {
           filters={filters}
           list={mapToListProps(utilisateurs, gestionnairesRéseau.items, utilisateur)}
           actions={pageActions}
+          breadcrumbProps={{
+            currentPagelabel: 'Utilisateurs',
+            parentSegments: [],
+          }}
         />
       );
     }),

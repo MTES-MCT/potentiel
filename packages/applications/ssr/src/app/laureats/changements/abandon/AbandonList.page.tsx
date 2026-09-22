@@ -4,6 +4,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { AbandonListItem, type AbandonListItemProps } from './AbandonListItem';
 
 export type AbandonListPageProps = {
@@ -14,11 +15,13 @@ export type AbandonListPageProps = {
     itemsPerPage: number;
   };
   filters: ListPageTemplateProps<typeof AbandonListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const AbandonListPage: FC<AbandonListPageProps> = ({
   list: { items: abandons, currentPage, totalItems, itemsPerPage },
   filters,
+  breadcrumbProps,
 }) => {
   return (
     <ListPageTemplate
@@ -34,6 +37,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
       ItemComponent={AbandonListItem}
       filters={filters}
       search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+      breadcrumbProps={breadcrumbProps}
     />
   );
 };

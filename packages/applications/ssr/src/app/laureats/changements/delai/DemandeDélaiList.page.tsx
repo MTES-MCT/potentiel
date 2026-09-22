@@ -6,6 +6,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 import { DemandeDélaiListItem, type DemandeDélaiListItemProps } from './DemandeDélaiListItem';
 
@@ -16,6 +17,7 @@ export type DemandeDélaiListPageProps = {
     total: number;
   };
   filters: ListPageTemplateProps<typeof DemandeDélaiListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const DemandeDélaiListPage: FC<DemandeDélaiListPageProps> = ({
@@ -25,6 +27,7 @@ export const DemandeDélaiListPage: FC<DemandeDélaiListPageProps> = ({
     total,
   },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Délai"
@@ -39,5 +42,6 @@ export const DemandeDélaiListPage: FC<DemandeDélaiListPageProps> = ({
     ItemComponent={DemandeDélaiListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

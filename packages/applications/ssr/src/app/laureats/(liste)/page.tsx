@@ -158,6 +158,10 @@ export default async function Page(props: PageProps) {
             symbols: projectListLegendSymbols,
           }}
           actions={actions}
+          breadcrumbProps={{
+            currentPagelabel: 'Lauréats',
+            parentSegments: [],
+          }}
         />
       );
     }),

@@ -70,7 +70,15 @@ export default async function Page(props0: PageProps) {
     });
 
     return (
-      <GestionnaireRéseauListPage items={props.items} range={props.range} total={props.total} />
+      <GestionnaireRéseauListPage
+        items={props.items}
+        range={props.range}
+        total={props.total}
+        breadcrumbProps={{
+          currentPagelabel: 'Gestionnaires réseaux',
+          parentSegments: [],
+        }}
+      />
     );
   });
 }

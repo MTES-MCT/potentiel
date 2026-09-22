@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 import { ChangementDispositifDeStockageListItem } from './ChangementDispositifDeStockageListItem';
 
@@ -17,6 +18,7 @@ export type ChangementDispositifDeStockageListPageProps = {
     total: number;
   };
   filters: ListPageTemplateProps<typeof ChangementDispositifDeStockageListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ChangementDispositifDeStockageListPage: FC<
@@ -28,6 +30,7 @@ export const ChangementDispositifDeStockageListPage: FC<
     total,
   },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Dispositif de stockage"
@@ -42,5 +45,6 @@ export const ChangementDispositifDeStockageListPage: FC<
     ItemComponent={ChangementDispositifDeStockageListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

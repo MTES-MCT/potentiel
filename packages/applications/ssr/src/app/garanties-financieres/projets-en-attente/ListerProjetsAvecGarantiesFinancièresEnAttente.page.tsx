@@ -6,6 +6,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import {
   ListItemProjetAvecGarantiesFinancièresEnAttente,
   type ListItemProjetAvecGarantiesFinancièresEnAttenteProps,
@@ -19,11 +20,16 @@ export type ListProjetsAvecGarantiesFinancièresEnAttenteProps = {
     itemsPerPage: number;
   };
   filters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
   ListProjetsAvecGarantiesFinancièresEnAttenteProps
-> = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => (
+> = ({
+  list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage },
+  filters,
+  breadcrumbProps,
+}) => (
   <ListPageTemplate
     heading="Projets en attente de garanties financières"
     actions={[]}
@@ -36,5 +42,6 @@ export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
     itemsPerPage={itemsPerPage}
     ItemComponent={ListItemProjetAvecGarantiesFinancièresEnAttente}
     filters={filters}
+    breadcrumbProps={breadcrumbProps}
   />
 );
