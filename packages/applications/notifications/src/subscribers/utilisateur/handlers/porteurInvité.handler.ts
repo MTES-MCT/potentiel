@@ -30,7 +30,7 @@ export const handlePorteurInvité = async ({
     .sort(
       (a, b) =>
         a.appelOffre.localeCompare(b.appelOffre) ||
-        a.période.localeCompare(b.période) ||
+        Number(a.période) - Number(b.période) ||
         a.nom.localeCompare(b.nom),
     )
     .map(({ identifiantProjet, nom, appelOffre, période }) => {
