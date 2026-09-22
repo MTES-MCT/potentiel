@@ -6,6 +6,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementActionnaireDemandéTimelineItemProps = (
   event: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     demandéLe,
@@ -30,11 +31,13 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
       label: 'Télécharger le justificatif de la demande',
       ariaLabel: `Télécharger le justificatif de la demande de changement d'actionnaire en date du ${formatDateToText(demandéLe)}`,
     },
-    link: {
-      url: Routes.Actionnaire.changement.détails(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de changement d'actionnaire en date du ${formatDateToText(demandéLe)}`,
-      label: 'Détail de la demande',
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Actionnaire.changement.détails(identifiantProjet, demandéLe),
+          ariaLabel: `Voir le détail de la demande de changement d'actionnaire en date du ${formatDateToText(demandéLe)}`,
+          label: 'Détail de la demande',
+        }
+      : undefined,
     details: (
       <div className="flex flex-col gap-2">
         <div>

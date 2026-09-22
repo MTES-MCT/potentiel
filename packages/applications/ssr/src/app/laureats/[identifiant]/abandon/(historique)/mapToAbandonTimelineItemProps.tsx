@@ -17,6 +17,7 @@ import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapTo
 
 export const mapToAbandonTimelineItemProps = (
   event: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+  permissionConsulterChangement: boolean,
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -24,7 +25,7 @@ export const mapToAbandonTimelineItemProps = (
       {
         type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2'),
       },
-      mapToAbandonDemandéTimelineItemProps,
+      (event) => mapToAbandonDemandéTimelineItemProps(event, permissionConsulterChangement),
     )
     .with(
       {

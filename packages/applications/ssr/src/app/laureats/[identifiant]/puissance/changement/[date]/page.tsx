@@ -68,6 +68,9 @@ export default async function Page(props: PageProps) {
             mapToPuissanceTimelineItemProps({
               event: item,
               unitéPuissance: puissance.unitéPuissance.formatter(),
+              permissionConsulterChangement: utilisateur.rôle.aLaPermission(
+                'puissance.consulterChangement',
+              ),
             }),
           )}
           actions={mapToActions(changement.demande.statut, utilisateur.rôle)}

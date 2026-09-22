@@ -7,6 +7,7 @@ import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésen
 
 export const mapToChangementReprésentantLégalDemandéTimelineItemProps = (
   event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const { demandéLe, demandéPar, typeReprésentantLégal, nomReprésentantLégal, identifiantProjet } =
     event.payload;
@@ -15,11 +16,13 @@ export const mapToChangementReprésentantLégalDemandéTimelineItemProps = (
     date: demandéLe,
     title: 'Demande de changement de représentant légal déposée',
     actor: demandéPar,
-    link: {
-      url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de changement de représentant légal en date du ${formatDateToText(demandéLe)}`,
-      label: 'Détail de la demande',
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, demandéLe),
+          ariaLabel: `Voir le détail de la demande de changement de représentant légal en date du ${formatDateToText(demandéLe)}`,
+          label: 'Détail de la demande',
+        }
+      : undefined,
     details: (
       <div className="flex flex-col gap-2">
         <div>

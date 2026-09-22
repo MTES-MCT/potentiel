@@ -6,6 +6,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementInstallateurEnregistréTimelineItemsProps = (
   event: Lauréat.Installation.ChangementInstallateurEnregistréEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const { enregistréLe, enregistréPar, installateur, identifiantProjet } = event.payload;
 
@@ -20,10 +21,12 @@ export const mapToChangementInstallateurEnregistréTimelineItemsProps = (
         </div>
       </div>
     ),
-    link: {
-      url: Routes.Installation.changement.installateur.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement d'installateur enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Installation.changement.installateur.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement d'installateur enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

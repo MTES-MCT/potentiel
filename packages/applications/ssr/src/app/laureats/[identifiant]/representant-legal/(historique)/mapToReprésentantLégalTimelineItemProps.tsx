@@ -17,6 +17,7 @@ import { mapToChangementReprésentantLégalSuppriméTimelineItemProps } from './
 
 export const mapToReprésentantLégalTimelineItemProps = (
   event: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
+  permissionConsulterChangement: boolean,
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -36,7 +37,11 @@ export const mapToReprésentantLégalTimelineItemProps = (
       {
         type: 'ChangementReprésentantLégalDemandé-V1',
       },
-      mapToChangementReprésentantLégalDemandéTimelineItemProps,
+      (event) =>
+        mapToChangementReprésentantLégalDemandéTimelineItemProps(
+          event,
+          permissionConsulterChangement,
+        ),
     )
     .with(
       {
@@ -66,7 +71,11 @@ export const mapToReprésentantLégalTimelineItemProps = (
       {
         type: 'ChangementReprésentantLégalEnregistré-V1',
       },
-      mapToChangementReprésentantLégalEnregistréTimelineItemProps,
+      (event) =>
+        mapToChangementReprésentantLégalEnregistréTimelineItemProps(
+          event,
+          permissionConsulterChangement,
+        ),
     )
     .with(
       {

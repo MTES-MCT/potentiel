@@ -5,16 +5,19 @@ import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { DétailsDispositifDeStockage } from '../../dispositif-de-stockage/DétailsDispositifDeStockage';
 
-export const mapToDispositifDeStockageEnregistréTimelineItemsProps = ({
-  payload: {
-    dispositifDeStockage,
-    raison,
-    pièceJustificative,
-    identifiantProjet,
-    enregistréLe,
-    enregistréPar,
-  },
-}: Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent): TimelineItemProps => ({
+export const mapToDispositifDeStockageEnregistréTimelineItemsProps = (
+  {
+    payload: {
+      dispositifDeStockage,
+      raison,
+      pièceJustificative,
+      identifiantProjet,
+      enregistréLe,
+      enregistréPar,
+    },
+  }: Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent,
+  permissionConsulterChangement: boolean,
+): TimelineItemProps => ({
   date: enregistréLe,
   actor: enregistréPar,
   title: 'Dispositif de stockage modifié',
@@ -36,12 +39,14 @@ export const mapToDispositifDeStockageEnregistréTimelineItemsProps = ({
     </div>
   ),
   reason: raison,
-  link: {
-    url: Routes.Installation.changement.dispositifDeStockage.détails(
-      identifiantProjet,
-      enregistréLe,
-    ),
-    label: 'Détail du changement',
-    ariaLabel: `Voir le détail du changement de dispositif de stockage enregistré le ${formatDateToText(enregistréLe)}`,
-  },
+  link: permissionConsulterChangement
+    ? {
+        url: Routes.Installation.changement.dispositifDeStockage.détails(
+          identifiantProjet,
+          enregistréLe,
+        ),
+        label: 'Détail du changement',
+        ariaLabel: `Voir le détail du changement de dispositif de stockage enregistré le ${formatDateToText(enregistréLe)}`,
+      }
+    : undefined,
 });
