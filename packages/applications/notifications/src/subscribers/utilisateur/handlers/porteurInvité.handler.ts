@@ -27,6 +27,12 @@ export const handlePorteurInvité = async ({
   const tousLesProjets = projets.length > 1;
 
   const projetALister = projets
+    .sort(
+      (a, b) =>
+        a.appelOffre.localeCompare(b.appelOffre) ||
+        a.période.localeCompare(b.période) ||
+        a.nom.localeCompare(b.nom),
+    )
     .map(({ identifiantProjet, nom, appelOffre, période }) => {
       const urlProjet = buildUrl(Routes.Projet.details(identifiantProjet));
 
