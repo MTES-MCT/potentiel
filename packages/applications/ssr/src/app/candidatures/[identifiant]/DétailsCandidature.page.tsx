@@ -332,11 +332,11 @@ const mapToActionComponents = ({
           ),
           target: '_blank',
         }}
-        title={`Prévisualiser l'attestation de désignation`}
-        aria-label={`Prévisualiser l'attestation de désignation`}
+        title={`Prévisualiser ${candidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"}`}
+        aria-label={`Prévisualiser ${candidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
         priority="secondary"
       >
-        Prévisualiser Attestation
+        Prévisualiser {candidatureLauréate ? "l'attestation" : "l'avis de rejet"}
       </Button>
     )}
   </ActionsList>
