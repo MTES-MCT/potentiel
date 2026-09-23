@@ -3,6 +3,7 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getFiltersFromSearch } from '../../getFiltersFromSearch.js';
 import { Candidature, type DocumentProjet, IdentifiantProjet } from '../../index.js';
 import type { CandidatureEntity } from '../candidature.entity.js';
 import type { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query.js';
@@ -50,8 +51,7 @@ export type ListerCandidaturesQuery = Message<
     famille?: string;
     estNotifiée?: boolean;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
-    nomProjet?: string;
-    identifiantProjets?: Array<IdentifiantProjet.RawType>;
+    search?: string;
   },
   ListerCandidaturesReadModel
 >;
@@ -69,9 +69,10 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
     famille,
     estNotifiée,
     typeActionnariat,
-    nomProjet,
-    identifiantProjets,
+    search,
   }) => {
+    const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
+
     const {
       items,
       range: { endPosition, startPosition },
@@ -87,7 +88,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
           Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
         ),
         nomProjet: Where.like(nomProjet),
-        identifiantProjet: Where.matchAny(identifiantProjets),
+        identifiantProjet: Where.matchAny(identifiantProjet),
       },
       range,
       orderBy: {

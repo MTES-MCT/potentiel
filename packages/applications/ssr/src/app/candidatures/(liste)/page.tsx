@@ -8,7 +8,6 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
-import { getFiltersFromSearch } from '@/app/_helpers/getFiltersFromSearch';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
@@ -45,8 +44,6 @@ export default async function Page(props: PageProps) {
     const { page, appelOffre, famille, search, periode, statut, notifie, typeActionnariat } =
       paramsSchema.parse(searchParams);
 
-    const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
-
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
       data: {
@@ -54,14 +51,13 @@ export default async function Page(props: PageProps) {
           currentPage: page,
           itemsPerPage: 10,
         }),
-        nomProjet,
+        search,
         appelOffre,
         période: periode,
         famille,
         statut,
         typeActionnariat,
         estNotifiée: notifie,
-        identifiantProjets: identifiantProjet && [identifiantProjet],
       },
     });
 
