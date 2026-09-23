@@ -32,6 +32,7 @@ const paramsSchema = z.object({
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),
+  commune: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
   PPA: z.stringbool().optional(),
 });
@@ -42,7 +43,7 @@ export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, search, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
+      const { page, search, appelOffre, periode, famille, statut, typeActionnariat, PPA, commune } =
         paramsSchema.parse(searchParams);
 
       const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
@@ -59,6 +60,7 @@ export default async function Page(props: PageProps) {
           typeActionnariat,
           estPartiEnPPA: PPA,
           identifiantProjet,
+          commune,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,

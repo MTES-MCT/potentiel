@@ -60,6 +60,7 @@ export type ListerLauréatQuery = Message<
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
     nomProjet?: string;
     identifiantProjet?: IdentifiantProjet.RawType;
+    commune?: string;
     estPartiEnPPA?: boolean;
   },
   ListerLauréatReadModel
@@ -93,6 +94,7 @@ export const registerListerLauréatQuery = ({
     typeActionnariat,
     identifiantProjet,
     estPartiEnPPA,
+    commune,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
       identifiantProjets: identifiantProjet && [identifiantProjet],
@@ -109,7 +111,10 @@ export const registerListerLauréatQuery = ({
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        localité: { région: Where.matchAny(scope.régions) },
+        localité: {
+          région: Where.matchAny(scope.régions),
+          commune: Where.startWith(commune),
+        },
         statut: statut?.length ? Where.matchAny(statut) : undefined,
       },
       join: [
