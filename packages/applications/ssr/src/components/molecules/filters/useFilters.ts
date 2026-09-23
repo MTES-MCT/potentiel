@@ -9,7 +9,6 @@ type HandleOnChangeProps = {
   value: Array<string>;
   searchParamKey: ListFilterItem['searchParamKey'];
   affects?: ListFilterItem['affects'];
-  multiple?: ListFilterItem['multiple'];
 };
 
 export const useFilter = () => {
@@ -17,7 +16,7 @@ export const useFilter = () => {
   const searchParams = new FiltersSearchParams(useSearchParams());
   const router = useRouter();
 
-  const handleOnChange = ({ value, searchParamKey, affects, multiple }: HandleOnChangeProps) => {
+  const handleOnChange = ({ value, searchParamKey, affects }: HandleOnChangeProps) => {
     const newSearchParams = new FiltersSearchParams(searchParams);
 
     newSearchParams.delete('page');
