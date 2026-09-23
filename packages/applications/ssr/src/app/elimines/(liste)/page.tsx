@@ -8,7 +8,6 @@ import { Candidature, type Éliminé } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
-import { getFiltersFromSearch } from '@/app/_helpers/getFiltersFromSearch';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
@@ -41,8 +40,6 @@ export default async function Page(props: PageProps) {
       const { page, appelOffre, periode, famille, search, typeActionnariat } =
         paramsSchema.parse(searchParams);
 
-      const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
-
       const éliminés = await mediator.send<Éliminé.ListerÉliminéQuery>({
         type: 'Éliminé.Query.ListerÉliminé',
         data: {
@@ -50,8 +47,7 @@ export default async function Page(props: PageProps) {
           appelOffre,
           periode,
           famille,
-          nomProjet,
-          identifiants: identifiantProjet,
+          search,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
