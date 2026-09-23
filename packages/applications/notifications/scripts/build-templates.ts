@@ -23,29 +23,56 @@ const srcDirRoot = path.join(__dirname, '../src/templates');
 const outDirRoot = path.join(__dirname, '../dist/templates');
 const layoutPath = path.join(__dirname, '../src/templates/layouts/email.layout.html');
 
-const extractVariables = (template: string) => {
-  const extractVariablesFromBody = (body: hbs.AST.Statement[]): string[] =>
-    body.reduce((acc, curr) => {
-      const node = curr as hbs.AST.MustacheStatement | hbs.AST.BlockStatement;
-      if (node.type === 'BlockStatement') {
-        acc.push(...extractVariablesFromBody(node.program.body));
-      } else if (node.type !== 'MustacheStatement') {
+type TemplateVariables = { [nom: string]: 'string' | TemplateVariables };
+
+const getNom = (expression: hbs.AST.Expression) =>
+  expression.type === 'PathExpression'
+    ? (expression as hbs.AST.PathExpression).original
+    : undefined;
+
+const ajouterVariablesString = (acc: TemplateVariables, expressions: hbs.AST.Expression[]) => {
+  for (const nom of expressions.map(getNom)) {
+    if (nom) acc[nom] = 'string';
+  }
+  return acc;
+};
+
+const extractVariablesFromBody = (body: hbs.AST.Statement[]): TemplateVariables =>
+  body.reduce<TemplateVariables>((acc, statement) => {
+    if (statement.type === 'MustacheStatement') {
+      const node = statement as hbs.AST.MustacheStatement;
+      return ajouterVariablesString(acc, node.params.length > 0 ? node.params : [node.path]);
+    }
+
+    if (statement.type === 'BlockStatement') {
+      const node = statement as hbs.AST.BlockStatement;
+      const [collection] = node.params;
+      const nomCollection = collection && getNom(collection);
+
+      if (getNom(node.path) === 'each' && nomCollection) {
+        acc[nomCollection] = extractVariablesFromBody(node.program.body);
         return acc;
       }
-      if (node.params.length > 0) {
-        acc.push(
-          ...node.params
-            .filter((p) => p.type === 'PathExpression')
-            .map((p) => (p as hbs.AST.PathExpression).original),
-        );
-      } else if (node.path.type === 'PathExpression') {
-        acc.push((node.path as hbs.AST.PathExpression).original);
-      }
-      return acc;
-    }, [] as string[]);
 
-  return extractVariablesFromBody(Handlebars.parse(template).body);
-};
+      return Object.assign(
+        ajouterVariablesString(acc, node.params),
+        extractVariablesFromBody(node.program.body),
+      );
+    }
+
+    return acc;
+  }, {});
+
+const extractVariables = (template: string) =>
+  extractVariablesFromBody(Handlebars.parse(template).body);
+
+const typeTemplateVariables = (variables: TemplateVariables): string =>
+  `{ ${Object.entries(variables)
+    .map(
+      ([nom, type]) =>
+        `'${nom}': ${type === 'string' ? 'string' : `Array<${typeTemplateVariables(type)}>`}`,
+    )
+    .join('; ')} }`;
 
 const extractTemplates = (name: string, layout?: string) => {
   const srcDir = path.join(srcDirRoot, name);
@@ -62,7 +89,7 @@ const extractTemplates = (name: string, layout?: string) => {
     process.exit(0);
   }
 
-  const templates: { key: string; variables: string[] }[] = [];
+  const templates: { key: string; variables: TemplateVariables }[] = [];
 
   const md = new MarkdownIt({ html: true, linkify: true });
   const renderMarkdown = (input: string) => {
@@ -100,12 +127,10 @@ const extractTemplates = (name: string, layout?: string) => {
       ? Handlebars.precompile(frontmatter.subject, { noEscape: true })
       : null;
 
-    const variables = [
-      ...new Set<string>([
-        ...extractVariables(assembled),
-        ...(frontmatter.subject ? extractVariables(frontmatter.subject as string) : []),
-      ]),
-    ];
+    const variables = {
+      ...extractVariables(assembled),
+      ...(frontmatter.subject ? extractVariables(frontmatter.subject as string) : {}),
+    };
 
     // Write an ESM module that exports the precompiled template spec
     const templateName = file.replace(/\.(md|hbs)$/, '');
@@ -148,18 +173,14 @@ ${templateMap}
   const definitionSource = `// Auto-generated - DO NOT EDIT
 import type { TemplateSpecification } from 'handlebars';
 
-type Template<Name extends string, Vars extends string[]> = {
+type Template<Name extends string, Values> = {
   key: Name;
-  values: Record<Vars[number], string>;
+  values: Values;
 };
 
 export type TemplateDefinitions = 
 ${templates
-  .map(({ key, variables }) =>
-    variables.length > 0
-      ? `  | Template<'${key}', ['${variables.join("', '")}']>`
-      : `  | Template<'${key}', []>`,
-  )
+  .map(({ key, variables }) => `  | Template<'${key}', ${typeTemplateVariables(variables)}>`)
   .join('\n')};
 
 export type TemplateNames = TemplateDefinitions['key'];

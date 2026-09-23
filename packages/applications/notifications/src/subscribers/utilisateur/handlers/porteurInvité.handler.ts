@@ -33,12 +33,12 @@ export const handlePorteurInvité = async ({
         Number(a.période) - Number(b.période) ||
         a.nom.localeCompare(b.nom),
     )
-    .map(({ identifiantProjet, nom, appelOffre, période }) => {
-      const urlProjet = buildUrl(Routes.Projet.details(identifiantProjet));
-
-      return `• <a href="${urlProjet}">${nom} (${appelOffre} période ${période})</a>`;
-    })
-    .join('<br><br>');
+    .map(({ identifiantProjet, nom, appelOffre, période }) => ({
+      nom,
+      appelOffre,
+      période,
+      url: buildUrl(Routes.Projet.details(identifiantProjet)),
+    }));
 
   await sendEmail({
     key: 'utilisateur/inviter_porteur',
