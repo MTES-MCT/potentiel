@@ -311,13 +311,13 @@ const mapToActionComponents = ({
         linkProps={{
           href: Routes.Document.télécharger(attestation),
         }}
-        title={`Télécharger l'attestation de désignation`}
-        aria-label={`Télécharger l'attestation de désignation`}
+        title={`Afficher l'attestation de désignation au format PDF`}
+        aria-label={`Afficher l'attestation de désignation au format PDF`}
         priority="secondary"
         iconId="fr-icon-file-download-line"
         iconPosition="right"
       >
-        Télécharger Attestation
+        Attestation
       </Button>
     )}
     {actions.prévisualiserAttestation && (

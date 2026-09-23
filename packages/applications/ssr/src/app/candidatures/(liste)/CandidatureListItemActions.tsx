@@ -29,8 +29,8 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
           linkProps={{
             href: Routes.Document.télécharger(actions.télécharger.url),
           }}
-          title={`Télécharger l'attestation de désignation de ${nomProjet}`}
-          aria-label={`Télécharger l'attestation de désignation de ${nomProjet}`}
+          title={`Afficher l'attestation de désignation de ${nomProjet} au format PDF`}
+          aria-label={`Afficher l'attestation de désignation de ${nomProjet} au format PDF`}
           priority="secondary"
           iconId="fr-icon-file-download-line"
           iconPosition="right"
