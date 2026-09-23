@@ -22,7 +22,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
   statutCandidature,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
-  const candidatureLauréate = statutCandidature === 'classé';
+  const estUneCandidatureLauréate = statutCandidature === 'classé';
 
   return (
     <div className="flex md:max-lg:flex-col gap-2">
@@ -32,13 +32,13 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
           linkProps={{
             href: Routes.Document.télécharger(actions.télécharger.url),
           }}
-          title={`Afficher ${candidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
-          aria-label={`Afficher ${candidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} au format PDF`}
+          title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
+          aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} au format PDF`}
           priority="secondary"
           iconId="fr-icon-file-download-line"
           iconPosition="right"
         >
-          {candidatureLauréate ? 'Attestation' : 'Avis de rejet'}
+          {estUneCandidatureLauréate ? 'Attestation' : 'Avis de rejet'}
         </Button>
       )}
       {actions.prévisualiser && (
@@ -48,11 +48,11 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
             href: Routes.Candidature.prévisualiserAttestation(idProjet),
             target: '_blank',
           }}
-          title={`Prévisualiser ${candidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"}`}
-          aria-label={`Prévisualiser ${candidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} dans un nouvel onglet`}
+          title={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"}`}
+          aria-label={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} dans un nouvel onglet`}
           priority="secondary"
         >
-          {candidatureLauréate ? 'Attestation' : 'Avis de rejet'}
+          {estUneCandidatureLauréate ? 'Attestation' : 'Avis de rejet'}
         </Button>
       )}
       <Button
