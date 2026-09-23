@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from './index.js';
 
 export const getFiltersFromSearch = (search?: string) => {
   if (!search) return { identifiantProjet: undefined, nomProjet: undefined };
