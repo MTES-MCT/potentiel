@@ -10,6 +10,7 @@ import {
 } from '@potentiel-domain/entity';
 
 import { type CandidatureEntity, Localité } from '../../candidature/index.js';
+import { getFiltersFromSearch } from '../../getFiltersFromSearch.js';
 import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   type Producteur,
@@ -58,8 +59,7 @@ export type ListerLauréatQuery = Message<
     periode?: string;
     famille?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
-    nomProjet?: string;
-    identifiantProjet?: IdentifiantProjet.RawType;
+    search?: string;
     estPartiEnPPA?: boolean;
   },
   ListerLauréatReadModel
@@ -84,18 +84,19 @@ export const registerListerLauréatQuery = ({
 }: ListerLauréatDependencies) => {
   const handler: MessageHandler<ListerLauréatQuery> = async ({
     utilisateur,
-    nomProjet,
+    search,
     appelOffre,
     periode,
     famille,
     range,
     statut,
     typeActionnariat,
-    identifiantProjet,
     estPartiEnPPA,
   }) => {
+    const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
+
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
-      identifiantProjets: identifiantProjet && [identifiantProjet],
+      identifiantProjets: identifiantProjet,
     });
 
     const lauréats = await list<LauréatEntity, JoinedEntities>('lauréat', {
