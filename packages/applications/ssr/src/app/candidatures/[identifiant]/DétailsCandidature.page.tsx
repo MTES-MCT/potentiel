@@ -42,6 +42,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
     ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(dépôt.garantiesFinancières)
     : undefined;
   const dépôtVT = Candidature.Dépôt.bind(dépôt);
+  const estUneCandidatureLauréate = instruction.statut.statut === 'classé';
   return (
     <ColumnPageTemplate
       heading={<Heading1>Détails de la candidature</Heading1>}
@@ -270,6 +271,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
           attestation: notification?.attestation
             ? Document.DocumentProjet.bind(notification.attestation).formatter()
             : undefined,
+          estUneCandidatureLauréate,
         }),
       }}
     />
@@ -280,12 +282,14 @@ type MapToActionsComponentsProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actions: AvailableActions;
   attestation?: string;
+  estUneCandidatureLauréate: boolean;
 };
 
 const mapToActionComponents = ({
   identifiantProjet,
   actions,
   attestation,
+  estUneCandidatureLauréate,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={Object.keys(actions).length}>
     {actions.corriger && (
@@ -311,13 +315,13 @@ const mapToActionComponents = ({
         linkProps={{
           href: Routes.Document.télécharger(attestation),
         }}
-        title={`Afficher l'attestation de désignation au format PDF`}
-        aria-label={`Afficher l'attestation de désignation au format PDF`}
+        title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
+        aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
         priority="secondary"
         iconId="fr-icon-file-download-line"
         iconPosition="right"
       >
-        Attestation
+        {estUneCandidatureLauréate ? 'Attestation' : 'Avis de rejet'}
       </Button>
     )}
     {actions.prévisualiserAttestation && (
@@ -328,11 +332,11 @@ const mapToActionComponents = ({
           ),
           target: '_blank',
         }}
-        title={`Prévisualiser l'attestation de désignation`}
-        aria-label={`Prévisualiser l'attestation de désignation`}
+        title={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"}`}
+        aria-label={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
         priority="secondary"
       >
-        Prévisualiser Attestation
+        Prévisualiser {estUneCandidatureLauréate ? "l'attestation" : "l'avis de rejet"}
       </Button>
     )}
   </ActionsList>
