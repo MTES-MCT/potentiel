@@ -29,7 +29,7 @@ export class TâcheWorld {
       )
       .with(
         "transmettre l'attestation de constitution",
-        () => Lauréat.Tâche.TypeTâche.garantiesFinancièresDemander,
+        () => Lauréat.Tâche.TypeTâche.garantiesFinancièresAttestationTransmettre,
       )
       .with(
         'mettre à jour le gestionnaire de réseau',

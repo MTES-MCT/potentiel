@@ -18,7 +18,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              | CRE4 - ZNI               |                 |                      |
             | exemption                 | PPE2 - Petit PV Bâtiment |                 | 2024-12-01           |
 
-    Scénario: Si des GF avec date d'échéance déjà passée sont importées avec la candidature, le projet doit avoir des GF en attente avec comme motif "échéance-garanties-financières-actuelles"
+    Scénario: Le projet doit avoir des GF en attente avec comme motif "échéance-garanties-financières-actuelles" si des garanties financière avec date d'échéance passée sont importées avec la candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
@@ -29,6 +29,14 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | motif | échéance-garanties-financières-actuelles |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
         Et une tâche indiquant de "transmettre les garanties financières" est consultable dans la liste des tâches du porteur pour le projet
+
+    Scénario: Une tâche du type "transmettre l'attestation de constitution" est planifiée quand des garanties financières non constituées sont importées
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Bâtiment           |
+            | type GF        | six-mois-après-achèvement |
+        Quand le DGEC validateur notifie la candidature lauréate
+        Alors les garanties financières actuelles devraient être consultables
+        Et une tâche indiquant de "transmettre l'attestation de constitution" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :

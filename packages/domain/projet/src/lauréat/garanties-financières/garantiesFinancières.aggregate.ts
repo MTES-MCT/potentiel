@@ -616,9 +616,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.#statutMainlevée?.estDemandé()) {
       throw new DemandeMainlevéeDemandéeError();
     }
+
     if (this.#statutMainlevée?.estEnInstruction()) {
       throw new DemandeMainlevéeEnInstructionError();
     }
+
     if (this.estLevé) {
       throw new GarantiesFinancièresDéjàLevéesError();
     }
@@ -729,6 +731,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
     await this.échoirOuPlanifierÉchéance(validéLe);
   }
 
