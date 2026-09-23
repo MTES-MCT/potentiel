@@ -335,8 +335,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         },
       };
 
-      // TODO: viovio, ajouter tâche attestation de constitution?
       await this.publish(eventTypeGFImporté);
+
+      await this.#tâcheTransmettreAttestationConstitution.ajouter();
     }
 
     await this.échoirOuPlanifierÉchéance(importéLe);
