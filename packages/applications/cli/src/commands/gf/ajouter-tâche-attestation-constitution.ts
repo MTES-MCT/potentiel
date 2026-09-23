@@ -51,10 +51,13 @@ AND value->>'actuelles.constitution.attestation.format' IS NULL
           },
         };
 
-        await publish(`tâche|${identifiantProjet}`, {
-          ...event,
-          created_at: DateTime.now().formatter(),
-        });
+        await publish(
+          `tâche|${Lauréat.Tâche.TypeTâche.garantiesFinancièresAttestationTransmettre.type}#${identifiantProjet}`,
+          {
+            ...event,
+            created_at: DateTime.now().formatter(),
+          },
+        );
 
         stats.succès += 1;
       }
