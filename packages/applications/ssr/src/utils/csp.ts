@@ -22,7 +22,12 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
     ],
     'media-src  ': ["'self'", 'https://*.crisp.chat'],
     'font-src': ["'self'", 'https://*.crisp.chat'],
-    'frame-src': ['https://metabase.potentiel.beta.gouv.fr', 'https://*.crisp.chat', 'blob:'],
+    'frame-src': [
+      'https://metabase.potentiel.beta.gouv.fr',
+      'https://*.crisp.chat',
+      'blob:',
+      'https://www.openstreetmap.org',
+    ],
     'img-src': ["'self'", 'data:', 'https://*.crisp.chat'],
     'style-src': ["'self'", "'unsafe-inline'", 'data:', 'https://*.crisp.chat'],
     'script-src': [

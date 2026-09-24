@@ -3,8 +3,8 @@ import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { TitreChamp } from '@/components/atoms/section/TitreChamp';
+import { OpenStreetMapPreview } from '../../_helpers/OpenStreetMapPreview';
 
 export type CandidatDétailsProps = {
   localité: ChampObligatoireAvecAction<PlainType<Lauréat.ConsulterLauréatReadModel['localité']>>;
@@ -15,6 +15,10 @@ export type CandidatDétailsProps = {
 export const CandidatDétails = ({ localité, emailContact, coordonnées }: CandidatDétailsProps) => (
   <>
     <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1">
+        <TitreChamp>Adresse email de candidature</TitreChamp>
+        <span>{emailContact}</span>
+      </div>
       <TitreChamp>Site de Production</TitreChamp>
       <span>{localité.value.adresse1}</span>
       {localité.value.adresse2 && <span>{localité.value.adresse2}</span>}
@@ -25,28 +29,25 @@ export const CandidatDétails = ({ localité, emailContact, coordonnées }: Cand
         {localité.value.département} {localité.value.région}
       </span>
       {coordonnées ? (
-        <span title="Coordonnées géodésiques">
+        <div title="Coordonnées géodésiques">
           {Candidature.Coordonnées.bind(coordonnées).formatter()}
-          <Link
+          <OpenStreetMapPreview latitude={coordonnées.latitude} longitude={coordonnées.longitude} />
+          <TertiaryLink
             href={`https://www.openstreetmap.org/?mlat=${coordonnées.latitude}&mlon=${coordonnées.longitude}`}
-            aria-label="Ouvrir la carte dans un nouvel onglet"
-            title="Ouvrir la carte"
+            aria-label="Ouvrir la carte OpenStreetMap dans un nouvel onglet"
             target="_blank"
-            className="no-underline bg-none ml-2"
+            // className="no-underline bg-none ml-2"
             rel="noopener noreferrer"
-          />
-        </span>
+          >
+            Ouvrir dans OpenStreetMap
+          </TertiaryLink>
+        </div>
       ) : (
         <span className="italic">Coordonnées géodésiques non renseignées</span>
       )}
       {localité.action && (
         <TertiaryLink href={localité.action.url}>{localité.action.label}</TertiaryLink>
       )}
-    </div>
-
-    <div className="flex flex-col gap-1">
-      <TitreChamp>Adresse email de candidature</TitreChamp>
-      <span>{emailContact}</span>
     </div>
   </>
 );
