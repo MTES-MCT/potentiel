@@ -25,12 +25,17 @@ export class AjouterTâcheAttestationConstitution extends Command {
       const projetsAvecAttestationDeConstitutionManquante = await executeSelect<{
         identifiantProjet: IdentifiantProjet.RawType;
       }>(`
-SELECT 
-value->>'identifiantProjet' as "identifiantProjet" 
-FROM domain_views.projection
-WHERE key like 'garanties-financieres%'
-AND value->>'actuelles.type' IS NOT NULL
-AND value->>'actuelles.constitution.attestation.format' IS NULL
+SELECT gf.value->>'identifiantProjet' as "identifiantProjet"
+FROM domain_views.projection gf
+JOIN domain_views.projection laur
+on laur.key = format('lauréat|%s', gf.value->>'identifiantProjet')
+LEFT JOIN domain_views.projection main
+ON main.key = format('mainlevee-garanties-financieres|%s', gf.value->>'identifiantProjet')
+WHERE gf.key LIKE 'garanties-financieres%'
+  AND gf.value->>'actuelles.type' IS NOT NULL
+  AND gf.value->>'actuelles.constitution.attestation.format' IS NULL
+  AND main.key IS NULL
+  AND laur.value->>'statut' <> 'abandonné'
     `);
 
       await executeSelect(

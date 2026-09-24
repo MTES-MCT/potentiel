@@ -194,8 +194,8 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
-    await this.lauréat.garantiesFinancières.annulerTâchePorteurDemanderGarantiesFinancières();
+    await this.lauréat.garantiesFinancières.annulerTâchesEtTâchesPlanifiées();
+
     await this.annulerTâchesPlanifiéesRappelsÉchéance();
     await this.lauréat.modifierStatut({
       modifiéLe: date,
@@ -351,8 +351,9 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
 
     await this.annulerTâchesPlanifiéesRappelsÉchéance();
-    await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
-    await this.lauréat.garantiesFinancières.annulerTâchePorteurDemanderGarantiesFinancières();
+
+    await this.lauréat.garantiesFinancières.annulerTâchesEtTâchesPlanifiées();
+
     await this.lauréat.modifierStatut({
       modifiéLe: transmiseLe,
       statut: Lauréat.StatutLauréat.achevé,

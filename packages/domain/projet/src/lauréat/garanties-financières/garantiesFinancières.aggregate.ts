@@ -6,9 +6,9 @@ import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 import type { TypeGarantiesFinancières } from '../../candidature/index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
-import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { DemanderOptions } from './actuelles/demander/demanderGarantiesFinancières.options.js';
 import type { EffacerHistoriqueOptions } from './actuelles/effacer/efffacerHistoriqueGarantiesFinancières.js';
 import type { EnregistrerOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options.js';
@@ -300,6 +300,15 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async annulerTâchePorteurDemanderGarantiesFinancières() {
     await this.#tâcheDemanderGarantiesFinancières.achever();
   }
+  async annulerTâchePorteurTransmettreAttestationConstitution() {
+    await this.#tâcheTransmettreAttestationConstitution.achever();
+  }
+
+  async annulerTâchesEtTâchesPlanifiées() {
+    await this.annulerTâchesPlanififées();
+    await this.annulerTâchePorteurDemanderGarantiesFinancières();
+    await this.annulerTâchePorteurTransmettreAttestationConstitution();
+  }
 
   //#endregion Utilitaires
 
@@ -463,7 +472,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.#tâcheTransmettreAttestationConstitution.achever();
+    await this.annulerTâchePorteurTransmettreAttestationConstitution();
   }
 
   private applyAttestationGarantiesFinancièresEnregistréeV1({

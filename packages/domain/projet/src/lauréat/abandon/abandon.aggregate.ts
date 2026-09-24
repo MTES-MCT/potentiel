@@ -181,8 +181,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       await this.lauréat.raccordement.supprimerRaccordement('abandon');
     }
 
-    await this.lauréat.garantiesFinancières.annulerTâchePorteurDemanderGarantiesFinancières();
-    await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
+    await this.lauréat.garantiesFinancières.annulerTâchesEtTâchesPlanifiées();
     await this.lauréat.modifierStatut({
       modifiéLe: dateAccord,
       statut: Lauréat.StatutLauréat.abandonné,
