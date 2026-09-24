@@ -61,15 +61,15 @@ AND value->>'actuelles.constitution.attestation.format' IS NULL
 
         stats.succès += 1;
       }
-
-      await executeSelect(`
-        CREATE OR REPLACE RULE prevent_update_on_event_stream as on update to event_store.event_stream do instead
-        select event_store.throw_when_trying_to_update_event();
-      `);
     } catch (error) {
       console.error("Erreur lors de l'ajout de la tâche :", error);
       stats.erreurs += 1;
     }
+
+    await executeSelect(`
+        CREATE OR REPLACE RULE prevent_update_on_event_stream as on update to event_store.event_stream do instead
+        select event_store.throw_when_trying_to_update_event();
+      `);
 
     process.stdout.write('\n');
     console.log(stats);

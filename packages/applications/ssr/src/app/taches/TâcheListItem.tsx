@@ -128,7 +128,7 @@ export const getDescriptionTâche = (
         description: `L'attestation de constitution des garanties financières est manquante pour le projet ${nomProjet}`,
         lien: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(identifiant),
         action: `Transmettre l'attestation de constitution`,
-        ariaLabel: `Transmettre l'attestation de constitution pour le projet ${nomProjet}`,
+        ariaLabel: `Transmettre l'attestation de constitution des garanties financières pour le projet ${nomProjet}`,
       }))
       // Producteur
       .with('producteur.renseigner-numéro-identification', () => ({
