@@ -19,7 +19,6 @@ if ! gh auth status --hostname github.com --active &> /dev/null; then
   exit 1
 fi
 
-
 pr_number=$(gh pr view --json number --jq '.number')
 
 review_app_name=$(echo "${target_app}-pr${pr_number}")
