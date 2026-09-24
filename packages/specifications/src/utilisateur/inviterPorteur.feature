@@ -12,7 +12,6 @@ Fonctionnalité: Inviter un porteur sur un projet
             | sujet         | Invitation à suivre les projets sur Potentiel |
             | projetALister | Du boulodrome de Marseille                    |
             | url           | https://potentiel.beta.gouv.fr/laureats       |
-
         Exemples:
             | Statut  |
             | lauréat |
