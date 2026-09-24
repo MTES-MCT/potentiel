@@ -306,6 +306,8 @@ WHERE
           );
 
           // Supprimer les événements d'où sont extraits les données
+          // faire un remplacement de type et payload de l'event
+          // Type Modifié
           for (const eventToDelete of data[0].eventstodelete.filter((e) => !!e)) {
             await executeQuery(
               `DELETE FROM event_store.event_stream
