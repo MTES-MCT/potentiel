@@ -9,10 +9,11 @@ import type { IdentifiantProjet } from '../../index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { ChangementImpossibleCarProjetAchevéError } from '../lauréat.error.js';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
-import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
+import type { ModifierTypeDocumentOptions } from './document/modifier-type/modifierTypeDocumentRaccordement.options.js';
 import type { ModifierDocumentOptions } from './document/modifier/modifierDocumentRaccordement.options.js';
 import type { SupprimerDocumentOptions } from './document/supprimer/supprimerDocumentRaccordement.options.js';
 import type { TransmettreDocumentOptions } from './document/transmettre/transmettreDocumentRaccordement.options.js';
@@ -74,6 +75,7 @@ import type {
   RaccordementSuppriméEvent,
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
+  TypeDocumentRaccordementModifiéEventV1,
 } from './raccordement.event.js';
 import type { SupprimerDateMiseEnServiceOptions } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.options.js';
 import type { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options.js';
@@ -191,6 +193,27 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   private récupérerArrayDocumentsDossier(
+    référence: RéférenceDossierRaccordement.RawType,
+  ): TypeDocumentsRaccordement.RawType[] {
+    const dossier = this.récupérerDossier(référence);
+
+    const documentsDossier: TypeDocumentsRaccordement.RawType[] = [];
+
+    if (dossier.propositionTechniqueEtFinancière) {
+      documentsDossier.push(TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type);
+    }
+    if (dossier.conventionDeRaccordement) {
+      documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordement.type);
+    }
+    if (dossier.conventionDeRaccordementDirecte) {
+      documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type);
+    }
+    return documentsDossier;
+  }
+
+  private vérifierChangementType(
+    ancienType: TypeDocumentsRaccordement.RawType,
+    nouveauType: TypeDocumentsRaccordement.RawType,
     référence: RéférenceDossierRaccordement.RawType,
   ): TypeDocumentsRaccordement.RawType[] {
     const dossier = this.récupérerDossier(référence);
@@ -803,6 +826,46 @@ export class RaccordementAggregate extends AbstractAggregate<
           format: formatDocumentRaccordement,
         },
         type: type.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async modifierTypeDocumentRaccordement({
+    référenceDossierRaccordement,
+    modifiéLe,
+    modifiéPar,
+    ancienType,
+    nouveauType,
+  }: ModifierTypeDocumentOptions) {
+    this.vérifierStatutDuLauréat();
+
+    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
+
+    const document = ancienType.estPropositionTechniqueEtFinancière()
+      ? dossier.propositionTechniqueEtFinancière
+      : ancienType.estConventionDeRaccordement()
+        ? dossier.conventionDeRaccordement
+        : dossier.conventionDeRaccordementDirecte;
+
+    if (!document) {
+      throw new DocumentRaccordementNonExistantError();
+    }
+
+    if (ancienType.estÉgaleÀ(nouveauType)) {
+      throw new AucuneModificationApportéeError();
+    }
+
+    const event: TypeDocumentRaccordementModifiéEventV1 = {
+      type: 'TypeDocumentRaccordementModifié-V1',
+      payload: {
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        ancienType: ancienType.formatter(),
+        nouveauType: nouveauType.formatter(),
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
       },

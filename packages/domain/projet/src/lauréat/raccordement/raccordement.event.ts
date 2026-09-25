@@ -320,6 +320,18 @@ export type DocumentRaccordementModifiéEventV1 = DomainEvent<
   }
 >;
 
+export type TypeDocumentRaccordementModifiéEventV1 = DomainEvent<
+  'TypeDocumentRaccordementModifié-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    ancienType: TypeDocumentsRaccordement.RawType;
+    nouveauType: TypeDocumentsRaccordement.RawType;
+    modifiéLe: DateTime.RawType;
+    modifiéPar: Email.RawType;
+  }
+>;
+
 export type DocumentRaccordementSuppriméEventV1 = DomainEvent<
   'DocumentRaccordementSupprimé-V1',
   {
