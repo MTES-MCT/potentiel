@@ -2,7 +2,7 @@ import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { PlainType } from '@potentiel-domain/core';
 
 export type ValueType = Readonly<{
-  évaluationCarboneInitiale: number;
+  évaluationCarboneInitiale?: number;
   nouvelleÉvaluationCarbone: number;
   technologie: AppelOffre.Technologie;
 
@@ -29,7 +29,7 @@ export const bind = ({
     nouvelleÉvaluationCarbone,
     technologie,
     estDégradée() {
-      if (technologie !== 'pv') {
+      if (technologie !== 'pv' || !this.évaluationCarboneInitiale) {
         return false;
       }
       const multipleArrondi = 50;

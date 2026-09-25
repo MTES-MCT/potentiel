@@ -23,7 +23,7 @@ export type ProjectListItemProps = {
     unité: PlainType<Candidature.UnitéPuissance.ValueType>;
   };
   prixReference: number;
-  evaluationCarboneSimplifiée: number;
+  evaluationCarboneSimplifiée?: number;
   typeActionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
   statutBadge?: React.ReactNode;
   actions?: React.ReactNode;

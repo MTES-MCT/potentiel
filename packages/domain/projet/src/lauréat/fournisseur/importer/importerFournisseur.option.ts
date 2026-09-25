@@ -4,7 +4,7 @@ import type { Fournisseur } from '../index.js';
 
 export type ImporterOptions = {
   identifiantUtilisateur: Email.ValueType;
-  évaluationCarboneSimplifiée: number;
+  évaluationCarboneSimplifiée?: number;
   fournisseurs: Array<Fournisseur.ValueType>;
   importéLe: DateTime.ValueType;
 };

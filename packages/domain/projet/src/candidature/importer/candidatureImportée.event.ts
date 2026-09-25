@@ -41,7 +41,7 @@ type CandidatureImportéeEventPayload = {
   puissanceALaPointe: boolean;
   puissanceDuProjetInitial?: number;
   volumeRéservé?: boolean;
-  evaluationCarboneSimplifiée: number;
+  evaluationCarboneSimplifiée?: number;
   technologie: TypeTechnologie.RawType;
   actionnariat?: TypeActionnariat.RawType;
   dateÉchéanceGf?: DateTime.RawType;
@@ -56,6 +56,7 @@ type CandidatureImportéeEventPayload = {
   natureDeLExploitation?: {
     typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
     tauxPrévisionnelACI?: number;
+    tauxPrévisionnelACC?: number;
   };
   puissanceDeSite?: number;
   importéLe: DateTime.RawType;

@@ -31,7 +31,7 @@ export type RawType = {
   puissanceDeSite: number | undefined;
   puissanceDuProjetInitial: number | undefined;
   coefficientKChoisi: boolean | undefined;
-  evaluationCarboneSimplifiée: number;
+  evaluationCarboneSimplifiée: number | undefined;
   technologie: TypeTechnologie.RawType;
   actionnariat: TypeActionnariat.RawType | undefined;
   typeGarantiesFinancières: TypeGarantiesFinancières.RawType | undefined;
@@ -71,7 +71,7 @@ export type ValueType = ReadonlyValueType<{
   puissanceDeSite: number | undefined;
   puissanceDuProjetInitial: number | undefined;
   coefficientKChoisi: boolean | undefined;
-  evaluationCarboneSimplifiée: number;
+  evaluationCarboneSimplifiée: number | undefined;
   technologie: TypeTechnologie.ValueType;
   actionnariat: TypeActionnariat.ValueType | undefined;
   garantiesFinancières?: GarantiesFinancières.GarantiesFinancières.ValueType;

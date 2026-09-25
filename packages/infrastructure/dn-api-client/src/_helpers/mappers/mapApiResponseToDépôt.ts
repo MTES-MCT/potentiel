@@ -102,6 +102,7 @@ export const mapApiResponseToDépôt = ({
   });
 
   const nomProjet = accessor.getStringValue('nomProjet');
+  const evaluationCarboneSimplifiée = accessor.getNumberValue('evaluationCarboneSimplifiée');
 
   return {
     //  1. Renseignements administratifs
@@ -120,7 +121,10 @@ export const mapApiResponseToDépôt = ({
     puissanceDeSite: accessor.getNumberValue('puissanceDeSite'),
     puissanceDuProjetInitial: accessor.getNumberValue('puissanceDuProjetInitial'),
     prixReference: accessor.getNumberValue('prixReference'),
-    evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
+    evaluationCarboneSimplifiée:
+      evaluationCarboneSimplifiée !== undefined && evaluationCarboneSimplifiée > 0
+        ? evaluationCarboneSimplifiée
+        : undefined,
 
     typeGarantiesFinancières:
       typeGarantiesFinancières === 'garantie-bancaire'

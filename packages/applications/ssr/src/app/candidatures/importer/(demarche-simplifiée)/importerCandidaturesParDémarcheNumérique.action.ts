@@ -175,6 +175,7 @@ const action: FormAction<FormState, typeof schema> = async (
             attestationConstitutionGf: undefined,
             raccordements: undefined,
             coordonnées: undefined,
+            evaluationCarboneSimplifiée: undefined,
             ...dépôt,
             puissance: détailAppelOffres.puissanceInitialeCandidatureEnKWc
               ? convertirKWcEnMWc(dépôt.puissance)

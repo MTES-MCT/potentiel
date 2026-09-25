@@ -51,7 +51,9 @@ const Laureat = (project: AttestationCRE4Options) => {
         {appelOffre.tarifOuPrimeRetenue} en application des dispositions du point{' '}
         {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
         {formatNumber(project.prixReference)} €/MWh.
-        {appelOffre.afficherValeurEvaluationCarbone && project.evaluationCarbone > 0
+        {appelOffre.afficherValeurEvaluationCarbone &&
+        project.evaluationCarbone &&
+        project.evaluationCarbone > 0
           ? ' La valeur de l’évaluation carbone des modules est de ' +
             formatNumber(project.evaluationCarbone) +
             ' kg eq CO2/kWc. '
