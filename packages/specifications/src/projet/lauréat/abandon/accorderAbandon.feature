@@ -74,6 +74,7 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la dgec accorde la demande d'abandon pour le projet lauréat
         Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "transmettre l'attestation de constitution" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
 
     Scénario: Le raccordement d'un projet n'est plus consultable en cas d'abandon accordé

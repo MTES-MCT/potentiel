@@ -9,6 +9,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
     Scénario: Un porteur enregistre l'attestation des garanties financières actuelles
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat
         Alors les garanties financières actuelles devraient être consultables
+        Et une tâche indiquant de "transmettre l'attestation de constitution" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Du boulodrome de Lyon - Attestation de constitution des garanties financières enregistrée |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                      |

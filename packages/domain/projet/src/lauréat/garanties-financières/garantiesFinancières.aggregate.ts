@@ -113,6 +113,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   // Tâches porteur
   #tâcheDemanderGarantiesFinancières!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettreAttestationConstitution!: AggregateType<TâcheAggregate>;
 
   #motifDemande: MotifDemandeGarantiesFinancières.ValueType | undefined;
   #dateLimiteSoumission: DateTime.ValueType | undefined;
@@ -136,6 +137,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     this.#tâcheDemanderGarantiesFinancières = await this.lauréat.loadTâche(
       TypeTâche.garantiesFinancièresDemander.type,
+    );
+    this.#tâcheTransmettreAttestationConstitution = await this.lauréat.loadTâche(
+      TypeTâche.garantiesFinancièresAttestationTransmettre.type,
     );
   }
 
@@ -296,6 +300,15 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async annulerTâchePorteurDemanderGarantiesFinancières() {
     await this.#tâcheDemanderGarantiesFinancières.achever();
   }
+  async annulerTâchePorteurTransmettreAttestationConstitution() {
+    await this.#tâcheTransmettreAttestationConstitution.achever();
+  }
+
+  async annulerTâchesEtTâchesPlanifiées() {
+    await this.annulerTâchesPlanififées();
+    await this.annulerTâchePorteurDemanderGarantiesFinancières();
+    await this.annulerTâchePorteurTransmettreAttestationConstitution();
+  }
 
   //#endregion Utilitaires
 
@@ -327,7 +340,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
           ...garantiesFinancières.formatter(),
         },
       };
+
       await this.publish(eventTypeGFImporté);
+
+      await this.#tâcheTransmettreAttestationConstitution.ajouter();
     }
 
     await this.échoirOuPlanifierÉchéance(importéLe);
@@ -455,6 +471,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.annulerTâchePorteurTransmettreAttestationConstitution();
   }
 
   private applyAttestationGarantiesFinancièresEnregistréeV1({
@@ -604,9 +622,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.#statutMainlevée?.estDemandé()) {
       throw new DemandeMainlevéeDemandéeError();
     }
+
     if (this.#statutMainlevée?.estEnInstruction()) {
       throw new DemandeMainlevéeEnInstructionError();
     }
+
     if (this.estLevé) {
       throw new GarantiesFinancièresDéjàLevéesError();
     }
@@ -717,6 +737,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
     await this.échoirOuPlanifierÉchéance(validéLe);
   }
 
