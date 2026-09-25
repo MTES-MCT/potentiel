@@ -10,8 +10,8 @@ import { Fournisseur, type FournisseurEntity } from '../index.js';
 
 export type ConsulterFournisseurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  évaluationCarboneSimplifiée: number;
-  évaluationCarboneSimplifiéeInitiale: number;
+  évaluationCarboneSimplifiée?: number;
+  évaluationCarboneSimplifiéeInitiale?: number;
   fournisseurs: Array<Fournisseur.ValueType>;
   technologie: AppelOffre.Technologie;
 };

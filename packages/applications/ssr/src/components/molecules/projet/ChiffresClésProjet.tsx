@@ -7,7 +7,7 @@ import type { SymbolProps } from '../ListLegend';
 import * as symbols from './liste/ProjectListLegendAndSymbols';
 
 type ChiffreCléProps = {
-  valeur: number;
+  valeur?: number;
   unité: string;
   symbol: SymbolProps;
 };
@@ -37,7 +37,7 @@ type ChiffresClésProjetProps = {
     unité: Candidature.UnitéPuissance.RawType;
   };
   prixRéférence: number;
-  évaluationCarboneSimplifiée: number;
+  évaluationCarboneSimplifiée?: number;
 };
 
 export const ChiffresClésProjet = ({

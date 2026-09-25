@@ -39,7 +39,9 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
           {appelOffre.tarifOuPrimeRetenue} en application des dispositions du point{' '}
           {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
           {formatNumber(project.prixReference)} €/MWh.
-          {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
+          {appelOffre.affichageParagrapheECS &&
+          project.evaluationCarbone &&
+          project.evaluationCarbone > 0
             ? ' La valeur de l’évaluation carbone des modules est de ' +
               formatNumber(project.evaluationCarbone) +
               ' kg eq CO2/kWc. '

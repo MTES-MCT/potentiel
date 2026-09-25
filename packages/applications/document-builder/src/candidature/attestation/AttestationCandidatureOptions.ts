@@ -6,7 +6,7 @@ export type Common = {
   famille: AppelOffre.Famille | undefined;
   isClasse: boolean;
   prixReference: number;
-  evaluationCarbone: number;
+  evaluationCarbone: number | undefined;
 
   engagementFournitureDePuissanceAlaPointe: boolean;
   motifsElimination: string;
