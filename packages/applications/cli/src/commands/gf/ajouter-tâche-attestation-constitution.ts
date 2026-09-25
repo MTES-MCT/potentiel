@@ -38,10 +38,6 @@ WHERE gf.key LIKE 'garanties-financieres%'
   AND laur.value->>'statut' <> 'abandonné'
     `);
 
-      await executeSelect(
-        `DROP RULE IF EXISTS prevent_update_on_event_stream on event_store.event_stream;`,
-      );
-
       stats.total = projetsAvecAttestationDeConstitutionManquante.length;
 
       process.stdout.write(`\r⏳ ${stats.total} projets à traiter`);
@@ -70,11 +66,6 @@ WHERE gf.key LIKE 'garanties-financieres%'
       console.error("Erreur lors de l'ajout de la tâche :", error);
       stats.erreurs += 1;
     }
-
-    await executeSelect(`
-        CREATE OR REPLACE RULE prevent_update_on_event_stream as on update to event_store.event_stream do instead
-        select event_store.throw_when_trying_to_update_event();
-      `);
 
     process.stdout.write('\n');
     console.log(stats);
