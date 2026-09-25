@@ -18,6 +18,16 @@ Fonctionnalité: Inviter un porteur sur un projet
             | lauréat |
             | éliminé |
 
+
+    Scénario: Le mail d'invitation liste le projet après un retrait d'accès puis un ré-ajout
+        Etant donné le projet lauréat "Du parc bordelais"
+        Et un porteur invité sur le projet lauréat "Du parc bordelais"
+        Quand la dgec retire l'accès de l'utilisateur au projet lauréat
+        Et le porteur invite un autre porteur sur le projet lauréat
+        Alors un email a été envoyé au nouveau porteur avec :
+            | projetALister | Du parc bordelais |
+
+
     Scénario: Un porteur n'a pas accès à un projet auquel il n'est pas invité
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le projet lauréat "Du boulodrome de Tourcoing"

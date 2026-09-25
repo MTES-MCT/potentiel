@@ -36,14 +36,9 @@ import type { UtilisateurEvent } from './utilisateur.event.js';
 export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'utilisateur'> {
   #actif = false;
   #utilisateur: Utilisateur.ValueType | undefined = undefined;
-  #projets: Set<string> = new Set();
 
   get identifiantUtilisateur() {
     return Email.convertirEnValueType(this.aggregateId.split('|')[1]);
-  }
-
-  private aAccèsAuProjet(identifiantProjet: string) {
-    return this.#projets.has(identifiantProjet);
   }
 
   async inviter({ invitéLe, invitéPar, utilisateur }: InviterOptions) {
@@ -77,9 +72,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     const event: PorteurInvitéEvent = {
       type: 'PorteurInvité-V1',
       payload: {
-        identifiantsProjet: identifiantsProjet.filter(
-          (identifiantProjet) => !this.aAccèsAuProjet(identifiantProjet),
-        ),
+        identifiantsProjet,
         identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
         invitéLe: invitéLe.formatter(),
         invitéPar: invitéPar.formatter(),
@@ -193,15 +186,12 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     });
   }
 
-  applyPorteurInvité({ payload: { identifiantsProjet } }: PorteurInvitéEvent) {
+  applyPorteurInvité(_: PorteurInvitéEvent) {
     this.#actif = true;
     this.#utilisateur = Utilisateur.convertirEnValueType({
       identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
       rôle: Role.porteur.nom,
     });
-    for (const identifiantProjet of identifiantsProjet) {
-      this.#projets.add(identifiantProjet);
-    }
   }
 
   applyRôleUtilisateurModifié({ payload }: RôleUtilisateurModifiéEvent) {

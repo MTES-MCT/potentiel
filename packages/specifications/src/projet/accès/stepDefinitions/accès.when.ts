@@ -139,13 +139,40 @@ Quand(
   },
 );
 
+type AjouterAccèsProjetProps = {
+  identifiantProjet: string;
+  identifiantUtilisateur: string;
+  ajoutéPar?: string;
+  raison: Accès.AutoriserAccèsProjetUseCase['data']['raison'];
+};
+export async function ajouterAccèsProjet(
+  this: PotentielWorld,
+  { identifiantProjet, identifiantUtilisateur, ajoutéPar, raison }: AjouterAccèsProjetProps,
+) {
+  try {
+    await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        autoriséLeValue: DateTime.now().formatter(),
+        autoriséParValue: ajoutéPar ?? this.utilisateurWorld.dgecFixture.email,
+        raison,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+type RetirerAccèsProjetProps = {
+  identifiantProjet: string;
+  identifiantUtilisateur: string;
+  retiréPar?: string;
+};
 export async function retirerAccèsProjet(
   this: PotentielWorld,
-  {
-    identifiantProjet,
-    identifiantUtilisateur,
-    retiréPar,
-  }: { identifiantProjet: string; identifiantUtilisateur: string; retiréPar?: string },
+  { identifiantProjet, identifiantUtilisateur, retiréPar }: RetirerAccèsProjetProps,
 ) {
   try {
     await mediator.send<Accès.RetirerAccèsProjetUseCase>({
