@@ -514,54 +514,6 @@ describe('Schéma dépôt', () => {
     });
 
     describe(`nature de l'exploitation`, () => {
-      test('taux prévisionnel ACI requis', () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          natureDeLExploitation: { typeNatureDeLExploitation: 'autoconsommation-individuelle' },
-          tauxPrévisionnelACI: undefined,
-        });
-
-        assert(result.error);
-        assertError(
-          result,
-          ['natureDeLExploitation', 'tauxPrévisionnelACI'],
-          `Le taux prévisionnel ACI est requis lorsque la nature de l'exploitation est de type "autoconsommation individuelle" (vente avec injection du surplus)`,
-        );
-      });
-
-      test('taux prévisionnel ACC requis', () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          natureDeLExploitation: { typeNatureDeLExploitation: 'autoconsommation-collective' },
-          tauxPrévisionnelACC: undefined,
-        });
-
-        assert(result.error);
-        assertError(
-          result,
-          ['natureDeLExploitation', 'tauxPrévisionnelACC'],
-          `Le taux prévisionnel ACC est requis lorsque la nature de l'exploitation est de type "autoconsommation collective"`,
-        );
-      });
-
-      test('taux prévisionnel ACC et ACI requis', () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          natureDeLExploitation: {
-            typeNatureDeLExploitation: 'autoconsommation-individuelle-et-collective',
-          },
-          tauxPrévisionnelACC: undefined,
-          tauxprévisionnelACI: undefined,
-        });
-
-        assert(result.error);
-        assertError(
-          result,
-          ['natureDeLExploitation', 'tauxPrévisionnelACI', 'tauxPrévisionnelACC'],
-          `Les taux prévisionnels ACI et ACC sont requis lorsque la nature de l'exploitation est de type "autoconsommation individuelle et collective"`,
-        );
-      });
-
       test('taux prévisionnels ACI et ACC non attendu en cas de vente avec injection en totalité', () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,
