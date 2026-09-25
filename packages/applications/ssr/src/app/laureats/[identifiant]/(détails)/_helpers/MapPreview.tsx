@@ -1,15 +1,10 @@
-type OpenStreetMapPreviewProps = {
+type MapPreviewProps = {
   latitude: number;
   longitude: number;
-  zoom?: number;
 };
 
-export const OpenStreetMapPreview = ({
-  latitude,
-  longitude,
-  zoom = 15,
-}: OpenStreetMapPreviewProps) => {
-  const delta = 0.01;
+export const MapPreview = ({ latitude, longitude }: MapPreviewProps) => {
+  const delta = 0.05;
 
   const bbox = [longitude - delta, latitude - delta, longitude + delta, latitude + delta].join(
     '%2C',

@@ -3,7 +3,7 @@ import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import type { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { OpenStreetMapPreview } from '../../_helpers/OpenStreetMapPreview';
+import { MapPreview } from '../../_helpers/MapPreview';
 
 export type SiteDeProductionDétailsProps = {
   localité: ChampObligatoireAvecAction<PlainType<Lauréat.ConsulterLauréatReadModel['localité']>>;
@@ -28,7 +28,7 @@ export const SiteDeProductionDétails = ({
     {coordonnées ? (
       <div>
         Coordonnées : {Candidature.Coordonnées.bind(coordonnées).formatter()}
-        <OpenStreetMapPreview latitude={coordonnées.latitude} longitude={coordonnées.longitude} />
+        <MapPreview latitude={coordonnées.latitude} longitude={coordonnées.longitude} />
         <TertiaryLink
           href={`https://www.openstreetmap.org/?mlat=${coordonnées.latitude}&mlon=${coordonnées.longitude}`}
           aria-label="Ouvrir la carte OpenStreetMap dans un nouvel onglet"
@@ -42,7 +42,9 @@ export const SiteDeProductionDétails = ({
       <span className="italic">Coordonnées géodésiques non renseignées</span>
     )}
     {localité.action && (
-      <TertiaryLink href={localité.action.url}>{localité.action.label}</TertiaryLink>
+      <TertiaryLink className="mt-2" href={localité.action.url}>
+        {localité.action.label}
+      </TertiaryLink>
     )}
   </div>
 );
