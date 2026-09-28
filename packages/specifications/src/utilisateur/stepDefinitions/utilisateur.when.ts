@@ -229,15 +229,13 @@ Quand(
   },
 );
 
+type InviterPorteurProps = {
+  identifiantsProjet: string[];
+  identifiantUtilisateur: string;
+};
 export async function inviterPorteur(
   this: PotentielWorld,
-  {
-    identifiantsProjet,
-    identifiantUtilisateur,
-  }: {
-    identifiantsProjet: string[];
-    identifiantUtilisateur: string;
-  },
+  { identifiantsProjet, identifiantUtilisateur }: InviterPorteurProps,
 ) {
   try {
     await mediator.send<InviterPorteurUseCase>({
@@ -301,12 +299,10 @@ export async function inviterUtilisateur(this: PotentielWorld, props: InviterUti
   }
 }
 
+type DésactiverUtilisateurProps = { identifiantUtilisateur: string; désactivéPar?: string };
 export async function désactiverUtilisateur(
   this: PotentielWorld,
-  {
-    identifiantUtilisateur,
-    désactivéPar,
-  }: { identifiantUtilisateur: string; désactivéPar?: string },
+  { identifiantUtilisateur, désactivéPar }: DésactiverUtilisateurProps,
 ) {
   try {
     await mediator.send<DésactiverUtilisateurUseCase>({
@@ -322,9 +318,10 @@ export async function désactiverUtilisateur(
   }
 }
 
+type RéactiverUtilisateurProps = { identifiantUtilisateur: string };
 export async function réactiverUtilisateur(
   this: PotentielWorld,
-  { identifiantUtilisateur }: { identifiantUtilisateur: string },
+  { identifiantUtilisateur }: RéactiverUtilisateurProps,
 ) {
   try {
     await mediator.send<RéactiverUtilisateurUseCase>({

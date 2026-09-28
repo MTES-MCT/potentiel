@@ -1,4 +1,5 @@
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import type { getLauréatInfos } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
@@ -11,6 +12,7 @@ type GetHistoriqueTriéProps = {
   items: ReadonlyArray<Lauréat.HistoriqueListItemReadModels>;
   unitéPuissance: string;
   attestationDésignation: Awaited<ReturnType<typeof getLauréatInfos>>['attestationDésignation'];
+  rôleUtilisateur: Utilisateur.ValueType['rôle'];
 };
 
 /**
@@ -28,6 +30,7 @@ export const getHistoriqueTrié = ({
   items,
   unitéPuissance,
   attestationDésignation,
+  rôleUtilisateur,
 }: GetHistoriqueTriéProps): TimelineItemProps[] => {
   const doitAfficherLienAttestationDésignation =
     !aUnRecoursAccordé(items) && !!attestationDésignation;
@@ -42,6 +45,7 @@ export const getHistoriqueTrié = ({
         readmodel: item,
         unitéPuissance,
         doitAfficherLienAttestationDésignation,
+        rôleUtilisateur,
       }),
     )
     .filter((item) => item !== undefined);

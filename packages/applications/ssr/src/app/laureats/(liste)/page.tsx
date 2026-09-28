@@ -9,7 +9,6 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
-import { getFiltersFromSearch } from '@/app/_helpers/getFiltersFromSearch';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
@@ -45,20 +44,17 @@ export default async function Page(props: PageProps) {
       const { page, search, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
         paramsSchema.parse(searchParams);
 
-      const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
-
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({
         type: 'Lauréat.Query.ListerLauréat',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
-          nomProjet,
+          search,
           appelOffre,
           periode,
           famille,
           statut,
           typeActionnariat,
           estPartiEnPPA: PPA,
-          identifiantProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -131,7 +127,8 @@ export default async function Page(props: PageProps) {
       const actions: LauréatListPageProps['actions'] =
         utilisateur.rôle.aLaPermission('période.consulterSynthèse') &&
         appelOffre?.length === 1 &&
-        periode
+        periode &&
+        lauréats.total > 0
           ? [
               {
                 label: `Télécharger la synthèse des lauréats de la période`,

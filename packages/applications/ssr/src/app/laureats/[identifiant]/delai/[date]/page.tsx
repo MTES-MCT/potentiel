@@ -75,7 +75,12 @@ export default async function Page(props: PageProps) {
             demandeDélai,
             autoritéCompétente: règles.demande ? règles.autoritéCompétente : undefined,
           })}
-          historique={historique.items.map(mapToDélaiTimelineItemProps)}
+          historique={historique.items.map((item) =>
+            mapToDélaiTimelineItemProps(
+              item,
+              utilisateur.rôle.aLaPermission('délai.consulterDemande'),
+            ),
+          )}
         />
       );
     }),

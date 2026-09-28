@@ -51,6 +51,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
           attestation: attestation && Document.DocumentProjet.bind(attestation).formatter(),
           estNotifiée,
         })}
+        statutCandidature={statut.statut}
       />
     }
     statutBadge={

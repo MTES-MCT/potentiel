@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
@@ -25,44 +26,101 @@ type MapToTimelineItemProps = {
   readmodel: Lauréat.HistoriqueListItemReadModels;
   unitéPuissance: string;
   doitAfficherLienAttestationDésignation: boolean;
+  rôleUtilisateur: Utilisateur.ValueType['rôle'];
 };
 
 export const mapToTimelineItemProps = ({
   readmodel,
   unitéPuissance,
   doitAfficherLienAttestationDésignation,
+  rôleUtilisateur,
 }: MapToTimelineItemProps) => {
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
-    .with({ category: 'abandon' }, mapToAbandonTimelineItemProps)
-    .with({ category: 'recours' }, mapToRecoursTimelineItemProps)
-    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
-    .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
+    .with({ category: 'abandon' }, (readmodel) =>
+      mapToAbandonTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('abandon.consulter.demande'),
+      ),
+    )
+    .with({ category: 'recours' }, (readmodel) =>
+      mapToRecoursTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('recours.consulter.détail'),
+      ),
+    )
+    .with({ category: 'actionnaire' }, (readmodel) =>
+      mapToActionnaireTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('actionnaire.consulterChangement'),
+      ),
+    )
+    .with({ category: 'représentant-légal' }, (readmodel) =>
+      mapToReprésentantLégalTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('représentantLégal.consulterChangement'),
+      ),
+    )
     .with({ category: 'lauréat' }, (readmodel) =>
       mapToLauréatTimelineItemProps({
         readmodel,
         doitAfficherLienAttestationDésignation,
+        permissionConsulterChangementNom: rôleUtilisateur.aLaPermission(
+          'nomProjet.consulterChangement',
+        ),
       }),
     )
     .with({ category: 'éliminé' }, mapToÉliminéTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
-    .with({ category: 'producteur' }, mapToProducteurTimelineItemProps)
+    .with({ category: 'producteur' }, (readmodel) =>
+      mapToProducteurTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('producteur.consulterChangement'),
+      ),
+    )
     .with({ category: 'puissance' }, (readmodel) =>
       mapToPuissanceTimelineItemProps({
         event: readmodel,
         unitéPuissance,
+        permissionConsulterChangement: rôleUtilisateur.aLaPermission(
+          'puissance.consulterChangement',
+        ),
       }),
     )
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
-    .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
-    .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
-    .with({ category: 'installation' }, mapToInstallationTimelineItemProps)
+    .with({ category: 'délai' }, (readmodel) =>
+      mapToDélaiTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('délai.consulterDemande'),
+      ),
+    )
+    .with({ category: 'fournisseur' }, (readmodel) =>
+      mapToFournisseurTimelineItemProps(
+        readmodel,
+        rôleUtilisateur.aLaPermission('fournisseur.consulterChangement'),
+      ),
+    )
+    .with({ category: 'installation' }, (readmodel) =>
+      mapToInstallationTimelineItemProps({
+        readmodel,
+        permissionConsulterChangementDispositifDeStockage: rôleUtilisateur.aLaPermission(
+          'installation.dispositifDeStockage.consulterChangement',
+        ),
+        permissionConsulterChangementInstallateur: rôleUtilisateur.aLaPermission(
+          'installation.installateur.consulterChangement',
+        ),
+      }),
+    )
     .with(
       {
         category: 'nature-de-l-exploitation',
       },
-      mapToNatureDeLExploitationTimelineItemProps,
+      (readmodel) =>
+        mapToNatureDeLExploitationTimelineItemProps(
+          readmodel,
+          rôleUtilisateur.aLaPermission('natureDeLExploitation.consulterChangement'),
+        ),
     )
     .with({ category: 'power-purchase-agreement' }, mapToPowerPurchaseAgreementTimelineItemProps)
     .exhaustive(() => undefined);

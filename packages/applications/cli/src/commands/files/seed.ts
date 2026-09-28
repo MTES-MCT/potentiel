@@ -7,7 +7,7 @@ import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { appSchema, dbSchema, s3Schema } from '#helpers';
+import { appSchema, dbSchema, s3Schema, throwIfEnvProduction } from '#helpers';
 
 // Pour ces évènements, soit le document n'est pas pertinent, soit il s'agit d'un faux positif (ex: Raccordement)
 const eventsToIgnore = [
@@ -41,14 +41,13 @@ export class SeedFilesCommand extends Command {
   static flags = {
     force: Flags.boolean(),
   };
+
   async run() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
 
     const { flags } = await this.parse(SeedFilesCommand);
-    if (APPLICATION_STAGE === 'production') {
-      console.error('Cette commande ne doit pas être lancée en production');
-      process.exit(1);
-    }
+
+    throwIfEnvProduction(APPLICATION_STAGE);
 
     const events = await executeSelect<Event>(selectEventsWithFiles);
     const stats = {

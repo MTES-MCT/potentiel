@@ -24,22 +24,25 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
   small,
   download,
   hideFormat,
-}) => (
-  <div className={clsx(fr.cx('fr-download'), 'print:hidden', className)}>
-    <Link
-      className={clsx(fr.cx('fr-download__link'), { '!text-sm': small })}
-      href={url}
-      target="_blank"
-      aria-label={`${ariaLabel ?? label} nouvel onglet`}
-      download={download ?? (extension(format) || format).toLowerCase() !== 'pdf'}
-      prefetch={false}
-    >
-      {label}
-      {!hideFormat && format && (
-        <span className={fr.cx('fr-download__detail')}>
-          {(extension(format) || format).toUpperCase()}
-        </span>
-      )}
-    </Link>
-  </div>
-);
+}) => {
+  const realDownload = download ?? (extension(format) || format).toLowerCase() !== 'pdf';
+  return (
+    <div className={clsx(fr.cx('fr-download'), 'print:hidden', className)}>
+      <Link
+        className={clsx(fr.cx('fr-download__link'), { '!text-sm': small })}
+        href={url}
+        target="_blank"
+        aria-label={`${ariaLabel ?? label}${realDownload ? '' : ' dans un nouvel onglet'}`}
+        download={realDownload}
+        prefetch={false}
+      >
+        {label}
+        {!hideFormat && format && (
+          <span className={fr.cx('fr-download__detail')}>
+            {(extension(format) || format).toUpperCase()}
+          </span>
+        )}
+      </Link>
+    </div>
+  );
+};

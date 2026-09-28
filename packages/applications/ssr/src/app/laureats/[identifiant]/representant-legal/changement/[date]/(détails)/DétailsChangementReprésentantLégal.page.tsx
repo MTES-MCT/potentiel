@@ -49,7 +49,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
           statut={statut.statut}
           titre={
             statut.estInformationEnregistrée()
-              ? 'Changement de représendant légal'
+              ? 'Changement de représentant légal'
               : 'Demande de changement de représentant légal'
           }
         />

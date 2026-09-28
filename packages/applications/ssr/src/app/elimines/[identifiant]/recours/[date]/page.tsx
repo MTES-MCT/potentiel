@@ -57,7 +57,12 @@ export default async function Page(props: PageProps) {
             role: utilisateur.rôle.nom,
             statut: recours.statut.statut,
           })}
-          historique={historique.items.map(mapToRecoursTimelineItemProps)}
+          historique={historique.items.map((item) =>
+            mapToRecoursTimelineItemProps(
+              item,
+              utilisateur.rôle.aLaPermission('recours.consulter.détail'),
+            ),
+          )}
         />
       );
     }),

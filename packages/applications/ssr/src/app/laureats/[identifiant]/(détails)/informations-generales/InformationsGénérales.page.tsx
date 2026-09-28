@@ -7,6 +7,7 @@ import { CandidatSection } from './(sections)/Candidat.section';
 import { ContractualisationSection } from './(sections)/Contractualisation.section';
 import { ProducteurSection } from './(sections)/Producteur.section';
 import { ReprésentantLégalSection } from './(sections)/ReprésentantLégal.section';
+import { SiteDeProductionSection } from './(sections)/SiteDeProduction.section';
 
 type Props = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -19,10 +20,11 @@ export const InformationsGénéralesPage = ({ identifiantProjet }: Props) => (
         <CandidatSection identifiantProjet={identifiantProjet} />
         <ReprésentantLégalSection identifiantProjet={identifiantProjet} />
         <ProducteurSection identifiantProjet={identifiantProjet} />
+        <ActionnariatSection identifiantProjet={identifiantProjet} />
       </div>
       <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
+        <SiteDeProductionSection identifiantProjet={identifiantProjet} />
         <ContractualisationSection identifiantProjet={identifiantProjet} />
-        <ActionnariatSection identifiantProjet={identifiantProjet} />
         <NoteInnovationSection identifiantProjet={identifiantProjet} />
       </div>
     </div>

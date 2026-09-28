@@ -6,6 +6,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToRecoursDemandéTimelineItemProps = (
   event: Éliminé.Recours.RecoursDemandéEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     demandéLe,
@@ -28,10 +29,12 @@ export const mapToRecoursDemandéTimelineItemProps = (
       }),
       ariaLabel: `Télécharger le justificatif de la demande de recours en date du ${formatDateToText(demandéLe)}`,
     },
-    link: {
-      label: 'Détail de la demande',
-      ariaLabel: `Aller sur la page du détail du recours déposé le ${formatDateToText(demandéLe)}`,
-      url: Routes.Recours.détail(identifiantProjet, demandéLe),
-    },
+    link: permissionConsulterChangement
+      ? {
+          label: 'Détail de la demande',
+          ariaLabel: `Aller sur la page du détail du recours déposé le ${formatDateToText(demandéLe)}`,
+          url: Routes.Recours.détail(identifiantProjet, demandéLe),
+        }
+      : undefined,
   };
 };

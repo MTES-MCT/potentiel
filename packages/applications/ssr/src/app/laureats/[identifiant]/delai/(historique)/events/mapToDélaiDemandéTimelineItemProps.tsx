@@ -6,6 +6,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDélaiDemandéTimelineItemProps = (
   event: Lauréat.Délai.DélaiDemandéEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, nombreDeMois, raison } =
     event.payload;
@@ -18,11 +19,13 @@ export const mapToDélaiDemandéTimelineItemProps = (
       document: Lauréat.Délai.DocumentDélai.pièceJustificative(event.payload),
       ariaLabel: `Télécharger le justificatif de la demande de délai en date du ${formatDateToText(demandéLe)}`,
     },
-    link: {
-      url: Routes.Délai.détail(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de délai en date du ${formatDateToText(demandéLe)}`,
-      label: 'Détail de la demande',
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Délai.détail(identifiantProjet, demandéLe),
+          ariaLabel: `Voir le détail de la demande de délai en date du ${formatDateToText(demandéLe)}`,
+          label: 'Détail de la demande',
+        }
+      : undefined,
     details: (
       <div className="flex flex-col gap-2">
         <div>

@@ -5,6 +5,7 @@ import { Email } from '@potentiel-domain/common';
 import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { type CandidatureEntity, Localité } from '../../candidature/index.js';
+import { getFiltersFromSearch } from '../../getFiltersFromSearch.js';
 import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import type { ÉliminéEntity } from '../éliminé.entity.js';
 
@@ -38,9 +39,8 @@ export type ListerÉliminéQuery = Message<
     appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
-    nomProjet?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
-    identifiantProjet?: IdentifiantProjet.RawType;
+    search?: string;
   },
   ListerÉliminéReadModel
 >;
@@ -59,14 +59,16 @@ export const registerListerÉliminéQuery = ({
     appelOffre,
     periode,
     famille,
-    nomProjet,
+    search,
     range,
     typeActionnariat,
-    identifiantProjet,
   }) => {
+    const { identifiantProjet, nomProjet } = getFiltersFromSearch(search);
+
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
-      identifiantProjets: identifiantProjet && [identifiantProjet],
+      identifiantProjets: identifiantProjet,
     });
+
     const éliminés = await list<CandidatureEntity, [ÉliminéEntity, AppelOffre.AppelOffreEntity]>(
       'candidature',
       {

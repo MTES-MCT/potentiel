@@ -1,5 +1,6 @@
 import { Command } from '@oclif/core';
 import { mediator } from 'mediateur';
+import z from 'zod';
 
 import {
   type EnvoyerNotificationCommand,
@@ -22,7 +23,12 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { dbSchema } from '#helpers';
+import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
+
+const envSchema = z.object({
+  ...appSchema.shape,
+  ...dbSchema.shape,
+});
 
 export class NotifierGestionnaireRéseau extends Command {
   static monitoringSlug = 'notification-grd';
@@ -31,7 +37,9 @@ export class NotifierGestionnaireRéseau extends Command {
     'Envoyer un email de notification aux GRDs (sauf Enedis) ayant des dossiers de raccordement en attente de MES, pour les projets notifiés depuis 12 mois';
 
   async init() {
-    dbSchema.parse(process.env);
+    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+
+    throwIfEnvIsNotProduction(APPLICATION_STAGE);
 
     registerNotificationsCommands({ sendEmail });
     registerRéseauQueries({

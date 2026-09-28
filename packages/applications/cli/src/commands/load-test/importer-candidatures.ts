@@ -15,7 +15,7 @@ import { getDossier } from '@potentiel-infrastructure/dn-api-client';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Option } from '@potentiel-libraries/monads';
 
-import { appSchema, dbSchema, dsSchema } from '#helpers';
+import { appSchema, dbSchema, dsSchema, throwIfEnvProduction } from '#helpers';
 
 const envSchema = zod.object({
   ...appSchema.shape,
@@ -40,10 +40,9 @@ export class ImporterCandidatures extends Command {
 
   async init() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
-    if (APPLICATION_STAGE === 'production') {
-      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
-      this.exit(1);
-    }
+
+    throwIfEnvProduction(APPLICATION_STAGE);
+
     const { flags } = await this.parse(ImporterCandidatures);
 
     if (flags.skipDocuments) {

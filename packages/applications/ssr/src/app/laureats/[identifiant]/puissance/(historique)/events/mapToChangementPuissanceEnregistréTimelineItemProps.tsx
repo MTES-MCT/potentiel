@@ -7,6 +7,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 export const mapToChangementPuissanceEnregistréTimelineItemProps = (
   event: Lauréat.Puissance.ChangementPuissanceEnregistréEvent,
   unitéPuissance: string,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -17,6 +18,7 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
     puissanceDeSite,
     raison,
   } = event.payload;
+
   return {
     date: enregistréLe,
     title: 'Puissance modifiée',
@@ -48,10 +50,12 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: {
-      url: Routes.Puissance.changement.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement de puissance enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Puissance.changement.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement de puissance enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

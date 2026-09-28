@@ -7,6 +7,7 @@ import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésen
 
 export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
   event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalEnregistréEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -33,10 +34,12 @@ export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
         </div>
       </div>
     ),
-    link: {
-      url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement de représentant légal enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement de représentant légal enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

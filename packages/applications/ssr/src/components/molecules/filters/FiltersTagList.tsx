@@ -49,9 +49,11 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters, searchBarPara
         newSearchParams.delete(affected);
       }
     }
+
     const url = `${pathname}?${newSearchParams.toString()}`;
     return router.push(url);
   };
+
   const onDelete = () => {
     const newSearchParams = new URLSearchParams();
 

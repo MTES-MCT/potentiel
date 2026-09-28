@@ -6,6 +6,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementNomProjetEnregistréTimelineItemProps = (
   event: Lauréat.ChangementNomProjetEnregistréEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     nomProjet,
@@ -40,10 +41,12 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: {
-      url: Routes.Lauréat.changement.nomProjet.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement de nom du projet enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Lauréat.changement.nomProjet.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement de nom du projet enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

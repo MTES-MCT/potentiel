@@ -7,6 +7,7 @@ import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   event: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent,
+  permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const {
     enregistréLe,
@@ -17,6 +18,7 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
     fournisseurs,
     raison,
   } = event.payload;
+
   return {
     date: enregistréLe,
     title: 'Fournisseur modifié',
@@ -50,10 +52,12 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
-    link: {
-      url: Routes.Fournisseur.changement.détails(identifiantProjet, enregistréLe),
-      label: 'Détail du changement',
-      ariaLabel: `Voir le détail du changement de fournisseur enregistré le ${formatDateToText(enregistréLe)}`,
-    },
+    link: permissionConsulterChangement
+      ? {
+          url: Routes.Fournisseur.changement.détails(identifiantProjet, enregistréLe),
+          label: 'Détail du changement',
+          ariaLabel: `Voir le détail du changement de fournisseur enregistré le ${formatDateToText(enregistréLe)}`,
+        }
+      : undefined,
   };
 };

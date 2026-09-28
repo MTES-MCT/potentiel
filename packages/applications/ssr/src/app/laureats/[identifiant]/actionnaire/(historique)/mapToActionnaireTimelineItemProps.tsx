@@ -16,6 +16,7 @@ import { mapToChangementActionnaireSuppriméTimelineItemProps } from './events/m
 
 export const mapToActionnaireTimelineItemProps = (
   event: Lauréat.Actionnaire.HistoriqueActionnaireProjetListItemReadModel,
+  permissionConsulterChangement: boolean,
 ) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -35,13 +36,15 @@ export const mapToActionnaireTimelineItemProps = (
       {
         type: 'ChangementActionnaireEnregistré-V1',
       },
-      mapToChangementActionnaireEnregistréTimelineItemProps,
+      (event) =>
+        mapToChangementActionnaireEnregistréTimelineItemProps(event, permissionConsulterChangement),
     )
     .with(
       {
         type: 'ChangementActionnaireDemandé-V1',
       },
-      mapToChangementActionnaireDemandéTimelineItemProps,
+      (event) =>
+        mapToChangementActionnaireDemandéTimelineItemProps(event, permissionConsulterChangement),
     )
     .with(
       {

@@ -9,10 +9,12 @@ import { mapToDispositifDeStockageImportéTimelineItemProps } from './events/map
 
 type MapToInstallationTimelineItemProps = (
   readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
+  permissionConsulterChangement: boolean,
 ) => TimelineItemProps | null;
 
 export const mapToDispositifDeStockageTimelineItemProps: MapToInstallationTimelineItemProps = (
   readmodel,
+  permissionConsulterChangement,
 ) =>
   match(readmodel)
     .with({ type: 'InstallationImportée-V1' }, (readmodel) =>
@@ -22,7 +24,10 @@ export const mapToDispositifDeStockageTimelineItemProps: MapToInstallationTimeli
       mapToDispositifDeStockageModifiéTimelineItemsProps(readmodel),
     )
     .with({ type: 'ChangementDispositifDeStockageEnregistré-V1' }, (readmodel) =>
-      mapToDispositifDeStockageEnregistréTimelineItemsProps(readmodel),
+      mapToDispositifDeStockageEnregistréTimelineItemsProps(
+        readmodel,
+        permissionConsulterChangement,
+      ),
     )
     .with(
       {
