@@ -82,6 +82,11 @@ import type { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/
 import type { TransmettreDateMiseEnServiceOptions } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.options.js';
 import type { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
 
+type DocumentRaccordementDossier = {
+  dateSignature: DateTime.ValueType;
+  format: string;
+};
+
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
   demandeComplèteRaccordement: {
@@ -95,14 +100,8 @@ type DossierRaccordement = {
     dateSignature?: DateTime.ValueType;
     format?: string;
   };
-  conventionDeRaccordement?: {
-    dateSignature: DateTime.ValueType;
-    format: string;
-  };
-  conventionDeRaccordementDirecte?: {
-    dateSignature: DateTime.ValueType;
-    format: string;
-  };
+  conventionDeRaccordement?: DocumentRaccordementDossier;
+  conventionDeRaccordementDirecte?: DocumentRaccordementDossier;
 };
 
 export class RaccordementAggregate extends AbstractAggregate<
@@ -192,6 +191,23 @@ export class RaccordementAggregate extends AbstractAggregate<
     return dossier;
   }
 
+  private récupérerDocumentDossier(
+    dossier: DossierRaccordement,
+    documentType: TypeDocumentsRaccordement.RawType,
+  ): DocumentRaccordementDossier {
+    const dossierDocument =
+      dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(documentType)];
+
+    if (!dossierDocument?.dateSignature || !dossierDocument.format) {
+      throw new DocumentRaccordementNonExistantError();
+    }
+
+    return {
+      dateSignature: dossierDocument.dateSignature,
+      format: dossierDocument.format,
+    };
+  }
+
   private récupérerArrayDocumentsDossier(
     référence: RéférenceDossierRaccordement.RawType,
   ): TypeDocumentsRaccordement.RawType[] {
@@ -211,6 +227,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     return documentsDossier;
   }
 
+  // viovio
   private vérifierChangementType(
     ancienType: TypeDocumentsRaccordement.RawType,
     nouveauType: TypeDocumentsRaccordement.RawType,
@@ -947,6 +964,16 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
   }
 
+  private applyTypeDocumentRaccordementModifiéEventV1({
+    payload: { référenceDossierRaccordement, ancienType, nouveauType },
+  }: TypeDocumentRaccordementModifiéEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    const ancienDossier = this.récupérerDocumentDossier(dossier, ancienType);
+
+    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(nouveauType)] = ancienDossier;
+  }
+
   private applyDocumentRaccordementSuppriméEventV1({
     payload: { référenceDossierRaccordement, type },
   }: DocumentRaccordementSuppriméEventV1) {
@@ -1459,6 +1486,12 @@ export class RaccordementAggregate extends AbstractAggregate<
           type: 'DocumentRaccordementSupprimé-V1',
         },
         this.applyDocumentRaccordementSuppriméEventV1.bind(this),
+      )
+      .with(
+        {
+          type: 'TypeDocumentRaccordementModifié-V1',
+        },
+        this.applyTypeDocumentRaccordementModifiéEventV1.bind(this),
       )
       .with(
         { type: 'DateMiseEnServiceTransmise-V1' },

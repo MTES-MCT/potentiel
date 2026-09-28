@@ -488,4 +488,5 @@ export type RaccordementEvent =
   | RaccordementRéactivéEvent
   | DocumentRaccordementTransmisEventV1
   | DocumentRaccordementModifiéEventV1
-  | DocumentRaccordementSuppriméEventV1;
+  | DocumentRaccordementSuppriméEventV1
+  | TypeDocumentRaccordementModifiéEventV1;

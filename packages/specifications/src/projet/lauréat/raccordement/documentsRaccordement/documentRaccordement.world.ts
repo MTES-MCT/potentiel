@@ -6,6 +6,7 @@ import {
   type ModifierDocument,
   ModifierDocumentFixture,
 } from './fixtures/modifierDocumentRaccordement.fixture.js';
+import { ModifierTypeDocumentFixture } from './fixtures/modifierTypeDocumentRaccordement.fixture.js';
 import {
   type SupprimerDocument,
   SupprimerDocumentFixture,
@@ -23,6 +24,13 @@ export class DocumentRaccordementWorld {
     this.#documentsRaccordement.set(document.type, document);
   }
 
+  modifierTypeDocument(ancienType: string, type: string) {
+    const document = this.#documentsRaccordement.get(ancienType);
+    if (document) {
+      this.#documentsRaccordement.set(type, document);
+    }
+  }
+
   supprimerDocument(document: SupprimerDocument) {
     this.#documentsRaccordement.delete(document.type);
   }
@@ -33,6 +41,7 @@ export class DocumentRaccordementWorld {
 
   readonly transmettreFixture = new TransmettreDocumentFixture(this);
   readonly modifierFixture = new ModifierDocumentFixture(this);
+  readonly modifierTypeFixture = new ModifierTypeDocumentFixture(this);
   readonly supprimerFixture = new SupprimerDocumentFixture(this);
 
   mapToExpected(
