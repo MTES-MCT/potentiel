@@ -64,7 +64,7 @@ Pour tester l'intégration à Démarche Numérique (DN) :
 ```bash
 export DEMARCHE_NUMERIQUE_API_URL=https://demarche.numerique.gouv.fr/api/v2/graphql
 export DEMARCHE_NUMERIQUE_API_TOKEN=JETON API
-potentiel-cli candidature lister-dossiers NUMERO_DE_LA_DEMARCHE --instruction
+potentiel-cli candidature lister-dossiers NUMERO_DE_LA_DEMARCHE APPELOFFRES PERIODE --instruction
 ```
 
 - Sur http://localhost:3000/candidatures/importer/ds, sélectionner l'appel d'offre et la période, puis le fichier préalablement généré (ou un fichier manuellement créé)
