@@ -69,8 +69,10 @@ export default async function Page(props0: IdentifiantParameter) {
       return (
         <DétailsGarantiesFinancièresPage
           identifiantProjet={identifiantProjet.formatter()}
-          actuelles={mapToPlainObject(actuelles)}
-          archivesGarantiesFinancières={mapToPlainObject(archivesGarantiesFinancières)}
+          actuelles={actuelles && mapToPlainObject(actuelles)}
+          archivesGarantiesFinancières={
+            archivesGarantiesFinancières && mapToPlainObject(archivesGarantiesFinancières)
+          }
           actions={actions}
         />
       );
