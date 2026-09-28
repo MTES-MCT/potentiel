@@ -10,6 +10,7 @@ import {
   mapToDocumentSuppriméTimelineItemProps,
   mapToDocumentTransmisTimelineItemProps,
 } from './events/dossier/document';
+import { mapToTypeDocumentModifiéTimelineItemProps } from './events/dossier/document/mapToTypeDocumentModifiéTimelineItemProps';
 
 type MapToRaccordementTimelineItemProps = (
   record: Lauréat.Raccordement.HistoriqueRaccordementProjetListItemReadModel,
@@ -96,6 +97,12 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
         type: 'DocumentRaccordementModifié-V1',
       },
       mapToDocumentModifiéTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'TypeDocumentRaccordementModifié-V1',
+      },
+      mapToTypeDocumentModifiéTimelineItemProps,
     )
     .with(
       {

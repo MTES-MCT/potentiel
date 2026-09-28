@@ -1,5 +1,6 @@
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
+import { mapToExemple, mapValueType } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
 import type { DocumentRaccordementWorld } from '../documentRaccordement.world.js';
 
@@ -43,12 +44,14 @@ export class ModifierTypeDocumentFixture
   créer(
     partialFixture: Partial<Readonly<ModifierTypeDocument>> & {
       référenceDossier: string;
-      type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
-      ancienType: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
       identifiantProjet: string;
     },
   ): Readonly<ModifierTypeDocument> {
-    const fixture = partialFixture;
+    const fixture = {
+      type: Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
+      ancienType: Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordement.type,
+      ...partialFixture,
+    };
 
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#référenceDossier = fixture.référenceDossier;
@@ -59,5 +62,18 @@ export class ModifierTypeDocumentFixture
     this.#world.modifierTypeDocument(fixture.ancienType, fixture.type);
 
     return fixture;
+  }
+
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    return mapToExemple<Pick<ModifierTypeDocument, 'ancienType' | 'type'>>(exemple, {
+      ancienType: [
+        'document modifié',
+        mapValueType(Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType),
+      ],
+      type: [
+        'nouveau type de document',
+        mapValueType(Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType),
+      ],
+    });
   }
 }

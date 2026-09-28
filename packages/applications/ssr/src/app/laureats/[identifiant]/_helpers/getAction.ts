@@ -26,7 +26,7 @@ export const getAction = async <TDomain extends AppelOffre.DomainesConcernésPar
   if (!modifier && !demanderChangement && !enregistrerChangement) {
     return;
   }
-k
+
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   const règlesChangement = cahierDesCharges.getRèglesChangements(domain);
   const règlesModification = cahierDesCharges.getRèglesModification(domain);

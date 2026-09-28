@@ -27,8 +27,12 @@ export class DocumentRaccordementWorld {
   modifierTypeDocument(ancienType: string, type: string) {
     const document = this.#documentsRaccordement.get(ancienType);
     if (document) {
-      this.#documentsRaccordement.set(type, document);
+      this.#documentsRaccordement.set(type, {
+        ...document,
+        type: Lauréat.Raccordement.TypeDocumentsRaccordement.convertirEnValueType(type).formatter(),
+      });
     }
+    this.#documentsRaccordement.delete(ancienType);
   }
 
   supprimerDocument(document: SupprimerDocument) {

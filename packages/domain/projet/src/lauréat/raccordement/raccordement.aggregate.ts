@@ -31,6 +31,7 @@ import {
   DateMiseEnServiceAntérieureDateDésignationProjetError,
   DateMiseEnServiceDéjàTransmiseError,
   DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError,
+  DocumentDuMêmeTypeDéjàTransmisError,
   DocumentNonModifiableCarDossierMisEnServiceError,
   DocumentRaccordementNonExistantError,
   DossierMisEnServiceNonSupprimableError,
@@ -42,6 +43,7 @@ import {
   GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError,
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError,
+  TypeDeDocumentRaccordementIncompatibleError,
 } from './raccordement.error.js';
 import type {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
@@ -227,26 +229,34 @@ export class RaccordementAggregate extends AbstractAggregate<
     return documentsDossier;
   }
 
-  // viovio
-  private vérifierChangementType(
+  private vérifierChangementTypePossible(
     ancienType: TypeDocumentsRaccordement.RawType,
     nouveauType: TypeDocumentsRaccordement.RawType,
     référence: RéférenceDossierRaccordement.RawType,
-  ): TypeDocumentsRaccordement.RawType[] {
-    const dossier = this.récupérerDossier(référence);
+  ) {
+    if (ancienType === nouveauType) {
+      throw new AucuneModificationApportéeError();
+    }
 
-    const documentsDossier: TypeDocumentsRaccordement.RawType[] = [];
+    const documents = this.récupérerArrayDocumentsDossier(référence);
 
-    if (dossier.propositionTechniqueEtFinancière) {
-      documentsDossier.push(TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type);
+    if (documents.includes(nouveauType)) {
+      throw new DocumentDuMêmeTypeDéjàTransmisError(nouveauType);
     }
-    if (dossier.conventionDeRaccordement) {
-      documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordement.type);
+
+    const documentsSansAncienType = documents.filter((doc) => doc !== ancienType);
+
+    if (
+      nouveauType === 'convention-de-raccordement-directe' &&
+      (documentsSansAncienType.includes('convention-de-raccordement') ||
+        documentsSansAncienType.includes('proposition-technique-et-financière'))
+    ) {
+      throw new TypeDeDocumentRaccordementIncompatibleError(nouveauType);
     }
-    if (dossier.conventionDeRaccordementDirecte) {
-      documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type);
+
+    if (documentsSansAncienType.includes('convention-de-raccordement-directe')) {
+      throw new TypeDeDocumentRaccordementIncompatibleError(nouveauType);
     }
-    return documentsDossier;
   }
 
   private vérifierStatutDuLauréat() {
@@ -872,9 +882,11 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new DocumentRaccordementNonExistantError();
     }
 
-    if (ancienType.estÉgaleÀ(nouveauType)) {
-      throw new AucuneModificationApportéeError();
-    }
+    this.vérifierChangementTypePossible(
+      ancienType.type,
+      nouveauType.type,
+      référenceDossierRaccordement.référence,
+    );
 
     const event: TypeDocumentRaccordementModifiéEventV1 = {
       type: 'TypeDocumentRaccordementModifié-V1',

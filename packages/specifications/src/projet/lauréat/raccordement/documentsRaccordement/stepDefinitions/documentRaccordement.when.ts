@@ -117,7 +117,7 @@ Quand(
 );
 
 Quand(
-  /le porteur modifie le type du document avec :$/,
+  /le système modifie le type du document avec :$/,
   async function (this: PotentielWorld, data: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -125,7 +125,7 @@ Quand(
       await modifierTypeDocumentRaccordement.call(
         this,
         identifiantProjet,
-        this.lauréatWorld.raccordementWorld.documentRaccordement.mapExempleToFixtureValues(
+        this.lauréatWorld.raccordementWorld.documentRaccordement.modifierTypeFixture.mapExempleToFixtureValues(
           data.rowsHash(),
         ),
       );
@@ -136,18 +136,17 @@ Quand(
 );
 
 Quand(
-  'le porteur modifie le type du document avec les mêmes valeurs',
+  'le système modifie le type du document avec les mêmes valeurs',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { référenceDossier, dateSignature, document } =
-      this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture;
+    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture;
 
     try {
-      await modifierTypeDocumentRaccordement.call(this, identifiantProjet,, {
-        référenceDossier,
-        type: this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture.type,
-      } satisfies ModifierDocument);
+      await modifierTypeDocumentRaccordement.call(this, identifiantProjet, {
+        type,
+        ancienType: type,
+      });
     } catch (e) {
       this.error = e as Error;
     }
@@ -254,14 +253,13 @@ async function modifierDocumentRaccordement(
 async function modifierTypeDocumentRaccordement(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
-  data: Pick<ModifierTypeDocument, 'ancienType' | 'type'>,
+  data: Partial<Pick<ModifierTypeDocument, 'ancienType' | 'type'>>,
 ) {
   const { ancienType, type, référenceDossier } =
     this.lauréatWorld.raccordementWorld.documentRaccordement.modifierTypeFixture.créer({
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier: this.lauréatWorld.raccordementWorld.référenceDossier,
-      type: data.type,
-      ancienType: data.ancienType,
+      ...data,
     });
 
   await mediator.send<Lauréat.Raccordement.ModifierTypeDocumentUseCase>({
