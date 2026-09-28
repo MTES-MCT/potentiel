@@ -75,7 +75,7 @@ const action: FormAction<FormState, typeof schema> = async (
       return {
         status: 'success',
         redirection: {
-          message: `Utilisateur invité à ${success === 1 ? 'ce projet' : `${success} projets`}`,
+          message: `Utilisateur invité avec succès à ${success === 1 ? 'ce projet' : `${success} projets`}`,
           url: Routes.Lauréat.lister(),
         },
       };
