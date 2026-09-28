@@ -1,3 +1,5 @@
+import { DateTime } from '@potentiel-domain/common';
+
 import type { DossierAccessor } from '../../graphql/index.js';
 
 type GetAutorisationProps<TDossier extends Record<string, string>> = {
@@ -13,7 +15,7 @@ export const getAutorisation = <TDossier extends Record<string, string>>({
   const numéro = accessor.getStringValue(nomChampNuméro);
   const date = accessor.getDateValue(nomChampDate);
 
-  if (numéro && date) {
+  if (numéro && date && DateTime.convertirEnValueType(date).estPassée()) {
     return {
       numéro,
       date,

@@ -136,7 +136,7 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
   },
   champsSupplémentaires: {
     puissanceDeSite: { type: 'requis' },
-    autorisation: { type: 'requis' },
+    autorisation: { type: 'optionnel' },
     installateur: { type: 'optionnel' },
     dispositifDeStockage: { type: 'requis' },
     natureDeLExploitation: { type: 'requis' },
