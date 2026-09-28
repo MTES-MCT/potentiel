@@ -39,7 +39,7 @@ export const mapToDemandeComplèteRaccordementModifiéeTimelineItemProps = (
     actor: modifiéePar,
     title: 'Demande complète de raccordement modifiée',
     details: (
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         {ancienneRéférenceDossier && (
           <span>
             Ancienne référence du dossier :{' '}

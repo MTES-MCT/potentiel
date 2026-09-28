@@ -64,7 +64,7 @@ export const TimelineItemBase: FC<PropsWithChildren<TimelineItemBaseProps>> = ({
           ) : (
             <TimelineItemTitle title={title} actor={actor} />
           )}
-          {children}
+          <div className="flex flex-col gap-2">{children}</div>
         </div>
       </TimelineContent>
     </MuiTimelineItem>

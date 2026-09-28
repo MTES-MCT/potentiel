@@ -31,7 +31,7 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
     actor: transmisePar,
     title: 'Nouveau dossier de raccordement crée',
     details: (
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <span>
           Référence du dossier :{' '}
           <span className="font-semibold">{référenceDossierRaccordement}</span>

@@ -10,10 +10,10 @@ export type AutorisationDétailsProps = ChampAvecAction<
 
 export const AutorisationDétails = ({ value }: AutorisationDétailsProps) =>
   value ? (
-    <ul className="list-none m-0 pl-0">
+    <>
       <Champ label="Numéro" text={value.numéro} />
       <Champ label="Date d'obtention" date={value.date.date} />
-    </ul>
+    </>
   ) : (
     <div>Champ non renseigné</div>
   );

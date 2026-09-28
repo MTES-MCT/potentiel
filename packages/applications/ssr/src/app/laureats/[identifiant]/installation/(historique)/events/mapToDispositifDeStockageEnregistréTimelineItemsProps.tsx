@@ -33,11 +33,7 @@ export const mapToDispositifDeStockageEnregistréTimelineItemsProps = (
         ariaLabel: `Télécharger le justificatif du changement de dispositif de stockage enregistré le ${formatDateToText(enregistréLe)}`,
       }
     : undefined,
-  details: (
-    <div className="flex flex-col gap-2">
-      <DétailsDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
-    </div>
-  ),
+  details: <DétailsDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />,
   reason: raison,
   link: permissionConsulterChangement
     ? {

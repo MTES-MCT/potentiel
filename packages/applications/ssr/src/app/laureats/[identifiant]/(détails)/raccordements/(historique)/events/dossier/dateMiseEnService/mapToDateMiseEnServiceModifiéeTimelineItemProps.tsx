@@ -27,7 +27,7 @@ export const mapToDateMiseEnServiceModifiéeTimelineItemProps = (
     actor: modifiéePar,
     title: 'Date de mise en service modifiée',
     details: (
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <span>
           Référence du dossier :{' '}
           <span className="font-semibold">{référenceDossierRaccordement}</span>
