@@ -66,7 +66,7 @@ const DétailsValeursPuissance = ({
   nouvellePuissance,
   nouvellePuissanceDeSite,
 }: DétailsValeursPuissanceProps) => (
-  <>
+  <div className="flex flex-col gap-2">
     {puissanceInitiale === nouvellePuissance ? (
       <div>La puissance n'a pas été modifiée.</div>
     ) : (
@@ -84,5 +84,5 @@ const DétailsValeursPuissance = ({
         {unitéPuissance}
       </div>
     ) : null}
-  </>
+  </div>
 );

@@ -51,7 +51,7 @@ const DétailsValeursReprésentantLégal = ({
   typeReprésentantLégal,
   nomReprésentantLégal,
 }: DétailsValeursReprésentantLégalProps) => (
-  <>
+  <div className="flex flex-col gap-2">
     <div>
       <span className="font-medium">Type :</span>{' '}
       {getTypeReprésentantLégalLabel(typeReprésentantLégal)}
@@ -59,5 +59,5 @@ const DétailsValeursReprésentantLégal = ({
     <div>
       <span className="font-medium">Nom représentant légal :</span> {nomReprésentantLégal}
     </div>
-  </>
+  </div>
 );
