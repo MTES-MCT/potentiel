@@ -15,6 +15,7 @@ export const types = [
   'raccordement.transmettre-convention-de-raccordement',
   'raccordement.transmettre-proposition-technique-et-financière',
   'garanties-financières.demander',
+  'garanties-financières.transmettre-attestation-constitution',
   'producteur.renseigner-numéro-identification',
 ] as const;
 
@@ -91,7 +92,10 @@ export const producteurRenseignerNuméroIdentification =
   convertirEnValueType<'producteur.renseigner-numéro-identification'>(
     'producteur.renseigner-numéro-identification',
   );
-
+export const garantiesFinancièresAttestationTransmettre =
+  convertirEnValueType<'garanties-financières.transmettre-attestation-constitution'>(
+    'garanties-financières.transmettre-attestation-constitution',
+  );
 export const garantiesFinancièresDemander = convertirEnValueType<'garanties-financières.demander'>(
   'garanties-financières.demander',
 );
