@@ -6,7 +6,8 @@ import { getDocument } from 'pdfjs-dist';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
@@ -18,6 +19,20 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     dryRun: Flags.boolean({ name: 'dryRun' }),
     identifiantProjet: Flags.string(),
   };
+
+  async init() {
+    Lauréat.registerLauréatUseCases({
+      enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
+      getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
+    });
+
+    Document.registerDocumentProjetCommand({
+      enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+      déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+      archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+      enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
+    });
+  }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(RattraperHistoriqueDocumentsCommand);
