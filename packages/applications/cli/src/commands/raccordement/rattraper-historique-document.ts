@@ -2,16 +2,20 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { Command, Flags } from '@oclif/core';
+import { mediator } from 'mediateur';
 import { getDocument } from 'pdfjs-dist';
+import z from 'zod';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
-import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Document, Lauréat } from '@potentiel-domain/projet';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { download, FichierInexistant } from '@potentiel-libraries/file-storage';
 
+import { dbSchema } from '#helpers';
+
+const envSchema = z.object(dbSchema.shape);
 export class RattraperHistoriqueDocumentsCommand extends Command {
   static description = "Rattraper l'historique des documents PTF en les requalifiant";
 
@@ -21,6 +25,8 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
   };
 
   async init() {
+    envSchema.parse(process.env);
+
     Lauréat.registerLauréatUseCases({
       enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
@@ -163,31 +169,24 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
     );
 
     for (const document of documentQualifiés) {
-      const now = DateTime.now().formatter();
-
-      const event: Lauréat.Raccordement.TypeDocumentRaccordementModifiéEventV1 = {
-        type: 'TypeDocumentRaccordementModifié-V1',
-        payload: {
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(
-            document.identifiantProjet,
-          ).formatter(),
-          référenceDossierRaccordement: document.référence,
-          modifiéLe: now,
-          modifiéPar: Email.système.email,
-          ancienType: 'proposition-technique-et-financière',
-          nouveauType: document.type,
-        },
-      };
-
       try {
         if (flags.dryRun) {
           console.log(`🙌 dryRun -- nouvel event`);
         } else {
           console.log(`🙌 Publication d'un événement pour ${document.identifiantProjet}`);
 
-          await publish(`raccordement|${document.identifiantProjet}`, {
-            ...event,
-            created_at: now,
+          await mediator.send<Lauréat.Raccordement.ModifierTypeDocumentUseCase>({
+            type: 'Lauréat.Raccordement.UseCase.ModifierTypeDocument',
+            data: {
+              référenceDossierRaccordementValue: document.référence,
+              identifiantProjetValue: document.identifiantProjet,
+              ancienTypeValue:
+                Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière
+                  .type,
+              nouveauTypeValue: document.type,
+              modifiéLeValue: DateTime.now().formatter(),
+              modifiéParValue: Email.système.formatter(),
+            },
           });
         }
 
