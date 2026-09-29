@@ -178,7 +178,7 @@ Alors(
 
     const expectedPorteursValues = this.accèsWorld.remplacerAccèsProjet.aÉtéCréé
       ? [this.accèsWorld.remplacerAccèsProjet.email]
-      : [this.utilisateurWorld.porteurFixture.email];
+      : [this.candidatureWorld.importerCandidature.dépôtValue.emailContact];
 
     if (this.utilisateurWorld.inviterPorteur.aÉtéCréé) {
       expectedPorteursValues.push(this.utilisateurWorld.inviterPorteur.email);
@@ -200,8 +200,9 @@ Alors(
       });
 
       if (Option.isNone(accèsProjet)) {
-        throw new Error(`Il devrait y avoir des accès pour le projet !!`);
+        throw new Error(`Il devrait y avoir des accès pour le projet`);
       }
+
       const actualPorteurs = accèsProjet.utilisateursAyantAccès
         .map((utilisateur) => utilisateur.formatter())
         .sort();
