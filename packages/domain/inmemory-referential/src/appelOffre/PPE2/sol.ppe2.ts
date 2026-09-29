@@ -503,7 +503,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         dispositifDeStockage: { type: 'requis' },
         natureDeLExploitation: { type: 'requis' },
         coefficientKChoisi: { type: 'requis' },
-        typologieInstallation: { type: 'requis' },
+        typologieInstallation: { type: 'optionnel' },
       },
     },
     /** puissance appelée périodes 9 et 10 : 925
