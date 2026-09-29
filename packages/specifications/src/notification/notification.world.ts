@@ -3,16 +3,18 @@ import { assert, expect } from 'chai';
 import { Email } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
+type TemplateValue = string | Array<{ [nom: string]: TemplateValue }>;
+
 type EmailItem = {
   recipients: Array<{ email: string }>;
   subject: string;
-  values: Record<string, string>;
+  values: Record<string, TemplateValue>;
 };
 
 export class NotificationWorld {
   #notifications: {
     subject: string;
-    values: Record<string, string>;
+    values: Record<string, TemplateValue>;
     email: Email.ValueType;
     checked?: true;
   }[] = [];
@@ -57,14 +59,18 @@ export class NotificationWorld {
         }
 
         for (const [key, value] of Object.entries(variables)) {
-          if (!new RegExp(value).test(notif.values[key])) {
-            if (notif.values[key] === undefined) {
+          const valeurReçue = notif.values[key];
+          const valeurTexte =
+            typeof valeurReçue === 'string' ? valeurReçue : JSON.stringify(valeurReçue);
+
+          if (!new RegExp(value).test(valeurTexte)) {
+            if (valeurReçue === undefined) {
               erreurs.push(`${key} -> La variable est manquante`);
 
               return false;
             }
 
-            erreurs.push(`${key} -> Expected : ${value} | Actual : ${notif.values[key]}`);
+            erreurs.push(`${key} -> Expected : ${value} | Actual : ${valeurTexte}`);
 
             return false;
           }
