@@ -20,23 +20,27 @@ import type { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixtur
 import { getPayloadForRôle } from './utilisateur.given.js';
 
 Quand(
-  /le porteur invite (un autre porteur|la dgec) sur le projet (lauréat|éliminé)/,
+  /le porteur invite (le même porteur|un autre porteur|la dgec) sur le projet (lauréat|éliminé)/,
   async function (
     this: PotentielWorld,
-    utilisateurInvité: 'un autre porteur' | 'la dgec',
+    utilisateurInvité: 'le même porteur' | 'un autre porteur' | 'la dgec',
     statutProjet: 'lauréat' | 'éliminé',
   ) {
-    const { email: porteurInvité } =
+    const { email: invité } =
       utilisateurInvité === 'la dgec'
         ? this.utilisateurWorld.dgecFixture
-        : this.utilisateurWorld.inviterPorteur.aÉtéCréé
-          ? this.utilisateurWorld.inviterPorteur
+        : utilisateurInvité === 'le même porteur'
+          ? this.utilisateurWorld.inviterPorteur.créer({
+              email: this.utilisateurWorld.porteurFixture.email,
+            })
           : this.utilisateurWorld.inviterPorteur.créer({});
+
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
     await inviterPorteur.call(this, {
       identifiantsProjet: [identifiantProjet.formatter()],
-      identifiantUtilisateur: porteurInvité,
+      identifiantUtilisateur: invité,
     });
   },
 );

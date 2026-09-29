@@ -1,5 +1,6 @@
 # language: fr
 @utilisateur
+@select
 Fonctionnalité: Inviter un porteur sur un projet
 
     Plan du scénario: Inviter un porteur
@@ -17,6 +18,13 @@ Fonctionnalité: Inviter un porteur sur un projet
             | Statut  |
             | lauréat |
             | éliminé |
+
+    Scénario: Les accès sont mis à jour après un retrait d'accès puis un nouvel ajout
+        Etant donné le projet lauréat "Du parc bordelais"
+        Et un porteur invité sur le projet lauréat "Du parc bordelais"
+        Quand la dgec retire l'accès de l'utilisateur au projet lauréat
+        Et le porteur invite le même porteur sur le projet lauréat
+        Alors la liste des porteurs du projet lauréat est mise à jour
 
     Scénario: Un porteur n'a pas accès à un projet auquel il n'est pas invité
         Etant donné le projet lauréat "Du boulodrome de Marseille"

@@ -139,13 +139,15 @@ Quand(
   },
 );
 
+type RetirerAccèsProjetProps = {
+  identifiantProjet: string;
+  identifiantUtilisateur: string;
+  retiréPar?: string;
+};
+
 export async function retirerAccèsProjet(
   this: PotentielWorld,
-  {
-    identifiantProjet,
-    identifiantUtilisateur,
-    retiréPar,
-  }: { identifiantProjet: string; identifiantUtilisateur: string; retiréPar?: string },
+  { identifiantProjet, identifiantUtilisateur, retiréPar }: RetirerAccèsProjetProps,
 ) {
   try {
     await mediator.send<Accès.RetirerAccèsProjetUseCase>({
