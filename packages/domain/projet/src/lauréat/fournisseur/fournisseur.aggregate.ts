@@ -26,7 +26,7 @@ export class FournisseurAggregate extends AbstractAggregate<
 > {
   #fournisseurs!: Array<Fournisseur.ValueType>;
 
-  #évaluationCarboneSimplifiée!: number;
+  #évaluationCarboneSimplifiée!: number | undefined;
 
   get évaluationCarboneSimplifiée() {
     return this.#évaluationCarboneSimplifiée;

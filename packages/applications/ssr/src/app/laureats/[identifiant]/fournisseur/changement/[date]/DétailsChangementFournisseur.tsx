@@ -10,7 +10,7 @@ import { ListeFournisseurs } from '../ListeFournisseurs';
 
 export type DétailsChangementFournisseurProps = {
   changement: PlainType<Lauréat.Fournisseur.ConsulterChangementFournisseurReadModel['changement']>;
-  évaluationCarboneSimplifiéeInitiale: number;
+  évaluationCarboneSimplifiéeInitiale?: number;
   technologie: AppelOffre.Technologie;
 };
 

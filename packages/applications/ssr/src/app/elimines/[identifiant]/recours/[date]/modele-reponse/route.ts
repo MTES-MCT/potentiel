@@ -95,7 +95,7 @@ export const GET = async (
           isGouvernancePartagée: formatBoolean(
             candidature.dépôt.actionnariat?.estGouvernancePartagée(),
           ),
-          evaluationCarbone: candidature.dépôt.evaluationCarboneSimplifiée.toString(),
+          evaluationCarbone: candidature.dépôt.evaluationCarboneSimplifiée?.toString() ?? '',
           engagementFournitureDePuissanceAlaPointe: formatBoolean(
             candidature.dépôt.puissanceALaPointe,
           ),
