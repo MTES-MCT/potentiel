@@ -1,7 +1,6 @@
 # language: fr
 @raccordement
 @document-raccordement
-@select
 Fonctionnalité: Modifier le type d'un document de raccordement par le système
 
     Contexte:
