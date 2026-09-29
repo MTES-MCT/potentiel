@@ -25,23 +25,24 @@ type DétailsValeursProducteurProps = {
 
 const DétailsValeursProducteur: FC<DétailsValeursProducteurProps> = ({ changement }) => (
   <div className="flex flex-col gap-2 mb-2">
-    <div>
+    <div className="flex flex-col gap-2">
+      <div className="font-medium">Nouveau producteur</div>
       <div>
-        <span className="font-medium">Nouveau producteur</span>: {changement.nouveau.producteur}
+        <span className="font-medium">Nom</span> : {changement.nouveau.producteur}
       </div>
       <div>
-        <span className="font-medium">Nouveau SIRET</span>:{' '}
-        {changement.nouveau.siret || 'Non renseigné'}
+        <span className="font-medium">SIRET</span> : {changement.nouveau.siret || 'Non renseigné'}
       </div>
     </div>
-    <div>
+    <div className="flex flex-col gap-2">
+      <div className="font-medium">Producteur initial</div>
       <div>
-        <span className="font-medium">Producteur initial</span>: {changement.ancien.producteur}{' '}
+        <span className="font-medium">Nom</span> : {changement.ancien.producteur}{' '}
       </div>
 
       <div>
-        <span className="font-medium">SIRET initial</span>:{' '}
-        {changement.ancien.siret || 'Non renseigné'}{' '}
+        <span className="font-medium">SIRET</span> : {changement.ancien.siret ||
+          'Non renseigné'}{' '}
       </div>
     </div>
   </div>

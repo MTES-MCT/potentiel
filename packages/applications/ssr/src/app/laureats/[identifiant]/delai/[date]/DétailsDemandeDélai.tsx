@@ -18,7 +18,7 @@ export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'd
 export const DétailsDemandeDélai: FC<DétailsDemandeDélaiProps> = ({ demande }) => (
   <div className="flex flex-col gap-4">
     <Heading2>Détail de la demande</Heading2>
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       {demande.accord && (
         <DemandeAccordée
           accordéeLe={demande.accord.accordéeLe}
@@ -64,7 +64,7 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
   pièceJustificative,
   raison,
 }) => (
-  <>
+  <div className="flex flex-col gap-2">
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
       <ReadMore text={raison} />
@@ -93,7 +93,7 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
         />
       </div>
     )}
-  </>
+  </div>
 );
 
 type DemandeProps = Pick<

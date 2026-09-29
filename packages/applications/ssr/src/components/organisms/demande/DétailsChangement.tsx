@@ -28,7 +28,7 @@ export const DétailsChangement: FC<DétailsChangementProps> = ({ changement, st
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <Heading2>
           {isInformationEnregistrée
             ? 'Détails du changement'

@@ -13,9 +13,13 @@ export const DétailsDispositifDeStockage: FC<DétailsDispositifDeStockageProps>
     puissanceDuDispositifDeStockageEnKW,
   },
 }) => (
-  <div>
-    Dispositif de stockage :{' '}
-    <span className="font-semibold">{installationAvecDispositifDeStockage ? 'avec' : 'sans'}</span>
+  <div className="flex flex-col gap-2">
+    <div>
+      Dispositif de stockage :{' '}
+      <span className="font-semibold">
+        {installationAvecDispositifDeStockage ? 'avec' : 'sans'}
+      </span>
+    </div>
     {puissanceDuDispositifDeStockageEnKW !== undefined ? (
       <div>Puissance du dispositif de stockage : {puissanceDuDispositifDeStockageEnKW} kW</div>
     ) : null}
