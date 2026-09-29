@@ -6,6 +6,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 import {
   ChangementFournisseurListItem,
@@ -19,6 +20,7 @@ export type ChangementFournisseurListPageProps = {
     total: number;
   };
   filters: ListPageTemplateProps<typeof ChangementFournisseurListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ChangementFournisseurListPage: FC<ChangementFournisseurListPageProps> = ({
@@ -28,6 +30,7 @@ export const ChangementFournisseurListPage: FC<ChangementFournisseurListPageProp
     total,
   },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Fournisseur"
@@ -42,5 +45,6 @@ export const ChangementFournisseurListPage: FC<ChangementFournisseurListPageProp
     ItemComponent={ChangementFournisseurListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

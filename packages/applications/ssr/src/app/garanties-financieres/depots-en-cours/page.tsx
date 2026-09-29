@@ -96,6 +96,10 @@ export default async function Page(props: PageProps) {
           list={mapToListProps(dépôtsEnCoursGarantiesFinancières)}
           filters={filters}
           role={mapToPlainObject(utilisateur.rôle)}
+          breadcrumbProps={{
+            currentPagelabel: 'Garanties financières - dépôts en cours',
+            parentSegments: [{ label: 'Lauréats', href: Routes.Lauréat.lister() }],
+          }}
         />
       );
     }),

@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { mapToPagination } from '@/utils/pagination';
 import {
   DossierRaccordementListItem,
@@ -18,11 +19,13 @@ export type DossierRaccordementListPageProps = PlainType<{
     items: DossierRaccordementListItemProps[];
   };
   filters: ListPageTemplateProps<typeof DossierRaccordementListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 }>;
 
 export const DossierRaccordementListPage: FC<DossierRaccordementListPageProps> = ({
   list: { items, range, total },
   filters,
+  breadcrumbProps,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
   return (
@@ -39,6 +42,7 @@ export const DossierRaccordementListPage: FC<DossierRaccordementListPageProps> =
       ItemComponent={DossierRaccordementListItem}
       filters={filters}
       search={{ label: 'Rechercher par référence de dossier', params: 'referenceDossier' }}
+      breadcrumbProps={breadcrumbProps}
     />
   );
 };

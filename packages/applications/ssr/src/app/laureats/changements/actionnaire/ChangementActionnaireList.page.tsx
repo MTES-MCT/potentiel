@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 import { ChangementActionnaireListItem } from './ChangementActionnaireListItem';
 
@@ -17,6 +18,7 @@ export type ChangementActionnaireListPageProps = {
     total: number;
   };
   filters: ListPageTemplateProps<typeof ChangementActionnaireListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ChangementActionnaireListPage: FC<ChangementActionnaireListPageProps> = ({
@@ -26,6 +28,7 @@ export const ChangementActionnaireListPage: FC<ChangementActionnaireListPageProp
     total,
   },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Actionnaire"
@@ -40,5 +43,6 @@ export const ChangementActionnaireListPage: FC<ChangementActionnaireListPageProp
     ItemComponent={ChangementActionnaireListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

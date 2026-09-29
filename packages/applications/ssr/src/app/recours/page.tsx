@@ -86,6 +86,10 @@ export default async function Page(props: PageProps) {
           pagination={mapToPagination(range)}
           total={total}
           filters={filters}
+          breadcrumbProps={{
+            currentPagelabel: 'Recours',
+            parentSegments: [],
+          }}
         />
       );
     }),

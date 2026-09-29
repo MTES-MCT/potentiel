@@ -8,6 +8,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 
 export type RecoursListPageProps = {
@@ -15,6 +16,7 @@ export type RecoursListPageProps = {
   pagination: Pagination;
   total: number;
   filters: ListPageTemplateProps<typeof RecoursListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const RecoursListPage: FC<RecoursListPageProps> = ({
@@ -22,6 +24,7 @@ export const RecoursListPage: FC<RecoursListPageProps> = ({
   pagination: { currentPage, itemsPerPage },
   total,
   filters,
+  breadcrumbProps,
 }) => {
   return (
     <ListPageTemplate
@@ -37,6 +40,7 @@ export const RecoursListPage: FC<RecoursListPageProps> = ({
       ItemComponent={RecoursListItem}
       filters={filters}
       search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+      breadcrumbProps={breadcrumbProps}
     />
   );
 };

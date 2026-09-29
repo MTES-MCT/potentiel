@@ -111,6 +111,10 @@ export default async function Page(props: IdentifiantParameter & PageProps) {
           list={mapToPlainObject(tâches)}
           filters={filters}
           search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+          breadcrumbProps={{
+            currentPagelabel: 'Tâches',
+            parentSegments: [],
+          }}
         />
       );
     }),

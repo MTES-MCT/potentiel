@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { CandidatureListItem, type CandidatureListItemProps } from './CandidatureListItem';
 
 export type CandidatureListPageProps = {
@@ -19,6 +20,7 @@ export type CandidatureListPageProps = {
   legend: ListPageTemplateProps<typeof ProjectListItem>['legend'];
   filters: ListPageTemplateProps<typeof ProjectListItem>['filters'];
   actions: ListPageTemplateProps<typeof ProjectListItem>['actions'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const CandidatureListPage: FC<CandidatureListPageProps> = ({
@@ -26,6 +28,7 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
   legend,
   filters,
   actions = [],
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Tous les candidats"
@@ -41,5 +44,6 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
       ...candidature,
       key: IdentifiantProjet.bind(candidature.identifiantProjet).formatter(),
     }))}
+    breadcrumbProps={breadcrumbProps}
   />
 );

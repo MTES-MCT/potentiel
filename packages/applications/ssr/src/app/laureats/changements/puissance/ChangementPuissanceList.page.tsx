@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 import { ChangementPuissanceListItem } from './ChangementPuissanceListItem';
 
@@ -17,6 +18,7 @@ export type ChangementPuissanceListPageProps = {
     total: number;
   };
   filters: ListPageTemplateProps<typeof ChangementPuissanceListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ChangementPuissanceListPage: FC<ChangementPuissanceListPageProps> = ({
@@ -26,6 +28,7 @@ export const ChangementPuissanceListPage: FC<ChangementPuissanceListPageProps> =
     total,
   },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Puissance"
@@ -40,5 +43,6 @@ export const ChangementPuissanceListPage: FC<ChangementPuissanceListPageProps> =
     ItemComponent={ChangementPuissanceListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

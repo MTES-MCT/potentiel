@@ -7,6 +7,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import type { Pagination } from '@/utils/pagination';
 import { ChangementInstallateurListItem } from './ChangementInstallateurListItem';
 
@@ -17,6 +18,7 @@ export type ChangementInstallateurListPageProps = {
     total: number;
   };
   filters: ListPageTemplateProps<typeof ChangementInstallateurListItem>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ChangementInstallateurListPage: FC<ChangementInstallateurListPageProps> = ({
@@ -26,6 +28,7 @@ export const ChangementInstallateurListPage: FC<ChangementInstallateurListPagePr
     total,
   },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Installateur"
@@ -40,5 +43,6 @@ export const ChangementInstallateurListPage: FC<ChangementInstallateurListPagePr
     ItemComponent={ChangementInstallateurListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    breadcrumbProps={breadcrumbProps}
   />
 );

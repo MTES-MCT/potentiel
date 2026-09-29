@@ -118,6 +118,10 @@ export default async function Page(props: PageProps) {
               }
             />
           }
+          breadcrumbProps={{
+            currentPagelabel: 'Projets à réclamer',
+            parentSegments: [],
+          }}
         />
       );
     }),

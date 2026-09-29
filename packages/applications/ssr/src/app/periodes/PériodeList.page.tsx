@@ -6,6 +6,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { mapToPagination } from '@/utils/pagination';
 import { PériodeListItem, type PériodeListItemProps } from './PériodeListItem';
 
@@ -14,9 +15,16 @@ export type PériodeListPageProps = {
   périodes: ReadonlyArray<PériodeListItemProps>;
   range: RangeOptions;
   total: number;
+  breadcrumbProps: BreadcrumbProps;
 };
 
-export const PériodeListPage: FC<PériodeListPageProps> = ({ filters, périodes, range, total }) => {
+export const PériodeListPage: FC<PériodeListPageProps> = ({
+  filters,
+  périodes,
+  range,
+  total,
+  breadcrumbProps,
+}) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
   return (
@@ -32,6 +40,7 @@ export const PériodeListPage: FC<PériodeListPageProps> = ({ filters, périodes
         ...période,
         key: `${période.appelOffre}#${période.période}`,
       }))}
+      breadcrumbProps={breadcrumbProps}
     />
   );
 };

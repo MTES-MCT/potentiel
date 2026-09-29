@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
+import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -144,7 +145,16 @@ export default async function Page(props: PageProps) {
         },
       ];
 
-      return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
+      return (
+        <AbandonListPage
+          list={mapToListProps(abandons)}
+          filters={filters}
+          breadcrumbProps={{
+            currentPagelabel: 'Abandon',
+            parentSegments: [{ label: 'Lauréats', href: Routes.Lauréat.lister() }],
+          }}
+        />
+      );
     }),
   );
 }

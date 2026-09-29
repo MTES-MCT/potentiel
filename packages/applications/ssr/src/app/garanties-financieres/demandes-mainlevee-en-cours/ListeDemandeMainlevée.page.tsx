@@ -4,6 +4,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import {
   ListItemDemandeMainlevée,
   type ListItemDemandeMainlevéeProps,
@@ -17,11 +18,13 @@ export type ListeDemandeMainlevéeProps = {
     itemsPerPage: number;
   };
   filters: ListPageTemplateProps<ListItemDemandeMainlevéeProps>['filters'];
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ListeDemandeMainlevéePage: FC<ListeDemandeMainlevéeProps> = ({
   list: { items: mainslevées, currentPage, totalItems, itemsPerPage },
   filters,
+  breadcrumbProps,
 }) => (
   <ListPageTemplate
     heading="Demandes de mainlevée"
@@ -35,5 +38,6 @@ export const ListeDemandeMainlevéePage: FC<ListeDemandeMainlevéeProps> = ({
     itemsPerPage={itemsPerPage}
     ItemComponent={ListItemDemandeMainlevée}
     filters={filters}
+    breadcrumbProps={breadcrumbProps}
   />
 );

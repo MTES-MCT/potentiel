@@ -2,6 +2,8 @@ import SkipLinks from '@codegouvfr/react-dsfr/SkipLinks';
 import clsx from 'clsx';
 import type { FC } from 'react';
 
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
+import { BreadcrumbSetter } from '@/utils/breadcrumb/breadcrumbSetter';
 import { Heading1 } from '../atoms/headings';
 import { ListFilters, type ListFiltersProps } from '../molecules/ListFilters';
 import { ListLegend, type ListLegendProps } from '../molecules/ListLegend';
@@ -24,6 +26,7 @@ export type ListPageTemplateProps<TItem> = {
   search?: SearchProps;
   legend?: ListLegendProps;
   feature?: string;
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const ListPageTemplate = <TItem,>({
@@ -39,8 +42,10 @@ export const ListPageTemplate = <TItem,>({
   search,
   legend = { symbols: [] },
   feature,
+  breadcrumbProps,
 }: ListPageTemplateProps<TItem>) => (
   <PageTemplate feature={feature} banner={<Heading1>{heading}</Heading1>}>
+    <BreadcrumbSetter breadcrumbProps={breadcrumbProps} />
     <div className="flex flex-col gap-5 md:gap-10">
       <SkipLinks
         className="w-fit"

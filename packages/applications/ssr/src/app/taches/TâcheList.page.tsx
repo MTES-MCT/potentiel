@@ -8,6 +8,7 @@ import {
   ListPageTemplate,
   type ListPageTemplateProps,
 } from '@/components/templates/ListPage.template';
+import type { BreadcrumbProps } from '@/utils/breadcrumb/breadcrumbContext';
 import { mapToPagination } from '@/utils/pagination';
 import type { SearchProps } from '../../components/molecules/Search';
 
@@ -15,12 +16,14 @@ export type TâcheListPageProps = {
   list: PlainType<Lauréat.Tâche.ListerTâchesReadModel>;
   filters: ListPageTemplateProps<typeof TâcheListItem>['filters'];
   search?: SearchProps | undefined;
+  breadcrumbProps: BreadcrumbProps;
 };
 
 export const TâcheListPage: FC<TâcheListPageProps> = ({
   list: { items: tâches, range, total },
   filters,
   search,
+  breadcrumbProps,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
@@ -38,6 +41,7 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
       ItemComponent={TâcheListItem}
       filters={filters}
       search={search}
+      breadcrumbProps={breadcrumbProps}
     />
   );
 };
