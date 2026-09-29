@@ -291,7 +291,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             name="evaluationCarboneSimplifiée"
             validationErrors={validationErrors}
             estEnCoursDeModification={lauréat.evaluationCarboneSimplifiée.estEnCoursDeModification}
-            required
+            required={!!candidature.evaluationCarboneSimplifiée}
           />
         </FormRow>
         {candidature.noteTotale && (
