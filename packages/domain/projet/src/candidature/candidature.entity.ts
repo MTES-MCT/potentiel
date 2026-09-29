@@ -62,7 +62,7 @@ export type CandidatureEntity = Entity<
     motifÉlimination?: string;
     volumeRéservé?: boolean;
     puissanceALaPointe: boolean;
-    evaluationCarboneSimplifiée: number;
+    evaluationCarboneSimplifiée?: number;
     actionnariat?: TypeActionnariat.RawType;
     dateÉchéanceGf?: DateTime.RawType;
     dateConstitutionGf?: DateTime.RawType;
