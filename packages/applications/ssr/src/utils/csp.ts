@@ -28,7 +28,7 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
       'blob:',
       'https://www.openstreetmap.org',
     ],
-    'img-src': ["'self'", 'data:', 'https://*.crisp.chat', 'https://*.tile.openstreetmap.org'],
+    'img-src': ["'self'", 'data:', 'https://*.crisp.chat'],
     'style-src': ["'self'", "'unsafe-inline'", 'data:', 'https://*.crisp.chat'],
     'script-src': [
       "'self'",
