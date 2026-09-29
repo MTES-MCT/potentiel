@@ -20,10 +20,10 @@ import {
   type ConsulterDocumentDependencies,
   registerConsulterDocumentQuery,
 } from './document/consulter/consulterDocument.query.js';
-import { registerModifierTypeDocumentCommand } from './document/modifier-type/modifierTypeDocumentRaccordement.command.js';
-import { registerModifierTypeDocumentUseCase } from './document/modifier-type/modifierTypeDocumentRaccordement.usecase.js';
 import { registerModifierDocumentCommand } from './document/modifier/modifierDocumentRaccordement.command.js';
 import { registerModifierDocumentUseCase } from './document/modifier/modifierDocumentRaccordement.usecase.js';
+import { registerModifierTypeDocumentCommand } from './document/modifier-type/modifierTypeDocumentRaccordement.command.js';
+import { registerModifierTypeDocumentUseCase } from './document/modifier-type/modifierTypeDocumentRaccordement.usecase.js';
 import { registerSupprimerDocumentCommand } from './document/supprimer/supprimerDocumentRaccordement.command.js';
 import { registerSupprimerDocumentUseCase } from './document/supprimer/supprimerDocumentRaccordement.usecase.js';
 import { registerTransmettreDocumentCommand } from './document/transmettre/transmettreDocumentRaccordement.command.js';
