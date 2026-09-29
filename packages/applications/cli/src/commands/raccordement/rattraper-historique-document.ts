@@ -52,9 +52,6 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           identifiantProjet: flags.identifiantProjet
             ? Where.equal(flags.identifiantProjet)
             : undefined,
-          // viovio à tester sans
-          // Date de mise en ligne de la nouvelle fonctionnalité PTF / CR / CRD
-          // miseÀJourLe: Where.lessOrEqual('2026-07-27T13:57:06.739Z'),
         },
         range: {
           startPosition: 0,
@@ -128,7 +125,7 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
           });
           stats.qualification[type === 'convention-de-raccordement' ? 'cr' : 'crd']++;
         } else if (type === 'ptf') {
-          console.log(`🔥 PTF trouvée`, {
+          console.log(`✨ PTF trouvée`, {
             identifiantProjet: dossier.identifiantProjet,
             référence: dossier.référence,
           });
@@ -184,8 +181,10 @@ export class RattraperHistoriqueDocumentsCommand extends Command {
 
       try {
         if (flags.dryRun) {
-          console.log(`dryRun -- nouvel event`);
+          console.log(`🙌 dryRun -- nouvel event`);
         } else {
+          console.log(`🙌 Publication d'un événement pour ${document.identifiantProjet}`);
+
           await publish(`raccordement|${document.identifiantProjet}`, {
             ...event,
             created_at: now,
