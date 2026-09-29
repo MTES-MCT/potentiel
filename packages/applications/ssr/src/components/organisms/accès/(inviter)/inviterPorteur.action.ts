@@ -39,7 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (
       return {
         status: 'success',
         redirection: {
-          message: `L'utilisateur a déjà accès à ${inviterATousSesProjets ? 'ces projets' : 'ce projet'}`,
+          message: `L'utilisateur a déjà accès à ${invitationMultiple ? 'ces projets' : 'ce projet'}`,
           url: Routes.Accès.lister(identifiantProjet, statutProjet ?? 'classé'),
         },
       };
@@ -115,9 +115,9 @@ const récupérerLesProjetsAuxquelsInviterLePorteur = async (
   utilisateur: Utilisateur.ValueType,
   utilisateurInvité: string,
   identifiantProjet: IdentifiantProjet.ValueType,
-  inviterATousSesProjets: boolean,
+  invitationMultiple: boolean,
 ) => {
-  if (inviterATousSesProjets) {
+  if (invitationMultiple) {
     if (!utilisateur.rôle.estPorteur()) {
       throw new OperationRejectedError('Cette action est réservée aux porteurs de projet');
     }
