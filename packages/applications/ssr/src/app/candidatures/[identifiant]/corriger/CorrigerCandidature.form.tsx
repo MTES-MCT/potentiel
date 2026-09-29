@@ -377,8 +377,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         nativeInputProps={{
           name: 'noteTotale',
           defaultValue: candidature.noteTotale,
-          required: true,
-          'aria-required': true,
+          required: !!candidature.noteTotale,
+          'aria-required': !!candidature.noteTotale,
           type: 'number',
           inputMode: 'decimal',
           pattern: '[0-9]+([.][0-9]+)?',
