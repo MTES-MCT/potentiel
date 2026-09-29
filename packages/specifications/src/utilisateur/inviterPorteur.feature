@@ -1,6 +1,5 @@
 # language: fr
 @utilisateur
-@select
 Fonctionnalité: Inviter un porteur sur un projet
 
     Plan du scénario: Inviter un porteur
@@ -35,7 +34,7 @@ Fonctionnalité: Inviter un porteur sur un projet
     Scénario: Impossible d'inviter un porteur déjà invité
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur invite un autre porteur sur le projet lauréat
-        Et le porteur invite un autre porteur sur le projet lauréat
+        Et le porteur invite le même porteur sur le projet lauréat
         Alors l'utilisateur devrait être informé que "L'utilisateur a déjà accès à ce projet"
 
     Scénario: Impossible d'inviter un compte non-porteur existant
