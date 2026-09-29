@@ -121,6 +121,7 @@ export const mapApiResponseToDépôt = ({
     puissanceDeSite: accessor.getNumberValue('puissanceDeSite'),
     puissanceDuProjetInitial: accessor.getNumberValue('puissanceDuProjetInitial'),
     prixReference: accessor.getNumberValue('prixReference'),
+    //** Petit hack pour ne pas bloquer les imports des périodes P9 Sol et P2 Petit PV, mais les règles restent à cadrer côté DN et Potentiel */
     evaluationCarboneSimplifiée:
       evaluationCarboneSimplifiée !== undefined && evaluationCarboneSimplifiée > 0
         ? evaluationCarboneSimplifiée
