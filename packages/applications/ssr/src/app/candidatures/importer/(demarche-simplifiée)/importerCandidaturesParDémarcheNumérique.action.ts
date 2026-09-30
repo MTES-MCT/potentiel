@@ -65,6 +65,12 @@ const action: FormAction<FormState, typeof schema> = async (
       };
     }
 
+    if (instructions.length > 400) {
+      throw new InvalidOperationError(
+        `Trop de dossiers importés à la fois, limitez le fichier d'instruction à 400 dossiers par import.`,
+      );
+    }
+
     // on récupère le numéro de la démarche en utilisant le numéro de dossier du premier dossier du fichier csv transmis
     const [{ numeroDossierDN }] = instructions;
 
@@ -102,11 +108,6 @@ const action: FormAction<FormState, typeof schema> = async (
 
     const dossiersIds = instructions.map(({ numeroDossierDN }) => numeroDossierDN);
 
-    if (dossiersIds.length > 400) {
-      throw new InvalidOperationError(
-        `Trop de dossiers importés à la fois, limitez le fichier d'instruction à 400 dossiers par import.`,
-      );
-    }
     const dossiers = await getDémarcheAvecDossiers({
       dossiersIds: dossiersIds,
       démarcheId: démarcheId,
