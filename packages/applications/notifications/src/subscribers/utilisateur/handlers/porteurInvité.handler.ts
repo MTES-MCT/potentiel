@@ -24,9 +24,9 @@ export const handlePorteurInvité = async ({
 
   const projets = candidatures.filter(Boolean);
 
-  const tousLesProjets = projets.length > 1;
+  const invitéÀPlusieursProjets = projets.length > 1;
 
-  const projetALister = projets
+  const projetsALister = projets
     .sort(
       (a, b) =>
         a.appelOffre.localeCompare(b.appelOffre) ||
@@ -45,8 +45,8 @@ export const handlePorteurInvité = async ({
     recipients: [identifiantUtilisateur],
     values: {
       invitéPar,
-      tousLesProjets: tousLesProjets ? 'true' : '',
-      projetALister,
+      invitéÀPlusieursProjets: invitéÀPlusieursProjets ? 'true' : '',
+      projetsALister,
       url: buildUrl(Routes.Lauréat.lister()),
     },
   });
