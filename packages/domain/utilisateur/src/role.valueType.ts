@@ -616,7 +616,6 @@ const référencielPermissions = {
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       enregisterSubstitut: 'Document.Command.EnregistrerDocumentSubstitut',
-      déplacerFichiers: 'Document.Command.DéplacerDocumentsProjet',
       déplacerDossier: 'Document.Command.DéplacerDossierProjet',
       corriger: 'Document.Command.CorrigerDocumentProjet',
     },
@@ -857,7 +856,7 @@ const policies = {
         référencielPermissions.document.command.enregister,
       ],
       valider: [
-        référencielPermissions.document.command.déplacerFichiers,
+        référencielPermissions.document.command.déplacerDossier,
         référencielPermissions.lauréat.garantiesFinancières.usecase.valider,
         référencielPermissions.lauréat.garantiesFinancières.command.valider,
       ],
