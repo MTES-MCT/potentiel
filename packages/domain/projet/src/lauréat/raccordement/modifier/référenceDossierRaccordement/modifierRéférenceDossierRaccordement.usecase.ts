@@ -53,12 +53,12 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
       },
     });
 
-    const dossierProjetActuelRaccordement = DocumentRaccordement.test(
+    const dossierProjetActuelRaccordement = DocumentRaccordement.dossierProjetRaccordement(
       identifiantProjetValue,
       référenceDossierRaccordementActuelleValue,
     );
 
-    const nouveauDossierProjetRaccordement = DocumentRaccordement.test(
+    const nouveauDossierProjetRaccordement = DocumentRaccordement.dossierProjetRaccordement(
       identifiantProjetValue,
       nouvelleRéférenceDossierRaccordementValue,
     );

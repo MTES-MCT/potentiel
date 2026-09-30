@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { DateTime, ExpressionRegulière } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
@@ -176,12 +176,7 @@ const numéroIdentificationSchema = z
         : undefined,
   );
 
-export const référenceRaccordementSchema = z
-  .string()
-  .min(1)
-  .regex(ExpressionRegulière.nomRépertoireDocumentValide.regex(), {
-    message: 'La référence du dossier contient un ou plusieurs caractères non autorisés',
-  });
+export const référenceRaccordementSchema = z.string().min(1);
 
 export const dépôtSchema = z
   .object({
