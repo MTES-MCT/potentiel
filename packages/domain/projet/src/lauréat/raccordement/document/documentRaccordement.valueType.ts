@@ -8,6 +8,8 @@ const domaine = 'raccordement';
 const typeAccuséRéception = 'accusé-réception';
 
 export const dossierProjetRaccordement = (identifiantProjet: string, référence: string) => {
+  // replacement de caractères problématiquse dans les URLs
+  const cleanedRéférence = 
   return {
     accuséRéception: DossierProjet.convertirEnValueType({
       identifiantProjet,
