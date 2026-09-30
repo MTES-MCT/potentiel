@@ -104,7 +104,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     if (dossiersIds.length > 400) {
       throw new InvalidOperationError(
-        `Trop de dossiers importés à la fois, limitez le fichier d'instruction à 400 dossiers par import. Il est possible de faire plusieurs imports pour une période.`,
+        `Trop de dossiers importés à la fois, limitez le fichier d'instruction à 400 dossiers par import.`,
       );
     }
     const dossiers = await getDémarcheAvecDossiers({
