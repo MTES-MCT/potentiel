@@ -7,7 +7,7 @@ import { getDémarcheNumériqueApiClient } from './graphql/index.js';
 const fetchDossiers = async (dossiersIds: number[]) => {
   const sdk = getDémarcheNumériqueApiClient();
   const dossiers = [];
-  const concurrency = 10;
+  const concurrency = 15;
   for (let i = 0; i < dossiersIds.length; i += concurrency) {
     const batch = dossiersIds.slice(i, i + concurrency);
     const résultats = await Promise.all(

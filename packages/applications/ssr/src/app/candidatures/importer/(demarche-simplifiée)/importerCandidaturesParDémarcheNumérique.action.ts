@@ -102,6 +102,11 @@ const action: FormAction<FormState, typeof schema> = async (
 
     const dossiersIds = instructions.map(({ numeroDossierDN }) => numeroDossierDN);
 
+    if (dossiersIds.length > 400) {
+      throw new InvalidOperationError(
+        `Trop de dossiers importés à la fois, limitez le fichier d'instruction à 400 dossiers par import. Il est possible de faire plusieurs imports pour une période.`,
+      );
+    }
     const dossiers = await getDémarcheAvecDossiers({
       dossiersIds: dossiersIds,
       démarcheId: démarcheId,
