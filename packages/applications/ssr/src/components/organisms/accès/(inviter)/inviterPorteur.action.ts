@@ -5,8 +5,9 @@ import * as zod from 'zod';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import type { Accès } from '@potentiel-domain/projet';
+import { type Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import type { InviterPorteurUseCase, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -25,12 +26,26 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, identifiantUtilisateurInvité, inviterATousSesProjets, statutProjet },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    if (inviterATousSesProjets === 'true') {
-      const identifiantsProjet = await récupérerTousLesProjetsDuPorteurEnExcluantCeuxDeLInvité(
-        utilisateur,
-        identifiantUtilisateurInvité,
-      );
+    const invitationMultiple = inviterATousSesProjets === 'true';
 
+    const identifiantsProjet = await récupérerLesProjetsAuxquelsInviterLePorteur(
+      utilisateur,
+      identifiantUtilisateurInvité,
+      IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      invitationMultiple,
+    );
+
+    if (!identifiantsProjet.length) {
+      return {
+        status: 'success',
+        redirection: {
+          message: `L'utilisateur a déjà accès à ${invitationMultiple ? 'ces projets' : 'ce projet'}`,
+          url: Routes.Accès.lister(identifiantProjet, statutProjet ?? 'classé'),
+        },
+      };
+    }
+
+    if (invitationMultiple) {
       await mediator.send<InviterPorteurUseCase>({
         type: 'Utilisateur.UseCase.InviterPorteur',
         data: {
@@ -96,35 +111,51 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-const récupérerTousLesProjetsDuPorteurEnExcluantCeuxDeLInvité = async (
+const récupérerLesProjetsAuxquelsInviterLePorteur = async (
   utilisateur: Utilisateur.ValueType,
   utilisateurInvité: string,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  invitationMultiple: boolean,
 ) => {
-  if (!utilisateur.rôle.estPorteur()) {
-    throw new OperationRejectedError('Cette action est réservée aux porteurs de projet');
+  if (invitationMultiple) {
+    if (!utilisateur.rôle.estPorteur()) {
+      throw new OperationRejectedError('Cette action est réservée aux porteurs de projet');
+    }
+
+    const accèsInvité = await mediator.send<Accès.ListerAccèsQuery>({
+      type: 'Projet.Accès.Query.ListerAccès',
+      data: {
+        identifiantUtilisateur: utilisateurInvité,
+      },
+    });
+
+    const accèsPorteur = await mediator.send<Accès.ListerAccèsQuery>({
+      type: 'Projet.Accès.Query.ListerAccès',
+      data: {
+        identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+      },
+    });
+
+    const projetsInvité = new Set(accèsInvité.items.map((a) => a.identifiantProjet.formatter()));
+
+    return accèsPorteur.items
+      .filter((accès) => !projetsInvité.has(accès.identifiantProjet.formatter()))
+      .map((accès) => accès.identifiantProjet.formatter());
   }
 
-  const accèsInvité = await mediator.send<Accès.ListerAccèsQuery>({
-    type: 'Projet.Accès.Query.ListerAccès',
+  const porteursAyantAccèsAuProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
+    type: 'Projet.Accès.Query.ConsulterAccès',
     data: {
-      identifiantUtilisateur: utilisateurInvité,
+      identifiantProjet: identifiantProjet.formatter(),
     },
   });
 
-  const accèsPorteur = await mediator.send<Accès.ListerAccèsQuery>({
-    type: 'Projet.Accès.Query.ListerAccès',
-    data: {
-      identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-    },
-  });
-
-  return accèsPorteur.items
-    .filter((accès) => {
-      return !accèsInvité.items.some((accèsInvité) =>
-        accèsInvité.identifiantProjet.estÉgaleÀ(accès.identifiantProjet),
-      );
-    })
-    .map((accès) => accès.identifiantProjet.formatter());
+  return Option.isSome(porteursAyantAccèsAuProjet) &&
+    !porteursAyantAccèsAuProjet.utilisateursAyantAccès.some(
+      (utilisateur) => utilisateur.email === utilisateurInvité,
+    )
+    ? [identifiantProjet.formatter()]
+    : [];
 };
 
 export const inviterPorteurAction = formAction(action, schema);
