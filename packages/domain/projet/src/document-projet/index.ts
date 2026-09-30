@@ -8,9 +8,13 @@ import type {
   CorrigerDocumentProjetCommand,
 } from './corriger/corrigerDocumentProjet.command.js';
 import type {
+  DéplacerDocumentsProjetCommand,
+  DéplacerDocumentsProjetPort,
+} from './déplacer/déplacerDocumentsProjet.command.js';
+import type {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
-} from './déplacer/déplacerDocumentProjet.command.js';
+} from './déplacer/déplacerDossierProjet.command.js';
 import type {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
@@ -29,9 +33,10 @@ export type { ConsulterDocumentProjetQuery, ConsulterDocumentProjetReadModel };
 // Command
 export type DocumentProjetCommand =
   | EnregistrerDocumentProjetCommand
-  | DéplacerDossierProjetCommand
+  | DéplacerDocumentsProjetCommand
   | CorrigerDocumentProjetCommand
-  | EnregistrerDocumentSubstitutCommand;
+  | EnregistrerDocumentSubstitutCommand
+  | DéplacerDossierProjetCommand;
 
 // Register
 export * from './documentProjet.register.js';
@@ -42,6 +47,8 @@ export * as DossierProjet from './dossierProjet.valueType.js';
 export type {
   ArchiverDocumentProjetPort,
   CorrigerDocumentProjetCommand,
+  DéplacerDocumentsProjetCommand,
+  DéplacerDocumentsProjetPort,
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
   EnregistrerDocumentProjetCommand,
