@@ -81,6 +81,10 @@ type DynamicField<TNomChamp extends string, TType> = {
   [PDocument in TNomChamp]: TType;
 };
 
+// replacement de caractères problématiques dans les URLs
+const sanitizeCléDocumentForS3 = (reference: string): string =>
+  reference.replaceAll(/['?*:;{}/\\]/g, '_');
+
 export const documentFactory =
   <
     TNomChampDocument extends string,
@@ -111,7 +115,7 @@ export const documentFactory =
       typeDocument: nomCléDocument
         ? join(
             /*turbopackIgnore: true*/ domaine,
-            payload[nomCléDocument as keyof typeof payload],
+            sanitizeCléDocumentForS3(payload[nomCléDocument as keyof typeof payload]),
             typeDocument,
           )
         : join(/*turbopackIgnore: true*/ domaine, typeDocument),

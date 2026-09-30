@@ -7,19 +7,32 @@ const domaine = 'raccordement';
 
 const typeAccuséRéception = 'accusé-réception';
 
+// replacement de caractères problématiques dans les URLs
+const sanitizeRéférenceForS3 = (reference: string): string =>
+  reference.replaceAll(/['?*:;{}/\\]/g, '_');
+
+export const test = (identifiantProjet: string, référence: string) => {
+  return DossierProjet.convertirEnValueType({
+    identifiantProjet,
+    typeDocument: join(/*turbopackIgnore: true*/ domaine, sanitizeRéférenceForS3(référence)),
+  });
+};
+
 export const dossierProjetRaccordement = (identifiantProjet: string, référence: string) => {
-  // replacement de caractères problématiquse dans les URLs
-  const cleanedRéférence = 
   return {
     accuséRéception: DossierProjet.convertirEnValueType({
       identifiantProjet,
-      typeDocument: join(/*turbopackIgnore: true*/ domaine, référence, typeAccuséRéception),
+      typeDocument: join(
+        /*turbopackIgnore: true*/ domaine,
+        sanitizeRéférenceForS3(référence),
+        typeAccuséRéception,
+      ),
     }),
     propositionTechniqueEtFinancière: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
-        référence,
+        sanitizeRéférenceForS3(référence),
         TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
       ),
     }),
@@ -27,7 +40,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
       identifiantProjet,
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
-        référence,
+        sanitizeRéférenceForS3(référence),
         TypeDocumentsRaccordement.conventionDeRaccordement.type,
       ),
     }),
@@ -35,7 +48,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
       identifiantProjet,
       typeDocument: join(
         /*turbopackIgnore: true*/ domaine,
-        référence,
+        sanitizeRéférenceForS3(référence),
         TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
       ),
     }),
