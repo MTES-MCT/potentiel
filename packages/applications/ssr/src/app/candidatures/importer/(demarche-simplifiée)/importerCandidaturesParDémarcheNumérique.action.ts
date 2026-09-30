@@ -100,7 +100,13 @@ const action: FormAction<FormState, typeof schema> = async (
       'importéLe' | 'importéPar'
     >[] = [];
 
-    const dossiers = await getDémarcheAvecDossiers(démarcheId);
+    const dossiersIds = instructions.map(({ numeroDossierDN }) => numeroDossierDN);
+
+    const dossiers = await getDémarcheAvecDossiers({
+      dossiersIds: dossiersIds,
+      démarcheId: démarcheId,
+    });
+
     const typeImport: AppelOffre.Periode['typeImport'] = 'démarche-numérique';
 
     if (Option.isNone(dossiers)) {
