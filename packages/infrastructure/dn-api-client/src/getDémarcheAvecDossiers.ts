@@ -4,6 +4,31 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
 import { getDémarcheNumériqueApiClient } from './graphql/index.js';
 
+const fetchDossiers = async (dossiersIds: number[]) => {
+  const logger = getLogger('dn-api-client');
+  const sdk = getDémarcheNumériqueApiClient();
+  const dossiers = [];
+  const concurrency = 15;
+  for (let i = 0; i < dossiersIds.length; i += concurrency) {
+    const batch = dossiersIds.slice(i, i + concurrency);
+    try {
+      const résultats = await Promise.all(
+        batch.map(async (dossierId) => {
+          const { dossier } = await sdk.GetDossier({ dossier: dossierId });
+          return dossier;
+        }),
+      );
+      dossiers.push(...résultats.filter((dossier) => dossier !== null));
+    } catch (e) {
+      logger.error('Erreur lors de la récupération des dossiers de la démarche', {
+        errorMessage: e instanceof Error ? e.message : 'unknown',
+        errorData: e,
+      });
+    }
+  }
+  return { dossiers };
+};
+
 const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];
   let hasNextPage = true;
@@ -30,10 +55,17 @@ const fetchAllDossiers = async (démarcheId: number) => {
   return { dossiers };
 };
 
-export const getDémarcheAvecDossiers = async (démarcheId: number) => {
+type GetDémarcheAvecDossiersProps = { démarcheId: number; dossiersIds?: number[] };
+
+export const getDémarcheAvecDossiers = async ({
+  dossiersIds,
+  démarcheId,
+}: GetDémarcheAvecDossiersProps) => {
   const logger = getLogger('dn-api-client');
   try {
-    const { dossiers } = await fetchAllDossiers(démarcheId);
+    const { dossiers } = dossiersIds
+      ? await fetchDossiers(dossiersIds)
+      : await fetchAllDossiers(démarcheId);
 
     return dossiers
       .filter((dossier) => !!dossier)
