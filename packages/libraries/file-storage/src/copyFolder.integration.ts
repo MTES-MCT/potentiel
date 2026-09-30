@@ -4,12 +4,12 @@ import { before, beforeEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
-import { copyFolder } from './copyFolder.js';
+import { copyFilesFromFolder, copyFolder } from './copyFolder.js';
 import { download } from './download.js';
 import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration.js';
 import { upload } from './upload.js';
 
-describe(`copy folder`, () => {
+describe(`copy files from folder`, () => {
   const bucketName = 'potentiel';
 
   before(() => {
@@ -39,7 +39,7 @@ describe(`copy folder`, () => {
     await upload(sourceFilePath1, content1);
     await upload(sourceFilePath2, content2);
 
-    await copyFolder(sourcePath, targetPath);
+    await copyFilesFromFolder(sourcePath, targetPath);
 
     const actualTarget1 = await download(targetFilePath1);
     const actualTarget2 = await download(targetFilePath2);
@@ -52,5 +52,46 @@ describe(`copy folder`, () => {
 
     expect(actualSource1).not.to.be.null;
     expect(actualSource2).not.to.be.null;
+  });
+});
+
+describe(`Copy folder`, () => {
+  const bucketName = 'potentiel';
+
+  before(() => {
+    setTestBucketEnvVariable(bucketName);
+  });
+
+  beforeEach(async () => {
+    await createOrRecreateBucket(bucketName);
+  });
+
+  it(`
+    Etant donné un endpoint et un bucket
+    Et un dossier contenant des fichiers à plusieurs niveaux
+    Quand le dossier est copié
+    Alors toute l'arborescence devrait être préservée dans la cible`, async () => {
+    const sourcePath = 'path/source';
+    const sourceFiles = [
+      `${sourcePath}/file-racine.pdf`,
+      `${sourcePath}/sous-dossier/file-niveau1.pdf`,
+      `${sourcePath}/sous-dossier/file-niveau2.pdf`,
+    ];
+
+    for (const [index, filePath] of sourceFiles.entries()) {
+      await upload(filePath, Readable.toWeb(Readable.from(`Contenu ${index}`)));
+    }
+
+    const targetPath = 'path/target';
+    await copyFolder(sourcePath, targetPath);
+
+    const expectedTargetFiles = sourceFiles.map((filePath) =>
+      filePath.replace(sourcePath, targetPath),
+    );
+
+    for (const filePath of expectedTargetFiles) {
+      const actual = await download(filePath);
+      expect(actual).not.to.be.null;
+    }
   });
 });

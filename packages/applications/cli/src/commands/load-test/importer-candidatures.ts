@@ -50,11 +50,13 @@ export class ImporterCandidatures extends Command {
         enregistrerDocumentProjet: async () => {},
         archiverDocumentProjet: async () => {},
         déplacerDossierProjet: async () => {},
+        déplacerDocumentsProjet: async () => {},
         enregistrerDocumentSubstitut: async () => {},
       });
     } else {
       Document.registerDocumentProjetCommand({
         enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+        déplacerDocumentsProjet: DocumentAdapter.déplacerDocumentsProjet,
         déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
         archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
         enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
