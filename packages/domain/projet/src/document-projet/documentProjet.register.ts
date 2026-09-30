@@ -7,10 +7,6 @@ import {
   registerCorrigerDocumentProjetCommand,
 } from './corriger/corrigerDocumentProjet.command.js';
 import {
-  type DéplacerDocumentsProjetDependencies,
-  registerDéplacerDocumentsProjetCommand,
-} from './déplacer/déplacerDocumentsProjet.command.js';
-import {
   type DéplacerDossierProjetDependencies,
   registerDéplacerDossierProjetCommand,
 } from './déplacer/déplacerDossierProjet.command.js';
@@ -25,7 +21,6 @@ import {
 
 type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies;
 type DocumentProjetCommandDependencies = EnregistrerDocumentProjetDependencies &
-  DéplacerDocumentsProjetDependencies &
   DéplacerDossierProjetDependencies &
   CorrigerDocumentProjetDependencies &
   EnregistrerDocumentSubstitutCommandDependencies;
@@ -36,7 +31,6 @@ export const registerDocumentProjetQueries = (dependencies: DocumentProjetQueryD
 
 export const registerDocumentProjetCommand = (dependencies: DocumentProjetCommandDependencies) => {
   registerEnregistrerDocumentProjetCommand(dependencies);
-  registerDéplacerDocumentsProjetCommand(dependencies);
   registerDéplacerDossierProjetCommand(dependencies);
 
   registerCorrigerDocumentProjetCommand(dependencies);

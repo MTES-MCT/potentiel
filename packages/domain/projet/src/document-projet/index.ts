@@ -8,10 +8,6 @@ import type {
   CorrigerDocumentProjetCommand,
 } from './corriger/corrigerDocumentProjet.command.js';
 import type {
-  DéplacerDocumentsProjetCommand,
-  DéplacerDocumentsProjetPort,
-} from './déplacer/déplacerDocumentsProjet.command.js';
-import type {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
 } from './déplacer/déplacerDossierProjet.command.js';
@@ -33,7 +29,6 @@ export type { ConsulterDocumentProjetQuery, ConsulterDocumentProjetReadModel };
 // Command
 export type DocumentProjetCommand =
   | EnregistrerDocumentProjetCommand
-  | DéplacerDocumentsProjetCommand
   | CorrigerDocumentProjetCommand
   | EnregistrerDocumentSubstitutCommand
   | DéplacerDossierProjetCommand;
@@ -47,8 +42,6 @@ export * as DossierProjet from './dossierProjet.valueType.js';
 export type {
   ArchiverDocumentProjetPort,
   CorrigerDocumentProjetCommand,
-  DéplacerDocumentsProjetCommand,
-  DéplacerDocumentsProjetPort,
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
   EnregistrerDocumentProjetCommand,

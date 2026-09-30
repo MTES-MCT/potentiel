@@ -42,7 +42,6 @@ export default class TransmettreRéférences extends Command {
 
     Document.registerDocumentProjetCommand({
       enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
-      déplacerDocumentsProjet: DocumentAdapter.déplacerDocumentsProjet,
       déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
       archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
       enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,

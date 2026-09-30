@@ -9,7 +9,6 @@ import {
 
 export const téléchargerDocumentProjet: Document.RécupérerDocumentProjetPort = download;
 export const téléverserDocumentProjet: Document.EnregistrerDocumentProjetPort = upload;
-export const déplacerDocumentsProjet: Document.DéplacerDocumentsProjetPort = copyFilesFromFolder;
 export const déplacerDossierProjet: Document.DéplacerDossierProjetPort = copyFolder;
 export const archiverDocumentProjet: Document.ArchiverDocumentProjetPort = copyFile;
 

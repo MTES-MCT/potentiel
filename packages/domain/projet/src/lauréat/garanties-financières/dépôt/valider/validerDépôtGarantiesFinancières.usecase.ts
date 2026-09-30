@@ -2,7 +2,7 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import type { DéplacerDocumentsProjetCommand } from '../../../../document-projet/index.js';
+import type { DéplacerDossierProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentGarantiesFinancières } from '../../index.js';
 import type { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancières.command.js';
@@ -29,9 +29,8 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
     const dossierProjetGarantiesFinancières =
       DocumentGarantiesFinancières.dossierProjetGarantiesFinancières(identifiantProjetValue);
 
-    // viovio - on peut probablement supprimer ça
-    await mediator.send<DéplacerDocumentsProjetCommand>({
-      type: 'Document.Command.DéplacerDocumentsProjet',
+    await mediator.send<DéplacerDossierProjetCommand>({
+      type: 'Document.Command.DéplacerDossierProjet',
       data: {
         dossierProjetSource: dossierProjetGarantiesFinancières.attestationGarantiesFinancièresDépôt,
         dossierProjetTarget: dossierProjetGarantiesFinancières.attestationGarantiesFinancières,

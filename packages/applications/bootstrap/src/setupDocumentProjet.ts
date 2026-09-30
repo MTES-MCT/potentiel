@@ -8,7 +8,6 @@ export const setupDocumentProjet = () => {
 
   Document.registerDocumentProjetCommand({
     enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
-    déplacerDocumentsProjet: DocumentAdapter.déplacerDocumentsProjet,
     déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
     archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
     enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
