@@ -33,6 +33,7 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
         <span className="font-semibold">Démarche Numérique</span>.
       </div>
       <Notice
+        severity="warning"
         title="Limite temporaire des fichiers d'instruction"
         description="Pour éviter les erreurs de timeout dues au temps de réponse de l'API DN une limite a été fixée à 400 dossiers par import. Si votre liste de candidats dépasse cette limite, nous vous invitons à scinder votre fichier et à réaliser plusieurs imports. Une solution sera apportée très prochainement pour permettre l'import des candidats en un seul fichier. Veuillez nous excuser pour la gène occasionnée."
       ></Notice>
