@@ -45,18 +45,16 @@ Fonctionnalité: Modifier le type d'un document de raccordement par le système
             | convention-de-raccordement          | proposition-technique-et-financière |
             | proposition-technique-et-financière | convention-de-raccordement          |
 
-    # Erreur liée à la command de document qui pète, à améliorer
     Scénario: Impossible de modifier un document qui n'a pas été transmis
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand le système modifie le type du document avec :
             | document modifié         | convention-de-raccordement |
             | nouveau type de document | convention-de-raccordement |
-        Alors le système devrait être informé que "La source et la destination sont identiques"
+        Alors le système devrait être informé que "Il n'existe pas de document de ce type dans ce dossier de raccordement"
 
-    # Erreur liée à la command de document qui pète, à améliorer
     Scénario: Impossible de modifier un document sans modification
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et un document transmis pour le projet lauréat
         Quand le système modifie le type du document avec les mêmes valeurs
-        Alors le système devrait être informé que "La source et la destination sont identiques"
+        Alors le système devrait être informé que "Aucune modification n’a été apportée"
 

@@ -37,6 +37,18 @@ export const registerModifierTypeDocumentUseCase = () => {
       référenceDossierRaccordementValue,
     );
 
+    await mediator.send<ModifierTypeDocumentCommand>({
+      type: 'Lauréat.Raccordement.Command.ModifierTypeDocument',
+      data: {
+        identifiantProjet,
+        référenceDossierRaccordement,
+        modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
+        modifiéPar: Email.convertirEnValueType(modifiéParValue),
+        ancienType: ancienTypeDocument,
+        nouveauType: nouveauTypeDocument,
+      },
+    });
+
     const dossier = DocumentRaccordement.dossierProjetRaccordement(
       identifiantProjet.formatter(),
       référenceDossierRaccordement.formatter(),
@@ -53,18 +65,6 @@ export const registerModifierTypeDocumentUseCase = () => {
           dossier[
             TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(nouveauTypeDocument.formatter())
           ],
-      },
-    });
-
-    await mediator.send<ModifierTypeDocumentCommand>({
-      type: 'Lauréat.Raccordement.Command.ModifierTypeDocument',
-      data: {
-        identifiantProjet,
-        référenceDossierRaccordement,
-        modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
-        modifiéPar: Email.convertirEnValueType(modifiéParValue),
-        ancienType: ancienTypeDocument,
-        nouveauType: nouveauTypeDocument,
       },
     });
   };
