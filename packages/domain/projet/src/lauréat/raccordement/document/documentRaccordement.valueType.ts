@@ -10,7 +10,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
     identifiantProjet,
     typeDocument: join(
       /*turbopackIgnore: true*/ domaine,
-      DocumentProjet.sanitizeCléDocumentForS3(référence),
+      DocumentProjet.sanitizeCléDocument(référence),
     ),
   });
 };
