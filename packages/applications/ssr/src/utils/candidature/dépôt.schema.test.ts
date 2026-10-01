@@ -36,7 +36,7 @@ const minimumValues = {
   dateÉchéanceGf: '01/01/2025',
   dateConstitutionGf: '01/01/2024',
   typologieInstallation: [],
-  raccordements: [{ dateQualification: '01/01/2024', référence: 'RF' }],
+  raccordements: [{ dateQualification: '01/01/2024', référence: 'REF' }],
   fournisseurs: [
     {
       typeFournisseur: 'module-ou-films',
