@@ -14,7 +14,10 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.lauréatWorld.raccordementWorld;
-    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture;
+    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.modifierTypeFixture
+      .aÉtéCréé
+      ? this.lauréatWorld.raccordementWorld.documentRaccordement.modifierTypeFixture
+      : this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture;
 
     await waitForExpect(async () => {
       const dossierRaccordement =
@@ -37,10 +40,11 @@ Alors(
           typeDocumentValue: type,
         },
       });
+
       const document =
         this.lauréatWorld.raccordementWorld.documentRaccordement.getDocumentRaccordement(type);
 
-      assert(Option.isSome(documentFromDossier), 'Le document issu de la query devrait exister');
+      assert(Option.isSome(documentFromDossier), 'Le document de la query devrait exister');
       assert(document, 'Le document devrait exister');
 
       await expectFileContent(documentFromDossier.document, document.document);

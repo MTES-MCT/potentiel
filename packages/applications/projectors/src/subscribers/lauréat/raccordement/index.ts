@@ -23,6 +23,7 @@ import {
 import { documentRaccordementSuppriméV1Projector } from './dossier-raccordement/documentsRaccordement/documentRaccordementSupprimé.projector.js';
 import { documentRaccordementTransmisV1Projector } from './dossier-raccordement/documentsRaccordement/documentRaccordementTransmis.projector.js';
 import { documentRaccordementModifiéV1Projector } from './dossier-raccordement/documentsRaccordement/index.js';
+import { typeDocumentRaccordementModifiéV1Projector } from './dossier-raccordement/documentsRaccordement/typeDocumentRaccordementModifié.projector.js';
 import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector.js';
 import {
   propositionTechniqueEtFinancièreModifiéeV1Projector,
@@ -161,6 +162,10 @@ export const register = () => {
             documentRaccordementTransmisV1Projector,
           )
           .with({ type: 'DocumentRaccordementModifié-V1' }, documentRaccordementModifiéV1Projector)
+          .with(
+            { type: 'TypeDocumentRaccordementModifié-V1' },
+            typeDocumentRaccordementModifiéV1Projector,
+          )
           .with(
             { type: 'DocumentRaccordementSupprimé-V1' },
             documentRaccordementSuppriméV1Projector,
