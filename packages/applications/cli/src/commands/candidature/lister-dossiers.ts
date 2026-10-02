@@ -29,7 +29,7 @@ export class ListerDossiersCandidatureCommand extends Command {
   async run() {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
-      const dossiers = await getDémarcheAvecDossiers(args.démarche);
+      const dossiers = await getDémarcheAvecDossiers({ démarcheId: args.démarche });
       console.log(dossiers);
 
       if (Option.isNone(dossiers)) {
