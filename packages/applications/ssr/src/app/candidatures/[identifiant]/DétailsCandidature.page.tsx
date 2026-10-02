@@ -318,8 +318,8 @@ const mapToActionComponents = ({
           href: Routes.Document.télécharger(attestation),
           target: '_blank',
         }}
-        title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
-        aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
+        title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
+        aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
         priority="secondary"
       >
         {estUneCandidatureLauréate ? 'Attestation' : 'Avis de rejet'}
@@ -333,7 +333,7 @@ const mapToActionComponents = ({
           ),
           target: '_blank',
         }}
-        title={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"}`}
+        title={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
         aria-label={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
         priority="secondary"
       >
