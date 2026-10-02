@@ -20,6 +20,11 @@ const typologieToLabelMap: Record<
   'ombrière.autre': 'Ombrière',
   'ombrière.agrivoltaïque': 'Ombrière agrivoltaïque',
   sol: 'Installation au sol',
+  'bâtiment.non-précisé': 'Bâtiment (non précisé)',
+  'ombrière.agrivoltaïque-pré-aper': 'Ombrière agrivoltaïque (pré-APER)',
+  'ombrière.agrivoltaïque-post-aper': 'Ombrière agrivoltaïque (post-APER)',
+  'bâtiment.serre-agrivoltaïque-post-aper': 'Bâtiment (serre agrivoltaïque post-APER)',
+  'bâtiment.serre-agrivoltaïque-pré-aper': 'Bâtiment (serre agrivoltaïque pré-APER)',
 };
 
 export const getTypologieInstallationLabel = (

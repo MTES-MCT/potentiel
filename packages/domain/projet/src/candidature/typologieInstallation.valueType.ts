@@ -9,13 +9,18 @@ export const bâtiment = [
   'bâtiment.existant-avec-rénovation-de-toiture',
   'bâtiment.existant-sans-rénovation-de-toiture',
   'bâtiment.serre',
+  'bâtiment.serre-agrivoltaïque-pré-aper',
+  'bâtiment.serre-agrivoltaïque-post-aper',
   'bâtiment.stabulation',
   'bâtiment.mixte',
+  'bâtiment.non-précisé',
 ] as const;
 
 export const ombrière = [
   'ombrière.parking',
   'ombrière.agrivoltaïque',
+  'ombrière.agrivoltaïque-pré-aper',
+  'ombrière.agrivoltaïque-post-aper',
   'ombrière.autre',
   'ombrière.mixte',
 ] as const;
