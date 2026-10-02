@@ -13,6 +13,18 @@ export const getTypologieInstallation = (champs: Champs) => {
       champ.label.trim().toLowerCase() === 'typologie principale du projet',
   );
 
+  const champTypologieMixte = champs.find(
+    (champ) =>
+      champ.__typename === 'MultipleDropDownListChamp' &&
+      champ.label.trim().toLowerCase() === `types d'installation, si mixte`,
+  );
+
+  const champTypeDInstallationPhotovoltaïque = champs.find(
+    (champ) =>
+      champ.__typename === 'TextChamp' &&
+      champ.label.trim().toLowerCase() === `type d'installation photovoltaïque`,
+  );
+
   const champAgrivoltaïque = champs.find(
     (champ) =>
       champ.__typename === 'CheckboxChamp' &&
@@ -65,9 +77,29 @@ export const getTypologieInstallation = (champs: Champs) => {
     typologieInstallation.push(typologie);
   }
 
+  const typeDInstallationPhotovoltaïque = champTypeDInstallationPhotovoltaïque?.stringValue
+    ?.trim()
+    .toLowerCase();
+  if (typeDInstallationPhotovoltaïque === 'Installation au sol') {
+    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol' };
+    typologieInstallation.push(typologie);
+  }
+
+  const typeInstallationMixte = champTypologieMixte?.stringValue
+    ?.toLowerCase()
+    .split(',')
+    .map((t) => t.trim());
+  if (typeInstallationMixte?.includes('installation au sol')) {
+    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol' };
+    typologieInstallation.push(typologie);
+  }
+
   if (champTypologieBâtiment?.stringValue) {
     const typologie = match(champTypologieBâtiment.stringValue.trim().toLowerCase())
       .returnType<Candidature.TypologieInstallation.RawType | undefined>()
+      .with('bâtiment', () => ({
+        typologie: 'bâtiment.non-précisé',
+      }))
       .with('stabulation visant à loger du bétail', () => ({
         typologie: 'bâtiment.stabulation',
       }))
@@ -79,6 +111,18 @@ export const getTypologieInstallation = (champs: Champs) => {
       }))
       .with('bâtiment existant sans rénovation de toiture', () => ({
         typologie: 'bâtiment.existant-sans-rénovation-de-toiture',
+      }))
+      .with('serre agricole', () => ({
+        typologie: 'bâtiment.serre',
+        détails: champÉlémentsSousSerre?.stringValue?.trim(),
+      }))
+      .with('serre agrivoltaïque "pré-aper"', () => ({
+        typologie: 'bâtiment.serre-agrivoltaïque-pré-aper',
+        détails: champÉlémentsSousSerre?.stringValue?.trim(),
+      }))
+      .with('serre agrivoltaïque "post-aper"', () => ({
+        typologie: 'bâtiment.serre-agrivoltaïque-post-aper',
+        détails: champÉlémentsSousSerre?.stringValue?.trim(),
       }))
       .with('serre agricole', () => ({
         typologie: 'bâtiment.serre',
@@ -105,6 +149,18 @@ export const getTypologieInstallation = (champs: Champs) => {
       }))
       .with('ombrière mixte (sur parking et autre)', () => ({
         typologie: 'ombrière.mixte',
+        détails: champÉlémentsSousOmbrière?.stringValue?.trim(),
+      }))
+      .with('ombrière mixte', () => ({
+        typologie: 'ombrière.mixte',
+        détails: champÉlémentsSousOmbrière?.stringValue?.trim(),
+      }))
+      .with('ombrière agrivoltaïque "pré-aper"', () => ({
+        typologie: 'ombrière.agrivoltaïque-pré-aper',
+        détails: champÉlémentsSousOmbrière?.stringValue?.trim(),
+      }))
+      .with('ombrière agrivoltaïque "post-aper"', () => ({
+        typologie: 'ombrière.agrivoltaïque-post-aper',
         détails: champÉlémentsSousOmbrière?.stringValue?.trim(),
       }))
       .otherwise(() => undefined);
