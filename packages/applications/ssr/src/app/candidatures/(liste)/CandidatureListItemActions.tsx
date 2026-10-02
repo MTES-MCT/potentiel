@@ -31,12 +31,11 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
           className="whitespace-nowrap"
           linkProps={{
             href: Routes.Document.télécharger(actions.télécharger.url),
+            target: '_blank',
           }}
           title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
           aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} au format PDF`}
           priority="secondary"
-          iconId="fr-icon-file-download-line"
-          iconPosition="right"
         >
           {estUneCandidatureLauréate ? 'Attestation' : 'Avis de rejet'}
         </Button>

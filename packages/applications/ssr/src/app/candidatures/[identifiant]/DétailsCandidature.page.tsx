@@ -316,12 +316,11 @@ const mapToActionComponents = ({
       <Button
         linkProps={{
           href: Routes.Document.télécharger(attestation),
+          target: '_blank',
         }}
         title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
         aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
         priority="secondary"
-        iconId="fr-icon-file-download-line"
-        iconPosition="right"
       >
         {estUneCandidatureLauréate ? 'Attestation' : 'Avis de rejet'}
       </Button>
