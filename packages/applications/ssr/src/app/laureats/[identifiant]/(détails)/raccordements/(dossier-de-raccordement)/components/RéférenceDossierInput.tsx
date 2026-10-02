@@ -41,12 +41,6 @@ export const RéférenceDossierInput = ({
             <div className="m-0">Exemple de format attendu : {aideSaisie.format}</div>
           )}
           {aideSaisie?.légende && <div className="m-0 italic">{aideSaisie.légende}</div>}
-          <div className="flex flex-wrap items-center gap-2">
-            <span>Caractères interdits :</span>
-            {['?', '*', ':', ';', '{', '}', '\\'].map((char) => (
-              <code key={char}>{char}</code>
-            ))}
-          </div>
         </>
       }
       state={validationErrors[name] ? 'error' : 'default'}

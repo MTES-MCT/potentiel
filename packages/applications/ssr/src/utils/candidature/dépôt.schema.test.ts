@@ -36,7 +36,7 @@ const minimumValues = {
   dateÉchéanceGf: '01/01/2025',
   dateConstitutionGf: '01/01/2024',
   typologieInstallation: [],
-  raccordements: [{ dateQualification: '01/01/2024', référence: 'RF' }],
+  raccordements: [{ dateQualification: '01/01/2024', référence: 'REF' }],
   fournisseurs: [
     {
       typeFournisseur: 'module-ou-films',
@@ -64,7 +64,7 @@ const expectedMinimumValues = {
   raccordements: [
     {
       dateQualification: new Date(minimumValues.raccordements[0].dateQualification).toISOString(),
-      référence: 'RF',
+      référence: 'REF',
     },
   ],
 };
@@ -98,20 +98,6 @@ describe('Schéma dépôt', () => {
 
       assert(result.error);
       assertError(result, ['emailContact'], 'adresse e-mail invalide');
-    });
-
-    test('format référence de raccordement', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        raccordements: [{ dateQualification: '01/01/2024', référence: 'ref1:X;ref2:Y' }],
-      });
-
-      assert(result.error);
-      assertError(
-        result,
-        ['raccordements', 0, 'référence'],
-        'La référence du dossier contient un ou plusieurs caractères non autorisés',
-      );
     });
 
     for (const champ of [

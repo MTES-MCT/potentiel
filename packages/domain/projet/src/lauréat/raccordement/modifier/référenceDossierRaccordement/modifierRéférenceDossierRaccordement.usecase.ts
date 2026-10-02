@@ -66,32 +66,8 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     await mediator.send<DéplacerDossierProjetCommand>({
       type: 'Document.Command.DéplacerDossierProjet',
       data: {
-        dossierProjetSource: dossierProjetActuelRaccordement.accuséRéception,
-        dossierProjetTarget: nouveauDossierProjetRaccordement.accuséRéception,
-      },
-    });
-
-    await mediator.send<DéplacerDossierProjetCommand>({
-      type: 'Document.Command.DéplacerDossierProjet',
-      data: {
-        dossierProjetSource: dossierProjetActuelRaccordement.propositionTechniqueEtFinancière,
-        dossierProjetTarget: nouveauDossierProjetRaccordement.propositionTechniqueEtFinancière,
-      },
-    });
-
-    await mediator.send<DéplacerDossierProjetCommand>({
-      type: 'Document.Command.DéplacerDossierProjet',
-      data: {
-        dossierProjetSource: dossierProjetActuelRaccordement.conventionDeRaccordement,
-        dossierProjetTarget: nouveauDossierProjetRaccordement.conventionDeRaccordement,
-      },
-    });
-
-    await mediator.send<DéplacerDossierProjetCommand>({
-      type: 'Document.Command.DéplacerDossierProjet',
-      data: {
-        dossierProjetSource: dossierProjetActuelRaccordement.conventionDeRaccordementDirecte,
-        dossierProjetTarget: nouveauDossierProjetRaccordement.conventionDeRaccordementDirecte,
+        dossierProjetSource: dossierProjetActuelRaccordement,
+        dossierProjetTarget: nouveauDossierProjetRaccordement,
       },
     });
   };

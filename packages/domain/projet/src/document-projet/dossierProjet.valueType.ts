@@ -1,6 +1,5 @@
 import { join } from 'node:path';
 
-import { ExpressionRegulière } from '@potentiel-domain/common';
 import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
 import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
@@ -39,7 +38,7 @@ export const convertirEnValueType = ({
 };
 
 const estValide = (value: string) => {
-  const isValid = ExpressionRegulière.nomRépertoireDocumentValide.valider(value);
+  const isValid = !!value;
 
   if (!isValid) {
     throw new TypeDocumentInvalideError(value);

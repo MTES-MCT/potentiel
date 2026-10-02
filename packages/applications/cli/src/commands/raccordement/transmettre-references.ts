@@ -46,6 +46,7 @@ export default class TransmettreRéférences extends Command {
       archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
       enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
     });
+
     Document.registerDocumentProjetQueries({
       récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
     });

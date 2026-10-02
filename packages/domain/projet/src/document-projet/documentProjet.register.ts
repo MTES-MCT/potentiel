@@ -9,7 +9,7 @@ import {
 import {
   type DéplacerDossierProjetDependencies,
   registerDéplacerDossierProjetCommand,
-} from './déplacer/déplacerDocumentProjet.command.js';
+} from './déplacer/déplacerDossierProjet.command.js';
 import {
   type EnregistrerDocumentProjetDependencies,
   registerEnregistrerDocumentProjetCommand,
@@ -32,6 +32,7 @@ export const registerDocumentProjetQueries = (dependencies: DocumentProjetQueryD
 export const registerDocumentProjetCommand = (dependencies: DocumentProjetCommandDependencies) => {
   registerEnregistrerDocumentProjetCommand(dependencies);
   registerDéplacerDossierProjetCommand(dependencies);
+
   registerCorrigerDocumentProjetCommand(dependencies);
   registerEnregistrerDocumentSubstitutCommand(dependencies);
 };

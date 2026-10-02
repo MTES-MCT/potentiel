@@ -616,7 +616,7 @@ const référencielPermissions = {
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       enregisterSubstitut: 'Document.Command.EnregistrerDocumentSubstitut',
-      déplacer: 'Document.Command.DéplacerDossierProjet',
+      déplacerDossier: 'Document.Command.DéplacerDossierProjet',
       corriger: 'Document.Command.CorrigerDocumentProjet',
     },
   },
@@ -856,7 +856,7 @@ const policies = {
         référencielPermissions.document.command.enregister,
       ],
       valider: [
-        référencielPermissions.document.command.déplacer,
+        référencielPermissions.document.command.déplacerDossier,
         référencielPermissions.lauréat.garantiesFinancières.usecase.valider,
         référencielPermissions.lauréat.garantiesFinancières.command.valider,
       ],
@@ -1268,7 +1268,7 @@ const policies = {
     'référence-dossier': {
       modifier: [
         référencielPermissions.appelOffre.query.consulter,
-        référencielPermissions.document.command.déplacer,
+        référencielPermissions.document.command.déplacerDossier,
         référencielPermissions.lauréat.raccordement.query.consulterGestionnaireRéseau,
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
         référencielPermissions.lauréat.raccordement.usecase.modifierRéférenceDossier,
@@ -1276,7 +1276,7 @@ const policies = {
       ],
       'modifier-après-mise-en-service': [
         référencielPermissions.appelOffre.query.consulter,
-        référencielPermissions.document.command.déplacer,
+        référencielPermissions.document.command.déplacerDossier,
         référencielPermissions.lauréat.raccordement.query.consulterGestionnaireRéseau,
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
         référencielPermissions.lauréat.raccordement.usecase.modifierRéférenceDossier,
