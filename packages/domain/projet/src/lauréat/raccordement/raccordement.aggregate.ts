@@ -14,6 +14,7 @@ import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
 import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
 import type { ModifierDocumentOptions } from './document/modifier/modifierDocumentRaccordement.options.js';
+import type { ModifierTypeDocumentOptions } from './document/modifier-type/modifierTypeDocumentRaccordement.options.js';
 import type { SupprimerDocumentOptions } from './document/supprimer/supprimerDocumentRaccordement.options.js';
 import type { TransmettreDocumentOptions } from './document/transmettre/transmettreDocumentRaccordement.options.js';
 import {
@@ -30,6 +31,7 @@ import {
   DateMiseEnServiceAntérieureDateDésignationProjetError,
   DateMiseEnServiceDéjàTransmiseError,
   DemandeComplèteRaccordementNonModifiableCarDossierMisEnServiceError,
+  DocumentDuMêmeTypeDéjàTransmisError,
   DocumentNonModifiableCarDossierMisEnServiceError,
   DocumentRaccordementNonExistantError,
   DossierMisEnServiceNonSupprimableError,
@@ -41,6 +43,7 @@ import {
   GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError,
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierMisEnServiceError,
+  TypeDeDocumentRaccordementIncompatibleError,
 } from './raccordement.error.js';
 import type {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
@@ -74,11 +77,17 @@ import type {
   RaccordementSuppriméEvent,
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
+  TypeDocumentRaccordementModifiéEventV1,
 } from './raccordement.event.js';
 import type { SupprimerDateMiseEnServiceOptions } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.options.js';
 import type { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options.js';
 import type { TransmettreDateMiseEnServiceOptions } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.options.js';
 import type { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
+
+type DocumentRaccordementDossier = {
+  dateSignature: DateTime.ValueType;
+  format: string;
+};
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -93,14 +102,8 @@ type DossierRaccordement = {
     dateSignature?: DateTime.ValueType;
     format?: string;
   };
-  conventionDeRaccordement?: {
-    dateSignature: DateTime.ValueType;
-    format: string;
-  };
-  conventionDeRaccordementDirecte?: {
-    dateSignature: DateTime.ValueType;
-    format: string;
-  };
+  conventionDeRaccordement?: DocumentRaccordementDossier;
+  conventionDeRaccordementDirecte?: DocumentRaccordementDossier;
 };
 
 export class RaccordementAggregate extends AbstractAggregate<
@@ -190,6 +193,22 @@ export class RaccordementAggregate extends AbstractAggregate<
     return dossier;
   }
 
+  private récupérerDocumentDossier(
+    dossier: DossierRaccordement,
+    documentType: TypeDocumentsRaccordement.RawType,
+  ): DocumentRaccordementDossier {
+    const dossierDocument = dossier[TypeDocumentsRaccordement.mapToFieldname(documentType)];
+
+    if (!dossierDocument?.dateSignature || !dossierDocument.format) {
+      throw new DocumentRaccordementNonExistantError();
+    }
+
+    return {
+      dateSignature: dossierDocument.dateSignature,
+      format: dossierDocument.format,
+    };
+  }
+
   private récupérerArrayDocumentsDossier(
     référence: RéférenceDossierRaccordement.RawType,
   ): TypeDocumentsRaccordement.RawType[] {
@@ -207,6 +226,36 @@ export class RaccordementAggregate extends AbstractAggregate<
       documentsDossier.push(TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type);
     }
     return documentsDossier;
+  }
+
+  private vérifierChangementTypePossible(
+    ancienType: TypeDocumentsRaccordement.RawType,
+    nouveauType: TypeDocumentsRaccordement.RawType,
+    référence: RéférenceDossierRaccordement.RawType,
+  ) {
+    if (ancienType === nouveauType) {
+      throw new AucuneModificationApportéeError();
+    }
+
+    const documents = this.récupérerArrayDocumentsDossier(référence);
+
+    if (documents.includes(nouveauType)) {
+      throw new DocumentDuMêmeTypeDéjàTransmisError(nouveauType);
+    }
+
+    const documentsSansAncienType = documents.filter((doc) => doc !== ancienType);
+
+    if (
+      nouveauType === 'convention-de-raccordement-directe' &&
+      (documentsSansAncienType.includes('convention-de-raccordement') ||
+        documentsSansAncienType.includes('proposition-technique-et-financière'))
+    ) {
+      throw new TypeDeDocumentRaccordementIncompatibleError(nouveauType);
+    }
+
+    if (documentsSansAncienType.includes('convention-de-raccordement-directe')) {
+      throw new TypeDeDocumentRaccordementIncompatibleError(nouveauType);
+    }
   }
 
   private vérifierStatutDuLauréat() {
@@ -811,6 +860,48 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async modifierTypeDocumentRaccordement({
+    référenceDossierRaccordement,
+    modifiéLe,
+    modifiéPar,
+    ancienType,
+    nouveauType,
+  }: ModifierTypeDocumentOptions) {
+    this.vérifierStatutDuLauréat();
+
+    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
+
+    const document = ancienType.estPropositionTechniqueEtFinancière()
+      ? dossier.propositionTechniqueEtFinancière
+      : ancienType.estConventionDeRaccordement()
+        ? dossier.conventionDeRaccordement
+        : dossier.conventionDeRaccordementDirecte;
+
+    if (!document) {
+      throw new DocumentRaccordementNonExistantError();
+    }
+
+    this.vérifierChangementTypePossible(
+      ancienType.type,
+      nouveauType.type,
+      référenceDossierRaccordement.référence,
+    );
+
+    const event: TypeDocumentRaccordementModifiéEventV1 = {
+      type: 'TypeDocumentRaccordementModifié-V1',
+      payload: {
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        ancienType: ancienType.formatter(),
+        nouveauType: nouveauType.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async supprimerDocumentRaccordement({
     référenceDossierRaccordement,
     suppriméLe,
@@ -878,10 +969,20 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementTransmisEventV1 | DocumentRaccordementModifiéEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)] = {
+    dossier[TypeDocumentsRaccordement.mapToFieldname(type)] = {
       dateSignature: DateTime.convertirEnValueType(dateSignature),
       format,
     };
+  }
+
+  private applyTypeDocumentRaccordementModifiéEventV1({
+    payload: { référenceDossierRaccordement, ancienType, nouveauType },
+  }: TypeDocumentRaccordementModifiéEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    const ancienDossier = this.récupérerDocumentDossier(dossier, ancienType);
+
+    dossier[TypeDocumentsRaccordement.mapToFieldname(nouveauType)] = ancienDossier;
   }
 
   private applyDocumentRaccordementSuppriméEventV1({
@@ -889,7 +990,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementSuppriméEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)] = undefined;
+    dossier[TypeDocumentsRaccordement.mapToFieldname(type)] = undefined;
   }
 
   //#endregion Document Raccordement
@@ -1396,6 +1497,12 @@ export class RaccordementAggregate extends AbstractAggregate<
           type: 'DocumentRaccordementSupprimé-V1',
         },
         this.applyDocumentRaccordementSuppriméEventV1.bind(this),
+      )
+      .with(
+        {
+          type: 'TypeDocumentRaccordementModifié-V1',
+        },
+        this.applyTypeDocumentRaccordementModifiéEventV1.bind(this),
       )
       .with(
         { type: 'DateMiseEnServiceTransmise-V1' },

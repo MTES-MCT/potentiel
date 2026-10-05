@@ -50,7 +50,7 @@ export const getDocumentActions = ({
   ];
 
   const dossierNeContientPasCeTypeDeDocument =
-    !dossier[Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)];
+    !dossier[Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(type)];
 
   if (dossierNeContientPasCeTypeDeDocument) {
     return rôle.aLaPermission('raccordement.document-raccordement.transmettre')

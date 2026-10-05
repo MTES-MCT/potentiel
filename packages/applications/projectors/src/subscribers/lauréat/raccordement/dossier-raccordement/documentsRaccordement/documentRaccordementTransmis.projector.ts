@@ -13,7 +13,7 @@ export const documentRaccordementTransmisV1Projector = async ({
   },
 }: Lauréat.Raccordement.DocumentRaccordementTransmisEventV1) => {
   const payload = {
-    [Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)]: {
+    [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(type)]: {
       dateSignature,
       document,
     },

@@ -4,9 +4,9 @@ import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
-export const documentRaccordementSuppriméV1Projector = async ({
-  payload: { identifiantProjet, référenceDossierRaccordement, suppriméLe, type },
-}: Lauréat.Raccordement.DocumentRaccordementSuppriméEventV1) => {
+export const typeDocumentRaccordementModifiéV1Projector = async ({
+  payload: { identifiantProjet, référenceDossierRaccordement, modifiéLe, ancienType, nouveauType },
+}: Lauréat.Raccordement.TypeDocumentRaccordementModifiéEventV1) => {
   const dossier = await findProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
   );
@@ -15,12 +15,16 @@ export const documentRaccordementSuppriméV1Projector = async ({
     throw new Error("Le dossier de raccordement du document n'existe pas");
   }
 
+  const document =
+    dossier[Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(ancienType)];
+
   await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
       ...dossier,
-      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(type)]: undefined,
-      miseÀJourLe: DateTime.convertirEnValueType(suppriméLe).formatter(),
+      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(nouveauType)]: document,
+      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(ancienType)]: undefined,
+      miseÀJourLe: DateTime.convertirEnValueType(modifiéLe).formatter(),
     },
   );
 };

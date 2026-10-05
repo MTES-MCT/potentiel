@@ -54,6 +54,7 @@ export const setupRaccordement: SetupProjet = (dependencies) => {
       'DocumentRaccordementTransmis-V1',
       'DocumentRaccordementModifié-V1',
       'DocumentRaccordementSupprimé-V1',
+      'TypeDocumentRaccordementModifié-V1',
     ],
     messageType: 'System.Projector.Lauréat.Raccordement',
   });

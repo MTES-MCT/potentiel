@@ -1,7 +1,7 @@
 import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 
@@ -12,6 +12,7 @@ import {
 } from '../../../../../helpers/index.js';
 import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import type { ModifierDocument } from '../fixtures/modifierDocumentRaccordement.fixture.js';
+import type { ModifierTypeDocument } from '../fixtures/modifierTypeDocumentRaccordement.fixture.js';
 import type { SupprimerDocument } from '../fixtures/supprimerDocumentRaccordement.fixture.js';
 import type { TransmettreDocument } from '../fixtures/transmettreDocumentRaccordement.fixture.js';
 import { matchTypeDocument } from './documentRaccordement.given.js';
@@ -116,6 +117,43 @@ Quand(
 );
 
 Quand(
+  /le système modifie le type du document avec :$/,
+  async function (this: PotentielWorld, data: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    try {
+      await modifierTypeDocumentRaccordement.call(
+        this,
+        identifiantProjet,
+        this.lauréatWorld.raccordementWorld.documentRaccordement.modifierTypeFixture.mapExempleToFixtureValues(
+          data.rowsHash(),
+        ),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  'le système modifie le type du document avec les mêmes valeurs',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { type } = this.lauréatWorld.raccordementWorld.documentRaccordement.transmettreFixture;
+
+    try {
+      await modifierTypeDocumentRaccordement.call(this, identifiantProjet, {
+        type,
+        ancienType: type,
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   /le porteur supprime un document (proposition technique et financière|convention de raccordement|convention de raccordement directe) pour le projet lauréat/,
   async function (this: PotentielWorld, typeDocument: string) {
     const { identifiantProjet } = this.lauréatWorld;
@@ -208,6 +246,31 @@ async function modifierDocumentRaccordement(
       typeValue: type,
       modifiéLeValue: DateTime.now().formatter(),
       modifiéParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
+    },
+  });
+}
+
+async function modifierTypeDocumentRaccordement(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  data: Partial<Pick<ModifierTypeDocument, 'ancienType' | 'type'>>,
+) {
+  const { ancienType, type, référenceDossier } =
+    this.lauréatWorld.raccordementWorld.documentRaccordement.modifierTypeFixture.créer({
+      identifiantProjet: identifiantProjet.formatter(),
+      référenceDossier: this.lauréatWorld.raccordementWorld.référenceDossier,
+      ...data,
+    });
+
+  await mediator.send<Lauréat.Raccordement.ModifierTypeDocumentUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.ModifierTypeDocument',
+    data: {
+      référenceDossierRaccordementValue: référenceDossier,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      ancienTypeValue: ancienType,
+      nouveauTypeValue: type,
+      modifiéLeValue: DateTime.now().formatter(),
+      modifiéParValue: Email.système.formatter(),
     },
   });
 }
