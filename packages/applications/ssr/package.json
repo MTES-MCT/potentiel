@@ -48,6 +48,7 @@
     "@sentry/core": "10.65.0",
     "@sentry/nextjs": "10.65.0",
     "better-auth": "1.6.23",
+    "@better-auth/core": "1.6.23",
     "clsx": "2.1.1",
     "crisp-sdk-web": "1.0.25",
     "flat": "6.0.1",

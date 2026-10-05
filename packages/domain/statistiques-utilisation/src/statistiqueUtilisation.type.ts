@@ -9,6 +9,7 @@ type StatistiqueConnexion = {
       email: Email.RawType;
     };
     provider: string;
+    custom?: Record<string, unknown>;
   };
 };
 
