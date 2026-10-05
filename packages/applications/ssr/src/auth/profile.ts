@@ -1,9 +1,7 @@
 import z from 'zod';
 
 const eidasLevels = ['eidas0', 'eidas0-mfa', 'eidas1', 'eidas1-mfa', 'eidas2', 'eidas3'] as const;
-export type EidasLevel = (typeof eidasLevels)[number];
-export const eidasLevelSchema = z.enum(eidasLevels);
-export const parseEidasLevel = (level: string): EidasLevel => z.enum(eidasLevels).parse(level);
+const eidasLevelSchema = z.enum(eidasLevels);
 
 const customSchema = z.object({
   // SIRET de l'organisation selectionnée
