@@ -8,6 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getUtilisateurFromEmail } from '../getUtilisateurFromEmail';
+import { parseUserProfileCustomFields } from '../profile';
 
 export const auditLogs = () => {
   return {
@@ -26,6 +27,7 @@ export const auditLogs = () => {
 
               const utilisateur = await getUtilisateurFromEmail(user.email);
               const rôle = Option.isNone(utilisateur) ? Role.visiteur : utilisateur.rôle;
+              const profileCustomFields = parseUserProfileCustomFields(user);
 
               await mediator.send<AjouterStatistiqueUtilisationCommand>({
                 type: 'System.Statistiques.AjouterStatistiqueUtilisation',
@@ -37,6 +39,7 @@ export const auditLogs = () => {
                       email: user.email,
                     },
                     provider: provider ?? '',
+                    custom: profileCustomFields,
                   },
                 },
               });
