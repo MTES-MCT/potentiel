@@ -1,8 +1,9 @@
 import { Command, Flags } from '@oclif/core';
+import { mediator } from 'mediateur';
 import z from 'zod';
 
-import { Where } from '@potentiel-domain/entity';
-import { Document, type Lauréat } from '@potentiel-domain/projet';
+import { type LeftJoin, Where } from '@potentiel-domain/entity';
+import { Document, Lauréat } from '@potentiel-domain/projet';
 import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
@@ -11,7 +12,7 @@ import { dbSchema } from '#helpers';
 const envSchema = z.object(dbSchema.shape);
 
 export class CorrigerRéférenceRaccordementCommand extends Command {
-  static description = 'Corriger les références de raccordement non compatible avec S3';
+  static description = 'Corriger les références de raccordement avec des caractères interdits';
 
   static override flags = {
     dryRun: Flags.boolean({ name: 'dryRun' }),
@@ -32,51 +33,84 @@ export class CorrigerRéférenceRaccordementCommand extends Command {
   async run(): Promise<void> {
     const { flags } = await this.parse(CorrigerRéférenceRaccordementCommand);
 
-    const data = await listProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
-      `dossier-raccordement`,
-      {
-        where: {
-          demandeComplèteRaccordement: {
-            accuséRéception: {
-              format: Where.notEqualNull(),
-            },
+    const data = await listProjection<
+      Lauréat.Raccordement.DossierRaccordementEntity,
+      LeftJoin<Lauréat.LauréatEntity>
+    >(`dossier-raccordement`, {
+      where: {
+        demandeComplèteRaccordement: {
+          accuséRéception: {
+            format: Where.notEqualNull(),
           },
-          identifiantProjet: flags.identifiantProjet
-            ? Where.equal(flags.identifiantProjet)
-            : undefined,
         },
-        range: {
-          startPosition: 0,
-          endPosition: 6000,
+        identifiantProjet: flags.identifiantProjet
+          ? Where.equal(flags.identifiantProjet)
+          : undefined,
+      },
+      join: {
+        entity: 'lauréat',
+        on: 'identifiantProjet',
+        type: 'left',
+        where: {
+          statut: Where.notEqual(Lauréat.StatutLauréat.abandonné.statut),
         },
       },
-    );
-
-    const contientCaractèresInterdits = /['?*:;{}/\\]/;
+      range: {
+        startPosition: 0,
+        endPosition: 6000,
+      },
+    });
 
     const dossiersÀCorriger = data.items.filter((dossier) =>
-      contientCaractèresInterdits.test(dossier.référence),
+      /['?*:;{}/\\]/.test(dossier.référence),
     );
 
     const stats = {
       total: data.items.length,
-      déjàOk: 0,
-      pasOkCorrigé: 0,
-      pasOkAvecErreur: 0,
+      corrigé: 0,
+      erreur: 0,
     };
 
     console.log(`Starting correction for ${dossiersÀCorriger.length} dossiers`);
 
     for (const dossier of dossiersÀCorriger) {
       try {
-        // vérifier qu'on peut télécharger l'accusé de réception
-        // Si non : on l'enregistre avec le bon path
-        // bonus : supprimer le "mauvais" dossier
-      } catch (e) {}
+        console.log(dossier.identifiantProjet, dossier.référence);
+
+        // ancien path avec erreur
+        const dossierActuel = Document.DossierProjet.convertirEnValueType({
+          identifiantProjet: dossier.identifiantProjet,
+          typeDocument: dossier.référence,
+        });
+
+        // nouveau path sans erreur
+        const nouveauDossier = Lauréat.Raccordement.DocumentRaccordement.dossierProjetRaccordement(
+          dossier.identifiantProjet,
+          dossier.référence,
+        );
+
+        await mediator.send<Document.DéplacerDossierProjetCommand>({
+          type: 'Document.Command.DéplacerDossierProjet',
+          data: {
+            dossierProjetSource: dossierActuel,
+            dossierProjetTarget: nouveauDossier.dossier,
+          },
+        });
+
+        console.log(
+          `✅ Projet ${dossier.identifiantProjet} référence ${dossier.référence} corrigé`,
+        );
+        stats.corrigé++;
+      } catch (e) {
+        console.error(
+          `❌ Erreur pour le projet ${dossier.identifiantProjet} référence ${dossier.référence} : ${e}`,
+        );
+        stats.erreur++;
+      }
     }
 
     process.stdout.write(
-      `\r⏳ ${stats.total} TOTAL / ${stats.déjàOk} sans problème / ${stats.pasOkAvecErreur} avec problème non corrigé / ${stats.déjàOk} CORRIGEE AVEC SUCCES`,
+      `\r⏳ ${stats.total} TOTAL / ${stats.erreur} avec problème non corrigé / ${stats.corrigé} CORRIGEE AVEC SUCCES`,
     );
   }
 }

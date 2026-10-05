@@ -81,9 +81,9 @@ type DynamicField<TNomChamp extends string, TType> = {
   [PDocument in TNomChamp]: TType;
 };
 
-// replacement de caractères problématiques dans les URLs
-export const sanitizeCléDocument = (reference: string): string =>
-  reference.replaceAll(/['?*:;{}/\\]/g, '_');
+// replacement de caractères interdits dans les URLs (' ? * : ; { } /) par _
+export const sanitizeCléDocument = (value: string): string =>
+  value.replaceAll(/['?*:;{}/\\]/g, '_');
 
 export const documentFactory =
   <

@@ -16,6 +16,9 @@ type Payload = {
   typeDocument: string;
 };
 
+// vérification de caractères interdits dans les URLs (' ? * : ; { })
+export const contientCaractèresInterdits = (value: string) => /['?*:;{}\\]/.test(value);
+
 export const convertirEnValueType = ({
   identifiantProjet: identifiantProjetValue,
   typeDocument: typeDocumentValue,
@@ -38,7 +41,9 @@ export const convertirEnValueType = ({
 };
 
 const estValide = (value: string) => {
-  const isValid = !!value;
+  const isValid = value;
+  // TODO: ajouter cela en hotfix une fois que le script aura tourné
+  // && !contientCaractèresInterdits(value);
 
   if (!isValid) {
     throw new TypeDocumentInvalideError(value);

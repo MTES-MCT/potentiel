@@ -1,18 +1,39 @@
 import { join } from 'node:path';
 
 import { DocumentProjet, DossierProjet } from '#document-projet';
-import type { TypeDocumentsRaccordement } from '../index.js';
+import { TypeDocumentsRaccordement } from '../index.js';
 
 const domaine = 'raccordement';
 
 export const dossierProjetRaccordement = (identifiantProjet: string, référence: string) => {
-  return DossierProjet.convertirEnValueType({
-    identifiantProjet,
-    typeDocument: join(
-      /*turbopackIgnore: true*/ domaine,
-      DocumentProjet.sanitizeCléDocument(référence),
-    ),
-  });
+  const folderRaccordementPath = join(domaine, DocumentProjet.sanitizeCléDocument(référence));
+  return {
+    dossier: DossierProjet.convertirEnValueType({
+      identifiantProjet,
+      typeDocument: folderRaccordementPath,
+    }),
+    propositionTechniqueEtFinancière: DossierProjet.convertirEnValueType({
+      identifiantProjet,
+      typeDocument: join(
+        folderRaccordementPath,
+        TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
+      ),
+    }),
+    conventionDeRaccordement: DossierProjet.convertirEnValueType({
+      identifiantProjet,
+      typeDocument: join(
+        folderRaccordementPath,
+        TypeDocumentsRaccordement.conventionDeRaccordement.type,
+      ),
+    }),
+    conventionDeRaccordementDirecte: DossierProjet.convertirEnValueType({
+      identifiantProjet,
+      typeDocument: join(
+        folderRaccordementPath,
+        TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
+      ),
+    }),
+  };
 };
 
 export const accuséRéception = DocumentProjet.documentFactory({

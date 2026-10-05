@@ -66,8 +66,8 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     await mediator.send<DéplacerDossierProjetCommand>({
       type: 'Document.Command.DéplacerDossierProjet',
       data: {
-        dossierProjetSource: dossierProjetActuelRaccordement,
-        dossierProjetTarget: nouveauDossierProjetRaccordement,
+        dossierProjetSource: dossierProjetActuelRaccordement.dossier,
+        dossierProjetTarget: nouveauDossierProjetRaccordement.dossier,
       },
     });
   };

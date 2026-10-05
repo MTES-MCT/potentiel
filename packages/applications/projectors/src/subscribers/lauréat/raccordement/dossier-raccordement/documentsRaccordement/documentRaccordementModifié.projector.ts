@@ -13,7 +13,7 @@ export const documentRaccordementModifiéV1Projector = async ({
   },
 }: Lauréat.Raccordement.DocumentRaccordementModifiéEventV1) => {
   const payload = {
-    [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(type)]: {
+    [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldName(type)]: {
       dateSignature,
       document,
     },

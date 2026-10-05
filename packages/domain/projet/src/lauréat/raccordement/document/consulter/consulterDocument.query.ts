@@ -38,7 +38,7 @@ export const registerConsulterDocumentQuery = ({ list }: ConsulterDocumentDepend
     référenceDossierRaccordementValue: référenceDossierRaccordement,
     typeDocumentValue: typeDocument,
   }) => {
-    const key = TypeDocumentsRaccordement.mapToFieldname(typeDocument);
+    const key = TypeDocumentsRaccordement.mapToFieldName(typeDocument);
 
     const result = await list<DossierRaccordementEntity, Raccordement.RaccordementEntity>(
       `dossier-raccordement`,
