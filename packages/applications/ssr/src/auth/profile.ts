@@ -1,7 +1,18 @@
+import { defineRequestState } from '@better-auth/core/context';
 import z from 'zod';
 
-const eidasLevels = ['eidas0', 'eidas0-mfa', 'eidas1', 'eidas1-mfa', 'eidas2', 'eidas3'] as const;
-const eidasLevelSchema = z.enum(eidasLevels);
+// https://partenaires.proconnect.gouv.fr/docs/fournisseur-service/niveaux-acr
+const acrValues = [
+  'eidas0',
+  'eidas0-mfa',
+  'eidas1',
+  'eidas1-mfa',
+  'eidas2',
+  'eidas3',
+  'https://proconnect.gouv.fr/assurance/certification-dirigeant',
+] as const;
+
+const acrSchema = z.enum(acrValues);
 
 const customSchema = z.object({
   // SIRET de l'organisation selectionnée
@@ -11,15 +22,17 @@ const customSchema = z.object({
   // liste des méthodes d'authentification utilisées.
   amr: z.array(z.string()).optional(),
   // niveau de confiance de l'authentification
-  acr: eidasLevelSchema.optional(),
+  acr: acrSchema.optional().catch(undefined),
 });
 
 export type CustomProfile = z.infer<typeof customSchema>;
 
-const userSchema = z.object({
-  custom: customSchema,
-});
+// Ces données ne servent qu'à usage de statistiques et ne doivent pas persister (user, cookie de session).
+const customProfileState = defineRequestState<CustomProfile | undefined>(() => undefined);
 
-export const parseUserProfileCustomFields = (user: Record<string, unknown>) => {
-  return userSchema.safeParse(user)?.data?.custom;
-};
+type SetCustomProfileProps = Record<string, unknown>;
+
+export const setCustomProfile = (profile: SetCustomProfileProps) =>
+  customProfileState.set(customSchema.safeParse(profile).data);
+
+export const getCustomProfile = () => customProfileState.get();
