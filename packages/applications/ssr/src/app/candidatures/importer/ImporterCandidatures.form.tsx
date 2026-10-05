@@ -16,12 +16,14 @@ export type ImporterCandidaturesFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
   importMultipleAOEtPeriodesPossible: boolean;
   estUnReimport: boolean;
+  afficherAlerteLimiteImport: boolean;
 };
 
 export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
   périodes,
   importMultipleAOEtPeriodesPossible,
   estUnReimport,
+  afficherAlerteLimiteImport,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -162,6 +164,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
                 <ImporterCandidaturesParDémarcheNumériqueForm
                   appelOffre={période.appelOffre}
                   période={période.période}
+                  afficherAlerteLimiteImport={afficherAlerteLimiteImport}
                 />
               ))
               .exhaustive()}

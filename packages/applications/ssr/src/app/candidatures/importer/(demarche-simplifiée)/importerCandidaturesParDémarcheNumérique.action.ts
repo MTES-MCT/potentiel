@@ -16,6 +16,7 @@ import { ImportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { cleanDétailsKeys } from '@/utils/candidature';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
 import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
@@ -65,10 +66,17 @@ const action: FormAction<FormState, typeof schema> = async (
       };
     }
 
-    if (instructions.length > 400) {
-      throw new InvalidOperationError(
-        `Trop de dossiers importés à la fois, limitez le fichier d'instruction à 400 dossiers par import.`,
-      );
+    if (featureFlag.includes('import-dn-par-dossiers')) {
+      const maxFileSize =
+        Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE) > 0
+          ? Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE)
+          : 400;
+
+      if (maxFileSize && instructions.length > maxFileSize) {
+        throw new InvalidOperationError(
+          `Trop de dossiers importés à la fois, limitez le fichier d'instruction à ${maxFileSize} dossiers par import.`,
+        );
+      }
     }
 
     // on récupère le numéro de la démarche en utilisant le numéro de dossier du premier dossier du fichier csv transmis
@@ -108,10 +116,17 @@ const action: FormAction<FormState, typeof schema> = async (
 
     const dossiersIds = instructions.map(({ numeroDossierDN }) => numeroDossierDN);
 
+    const start = performance.now();
+
     const dossiers = await getDémarcheAvecDossiers({
-      dossiersIds: dossiersIds,
+      dossiersIds:
+        featureFlag.includes('import-dn-par-dossiers') && dossiersIds.length
+          ? dossiersIds
+          : undefined,
       démarcheId: démarcheId,
     });
+
+    console.log('📈 DURÉE RÉCUPÉRATION DOSSIERS DN', formatDuration(performance.now() - start));
 
     const typeImport: AppelOffre.Periode['typeImport'] = 'démarche-numérique';
 
@@ -313,5 +328,13 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     };
   });
+
+const formatDuration = (ms: number): string => {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return `${minutes} min ${seconds} s`;
+};
 
 export const importerCandidaturesParDémarcheNumériqueAction = formAction(action, schema);
