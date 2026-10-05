@@ -19,12 +19,14 @@ export type TransmettreDocumentFormProps = {
   identifiantProjet: string;
   referenceDossierRaccordement: string;
   availableTypes: Array<Lauréat.Raccordement.TypeDocumentsRaccordement.RawType>;
+  afficherAlerteDocumentRaccordement: boolean;
 };
 
 export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
   identifiantProjet,
   referenceDossierRaccordement,
   availableTypes,
+  afficherAlerteDocumentRaccordement,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDocumentFormKeys>
@@ -51,14 +53,13 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
         },
       }}
     >
-      <DocumentRaccordementAlert />
+      {afficherAlerteDocumentRaccordement && <DocumentRaccordementAlert />}
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={referenceDossierRaccordement} />
       {typeDocument && <input type="hidden" name="typeDocument" value={typeDocument} />}
       <div>
         Référence du dossier de raccordement : <strong>{referenceDossierRaccordement}</strong>
       </div>
-
       <Select
         state={validationErrors['typeDocument'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['typeDocument']}
@@ -75,7 +76,6 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
             ),
         }}
       />
-
       <Input
         label="Date de signature"
         state={validationErrors['dateSignature'] ? 'error' : 'default'}
@@ -88,7 +88,6 @@ export const TransmettreDocumentForm: FC<TransmettreDocumentFormProps> = ({
           'aria-required': true,
         }}
       />
-
       <UploadNewOrModifyExistingDocument
         label={typeDocument ? `La ${documentLabel} signée` : 'Le document signé'}
         name="documentSigné"

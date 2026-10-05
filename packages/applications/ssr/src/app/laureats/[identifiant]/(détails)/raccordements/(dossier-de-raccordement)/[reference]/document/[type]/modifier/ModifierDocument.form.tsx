@@ -22,6 +22,7 @@ export type ModifierDocumentFormProps = {
       type: Lauréat.Raccordement.TypeDocumentsRaccordement.RawType;
     };
   };
+  afficherAlerteDocumentRaccordement: boolean;
 };
 
 export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
@@ -30,6 +31,7 @@ export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
     reference,
     document: { dateSignature, documentSignée, type },
   },
+  afficherAlerteDocumentRaccordement,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierDocumentFormKeys>
@@ -47,7 +49,7 @@ export const ModifierDocumentForm: FC<ModifierDocumentFormProps> = ({
         },
       }}
     >
-      <DocumentRaccordementAlert />
+      {afficherAlerteDocumentRaccordement && <DocumentRaccordementAlert />}
       <div>
         Référence du dossier de raccordement : <strong>{reference}</strong>
       </div>

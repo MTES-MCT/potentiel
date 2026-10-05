@@ -62,12 +62,14 @@ export default async function Page(props: PageProps) {
         identifiantProjet,
         référence: referenceDossierRaccordement,
         document,
+        estPorteur: utilisateur.estPorteur(),
       });
 
       return (
         <ModifierDocumentPage
           identifiantProjet={props.identifiantProjet}
           raccordement={props.raccordement}
+          afficherAlerteDocumentRaccordement={props.afficherAlerteDocumentRaccordement}
         />
       );
     }),
@@ -78,9 +80,10 @@ type MapToProps = (params: {
   identifiantProjet: IdentifiantProjet.RawType;
   référence: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['référence'];
   document: NonNullable<Lauréat.Raccordement.ConsulterDocumentReadModel>;
+  estPorteur: boolean;
 }) => ModifierDocumentPageProps;
 
-const mapToProps: MapToProps = ({ identifiantProjet, référence, document }) => ({
+const mapToProps: MapToProps = ({ identifiantProjet, référence, document, estPorteur }) => ({
   identifiantProjet,
   raccordement: {
     reference: référence.formatter(),
@@ -90,4 +93,5 @@ const mapToProps: MapToProps = ({ identifiantProjet, référence, document }) =>
       type: document.type.formatter(),
     },
   },
+  afficherAlerteDocumentRaccordement: estPorteur,
 });
