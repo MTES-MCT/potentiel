@@ -20,10 +20,8 @@ Fonctionnalité: Modifier le type d'un document de raccordement par le système
 
     Scénario: Impossible de modifier un document avec un type déjà transmis
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et le porteur transmet un document pour le projet lauréat avec :
-            | type de document | convention-de-raccordement |
-        Et le porteur transmet un document pour le projet lauréat avec :
-            | type de document | proposition-technique-et-financière |
+        Et un document convention de raccordement pour le projet lauréat
+        Et un document proposition technique et financière pour le projet lauréat
         Quand le système modifie le type du document avec :
             | document modifié         | convention-de-raccordement          |
             | nouveau type de document | proposition-technique-et-financière |
@@ -31,10 +29,8 @@ Fonctionnalité: Modifier le type d'un document de raccordement par le système
 
     Scénario: Impossible de modifier un type de document avec un type incompatible
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et le porteur transmet un document pour le projet lauréat avec :
-            | type de document | convention-de-raccordement |
-        Et le porteur transmet un document pour le projet lauréat avec :
-            | type de document | proposition-technique-et-financière |
+        Et un document convention de raccordement pour le projet lauréat
+        Et un document proposition technique et financière pour le projet lauréat
         Quand le système modifie le type du document avec :
             | document modifié         | <ancien type>  |
             | nouveau type de document | <nouveau type> |
