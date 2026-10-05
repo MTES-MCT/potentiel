@@ -25,6 +25,7 @@ const alertesGarantiesFinancières = [
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.dépôt.consulter',
+  'accès.lister',
 ] satisfies Role.Policy[];
 
 export type ActionGarantiesFinancières = (typeof actionsGarantiesFinancières)[number];
@@ -166,7 +167,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           />
         )}
 
-        {statut?.estÉchu() && (
+        {actions.includes('accès.lister') && (
           <Notice
             title="Garanties Financières échues"
             severity="info"

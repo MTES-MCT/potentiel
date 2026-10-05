@@ -8,8 +8,13 @@ export type ModifierDocumentPageProps = ModifierDocumentFormProps;
 export const ModifierDocumentPage: FC<ModifierDocumentPageProps> = ({
   identifiantProjet,
   raccordement,
+  afficherAlerteDocumentRaccordement,
 }: ModifierDocumentPageProps) => (
   <SectionPage>
-    <ModifierDocumentForm identifiantProjet={identifiantProjet} raccordement={raccordement} />
+    <ModifierDocumentForm
+      identifiantProjet={identifiantProjet}
+      raccordement={raccordement}
+      afficherAlerteDocumentRaccordement={afficherAlerteDocumentRaccordement}
+    />
   </SectionPage>
 );
