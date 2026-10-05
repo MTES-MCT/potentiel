@@ -31,12 +31,11 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
           className="whitespace-nowrap"
           linkProps={{
             href: Routes.Document.télécharger(actions.télécharger.url),
+            target: '_blank',
           }}
-          title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} au format PDF`}
-          aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} au format PDF`}
+          title={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
+          aria-label={`Afficher ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} dans un nouvel onglet`}
           priority="secondary"
-          iconId="fr-icon-file-download-line"
-          iconPosition="right"
         >
           {estUneCandidatureLauréate ? 'Attestation' : 'Avis de rejet'}
         </Button>
@@ -48,7 +47,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
             href: Routes.Candidature.prévisualiserAttestation(idProjet),
             target: '_blank',
           }}
-          title={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"}`}
+          title={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} dans un nouvel onglet`}
           aria-label={`Prévisualiser ${estUneCandidatureLauréate ? "l'attestation de désignation" : "l'avis de rejet"} du projet ${nomProjet} dans un nouvel onglet`}
           priority="secondary"
         >
