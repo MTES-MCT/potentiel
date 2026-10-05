@@ -52,10 +52,10 @@ export class CorrigerRéférenceRaccordementCommand extends Command {
       },
     );
 
-    const contientCaractèresMalveillants = /['?*:;{}/\\]/;
+    const contientCaractèresInterdits = /['?*:;{}/\\]/;
 
     const dossiersÀCorriger = data.items.filter((dossier) =>
-      contientCaractèresMalveillants.test(dossier.référence),
+      contientCaractèresInterdits.test(dossier.référence),
     );
 
     const stats = {

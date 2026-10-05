@@ -41,9 +41,10 @@ describe(`copy folder`, () => {
 
     await copyFolder(sourcePath, targetPath);
 
-    for (const filePath of expectedTargetFiles) {
+    for (const [index, filePath] of expectedTargetFiles.entries()) {
       const actual = await download(filePath);
-      expect(actual).not.to.be.null;
+      const contenu = await new Response(actual).text();
+      expect(contenu).to.equal(`Contenu ${index}`);
     }
   });
 });
