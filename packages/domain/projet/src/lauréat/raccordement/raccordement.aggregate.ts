@@ -9,12 +9,12 @@ import type { IdentifiantProjet } from '../../index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { ChangementImpossibleCarProjetAchevéError } from '../lauréat.error.js';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
-import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
-import type { ModifierDocumentOptions } from './document/modifier/modifierDocumentRaccordement.options.js';
 import type { ModifierTypeDocumentOptions } from './document/modifier-type/modifierTypeDocumentRaccordement.options.js';
+import type { ModifierDocumentOptions } from './document/modifier/modifierDocumentRaccordement.options.js';
 import type { SupprimerDocumentOptions } from './document/supprimer/supprimerDocumentRaccordement.options.js';
 import type { TransmettreDocumentOptions } from './document/transmettre/transmettreDocumentRaccordement.options.js';
 import {
@@ -197,8 +197,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     dossier: DossierRaccordement,
     documentType: TypeDocumentsRaccordement.RawType,
   ): DocumentRaccordementDossier {
-    const dossierDocument =
-      dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(documentType)];
+    const dossierDocument = dossier[TypeDocumentsRaccordement.mapToFieldname(documentType)];
 
     if (!dossierDocument?.dateSignature || !dossierDocument.format) {
       throw new DocumentRaccordementNonExistantError();
@@ -970,7 +969,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementTransmisEventV1 | DocumentRaccordementModifiéEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)] = {
+    dossier[TypeDocumentsRaccordement.mapToFieldname(type)] = {
       dateSignature: DateTime.convertirEnValueType(dateSignature),
       format,
     };
@@ -983,7 +982,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     const ancienDossier = this.récupérerDocumentDossier(dossier, ancienType);
 
-    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(nouveauType)] = ancienDossier;
+    dossier[TypeDocumentsRaccordement.mapToFieldname(nouveauType)] = ancienDossier;
   }
 
   private applyDocumentRaccordementSuppriméEventV1({
@@ -991,7 +990,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementSuppriméEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier[TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)] = undefined;
+    dossier[TypeDocumentsRaccordement.mapToFieldname(type)] = undefined;
   }
 
   //#endregion Document Raccordement

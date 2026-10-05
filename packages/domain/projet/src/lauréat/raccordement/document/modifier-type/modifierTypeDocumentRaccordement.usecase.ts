@@ -58,13 +58,9 @@ export const registerModifierTypeDocumentUseCase = () => {
       type: 'Document.Command.DéplacerDossierProjet',
       data: {
         dossierProjetSource:
-          dossier[
-            TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(ancienTypeDocument.formatter())
-          ],
+          dossier[TypeDocumentsRaccordement.mapToFieldname(ancienTypeDocument.formatter())],
         dossierProjetTarget:
-          dossier[
-            TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(nouveauTypeDocument.formatter())
-          ],
+          dossier[TypeDocumentsRaccordement.mapToFieldname(nouveauTypeDocument.formatter())],
       },
     });
   };

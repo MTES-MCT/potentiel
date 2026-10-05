@@ -19,7 +19,7 @@ export const documentRaccordementSuppriméV1Projector = async ({
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
       ...dossier,
-      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapDocumentTypeToEntityKey(type)]: undefined,
+      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(type)]: undefined,
       miseÀJourLe: DateTime.convertirEnValueType(suppriméLe).formatter(),
     },
   );
