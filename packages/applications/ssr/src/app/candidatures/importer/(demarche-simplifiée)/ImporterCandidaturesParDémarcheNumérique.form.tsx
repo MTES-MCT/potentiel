@@ -16,12 +16,12 @@ import {
 export type ImporterCandidaturesParDémarcheNumériqueFormProps = {
   appelOffre: string;
   période: string;
-  afficherAlerteLimiteImport: boolean;
+  nbMaxDeProjetsImportésALaFois?: number;
 };
 
 export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
   ImporterCandidaturesParDémarcheNumériqueFormProps
-> = ({ appelOffre, période, afficherAlerteLimiteImport }) => {
+> = ({ appelOffre, période, nbMaxDeProjetsImportésALaFois }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ImporterCandidaturesParDémarcheNumériqueFormKeys>
   >({});
@@ -33,16 +33,17 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
         l'appel d'offres <span className="font-semibold">{appelOffre}</span> depuis{' '}
         <span className="font-semibold">Démarche Numérique</span>.
       </div>
-      {afficherAlerteLimiteImport && (
+      {nbMaxDeProjetsImportésALaFois && (
         <Notice
           severity="warning"
           className="mb-4"
           title="Limite temporaire des fichiers d'instruction"
-          description={`Pour éviter les erreurs de latence dues au temps de réponse de l'API utilisée pour le dépôt des candidature, une limite a été fixée à ${
-            Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE) > 0
-              ? Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE)
-              : 400
-          } dossiers par import. Si votre liste de candidats dépasse cette limite, nous vous invitons à scinder votre fichier et à réaliser plusieurs imports. Une solution sera apportée très prochainement pour permettre l'import des candidats en un seul fichier. Veuillez nous excuser pour la gène occasionnée.`}
+          description={`
+            Pour éviter les erreurs de latence dues au temps de réponse de l'API utilisée pour le dépôt des candidature, 
+            une limite a été fixée à ${nbMaxDeProjetsImportésALaFois} dossiers par import. 
+            Si votre liste de candidats dépasse cette limite, nous vous invitons à scinder votre fichier et à réaliser plusieurs imports. 
+            Une solution sera apportée très prochainement pour permettre l'import des candidats en un seul fichier. 
+            Veuillez nous excuser pour la gène occasionnée.`}
         ></Notice>
       )}
       <div className="flex flex-col items-start lg:flex-row gap-6">

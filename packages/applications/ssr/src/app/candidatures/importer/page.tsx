@@ -6,6 +6,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import type { Période } from '@potentiel-domain/periode';
 import type { Candidature } from '@potentiel-domain/projet';
 
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ImporterCandidaturesPage } from './ImporterCandidatures.page';
@@ -48,6 +49,13 @@ export default async function Page(props: PageProps) {
           )}
           importMultipleAOEtPeriodesPossible={process.env.APPLICATION_STAGE !== 'production'}
           estUnReimport={!!estUnReimport}
+          nbMaxDeProjetsImportésALaFois={
+            featureFlag.includes('import-dn-par-dossiers')
+              ? Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE) > 0
+                ? Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE)
+                : 200
+              : undefined
+          }
         />
       ));
     }),

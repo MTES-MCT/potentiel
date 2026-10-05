@@ -70,7 +70,7 @@ const action: FormAction<FormState, typeof schema> = async (
       const maxFileSize =
         Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE) > 0
           ? Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE)
-          : 400;
+          : 200;
 
       if (maxFileSize && instructions.length > maxFileSize) {
         throw new InvalidOperationError(
