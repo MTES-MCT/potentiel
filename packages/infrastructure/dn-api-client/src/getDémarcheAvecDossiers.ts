@@ -8,7 +8,11 @@ const fetchDossiers = async (dossiersIds: number[]) => {
   const logger = getLogger('dn-api-client');
   const sdk = getDémarcheNumériqueApiClient();
   const dossiers = [];
-  const concurrency = 15;
+  const concurrency =
+    Number(process.env.DEMARCHE_NUMERIQUE_API_CONCURRENCY) > 0
+      ? Number(process.env.DEMARCHE_NUMERIQUE_API_CONCURRENCY)
+      : 10;
+
   for (let i = 0; i < dossiersIds.length; i += concurrency) {
     const batch = dossiersIds.slice(i, i + concurrency);
     try {
