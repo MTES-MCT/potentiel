@@ -1,10 +1,6 @@
 import Card from '@codegouvfr/react-dsfr/Card';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import Environment from '@codegouvfr/react-dsfr/picto/Environment';
 import Notification from '@codegouvfr/react-dsfr/picto/Notification';
-import Success from '@codegouvfr/react-dsfr/picto/Success';
-import Sun from '@codegouvfr/react-dsfr/picto/Sun';
-import Tile from '@codegouvfr/react-dsfr/Tile';
 
 import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
@@ -23,7 +19,6 @@ export function HomePageAdministration({ utilisateur }: HomePageAdministrationPr
         <AlerteNouveauté />
         <Nouveautés />
         <DemandesSection utilisateur={utilisateur} />
-        <SuiviProjets />
       </div>
     </PageTemplate>
   );
@@ -67,40 +62,6 @@ const Nouveautés = () => (
         title="Les exports de données ont été mis à jour sur Potentiel"
         titleAs="h3"
       />
-    </div>
-  </div>
-);
-
-const SuiviProjets = () => (
-  <div>
-    <div className="flex flex-row gap-4 mb-4">
-      <Environment color="green-emeraude" fontSize="large" />
-      <Heading2>Mes projets</Heading2>
-    </div>
-    <div className="flex gap-2">
-      <Tile
-        enlargeLinkOrButton
-        linkProps={{
-          href: '#',
-        }}
-        orientation="horizontal"
-        title="Projets mis en service"
-        desc="3 nouvelles mis en service"
-        titleAs="h3"
-        pictogram={<Success color="green-emeraude" />}
-      />
-      <Tile
-        enlargeLinkOrButton
-        linkProps={{
-          href: '#',
-        }}
-        orientation="horizontal"
-        title="Répartition des projets"
-        desc="83 projets éoliens, 109 projets photo voltaïques dans votre région"
-        titleAs="h3"
-        pictogram={<Sun color="green-emeraude" />}
-      />
-      {/* carte */}
     </div>
   </div>
 );

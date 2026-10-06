@@ -5,14 +5,22 @@ import Tile from '@codegouvfr/react-dsfr/Tile';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Heading2 } from '@/components/atoms/headings';
+import { getDemandesLinks } from '@/components/organisms/header/UserBasedRoleNavigation';
 
-type DétailsDemandes = { total: number; new: number };
-export type DemandesProps = {
-  demandes: Record<AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction, DétailsDemandes>;
+type DétailsDemandes = {
+  domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
+  total: number;
+  new: number;
 };
 
-export const DemandesDétails = ({ demandes }: DemandesProps) => {
-  console.log(demandes);
+export type DemandesDétailsProps = {
+  autorité: 'dgec' | 'dreal';
+  withNew: DétailsDemandes[];
+  withNoNew: DétailsDemandes[];
+};
+
+export const DemandesDétails = ({ autorité, withNew, withNoNew }: DemandesDétailsProps) => {
+  console.log({ withNew, withNoNew });
   return (
     <div>
       <div className="flex flex-row gap-4 mb-4">
@@ -20,79 +28,54 @@ export const DemandesDétails = ({ demandes }: DemandesProps) => {
         <Heading2>Demandes à traiter</Heading2>
       </div>
       <div className="flex flex-col gap-4">
-        <div className="flex flex-row gap-2">
-          {Object.entries(demandes).map(([domaine, détails]) => (
+        <div className="flex flex-row flex-wrap gap-2">
+          {withNew.map(({ domain, total, new: newCount }) => (
             <DemandesParDomaine
-              key={domaine}
-              domaine={domaine as AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction}
-              total={détails.total}
-              new={détails.new}
+              key={domain}
+              domain={domain}
+              total={total}
+              new={newCount}
+              autorité={autorité}
             />
           ))}
-          <Tile
-            enlargeLinkOrButton
-            linkProps={{
-              href: '#',
-            }}
-            orientation="horizontal"
-            start={
-              <Badge noIcon severity="info">
-                New
-              </Badge>
-            }
-            title="Actionnaires"
-            desc="3 nouvelles demandes"
-            titleAs="h3"
-          />
-          <Tile
-            enlargeLinkOrButton
-            linkProps={{
-              href: '#',
-            }}
-            orientation="horizontal"
-            start={
-              <Badge noIcon severity="info">
-                New
-              </Badge>
-            }
-            title="Abandon"
-            desc="1 nouvelle demande"
-            titleAs="h3"
-          />
         </div>
-        <div className="flex flex-row gap-2">
-          <Tile
-            enlargeLinkOrButton
-            linkProps={{
-              href: '',
-            }}
-            orientation="horizontal"
-            title="Puissance"
-            desc="12 demandes à traiter"
-            titleAs="h3"
-          />
-          <Tile
-            orientation="horizontal"
-            title="Représentant légal"
-            desc="Pas de demande à traiter"
-            titleAs="h3"
-          />
+        <div className="flex flex-row flex-wrap gap-2">
+          {withNoNew.map(({ domain, total, new: newCount }) => (
+            <DemandesParDomaine
+              key={domain}
+              domain={domain}
+              total={total}
+              new={newCount}
+              autorité={autorité}
+            />
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
+const mapDomaineToLabel: Record<AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction, string> = {
+  actionnaire: 'Actionnaires',
+  représentantLégal: 'Représentant légal',
+  abandon: 'Abandon',
+  puissance: 'Puissance',
+  délai: 'Délai',
+  recours: 'Recours',
+};
+
 const DemandesParDomaine = ({
   total,
   new: newCount,
-  domaine,
-}: DétailsDemandes & { domaine: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction }) => {
+  domain,
+  autorité,
+}: DétailsDemandes & { autorité: 'dgec' | 'dreal' }) => {
   return (
     <Tile
+      className="w-72"
       enlargeLinkOrButton
       linkProps={{
-        href: '#',
+        href: getDemandesLinks(false, autorité, [domain])[0]?.url,
       }}
       orientation="horizontal"
       start={
@@ -102,7 +85,7 @@ const DemandesParDomaine = ({
           </Badge>
         )
       }
-      title={domaine}
+      title={mapDomaineToLabel[domain]}
       desc={total ? `${total} demandes à traiter` : 'Aucune demande à traiter'}
       titleAs="h3"
     />

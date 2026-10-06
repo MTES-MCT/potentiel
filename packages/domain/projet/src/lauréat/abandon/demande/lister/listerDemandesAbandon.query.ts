@@ -27,7 +27,7 @@ type DemandeAbandonListItemReadModel = {
   estPartiEnPPA?: true;
   recandidature: boolean;
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
-  dateDemande: DateTime.ValueType;
+  demandéLe: DateTime.ValueType;
   miseÀJourLe: DateTime.ValueType;
 };
 
@@ -149,7 +149,7 @@ const mapToReadModel = ({
     preuveRecandidatureStatut: demande.recandidature
       ? StatutPreuveRecandidature.convertirEnValueType(demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
-    dateDemande: DateTime.convertirEnValueType(demande.demandéLe),
+    demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
     estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
   };
 };

@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
@@ -14,14 +14,16 @@ type DemandesSectionProps = {
 };
 
 const sectionTitle = 'Demandes';
+
 export const DemandesSection = ({ utilisateur }: DemandesSectionProps) =>
   SectionWithErrorHandling(
     withUtilisateur(async () => {
-      const demandes = await getDemandes(utilisateur);
+      const { withNew, withNoNew } = await getDemandes(utilisateur);
+      const autorité = utilisateur.estDreal() ? 'dgec' : 'dreal';
 
       return (
         <Section title={sectionTitle}>
-          <DemandesDétails demandes={demandes} />
+          <DemandesDétails withNew={withNew} withNoNew={withNoNew} autorité={autorité} />
         </Section>
       );
     }),
@@ -30,7 +32,7 @@ export const DemandesSection = ({ utilisateur }: DemandesSectionProps) =>
 
 const getDemandes = async (utilisateur: PotentielUtilisateur) => {
   const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
-  const abandons = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
+  const abandon = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
     type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
     data: {
       utilisateur: utilisateur.identifiantUtilisateur.email,
@@ -39,16 +41,15 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
     },
   });
 
-  const demandeActionnaire =
-    await mediator.send<Lauréat.Actionnaire.ListerChangementActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
-      data: {
-        utilisateur: utilisateur.identifiantUtilisateur.email,
-        statut: ['demandé'],
-      },
-    });
+  const actionnaire = await mediator.send<Lauréat.Actionnaire.ListerChangementActionnaireQuery>({
+    type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
+    data: {
+      utilisateur: utilisateur.identifiantUtilisateur.email,
+      statut: ['demandé'],
+    },
+  });
 
-  const demandeReprésentantLégal =
+  const représentantLégal =
     await mediator.send<Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
       type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
       data: {
@@ -57,7 +58,7 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
       },
     });
 
-  const demandePuissance = await mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
+  const puissance = await mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
     type: 'Lauréat.Puissance.Query.ListerChangementPuissance',
     data: {
       utilisateur: utilisateur.identifiantUtilisateur.email,
@@ -65,36 +66,40 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
     },
   });
 
+  const délai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
+    type: 'Lauréat.Délai.Query.ListerDemandeDélai',
+    data: {
+      utilisateur: utilisateur.identifiantUtilisateur.email,
+      statuts: ['demandé', 'en-instruction'],
+    },
+  });
+
+  // autorité compétente
+  const recours = await mediator.send<Éliminé.Recours.ListerDemandeRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ListerDemandeRecours',
+    data: {
+      utilisateur: utilisateur.identifiantUtilisateur.email,
+      statut: ['demandé', 'en-instruction'],
+    },
+  });
+
+  const mappedDemandes = (
+    [
+      ['abandon', abandon],
+      ['actionnaire', actionnaire],
+      ['représentantLégal', représentantLégal],
+      ['puissance', puissance],
+      ['délai', délai],
+      ['recours', recours],
+    ] as const
+  ).map(([domain, résultat]) => ({
+    domain,
+    total: résultat.total,
+    new: résultat.items.filter((d) => d.demandéLe.estUltérieureÀ(ilYAUnMois)).length,
+  }));
+
   return {
-    abandon: {
-      total: abandons.total,
-      new: abandons.items.filter((demande) => demande.dateDemande.estUltérieureÀ(ilYAUnMois))
-        .length,
-    },
-    actionnaire: {
-      total: demandeActionnaire.total,
-      new: demandeActionnaire.items.filter((demande) =>
-        demande.demandéLe.estUltérieureÀ(ilYAUnMois),
-      ).length,
-    },
-    représentantLégal: {
-      total: demandeReprésentantLégal.total,
-      new: demandeReprésentantLégal.items.filter((demande) =>
-        demande.demandéLe.estUltérieureÀ(ilYAUnMois),
-      ).length,
-    },
-    puissance: {
-      total: demandePuissance.total,
-      new: demandePuissance.items.filter((demande) => demande.demandéLe.estUltérieureÀ(ilYAUnMois))
-        .length,
-    },
-    délai: {
-      total: 0,
-      new: 0,
-    },
-    recours: {
-      total: 0,
-      new: 0,
-    },
+    withNew: mappedDemandes.filter((demande) => demande.new > 0),
+    withNoNew: mappedDemandes.filter((demande) => demande.new === 0),
   };
 };
