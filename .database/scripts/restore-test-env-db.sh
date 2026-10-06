@@ -5,6 +5,11 @@
 set -e
 set -u
 
+FORCE_CLEAN=false
+if [[ "${1:-}" == "--force-clean" ]]; then
+  FORCE_CLEAN=true
+fi
+
 if [[ "$APPLICATION_NAME" == *"production"* ]] && [[ "${IS_REVIEW_APP:-}" != "true" ]]; then
   echo "❌ This script cannot be run in production environment"
   exit 1
@@ -19,7 +24,7 @@ if [[ "$DB_URL" == *"sslmode=verify-full"* ]]; then
 fi
 
 if [ -f "./.database/potentiel-dev.dump" ]; then
-  if [[ "${IS_REVIEW_APP:-}" == "true" ]]; then
+  if [[ "${IS_REVIEW_APP:-}" == "true" ]] && [[ "$FORCE_CLEAN" != "true" ]]; then
     pg_restore --no-acl --no-owner -d $DB_URL < ./.database/potentiel-dev.dump
   else
     pg_restore --clean --no-acl --no-owner -d $DB_URL < ./.database/potentiel-dev.dump
