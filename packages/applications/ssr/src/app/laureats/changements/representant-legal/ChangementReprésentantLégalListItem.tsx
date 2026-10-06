@@ -35,7 +35,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
         linkProps={{
           href: Routes.ReprésentantLégal.changement.détails(
             IdentifiantProjet.bind(identifiantProjet).formatter(),
-            demandéLe,
+            demandéLe.date,
           ),
         }}
         aria-label={`voir le détail de la demande de changement de représentant légal pour le projet ${nomProjet}`}

@@ -3,8 +3,8 @@ import { headers } from 'next/headers';
 
 import { getSessionUser } from '@/auth/getSessionUser';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { HomePageAdministration } from './(homepage-administration)/HomePageAdministration.page';
 import { HomePage } from './Home.page';
-import { HomePageDreal } from './HomePageDreal.page';
 
 export const metadata: Metadata = { title: 'Accueil' };
 
@@ -12,10 +12,10 @@ export default async function Page() {
   return PageWithErrorHandling(async () => {
     const utilisateur = await getSessionUser({ headers: await headers() });
 
-    const isDreal = utilisateur?.estDreal();
+    const isAdministration = utilisateur?.estDreal() || utilisateur?.estDGEC();
 
-    if (isDreal) {
-      return <HomePageDreal />;
+    if (isAdministration || utilisateur?.rôle.estAdmin()) {
+      return <HomePageAdministration utilisateur={utilisateur} />;
     }
 
     return <HomePage utilisateur={utilisateur} />;

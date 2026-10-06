@@ -1,7 +1,5 @@
-import Badge from '@codegouvfr/react-dsfr/Badge';
 import Card from '@codegouvfr/react-dsfr/Card';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import Contract from '@codegouvfr/react-dsfr/picto/Contract';
 import Environment from '@codegouvfr/react-dsfr/picto/Environment';
 import Notification from '@codegouvfr/react-dsfr/picto/Notification';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
@@ -12,27 +10,32 @@ import type { PotentielUtilisateur } from '@potentiel-applications/request-conte
 
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
-export type HomePageProps = {
-  utilisateur?: PotentielUtilisateur;
+import { DemandesSection } from './Demandes.section';
+
+export type HomePageAdministrationProps = {
+  utilisateur: PotentielUtilisateur;
 };
 
-// Alerte sur la nouvelle
-export function HomePageDreal({ utilisateur }: HomePageProps) {
+export function HomePageAdministration({ utilisateur }: HomePageAdministrationProps) {
   return (
     <PageTemplate banner={<Heading1>Page d'accueil</Heading1>}>
       <div className="flex flex-col gap-6">
-        <Notice
-          title="Votre page d'accueil fait peau neuve"
-          severity="info"
-          description="Retrouvez y les actualités de Potentiel, un résumé de suivi de vos projets et vos prochaines actions. N'hésitez pas à nous contacter pour nous partager vos retours !"
-        />
+        <AlerteNouveauté />
         <Nouveautés />
-        <Demandes />
+        <DemandesSection utilisateur={utilisateur} />
         <SuiviProjets />
       </div>
     </PageTemplate>
   );
 }
+
+const AlerteNouveauté = () => (
+  <Notice
+    title="Votre page d'accueil fait peau neuve"
+    severity="info"
+    description="Retrouvez y les actualités de Potentiel, un résumé de suivi de vos projets et vos prochaines actions. N'hésitez pas à nous contacter pour nous partager vos retours !"
+  />
+);
 
 const Nouveautés = () => (
   <div>
@@ -64,67 +67,6 @@ const Nouveautés = () => (
         title="Les exports de données ont été mis à jour sur Potentiel"
         titleAs="h3"
       />
-    </div>
-  </div>
-);
-
-const Demandes = () => (
-  <div>
-    <div className="flex flex-row gap-4 mb-4">
-      <Contract color="yellow-moutarde" fontSize="large" />
-      <Heading2>Demandes à traiter</Heading2>
-    </div>
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row gap-2">
-        <Tile
-          enlargeLinkOrButton
-          linkProps={{
-            href: '#',
-          }}
-          orientation="horizontal"
-          start={
-            <Badge noIcon severity="info">
-              New
-            </Badge>
-          }
-          title="Actionnaires"
-          desc="3 nouvelles demandes"
-          titleAs="h3"
-        />
-        <Tile
-          enlargeLinkOrButton
-          linkProps={{
-            href: '#',
-          }}
-          orientation="horizontal"
-          start={
-            <Badge noIcon severity="info">
-              New
-            </Badge>
-          }
-          title="Abandon"
-          desc="1 nouvelle demande"
-          titleAs="h3"
-        />
-      </div>
-      <div className="flex flex-row gap-2">
-        <Tile
-          enlargeLinkOrButton
-          linkProps={{
-            href: '',
-          }}
-          orientation="horizontal"
-          title="Puissance"
-          desc="12 demandes à traiter"
-          titleAs="h3"
-        />
-        <Tile
-          orientation="horizontal"
-          title="Représentant légal"
-          desc="Pas de demande à traiter"
-          titleAs="h3"
-        />
-      </div>
     </div>
   </div>
 );

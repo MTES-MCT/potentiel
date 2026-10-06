@@ -48,7 +48,7 @@ export type ListerDemandesAbandonQuery = Message<
     nomProjet?: string;
     autoritéCompétente?: AutoritéCompétente.RawType;
     estPartiEnPPA?: boolean;
-    range: RangeOptions;
+    range?: RangeOptions;
   },
   ListerDemandesAbandonReadModel
 >;
