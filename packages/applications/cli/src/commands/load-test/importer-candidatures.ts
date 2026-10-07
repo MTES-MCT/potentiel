@@ -15,12 +15,12 @@ import { getDossier } from '@potentiel-infrastructure/dn-api-client';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Option } from '@potentiel-libraries/monads';
 
-import { appSchema, dbSchema, dsSchema, throwIfEnvProduction } from '#helpers';
+import { appSchema, dbSchema, dnSchema, throwIfEnvProduction } from '#helpers';
 
 const envSchema = zod.object({
   ...appSchema.shape,
   ...dbSchema.shape,
-  ...dsSchema.shape,
+  ...dnSchema.shape,
 });
 
 export class ImporterCandidatures extends Command {

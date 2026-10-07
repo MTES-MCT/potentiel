@@ -16,7 +16,7 @@ export const s3Schema = z.object({
   AWS_REGION: z.string(),
 });
 
-export const dsSchema = z.object({
+export const dnSchema = z.object({
   DEMARCHE_NUMERIQUE_API_URL: z.url(),
   DEMARCHE_NUMERIQUE_API_TOKEN: z.string(),
 });

@@ -8,7 +8,7 @@ import { getDémarcheAvecDossiers } from '@potentiel-infrastructure/dn-api-clien
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 
-import { dsSchema } from '#helpers';
+import { dnSchema } from '#helpers';
 
 export class ListerDossiersCandidatureCommand extends Command {
   static args = {
@@ -23,7 +23,7 @@ export class ListerDossiersCandidatureCommand extends Command {
   };
 
   async init() {
-    dsSchema.parse(process.env);
+    dnSchema.parse(process.env);
   }
 
   async run() {
