@@ -1,10 +1,8 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import Contract from '@codegouvfr/react-dsfr/picto/Contract';
 import Tile from '@codegouvfr/react-dsfr/Tile';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Heading2 } from '@/components/atoms/headings';
 import { getDemandesLinks } from '@/components/organisms/header/UserBasedRoleNavigation';
 
 type DétailsDemandes = {
@@ -19,41 +17,32 @@ export type DemandesDétailsProps = {
   withNoNew: DétailsDemandes[];
 };
 
-export const DemandesDétails = ({ autorité, withNew, withNoNew }: DemandesDétailsProps) => {
-  console.log({ withNew, withNoNew });
-  return (
-    <div>
-      <div className="flex flex-row gap-4 mb-4">
-        <Contract color="yellow-moutarde" fontSize="large" />
-        <Heading2>Demandes à traiter</Heading2>
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-row flex-wrap gap-2">
-          {withNew.map(({ domain, total, new: newCount }) => (
-            <DemandesParDomaine
-              key={domain}
-              domain={domain}
-              total={total}
-              new={newCount}
-              autorité={autorité}
-            />
-          ))}
-        </div>
-        <div className="flex flex-row flex-wrap gap-2">
-          {withNoNew.map(({ domain, total, new: newCount }) => (
-            <DemandesParDomaine
-              key={domain}
-              domain={domain}
-              total={total}
-              new={newCount}
-              autorité={autorité}
-            />
-          ))}
-        </div>
-      </div>
+export const DemandesDétails = ({ autorité, withNew, withNoNew }: DemandesDétailsProps) => (
+  <div className="flex flex-col gap-4">
+    <div className="flex flex-row flex-wrap gap-2">
+      {withNew.map(({ domain, total, new: newCount }) => (
+        <DemandesParDomaine
+          key={domain}
+          domain={domain}
+          total={total}
+          new={newCount}
+          autorité={autorité}
+        />
+      ))}
     </div>
-  );
-};
+    <div className="flex flex-row flex-wrap gap-2">
+      {withNoNew.map(({ domain, total, new: newCount }) => (
+        <DemandesParDomaine
+          key={domain}
+          domain={domain}
+          total={total}
+          new={newCount}
+          autorité={autorité}
+        />
+      ))}
+    </div>
+  </div>
+);
 
 const mapDomaineToLabel: Record<AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction, string> = {
   actionnaire: 'Actionnaires',

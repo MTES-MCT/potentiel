@@ -1,3 +1,4 @@
+import Contract from '@codegouvfr/react-dsfr/picto/Contract';
 import { mediator } from 'mediateur';
 
 import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
@@ -13,7 +14,7 @@ type DemandesSectionProps = {
   utilisateur: PotentielUtilisateur;
 };
 
-const sectionTitle = 'Demandes';
+const sectionTitle = 'Demandes à traiter';
 
 export const DemandesSection = ({ utilisateur }: DemandesSectionProps) =>
   SectionWithErrorHandling(
@@ -22,7 +23,11 @@ export const DemandesSection = ({ utilisateur }: DemandesSectionProps) =>
       const autorité = utilisateur.estDreal() ? 'dgec' : 'dreal';
 
       return (
-        <Section title={sectionTitle}>
+        <Section
+          title={sectionTitle}
+          picto={<Contract color="yellow-moutarde" fontSize="large" />}
+          className="border-none"
+        >
           <DemandesDétails withNew={withNew} withNoNew={withNoNew} autorité={autorité} />
         </Section>
       );
@@ -74,7 +79,7 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
     },
   });
 
-  // autorité compétente
+  // viovio autorité compétente ?
   const recours = await mediator.send<Éliminé.Recours.ListerDemandeRecoursQuery>({
     type: 'Éliminé.Recours.Query.ListerDemandeRecours',
     data: {

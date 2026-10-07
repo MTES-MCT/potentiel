@@ -28,7 +28,7 @@ const AlerteNouveauté = () => (
   <Notice
     title="Votre page d'accueil fait peau neuve"
     severity="info"
-    description="Retrouvez y les actualités de Potentiel, un résumé de suivi de vos projets et vos prochaines actions. N'hésitez pas à nous contacter pour nous partager vos retours !"
+    description="Retrouvez-y les actualités de Potentiel, ainsi que vos prochaines actions listées par catégorie. N'hésitez pas à nous contacter pour nous partager vos retours !"
   />
 );
 
