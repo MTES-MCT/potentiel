@@ -4,14 +4,14 @@ import { registerProjetUseCases } from '@potentiel-domain/projet';
 import { getDossier } from '@potentiel-infrastructure/dn-api-client';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
-import { dsSchema } from '#helpers';
+import { dnSchema } from '#helpers';
 
 export class ImporterDossierCandidatureCommand extends Command {
   static args = {
     numéroDossier: Args.integer({ required: true }),
   };
   async init() {
-    dsSchema.parse(process.env);
+    dnSchema.parse(process.env);
 
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,

@@ -11,11 +11,11 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { dbSchema, dsSchema, s3Schema } from '#helpers';
+import { dbSchema, dnSchema, s3Schema } from '#helpers';
 
 const envSchema = z.object({
   ...dbSchema.shape,
-  ...dsSchema.shape,
+  ...dnSchema.shape,
   ...s3Schema.shape,
 });
 export class importerGarantiesFinancièresManquantesDepuisDN extends Command {
