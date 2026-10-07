@@ -12,12 +12,14 @@ export const TransmettreDocumentPage: FC<TransmettreDocumentPageProps> = ({
   identifiantProjet,
   referenceDossierRaccordement,
   availableTypes,
+  afficherAlerteDocumentRaccordement,
 }) => (
   <SectionPage>
     <TransmettreDocumentForm
       identifiantProjet={identifiantProjet}
       referenceDossierRaccordement={referenceDossierRaccordement}
       availableTypes={availableTypes}
+      afficherAlerteDocumentRaccordement={afficherAlerteDocumentRaccordement}
     />
   </SectionPage>
 );

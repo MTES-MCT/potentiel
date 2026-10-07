@@ -128,6 +128,8 @@ const mapToActionsAndAlertes = ({
 
     if (!actuelles.statut.estÉchu()) {
       actions.push('garantiesFinancières.mainlevée.demander');
+    } else if (utilisateur.estAdministration()) {
+      actions.push('accès.lister');
     }
   }
 

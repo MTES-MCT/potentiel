@@ -56,8 +56,10 @@ export default async function Page(props: PageProps) {
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-      const aDéjàTransmisUneDemandeComplèteDeRaccordement =
-        Option.isSome(raccordements) && raccordements.dossiers.length > 0;
+      const afficherAlerteAucunDossierRaccordement =
+        Option.isSome(raccordements) &&
+        raccordements.dossiers.length > 0 &&
+        utilisateur.estPorteur();
 
       const peutModifierLeGestionnaire =
         (lauréat.statut.estActif() &&
@@ -74,13 +76,11 @@ export default async function Page(props: PageProps) {
         peutModifierLeGestionnaire &&
         Option.isSome(gestionnaireRéseauActuel) &&
         !gestionnaireRéseauActuel.identifiantGestionnaireRéseau.estInconnu() &&
-        !aDéjàTransmisUneDemandeComplèteDeRaccordement;
+        !afficherAlerteAucunDossierRaccordement;
 
       return (
         <TransmettreDemandeComplèteRaccordementPage
-          aDéjàTransmisUneDemandeComplèteDeRaccordement={
-            aDéjàTransmisUneDemandeComplèteDeRaccordement
-          }
+          afficherAlerteAucunDossierRaccordement={afficherAlerteAucunDossierRaccordement}
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           listeGestionnairesRéseau={mapToPlainObject(gestionnairesRéseau.items)}
           gestionnaireRéseauActuel={mapToPlainObject(gestionnaireRéseauActuel)}

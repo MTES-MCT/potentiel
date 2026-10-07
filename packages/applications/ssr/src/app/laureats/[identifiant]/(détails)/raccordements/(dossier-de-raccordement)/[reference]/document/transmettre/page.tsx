@@ -59,6 +59,7 @@ export default async function Page(props: PageProps) {
           identifiantProjet={identifiantProjet}
           referenceDossierRaccordement={referenceDossierRaccordement}
           availableTypes={availableTypes}
+          afficherAlerteDocumentRaccordement={utilisateur.estPorteur()}
         />
       );
     }),
