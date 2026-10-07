@@ -75,7 +75,7 @@ const DemandesParDomaine = ({
       className="w-72"
       enlargeLinkOrButton
       linkProps={{
-        href: getDemandesLinks(false, autorité, [domain])[0]?.url,
+        href: getDemandesLinks({ estPorteur: false, autorité, keys: [domain] })[0]?.url,
       }}
       orientation="horizontal"
       start={

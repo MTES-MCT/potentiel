@@ -51,10 +51,10 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
     },
   ];
 
-  const toutesDemandesMenuLinks: Array<MenuItem> = getDemandesLinks(
-    rôle.estPorteur(),
-    rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
-    [
+  const toutesDemandesMenuLinks: Array<MenuItem> = getDemandesLinks({
+    estPorteur: rôle.estPorteur(),
+    autorité: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
+    keys: [
       'abandon',
       'actionnaire',
       'délai',
@@ -68,7 +68,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       'recours',
       'représentantLégal',
     ],
-  );
+  });
 
   const garantiesFinancièresMenuLinks: Array<MenuItem> = [
     {
@@ -151,7 +151,36 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
     },
   ];
 
+  const donnéesMenuLinks: Array<MenuItem> = [
+    {
+      label: 'Exports',
+      url: Routes.Export.page,
+      permission: [
+        'raccordement.exporterDossierRaccordement',
+        'candidature.exporterDétailsFournisseur',
+        'lauréat.exporterListe',
+        'éliminé.exporterListe',
+        'candidature.exporterListe',
+      ],
+    },
+    {
+      label: 'Statistiques',
+      url: 'https://potentiel.e2.rie.gouv.fr/',
+      permission: 'statistiquesDGEC.consulter',
+    },
+  ];
+
   const menu: MainNavigationProps.Item[] = [
+    ...mapToMenuProps(
+      [
+        {
+          label: 'Tableau de bord',
+          url: Routes.TableauDeBord.consulter(),
+          permission: 'tableauDeBord.consulter',
+        },
+      ],
+      rôle,
+    ),
     {
       text: 'Projets',
       menuLinks: mapToMenuProps(projetMenuLinks, rôle),
@@ -176,33 +205,16 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       text: 'Accès',
       menuLinks: mapToMenuProps(utilisateurMenuLinks, rôle),
     },
-    ...mapToMenuProps(
-      [
-        {
-          label: 'Export',
-          url: Routes.Export.page,
-          permission: [
-            'raccordement.exporterDossierRaccordement',
-            'candidature.exporterDétailsFournisseur',
-            'lauréat.exporterListe',
-            'éliminé.exporterListe',
-            'candidature.exporterListe',
-          ],
-        },
-      ],
-      rôle,
-    ),
+    {
+      text: 'Données',
+      menuLinks: mapToMenuProps(donnéesMenuLinks, rôle),
+    },
     ...mapToMenuProps(
       [
         {
           label: 'Projets à réclamer',
           url: Routes.Accès.réclamerProjet,
           permission: 'accès.réclamerProjet',
-        },
-        {
-          label: 'Tableau de bord',
-          url: 'https://potentiel.e2.rie.gouv.fr/',
-          permission: 'statistiquesDGEC.consulter',
         },
       ],
       rôle,
@@ -212,11 +224,15 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
   return menu.filter(({ menuLinks, linkProps }) => menuLinks?.length || linkProps?.href);
 };
 
-export const getDemandesLinks = (
-  estPorteur: boolean,
-  autorité: 'dgec' | 'dreal' | undefined,
-  keys: string[],
-) => {
+export const getDemandesLinks = ({
+  estPorteur,
+  autorité,
+  keys,
+}: {
+  estPorteur: boolean;
+  autorité: 'dgec' | 'dreal' | undefined;
+  keys: string[];
+}) => {
   const record: Record<string, MenuItem> = {
     abandon: {
       label: 'Abandon',
