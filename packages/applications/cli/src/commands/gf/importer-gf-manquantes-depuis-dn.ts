@@ -1,3 +1,5 @@
+import { writeFile } from 'node:fs/promises';
+
 import { Args, Command } from '@oclif/core';
 import { mediator } from 'mediateur';
 import z from 'zod';
@@ -6,6 +8,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { Candidature, Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { ExportCSV } from '@potentiel-libraries/csv';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema, dsSchema, s3Schema } from '#helpers';
@@ -15,7 +18,7 @@ const envSchema = z.object({
   ...dsSchema.shape,
   ...s3Schema.shape,
 });
-export class importerAttestationsGarantiesFinancières extends Command {
+export class importerGarantiesFinancièresManquantesDepuisDN extends Command {
   static override description =
     `Importer les garanties financières manquantes suite à désignation de projets importés depuis DN`;
   static args = {
@@ -34,14 +37,25 @@ export class importerAttestationsGarantiesFinancières extends Command {
   }
 
   async run() {
-    const { args } = await this.parse(importerAttestationsGarantiesFinancières);
+    const { args } = await this.parse(importerGarantiesFinancièresManquantesDepuisDN);
     const APPEL_OFFRES = args.appelOffre;
     const PERIODE = args.periode;
 
-    const stats = {
+    type Stats = {
+      total: number;
+      succès: Array<{
+        identifiantProjet: IdentifiantProjet.RawType;
+      }>;
+      erreurs: Array<{
+        identifiantProjet: IdentifiantProjet.RawType;
+        cause: string;
+      }>;
+    };
+
+    const stats: Stats = {
       total: 0,
-      succès: 0,
-      erreurs: 0,
+      succès: [],
+      erreurs: [],
     };
 
     try {
@@ -71,7 +85,7 @@ export class importerAttestationsGarantiesFinancières extends Command {
       );
 
       if (!projetsAvecGFManquantes.length) {
-        console.info('Aucun projet lauréat sans garanties financières importées');
+        console.info('✅ Aucun projet lauréat sans garanties financières importées');
         return;
       }
 
@@ -81,24 +95,34 @@ export class importerAttestationsGarantiesFinancières extends Command {
 
       stats.total = projetsAvecGFManquantes.length;
 
+      console.log(`🗃️ ${stats.total} projets lauréat n'ont pas de garanties financières importées`);
+
+      let counter = 1;
       for (const { id_projet, date_notification } of projetsAvecGFManquantes) {
-        const identifiantProjet = IdentifiantProjet.convertirEnValueType(id_projet);
+        try {
+          counter++;
+          process.stdout.clearLine(0);
+          process.stdout.write(`\r⏳ [${counter}/${stats.total}]`);
 
-        const attestationGarantiesFinancières =
-          await ProjetAdapter.récupererConstitutionGarantiesFinancièresAdapter(identifiantProjet);
+          const identifiantProjet = IdentifiantProjet.convertirEnValueType(id_projet);
 
-        if (!attestationGarantiesFinancières) {
-          console.info(
-            `Aucune attestation de garanties financières trouvée pour le projet ${id_projet}`,
-          );
-          continue;
-        }
+          const attestationGarantiesFinancières =
+            await ProjetAdapter.récupererConstitutionGarantiesFinancièresAdapter(identifiantProjet);
 
-        const dépôtGarantiesFinancières = await executeSelect<{
-          type_garanties_financieres: string;
-          date_echeance_gf: string | null;
-        }>(
-          `
+          if (!attestationGarantiesFinancières) {
+            stats.erreurs.push({
+              identifiantProjet: id_projet,
+              cause: 'Aucune attestation de garanties financières trouvée dans DN pour le projet',
+            });
+
+            continue;
+          }
+
+          const dépôtGarantiesFinancières = await executeSelect<{
+            type_garanties_financieres: string;
+            date_echeance_gf: string | null;
+          }>(
+            `
             select
               payload->>'typeGarantiesFinancières' as type_garanties_financieres,
               payload->>'dateÉchéanceGf' as date_echeance_gf
@@ -106,70 +130,137 @@ export class importerAttestationsGarantiesFinancières extends Command {
             where d.type = 'CandidatureImportée-V2'
             and stream_id = format('candidature|%s', $1::text);
           `,
-          id_projet,
-        );
+            id_projet,
+          );
 
-        if (!dépôtGarantiesFinancières.length) {
-          console.info(`Aucun dépôt de garanties financières trouvé pour le projet ${id_projet}`);
-          continue;
-        }
+          if (!dépôtGarantiesFinancières.length) {
+            stats.erreurs.push({
+              identifiantProjet: id_projet,
+              cause: 'Aucun dépôt de garanties financières trouvé pour le projet',
+            });
 
-        const type = dépôtGarantiesFinancières[0].type_garanties_financieres;
-        if (!type) {
-          console.info(`Aucun type de garanties financières trouvé pour le projet ${id_projet}`);
-          continue;
-        }
-        const dateÉchéanceGF = dépôtGarantiesFinancières[0].date_echeance_gf;
+            continue;
+          }
 
-        await mediator.send<Document.EnregistrerDocumentProjetCommand>({
-          type: 'Document.Command.EnregistrerDocumentProjet',
-          data: {
-            documentProjet:
-              Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle({
-                identifiantProjet: identifiantProjet.formatter(),
-                dateConstitution: attestationGarantiesFinancières.dateConstitution,
-                attestation: attestationGarantiesFinancières.attestation,
-              }),
-            content: attestationGarantiesFinancières.attestation.content,
-          },
-        });
+          const type = dépôtGarantiesFinancières[0].type_garanties_financieres;
 
-        const event: Lauréat.GarantiesFinancières.GarantiesFinancièresImportéesEvent = {
-          type: 'GarantiesFinancièresImportées-V1',
-          payload: {
-            identifiantProjet: identifiantProjet.formatter(),
-            dateÉchéance: dateÉchéanceGF
-              ? DateTime.convertirEnValueType(dateÉchéanceGF).formatter()
-              : undefined,
-            type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type).formatter(),
-            dateConstitution: DateTime.convertirEnValueType(
-              attestationGarantiesFinancières.dateConstitution,
-            ).formatter(),
-            attestation: {
-              format: attestationGarantiesFinancières.attestation.format,
+          if (!type) {
+            stats.erreurs.push({
+              identifiantProjet: id_projet,
+              cause: 'Aucun type de garanties financières trouvé pour le projet',
+            });
+            continue;
+          }
+
+          const dateÉchéanceGF = dépôtGarantiesFinancières[0].date_echeance_gf;
+
+          await mediator.send<Document.EnregistrerDocumentProjetCommand>({
+            type: 'Document.Command.EnregistrerDocumentProjet',
+            data: {
+              documentProjet:
+                Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle({
+                  identifiantProjet: identifiantProjet.formatter(),
+                  dateConstitution: attestationGarantiesFinancières.dateConstitution,
+                  attestation: attestationGarantiesFinancières.attestation,
+                }),
+              content: attestationGarantiesFinancières.attestation.content,
             },
-            importéLe: DateTime.convertirEnValueType(date_notification).formatter(),
-          },
-        };
+          });
 
-        await publish(`garanties-financieres|${id_projet}`, {
-          ...event,
-          version: 1,
-          created_at: date_notification,
-        });
+          const event: Lauréat.GarantiesFinancières.GarantiesFinancièresImportéesEvent = {
+            type: 'GarantiesFinancièresImportées-V1',
+            payload: {
+              identifiantProjet: identifiantProjet.formatter(),
+              dateÉchéance: dateÉchéanceGF
+                ? DateTime.convertirEnValueType(dateÉchéanceGF).formatter()
+                : undefined,
+              type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type).formatter(),
+              dateConstitution: DateTime.convertirEnValueType(
+                attestationGarantiesFinancières.dateConstitution,
+              ).formatter(),
+              attestation: {
+                format: attestationGarantiesFinancières.attestation.format,
+              },
+              importéLe: DateTime.convertirEnValueType(date_notification).formatter(),
+            },
+          };
 
-        stats.succès += 1;
+          await publish(`garanties-financieres|${id_projet}`, {
+            ...event,
+            version: 1,
+            created_at: date_notification,
+          });
+
+          stats.succès.push({
+            identifiantProjet: id_projet,
+          });
+        } catch (error) {
+          stats.erreurs.push({
+            identifiantProjet: id_projet,
+            cause: `Une erreur est survenue lors de l'import des GF : ${(error as Error).message}`,
+          });
+        }
       }
     } catch (error) {
-      console.error("Erreur lors de l'import des GF :", error);
-      stats.erreurs += 1;
+      console.error(`Erreur globale : ${(error as Error).message}`);
     } finally {
-      console.info('Statistiques :');
-      console.table(stats);
       await executeSelect(`
         CREATE OR REPLACE RULE prevent_update_on_event_stream as on update to event_store.event_stream do instead
         select event_store.throw_when_trying_to_update_event();
       `);
+
+      console.info('📊 Résultats :');
+      console.info(`  ✅ ${stats.succès.length} GFs ont été récupérées sur DN`);
+      console.info(`  ❌ ${stats.erreurs.length} erreurs lors de la récupération des GFs`);
+
+      if (!stats.succès.length && !stats.erreurs.length) {
+        console.info('ℹ️ Aucun fichier de résultat à générer');
+        process.exit(0);
+      }
+
+      if (stats.succès.length) {
+        const SUCCESS_FILE = 'importer-gf-manquantes-depuis-dn-SUCCESS.csv';
+        await writeFile(
+          SUCCESS_FILE,
+          await ExportCSV.toCSV({
+            data: stats.succès,
+            fields: [
+              {
+                label: 'identifiantProjet',
+                value: 'identifiantProjet',
+              },
+            ],
+          }),
+          'utf-8',
+        );
+
+        console.log(`✍️ Un fichier de succès a été généré (${SUCCESS_FILE})`);
+      }
+
+      if (stats.erreurs.length) {
+        const ERRORS_FILE = 'importer-gf-manquantes-depuis-dn-ERRORS.csv';
+        await writeFile(
+          ERRORS_FILE,
+          await ExportCSV.toCSV({
+            data: stats.erreurs,
+            fields: [
+              {
+                label: 'identifiantProjet',
+                value: 'identifiantProjet',
+              },
+              {
+                label: 'Erreur',
+                value: 'cause',
+              },
+            ],
+          }),
+          'utf-8',
+        );
+
+        console.log(`✍️ Un fichier d'erreurs a été généré (${ERRORS_FILE})`);
+      }
+
+      console.table(stats);
     }
   }
 }
