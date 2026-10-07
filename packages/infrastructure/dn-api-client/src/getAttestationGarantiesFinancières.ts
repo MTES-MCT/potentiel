@@ -7,7 +7,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { mergeDocuments } from '@potentiel-libraries/pdf';
 
 import { getDossier } from './getDossier.js';
-import { getGarantiesFinancièresFiles } from './getGarantiesFinancièresFiles.js';
 
 export const getAttestationGarantiesFinancières = async (dossierNumber: number) => {
   const logger = getLogger('dn-api-client');
@@ -33,9 +32,7 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
       return Option.none;
     }
 
-    const fichiersGarantiesFinancières = await getGarantiesFinancièresFiles(dossierNumber);
-
-    if (fichiersGarantiesFinancières.length === 0) {
+    if (dossier.fichiers.garantiesFinancières.length === 0) {
       logger.warn(`Aucun fichier de garanties financières trouvé pour le dossier ${dossierNumber}`);
       return Option.none;
     }
@@ -43,7 +40,7 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
     const { attestation } = await récupérerAttestationGarantiesFinancières({
       dossierNumber,
       dateConstitution,
-      attestations: fichiersGarantiesFinancières,
+      attestations: dossier.fichiers.garantiesFinancières,
     });
 
     return {
