@@ -7,9 +7,9 @@ import { Document, Lauréat } from '@potentiel-domain/projet';
 import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
-import { dbSchema } from '#helpers';
+import { dbSchema, s3Schema } from '#helpers';
 
-const envSchema = z.object(dbSchema.shape);
+const envSchema = z.object({ ...dbSchema.shape, ...s3Schema.shape });
 
 export class CorrigerRéférenceRaccordementCommand extends Command {
   static description = 'Corriger les références de raccordement avec des caractères interdits';
