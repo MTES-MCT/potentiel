@@ -106,6 +106,7 @@ export class Backup extends Command {
     const fetchFiles = async (startAfter?: string): Promise<string[]> => {
       const { Contents: fileKeys, IsTruncated } = await s3.listObjectsV2({
         Bucket: bucket,
+        Prefix: 'projects/',
         StartAfter: startAfter,
       });
 
