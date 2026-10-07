@@ -259,8 +259,6 @@ export class importerGarantiesFinancièresManquantesDepuisDN extends Command {
 
         console.log(`✍️ Un fichier d'erreurs a été généré (${ERRORS_FILE})`);
       }
-
-      console.table(stats);
     }
   }
 }
