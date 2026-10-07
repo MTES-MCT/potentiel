@@ -3,7 +3,7 @@ import Tile from '@codegouvfr/react-dsfr/Tile';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { getDemandesLinks } from '@/components/organisms/header/UserBasedRoleNavigation';
+import { getDemandesLinks } from '@/components/organisms/header/UserBasedRoleNavigation/getDemandesLinks';
 
 export type DétailsDemandes = {
   domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
