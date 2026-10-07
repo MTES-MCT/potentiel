@@ -5,7 +5,7 @@ import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getDemandesLinks } from '@/components/organisms/header/UserBasedRoleNavigation';
 
-type DétailsDemandes = {
+export type DétailsDemandes = {
   domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
   total: number;
   new: number;

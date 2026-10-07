@@ -4,8 +4,6 @@ import type { PotentielUtilisateur } from '@potentiel-applications/request-conte
 
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { useFeatures } from '@/utils/feature-flag/FeatureFlagContext';
-import { HomePage } from '../Home.page';
 import { DemandesSection } from './Demandes.section';
 import { NouveautésSection } from './Nouveautés.sections';
 
@@ -13,30 +11,19 @@ export type HomePageAdministrationProps = {
   utilisateur: PotentielUtilisateur;
 };
 
-  const featuresFlag = useFeatures();
-
-
-export function HomePageAdministration({ utilisateur }: HomePageAdministrationProps) {
-  console.log("coucou", featuresFlag.includes('tableau-de-bord'))
-
-  return featuresFlag.includes('tableau-de-bord') ? (
-    <PageTemplate
-      banner={
-        <Heading1>
-          Bienvenue {utilisateur.nom || utilisateur.identifiantUtilisateur.email} !
-        </Heading1>
-      }
-    >
-      <div className="flex flex-col gap-6">
-        <AlerteNouveauté />
-        <NouveautésSection />
-        <DemandesSection />
-      </div>
-    </PageTemplate>
-  ) : (
-    <HomePage utilisateur={utilisateur} />
-  );
-}
+export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationProps) => (
+  <PageTemplate
+    banner={
+      <Heading1>Bienvenue {utilisateur.nom || utilisateur.identifiantUtilisateur.email} !</Heading1>
+    }
+  >
+    <div className="flex flex-col gap-6">
+      <AlerteNouveauté />
+      <NouveautésSection />
+      <DemandesSection />
+    </div>
+  </PageTemplate>
+);
 
 const AlerteNouveauté = () => (
   <Notice

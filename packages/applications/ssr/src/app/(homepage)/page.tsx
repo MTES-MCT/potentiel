@@ -13,10 +13,7 @@ export default async function Page() {
   return PageWithErrorHandling(async () => {
     const utilisateur = await getSessionUser({ headers: await headers() });
 
-    // TODO: remplacer par la bonne méthode dans utilisateur après merge alertes
-    const isAdministration = utilisateur?.estDreal() || utilisateur?.estDGEC();
-
-    if(featureFlag.includes('tableau-de-bord') && isAdministration) {
+    if (featureFlag.includes('tableau-de-bord') && utilisateur?.estAdministration()) {
       return <HomePageAdministration utilisateur={utilisateur} />;
     }
 

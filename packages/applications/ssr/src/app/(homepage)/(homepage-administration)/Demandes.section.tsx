@@ -76,14 +76,15 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
     },
   });
 
-  // viovio autorité compétente ?
-  const recours = await mediator.send<Éliminé.Recours.ListerDemandeRecoursQuery>({
-    type: 'Éliminé.Recours.Query.ListerDemandeRecours',
-    data: {
-      utilisateur: utilisateur.identifiantUtilisateur.email,
-      statut: ['demandé', 'en-instruction'],
-    },
-  });
+  const recours = utilisateur.rôle.aLaPermission('recours.accorder')
+    ? await mediator.send<Éliminé.Recours.ListerDemandeRecoursQuery>({
+        type: 'Éliminé.Recours.Query.ListerDemandeRecours',
+        data: {
+          utilisateur: utilisateur.identifiantUtilisateur.email,
+          statut: ['demandé', 'en-instruction'],
+        },
+      })
+    : undefined;
 
   const mappedDemandes = (
     [
@@ -94,11 +95,15 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
       ['délai', délai],
       ['recours', recours],
     ] as const
-  ).map(([domain, résultat]) => ({
-    domain,
-    total: résultat.total,
-    new: résultat.items.filter((d) => d.demandéLe.estUltérieureÀ(ilYAUnMois)).length,
-  }));
+  )
+    .filter(([_, résultat]) => !!résultat)
+    .map(([domain, résultat]) => ({
+      domain,
+      // biome-ignore lint/style/noNonNullAssertion: filter au dessus
+      total: résultat!.total,
+      // biome-ignore lint/style/noNonNullAssertion: filter au dessus
+      new: résultat!.items.filter((d) => d.demandéLe.estUltérieureÀ(ilYAUnMois)).length,
+    }));
 
   return {
     withNew: mappedDemandes.filter((demande) => demande.new > 0),
