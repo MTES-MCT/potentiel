@@ -10,15 +10,11 @@ import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWith
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { DemandesDétails } from './Demandes.détails';
 
-type DemandesSectionProps = {
-  utilisateur: PotentielUtilisateur;
-};
-
 const sectionTitle = 'Demandes à traiter';
 
-export const DemandesSection = ({ utilisateur }: DemandesSectionProps) =>
+export const DemandesSection = () =>
   SectionWithErrorHandling(
-    withUtilisateur(async () => {
+    withUtilisateur(async (utilisateur) => {
       const { withNew, withNoNew } = await getDemandes(utilisateur);
       const autorité = utilisateur.estDreal() ? 'dgec' : 'dreal';
 
@@ -37,6 +33,7 @@ export const DemandesSection = ({ utilisateur }: DemandesSectionProps) =>
 
 const getDemandes = async (utilisateur: PotentielUtilisateur) => {
   const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
+
   const abandon = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
     type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
     data: {
