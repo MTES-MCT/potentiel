@@ -5,9 +5,9 @@ import { headers } from 'next/headers';
 import { Routes } from '@potentiel-applications/routes';
 import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from './NavLinks';
-
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
 
@@ -171,16 +171,21 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
   ];
 
   const menu: MainNavigationProps.Item[] = [
-    ...mapToMenuProps(
-      [
-        {
-          label: 'Tableau de bord',
-          url: Routes.TableauDeBord.consulter(),
-          permission: 'tableauDeBord.consulter',
-        },
-      ],
-      rôle,
-    ),
+    ...(featureFlag.includes('tableau-de-bord')
+      ? mapToMenuProps(
+          [
+            {
+              label: 'Tableau de bord',
+              url: Routes.TableauDeBord.consulter(),
+              permission: 'tableauDeBord.consulter',
+            },
+          ],
+          rôle,
+        ).map((link) => ({
+          text: link.text,
+          linkProps: link.linkProps,
+        }))
+      : []),
     {
       text: 'Projets',
       menuLinks: mapToMenuProps(projetMenuLinks, rôle),

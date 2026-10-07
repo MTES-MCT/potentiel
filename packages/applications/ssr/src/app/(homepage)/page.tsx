@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { HomePageAdministration } from './(homepage-administration)/HomePageAdministration.page';
@@ -15,7 +16,7 @@ export default async function Page() {
     // TODO: remplacer par la bonne méthode dans utilisateur après merge alertes
     const isAdministration = utilisateur?.estDreal() || utilisateur?.estDGEC();
 
-    if (isAdministration) {
+    if(featureFlag.includes('tableau-de-bord') && isAdministration) {
       return <HomePageAdministration utilisateur={utilisateur} />;
     }
 

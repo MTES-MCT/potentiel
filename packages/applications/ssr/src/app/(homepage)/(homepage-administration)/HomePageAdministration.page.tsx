@@ -4,6 +4,8 @@ import type { PotentielUtilisateur } from '@potentiel-applications/request-conte
 
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
+import { useFeatures } from '@/utils/feature-flag/FeatureFlagContext';
+import { HomePage } from '../Home.page';
 import { DemandesSection } from './Demandes.section';
 import { NouveautésSection } from './Nouveautés.sections';
 
@@ -11,8 +13,13 @@ export type HomePageAdministrationProps = {
   utilisateur: PotentielUtilisateur;
 };
 
+  const featuresFlag = useFeatures();
+
+
 export function HomePageAdministration({ utilisateur }: HomePageAdministrationProps) {
-  return (
+  console.log("coucou", featuresFlag.includes('tableau-de-bord'))
+
+  return featuresFlag.includes('tableau-de-bord') ? (
     <PageTemplate
       banner={
         <Heading1>
@@ -26,6 +33,8 @@ export function HomePageAdministration({ utilisateur }: HomePageAdministrationPr
         <DemandesSection />
       </div>
     </PageTemplate>
+  ) : (
+    <HomePage utilisateur={utilisateur} />
   );
 }
 
