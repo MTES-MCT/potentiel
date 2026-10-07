@@ -48,6 +48,7 @@ type AutresRolesValueType = CommonValueType & {
 export type RolePorteurPayload = {
   rôle: Extract<Role.RawType, 'porteur-projet'>;
 };
+
 export type RôleGlobalPayload = {
   rôle: Extract<
     Role.RawType,
@@ -99,6 +100,7 @@ export type ValueType<TRole extends Role.RawType = Role.RawType> = ReadonlyValue
   ) & {
     estÉgaleÀ(valueType: ValueType): boolean;
     estDGEC(): this is ValueType<'dgec' | 'dgec-validateur'>;
+    estAdministration(): this is ValueType<'dgec' | 'dgec-validateur' | 'dreal'>;
     estValidateur(): this is ValueType<'dgec-validateur'>;
     estDreal(): this is ValueType<'dreal'>;
     estCocontractant(): this is ValueType<'cocontractant'>;
@@ -121,6 +123,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
   const common = <TRole extends Role.RawType>(rôle: Role.ValueType<TRole>) => ({
     rôle,
     identifiantUtilisateur,
+    estAdministration(): this is ValueType<'dgec' | 'dgec-validateur' | 'dreal'> {
+      return this.rôle.estAdministration();
+    },
     estDGEC(): this is ValueType<'dgec' | 'dgec-validateur'> {
       return this.rôle.estDGEC();
     },

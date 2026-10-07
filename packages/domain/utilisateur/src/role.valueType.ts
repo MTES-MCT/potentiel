@@ -30,6 +30,7 @@ export type ValueType<TRole extends RawType = RawType> = ReadonlyValueType<{
   estDGEC(): boolean;
   estDreal(): boolean;
   estAdmin(): boolean;
+  estAdministration(): boolean;
   estPorteur(): boolean;
   estGrd(): boolean;
   estCocontractant(): boolean;
@@ -65,6 +66,9 @@ export const bind = <TRole extends RawType = RawType>({
     },
     estAdmin() {
       return this.nom === 'admin';
+    },
+    estAdministration() {
+      return this.nom === 'dgec' || this.nom === 'dgec-validateur' || this.nom === 'dreal';
     },
     estDGEC() {
       return this.nom === 'dgec' || this.nom === 'dgec-validateur';

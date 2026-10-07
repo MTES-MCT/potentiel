@@ -128,9 +128,7 @@ const mapToActionsAndAlertes = ({
 
     if (!actuelles.statut.estÉchu()) {
       actions.push('garantiesFinancières.mainlevée.demander');
-    }
-
-    if (actuelles.statut.estÉchu() && !utilisateur.estPorteur()) {
+    } else if (utilisateur.estAdministration()) {
       actions.push('accès.lister');
     }
   }
