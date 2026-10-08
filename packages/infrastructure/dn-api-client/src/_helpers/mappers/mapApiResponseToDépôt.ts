@@ -14,6 +14,7 @@ import {
   getLocalité,
   getNatureDeLExploitation,
   getRaccordements,
+  getTechnologie,
   getTypeActionnariat,
   getTypeGarantiesFinancières,
   getTypologieInstallation,
@@ -41,6 +42,8 @@ const colonnes = {
 
   installateur: "Identité de l'installateur",
   coefficientKChoisi: "Souhaitez-vous bénéficier de l'indexation K ?",
+
+  technologie: 'Typologie principale du projet',
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 type MapApiResponseToDépôt = {
@@ -191,6 +194,6 @@ export const mapApiResponseToDépôt = ({
     // Non disponibles sur Démarche Numérique
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
-    technologie: 'N/A',
+    technologie: getTechnologie(accessor, 'technologie'),
   };
 };
