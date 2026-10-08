@@ -15,7 +15,7 @@ type DemandeRecoursListItemReadModel = {
   famille?: string;
   nomProjet: string;
   statut: StatutRecours.ValueType;
-  dateDemande: DateTime.ValueType;
+  demandéLe: DateTime.ValueType;
   miseÀJourLe: DateTime.ValueType;
 };
 
@@ -102,6 +102,6 @@ const mapToReadModel = (
     statut: StatutRecours.convertirEnValueType(entity.statut),
     miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-    dateDemande: DateTime.convertirEnValueType(entity.demande.demandéLe),
+    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   };
 };

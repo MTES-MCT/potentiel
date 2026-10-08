@@ -5,9 +5,10 @@ import { headers } from 'next/headers';
 import { Routes } from '@potentiel-applications/routes';
 import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
+import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { getSessionUser } from '@/auth/getSessionUser';
-import { NavLinks } from './NavLinks';
-
+import { NavLinks } from '../NavLinks';
+import { getDemandesLinks } from './getDemandesLinks';
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
 
@@ -16,11 +17,12 @@ export async function UserBasedRoleNavigation() {
   return <NavLinks items={navigationItems} />;
 }
 
-type MenuItem = {
+export type MenuItem = {
   label: string;
   url: string;
   permission: Role.Policy | Array<Role.Policy> | false;
 };
+
 const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuProps.Link> =>
   items
     .filter(({ permission }) => {
@@ -51,78 +53,24 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
     },
   ];
 
-  const toutesDemandesMenuLinks: Array<MenuItem> = [
-    {
-      label: 'Abandon',
-      url: Routes.Abandon.lister({
-        statut: rôle.estPorteur()
-          ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
-          : ['demandé', 'en-instruction', 'confirmé'],
-        autorite: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
-      }),
-      permission: 'abandon.lister.demandes',
-    },
-    {
-      label: 'Actionnaire',
-      url: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
-      permission: 'actionnaire.listerChangement',
-    },
-    {
-      label: 'Délai',
-      url: Routes.Délai.lister({
-        statut: ['demandé', 'en-instruction'],
-        autoriteCompetente: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
-      }),
-      permission: 'délai.listerDemandes',
-    },
-    {
-      label: 'Dispositif de stockage',
-      url: Routes.Installation.changement.dispositifDeStockage.lister,
-      permission: 'installation.dispositifDeStockage.listerChangement',
-    },
-    {
-      label: 'Fournisseur',
-      url: Routes.Fournisseur.changement.lister,
-      permission: 'fournisseur.listerChangement',
-    },
-    {
-      label: 'Installateur',
-      url: Routes.Installation.changement.installateur.lister,
-      permission: 'installation.installateur.listerChangement',
-    },
-    {
-      label: "Nature de l'exploitation",
-      url: Routes.NatureDeLExploitation.changement.lister,
-      permission: 'natureDeLExploitation.listerChangement',
-    },
-    {
-      label: 'Nom du projet',
-      url: Routes.Lauréat.changement.nomProjet.lister,
-      permission: 'nomProjet.listerChangement',
-    },
-    {
-      label: 'Puissance',
-      url: Routes.Puissance.changement.lister({
-        statut: ['demandé'],
-      }),
-      permission: 'puissance.listerChangement',
-    },
-    {
-      label: 'Producteur',
-      url: Routes.Producteur.changement.lister,
-      permission: 'producteur.listerChangement',
-    },
-    {
-      label: 'Recours',
-      url: Routes.Recours.lister({ statut: ['demandé', 'en-instruction'] }),
-      permission: 'recours.consulter.liste',
-    },
-    {
-      label: 'Représentant légal',
-      url: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
-      permission: 'représentantLégal.listerChangement',
-    },
-  ];
+  const toutesDemandesMenuLinks: Array<MenuItem> = getDemandesLinks({
+    estPorteur: rôle.estPorteur(),
+    autorité: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
+    keys: [
+      'abandon',
+      'actionnaire',
+      'délai',
+      'dispositifDeStockage',
+      'fournisseur',
+      'installateur',
+      'natureDeLExploitation',
+      'nomProjet',
+      'puissance',
+      'producteur',
+      'recours',
+      'représentantLégal',
+    ],
+  });
 
   const garantiesFinancièresMenuLinks: Array<MenuItem> = [
     {
@@ -205,7 +153,41 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
     },
   ];
 
+  const donnéesMenuLinks: Array<MenuItem> = [
+    {
+      label: 'Exports',
+      url: Routes.Export.page,
+      permission: [
+        'raccordement.exporterDossierRaccordement',
+        'candidature.exporterDétailsFournisseur',
+        'lauréat.exporterListe',
+        'éliminé.exporterListe',
+        'candidature.exporterListe',
+      ],
+    },
+    {
+      label: 'Statistiques',
+      url: 'https://potentiel.e2.rie.gouv.fr/',
+      permission: 'statistiquesDGEC.consulter',
+    },
+  ];
+
   const menu: MainNavigationProps.Item[] = [
+    ...(isFeatureEnabled('tableau-de-bord')
+      ? mapToMenuProps(
+          [
+            {
+              label: 'Tableau de bord',
+              url: Routes.TableauDeBord.consulter(),
+              permission: 'tableauDeBord.consulter',
+            },
+          ],
+          rôle,
+        ).map((link) => ({
+          text: link.text,
+          linkProps: link.linkProps,
+        }))
+      : []),
     {
       text: 'Projets',
       menuLinks: mapToMenuProps(projetMenuLinks, rôle),
@@ -230,33 +212,16 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       text: 'Accès',
       menuLinks: mapToMenuProps(utilisateurMenuLinks, rôle),
     },
-    ...mapToMenuProps(
-      [
-        {
-          label: 'Export',
-          url: Routes.Export.page,
-          permission: [
-            'raccordement.exporterDossierRaccordement',
-            'candidature.exporterDétailsFournisseur',
-            'lauréat.exporterListe',
-            'éliminé.exporterListe',
-            'candidature.exporterListe',
-          ],
-        },
-      ],
-      rôle,
-    ),
+    {
+      text: 'Données',
+      menuLinks: mapToMenuProps(donnéesMenuLinks, rôle),
+    },
     ...mapToMenuProps(
       [
         {
           label: 'Projets à réclamer',
           url: Routes.Accès.réclamerProjet,
           permission: 'accès.réclamerProjet',
-        },
-        {
-          label: 'Tableau de bord',
-          url: 'https://potentiel.e2.rie.gouv.fr/',
-          permission: 'statistiquesDGEC.consulter',
         },
       ],
       rôle,
