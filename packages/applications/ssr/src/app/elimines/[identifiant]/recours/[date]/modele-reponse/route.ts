@@ -75,7 +75,12 @@ export const GET = async (
           justificationDemande: recours.demande.raison,
           status: recours.statut.statut,
 
-          affichageParagrapheECS: formatBoolean(appelOffres.affichageParagrapheECS),
+          affichageParagrapheECScible: formatBoolean(
+            appelOffres.affichageParagrapheECS && appelOffres.typeEngagementECS === 'cible',
+          ),
+          affichageParagrapheECSplafond: formatBoolean(
+            appelOffres.affichageParagrapheECS && appelOffres.typeEngagementECS === 'plafond',
+          ),
           AOInnovation: formatBoolean(appelOffres.typeAppelOffre === 'innovation'),
           delaiRealisationTexte: appelOffres.delaiRealisationTexte,
           eolien: formatBoolean(appelOffres.typeAppelOffre === 'eolien'),
