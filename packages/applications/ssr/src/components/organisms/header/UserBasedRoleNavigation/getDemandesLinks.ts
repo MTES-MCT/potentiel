@@ -1,11 +1,12 @@
 import { Routes } from '@potentiel-applications/routes';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import type { MenuItem } from './UserBasedRoleNavigation';
 
 type getDemandesLinksProps = {
   estPorteur: boolean;
   autorité: 'dgec' | 'dreal' | undefined;
-  keys: string[];
+  keys: AppelOffre.DomainesConcernésParMiseÀJour[];
 };
 
 export const getDemandesLinks = ({ estPorteur, autorité, keys }: getDemandesLinksProps) => {
