@@ -18,7 +18,8 @@ export type ModèleRéponseRecours = ModèleRéponse & {
     motifsElimination: string;
     tarifOuPrimeRetenue: string;
     paragraphePrixReference: string;
-    affichageParagrapheECS: 'yes' | '';
+    affichageParagrapheECScible: 'yes' | '';
+    affichageParagrapheECSplafond: 'yes' | '';
     unitePuissance: string;
     eolien: 'yes' | '';
     AOInnovation: 'yes' | '';
