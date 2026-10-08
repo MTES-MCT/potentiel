@@ -65,12 +65,13 @@ const DemandesParDomaine = ({
       enlargeLinkOrButton
       linkProps={{
         href: getDemandesLinks({ estPorteur: false, autorité, keys: [domain] })[0]?.url,
+        'aria-label': `Voir les demandes de ${mapDomaineToLabel[domain]}${newCount > 0 ? ` (${newCount} demande(s) récente(s))` : ''}`,
       }}
       orientation="horizontal"
       start={
         newCount > 0 && (
           <Badge noIcon severity="info">
-            {newCount} nouvelles demandes
+            {newCount > 1 ? `${newCount} demandes récentes` : '1 demande récente'}
           </Badge>
         )
       }

@@ -39,7 +39,7 @@ const getDemandes = async (utilisateur: PotentielUtilisateur, autorité: 'dreal'
       type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
       data: {
         utilisateur: utilisateur.identifiantUtilisateur.email,
-        statut: ['confirmé', 'confirmation-demandée', 'demandé', 'en-instruction'],
+        statut: ['confirmé', 'demandé', 'en-instruction'],
         autoritéCompétente: autorité,
       },
     }),
