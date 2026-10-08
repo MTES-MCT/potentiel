@@ -34,58 +34,54 @@ export const DemandesSection = () =>
 const getDemandes = async (utilisateur: PotentielUtilisateur, autorité: 'dreal' | 'dgec') => {
   const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
 
-  const abandon = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
-    type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
-    data: {
-      utilisateur: utilisateur.identifiantUtilisateur.email,
-      statut: ['confirmé', 'confirmation-demandée', 'demandé', 'en-instruction'],
-      autoritéCompétente: autorité,
-    },
-  });
-
-  const actionnaire = await mediator.send<Lauréat.Actionnaire.ListerChangementActionnaireQuery>({
-    type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
-    data: {
-      utilisateur: utilisateur.identifiantUtilisateur.email,
-      statut: ['demandé'],
-    },
-  });
-
-  const représentantLégal =
-    await mediator.send<Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
+  const [abandon, actionnaire, représentantLégal, puissance, délai, recours] = await Promise.all([
+    mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
+      type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
+      data: {
+        utilisateur: utilisateur.identifiantUtilisateur.email,
+        statut: ['confirmé', 'confirmation-demandée', 'demandé', 'en-instruction'],
+        autoritéCompétente: autorité,
+      },
+    }),
+    mediator.send<Lauréat.Actionnaire.ListerChangementActionnaireQuery>({
+      type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
+      data: {
+        utilisateur: utilisateur.identifiantUtilisateur.email,
+        statut: ['demandé'],
+      },
+    }),
+    mediator.send<Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
       type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
       data: {
         utilisateur: utilisateur.identifiantUtilisateur.email,
         statut: ['demandé'],
       },
-    });
-
-  const puissance = await mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
-    type: 'Lauréat.Puissance.Query.ListerChangementPuissance',
-    data: {
-      utilisateur: utilisateur.identifiantUtilisateur.email,
-      statut: ['demandé'],
-    },
-  });
-
-  const délai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
-    type: 'Lauréat.Délai.Query.ListerDemandeDélai',
-    data: {
-      utilisateur: utilisateur.identifiantUtilisateur.email,
-      statuts: ['demandé', 'en-instruction'],
-      autoritéCompétente: autorité,
-    },
-  });
-
-  const recours = utilisateur.rôle.aLaPermission('recours.accorder')
-    ? await mediator.send<Éliminé.Recours.ListerDemandeRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ListerDemandeRecours',
-        data: {
-          utilisateur: utilisateur.identifiantUtilisateur.email,
-          statut: ['demandé', 'en-instruction'],
-        },
-      })
-    : undefined;
+    }),
+    mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
+      type: 'Lauréat.Puissance.Query.ListerChangementPuissance',
+      data: {
+        utilisateur: utilisateur.identifiantUtilisateur.email,
+        statut: ['demandé'],
+      },
+    }),
+    mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
+      type: 'Lauréat.Délai.Query.ListerDemandeDélai',
+      data: {
+        utilisateur: utilisateur.identifiantUtilisateur.email,
+        statuts: ['demandé', 'en-instruction'],
+        autoritéCompétente: autorité,
+      },
+    }),
+    utilisateur.rôle.aLaPermission('recours.accorder')
+      ? mediator.send<Éliminé.Recours.ListerDemandeRecoursQuery>({
+          type: 'Éliminé.Recours.Query.ListerDemandeRecours',
+          data: {
+            utilisateur: utilisateur.identifiantUtilisateur.email,
+            statut: ['demandé', 'en-instruction'],
+          },
+        })
+      : undefined,
+  ]);
 
   const mappedDemandes = (
     [
