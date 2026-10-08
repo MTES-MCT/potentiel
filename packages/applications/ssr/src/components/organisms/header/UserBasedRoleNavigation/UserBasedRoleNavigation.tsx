@@ -5,7 +5,7 @@ import { headers } from 'next/headers';
 import { Routes } from '@potentiel-applications/routes';
 import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
+import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
 import { getDemandesLinks } from './getDemandesLinks';
@@ -173,7 +173,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
   ];
 
   const menu: MainNavigationProps.Item[] = [
-    ...(featureFlag.includes('tableau-de-bord')
+    ...(isFeatureEnabled('tableau-de-bord')
       ? mapToMenuProps(
           [
             {

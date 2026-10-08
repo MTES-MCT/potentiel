@@ -2,13 +2,13 @@ import { Routes } from '@potentiel-applications/routes';
 
 import type { MenuItem } from './UserBasedRoleNavigation';
 
-type Props = {
+type getDemandesLinksProps = {
   estPorteur: boolean;
   autorité: 'dgec' | 'dreal' | undefined;
   keys: string[];
 };
 
-export const getDemandesLinks = ({ estPorteur, autorité, keys }: Props) => {
+export const getDemandesLinks = ({ estPorteur, autorité, keys }: getDemandesLinksProps) => {
   const record: Record<string, MenuItem> = {
     abandon: {
       label: 'Abandon',

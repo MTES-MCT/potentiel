@@ -15,8 +15,8 @@ const sectionTitle = 'Demandes à traiter';
 export const DemandesSection = () =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
-      const { withNew, withNoNew } = await getDemandes(utilisateur);
-      const autorité = utilisateur.estDreal() ? 'dgec' : 'dreal';
+      const autorité = utilisateur.estDreal() ? 'dreal' : 'dgec';
+      const { withNew, withNoNew } = await getDemandes(utilisateur, autorité);
 
       return (
         <Section
@@ -31,7 +31,7 @@ export const DemandesSection = () =>
     sectionTitle,
   );
 
-const getDemandes = async (utilisateur: PotentielUtilisateur) => {
+const getDemandes = async (utilisateur: PotentielUtilisateur, autorité: 'dreal' | 'dgec') => {
   const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
 
   const abandon = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
@@ -39,7 +39,7 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
     data: {
       utilisateur: utilisateur.identifiantUtilisateur.email,
       statut: ['confirmé', 'confirmation-demandée', 'demandé', 'en-instruction'],
-      autoritéCompétente: 'dreal',
+      autoritéCompétente: autorité,
     },
   });
 
@@ -73,6 +73,7 @@ const getDemandes = async (utilisateur: PotentielUtilisateur) => {
     data: {
       utilisateur: utilisateur.identifiantUtilisateur.email,
       statuts: ['demandé', 'en-instruction'],
+      autoritéCompétente: autorité,
     },
   });
 
