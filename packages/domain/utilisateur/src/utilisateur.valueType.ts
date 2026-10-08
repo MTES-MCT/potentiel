@@ -100,6 +100,7 @@ export type ValueType<TRole extends Role.RawType = Role.RawType> = ReadonlyValue
   ) & {
     estÉgaleÀ(valueType: ValueType): boolean;
     estDGEC(): this is ValueType<'dgec' | 'dgec-validateur'>;
+    estAdministrateur(): this is ValueType<'admin'>;
     estAdministration(): this is ValueType<'dgec' | 'dgec-validateur' | 'dreal'>;
     estValidateur(): this is ValueType<'dgec-validateur'>;
     estDreal(): this is ValueType<'dreal'>;
@@ -123,6 +124,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
   const common = <TRole extends Role.RawType>(rôle: Role.ValueType<TRole>) => ({
     rôle,
     identifiantUtilisateur,
+    estAdministrateur(): this is ValueType<'admin'> {
+      return this.rôle.estAdmin();
+    },
     estAdministration(): this is ValueType<'dgec' | 'dgec-validateur' | 'dreal'> {
       return this.rôle.estAdministration();
     },

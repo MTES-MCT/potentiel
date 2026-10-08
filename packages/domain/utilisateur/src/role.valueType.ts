@@ -1607,6 +1607,9 @@ const policies = {
   statistiquesDGEC: {
     consulter: [],
   },
+  nouveautés: {
+    consulter: [],
+  },
 } as const;
 
 /**
@@ -1839,6 +1842,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Éliminé
   'éliminé.exporterListe',
+
+  // Nouveautés
+  'nouveautés.consulter',
 ];
 
 const dgecPolicies: ReadonlyArray<Policy> = [
@@ -2130,6 +2136,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Éliminé
   'éliminé.exporterListe',
+
+  // Nouveautés
+  'nouveautés.consulter',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
