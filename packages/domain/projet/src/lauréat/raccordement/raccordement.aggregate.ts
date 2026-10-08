@@ -197,7 +197,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     dossier: DossierRaccordement,
     documentType: TypeDocumentsRaccordement.RawType,
   ): DocumentRaccordementDossier {
-    const dossierDocument = dossier[TypeDocumentsRaccordement.mapToFieldname(documentType)];
+    const dossierDocument = dossier[TypeDocumentsRaccordement.mapToFieldName(documentType)];
 
     if (!dossierDocument?.dateSignature || !dossierDocument.format) {
       throw new DocumentRaccordementNonExistantError();
@@ -969,7 +969,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementTransmisEventV1 | DocumentRaccordementModifiéEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier[TypeDocumentsRaccordement.mapToFieldname(type)] = {
+    dossier[TypeDocumentsRaccordement.mapToFieldName(type)] = {
       dateSignature: DateTime.convertirEnValueType(dateSignature),
       format,
     };
@@ -982,7 +982,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     const ancienDossier = this.récupérerDocumentDossier(dossier, ancienType);
 
-    dossier[TypeDocumentsRaccordement.mapToFieldname(nouveauType)] = ancienDossier;
+    dossier[TypeDocumentsRaccordement.mapToFieldName(nouveauType)] = ancienDossier;
   }
 
   private applyDocumentRaccordementSuppriméEventV1({
@@ -990,7 +990,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: DocumentRaccordementSuppriméEventV1) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
-    dossier[TypeDocumentsRaccordement.mapToFieldname(type)] = undefined;
+    dossier[TypeDocumentsRaccordement.mapToFieldName(type)] = undefined;
   }
 
   //#endregion Document Raccordement

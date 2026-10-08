@@ -10,7 +10,7 @@ import type {
 import type {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
-} from './déplacer/déplacerDocumentProjet.command.js';
+} from './déplacer/déplacerDossierProjet.command.js';
 import type {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
@@ -29,9 +29,9 @@ export type { ConsulterDocumentProjetQuery, ConsulterDocumentProjetReadModel };
 // Command
 export type DocumentProjetCommand =
   | EnregistrerDocumentProjetCommand
-  | DéplacerDossierProjetCommand
   | CorrigerDocumentProjetCommand
-  | EnregistrerDocumentSubstitutCommand;
+  | EnregistrerDocumentSubstitutCommand
+  | DéplacerDossierProjetCommand;
 
 // Register
 export * from './documentProjet.register.js';

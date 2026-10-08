@@ -119,7 +119,7 @@ const typeToKeyMap: Record<
   'convention-de-raccordement-directe': 'conventionDeRaccordementDirecte',
 };
 
-export function mapToFieldname(type: RawType) {
+export function mapToFieldName(type: RawType) {
   return typeToKeyMap[type];
 }
 

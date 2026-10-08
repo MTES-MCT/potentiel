@@ -1,6 +1,5 @@
 import { join } from 'node:path';
 
-import { ExpressionRegulière } from '@potentiel-domain/common';
 import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
 import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
@@ -16,6 +15,9 @@ type Payload = {
   identifiantProjet: string;
   typeDocument: string;
 };
+
+// vérification de caractères interdits dans les URLs (' ? * : ; { })
+export const contientCaractèresInterdits = (value: string) => /['?*:;{}\\]/.test(value);
 
 export const convertirEnValueType = ({
   identifiantProjet: identifiantProjetValue,
@@ -39,7 +41,9 @@ export const convertirEnValueType = ({
 };
 
 const estValide = (value: string) => {
-  const isValid = ExpressionRegulière.nomRépertoireDocumentValide.valider(value);
+  const isValid = value;
+  // TODO: ajouter cela en hotfix une fois que le script aura tourné
+  // && !contientCaractèresInterdits(value);
 
   if (!isValid) {
     throw new TypeDocumentInvalideError(value);

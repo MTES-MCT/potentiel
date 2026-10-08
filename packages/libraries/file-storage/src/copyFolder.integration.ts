@@ -22,35 +22,29 @@ describe(`copy folder`, () => {
 
   it(`
     Etant donné un endpoint et un bucket
-    Et un dossier contenant des fichiers
+    Et un dossier contenant des fichiers à plusieurs niveaux
     Quand le dossier est copié
-    Alors la copie devrait être récupérable depuis le bucket
-    Et l'original devrait  être récupérable depuis le bucket`, async () => {
+    Alors toute l'arborescence devrait être préservée dans la cible`, async () => {
     const sourcePath = 'path/source';
     const sourceFilePath1 = join(sourcePath, 'file1.pdf');
-    const sourceFilePath2 = join(sourcePath, 'file2.pdf');
+    const sourceFilePath2 = join(sourcePath, 'sous-dossier', 'file2.pdf');
+    const sourceFiles = [sourceFilePath1, sourceFilePath2];
 
     const targetPath = 'path/target';
-    const targetFilePath1 = join(targetPath, 'file1.pdf');
-    const targetFilePath2 = join(targetPath, 'file2.pdf');
+    const expectedTargetFiles = sourceFiles.map((filePath) =>
+      filePath.replace(sourcePath, targetPath),
+    );
 
-    const content1 = Readable.toWeb(Readable.from(`Contenu du fichier 1`));
-    const content2 = Readable.toWeb(Readable.from(`Contenu du fichier 2`));
-    await upload(sourceFilePath1, content1);
-    await upload(sourceFilePath2, content2);
+    for (const [index, filePath] of sourceFiles.entries()) {
+      await upload(filePath, Readable.toWeb(Readable.from(`Contenu ${index}`)));
+    }
 
     await copyFolder(sourcePath, targetPath);
 
-    const actualTarget1 = await download(targetFilePath1);
-    const actualTarget2 = await download(targetFilePath2);
-
-    expect(actualTarget1).not.to.be.null;
-    expect(actualTarget2).not.to.be.null;
-
-    const actualSource1 = await download(sourceFilePath1);
-    const actualSource2 = await download(sourceFilePath2);
-
-    expect(actualSource1).not.to.be.null;
-    expect(actualSource2).not.to.be.null;
+    for (const [index, filePath] of expectedTargetFiles.entries()) {
+      const actual = await download(filePath);
+      const contenu = await new Response(actual).text();
+      expect(contenu).to.equal(`Contenu ${index}`);
+    }
   });
 });

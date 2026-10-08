@@ -16,14 +16,14 @@ export const typeDocumentRaccordementModifiéV1Projector = async ({
   }
 
   const document =
-    dossier[Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(ancienType)];
+    dossier[Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldName(ancienType)];
 
   await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
       ...dossier,
-      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(nouveauType)]: document,
-      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldname(ancienType)]: undefined,
+      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldName(nouveauType)]: document,
+      [Lauréat.Raccordement.TypeDocumentsRaccordement.mapToFieldName(ancienType)]: undefined,
       miseÀJourLe: DateTime.convertirEnValueType(modifiéLe).formatter(),
     },
   );

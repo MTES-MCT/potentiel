@@ -81,6 +81,10 @@ type DynamicField<TNomChamp extends string, TType> = {
   [PDocument in TNomChamp]: TType;
 };
 
+// replacement de caractères interdits dans les URLs (' ? * : ; { } /) par _
+export const sanitizeCléDocument = (value: string): string =>
+  value.replaceAll(/['?*:;{}/\\]/g, '_');
+
 export const documentFactory =
   <
     TNomChampDocument extends string,
@@ -111,7 +115,7 @@ export const documentFactory =
       typeDocument: nomCléDocument
         ? join(
             /*turbopackIgnore: true*/ domaine,
-            payload[nomCléDocument as keyof typeof payload],
+            sanitizeCléDocument(payload[nomCléDocument as keyof typeof payload]),
             typeDocument,
           )
         : join(/*turbopackIgnore: true*/ domaine, typeDocument),

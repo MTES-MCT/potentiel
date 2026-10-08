@@ -1,4 +1,3 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
 import type { Candidature } from '@potentiel-domain/projet';
 
 import { type Champs, createDossierAccessor } from '../../graphql/accessor.js';
@@ -23,11 +22,7 @@ export const getRaccordements = (champs: Champs) => {
     const référence = raccordementAccessor.getStringValue('référence')?.trim();
     const dateQualification = raccordementAccessor.getDateValue('dateQualification');
 
-    if (
-      référence &&
-      ExpressionRegulière.nomRépertoireDocumentValide.valider(référence) &&
-      dateQualification
-    ) {
+    if (référence && dateQualification) {
       références.push({ référence, dateQualification });
     }
   }

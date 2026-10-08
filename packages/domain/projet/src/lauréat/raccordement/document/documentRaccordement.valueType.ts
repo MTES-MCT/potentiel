@@ -5,35 +5,31 @@ import { TypeDocumentsRaccordement } from '../index.js';
 
 const domaine = 'raccordement';
 
-const typeAccuséRéception = 'accusé-réception';
-
 export const dossierProjetRaccordement = (identifiantProjet: string, référence: string) => {
+  const folderRaccordementPath = join(domaine, DocumentProjet.sanitizeCléDocument(référence));
   return {
-    accuséRéception: DossierProjet.convertirEnValueType({
+    dossier: DossierProjet.convertirEnValueType({
       identifiantProjet,
-      typeDocument: join(/*turbopackIgnore: true*/ domaine, référence, typeAccuséRéception),
+      typeDocument: folderRaccordementPath,
     }),
     propositionTechniqueEtFinancière: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
-        /*turbopackIgnore: true*/ domaine,
-        référence,
+        folderRaccordementPath,
         TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
       ),
     }),
     conventionDeRaccordement: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
-        /*turbopackIgnore: true*/ domaine,
-        référence,
+        folderRaccordementPath,
         TypeDocumentsRaccordement.conventionDeRaccordement.type,
       ),
     }),
     conventionDeRaccordementDirecte: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
-        /*turbopackIgnore: true*/ domaine,
-        référence,
+        folderRaccordementPath,
         TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
       ),
     }),
@@ -43,10 +39,19 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
 export const accuséRéception = DocumentProjet.documentFactory({
   domaine,
   nomCléDocument: 'référenceDossierRaccordement',
-  typeDocument: typeAccuséRéception,
+  typeDocument: 'accusé-réception',
   nomChampDocument: 'accuséRéception',
   nomChampDate: 'dateQualification',
 });
+
+export const documentRaccordement = (type: TypeDocumentsRaccordement.RawType) =>
+  DocumentProjet.documentFactory({
+    domaine,
+    nomCléDocument: 'référenceDossierRaccordement',
+    typeDocument: type,
+    nomChampDate: 'dateSignature',
+    nomChampDocument: 'document',
+  });
 
 /**
  *
@@ -59,12 +64,3 @@ export const propositionTechniqueEtFinancière = DocumentProjet.documentFactory(
   nomChampDate: 'dateSignature',
   nomChampDocument: 'propositionTechniqueEtFinancièreSignée',
 });
-
-export const documentRaccordement = (type: TypeDocumentsRaccordement.RawType) =>
-  DocumentProjet.documentFactory({
-    domaine,
-    nomCléDocument: 'référenceDossierRaccordement',
-    typeDocument: type,
-    nomChampDate: 'dateSignature',
-    nomChampDocument: 'document',
-  });
