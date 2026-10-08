@@ -143,9 +143,11 @@ Pour plus de détail vous pouvez consulter les diagrammes [release flow](../ci/r
 
 Il est possible de crée un environnement temporaire pour une Pull Request, grâce aux [Review apps Scalingo](https://doc.scalingo.com/platform/app/review-apps).
 
-> Par défaut, seule l'authentification par lien magique est disponible.
->
-> Pour activer Keycloak, modifier AUTH_PROVIDERS et ajouter l'URL de la review app aux URLs autorisées dans Keycloak.
+Par défaut, seule l'authentification par lien magique est disponible.
+
+> Pour activer Keycloak sur la review app :
+> - ajouter `keycloak`à la variable AUTH_PROVIDERS 
+> - depuis la console admin de keycloak (Staging), realm `Potentiel`, Client`potentiel-web`: ajouter l'URL de la review app aux URLs autorisées.
 
 ### Manuellement
 
@@ -157,6 +159,8 @@ Une fois le premier déploiement terminé, modifier dans Resources le nombre d'i
 ### Via script
 
 Lancer le script `scripts/review-app.sh` depuis la branche liée à la PR souhaitée (la PR doit exister), et suivre les instructions.
+
+La review app est automatiquement supprimée lorsque la PR est clôturée. 
 
 ## <a id="apporter-des-changements"></a> Apporter des changements
 
