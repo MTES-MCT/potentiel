@@ -5,13 +5,15 @@ then
   exit 0
 fi
 
-if [ -z $SENTRY_CRONS ] || [ -z $APPLICATION_STAGE ]
+if [ -z $SENTRY_CRONS ] || [ -z $APPLICATION_STAGE ] || [ -z $NEXT_PUBLIC_SENTRY_DSN ]
 then
   echo "A monitoring variable is missing !!"
 fi
 
 SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|backup-3-2-1|')
 MONITORING_URL="$SENTRY_URL?environment=$APPLICATION_STAGE"
+
+source "$(dirname "$0")/sentry.sh"
 
 DB_URL=$SCALINGO_POSTGRESQL_URL
 if [[ "$DB_URL" == *"sslmode=verify-full"* ]]; then
@@ -21,6 +23,7 @@ fi
 if [ -z $AWS_ACCESS_KEY_ID ] || [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $S3_ENDPOINT ] || [ -z $S3_BACKUP_BUCKET ]  || [ -z $DB_URL ]
 then
     echo "An environment variable is missing !!"
+    send_sentry_error "An environment variable is missing" backup-3-2-1
     curl "${MONITORING_URL}&status=error"
     exit 1
 fi
@@ -29,9 +32,7 @@ handle_error() {
   local message="Error on 'backup-3-2-1' script line $1"
   echo $message
 
-  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  local hostname=$(hostname)
-
+  send_sentry_error "$message" backup-3-2-1
   curl "${MONITORING_URL}&status=error"
 
   exit 1
