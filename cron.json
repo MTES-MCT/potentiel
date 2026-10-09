@@ -17,10 +17,6 @@
       "size": "M"
     },
     {
-      "command": "0 1 * * * potentiel-cli abandon relancer-abandon-sans-preuve",
-      "size": "M"
-    },
-    {
       "command": "0 10 1 * * potentiel-cli raccordement notifier-gestionnaires-réseau",
       "size": "M"
     },
