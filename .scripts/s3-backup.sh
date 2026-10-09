@@ -6,7 +6,7 @@ then
   exit 0
 fi
 
-if [ -z $SENTRY_CRONS ] || [ -z $APPLICATION_STAGE ]
+if [ -z $SENTRY_CRONS ] || [ -z $APPLICATION_STAGE ] || [ -z $NEXT_PUBLIC_SENTRY_DSN ]
 then
   echo "A monitoring variable is missing !!"
 fi
@@ -14,9 +14,12 @@ fi
 SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|s3-backup|')
 MONITORING_URL="$SENTRY_URL?environment=$APPLICATION_STAGE"
 
+source "$(dirname "$0")/sentry.sh"
+
 if [ -z $AWS_ACCESS_KEY_ID ] || [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $S3_ENDPOINT ] || [ -z $S3_BUCKET ] || [ -z $S3_BACKUP_BUCKET ] 
 then
     echo "An environment variable is missing !!"
+    send_sentry_error "An environment variable is missing" s3-backup
     curl "${MONITORING_URL}&status=error"
     exit 1
 fi
@@ -25,9 +28,7 @@ handle_error() {
   local message="Error on 'S3-backup' script line $1"
   echo $message
 
-  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-  local hostname=$(hostname)
-
+  send_sentry_error "$message" s3-backup
   curl "${MONITORING_URL}&status=error"
 
   exit 1
@@ -57,6 +58,7 @@ echo "${NB_CHANGED_OBJECTS} object(s) would be changed"
 if [ "$NB_CHANGED_OBJECTS" -gt "$MAX_CHANGED_OBJECTS" ]
 then
   echo "Too many objects changed (${NB_CHANGED_OBJECTS} > ${MAX_CHANGED_OBJECTS}), aborting sync"
+  send_sentry_error "Too many objects changed (${NB_CHANGED_OBJECTS} > ${MAX_CHANGED_OBJECTS}), aborting sync" s3-backup
   curl "${MONITORING_URL}&status=error"
   exit 1
 fi
