@@ -1,11 +1,11 @@
 {
   "jobs": [
     {
-      "command": "0 4 * * * ./.scripts/backup-3-2-1.sh",
+      "command": "0 4 * * * ./.scripts/production-only.sh ./.scripts/backup-3-2-1.sh",
       "size": "M"
     },
     {
-      "command": "0 0 * * * ./.scripts/s3-backup.sh",
+      "command": "0 0 * * * ./.scripts/production-only.sh ./.scripts/s3-backup.sh",
       "size": "M"
     },
     {
@@ -17,11 +17,11 @@
       "size": "M"
     },
     {
-      "command": "0 10 1 * * potentiel-cli raccordement notifier-gestionnaires-réseau",
+      "command": "0 10 1 * * ./.scripts/production-only.sh potentiel-cli raccordement notifier-gestionnaires-réseau",
       "size": "M"
     },
     {
-      "command": "0 6 * * * potentiel-cli stats extraire",
+      "command": "0 6 * * * ./.scripts/production-only.sh potentiel-cli stats extraire",
       "size": "M"
     },
     {
@@ -29,7 +29,7 @@
       "size": "M"
     },
     {
-      "command": "0 4 * * 0 potentiel-cli stats publier-datagouv",
+      "command": "0 4 * * 0 ./.scripts/production-only.sh potentiel-cli stats publier-datagouv",
       "size": "M"
     }
   ]
