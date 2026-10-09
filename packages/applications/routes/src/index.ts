@@ -21,6 +21,7 @@ import {
   Raccordement,
   ReprésentantLégal,
 } from './lauréat/index.js';
+import { Nouveautés } from './nouveautés/index.js';
 import { Projet } from './projet/index.js';
 import { Période } from './période/index.js';
 import { Gestionnaire } from './réseau/index.js';
@@ -59,6 +60,7 @@ export const Routes = {
   Éliminé,
   Export,
   PowerPurchaseAgreement,
+  Nouveautés,
 };
 
 export { FiltersSearchParams } from './_helpers/filterSearchParams.js';
