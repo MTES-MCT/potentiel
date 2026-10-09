@@ -80,7 +80,7 @@ export const getTypologieInstallation = (champs: Champs) => {
   const typeDInstallationPhotovoltaïque = champTypeDInstallationPhotovoltaïque?.stringValue
     ?.trim()
     .toLowerCase();
-  if (typeDInstallationPhotovoltaïque === 'Installation au sol') {
+  if (typeDInstallationPhotovoltaïque === 'installation au sol') {
     const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol' };
     typologieInstallation.push(typologie);
   }
