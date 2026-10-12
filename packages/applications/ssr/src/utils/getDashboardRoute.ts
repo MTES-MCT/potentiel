@@ -2,7 +2,16 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
+import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
+
 export const getDashboardRoute = (rôle: Role.ValueType) => {
+  if (rôle.estAdministration() && isFeatureEnabled('tableau-de-bord')) {
+    return {
+      texte: 'Tableau de bord',
+      lien: Routes.TableauDeBord.consulter(),
+    };
+  }
+
   if (rôle.aLaPermission('lauréat.lister')) {
     return {
       texte: rôle.estPorteur() ? 'Voir mes projets lauréats' : 'Voir les projets lauréats',
