@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { cache } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import type { Lauréat, ListerDemandesEnInstructionQuery, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 type GetDemandesProps = {
@@ -19,6 +19,7 @@ export const getNombreDemandesEnInstruction = cache(
 
     const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
 
+    const t0 = performance.now();
     const [abandon, actionnaire, représentantLégal, puissance, délai, recours] = await Promise.all([
       mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
@@ -67,6 +68,22 @@ export const getNombreDemandesEnInstruction = cache(
           })
         : undefined,
     ]);
+    const t1 = performance.now();
+
+    const test = await mediator.send<ListerDemandesEnInstructionQuery>({
+      type: 'Projet.Query.ListerDemandesEnInstruction',
+      data: {
+        utilisateur,
+        autoritéCompétente: rôle,
+      },
+    });
+
+    const t2 = performance.now();
+
+    console.log(`get demandes sans optimisation: ${t1 - t0} ms`);
+    console.log(`get demandes dans une query unique: ${t2 - t1} ms`);
+
+    console.log(test);
 
     const demandesMapping = [
       ['abandon', abandon],
