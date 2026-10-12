@@ -696,6 +696,11 @@ const référencielPermissions = {
       lister: 'Nouveautés.Query.ListerNouveautés',
     },
   },
+  'demandes-en-instruction': {
+    query: {
+      lister: 'Projet.Query.ListerDemandesEnInstruction',
+    },
+  },
 } as const;
 
 /**
@@ -1601,6 +1606,9 @@ const policies = {
     },
   },
   projet: {
+    demandes: {
+      lister: [référencielPermissions['demandes-en-instruction'].query.lister],
+    },
     accèsDonnées: {
       prix: [],
     },
@@ -1613,7 +1621,10 @@ const policies = {
     consulter: [],
   },
   tableauDeBord: {
-    consulter: [référencielPermissions.nouveautés.query.lister],
+    consulter: [
+      référencielPermissions.nouveautés.query.lister,
+      référencielPermissions['demandes-en-instruction'].query.lister,
+    ],
   },
 } as const;
 
@@ -1995,6 +2006,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
+  'projet.demandes.lister',
   'projet.accèsIdentifiants',
   'projet.accèsDonnées.prix',
 
