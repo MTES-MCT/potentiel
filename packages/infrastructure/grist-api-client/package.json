@@ -1,0 +1,24 @@
+{
+  "name": "@potentiel-infrastructure/grist-api-client",
+  "description": "Query Grist API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx --test src/**/*.test.ts",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/utilisateur": "*",
+    "@potentiel-libraries/http-client": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "zod": "4.1.9"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}
