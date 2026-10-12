@@ -1,7 +1,7 @@
 import type { DateTime } from '@potentiel-domain/common';
 import type { Role } from '@potentiel-domain/utilisateur';
 
-import type { typesDeLien } from './constant.js';
+export const typesDeLien = ['interne', 'externe'] as const;
 
 export type TypeDeLien = (typeof typesDeLien)[number];
 

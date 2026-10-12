@@ -1,11 +1,11 @@
 import { DateTime } from '@potentiel-domain/common';
+import type { Nouveautés } from '@potentiel-domain/nouveautes';
 import { get } from '@potentiel-libraries/http-client';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getGristConfig, gristRecordsSchema, nouveautéFieldsSchema } from './constant.js';
-import type { Nouveauté } from './type.js';
 
-export const récupérerNouveautés = async (): Promise<Array<Nouveauté>> => {
+export const récupérerNouveautés: Nouveautés.RécupérerNouveautésPort = async () => {
   const { apiUrl, apiKey, docId, tableId } = getGristConfig();
 
   const url = new URL(`api/docs/${docId}/tables/${tableId}/records`, apiUrl);

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@potentiel-domain/common": "*",
+    "@potentiel-domain/nouveautes": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-libraries/http-client": "*",
     "@potentiel-libraries/monads": "*",
