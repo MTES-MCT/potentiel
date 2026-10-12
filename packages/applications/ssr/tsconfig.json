@@ -53,6 +53,9 @@
       "path": "../../infrastructure/geo-api-client"
     },
     {
+      "path": "../../infrastructure/grist-api-client"
+    },
+    {
       "path": "../../libraries/csv"
     },
     {

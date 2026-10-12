@@ -3,11 +3,12 @@ import { type RetryPolicyOptions, retryPolicy } from './retryPolicy.js';
 
 type GetOptions = {
   url: URL;
+  headers?: Record<string, string>;
   retryPolicyOptions?: RetryPolicyOptions;
 };
-const getResponse = async ({ url, retryPolicyOptions }: GetOptions): Promise<Response> =>
+const getResponse = async ({ url, headers, retryPolicyOptions }: GetOptions): Promise<Response> =>
   retryPolicy(retryPolicyOptions).execute(async () => {
-    const response = await fetch(url);
+    const response = await fetch(url, { headers });
 
     if (!response.ok) {
       const { status, statusText } = response;
@@ -17,8 +18,8 @@ const getResponse = async ({ url, retryPolicyOptions }: GetOptions): Promise<Res
     return response;
   });
 
-export const get = async <T>({ url, retryPolicyOptions }: GetOptions): Promise<T> =>
-  (await getResponse({ url, retryPolicyOptions })).json() as Promise<T>;
+export const get = async <T>(options: GetOptions): Promise<T> =>
+  (await getResponse(options)).json() as Promise<T>;
 
-export const getBlob = async ({ url, retryPolicyOptions }: GetOptions): Promise<Blob> =>
-  (await getResponse({ url, retryPolicyOptions })).blob();
+export const getBlob = async (options: GetOptions): Promise<Blob> =>
+  (await getResponse(options)).blob();
