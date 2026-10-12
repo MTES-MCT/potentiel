@@ -31,7 +31,7 @@ export type ListerChangementPuissanceQuery = Message<
     statut?: Array<StatutChangementPuissance.RawType>;
     appelOffre?: Array<string>;
     nomProjet?: string;
-    range: RangeOptions;
+    range?: RangeOptions;
   },
   ListerChangementPuissanceReadModel
 >;

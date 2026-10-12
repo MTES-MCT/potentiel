@@ -1,6 +1,6 @@
 import DsfrHeader from '@codegouvfr/react-dsfr/Header';
 
-import { UserBasedRoleNavigation } from './UserBasedRoleNavigation';
+import { UserBasedRoleNavigation } from './UserBasedRoleNavigation/UserBasedRoleNavigation';
 import { UserHeaderQuickAccessItem } from './UserHeaderQuickAccessItem';
 
 export const Header = async () => {

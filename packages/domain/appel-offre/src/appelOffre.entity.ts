@@ -130,15 +130,18 @@ type ChangementReprésentantLégal =
       instructionAutomatique: RègleInstructionAutomatique;
     };
 
-export type RèglesMiseÀJourPorteur = {
+type RèglesMiseÀJourPorteurAvecInstruction = {
   actionnaire: ChangementActionnaire;
-  fournisseur: Changement;
   délai: DemandeAvecAutoritéCompétente;
-  producteur: Changement;
   puissance: ChangementPuissance;
   représentantLégal: ChangementReprésentantLégal;
   recours: DemandeAvecAutoritéCompétente;
   abandon: DemandeAvecAutoritéCompétente;
+};
+
+export type RèglesMiseÀJourPorteur = RèglesMiseÀJourPorteurAvecInstruction & {
+  fournisseur: Changement;
+  producteur: Changement;
   natureDeLExploitation: Changement;
   installateur: Changement;
   nomProjet: Changement;
@@ -148,6 +151,8 @@ export type RèglesMiseÀJourPorteur = {
 };
 
 export type DomainesConcernésParMiseÀJour = keyof RèglesMiseÀJourPorteur;
+export type DomainesConcernésParMiseÀJourAvecInstruction =
+  keyof RèglesMiseÀJourPorteurAvecInstruction;
 
 type Modification = boolean | undefined;
 

@@ -16,7 +16,7 @@ import { ImportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
+import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { cleanDétailsKeys } from '@/utils/candidature';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
 import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
@@ -66,7 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (
       };
     }
 
-    if (featureFlag.includes('import-dn-par-dossiers')) {
+    if (isFeatureEnabled('import-dn-par-dossiers')) {
       const maxFileSize =
         Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE) > 0
           ? Number(process.env.IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE)
@@ -120,9 +120,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     const dossiers = await getDémarcheAvecDossiers({
       dossiersIds:
-        featureFlag.includes('import-dn-par-dossiers') && dossiersIds.length
-          ? dossiersIds
-          : undefined,
+        isFeatureEnabled('import-dn-par-dossiers') && dossiersIds.length ? dossiersIds : undefined,
       démarcheId: démarcheId,
     });
 

@@ -18,7 +18,7 @@ import {
 
 type ChangementReprésentantLégalItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  demandéLe: string;
+  demandéLe: DateTime.ValueType;
   nomProjet: string;
   statut: StatutChangementReprésentantLégal.ValueType;
   miseÀJourLe: DateTime.ValueType;
@@ -107,5 +107,5 @@ const mapToReadModel = (
   statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.demande.statut),
   miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-  demandéLe: entity.demande.demandéLe,
+  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
 });

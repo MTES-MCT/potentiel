@@ -1607,6 +1607,9 @@ const policies = {
   statistiquesDGEC: {
     consulter: [],
   },
+  tableauDeBord: {
+    consulter: [],
+  },
 } as const;
 
 /**
@@ -1887,6 +1890,9 @@ const dgecPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.importer',
+
+  // Tableau de bord
+  'tableauDeBord.consulter',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1985,7 +1991,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
 
   'projet.accèsIdentifiants',
-
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -2130,6 +2135,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Éliminé
   'éliminé.exporterListe',
+
+  // Tableau de bord
+  'tableauDeBord.consulter',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
