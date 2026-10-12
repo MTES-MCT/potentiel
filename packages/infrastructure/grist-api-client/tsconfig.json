@@ -9,6 +9,9 @@
       "path": "../../domain/common"
     },
     {
+      "path": "../../domain/nouveautés"
+    },
+    {
       "path": "../../domain/utilisateur"
     },
     {

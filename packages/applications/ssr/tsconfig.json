@@ -32,6 +32,9 @@
       "path": "../../domain/entity"
     },
     {
+      "path": "../../domain/nouveautés"
+    },
+    {
       "path": "../../domain/projet"
     },
     {
@@ -51,9 +54,6 @@
     },
     {
       "path": "../../infrastructure/geo-api-client"
-    },
-    {
-      "path": "../../infrastructure/grist-api-client"
     },
     {
       "path": "../../libraries/csv"

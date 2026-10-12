@@ -1,5 +1,6 @@
 import zod from 'zod';
 
+import { Nouveautés } from '@potentiel-domain/nouveautes';
 import { Role } from '@potentiel-domain/utilisateur';
 
 class GristClientConfigurationError extends Error {
@@ -32,8 +33,6 @@ export const getGristConfig = () => {
   };
 };
 
-export const typesDeLien = ['interne', 'externe'] as const;
-
 const texteOptionnelSchema = zod
   .string()
   .nullish()
@@ -64,7 +63,7 @@ export const nouveautéFieldsSchema = zod.object({
     }),
   Lien: texteOptionnelSchema,
   Type_de_lien: zod
-    .enum(typesDeLien)
+    .enum(Nouveautés.typesDeLien)
     .or(zod.literal(''))
     .nullish()
     .transform((valeur) => valeur || 'interne'),
