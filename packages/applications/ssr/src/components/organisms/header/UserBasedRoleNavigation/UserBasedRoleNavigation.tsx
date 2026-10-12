@@ -6,12 +6,20 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Role } from '@potentiel-domain/utilisateur';
 
 import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
+import { getNombreDemandesEnInstruction } from '@/app/_helpers/getNombreDemandesEnInstruction';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
 import { getDemandesLinks } from './getDemandesLinks';
 
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
+
+  const nombreDemandesEnInstruction = utilisateur?.estAdministration()
+    ? await getNombreDemandesEnInstruction({
+        utilisateur: utilisateur.identifiantUtilisateur.email,
+        rôle: utilisateur.rôle.estDreal() ? 'dreal' : 'dgec',
+      })
+    : [];
 
   const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
 
