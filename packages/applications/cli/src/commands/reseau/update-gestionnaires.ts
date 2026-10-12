@@ -12,7 +12,7 @@ import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
+import { appSchema, dbSchema } from '#helpers';
 import { addGRDs, mapToRéférencielGRD, updateGRDs } from '#helpers/réseau';
 
 const envSchema = z.object({
@@ -25,9 +25,7 @@ export class UpdateGestionnaires extends Command {
   static monitoringSlug = 'mise-a-jour-grd';
 
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
-
-    throwIfEnvIsNotProduction(APPLICATION_STAGE);
+    envSchema.parse(process.env);
 
     registerRéseauUseCases({
       loadAggregate,

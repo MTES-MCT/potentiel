@@ -17,7 +17,7 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
+import { appSchema, dbSchema } from '#helpers';
 
 const envSchema = z.object({
   ...dbSchema.shape,
@@ -52,9 +52,7 @@ export class Relancer extends Command {
   }
 
   async run() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
-
-    throwIfEnvIsNotProduction(APPLICATION_STAGE);
+    envSchema.parse(process.env);
 
     const abandonsÀRelancer =
       await mediator.send<Lauréat.Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({

@@ -23,7 +23,7 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
+import { appSchema, dbSchema } from '#helpers';
 
 const envSchema = z.object({
   ...appSchema.shape,
@@ -37,9 +37,7 @@ export class NotifierGestionnaireRéseau extends Command {
     'Envoyer un email de notification aux GRDs (sauf Enedis) ayant des dossiers de raccordement en attente de MES, pour les projets notifiés depuis 12 mois';
 
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
-
-    throwIfEnvIsNotProduction(APPLICATION_STAGE);
+    envSchema.parse(process.env);
 
     registerNotificationsCommands({ sendEmail });
     registerRéseauQueries({
