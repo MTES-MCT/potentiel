@@ -5,7 +5,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { appSchema, dbSchema, throwIfEnvIsNotProduction } from '#helpers';
+import { appSchema, dbSchema } from '#helpers';
 
 const envSchema = zod.object({
   ...dbSchema.shape,
@@ -41,7 +41,10 @@ export class PublierDatagouvStats extends Command {
     try {
       const env = envSchema.parse(process.env);
 
-      throwIfEnvIsNotProduction(env.APPLICATION_STAGE);
+      if (env.APPLICATION_STAGE !== 'production') {
+        console.log("Ce script ne doit tourner qu'en production");
+        return;
+      }
 
       const buffer = await this.generateCsvBuffer();
 
