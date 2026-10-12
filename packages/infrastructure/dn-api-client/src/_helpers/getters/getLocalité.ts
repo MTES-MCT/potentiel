@@ -8,10 +8,12 @@ export const getLocalité = <T extends Record<string, string>, TName extends str
     accessor.getAdresse(nom) ?? {};
 
   return {
-    adresse1: streetAddress ?? undefined,
-    département: departmentName ?? undefined,
-    région: regionName ?? undefined,
-    commune: cityName ?? undefined,
-    codePostal: postalCode ?? undefined,
+    adresse1: cleanupInput(streetAddress),
+    département: cleanupInput(departmentName),
+    région: cleanupInput(regionName),
+    commune: cleanupInput(cityName),
+    codePostal: cleanupInput(postalCode),
   };
 };
+
+const cleanupInput = (str: string | null | undefined) => str?.replaceAll(/’/g, "'") ?? undefined;
