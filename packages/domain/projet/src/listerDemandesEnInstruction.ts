@@ -2,24 +2,23 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { type List, Where } from '@potentiel-domain/entity';
+import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
 import type { GetScopeProjetUtilisateur } from './getScopeProjetUtilisateur.port.js';
-import type { Lauréat } from './index.js';
+import type { Candidature, Lauréat, Éliminé } from './index.js';
 import type { AutoritéCompétente } from './lauréat/abandon/index.js';
+import { statut } from './lauréat/garanties-financières/statutGarantiesFinancières.valueType.js';
 import type { LauréatEntity } from './lauréat/lauréat.entity.js';
 
-type DemandesEnInstructionListItemReadModel = Partial<
-  Record<
-    AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
-    Array<{ date: DateTime.ValueType }>
-  >
+type DemandesEnInstructionListItemReadModel = Record<
+  AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
+  Array<{ date: DateTime.ValueType }>
 >;
 
 export type ListerDemandesEnInstructionReadModel = {
-  items: ReadonlyArray<DemandesEnInstructionListItemReadModel>;
-  // range: RangeOptions;
+  items: DemandesEnInstructionListItemReadModel;
   total: number;
+  range?: RangeOptions;
 };
 
 export type ListerDemandesEnInstructionQuery = Message<
@@ -28,7 +27,7 @@ export type ListerDemandesEnInstructionQuery = Message<
     utilisateur: Email.RawType;
     appelOffre?: Array<string>;
     autoritéCompétente?: AutoritéCompétente.RawType;
-    // range?: RangeOptions;
+    range?: RangeOptions;
   },
   ListerDemandesEnInstructionReadModel
 >;
@@ -45,14 +44,16 @@ export const registerListerDemandesEnInstructionQuery = ({
   const handler: MessageHandler<ListerDemandesEnInstructionQuery> = async ({
     autoritéCompétente,
     utilisateur,
-    // range,
+    range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
+    // VIOVIO: pouvoir ajouter un select dans les join
+    // range test
     const demandesAbandon = await list<Lauréat.Abandon.DemandeAbandonEntity, LauréatEntity>(
       'demande-abandon',
       {
-        // range,
+        range,
         orderBy: {
           miseÀJourLe: 'descending',
         },
@@ -78,7 +79,7 @@ export const registerListerDemandesEnInstructionQuery = ({
       Lauréat.Puissance.ChangementPuissanceEntity,
       LauréatEntity
     >('changement-puissance', {
-      // range,
+      range,
       orderBy: {
         miseÀJourLe: 'descending',
       },
@@ -102,7 +103,7 @@ export const registerListerDemandesEnInstructionQuery = ({
       Lauréat.Actionnaire.ChangementActionnaireEntity,
       LauréatEntity
     >('changement-actionnaire', {
-      // range,
+      range,
       orderBy: {
         miseÀJourLe: 'descending',
       },
@@ -126,7 +127,7 @@ export const registerListerDemandesEnInstructionQuery = ({
       Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity,
       LauréatEntity
     >('changement-représentant-légal', {
-      // range,
+      range,
       orderBy: {
         miseÀJourLe: 'descending',
       },
@@ -149,7 +150,7 @@ export const registerListerDemandesEnInstructionQuery = ({
     const demandesDélai = await list<Lauréat.Délai.DemandeDélaiEntity, LauréatEntity>(
       'demande-délai',
       {
-        // range,
+        range,
         orderBy: {
           miseÀJourLe: 'descending',
         },
@@ -169,41 +170,51 @@ export const registerListerDemandesEnInstructionQuery = ({
       },
     );
 
-    const items: Array<{
-      domaine: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
-      demandes: Array<{ date: DateTime.ValueType }>;
-    }> = [
-      {
-        domaine: 'abandon',
-        demandes: demandesAbandon.items.map((item) => ({
-          date: DateTime.convertirEnValueType(item['demande']['demandéLe']),
-        })),
+    const demandesRecours = await list<
+      Éliminé.Recours.DemandeRecoursEntity,
+      Candidature.CandidatureEntity
+    >('demande-recours', {
+      range,
+      where: {
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        statut: Where.matchAny(statut),
       },
-      {
-        domaine: 'actionnaire',
-        demandes: demandesActionnaire.items.map((item) => ({
-          date: DateTime.convertirEnValueType(item['demande']['demandéeLe']),
-        })),
+      select: ['demande.demandéLe'],
+      join: {
+        entity: 'candidature',
+        on: 'identifiantProjet',
+        where: {
+          localité: {
+            région: Where.matchAny(scope.régions),
+          },
+        },
       },
-      {
-        domaine: 'délai',
-        demandes: demandesDélai.items.map((item) => ({
-          date: DateTime.convertirEnValueType(item['demandéLe']),
-        })),
-      },
-      {
-        domaine: 'puissance',
-        demandes: demandesPuissance.items.map((item) => ({
-          date: DateTime.convertirEnValueType(item['demande']['demandéeLe']),
-        })),
-      },
-      {
-        domaine: 'représentantLégal',
-        demandes: demandesReprésentantLégal.items.map((item) => ({
-          date: DateTime.convertirEnValueType(item['demande']['demandéLe']),
-        })),
-      },
-    ];
+    });
+
+    console.log(demandesAbandon);
+    console.log(demandesActionnaire);
+    console.log(demandesReprésentantLégal);
+
+    const items: DemandesEnInstructionListItemReadModel = {
+      abandon: demandesAbandon.items.map((item) => ({
+        date: DateTime.convertirEnValueType(item['demande']['demandéLe']),
+      })),
+      actionnaire: demandesActionnaire.items.map((item) => ({
+        date: DateTime.convertirEnValueType(item['demande']['demandéeLe']),
+      })),
+      délai: demandesDélai.items.map((item) => ({
+        date: DateTime.convertirEnValueType(item['demandéLe']),
+      })),
+      puissance: demandesPuissance.items.map((item) => ({
+        date: DateTime.convertirEnValueType(item['demande']['demandéeLe']),
+      })),
+      représentantLégal: demandesReprésentantLégal.items.map((item) => ({
+        date: DateTime.convertirEnValueType(item['demande']['demandéLe']),
+      })),
+      recours: demandesRecours.items.map((item) => ({
+        date: DateTime.convertirEnValueType(item['demande']['demandéLe']),
+      })),
+    };
 
     return {
       total:
@@ -212,19 +223,10 @@ export const registerListerDemandesEnInstructionQuery = ({
         demandesDélai.total +
         demandesPuissance.total +
         demandesReprésentantLégal.total,
-      items: mapToReadModel(items),
+      items,
+      range,
     };
   };
 
   mediator.register('Projet.Query.ListerDemandesEnInstruction', handler);
 };
-
-const mapToReadModel = (
-  items: Array<{
-    domaine: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
-    demandes: Array<{ date: DateTime.ValueType }>;
-  }>,
-): ReadonlyArray<DemandesEnInstructionListItemReadModel> =>
-  items.map(({ domaine, demandes }) => ({
-    [domaine]: demandes.map(({ date }) => ({ date })),
-  }));
