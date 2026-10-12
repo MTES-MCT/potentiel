@@ -1,29 +1,48 @@
-import Card from '@codegouvfr/react-dsfr/Card';
+import Card, { type CardProps } from '@codegouvfr/react-dsfr/Card';
 
-export const NouveautésDétails = () => (
-  <div className="flex gap-2">
-    <Card
-      background
-      border
-      desc="Retrouvez les 102 candidats lauréats de votre région (Occitanie)"
-      size="small"
-      linkProps={{
-        href: '#',
-      }}
-      title="L'appel d'offre PPE2 - Sol, période 9, a été notifiée le 11 septembre 2026"
-      titleAs="h3"
-    />
-    <Card
-      background
-      border
-      desc="Retrouvez les enrichis de nouvelles données dans l'onglet Export"
-      enlargeLink
-      linkProps={{
-        href: '#',
-      }}
-      size="medium"
-      title="Les exports de données ont été mis à jour sur Potentiel"
-      titleAs="h3"
-    />
+import type { DateTime } from '@potentiel-domain/common';
+
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+
+export type NouveautésDétailsProps = {
+  nouveautes: Array<{
+    title: string;
+    content?: string;
+    date?: DateTime.RawType;
+    link?: {
+      href: string;
+      external: boolean;
+    };
+  }>;
+};
+
+export const NouveautésDétails = ({ nouveautes }: NouveautésDétailsProps) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+    {nouveautes.length === 0 ? (
+      <div>Aucune nouveauté à afficher</div>
+    ) : (
+      nouveautes.map((n) => {
+        const linkProps = n.link && {
+          href: n.link.href,
+          title: n.title,
+          ...(n.link.external && {
+            target: '_blank',
+            title: `Ouvrir la nouveauté ${n.title} dans un nouvel onglet`,
+          }),
+        };
+
+        const cardProps: CardProps = {
+          background: true,
+          border: true,
+          title: n.title,
+          desc: n.content ?? '',
+          detail: n.date ? <FormattedDate date={n.date} /> : undefined,
+          size: 'small',
+          ...(linkProps && { linkProps }),
+        };
+
+        return <Card {...cardProps} key={n.title} titleAs="h3" />;
+      })
+    )}
   </div>
 );
