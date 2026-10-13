@@ -8,6 +8,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
@@ -90,10 +91,10 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             </div>
             {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
           </div>
-          <div className="flex gap-2">
-            <div className="whitespace-nowrap font-semibold">Raison :</div>
-            <blockquote>"{abandon.demande.raison}"</blockquote>
-          </div>
+          <DisplayRaisonChangement
+            raison={abandon.demande.raison}
+            className="whitespace-nowrap font-semibold"
+          />
           <div className="mb-4">
             <Heading2>Historique</Heading2>
             <Timeline items={historique} />

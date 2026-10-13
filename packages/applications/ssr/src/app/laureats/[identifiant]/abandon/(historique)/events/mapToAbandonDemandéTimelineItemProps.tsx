@@ -9,7 +9,8 @@ export const mapToAbandonDemandéTimelineItemProps = (
   permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const { demandéLe, demandéPar, identifiantProjet, pièceJustificative } = event.payload;
-
+  const estPPA = event.type === 'AbandonDemandé-V2' && event.payload.ppaSignalé;
+  const estRecandidature = event.type === 'AbandonDemandé-V1' && event.payload.recandidature;
   return {
     date: demandéLe,
     title: "Demande d'abandon déposée",
@@ -29,21 +30,22 @@ export const mapToAbandonDemandéTimelineItemProps = (
           label: 'Détail de la demande',
         }
       : undefined,
-    details: (
-      <>
-        {event.type === 'AbandonDemandé-V2' && event.payload.ppaSignalé && (
-          <div className="mb-4">
-            Le projet a été déclaré comme étant signataire d'un{' '}
-            <span className="font-semibold">contrat de vente de gré à gré (PPA)</span>.
-          </div>
-        )}
-        {event.type === 'AbandonDemandé-V1' && event.payload.recandidature && (
-          <div className="mb-4">
-            Le projet s'inscrit dans un{' '}
-            <span className="font-semibold">contexte de recandidature</span>.
-          </div>
-        )}
-      </>
-    ),
+    details:
+      estPPA || estRecandidature ? (
+        <>
+          {estPPA && (
+            <div className="mb-4">
+              Le projet a été déclaré comme étant signataire d'un{' '}
+              <span className="font-semibold">contrat de vente de gré à gré (PPA)</span>.
+            </div>
+          )}
+          {estRecandidature && (
+            <div className="mb-4">
+              Le projet s'inscrit dans un{' '}
+              <span className="font-semibold">contexte de recandidature</span>.
+            </div>
+          )}
+        </>
+      ) : null,
   };
 };
