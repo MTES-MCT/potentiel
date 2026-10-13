@@ -11,7 +11,7 @@ export const getDashboardRoute = (rôle: Role.ValueType) => {
   }
 
   if (rôle.aLaPermission('raccordement.listerDossierRaccordement')) {
-    return { texte: 'Voir les raccordements', lien: Routes.Raccordement.lister };
+    return { texte: 'Voir les raccordements', lien: Routes.Raccordement.lister() };
   }
 
   if (rôle.aLaPermission('accès.réclamerProjet')) {

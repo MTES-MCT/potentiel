@@ -122,6 +122,6 @@ const mapToProps: MapToProps = ({
       : undefined,
     lienRetour: utilisateur.rôle.aLaPermission('raccordement.consulter')
       ? Routes.Raccordement.détail(lauréat.identifiantProjet.formatter())
-      : Routes.Raccordement.lister,
+      : Routes.Raccordement.lister(),
   };
 };
