@@ -27,7 +27,7 @@ export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationPr
 
 const AlerteNouveauté = () => (
   <Notice
-    title="Votre page d'accueil fait peau neuve"
+    title="Votre page d'accueil fait peau neuve !"
     severity="info"
     description="Retrouvez-y les actualités de Potentiel, ainsi que vos prochaines actions listées par catégorie. N'hésitez pas à nous contacter pour nous partager vos retours !"
   />
