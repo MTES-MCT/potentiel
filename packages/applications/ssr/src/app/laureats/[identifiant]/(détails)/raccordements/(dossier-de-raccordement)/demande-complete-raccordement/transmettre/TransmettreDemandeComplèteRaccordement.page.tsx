@@ -25,7 +25,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   ajouterLienVersLaModificationDuGestionnaire,
 }) => (
   <SectionPage title="Transmettre une demande complète de raccordement">
-    {!afficherAlerteAucunDossierRaccordement && (
+    {afficherAlerteAucunDossierRaccordement && (
       <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
     )}
     <TransmettreDemandeComplèteRaccordementForm

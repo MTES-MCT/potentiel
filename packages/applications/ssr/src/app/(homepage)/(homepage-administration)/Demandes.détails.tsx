@@ -76,7 +76,11 @@ const DemandesParDomaine = ({
         )
       }
       title={mapDomaineToLabel[domain]}
-      desc={total ? `${total} demandes à traiter` : 'Aucune demande à traiter'}
+      desc={
+        total
+          ? `${total} ${total > 1 ? 'demandes' : 'demande'} à traiter`
+          : 'Aucune demande à traiter'
+      }
       titleAs="h3"
     />
   );
