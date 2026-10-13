@@ -24,11 +24,13 @@ model ProjetAvecAchevementATransmettre {
   /**
    * La référence du dossier de raccordement.
    * Un projet peut avoir plusieurs dossiers de raccordement (une ligne = un dossier)
+   * TODO à déplacer dans un champs `raccordements: DossierRaccordement[]`
    */
   referenceDossierRaccordement: string;
 
   /**
    * La date de qualification de la Demande Complète de Raccordement.
+   * TODO à déplacer dans un champs `raccordements: DossierRaccordement[]`
    */
   @format("date")
   @encodedName("application/json", "dateDCR")
@@ -70,8 +72,6 @@ model TransmettreDateAchevementParLotBody {
   dateAchevement: string;
 }
 
-
-
 @useAuth(BearerAuth)
 @tag("Achèvement V1")
 interface AchevementV1 {
@@ -79,6 +79,8 @@ interface AchevementV1 {
    * Récupère les projets en attente d'achèvement
    *
    * _NB: Dans un premier temps, ce endpoint retourne tous les projets lauréats non achevés et non abandonnés. A terme, il sera remplacé par /achevements/en-attente-confirmation_
+   *
+   * TODO à supprimer
    */
   @route("/achevements/a-transmettre")
   @get
@@ -96,17 +98,51 @@ interface AchevementV1 {
     periode?: string,
   ): ListResult<ProjetAvecAchevementATransmettre> | Error;
 
+  /**
+   * Récupère les projets dont l'achèvement a été initié mais non confirmé (= date d'achèvement transmise) par le cocontractant.
+   */
+  @route("/achevements/en-attente")
+  @get
+  listerProjetsEnAttenteDAchevement(
+    /**
+     * L'index du dernier élément (`endPosition`) de la page précédente.
+     */
+    @query
+    after?: uint16,
+
+    @query
+    appelOffre?: string,
+
+    @query
+    periode?: string,
+
+    /**
+     * Filtre optionnel pour ne récupérer que les projets dont l'achèvement a été initié après la date fournie.
+     */
+    @query
+    depuis?: utcDateTime,
+  ): ListResult<ProjetAvecAchevementATransmettre> | Error;
 
   /**
-   * Transmettre la date d'achèvement de plusieurs projets par lot
-   * 
-   * _NB: à terme, ce endpoint sera retiré et remplacé par_ ```/laureats/{identifiantProjet}/achevement/confirmer```
+   * Récupère les projets lauréats ayant un dossier de raccordement correspondant à la référence fournie.
+   * On note qu'il est possible que plusieurs projets lauréats aient la même référence de raccordement.
    */
-  @route("/achevements/transmettre-par-lot")
-  @post
-  transmettreDateDAchevementParLot(
-    @body body: TransmettreDateAchevementParLotBody[],
-  ): {} | Error;
+  @route("/laureats/par-reference-raccordement")
+  listerProjetsAvecRéférenceDossierRaccordement(
+    @query
+    referenceDossierRaccordement: string,
+  ): ListResult<ProjetAvecAchevementATransmettre> | Error;
+
+  /**
+   * Récupère les informations d'un projet
+   *
+   * _NB: A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_
+   */
+  @route("/laureats/{identifiantProjet}")
+  @get
+  récupérerProjet(
+    @path identifiantProjet: string,
+  ): ProjetAvecAchevementATransmettre | Error;
 
   /**
    * Transmettre la date d'achèvement d'un projet
