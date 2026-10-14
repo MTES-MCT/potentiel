@@ -5,11 +5,15 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getGristConfig, gristRecordsSchema, nouveautéFieldsSchema } from './constant.js';
 
-export const récupérerNouveautés: Nouveautés.RécupérerNouveautésPort = async () => {
+export const récupérerNouveautés: Nouveautés.RécupérerNouveautésPort = async ({ limite }) => {
   const { apiUrl, apiKey, docId, tableId } = getGristConfig();
 
   const url = new URL(`api/docs/${docId}/tables/${tableId}/records`, apiUrl);
   url.searchParams.set('sort', '-Date');
+
+  if (limite) {
+    url.searchParams.set('limit', limite.toString());
+  }
 
   const result = await get({
     url,
