@@ -14,7 +14,7 @@ export const routesNouveautés = {
   'liste.demande.garantiesFinancièresÀTraiter': Routes.GarantiesFinancières.dépôt.lister(),
   'liste.demande.garantiesFinancièresEnAttente': Routes.GarantiesFinancières.enAttente.lister(),
   'liste.demande.mainlevées': Routes.GarantiesFinancières.demandeMainlevée.lister(),
-  'liste.dossierRaccordement': Routes.Raccordement.lister,
+  'liste.dossierRaccordement': Routes.Raccordement.lister(),
   'liste.lauréat': Routes.Lauréat.lister(),
   'liste.éliminé': Routes.Éliminé.lister(),
   'liste.gestionnaireRéseau': Routes.Gestionnaire.lister,
