@@ -17,3 +17,9 @@ defineParameterType({
   regexp: /accord|rejet/,
   transformer: (s) => s as 'accord' | 'rejet',
 });
+
+defineParameterType({
+  name: 'dreal-dgec',
+  regexp: /DREAL|DGEC/,
+  transformer: (s) => s.toLowerCase() as 'dreal' | 'dgec',
+});
