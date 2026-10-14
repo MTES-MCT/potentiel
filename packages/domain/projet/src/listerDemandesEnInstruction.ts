@@ -48,8 +48,6 @@ export const registerListerDemandesEnInstructionQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    // VIOVIO: pouvoir ajouter un select dans les join
-    // range test
     const demandesAbandon = await list<Lauréat.Abandon.DemandeAbandonEntity, LauréatEntity>(
       'demande-abandon',
       {

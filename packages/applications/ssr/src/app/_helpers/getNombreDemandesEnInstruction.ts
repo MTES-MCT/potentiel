@@ -4,6 +4,7 @@
 import { mediator } from 'mediateur';
 import { cache } from 'react';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import type { ListerDemandesEnInstructionQuery } from '@potentiel-domain/projet';
 
@@ -12,8 +13,14 @@ type GetDemandesProps = {
   rôle: 'dreal' | 'dgec';
 };
 
+export type DemandesEnInstruction = {
+  domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
+  total: number;
+  new: number;
+};
+
 export const getNombreDemandesEnInstruction = cache(
-  async ({ utilisateur, rôle }: GetDemandesProps) => {
+  async ({ utilisateur, rôle }: GetDemandesProps): Promise<Array<DemandesEnInstruction>> => {
     const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
 
     const demandes = await await mediator.send<ListerDemandesEnInstructionQuery>({
@@ -25,7 +32,7 @@ export const getNombreDemandesEnInstruction = cache(
     });
 
     return Object.entries(demandes.items).map(([domain, résultat]) => ({
-      domain,
+      domain: domain as AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
       total: résultat.length,
       new: résultat.filter((d) => d.date.estUltérieureÀ(ilYAUnMois)).length,
     }));
