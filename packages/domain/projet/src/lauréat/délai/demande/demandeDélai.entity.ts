@@ -1,6 +1,6 @@
 import type { Entity } from '@potentiel-domain/entity';
 
-import type { AutoritéCompétente, StatutDemandeDélai } from '../index.js';
+import type { AutoritéCompétente, MotifDemandeDélai, StatutDemandeDélai } from '../index.js';
 
 export type DemandeDélaiEntity = Entity<
   'demande-délai',
@@ -18,6 +18,7 @@ export type DemandeDélaiEntity = Entity<
       format: string;
     };
     autoritéCompétente?: AutoritéCompétente.RawType;
+    motif: MotifDemandeDélai.RawType;
 
     correction?: {
       corrigéeLe: string;

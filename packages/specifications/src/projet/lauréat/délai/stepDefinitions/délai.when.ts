@@ -1,4 +1,4 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
@@ -14,6 +14,18 @@ Quand('le porteur demande un délai pour le projet lauréat', async function (th
     identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
   });
 });
+
+Quand(
+  'le porteur demande un délai pour le projet lauréat avec :',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+
+    await demanderDélai.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: exemple['motif'],
+    });
+  },
+);
 
 Quand(
   'le porteur annule la demande de délai pour le projet lauréat',
@@ -61,8 +73,8 @@ export async function demanderDélai(
   this: PotentielWorld,
   partialFixture: CréerDemandeDélaiFixture,
 ) {
-  const { nombreDeMois, raison, pièceJustificative, demandéLe, demandéPar } =
-    this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer({ ...partialFixture });
+  const { nombreDeMois, raison, pièceJustificative, demandéLe, demandéPar, motif } =
+    this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer(partialFixture);
 
   try {
     await mediator.send<Lauréat.Délai.DemanderDélaiUseCase>({
@@ -74,6 +86,7 @@ export async function demanderDélai(
         pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
+        motifValue: motif,
       },
     });
   } catch (error) {
@@ -107,7 +120,11 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
 
     const { demandéLe } = this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
       ? this.lauréatWorld.délaiWorld.demanderDélaiFixture
-      : this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer({ identifiantProjet });
+      : this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer({
+          identifiantProjet,
+          // TODO
+          motif: '????',
+        });
 
     await mediator.send<Lauréat.Délai.CorrigerDemandeDélaiUseCase>({
       type: 'Lauréat.Délai.UseCase.CorrigerDemandeDélai',

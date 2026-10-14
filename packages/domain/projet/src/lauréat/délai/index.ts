@@ -51,8 +51,12 @@ export type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDem
 // Entities
 export type * from './demande/demandeDélai.entity.js';
 // Event
-export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event.js';
+export type {
+  DélaiDemandéEvent,
+  DélaiDemandéEventV1,
+} from './demande/demander/demanderDélai.event.js';
 export * as DocumentDélai from './demande/documentDélai.valueType.js';
+export * as MotifDemandeDélai from './demande/motifDemandeDélai.valueType.js';
 export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event.js';
 export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
 // ValueTypes

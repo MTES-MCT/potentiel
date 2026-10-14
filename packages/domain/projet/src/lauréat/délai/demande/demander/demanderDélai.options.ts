@@ -1,6 +1,7 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 
 import type { DocumentProjet } from '#document-projet';
+import type { MotifDemandeDélai } from '../../index.js';
 
 export type DemanderDélaiOptions = {
   nombreDeMois: number;
@@ -8,4 +9,5 @@ export type DemanderDélaiOptions = {
   pièceJustificative: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
+  motif: MotifDemandeDélai.ValueType;
 };

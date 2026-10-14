@@ -12,6 +12,7 @@ export const setupDélai = () => {
     eventType: [
       'RebuildTriggered',
       'DélaiDemandé-V1',
+      'DélaiDemandé-V2',
       'DemandeDélaiAnnulée-V1',
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',
@@ -26,7 +27,7 @@ export const setupDélai = () => {
   délai.addSubscription<DélaiNotification.SubscriptionEvent, DélaiNotification.Execute>({
     name: 'notifications',
     eventType: [
-      'DélaiDemandé-V1',
+      'DélaiDemandé-V2',
       'DemandeDélaiAnnulée-V1',
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',

@@ -4,7 +4,9 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-export const handleDélaiDemandé = async ({ payload }: Lauréat.Délai.DélaiDemandéEvent) => {
+export const handleDélaiDemandé = async ({
+  payload,
+}: Lauréat.Délai.DélaiDemandéEvent | Lauréat.Délai.DélaiDemandéEventV1) => {
   const projet = await getLauréat(payload.identifiantProjet);
 
   const { appelOffre, période } = projet.identifiantProjet;
