@@ -1,4 +1,6 @@
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+
+import { Role } from '@potentiel-domain/utilisateur';
 
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 import {
@@ -19,11 +21,12 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de délai en cours de {string} mois pour le projet lauréat',
-  async function (this: PotentielWorld, nombreDeMois: string) {
+  'une demande de délai en cours pour le projet lauréat avec :',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      nombreDeMois: Number(nombreDeMois),
+      ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
     });
   },
 );
@@ -64,6 +67,6 @@ EtantDonné(
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
     });
-    await accorderDemandeDélai.call(this);
+    await accorderDemandeDélai.call(this, Role.dreal.nom);
   },
 );

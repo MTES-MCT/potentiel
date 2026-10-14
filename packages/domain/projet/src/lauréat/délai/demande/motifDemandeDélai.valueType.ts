@@ -55,3 +55,8 @@ class MotifDélaiInvalideError extends InvalidOperationError {
     });
   }
 }
+
+export const forceMajeure = convertirEnValueType<'force-majeure'>('force-majeure');
+export const prolongationPhaseEssai = convertirEnValueType<'prolongation-phase-essai'>(
+  'prolongation-phase-essai',
+);

@@ -2,11 +2,15 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { type FieldToExempleMapper, mapNumber, mapToExemple } from '#helpers';
 import type { LauréatWorld } from '../lauréat.world.js';
 import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture.js';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture.js';
 import { CorrigerDemandeDélaiFixture } from './fixtures/corrigerDélai.fixture.js';
-import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture.js';
+import {
+  type CréerDemandeDélaiFixture,
+  DemanderDélaiFixture,
+} from './fixtures/demanderDélai.fixture.js';
 import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture.js';
 import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture.js';
 
@@ -152,5 +156,13 @@ export class DélaiWorld {
     }
 
     return expected;
+  }
+
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    const délaiMap: FieldToExempleMapper<CréerDemandeDélaiFixture> = {
+      motif: ['motif'],
+      nombreDeMois: ['durée du délai demandé', mapNumber],
+    };
+    return mapToExemple(exemple, délaiMap);
   }
 }
