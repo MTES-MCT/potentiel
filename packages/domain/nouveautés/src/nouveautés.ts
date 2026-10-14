@@ -10,7 +10,11 @@ export type NouveautésQuery = ListerNouveautésQuery;
 // Port
 export type * from './lister/listerNouveautés.port.js';
 // Type
-export type { Nouveauté, TypeDeLien } from './nouveauté.type.js';
+export type {
+  LienNouveauté,
+  Nouveauté,
+  TypeDeLien,
+} from './nouveauté.type.js';
 export { typesDeLien } from './nouveauté.type.js';
 // Register
 export { registerNouveautésQueries } from './register.js';
