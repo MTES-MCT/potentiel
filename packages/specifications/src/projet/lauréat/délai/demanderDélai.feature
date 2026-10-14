@@ -16,6 +16,17 @@ Fonctionnalité: Demander un délai pour un projet lauréat
             | nom_projet | Du boulodrome de Marseille                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |
 
+    @select
+    Scénario: Un porteur demande un délai pour prolongations de phase d'essai
+        Quand le porteur demande un délai pour le projet lauréat avec :
+            | motif | prolongation-phase-essai |
+        Alors la demande de délai devrait être consultable
+        Et l'autorité instructrice de la demande de délai devrait être la DGEC
+        Et un email a été envoyé à l'autorité instructrice avec :
+            | sujet      | Potentiel - Du boulodrome de Marseille - Délai demandé |
+            | nom_projet | Du boulodrome de Marseille                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |
+
     Scénario: Impossible de demander un délai pour un projet si une demande de délai est en cours
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur demande un délai pour le projet lauréat

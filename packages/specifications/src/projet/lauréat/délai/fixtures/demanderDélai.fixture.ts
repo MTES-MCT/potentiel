@@ -5,6 +5,7 @@ import { AbstractFixture } from '../../../../fixture.js';
 
 export type CréerDemandeDélaiFixture = Partial<Readonly<DemanderDélai>> & {
   identifiantProjet: string;
+  motif?: string;
 };
 
 interface DemanderDélai {
@@ -13,6 +14,7 @@ interface DemanderDélai {
   readonly nombreDeMois: number;
   readonly raison: string;
   readonly pièceJustificative: PièceJustificative;
+  readonly motif: string;
 }
 
 export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> implements DemanderDélai {
@@ -51,10 +53,15 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
     return this.#identifiantProjet;
   }
 
-  créer(
-    partialFixture: Partial<Readonly<DemanderDélai>> & { identifiantProjet: string },
-  ): Readonly<DemanderDélai> {
+  #motif!: string;
+
+  get motif(): string {
+    return this.#motif;
+  }
+
+  créer(partialFixture: CréerDemandeDélaiFixture): Readonly<DemanderDélai> {
     const fixture = {
+      motif: 'force-majeure',
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
@@ -69,6 +76,7 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#pièceJustificative = fixture.pièceJustificative;
+    this.#motif = fixture.motif;
 
     this.aÉtéCréé = true;
 
