@@ -3,6 +3,7 @@ import Card from '@codegouvfr/react-dsfr/Card';
 import type { DateTime } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { FormattedMarkdown } from '@/components/atoms/FormattedMarkdown';
 
 export type NouveautésDétailsProps = {
   nouveautés: Array<{
@@ -27,7 +28,7 @@ export const NouveautésDétails = ({ nouveautés }: NouveautésDétailsProps) =
           border
           title={n.title}
           key={n.title}
-          desc={n.content}
+          desc={n.content ? <FormattedMarkdown content={n.content} /> : undefined}
           detail={n.date ? <FormattedDate date={n.date} /> : undefined}
           titleAs="h3"
           size="small"
