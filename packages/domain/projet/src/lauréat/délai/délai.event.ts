@@ -1,4 +1,4 @@
-import type { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
+import type { DélaiAccordéEvent, DélaiAccordéEventV1 } from './accorder/accorderDélai.event.js';
 import type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
 import type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
 import type {
@@ -11,6 +11,7 @@ import type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimer
 
 export type DélaiEvent =
   | DélaiAccordéEvent
+  | DélaiAccordéEventV1
   | DélaiDemandéEvent
   | DélaiDemandéEventV1
   | DemandeDélaiAnnuléeEvent

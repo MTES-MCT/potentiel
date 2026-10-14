@@ -6,7 +6,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import type { Lauréat } from '../../index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
-import type { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
+import type { DélaiAccordéEvent, DélaiAccordéEventV1 } from './accorder/accorderDélai.event.js';
 import type { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options.js';
 import type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
 import type { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options.js';
@@ -212,14 +212,17 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
-    const dateAchèvementPrévisionnelCalculée =
-      await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
-        type: 'délai-accordé',
-        nombreDeMois,
-      });
+    const motif = this.#demande.motif;
+
+    const dateAchèvementPrévisionnelCalculée = motif.estProlongationPhaseEssai()
+      ? this.parent.achèvement.dateAchèvementPrévisionnel.formatter()
+      : await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
+          type: 'délai-accordé',
+          nombreDeMois,
+        });
 
     const délaiAccordéEvent: DélaiAccordéEvent = {
-      type: 'DélaiAccordé-V1',
+      type: 'DélaiAccordé-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         dateDemande: this.#demande.demandéLe,
@@ -228,15 +231,18 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
         réponseSignée: { format: réponseSignée.format },
+        motif: motif.formatter(),
       },
     };
 
     await this.publish(délaiAccordéEvent);
 
-    await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
-      type: 'délai-accordé',
-      nombreDeMois,
-    });
+    if (!motif.estProlongationPhaseEssai()) {
+      await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
+        type: 'délai-accordé',
+        nombreDeMois,
+      });
+    }
   }
 
   async passerEnInstructionDemandeDélai({
@@ -282,6 +288,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       )
       .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
       .with({ type: 'DélaiAccordé-V1' }, this.applyDemandeDélaiAccordée.bind(this))
+      .with({ type: 'DélaiAccordé-V2' }, this.applyDemandeDélaiAccordée.bind(this))
       .with({ type: 'DemandeDélaiSupprimée-V1' }, this.applyDemandeDélaiSupprimée.bind(this))
       .exhaustive();
   }
@@ -342,7 +349,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande = undefined;
   }
 
-  private applyDemandeDélaiAccordée(_: DélaiAccordéEvent) {
+  private applyDemandeDélaiAccordée(_: DélaiAccordéEvent | DélaiAccordéEventV1) {
     this.#demande = undefined;
   }
 
