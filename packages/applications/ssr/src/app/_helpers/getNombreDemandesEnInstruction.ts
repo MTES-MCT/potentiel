@@ -8,11 +8,6 @@ import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import type { ListerDemandesEnInstructionQuery } from '@potentiel-domain/projet';
 
-type GetDemandesProps = {
-  utilisateur: string;
-  rôle: 'dreal' | 'dgec';
-};
-
 export type DemandesEnInstruction = {
   domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
   total: number;
@@ -20,7 +15,7 @@ export type DemandesEnInstruction = {
 };
 
 export const getNombreDemandesEnInstruction = cache(
-  async ({ utilisateur, rôle }: GetDemandesProps): Promise<Array<DemandesEnInstruction>> => {
+  async (utilisateur: string, rôle: 'dreal' | 'dgec'): Promise<Array<DemandesEnInstruction>> => {
     const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
 
     const demandes = await await mediator.send<ListerDemandesEnInstructionQuery>({

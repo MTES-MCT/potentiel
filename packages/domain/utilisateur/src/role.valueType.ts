@@ -1606,9 +1606,6 @@ const policies = {
     },
   },
   projet: {
-    demandes: {
-      lister: [référencielPermissions['demandes-en-instruction'].query.lister],
-    },
     accèsDonnées: {
       prix: [],
     },
@@ -2006,7 +2003,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
-  'projet.demandes.lister',
   'projet.accèsIdentifiants',
   'projet.accèsDonnées.prix',
 
