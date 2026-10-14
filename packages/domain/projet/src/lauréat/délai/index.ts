@@ -44,7 +44,7 @@ export type DélaiUseCase =
   | AccorderDemandeDélaiUseCase
   | CorrigerDemandeDélaiUseCase;
 
-export type { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
+export type { DélaiAccordéEvent, DélaiAccordéEventV1 } from './accorder/accorderDélai.event.js';
 export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
 export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
 export type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
