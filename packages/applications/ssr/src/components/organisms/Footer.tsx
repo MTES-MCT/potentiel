@@ -20,6 +20,10 @@ export const Footer = () => (
       </>
     }
     termsLinkProps={terms.linkProps}
+    websiteMapLinkProps={{
+      href: 'plan-du-site',
+      'aria-label': `plan du site potentiel`,
+    }}
     bottomItems={bottomFooterLinks}
   />
 );
