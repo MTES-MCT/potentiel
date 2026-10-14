@@ -1,7 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
+import type { LauréatWorld } from '../lauréat.world.js';
 import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture.js';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture.js';
 import { CorrigerDemandeDélaiFixture } from './fixtures/corrigerDélai.fixture.js';
@@ -11,6 +12,8 @@ import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fix
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();
+
+  constructor(readonly lauréatWorld: LauréatWorld) {}
 
   get demanderDélaiFixture() {
     return this.#demanderDélaiFixture;
@@ -52,18 +55,21 @@ export class DélaiWorld {
   }
 
   mapToExpected(
-    identifiantProjet: IdentifiantProjet.ValueType,
     statut: Lauréat.Délai.StatutDemandeDélai.ValueType,
   ): Lauréat.Délai.ConsulterDemandeDélaiReadModel {
     if (!this.#demanderDélaiFixture.aÉtéCréé) {
       throw new Error(`Aucune demande de délai n'a été créée dans DélaiWorld`);
     }
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
     const ao = appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre);
 
     if (!ao) {
       throw new Error(`Appel d'offre non trouvée dans DélaiWorld`);
     }
+    const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
+      this.#demanderDélaiFixture.motif,
+    );
 
     const expected: Lauréat.Délai.ConsulterDemandeDélaiReadModel = {
       statut,
@@ -72,16 +78,19 @@ export class DélaiWorld {
       demandéPar: Email.convertirEnValueType(this.#demanderDélaiFixture.demandéPar),
       nombreDeMois: this.#demanderDélaiFixture.nombreDeMois,
       raison: this.#demanderDélaiFixture.raison,
+      motif,
       pièceJustificative: Lauréat.Délai.DocumentDélai.pièceJustificative({
         identifiantProjet: identifiantProjet.formatter(),
         demandéLe: this.#demanderDélaiFixture.demandéLe,
         pièceJustificative: { format: this.#demanderDélaiFixture.pièceJustificative.format },
       }),
-      autoritéCompétente: Lauréat.Délai.AutoritéCompétente.convertirEnValueType(
-        ao.miseÀJour.changement === 'indisponible' || !ao?.miseÀJour.changement.délai.demande
-          ? Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI
-          : ao.miseÀJour.changement.délai.autoritéCompétente,
-      ),
+      autoritéCompétente: motif.estProlongationPhaseEssai()
+        ? Lauréat.Délai.AutoritéCompétente.dgec
+        : Lauréat.Délai.AutoritéCompétente.convertirEnValueType(
+            ao.miseÀJour.changement === 'indisponible' || !ao?.miseÀJour.changement.délai.demande
+              ? Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI
+              : ao.miseÀJour.changement.délai.autoritéCompétente,
+          ),
       instruction: this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé
         ? {
             passéeEnInstructionLe: DateTime.convertirEnValueType(

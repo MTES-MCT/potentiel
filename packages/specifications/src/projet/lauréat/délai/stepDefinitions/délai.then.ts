@@ -1,9 +1,9 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
@@ -78,6 +78,28 @@ Alors('la demande de délai devrait être accordée', async function (this: Pote
   });
 });
 
+Alors(
+  /l'autorité instructrice de la demande de délai devrait être (.*)/,
+  async function (this: PotentielWorld, autorité: string) {
+    const demandeEnCours = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+      type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+      data: {
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
+          ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
+          : '',
+      },
+    });
+    assert(Option.isSome(demandeEnCours), 'Demande de délai non trouvée !');
+    const expected = autorité.includes('DGEC')
+      ? Lauréat.Délai.AutoritéCompétente.dgec
+      : Lauréat.Délai.AutoritéCompétente.dreal;
+    expect(demandeEnCours.autoritéCompétente?.autoritéCompétente).to.equal(
+      expected.autoritéCompétente,
+    );
+  },
+);
+
 async function vérifierDemandeDélai(
   this: PotentielWorld,
   identifiantProjet: string,
@@ -98,12 +120,7 @@ async function vérifierDemandeDélai(
 
     const actual = mapToPlainObject(demandeEnCours);
 
-    const expected = mapToPlainObject(
-      this.lauréatWorld.délaiWorld.mapToExpected(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        statut,
-      ),
-    );
+    const expected = mapToPlainObject(this.lauréatWorld.délaiWorld.mapToExpected(statut));
 
     actual.should.be.deep.equal(expected);
   });

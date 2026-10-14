@@ -16,7 +16,10 @@ import {
   DemandeDeDélaiInexistanteError,
   DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
 } from './demande/demandeDélai.error.js';
-import type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event.js';
+import type {
+  DélaiDemandéEvent,
+  DélaiDemandéEventV1,
+} from './demande/demander/demanderDélai.event.js';
 import type { DemanderDélaiOptions } from './demande/demander/demanderDélai.options.js';
 import type { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option.js';
 import type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
@@ -62,6 +65,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     dateDemande,
     pièceJustificative,
     raison,
+    motif,
   }: DemanderDélaiOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('demande', 'délai');
 
@@ -70,7 +74,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     const event: DélaiDemandéEvent = {
-      type: 'DélaiDemandé-V1',
+      type: 'DélaiDemandé-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         nombreDeMois,
@@ -78,6 +82,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         raison,
         demandéLe: dateDemande.formatter(),
         demandéPar: identifiantUtilisateur.formatter(),
+        motif: motif.formatter(),
       },
     };
 
@@ -263,6 +268,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   apply(event: DélaiEvent) {
     match(event)
       .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandé.bind(this))
+      .with({ type: 'DélaiDemandé-V2' }, this.applyDélaiDemandé.bind(this))
       .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigée.bind(this))
       .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
       .with(
@@ -275,7 +281,9 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       .exhaustive();
   }
 
-  private applyDélaiDemandé({ payload: { nombreDeMois, demandéLe, raison } }: DélaiDemandéEvent) {
+  private applyDélaiDemandé({
+    payload: { nombreDeMois, demandéLe, raison },
+  }: DélaiDemandéEvent | DélaiDemandéEventV1) {
     this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe, raison };
   }
 
