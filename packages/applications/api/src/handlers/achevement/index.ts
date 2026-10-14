@@ -6,4 +6,10 @@ import { transmettreDateAchevementHandler } from './transmettreDateAchevement.ha
 export const achevementHandlers: AchevementV1 = {
   listerProjetAvecAchevementATransmettre: listerProjetAvecAchevementATransmettreHandler,
   transmettreDateDAchevement: transmettreDateAchevementHandler,
+  listerProjetsEnAttenteDAchevement: () => {
+    throw new Error('Not implemented');
+  },
+  récupérerProjet: () => {
+    throw new Error('Not implemented');
+  },
 };
