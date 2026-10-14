@@ -1,5 +1,5 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -21,7 +21,7 @@ export const registerDélaiProjectors = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, délaiRebuildTriggeredProjector)
-      .with({ type: 'DélaiDemandé-V1' }, délaiDemandéProjector)
+      .with({ type: P.union('DélaiDemandé-V1', 'DélaiDemandé-V2') }, délaiDemandéProjector)
       .with(
         {
           type: 'DemandeDélaiPasséeEnInstruction-V1',
