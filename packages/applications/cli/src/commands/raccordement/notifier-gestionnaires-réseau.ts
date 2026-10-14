@@ -117,7 +117,7 @@ export class NotifierGestionnaireRéseau extends Command {
           key: 'lauréat/raccordement/dossiers_en_attente',
           recipients: recipients.map(({ email }) => email),
           values: {
-            url: process.env.BASE_URL + Routes.Raccordement.lister,
+            url: process.env.BASE_URL + Routes.Raccordement.lister(),
           },
         },
       });

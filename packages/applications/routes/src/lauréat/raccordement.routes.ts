@@ -1,7 +1,10 @@
 import { withFilters } from '../_helpers/withFilters.js';
 import { encodeParameter } from '../encodeParameter.js';
 
-export const lister = `/reseaux/raccordements`;
+type ListerFilters = {
+  identifiantGestionnaireReseau: string;
+};
+export const lister = withFilters<ListerFilters>(`/reseaux/raccordements`);
 export const importer = `/reseaux/raccordements/importer`;
 
 export const détail = (identifiantProjet: string) =>

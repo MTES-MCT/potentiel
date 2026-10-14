@@ -120,7 +120,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
   const raccordementsMenuLinks: Array<MenuItem> = [
     {
       label: 'Tous les dossiers de raccordement',
-      url: Routes.Raccordement.lister,
+      url: Routes.Raccordement.lister(),
       permission: 'raccordement.listerDossierRaccordement',
     },
     {

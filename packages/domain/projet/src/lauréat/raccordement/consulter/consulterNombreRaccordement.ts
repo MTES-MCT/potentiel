@@ -28,6 +28,7 @@ export const registerConsulterNombreDeRaccordementQuery = ({
     const nombreRaccordements = await count<RaccordementEntity>('raccordement', {
       where: {
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseauValue),
+        désactivé: Where.notEqual(true),
       },
     });
 

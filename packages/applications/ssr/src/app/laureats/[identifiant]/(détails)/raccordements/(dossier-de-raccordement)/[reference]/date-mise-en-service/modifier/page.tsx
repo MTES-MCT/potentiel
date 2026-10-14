@@ -115,7 +115,7 @@ const mapToProps: MapToProps = ({ utilisateur, lauréat, période, dossierRaccor
       : undefined,
     lienRetour: utilisateur.rôle.aLaPermission('raccordement.consulter')
       ? Routes.Raccordement.détail(lauréat.identifiantProjet.formatter())
-      : Routes.Raccordement.lister,
+      : Routes.Raccordement.lister(),
 
     peutSupprimer: utilisateur.rôle.aLaPermission('raccordement.date-mise-en-service.supprimer'),
   };

@@ -1,3 +1,4 @@
+import Button from '@codegouvfr/react-dsfr/Button';
 import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -23,17 +24,27 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
     <ListItem
       heading={<span className="font-bold leading-4">{raisonSociale}</span>}
       actions={
-        <Link
-          href={Routes.Gestionnaire.détail(identifiantGestionnaireReseauValue.formatter())}
-          aria-label={`voir le détails du gestionnaire de réseau ${raisonSociale}`}
+        <Button
+          linkProps={{
+            href: Routes.Gestionnaire.détail(identifiantGestionnaireReseauValue.formatter()),
+          }}
+          aria-label={`modifier les détails du gestionnaire de réseau ${raisonSociale}`}
         >
-          voir
-        </Link>
+          Modifier
+        </Button>
       }
     >
       <p>
-        {nombreRaccordements} raccordement{nombreRaccordements > 1 ? 's' : ''}
+        {nombreRaccordements} projet{nombreRaccordements > 1 ? 's' : ''} associé
+        {nombreRaccordements > 1 ? 's' : ''}
       </p>
+      <Link
+        href={Routes.Raccordement.lister({
+          identifiantGestionnaireReseau: identifiantGestionnaireRéseau.codeEIC,
+        })}
+      >
+        Voir les dossiers de raccordement
+      </Link>
     </ListItem>
   );
 };

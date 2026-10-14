@@ -50,7 +50,7 @@ export async function handleUtilisateurInvité({
     .with('grd', () => ({
       key: 'utilisateur/inviter_partenaire',
       recipients: [identifiantUtilisateur],
-      values: { url: buildUrl(Routes.Raccordement.lister) },
+      values: { url: buildUrl(Routes.Raccordement.lister()) },
     }))
     .exhaustive();
 
