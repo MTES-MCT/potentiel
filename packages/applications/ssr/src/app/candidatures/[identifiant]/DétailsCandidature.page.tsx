@@ -262,6 +262,20 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 />
               </Field>
             </FieldGroup>
+            {dépôt.raccordements && (
+              <FieldGroup name="Raccordement">
+                {dépôt.raccordements.map((raccordement) => (
+                  <Field
+                    key={raccordement.référence.référence}
+                    name={`Dossier ${raccordement.référence.référence}`}
+                  >
+                    <p>
+                      qualifié le <FormattedDate date={raccordement.dateQualification.date} />
+                    </p>
+                  </Field>
+                ))}
+              </FieldGroup>
+            )}
           </div>
         ),
       }}
