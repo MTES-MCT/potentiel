@@ -30,7 +30,7 @@ export const registerDélaiProjectors = () => {
       )
       .with({ type: 'DemandeDélaiAnnulée-V1' }, demandeDélaiAnnuléeProjector)
       .with({ type: 'DemandeDélaiRejetée-V1' }, demandeDélaiRejetéeProjector)
-      .with({ type: 'DélaiAccordé-V1' }, délaiAccordéProjector)
+      .with({ type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2') }, délaiAccordéProjector)
       .with({ type: 'DemandeDélaiCorrigée-V1' }, demandeDélaiCorrigéeProjector)
       .with({ type: 'DemandeDélaiSupprimée-V1' }, demandeDélaiSuppriméeProjector)
       .exhaustive();
