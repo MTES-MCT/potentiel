@@ -1,11 +1,11 @@
-import Card, { type CardProps } from '@codegouvfr/react-dsfr/Card';
+import Card from '@codegouvfr/react-dsfr/Card';
 
 import type { DateTime } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type NouveautésDétailsProps = {
-  nouveautes: Array<{
+  nouveautés: Array<{
     title: string;
     content?: string;
     date?: DateTime.RawType;
@@ -16,33 +16,35 @@ export type NouveautésDétailsProps = {
   }>;
 };
 
-export const NouveautésDétails = ({ nouveautes }: NouveautésDétailsProps) => (
+export const NouveautésDétails = ({ nouveautés }: NouveautésDétailsProps) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-    {nouveautes.length === 0 ? (
+    {nouveautés.length === 0 ? (
       <div>Aucune nouveauté à afficher</div>
     ) : (
-      nouveautes.map((n) => {
-        const linkProps = n.link && {
-          href: n.link.href,
-          title: n.title,
-          ...(n.link.external && {
-            target: '_blank',
-            title: `Ouvrir la nouveauté ${n.title} dans un nouvel onglet`,
-          }),
-        };
-
-        const cardProps: CardProps = {
-          background: true,
-          border: true,
-          title: n.title,
-          desc: n.content ?? '',
-          detail: n.date ? <FormattedDate date={n.date} /> : undefined,
-          size: 'small',
-          ...(linkProps && { linkProps }),
-        };
-
-        return <Card {...cardProps} key={n.title} titleAs="h3" />;
-      })
+      nouveautés.map((n) => (
+        <Card
+          background
+          border
+          title={n.title}
+          key={n.title}
+          desc={n.content}
+          detail={n.date ? <FormattedDate date={n.date} /> : undefined}
+          titleAs="h3"
+          size="small"
+          linkProps={
+            n.link
+              ? {
+                  href: n.link.href,
+                  title: n.title,
+                  ...(n.link.external && {
+                    target: '_blank',
+                    title: `Ouvrir le lien dans un nouvel onglet`,
+                  }),
+                }
+              : undefined
+          }
+        />
+      ))
     )}
   </div>
 );

@@ -41,7 +41,7 @@ export const registerListerNouveautésQuery = ({
 
     return {
       items: nouveautés
-        .filter(({ rôles }) => rôleUtilisateur.estAdmin() || rôles.includes(rôleUtilisateur.nom))
+        .filter(({ rôles }) => rôles.includes(rôleUtilisateur.nom))
         .map(mapToReadModel),
     };
   };
