@@ -40,7 +40,7 @@ const getNouveautés = async ({
   try {
     const { items } = await mediator.send<Nouveautés.ListerNouveautésQuery>({
       type: 'Nouveautés.Query.ListerNouveautés',
-      data: { rôle: rôle.nom },
+      data: { rôle: rôle.nom, limite: 2 },
     });
     return items;
   } catch (error) {

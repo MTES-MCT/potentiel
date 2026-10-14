@@ -24,6 +24,7 @@ export type ListerNouveautésQuery = Message<
   'Nouveautés.Query.ListerNouveautés',
   {
     rôle: Role.RawType;
+    limite?: number;
   },
   ListerNouveautésReadModel
 >;
@@ -35,9 +36,9 @@ export type ListerNouveautésDependencies = {
 export const registerListerNouveautésQuery = ({
   récupérerNouveautés,
 }: ListerNouveautésDependencies) => {
-  const handler: MessageHandler<ListerNouveautésQuery> = async ({ rôle }) => {
+  const handler: MessageHandler<ListerNouveautésQuery> = async ({ rôle, limite }) => {
     const rôleUtilisateur = Role.convertirEnValueType(rôle);
-    const nouveautés = await récupérerNouveautés();
+    const nouveautés = await récupérerNouveautés({ limite });
 
     return {
       items: nouveautés
