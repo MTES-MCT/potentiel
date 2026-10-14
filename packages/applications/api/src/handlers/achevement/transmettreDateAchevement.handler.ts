@@ -13,7 +13,7 @@ export const transmettreDateAchevementHandler: AchevementV1['transmettreDateDAch
 ) => {
   const utilisateur = getUtilisateur();
 
-  const { dateAchevement } = validate('TransmettreDateAchevementBody', body);
+  const { dateAchevement } = validate('Achevement.TransmettreDateAchevementBody', body);
 
   await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
     type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
