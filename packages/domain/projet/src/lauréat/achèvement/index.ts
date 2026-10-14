@@ -30,6 +30,8 @@ export type AchèvementQuery =
 
 // Entity
 export type { AchèvementEntity } from './achèvement.entity.js';
+// Errors
+export { DateAchèvementAntérieureÀDateNotificationError } from './achèvement.error.js';
 // Event
 export type * from './achèvement.event.js';
 // ValueTypes
