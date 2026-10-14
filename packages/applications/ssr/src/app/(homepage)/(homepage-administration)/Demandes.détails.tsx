@@ -13,14 +13,18 @@ export type DétailsDemandes = {
 
 export type DemandesDétailsProps = {
   autorité: 'dgec' | 'dreal';
-  withNew: DétailsDemandes[];
-  withNoNew: DétailsDemandes[];
+  avecNouvellesDemandes: DétailsDemandes[];
+  sansNouvellesDemandes: DétailsDemandes[];
 };
 
-export const DemandesDétails = ({ autorité, withNew, withNoNew }: DemandesDétailsProps) => (
+export const DemandesDétails = ({
+  autorité,
+  avecNouvellesDemandes,
+  sansNouvellesDemandes,
+}: DemandesDétailsProps) => (
   <div className="flex flex-col gap-4">
     <div className="flex flex-row flex-wrap gap-2">
-      {withNew.map(({ domain, total, new: newCount }) => (
+      {avecNouvellesDemandes.map(({ domain, total, new: newCount }) => (
         <DemandesParDomaine
           key={domain}
           domain={domain}
@@ -31,7 +35,7 @@ export const DemandesDétails = ({ autorité, withNew, withNoNew }: DemandesDét
       ))}
     </div>
     <div className="flex flex-row flex-wrap gap-2">
-      {withNoNew.map(({ domain, total, new: newCount }) => (
+      {sansNouvellesDemandes.map(({ domain, total, new: newCount }) => (
         <DemandesParDomaine
           key={domain}
           domain={domain}

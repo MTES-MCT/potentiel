@@ -1,8 +1,9 @@
 import Contract from '@codegouvfr/react-dsfr/picto/Contract';
 
-import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
-
-import { getNombreDemandesEnInstruction } from '@/app/_helpers/getNombreDemandesEnInstruction';
+import {
+  type DemandesEnInstruction,
+  getNombreDemandesEnInstruction,
+} from '@/app/_helpers/getNombreDemandesEnInstruction';
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -14,7 +15,14 @@ export const DemandesSection = () =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
       const autorité = utilisateur.estDreal() ? 'dreal' : 'dgec';
-      const { withNew, withNoNew } = await getDemandes(utilisateur, autorité);
+      const nombreDemandesEnInstruction = await getNombreDemandesEnInstruction({
+        utilisateur: utilisateur.identifiantUtilisateur.email,
+        rôle: autorité,
+      });
+
+      const { avecNouvellesDemandes, sansNouvellesDemandes } = await mapDemandesToDemandesDétails(
+        nombreDemandesEnInstruction,
+      );
 
       return (
         <Section
@@ -22,21 +30,20 @@ export const DemandesSection = () =>
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
         >
-          <DemandesDétails withNew={withNew} withNoNew={withNoNew} autorité={autorité} />
+          <DemandesDétails
+            avecNouvellesDemandes={avecNouvellesDemandes}
+            sansNouvellesDemandes={sansNouvellesDemandes}
+            autorité={autorité}
+          />
         </Section>
       );
     }),
     sectionTitle,
   );
 
-const getDemandes = async (utilisateur: PotentielUtilisateur, autorité: 'dreal' | 'dgec') => {
-  const nombreDemandesEnInstruction = await getNombreDemandesEnInstruction({
-    utilisateur: utilisateur.identifiantUtilisateur.email,
-    rôle: autorité,
-  });
-
+const mapDemandesToDemandesDétails = async (demandes: Array<DemandesEnInstruction>) => {
   return {
-    withNew: nombreDemandesEnInstruction.filter((demande) => demande.new > 0),
-    withNoNew: nombreDemandesEnInstruction.filter((demande) => demande.new === 0),
+    avecNouvellesDemandes: demandes.filter((demande) => demande.new > 0),
+    sansNouvellesDemandes: demandes.filter((demande) => demande.new === 0),
   };
 };
