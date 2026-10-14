@@ -7,6 +7,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { setupAppelOffre } from './setupAppelOffre.js';
 import { setupDocumentProjet } from './setupDocumentProjet.js';
 import { setupNotifications } from './setupNotifications.js';
+import { setupNouveautés } from './setupNouveautés.js';
 import { setupProjet } from './setupProjet.js';
 import { setupPériode } from './setupPériode.js';
 import { setupRéseau } from './setupRéseau.js';
@@ -40,6 +41,7 @@ export const bootstrap = async ({
   setupPériode();
   setupProjet();
   setupRéseau();
+  setupNouveautés();
 
   getLogger().info('Application bootstrapped');
 };

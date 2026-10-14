@@ -1,0 +1,27 @@
+{
+  "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/nouveautés"
+    },
+    {
+      "path": "../../domain/utilisateur"
+    },
+    {
+      "path": "../../libraries/http-client"
+    },
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    }
+  ]
+}
