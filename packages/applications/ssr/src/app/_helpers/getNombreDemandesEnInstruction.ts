@@ -1,6 +1,3 @@
-// import { mediator } from 'mediateur';
-// import { cache } from 'react';
-
 import { mediator } from 'mediateur';
 import { cache } from 'react';
 

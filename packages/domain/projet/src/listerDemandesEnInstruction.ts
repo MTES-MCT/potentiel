@@ -189,10 +189,6 @@ export const registerListerDemandesEnInstructionQuery = ({
       },
     });
 
-    console.log(demandesAbandon);
-    console.log(demandesActionnaire);
-    console.log(demandesReprésentantLégal);
-
     const items: DemandesEnInstructionListItemReadModel = {
       abandon: demandesAbandon.items.map((item) => ({
         date: DateTime.convertirEnValueType(item['demande']['demandéLe']),
