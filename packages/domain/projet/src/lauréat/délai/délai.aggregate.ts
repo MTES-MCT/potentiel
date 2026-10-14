@@ -30,6 +30,7 @@ import type { DélaiEvent } from './délai.event.js';
 import {
   AutoritéCompétente,
   type DemandeDélaiPasséeEnInstructionEvent,
+  MotifDemandeDélai,
   StatutDemandeDélai,
 } from './index.js';
 
@@ -43,9 +44,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     instruction?: {
       passéEnInstructionPar: Email.ValueType;
     };
+    motif: MotifDemandeDélai.ValueType;
   };
 
   get autoritéCompétente(): AutoritéCompétente.ValueType {
+    if (this.#demande?.motif.estProlongationPhaseEssai()) {
+      return AutoritéCompétente.dgec;
+    }
     return AutoritéCompétente.convertirEnValueType(
       this.lauréat.projet.cahierDesChargesActuel.getAutoritéCompétente('délai'),
     );
@@ -267,7 +272,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
   apply(event: DélaiEvent) {
     match(event)
-      .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandé.bind(this))
+      .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandéV1.bind(this))
       .with({ type: 'DélaiDemandé-V2' }, this.applyDélaiDemandé.bind(this))
       .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigée.bind(this))
       .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
@@ -281,10 +286,28 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       .exhaustive();
   }
 
-  private applyDélaiDemandé({
+  private applyDélaiDemandéV1({
     payload: { nombreDeMois, demandéLe, raison },
-  }: DélaiDemandéEvent | DélaiDemandéEventV1) {
-    this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe, raison };
+  }: DélaiDemandéEventV1) {
+    this.#demande = {
+      statut: StatutDemandeDélai.demandé,
+      nombreDeMois,
+      demandéLe,
+      raison,
+      motif: MotifDemandeDélai.forceMajeure,
+    };
+  }
+
+  private applyDélaiDemandé({
+    payload: { nombreDeMois, demandéLe, raison, motif },
+  }: DélaiDemandéEvent) {
+    this.#demande = {
+      statut: StatutDemandeDélai.demandé,
+      nombreDeMois,
+      demandéLe,
+      raison,
+      motif: MotifDemandeDélai.convertirEnValueType(motif),
+    };
   }
 
   private applyDemandeDélaiCorrigée({

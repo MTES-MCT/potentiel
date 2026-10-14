@@ -22,7 +22,7 @@ Quand(
 
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: exemple['motif'],
+      ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
     });
   },
 );
@@ -39,9 +39,9 @@ Quand('la DREAL rejette le délai pour le projet lauréat', async function (this
 });
 
 Quand(
-  'la DREAL accorde la demande de délai pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    await accorderDemandeDélai.call(this);
+  'la {dreal-dgec} accorde la demande de délai pour le projet lauréat',
+  async function (this: PotentielWorld, rôle: 'dreal' | 'dgec') {
+    await accorderDemandeDélai.call(this, rôle);
   },
 );
 
@@ -220,7 +220,7 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
   }
 }
 
-export async function accorderDemandeDélai(this: PotentielWorld) {
+export async function accorderDemandeDélai(this: PotentielWorld, rôle: Role.RawType) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
@@ -232,7 +232,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         dateAchèvementPrévisionnelActuelle:
           this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture
             .dateAchèvementPrévisionnel,
-        accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
+        accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
       });
 
     await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
@@ -243,7 +243,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         dateAccordValue: accordéeLe,
         nombreDeMois,
         réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
-        rôleUtilisateurValue: Role.dreal.nom,
+        rôleUtilisateurValue: rôle,
       },
     });
   } catch (error) {
