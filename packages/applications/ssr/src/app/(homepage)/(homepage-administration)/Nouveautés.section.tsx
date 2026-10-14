@@ -1,8 +1,7 @@
 import Notification from '@codegouvfr/react-dsfr/picto/Notification';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
-import { Nouveautés } from '@potentiel-domain/nouveautes';
+import type { Nouveautés } from '@potentiel-domain/nouveautes';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -16,11 +15,7 @@ const sectionTitle = 'Nouveautés';
 export const NouveautésSection = () =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
-      if (!utilisateur.estAdministration() && !utilisateur.rôle.estAdmin()) {
-        return notFound();
-      }
-
-      const nouveautes = await getNouveautés({ rôle: utilisateur.rôle });
+      const nouveautés = await getNouveautés({ rôle: utilisateur.rôle });
 
       return (
         <Section
@@ -28,7 +23,7 @@ export const NouveautésSection = () =>
           picto={<Notification color="green-emeraude" fontSize="large" />}
           className="border-none"
         >
-          <NouveautésDétails nouveautes={nouveautes.map(mapToNouveautéSectionProps)} />
+          <NouveautésDétails nouveautés={nouveautés.map(mapToNouveautéSectionProps)} />
         </Section>
       );
     }),
@@ -59,7 +54,7 @@ const mapToNouveautéSectionProps = ({
   description,
   date,
   lien,
-}: Nouveautés.NouveautéReadModel): NouveautésDétailsProps['nouveautes'][number] => ({
+}: Nouveautés.NouveautéReadModel): NouveautésDétailsProps['nouveautés'][number] => ({
   title: titre,
   content: description,
   date: date?.formatter(),

@@ -33,7 +33,7 @@ export const getGristConfig = () => {
   };
 };
 
-const texteOptionnelSchema = zod
+const optionnalTextSchema = zod
   .string()
   .nullish()
   .transform((valeur) => valeur || undefined);
@@ -49,7 +49,7 @@ export const gristRecordsSchema = zod.object({
 
 export const nouveautéFieldsSchema = zod.object({
   Titre: zod.string().min(1),
-  Description: texteOptionnelSchema,
+  Description: optionnalTextSchema,
   Date: zod.number().nullish(),
   Roles: zod
     .tuple([zod.literal('L')], zod.enum(Role.roles))
@@ -61,7 +61,7 @@ export const nouveautéFieldsSchema = zod.object({
       const [, ...rôles] = valeur;
       return rôles;
     }),
-  Lien: texteOptionnelSchema,
+  Lien: optionnalTextSchema,
   Type_de_lien: zod
     .enum(Nouveautés.typesDeLien)
     .or(zod.literal(''))
