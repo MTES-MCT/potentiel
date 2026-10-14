@@ -3,17 +3,14 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import type { Nouveauté, TypeDeLien } from '../nouveauté.type.js';
+import type { LienNouveauté, Nouveauté } from '../nouveauté.type.js';
 import type { RécupérerNouveautésPort } from './listerNouveautés.port.js';
 
 export type NouveautéReadModel = {
   titre: string;
   description?: string;
   date?: DateTime.ValueType;
-  lien?: {
-    url: string;
-    type: TypeDeLien;
-  };
+  lien?: LienNouveauté;
 };
 
 export type ListerNouveautésReadModel = {

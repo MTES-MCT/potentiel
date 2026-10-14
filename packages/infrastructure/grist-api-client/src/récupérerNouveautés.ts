@@ -33,7 +33,7 @@ export const récupérerNouveautés: Nouveautés.RécupérerNouveautésPort = as
       return [];
     }
 
-    const { Titre, Description, Date: timestamp, Roles, Lien, Type_de_lien } = parsedFields.data;
+    const { Titre, Description, Date: timestamp, Roles, lien } = parsedFields.data;
 
     return [
       {
@@ -43,7 +43,7 @@ export const récupérerNouveautés: Nouveautés.RécupérerNouveautésPort = as
           ? DateTime.convertirEnValueType(new Date(timestamp * 1000)).formatter()
           : undefined,
         rôles: Roles,
-        lien: Lien ? { url: Lien, type: Type_de_lien } : undefined,
+        lien,
       },
     ];
   });
