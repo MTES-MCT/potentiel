@@ -15,10 +15,10 @@ export const DemandesSection = () =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
       const autorité = utilisateur.estDreal() ? 'dreal' : 'dgec';
-      const nombreDemandesEnInstruction = await getNombreDemandesEnInstruction({
-        utilisateur: utilisateur.identifiantUtilisateur.email,
-        rôle: autorité,
-      });
+      const nombreDemandesEnInstruction = await getNombreDemandesEnInstruction(
+        utilisateur.identifiantUtilisateur.email,
+        autorité,
+      );
 
       const { avecNouvellesDemandes, sansNouvellesDemandes } = await mapDemandesToDemandesDétails(
         nombreDemandesEnInstruction,

@@ -3,7 +3,7 @@ import type { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
-import type { Role } from '@potentiel-domain/utilisateur';
+import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { getNombreDemandesEnInstruction } from '@/app/_helpers/getNombreDemandesEnInstruction';
@@ -14,14 +14,7 @@ import { getDemandesLinks } from './getDemandesLinks';
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
 
-  const nombreDemandesEnInstruction = utilisateur?.estAdministration()
-    ? await getNombreDemandesEnInstruction({
-        utilisateur: utilisateur.identifiantUtilisateur.email,
-        rôle: utilisateur.rôle.estDreal() ? 'dreal' : 'dgec',
-      })
-    : [];
-
-  const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
+  const navigationItems = utilisateur ? await getNavigationItemsBasedOnRole(utilisateur) : [];
 
   return <NavLinks items={navigationItems} />;
 }
@@ -48,7 +41,10 @@ const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuPro
       },
     }));
 
-export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType }) => {
+const getNavigationItemsBasedOnRole = async ({
+  rôle,
+  identifiantUtilisateur,
+}: Utilisateur.ValueType) => {
   const projetMenuLinks: Array<MenuItem> = [
     {
       label: 'Lauréats',
@@ -62,7 +58,7 @@ export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType
     },
   ];
 
-  const toutesDemandesMenuLinks: Array<MenuItem> = getDemandesLinks({
+  const toutesDemandesMenuLinks = getDemandesLinks({
     estPorteur: rôle.estPorteur(),
     autorité: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
     keys: [
@@ -79,6 +75,24 @@ export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType
       'recours',
       'représentantLégal',
     ],
+  });
+
+  const demandesEnInstruction = rôle.estAdministration()
+    ? await getNombreDemandesEnInstruction(
+        identifiantUtilisateur.email,
+        rôle.estDreal() ? 'dreal' : 'dgec',
+      )
+    : [];
+
+  const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = toutesDemandesMenuLinks.map((menuItem) => {
+    const demande = demandesEnInstruction.find((demande) => demande.domain === menuItem.domaine);
+
+    return demande?.total
+      ? {
+          ...menuItem,
+          label: `${menuItem.label} | ${demande.total} demande${demande.total > 1 ? 's' : ''}`,
+        }
+      : menuItem;
   });
 
   const garantiesFinancièresMenuLinks: Array<MenuItem> = [
@@ -203,7 +217,7 @@ export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType
     },
     {
       text: 'Demandes',
-      menuLinks: mapToMenuProps(toutesDemandesMenuLinks, rôle),
+      menuLinks: mapToMenuProps(toutesDemandesMenuLinksÉtoffé, rôle),
     },
     {
       text: 'Garanties Financières',
