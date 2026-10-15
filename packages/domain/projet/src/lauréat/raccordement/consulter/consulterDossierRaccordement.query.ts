@@ -33,6 +33,7 @@ export type ConsulterDossierRaccordementReadModel = {
   };
   dateMiseEnService?: DateTime.ValueType;
   miseÀJourLe: DateTime.ValueType;
+  estComplet: boolean;
 };
 
 export type ConsulterDossierRaccordementQuery = Message<
@@ -159,5 +160,9 @@ export const mapToReadModel = ({
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,
     miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
+    estComplet: !!(
+      conventionDeRaccordementDirecte ||
+      (conventionDeRaccordement && propositionTechniqueEtFinancière)
+    ),
   };
 };

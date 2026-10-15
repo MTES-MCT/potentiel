@@ -55,18 +55,11 @@ type DossierProps = {
   dossier: PlainType<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel>;
 };
 
-const Dossier = ({ dossier }: DossierProps) => {
-  const estComplet = !!(
-    (dossier.propositionTechniqueEtFinancière && dossier.conventionDeRaccordement) ||
-    dossier.conventionDeRaccordementDirecte
-  );
-
-  return (
-    <div className="flex items-center gap-2">
-      <BadgeDossierRaccordement estComplet={estComplet} />
-      <div>
-        Dossier <strong>{dossier.référence.référence}</strong>
-      </div>
+const Dossier = ({ dossier }: DossierProps) => (
+  <div className="flex items-center gap-2">
+    <BadgeDossierRaccordement estComplet={dossier.estComplet} />
+    <div>
+      Dossier <strong>{dossier.référence.référence}</strong>
     </div>
-  );
-};
+  </div>
+);
