@@ -6,11 +6,11 @@ import type { Role } from '@potentiel-domain/utilisateur';
 
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getRaccordement } from '../../../../_helpers';
 import {
   type DossierEtape,
   DossierRaccordement,
 } from '../../(dossier-de-raccordement)/components/DossierRaccordement';
-import { getRaccordement } from '../../../../_helpers';
 import {
   getDemandeComplèteDeRaccordementActions,
   getDocumentActions,
