@@ -64,15 +64,7 @@ export const DossiersRaccordementSection = ({
                   estAchevé: estProjetAchevé,
                   dossierEstEnService: !!dossier.dateMiseEnService?.date,
                 })}
-                estComplet={
-                  !!(
-                    (dossier.propositionTechniqueEtFinancière &&
-                      dossier.conventionDeRaccordement) ||
-                    dossier.conventionDeRaccordementDirecte ||
-                    dossier.dateMiseEnService ||
-                    estProjetAchevé
-                  )
-                }
+                estComplet={dossier.estComplet}
                 référence={dossier.référence.formatter()}
                 identifiantProjet={identifiantProjetValue}
               />

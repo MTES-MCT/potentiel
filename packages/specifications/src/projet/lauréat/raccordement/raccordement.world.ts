@@ -46,6 +46,24 @@ export class RaccordementWorld {
         this.identifiantGestionnaireRéseau,
       );
 
+    const propositionTechniqueEtFinancière = this.documentRaccordement.mapToExpected(
+      Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
+      this.lauréatWorld.identifiantProjet.formatter(),
+      nouvelleRéférenceDossier,
+    );
+
+    const conventionDeRaccordement = this.documentRaccordement.mapToExpected(
+      Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordement.type,
+      this.lauréatWorld.identifiantProjet.formatter(),
+      nouvelleRéférenceDossier,
+    );
+
+    const conventionDeRaccordementDirecte = this.documentRaccordement.mapToExpected(
+      Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
+      this.lauréatWorld.identifiantProjet.formatter(),
+      nouvelleRéférenceDossier,
+    );
+
     const dossier = {
       identifiantProjet: this.lauréatWorld.identifiantProjet,
       identifiantGestionnaireRéseau,
@@ -58,20 +76,12 @@ export class RaccordementWorld {
       dateMiseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
         ? this.dateMiseEnService.modifierFixture.mapToExpected()
         : this.dateMiseEnService.transmettreFixture.mapToExpected(),
-      propositionTechniqueEtFinancière: this.documentRaccordement.mapToExpected(
-        Lauréat.Raccordement.TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
-        this.lauréatWorld.identifiantProjet.formatter(),
-        nouvelleRéférenceDossier,
-      ),
-      conventionDeRaccordement: this.documentRaccordement.mapToExpected(
-        Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordement.type,
-        this.lauréatWorld.identifiantProjet.formatter(),
-        nouvelleRéférenceDossier,
-      ),
-      conventionDirectDeRaccordement: this.documentRaccordement.mapToExpected(
-        Lauréat.Raccordement.TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
-        this.lauréatWorld.identifiantProjet.formatter(),
-        nouvelleRéférenceDossier,
+      propositionTechniqueEtFinancière,
+      conventionDeRaccordement,
+      conventionDeRaccordementDirecte,
+      estComplet: !!(
+        conventionDeRaccordementDirecte ||
+        (propositionTechniqueEtFinancière && conventionDeRaccordement)
       ),
     };
 
