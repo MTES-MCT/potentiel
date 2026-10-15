@@ -3,12 +3,13 @@ import type { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
-import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
 import { getDemandesLinks } from './getDemandesLinks';
+
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
 
@@ -39,7 +40,7 @@ const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuPro
       },
     }));
 
-const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
+export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType }) => {
   const projetMenuLinks: Array<MenuItem> = [
     {
       label: 'Lauréats',

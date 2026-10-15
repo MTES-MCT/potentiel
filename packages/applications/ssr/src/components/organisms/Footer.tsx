@@ -11,11 +11,7 @@ export const Footer = () => (
       title: "Retour à l'accueil",
     }}
     accessibility="non compliant"
-    accessibilityLinkProps={{
-      href: `https://docs.potentiel.beta.gouv.fr/declaration-daccessibilite`,
-      target: '_blank',
-      'aria-label': `déclaration d'accessibilité - nouvel onglet`,
-    }}
+    accessibilityLinkProps={accessibility.linkProps}
     contentDescription={
       <>
         Suivez efficacement vos projets :
@@ -23,51 +19,73 @@ export const Footer = () => (
         Transmettez vos documents, demandez des modifications.
       </>
     }
-    termsLinkProps={{
-      href: 'https://docs.potentiel.beta.gouv.fr/info/cgu',
-      target: '_blank',
-      'aria-label': `mentions légales - nouvel onglet`,
+    termsLinkProps={terms.linkProps}
+    websiteMapLinkProps={{
+      href: 'plan-du-site',
+      'aria-label': `plan du site potentiel`,
     }}
-    bottomItems={[
-      {
-        text: "Conditions générales d'utilisation",
-        linkProps: {
-          href: 'https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation',
-          target: '_blank',
-          'aria-label': `conditions générales d'utilisation - nouvel onglet`,
-        },
-      },
-      {
-        text: 'Politique de confidentialité',
-        linkProps: {
-          href: 'https://docs.potentiel.beta.gouv.fr/info/vie-privee-et-politique-de-confidentialite',
-          target: '_blank',
-          'aria-label': `politique de confidentialité - nouvel onglet`,
-        },
-      },
-      {
-        text: "Guide d'utilisation",
-        linkProps: {
-          href: 'https://docs.potentiel.beta.gouv.fr/',
-          target: '_blank',
-          'aria-label': `guide d'utilisation - nouvel onglet`,
-        },
-      },
-      {
-        text: 'Statistiques',
-        linkProps: {
-          href: Routes.StatistiquesPubliques.consulter,
-          prefetch: false,
-        },
-      },
-      {
-        text: 'Jeu de données',
-        linkProps: {
-          href: 'https://www.data.gouv.fr/datasets/projets-denergies-renouvelables-soumis-a-appel-doffres-en-france',
-          target: '_blank',
-          'aria-label': `jeu de données sur data.gouv - nouvel onglet`,
-        },
-      },
-    ]}
+    bottomItems={bottomFooterLinks}
   />
 );
+
+const accessibility = {
+  text: 'Accessibilité',
+  linkProps: {
+    href: `https://docs.potentiel.beta.gouv.fr/declaration-daccessibilite`,
+    target: '_blank',
+    'aria-label': `déclaration d'accessibilité - nouvel onglet`,
+  },
+};
+
+const terms = {
+  text: 'Mentions légales',
+  linkProps: {
+    href: 'https://docs.potentiel.beta.gouv.fr/info/cgu',
+    target: '_blank',
+    'aria-label': `mentions légales - nouvel onglet`,
+  },
+};
+
+const bottomFooterLinks = [
+  {
+    text: "Conditions générales d'utilisation",
+    linkProps: {
+      href: 'https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation',
+      target: '_blank',
+      'aria-label': `conditions générales d'utilisation - nouvel onglet`,
+    },
+  },
+  {
+    text: 'Politique de confidentialité',
+    linkProps: {
+      href: 'https://docs.potentiel.beta.gouv.fr/info/vie-privee-et-politique-de-confidentialite',
+      target: '_blank',
+      'aria-label': `politique de confidentialité - nouvel onglet`,
+    },
+  },
+  {
+    text: "Guide d'utilisation",
+    linkProps: {
+      href: 'https://docs.potentiel.beta.gouv.fr/',
+      target: '_blank',
+      'aria-label': `guide d'utilisation - nouvel onglet`,
+    },
+  },
+  {
+    text: 'Statistiques',
+    linkProps: {
+      href: Routes.StatistiquesPubliques.consulter,
+      prefetch: false,
+    },
+  },
+  {
+    text: 'Jeu de données',
+    linkProps: {
+      href: 'https://www.data.gouv.fr/datasets/projets-denergies-renouvelables-soumis-a-appel-doffres-en-france',
+      target: '_blank',
+      'aria-label': `jeu de données sur data.gouv - nouvel onglet`,
+    },
+  },
+];
+
+export const footerLinks = [accessibility, terms, ...bottomFooterLinks];
