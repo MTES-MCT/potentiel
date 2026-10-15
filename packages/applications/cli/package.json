@@ -37,8 +37,8 @@
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/dn-api-client": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/ore-client": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
@@ -48,7 +48,6 @@
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-statistiques/statistiques-publiques": "*",
     "mediateur": "0.3.0",
-    "pdfjs-dist": "^6.0.227",
     "winston": "^3.19.0",
     "zod": "4.1.9"
   },
