@@ -7,6 +7,7 @@ export * from './getHistoriqueAbandon.js';
 export * from './getLocalité.js';
 export * from './getNatureDeLExploitation.js';
 export * from './getRaccordements.js';
+export * from './getTechnologie.js';
 export * from './getTypeActionnariat.js';
 export * from './getTypeGarantiesFinancières.js';
 export * from './getTypeNatureDeLExploitation.js';
