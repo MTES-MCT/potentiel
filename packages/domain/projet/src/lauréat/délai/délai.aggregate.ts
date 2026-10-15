@@ -204,6 +204,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     réponseSignée,
     nombreDeMois,
     rôleUtilisateur,
+    motif,
   }: AccorderDemandeDélaiOptions) {
     if (!this.#demande) {
       throw new DemandeDeDélaiInexistanteError();
@@ -211,8 +212,6 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
-
-    const motif = this.#demande.motif;
 
     const dateAchèvementPrévisionnelCalculée = motif.estProlongationPhaseEssai()
       ? this.parent.achèvement.dateAchèvementPrévisionnel.formatter()

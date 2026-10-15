@@ -12,6 +12,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
+import { getMotifDemandeDélaiLabel } from '../_helpers/getMotifDemandeDélaiLabel';
 import { InfoBoxDateAchèvementPrévisionnel } from '../InfoBoxDateAchèvementPrévisionnel';
 import { InfoBoxDemandeDélai } from '../InfoBoxDemandeDélai';
 import { type DemanderDélaiFormKeys, demanderDélaiAction } from './DemanderDélai.action';
@@ -29,7 +30,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
     dateAchèvementPrévisionnelActuelle,
   );
 
-  const [motif, setMotif] = useState<Lauréat.Délai.MotifDemandeDélai.ValueType>();
+  const [motif, setMotif] = useState<Lauréat.Délai.MotifDemandeDélai.RawType>();
 
   const [nouvelleDate, setNouvelleDate] = useState<DateTime.ValueType>(dateActuelle.dateTime);
 
@@ -72,22 +73,15 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
               nativeSelectProps={{
                 name: 'motif',
                 required: true,
-                value: motif?.motif,
-                onChange: (e) =>
-                  setMotif(Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(e.target.value)),
+                value: motif,
+                onChange: (e) => setMotif(e.target.value),
                 'aria-required': true,
               }}
               placeholder="Choisir un motif"
-              options={[
-                {
-                  label: 'Force majeur',
-                  value: Lauréat.Délai.MotifDemandeDélai.forceMajeure.motif,
-                },
-                {
-                  label: `Prolongation de phase d'essai`,
-                  value: Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.motif,
-                },
-              ]}
+              options={Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
+                value: motif,
+                label: getMotifDemandeDélaiLabel(motif),
+              }))}
             />
             <Input
               label="Durée du délai"
@@ -141,7 +135,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
         </Form>
       </div>
       <div className="flex-1 flex flex-col gap-8 mt-42">
-        {motif && <InfoBoxDemandeDélai motif={motif.motif} className="md:mt-32" />}
+        {motif && <InfoBoxDemandeDélai motif={motif} className="md:mt-32" />}
       </div>
     </div>
   );
