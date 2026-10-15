@@ -14,7 +14,9 @@ import { getDemandesLinks } from './getDemandesLinks';
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
 
-  const navigationItems = utilisateur ? await getNavigationItemsBasedOnRole(utilisateur) : [];
+  const navigationItems = utilisateur
+    ? await getNavigationItemsBasedOnRole({ utilisateur, showNombreDemande: true })
+    : [];
 
   return <NavLinks items={navigationItems} />;
 }
@@ -41,10 +43,17 @@ const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuPro
       },
     }));
 
-const getNavigationItemsBasedOnRole = async ({
-  rôle,
-  identifiantUtilisateur,
-}: Utilisateur.ValueType) => {
+type GetNavigationItemsBasedOnRoleProps = {
+  utilisateur: Utilisateur.ValueType;
+  showNombreDemande: boolean;
+};
+
+export const getNavigationItemsBasedOnRole = async ({
+  utilisateur,
+  showNombreDemande,
+}: GetNavigationItemsBasedOnRoleProps) => {
+  const { rôle, identifiantUtilisateur } = utilisateur;
+
   const projetMenuLinks: Array<MenuItem> = [
     {
       label: 'Lauréats',
@@ -77,12 +86,13 @@ const getNavigationItemsBasedOnRole = async ({
     ],
   });
 
-  const demandesEnInstruction = rôle.estAdministration()
-    ? await getNombreDemandesEnInstruction(
-        identifiantUtilisateur.email,
-        rôle.estDreal() ? 'dreal' : 'dgec',
-      )
-    : [];
+  const demandesEnInstruction =
+    showNombreDemande && rôle.estAdministration()
+      ? await getNombreDemandesEnInstruction(
+          identifiantUtilisateur.email,
+          rôle.estDreal() ? 'dreal' : 'dgec',
+        )
+      : [];
 
   const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = toutesDemandesMenuLinks.map((menuItem) => {
     const demande = demandesEnInstruction.find((demande) => demande.domain === menuItem.domaine);
