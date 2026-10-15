@@ -20,8 +20,8 @@ export const DétailsDemandeDélai: FC<DétailsDemandeDélaiProps> = ({ demande 
   <div className="flex flex-col gap-4">
     <Heading2>Détail de la demande</Heading2>
     <div className="flex flex-col gap-2">
-      {demande.accord && <DemandeAccordée accord={demande.accord} />}
-      {demande.rejet && <DemandeRejetée rejet={demande.rejet} />}
+      {demande.accord && <DemandeAccordée accord={demande.accord} motif={demande.motif} />}
+      {demande.rejet && <DemandeRejetée rejet={demande.rejet} motif={demande.motif} />}
       {Lauréat.Délai.StatutDemandeDélai.convertirEnValueType(
         demande.statut.statut,
       ).estEnCours() && <DemandeEnCours demande={demande} />}
@@ -103,10 +103,12 @@ const DemandeEnCours: FC<DemandeProps> = ({
 );
 
 type DemandeAccordéeProps = {
+  motif: PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['motif'];
   accord: NonNullable<PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['accord']>;
 };
 
 const DemandeAccordée: FC<DemandeAccordéeProps> = ({
+  motif,
   accord: {
     dateAchèvementPrévisionnelCalculée,
     nombreDeMois,
@@ -120,6 +122,10 @@ const DemandeAccordée: FC<DemandeAccordéeProps> = ({
       Accordée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(accordéePar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Motif :</div>
+      <div>{getMotifDemandeDélaiLabel(motif.motif)}</div>
     </div>
     <div className="flex flex-col gap-1">
       <div className="flex gap-2">
@@ -146,10 +152,12 @@ const DemandeAccordée: FC<DemandeAccordéeProps> = ({
 );
 
 type DemandeRejetéeProps = {
+  motif: PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['motif'];
   rejet: NonNullable<PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['rejet']>;
 };
 
 const DemandeRejetée: FC<DemandeRejetéeProps> = ({
+  motif,
   rejet: { rejetéeLe, rejetéePar, réponseSignée },
 }) => (
   <div className="flex flex-col gap-2">
@@ -157,6 +165,10 @@ const DemandeRejetée: FC<DemandeRejetéeProps> = ({
       Rejetée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(rejetéePar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Motif :</div>
+      <div>{getMotifDemandeDélaiLabel(motif.motif)}</div>
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
