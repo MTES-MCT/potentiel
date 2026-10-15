@@ -24,6 +24,7 @@ type AccorderDemandeDélaiFormProps = {
   dateDemande: DateTime.RawType;
   dateAchèvementPrévisionnelActuelle: PlainType<Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType>;
   nombreDeMois: number;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
 };
 
 export const AccorderDemandeDélaiForm = ({
@@ -31,6 +32,7 @@ export const AccorderDemandeDélaiForm = ({
   dateDemande,
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
+  motif,
 }: AccorderDemandeDélaiFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderDemandeDélaiFormKeys>
@@ -43,7 +45,9 @@ export const AccorderDemandeDélaiForm = ({
 
   const [nouvelleDate, setNouvelleDate] = useState(dateActuelle.ajouterDélai(nombreDeMois));
 
-  const laNouvelleDateEstValide = () => nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime);
+  const afficherNouvelleDateAchèvement =
+    nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime) &&
+    !Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).estProlongationPhaseEssai();
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
     const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);
@@ -97,7 +101,7 @@ export const AccorderDemandeDélaiForm = ({
                   state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
                   stateRelatedMessage={validationErrors['nombreDeMois']}
                 />
-                {laNouvelleDateEstValide() && (
+                {afficherNouvelleDateAchèvement && (
                   <div>
                     Après accord de votre demande de délai, la date d'achèvement prévisionnel serait
                     le <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
