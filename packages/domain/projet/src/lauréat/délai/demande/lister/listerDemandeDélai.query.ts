@@ -5,7 +5,7 @@ import { type Joined, type List, type RangeOptions, Where } from '@potentiel-dom
 
 import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import type { LauréatEntity } from '../../../lauréat.entity.js';
-import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
+import { AutoritéCompétente, MotifDemandeDélai, StatutDemandeDélai } from '../../index.js';
 import type { DemandeDélaiEntity } from '../demandeDélai.entity.js';
 
 type DemandeDélaiItemReadModel = {
@@ -16,6 +16,7 @@ type DemandeDélaiItemReadModel = {
   demandéLe: DateTime.ValueType;
   nombreDeMois: number;
   autoritéCompétente?: AutoritéCompétente.ValueType;
+  motif: MotifDemandeDélai.ValueType;
 };
 
 export type ListerDemandeDélaiReadModel = {
@@ -99,7 +100,7 @@ const mapToReadModel = ({
   statut,
   miseÀJourLe,
   autoritéCompétente,
-  demande: { demandéLe, nombreDeMois },
+  demande: { demandéLe, nombreDeMois, motif },
   lauréat: { nomProjet },
 }: DemandeDélaiEntity & Joined<LauréatEntity>): DemandeDélaiItemReadModel => ({
   nomProjet,
@@ -111,4 +112,5 @@ const mapToReadModel = ({
   autoritéCompétente: autoritéCompétente
     ? AutoritéCompétente.convertirEnValueType(autoritéCompétente)
     : undefined,
+  motif: MotifDemandeDélai.convertirEnValueType(motif),
 });
