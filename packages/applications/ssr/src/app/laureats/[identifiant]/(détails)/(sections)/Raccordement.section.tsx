@@ -74,11 +74,7 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
 
       return (
         <Section title={sectionTitle}>
-          <RaccordementDétails
-            raccordement={{ value, action }}
-            alertes={alertes}
-            estAchevé={lauréat.statut.estAchevé()}
-          />
+          <RaccordementDétails raccordement={{ value, action }} alertes={alertes} />
         </Section>
       );
     }),

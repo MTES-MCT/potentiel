@@ -68,9 +68,7 @@ export const DossiersRaccordementSection = ({
                   !!(
                     (dossier.propositionTechniqueEtFinancière &&
                       dossier.conventionDeRaccordement) ||
-                    dossier.conventionDeRaccordementDirecte ||
-                    dossier.dateMiseEnService ||
-                    estProjetAchevé
+                    dossier.conventionDeRaccordementDirecte
                   )
                 }
                 référence={dossier.référence.formatter()}
