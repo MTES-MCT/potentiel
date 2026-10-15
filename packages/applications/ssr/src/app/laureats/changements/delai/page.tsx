@@ -113,6 +113,7 @@ const mapToListProps = (
       demandéLe,
       nombreDeMois,
       autoritéCompétente,
+      motif,
     }) => ({
       identifiantProjet: mapToPlainObject(identifiantProjet),
       nomProjet,
@@ -121,6 +122,7 @@ const mapToListProps = (
       demandéLe: mapToPlainObject(demandéLe),
       nombreDeMois,
       autoritéCompétente: mapToPlainObject(autoritéCompétente),
+      motif,
     }),
   ),
   pagination: mapToPagination(changements.range),
