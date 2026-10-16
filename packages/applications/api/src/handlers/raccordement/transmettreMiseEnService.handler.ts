@@ -14,7 +14,7 @@ export const transmettreDateMiseEnServiceHandler: Raccordement['transmettreMiseE
 ) => {
   const utilisateur = getUtilisateur();
 
-  const { dateMiseEnService } = validate('MiseEnServiceBody', body);
+  const { dateMiseEnService } = validate('Raccordement.MiseEnServiceBody', body);
 
   await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
     type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
