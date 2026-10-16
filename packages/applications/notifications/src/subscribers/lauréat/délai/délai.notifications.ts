@@ -22,7 +22,10 @@ export const registerDélaiNotifications = () => {
       .with({ type: P.union('DélaiDemandé-V1', 'DélaiDemandé-V2') }, handleDélaiDemandé)
       .with({ type: 'DemandeDélaiAnnulée-V1' }, handleDemandeDélaiAnnulée)
       .with({ type: 'DemandeDélaiRejetée-V1' }, handleDemandeDélaiRejetée)
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, handleDemandeDélaiCorrigée)
+      .with(
+        { type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2') },
+        handleDemandeDélaiCorrigée,
+      )
       .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, handleDemandeDélaiPasséeEnInstruction)
       .with({ type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2') }, handleDemandeDélaiAccordée)
       .with({ type: 'DemandeDélaiSupprimée-V1' }, () => Promise.resolve())

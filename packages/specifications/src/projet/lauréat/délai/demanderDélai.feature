@@ -16,7 +16,6 @@ Fonctionnalité: Demander un délai pour un projet lauréat
             | nom_projet | Du boulodrome de Marseille                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |
 
-    @select
     Scénario: Un porteur demande un délai pour prolongations de phase d'essai
         Quand le porteur demande un délai pour le projet lauréat avec :
             | motif | prolongation-phase-essai |

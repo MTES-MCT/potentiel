@@ -47,7 +47,6 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et une tâche "rappel échéance achèvement à un mois" est planifiée à la date du "2028-07-02" pour le projet lauréat
 
 
-    @select
     Scénario: Un délai pour prolongation de phase d'essai est accordé
         Etant donné une date d'achèvement prévisionnel pour le projet lauréat au "2024-05-01"
         Et une demande de délai en cours pour le projet lauréat avec :

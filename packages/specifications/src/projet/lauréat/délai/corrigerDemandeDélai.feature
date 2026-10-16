@@ -8,6 +8,7 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
         Et la dreal "Dreal du sud-est" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
+    @select
     Scénario: Un porteur corrige sa demande de délai
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur corrige la demande de délai pour le projet lauréat
