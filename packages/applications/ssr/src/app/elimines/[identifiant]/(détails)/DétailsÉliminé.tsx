@@ -4,6 +4,7 @@ import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { IdentifiantProjetSection } from '@/app/laureats/[identifiant]/(détails)/(sections)/IdentifiantProjet.section';
 import { SectionPage } from '@/components/atoms/section/SectionPage';
+import { CahierDesChargesSection } from './_sections/CahierDesCharges.section';
 import { ChiffresClésSection } from './_sections/ChiffresClés.section';
 import { DonnéesCandidatureSection } from './_sections/DonnéesCandidature.section';
 import { ÉtapesProjetSection } from './_sections/ÉtapesProjet.section';
@@ -20,6 +21,7 @@ export const DétailsÉliminéPage: FC<DétailsÉliminéPageProps> = ({ identifi
         <ChiffresClésSection identifiantProjet={identifiantProjet} />
       </div>
       <DonnéesCandidatureSection identifiantProjet={identifiantProjet} />
+      <CahierDesChargesSection identifiantProjet={identifiantProjet} />
       <IdentifiantProjetSection identifiantProjet={identifiantProjet} />
     </div>
   </SectionPage>
