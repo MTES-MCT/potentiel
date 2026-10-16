@@ -62,13 +62,10 @@ export default async function Page(props: PageProps) {
       return (
         <CorrigerDemandeDélaiPage
           identifiantProjet={identifiantProjet.formatter()}
-          dateDemande={demande.demandéLe.formatter()}
+          demande={mapToPlainObject(demande)}
           dateAchèvementPrévisionnelActuelle={mapToPlainObject(
             achèvement.dateAchèvementPrévisionnel,
           )}
-          nombreDeMois={demande.nombreDeMois}
-          raison={demande.raison}
-          pièceJustificative={demande.pièceJustificative.formatter()}
         />
       );
     }),
