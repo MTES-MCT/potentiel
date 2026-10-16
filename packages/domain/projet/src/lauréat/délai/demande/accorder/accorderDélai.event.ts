@@ -1,8 +1,8 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { DomainEvent } from '@potentiel-domain/core';
 
-import type { IdentifiantProjet } from '../../../index.js';
-import type { MotifDemandeDélai } from '../index.js';
+import type { IdentifiantProjet } from '../../../../index.js';
+import type { MotifDemandeDélai } from '../../index.js';
 
 /**
  * @deprecated Évènement déprécié, utiliser DélaiAccordéEvent-V2 à la place.

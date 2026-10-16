@@ -19,6 +19,7 @@ export const setupDélai = () => {
       'DélaiAccordé-V1',
       'DélaiAccordé-V2',
       'DemandeDélaiCorrigée-V1',
+      'DemandeDélaiCorrigée-V2',
       'DemandeDélaiSupprimée-V1',
     ],
     messageType: 'System.Projector.Lauréat.Délai',
@@ -33,7 +34,7 @@ export const setupDélai = () => {
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',
       'DélaiAccordé-V2',
-      'DemandeDélaiCorrigée-V1',
+      'DemandeDélaiCorrigée-V2',
     ],
     messageType: 'System.Notification.Lauréat.Délai',
   });
