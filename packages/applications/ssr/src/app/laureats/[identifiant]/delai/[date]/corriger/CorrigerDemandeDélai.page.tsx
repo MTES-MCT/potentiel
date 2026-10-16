@@ -12,10 +12,7 @@ export type CorrigerDemandeDélaiPageProps = CorrigerDemandeDélaiFormProps;
 export const CorrigerDemandeDélaiPage: FC<CorrigerDemandeDélaiPageProps> = ({
   identifiantProjet,
   dateAchèvementPrévisionnelActuelle,
-  dateDemande,
-  nombreDeMois,
-  pièceJustificative,
-  raison,
+  demande,
 }) => (
   <>
     <Heading1>Corriger la demande de délai</Heading1>
@@ -25,10 +22,7 @@ export const CorrigerDemandeDélaiPage: FC<CorrigerDemandeDélaiPageProps> = ({
     <CorrigerDemandeDélaiForm
       identifiantProjet={identifiantProjet}
       dateAchèvementPrévisionnelActuelle={dateAchèvementPrévisionnelActuelle}
-      dateDemande={dateDemande}
-      nombreDeMois={nombreDeMois}
-      pièceJustificative={pièceJustificative}
-      raison={raison}
+      demande={demande}
     />
   </>
 );
