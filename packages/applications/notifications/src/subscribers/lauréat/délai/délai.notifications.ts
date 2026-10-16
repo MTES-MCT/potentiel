@@ -1,5 +1,5 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
@@ -19,12 +19,15 @@ export type Execute = Message<'System.Notification.Lauréat.Délai', Subscriptio
 export const registerDélaiNotifications = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: 'DélaiDemandé-V1' }, handleDélaiDemandé)
+      .with({ type: P.union('DélaiDemandé-V1', 'DélaiDemandé-V2') }, handleDélaiDemandé)
       .with({ type: 'DemandeDélaiAnnulée-V1' }, handleDemandeDélaiAnnulée)
       .with({ type: 'DemandeDélaiRejetée-V1' }, handleDemandeDélaiRejetée)
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, handleDemandeDélaiCorrigée)
+      .with(
+        { type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2') },
+        handleDemandeDélaiCorrigée,
+      )
       .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, handleDemandeDélaiPasséeEnInstruction)
-      .with({ type: 'DélaiAccordé-V1' }, handleDemandeDélaiAccordée)
+      .with({ type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2') }, handleDemandeDélaiAccordée)
       .with({ type: 'DemandeDélaiSupprimée-V1' }, () => Promise.resolve())
       .exhaustive();
 

@@ -10,6 +10,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { getMotifDemandeDélaiLabel } from '../../[identifiant]/delai/_helpers/getMotifDemandeDélaiLabel';
 
 export type DemandeDélaiListItemProps = PlainType<
   Lauréat.Délai.ListerDemandeDélaiReadModel['items'][number]
@@ -22,6 +23,7 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
   miseÀJourLe,
   demandéLe,
   nombreDeMois,
+  motif,
 }) => (
   <ListItem
     miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
@@ -47,6 +49,11 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
     }
   >
     <ul className="text-sm">
+      <li>
+        <span>
+          Motif : <span className="font-semibold">{getMotifDemandeDélaiLabel(motif.motif)}</span>
+        </span>
+      </li>
       <li>
         <span>
           Délai demandé : <span className="font-semibold">{nombreDeMois} mois</span>

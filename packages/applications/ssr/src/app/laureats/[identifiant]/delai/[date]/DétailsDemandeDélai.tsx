@@ -11,6 +11,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { getMotifDemandeDélaiLabel } from '../_helpers/getMotifDemandeDélaiLabel';
 import type { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;
@@ -19,32 +20,11 @@ export const DétailsDemandeDélai: FC<DétailsDemandeDélaiProps> = ({ demande 
   <div className="flex flex-col gap-4">
     <Heading2>Détail de la demande</Heading2>
     <div className="flex flex-col gap-2">
-      {demande.accord && (
-        <DemandeAccordée
-          accordéeLe={demande.accord.accordéeLe}
-          accordéePar={demande.accord.accordéePar}
-          réponseSignée={demande.accord.réponseSignée}
-          dateAchèvementPrévisionnelCalculée={demande.accord.dateAchèvementPrévisionnelCalculée}
-          nombreDeMois={demande.nombreDeMois}
-        />
-      )}
-      {demande.rejet && (
-        <DemandeRejetée
-          rejetéeLe={demande.rejet.rejetéeLe}
-          rejetéePar={demande.rejet.rejetéePar}
-          réponseSignée={demande.rejet.réponseSignée}
-        />
-      )}
+      {demande.accord && <DemandeAccordée accord={demande.accord} motif={demande.motif} />}
+      {demande.rejet && <DemandeRejetée rejet={demande.rejet} motif={demande.motif} />}
       {Lauréat.Délai.StatutDemandeDélai.convertirEnValueType(
         demande.statut.statut,
-      ).estEnCours() && (
-        <Demande
-          demandéLe={demande.demandéLe}
-          demandéPar={demande.demandéPar}
-          nombreDeMois={demande.nombreDeMois}
-          statut={demande.statut}
-        />
-      )}
+      ).estEnCours() && <DemandeEnCours demande={demande} />}
       <DemandeCommune
         raison={demande.raison}
         pièceJustificative={demande.pièceJustificative}
@@ -96,17 +76,22 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
   </div>
 );
 
-type DemandeProps = Pick<
-  PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>,
-  'demandéLe' | 'demandéPar' | 'nombreDeMois' | 'statut'
->;
+type DemandeProps = {
+  demande: PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>;
+};
 
-const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois }) => (
+const DemandeEnCours: FC<DemandeProps> = ({
+  demande: { demandéLe, demandéPar, nombreDeMois, motif },
+}) => (
   <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Demandé le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
       <DisplayAuteur email={Email.bind(demandéPar)} />
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Motif :</div>
+      <div>{getMotifDemandeDélaiLabel(motif.motif)}</div>
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">
@@ -117,22 +102,30 @@ const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois }) =>
   </div>
 );
 
-type DemandeAccordéeProps = NonNullable<
-  PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['accord']
->;
+type DemandeAccordéeProps = {
+  motif: PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['motif'];
+  accord: NonNullable<PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['accord']>;
+};
 
 const DemandeAccordée: FC<DemandeAccordéeProps> = ({
-  dateAchèvementPrévisionnelCalculée,
-  nombreDeMois,
-  accordéeLe,
-  accordéePar,
-  réponseSignée,
+  motif,
+  accord: {
+    dateAchèvementPrévisionnelCalculée,
+    nombreDeMois,
+    accordéeLe,
+    accordéePar,
+    réponseSignée,
+  },
 }) => (
   <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Accordée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(accordéePar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Motif :</div>
+      <div>{getMotifDemandeDélaiLabel(motif.motif)}</div>
     </div>
     <div className="flex flex-col gap-1">
       <div className="flex gap-2">
@@ -158,16 +151,24 @@ const DemandeAccordée: FC<DemandeAccordéeProps> = ({
   </div>
 );
 
-type DemandeRejetéeProps = NonNullable<
-  PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['rejet']
->;
+type DemandeRejetéeProps = {
+  motif: PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['motif'];
+  rejet: NonNullable<PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>['rejet']>;
+};
 
-const DemandeRejetée: FC<DemandeRejetéeProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
+const DemandeRejetée: FC<DemandeRejetéeProps> = ({
+  motif,
+  rejet: { rejetéeLe, rejetéePar, réponseSignée },
+}) => (
   <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Rejetée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(rejetéePar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Motif :</div>
+      <div>{getMotifDemandeDélaiLabel(motif.motif)}</div>
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

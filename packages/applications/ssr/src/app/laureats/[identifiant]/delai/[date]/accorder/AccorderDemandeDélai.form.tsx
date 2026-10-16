@@ -2,6 +2,7 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -14,6 +15,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
+import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
 import {
   type AccorderDemandeDélaiFormKeys,
   accorderDemandeDélaiAction,
@@ -24,6 +26,7 @@ type AccorderDemandeDélaiFormProps = {
   dateDemande: DateTime.RawType;
   dateAchèvementPrévisionnelActuelle: PlainType<Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType>;
   nombreDeMois: number;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
 };
 
 export const AccorderDemandeDélaiForm = ({
@@ -31,6 +34,7 @@ export const AccorderDemandeDélaiForm = ({
   dateDemande,
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
+  motif,
 }: AccorderDemandeDélaiFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderDemandeDélaiFormKeys>
@@ -42,8 +46,11 @@ export const AccorderDemandeDélaiForm = ({
   );
 
   const [nouvelleDate, setNouvelleDate] = useState(dateActuelle.ajouterDélai(nombreDeMois));
+  const [nouveauMotif, setNouveauMotif] = useState<Lauréat.Délai.MotifDemandeDélai.RawType>(motif);
 
-  const laNouvelleDateEstValide = () => nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime);
+  const afficherNouvelleDateAchèvement =
+    nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime) &&
+    !Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(nouveauMotif).estProlongationPhaseEssai();
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
     const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);
@@ -65,7 +72,9 @@ export const AccorderDemandeDélaiForm = ({
         id="accorder-demande-délai"
         title="Accorder la demande de délai"
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={() => {
+          setIsOpen(false);
+        }}
         form={{
           action: accorderDemandeDélaiAction,
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
@@ -79,6 +88,25 @@ export const AccorderDemandeDélaiForm = ({
               <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <div>
+                <Select
+                  state={validationErrors['motif'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['motif']}
+                  id="motif"
+                  label="Motif de la demande de délai"
+                  className="w-fit"
+                  nativeSelectProps={{
+                    name: 'motif',
+                    required: true,
+                    value: nouveauMotif,
+                    onChange: (e) => setNouveauMotif(e.target.value),
+                    'aria-required': true,
+                  }}
+                  placeholder="Choisir un motif"
+                  options={Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
+                    value: motif,
+                    label: getMotifDemandeDélaiLabel(motif),
+                  }))}
+                />
                 <Input
                   label="Durée du délai"
                   hintText="Veuillez saisir une durée de délai en mois, d'au minimum 1 mois"
@@ -97,7 +125,7 @@ export const AccorderDemandeDélaiForm = ({
                   state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
                   stateRelatedMessage={validationErrors['nombreDeMois']}
                 />
-                {laNouvelleDateEstValide() && (
+                {afficherNouvelleDateAchèvement && (
                   <div>
                     Après accord de votre demande de délai, la date d'achèvement prévisionnel serait
                     le <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />

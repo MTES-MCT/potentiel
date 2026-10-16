@@ -4,7 +4,7 @@ import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDélaiAccordéTimelineItemProps = (
-  event: Lauréat.Délai.DélaiAccordéEvent,
+  event: Lauréat.Délai.DélaiAccordéEvent | Lauréat.Délai.DélaiAccordéEventV1,
 ): TimelineItemProps => {
   const { accordéPar, accordéLe, nombreDeMois } = event.payload;
 
