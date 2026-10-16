@@ -4,11 +4,13 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 import Tile, { type TileProps } from '@codegouvfr/react-dsfr/Tile';
 import type { ReactNode } from 'react';
 
+import type { ProfilAuthentification } from '@/auth/profilAuthentification';
 import { ProfilesBadge } from './ProfilesBadge';
 
 export type ProviderProps = {
   isLastUsed?: boolean;
   isKO: boolean;
+  profils: Record<ProfilAuthentification, boolean>;
 };
 
 type AuthTileProps = {
@@ -16,18 +18,10 @@ type AuthTileProps = {
   description?: ReactNode;
   action?: TileProps['detail'];
   className?: string;
-  profiles: Record<'porteurs' | 'agents' | 'autres', boolean>;
   provider: ProviderProps;
 };
 
-export function AuthTile({
-  title,
-  provider,
-  description,
-  action,
-  className,
-  profiles,
-}: AuthTileProps) {
+export function AuthTile({ title, provider, description, action, className }: AuthTileProps) {
   return (
     <Tile
       disabled={provider.isKO}
@@ -46,10 +40,10 @@ export function AuthTile({
       desc={
         <>
           <ProfilesBadge
-            profiles={{
-              'Porteurs de Projet': profiles.porteurs,
-              'Agents publics': profiles.agents,
-              'Autres Partenaires*': profiles.autres,
+            profils={{
+              'Porteurs de Projet': provider.profils.porteurs,
+              'Agents publics': provider.profils.agents,
+              'Autres Partenaires*': provider.profils.partenaires,
             }}
             title="Profils pouvant se connecter avec ProConnect, la solution d'identité de l'État pour les professionnels"
           />
