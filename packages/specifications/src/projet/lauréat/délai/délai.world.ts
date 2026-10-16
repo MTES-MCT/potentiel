@@ -72,7 +72,9 @@ export class DélaiWorld {
       throw new Error(`Appel d'offre non trouvée dans DélaiWorld`);
     }
     const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-      this.#demanderDélaiFixture.motif,
+      this.#corrigerDemandeDélaiFixture.aÉtéCréé
+        ? this.#corrigerDemandeDélaiFixture.motif
+        : this.#demanderDélaiFixture.motif,
     );
 
     const expected: Lauréat.Délai.ConsulterDemandeDélaiReadModel = {
