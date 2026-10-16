@@ -1,6 +1,12 @@
-import type { DélaiAccordéEvent, DélaiAccordéEventV1 } from './accorder/accorderDélai.event.js';
+import type {
+  DélaiAccordéEvent,
+  DélaiAccordéEventV1,
+} from './demande/accorder/accorderDélai.event.js';
 import type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
-import type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
+import type {
+  DemandeDélaiCorrigéeEvent,
+  DemandeDélaiCorrigéeEventV1,
+} from './demande/corriger/corrigerDemandeDélai.event.js';
 import type {
   DélaiDemandéEvent,
   DélaiDemandéEventV1,
@@ -18,4 +24,18 @@ export type DélaiEvent =
   | DemandeDélaiPasséeEnInstructionEvent
   | DemandeDélaiRejetéeEvent
   | DemandeDélaiCorrigéeEvent
+  | DemandeDélaiCorrigéeEventV1
   | DemandeDélaiSuppriméeEvent;
+
+export type {
+  DemandeDélaiAnnuléeEvent,
+  DemandeDélaiCorrigéeEvent,
+  DemandeDélaiCorrigéeEventV1,
+  DemandeDélaiPasséeEnInstructionEvent,
+  DemandeDélaiRejetéeEvent,
+  DemandeDélaiSuppriméeEvent,
+  DélaiAccordéEvent,
+  DélaiAccordéEventV1,
+  DélaiDemandéEvent,
+  DélaiDemandéEventV1,
+};
