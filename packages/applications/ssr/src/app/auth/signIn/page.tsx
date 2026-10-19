@@ -35,9 +35,7 @@ export default async function SignIn(props: PageProps) {
       redirect(callbackUrl);
     }
 
-    const providers: Partial<
-      Record<AuthProvider, ProviderProps & { isActifAgentsPublics: boolean }>
-    > = getProviders();
+    const providers: Partial<Record<AuthProvider, ProviderProps>> = getProviders();
 
     const lastUsed = getLastUsedProvider({ headers: h });
     if (lastUsed && providers[lastUsed]) {

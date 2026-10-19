@@ -14,7 +14,7 @@ import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 type SignInPageProps = {
-  providers: Partial<Record<AuthProvider, ProviderProps & { isActifAgentsPublics: boolean }>>;
+  providers: Partial<Record<AuthProvider, ProviderProps>>;
   callbackUrl: string;
   forceProConnect?: boolean;
 };
@@ -36,11 +36,6 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="ProConnect"
               provider={providers.proconnect}
-              profiles={{
-                porteurs: true,
-                agents: providers.proconnect.isActifAgentsPublics,
-                autres: true,
-              }}
               description={"Connectez-vous facilement à l'aide de votre adresse professionnelle"}
               action={
                 <ProConnectButton
@@ -57,11 +52,6 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="Lien magique"
               provider={providers['magic-link']}
-              profiles={{
-                porteurs: true,
-                agents: providers['magic-link'].isActifAgentsPublics,
-                autres: true,
-              }}
               description={
                 "Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
               }
@@ -81,11 +71,6 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="Mot de passe"
               provider={providers.keycloak}
-              profiles={{
-                porteurs: true,
-                agents: providers.keycloak.isActifAgentsPublics,
-                autres: true,
-              }}
               description={
                 "Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
               }
