@@ -18,6 +18,7 @@ export const MapPreview = ({ latitude, longitude }: MapPreviewProps) => {
         title="Carte de localisation"
         src={src}
         className="h-full w-full border-0"
+        style={{ height: 'calc(100% + 3rem)' }}
         loading="lazy"
         tabIndex={-1}
       />
