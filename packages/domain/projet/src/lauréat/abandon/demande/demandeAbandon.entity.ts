@@ -6,6 +6,8 @@ export type DemandeAbandonEntity = Entity<
   'demande-abandon',
   {
     identifiantProjet: string;
+    statut: StatutAbandon.RawType;
+    miseÀJourLe: string;
 
     demande: {
       demandéPar: string;
@@ -65,8 +67,5 @@ export type DemandeAbandonEntity = Entity<
 
       autoritéCompétente: AutoritéCompétente.RawType;
     };
-
-    statut: StatutAbandon.RawType;
-    miseÀJourLe: string;
   }
 >;

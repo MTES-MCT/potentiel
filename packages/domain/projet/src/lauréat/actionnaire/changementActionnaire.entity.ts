@@ -1,16 +1,17 @@
 import type { DateTime } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
+import type { StatutChangementActionnaire } from './index.js';
+
 export type ChangementActionnaireEntity = Entity<
   'changement-actionnaire',
   {
     identifiantProjet: string;
-
+    statut: StatutChangementActionnaire.RawType;
     miseÀJourLe: string;
 
     demande: {
       nouvelActionnaire: string;
-      statut: string;
       demandéePar: string;
       demandéeLe: DateTime.RawType;
       raison: string;

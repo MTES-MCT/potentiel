@@ -7,7 +7,7 @@ export type ChangementPuissanceEntity = Entity<
   'changement-puissance',
   {
     identifiantProjet: string;
-
+    statut: StatutChangementPuissance.RawType;
     miseÀJourLe: string;
 
     demande: {
@@ -15,7 +15,6 @@ export type ChangementPuissanceEntity = Entity<
       demandéeLe: DateTime.RawType;
       nouvellePuissance: number;
       nouvellePuissanceDeSite?: number;
-      statut: StatutChangementPuissance.RawType;
       raison?: string;
       pièceJustificative?: {
         format: string;
@@ -27,7 +26,6 @@ export type ChangementPuissanceEntity = Entity<
         accordéePar: string;
         accordéeLe: DateTime.RawType;
       };
-
       rejet?: {
         réponseSignée: {
           format: string;

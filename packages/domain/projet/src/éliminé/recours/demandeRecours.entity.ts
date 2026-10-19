@@ -4,7 +4,6 @@ export type DemandeRecoursEntity = Entity<
   'demande-recours',
   {
     identifiantProjet: string;
-
     statut: string;
     miseÀJourLe: string;
 
