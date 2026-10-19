@@ -35,7 +35,7 @@ export const SiteDeProductionDétails = ({
           target="_blank"
           rel="noopener noreferrer"
         >
-          Ouvrir dans OpenStreetMap
+          Ouvrir la carte
         </TertiaryLink>
       </div>
     ) : (

@@ -13,15 +13,28 @@ export const MapPreview = ({ latitude, longitude }: MapPreviewProps) => {
   const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${latitude}%2C${longitude}`;
 
   return (
-    <div className="mt-2 h-48 w-full overflow-hidden rounded-lg print:hidden" aria-hidden>
-      <iframe
-        title="Carte de localisation"
-        src={src}
-        className="h-full w-full border-0"
-        style={{ height: 'calc(100% + 3rem)' }}
-        loading="lazy"
-        tabIndex={-1}
-      />
+    <div className="print:hidden" aria-hidden>
+      <div className="mt-2 h-48 w-full overflow-hidden rounded-lg">
+        <iframe
+          title="Carte de localisation"
+          src={src}
+          className="h-full w-full border-0"
+          style={{ height: 'calc(100% + 3rem)' }}
+          loading="lazy"
+          tabIndex={-1}
+        />
+      </div>
+      <div className="text-right text-xs">
+        <a
+          href="https://www.openstreetmap.org/copyright"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="italic text-xs"
+          tabIndex={-1}
+        >
+          © OpenStreetMap
+        </a>
+      </div>
     </div>
   );
 };
