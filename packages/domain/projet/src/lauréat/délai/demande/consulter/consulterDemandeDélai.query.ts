@@ -59,12 +59,14 @@ export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeD�
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const demande = await find<DemandeDélaiEntity>(
+    const demandeDélai = await find<DemandeDélaiEntity>(
       `demande-délai|${identifiantProjetValueType.formatter()}#${demandéLe}`,
     );
 
-    return Option.match(demande)
-      .some((demande) => mapToReadModel({ identifiantProjet: identifiantProjetValueType, demande }))
+    return Option.match(demandeDélai)
+      .some((demandeDélai) =>
+        mapToReadModel({ identifiantProjet: identifiantProjetValueType, demandeDélai }),
+      )
       .none();
   };
   mediator.register('Lauréat.Délai.Query.ConsulterDemandeDélai', handler);
@@ -72,22 +74,24 @@ export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeD�
 
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  demande: DemandeDélaiEntity;
+  demandeDélai: DemandeDélaiEntity;
 }) => ConsulterDemandeDélaiReadModel;
 
 const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
-  demande: {
+  demandeDélai: {
     statut,
-    demandéLe,
-    demandéPar,
-    nombreDeMois,
-    raison,
-    pièceJustificative: { format },
-    instruction,
-    accord,
-    rejet,
-    autoritéCompétente,
+    demande: {
+      demandéLe,
+      demandéPar,
+      nombreDeMois,
+      raison,
+      pièceJustificative: { format },
+      instruction,
+      accord,
+      rejet,
+      autoritéCompétente,
+    },
   },
 }) => {
   return {

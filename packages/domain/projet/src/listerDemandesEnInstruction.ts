@@ -83,9 +83,7 @@ export const registerListerDemandesEnInstructionQuery = ({
       },
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
-        demande: {
-          statut: Where.matchAny(['demandé']),
-        },
+        statut: Where.matchAny(['demandé']),
       },
       select: ['demande.demandéeLe'],
       join: {
@@ -107,9 +105,7 @@ export const registerListerDemandesEnInstructionQuery = ({
       },
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
-        demande: {
-          statut: Where.matchAny(['demandé']),
-        },
+        statut: Where.matchAny(['demandé']),
       },
       select: ['demande.demandéeLe'],
       join: {
@@ -131,9 +127,7 @@ export const registerListerDemandesEnInstructionQuery = ({
       },
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
-        demande: {
-          statut: Where.matchAny(['demandé']),
-        },
+        statut: Where.matchAny(['demandé']),
       },
       select: ['demande.demandéLe'],
       join: {
@@ -155,9 +149,11 @@ export const registerListerDemandesEnInstructionQuery = ({
         where: {
           identifiantProjet: Where.matchAny(scope.identifiantProjets),
           statut: Where.matchAny(['demandé', 'en-instruction']),
-          autoritéCompétente: Where.equal(autoritéCompétente),
+          demande: {
+            autoritéCompétente: Where.equal(autoritéCompétente),
+          },
         },
-        select: ['demandéLe'],
+        select: ['demande.demandéLe'],
         join: {
           entity: 'lauréat',
           on: 'identifiantProjet',
@@ -197,7 +193,7 @@ export const registerListerDemandesEnInstructionQuery = ({
         date: DateTime.convertirEnValueType(item['demande']['demandéeLe']),
       })),
       délai: demandesDélai.items.map((item) => ({
-        date: DateTime.convertirEnValueType(item['demandéLe']),
+        date: DateTime.convertirEnValueType(item['demande']['demandéLe']),
       })),
       puissance: demandesPuissance.items.map((item) => ({
         date: DateTime.convertirEnValueType(item['demande']['demandéeLe']),

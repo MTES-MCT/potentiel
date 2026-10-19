@@ -30,11 +30,9 @@ export const changementReprésentantLégalSuppriméProjector = async (
     `changement-représentant-légal`,
     {
       identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(
-          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
-        ),
-      },
+      statut: Where.equal(
+        Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
+      ),
     },
   );
 

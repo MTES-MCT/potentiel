@@ -1,40 +1,55 @@
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-const Map: Record<AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction, string> = {
-  actionnaire: 'changement-actionnaire',
-  puissance: 'changement-puissance',
-  représentantLégal: 'changement-représentant-légal',
-  abandon: 'demande-abandon',
-  délai: 'demande-délai',
-  recours: 'demande-recours',
+const Mapper: Record<string, AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction> = {
+  'changement-actionnaire': 'actionnaire',
+  'changement-puissance': 'puissance',
+  'changement-représentant-légal': 'représentantLégal',
+  'demande-abandon': 'abandon',
+  'demande-délai': 'délai',
+  'demande-recours': 'recours',
 };
 
-const query = `SELECT SPLIT_PART(p.key,'|',1) domain, count(*)
-FROM domain_views.projection p
-WHERE SPLIT_PART(p.key,'|',1) in ('demande-abandon','demande-délai','changement-représentant-légal','changement-puissance', 'changement-actionnaire', 'demande-recours')
-AND p.value->>'statut' in ('demandé', 'en-instruction', 'confirmé')
-AND p.value->>'demande.autoritéCompétence'
-group by 1`;
+type Props = {
+  régions: Array<string>;
+  autoritéCompétente: 'dreal' | 'dgec';
+};
 
-export const getDemandesEnInstructionAdapteur = async (scope?: ...) => {
-
-
-  // autoritéCompétente
-// région lauréat
-
-
-  const params = {autoritécompétence: 'dreal', région: ['Ile de France']}
-  
-
-  await executeQuery(
-`SELECT SPLIT_PART(p.key,'|',1) domain, count(*)
-FROM domain_views.projection p
-${params ? "and ao.value->>'cycleAppelOffre' = $2" : ''}
-WHERE SPLIT_PART(p.key,'|',1) in ('demande-abandon','demande-délai','changement-représentant-légal','changement-puissance', 'changement-actionnaire', 'demande-recours')
-AND p.value->>'statut' in ('demandé', 'en-instruction', 'confirmé')
-AND p.value->>'demande.autoritéCompétence'=$1
-group by 1`,
-    ...params,
+export const getDemandesEnInstructionAdapter = async ({ régions, autoritéCompétente }: Props) => {
+  const result = await executeSelect<Record<keyof typeof Mapper, string>>(
+    `SELECT SPLIT_PART(p.key,'|',1) AS domain, count(*) FROM domain_views.projection p
+  WHERE SPLIT_PART(p.key,'|',1) IN (
+  'demande-abandon','demande-délai','changement-représentant-légal',
+  'changement-puissance','changement-actionnaire','demande-recours'
+)
+AND p.value->>'statut' IN ('demandé', 'en-instruction', 'confirmé')
+AND (p.value->>'demande.autoritéCompétente' = $1 OR p.value->>'demande.autoritéCompétente' IS NULL)
+${
+  régions.length
+    ? `
+AND (
+  EXISTS (
+    SELECT 1 FROM domain_views.projection laur
+    WHERE laur.key LIKE 'lauréat|%'
+      AND laur.value->>'identifiantProjet' = p.value->>'identifiantProjet'
+      AND laur.value->>'localité.région' = ANY($2)
+  )
+  OR EXISTS (
+    SELECT 1 FROM domain_views.projection cand
+    WHERE cand.key LIKE 'candidature|%'
+      AND cand.value->>'identifiantProjet' = p.value->>'identifiantProjet'
+      AND cand.value->>'statut' = 'éliminé'
+      AND cand.value->>'localité.région' = ANY($2)
+  )
+)`
+    : ''
+}
+GROUP BY 1`,
+    autoritéCompétente,
+    régions,
   );
+
+  console.log(result);
+
+  return result;
 };

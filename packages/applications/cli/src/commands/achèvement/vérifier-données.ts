@@ -84,14 +84,14 @@ export class VérifierDonnéesAchèvementCommand extends Command {
       cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.RawType;
       dateAchevementPrévisionnelStockée: DateTime.RawType;
       dateMiseEnService?: DateTime.RawType;
-      délais: Array<Lauréat.Délai.DemandeDélaiEntity['nombreDeMois']>;
+      délais: Array<Lauréat.Délai.DemandeDélaiEntity['demande']['nombreDeMois']>;
     }>(`
       select laur.value->>'identifiantProjet' as "identifiantProjet",
         laur.value->>'notifiéLe' as "dateNotification",
         laur.value->>'cahierDesCharges' as "cahierDesCharges",
         ach.value->>'prévisionnel.date' as "dateAchevementPrévisionnelStockée",
         racc.value->>'miseEnService.date' as "dateMiseEnService",
-        array_agg(CAST(delai.value->>'nombreDeMois' AS INTEGER)) FILTER (WHERE delai.value->>'nombreDeMois' IS NOT NULL) as "délais"
+        array_agg(CAST(delai.value->>'demande.nombreDeMois' AS INTEGER)) FILTER (WHERE delai.value->>'nombreDeMois' IS NOT NULL) as "délais"
       from domain_views.projection as laur
       inner join domain_views.projection as ach on ach.key = format(
         'achèvement|%s',

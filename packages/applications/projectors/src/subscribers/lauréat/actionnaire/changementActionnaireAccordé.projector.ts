@@ -53,9 +53,8 @@ export const changementActionnaireAccordéProjector = async ({
     `changement-actionnaire|${identifiantProjet}#${demande.demande.demandéeLe}`,
     {
       miseÀJourLe: accordéLe,
+      statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut,
       demande: {
-        statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut,
-
         accord: {
           accordéeLe: accordéLe,
           accordéePar: accordéPar,

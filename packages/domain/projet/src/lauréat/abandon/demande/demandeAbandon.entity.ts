@@ -13,6 +13,8 @@ export type DemandeAbandonEntity = Entity<
       demandéPar: string;
       demandéLe: string;
       raison: string;
+      autoritéCompétente: AutoritéCompétente.RawType;
+      annulation?: { annuléLe: string; annuléPar: string };
       pièceJustificative?: {
         format: string;
       };
@@ -62,10 +64,6 @@ export type DemandeAbandonEntity = Entity<
         rejetéPar: string;
         rejetéLe: string;
       };
-
-      annulation?: { annuléLe: string; annuléPar: string };
-
-      autoritéCompétente: AutoritéCompétente.RawType;
     };
   }
 >;

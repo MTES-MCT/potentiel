@@ -71,7 +71,7 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
     return Option.none;
   }
 
-  const statut = StatutChangementPuissance.convertirEnValueType(result.demande.statut);
+  const statut = StatutChangementPuissance.convertirEnValueType(result.statut);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
 

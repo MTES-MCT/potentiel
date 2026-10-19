@@ -78,7 +78,7 @@ export const mapToReadModel = (result: ChangementActionnaireEntity) => {
 
     demande: {
       nouvelActionnaire: result.demande.nouvelActionnaire,
-      statut: StatutChangementActionnaire.convertirEnValueType(result.demande.statut),
+      statut: StatutChangementActionnaire.convertirEnValueType(result.statut),
 
       demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
       demandéePar: Email.convertirEnValueType(result.demande.demandéePar),

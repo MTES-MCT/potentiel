@@ -21,22 +21,25 @@ export const délaiDemandéProjector = async ({
     throw new Error(`Le cahier des charges du projet ${identifiantProjet} est introuvable.`);
   }
 
+  // viovio
   await upsertProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${demandéLe}`,
     {
       identifiantProjet,
       statut: Lauréat.Délai.StatutDemandeDélai.demandé.statut,
-      nombreDeMois,
-      demandéPar,
-      demandéLe,
-      raison,
-      pièceJustificative: {
-        format,
-      },
-      autoritéCompétente:
-        cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
-        Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI,
       miseÀJourLe: demandéLe,
+      demande: {
+        nombreDeMois,
+        demandéPar,
+        demandéLe,
+        raison,
+        pièceJustificative: {
+          format,
+        },
+        autoritéCompétente:
+          cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
+          Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI,
+      },
     },
   );
 };

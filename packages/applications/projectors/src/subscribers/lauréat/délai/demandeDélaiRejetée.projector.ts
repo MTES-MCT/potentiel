@@ -8,12 +8,14 @@ export const demandeDélaiRejetéeProjector = async ({
     `demande-délai|${identifiantProjet}#${dateDemande}`,
     {
       statut: Lauréat.Délai.StatutDemandeDélai.rejeté.statut,
-      rejet: {
-        rejetéeLe,
-        rejetéePar,
-        réponseSignée: { format: réponseSignée.format },
-      },
       miseÀJourLe: rejetéeLe,
+      demande: {
+        rejet: {
+          rejetéeLe,
+          rejetéePar,
+          réponseSignée: { format: réponseSignée.format },
+        },
+      },
     },
   );
 };
