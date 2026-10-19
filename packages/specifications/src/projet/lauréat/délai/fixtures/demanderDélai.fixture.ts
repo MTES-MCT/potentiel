@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { Lauréat } from '@potentiel-domain/projet';
+
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../fixture.js';
 
@@ -61,7 +63,7 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
 
   créer(partialFixture: CréerDemandeDélaiFixture): Readonly<DemanderDélai> {
     const fixture = {
-      motif: 'force-majeure',
+      motif: Lauréat.Délai.MotifDemandeDélai.forceMajeure.motif,
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
