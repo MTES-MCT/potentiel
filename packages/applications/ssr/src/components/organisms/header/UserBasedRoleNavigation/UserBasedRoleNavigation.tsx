@@ -1,5 +1,6 @@
 import type { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import type { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
+import Badge from '@mui/material/Badge';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -22,7 +23,7 @@ export async function UserBasedRoleNavigation() {
 }
 
 export type MenuItem = {
-  label: string;
+  label: React.ReactNode;
   url: string;
   permission: Role.Policy | Array<Role.Policy> | false;
 };
@@ -100,7 +101,17 @@ export const getNavigationItemsBasedOnRole = async ({
     return demande?.total
       ? {
           ...menuItem,
-          label: `${menuItem.label} | ${demande.total} demande${demande.total > 1 ? 's' : ''}`,
+          label: (
+            <div className="flex flex-row items-center gap-6">
+              {menuItem.label}
+              <Badge
+                badgeContent={demande.total}
+                color="primary"
+                overlap="circular"
+                invisible={demande.total === 0}
+              />
+            </div>
+          ),
         }
       : menuItem;
   });
