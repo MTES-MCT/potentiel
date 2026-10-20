@@ -32,9 +32,7 @@ const paramsSchema = z.object({
   statut: transformToOptionalEnumArray(
     z.enum(Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts),
   ),
-  motif: z
-    .enum(Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs)
-    .optional(),
+  motif: z.enum(Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.motifs).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -53,7 +51,7 @@ export default async function Page(props: PageProps) {
             appelOffre,
 
             motif: motif
-              ? Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+              ? Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.convertirEnValueType(
                   motif,
                 ).motif
               : undefined,
@@ -77,8 +75,7 @@ export default async function Page(props: PageProps) {
         data: {},
       });
 
-      const motifMainlevée =
-        Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
+      const motifMainlevée = Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.motifs;
 
       const filters: ListFilterItem<SearchParams>[] = [
         {

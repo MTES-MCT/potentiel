@@ -31,7 +31,7 @@ export class DemanderMainlevéeFixture extends AbstractFixture<DemanderMainlevé
   créer(data: CréerDemanderMainlevéeFixtureProps): Readonly<DemanderMainlevée> {
     const fixture: DemanderMainlevée = {
       motif: faker.helpers.arrayElement(
-        Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs,
+        Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.motifs,
       ),
       demandéPar: faker.internet.email(),
       demandéLe: faker.date.past().toISOString(),
@@ -56,10 +56,9 @@ export class DemanderMainlevéeFixture extends AbstractFixture<DemanderMainlevé
         demandéeLe,
         demandéePar,
       },
-      motif:
-        Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
-          this.motif,
-        ),
+      motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.convertirEnValueType(
+        this.motif,
+      ),
       dernièreMiseÀJour: {
         date: demandéeLe,
         par: demandéePar,

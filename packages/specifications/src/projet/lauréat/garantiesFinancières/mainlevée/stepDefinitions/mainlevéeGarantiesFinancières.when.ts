@@ -100,7 +100,7 @@ export async function demanderMainlevée(
   const { identifiantProjet } = this.lauréatWorld;
 
   const { projetAbandonné, projetAchevé } =
-    Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières;
+    Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières;
   const aTransmisAttestationConformité =
     this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.aÉtéCréé;
 
@@ -145,7 +145,7 @@ export async function accorderMainlevée(this: PotentielWorld) {
     this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.créer();
 
   await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
-    type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
+    type: 'Lauréat.GarantiesFinancières.UseCase.AccorderDemandeMainlevée',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
       accordéLeValue: accordéLe,

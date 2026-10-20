@@ -19,7 +19,7 @@ import type { PowerPurchaseAgreementEntity } from '../../../power-purchase-agree
 import {
   DocumentMainlevée,
   type MainlevéeGarantiesFinancièresEntity,
-  MotifDemandeMainlevéeGarantiesFinancières,
+  MotifMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../../index.js';
 
@@ -27,7 +27,7 @@ export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
   estPartiEnPPA?: true;
-  motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
+  motif: MotifMainlevéeGarantiesFinancières.ValueType;
   appelOffre: string;
   nomProjet: string;
   demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
@@ -63,7 +63,7 @@ export type ListerMainlevéesQuery = Message<
     identifiantProjet?: IdentifiantProjet.RawType;
     range?: RangeOptions;
     appelOffre?: Array<string>;
-    motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
+    motif?: MotifMainlevéeGarantiesFinancières.RawType;
     statut?: Array<StatutMainlevéeGarantiesFinancières.RawType>;
     identifiantUtilisateur: string;
   },
@@ -149,7 +149,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
   nomProjet: mainlevée.lauréat.nomProjet,
   estPartiEnPPA: mainlevée['power-purchase-agreement'] ? true : undefined,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
-  motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
+  motif: MotifMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {
     demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
     demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),

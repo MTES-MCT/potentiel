@@ -17,7 +17,7 @@ export type ListItemDemandeMainlevéeProps = {
   identifiantProjet: string;
   statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
   misÀJourLe: Iso8601DateTime;
-  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
+  motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.RawType;
   nomProjet: string;
   estPartiEnPPA?: true;
 };
