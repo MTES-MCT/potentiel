@@ -62,28 +62,33 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               </Text>
             )}
         </Text>
-        <Text style={{ marginTop: 10 }}>
-          {appelOffre.affichageParagrapheECS &&
-          project.evaluationCarbone &&
-          project.evaluationCarbone > 0
-            ? `La valeur de l’évaluation carbone des modules est ${appelOffre.typeEngagementECS === 'plafond' ? 'inférieure ou égale à 740' : `de ${formatNumber(project.evaluationCarbone)}`} kg eq CO2/kWc.`
-            : ' '}
-          {addendumParagraphePrix && <Text> {addendumParagraphePrix}</Text>}
-          {project.isGouvernancePartagée && (
-            <Text>
-              {' '}
-              Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
-              d’Achèvement de l’Installation.{' '}
-            </Text>
-          )}
-          {project.isFinancementCollectif && (
-            <Text>
-              {' '}
-              Vous vous êtes engagés au financement collectif jusqu’à trois ans minimum après la
-              Date d’Achèvement de l’Installation.{' '}
-            </Text>
-          )}
-        </Text>
+        {(appelOffre.affichageParagrapheECS ||
+          addendumParagraphePrix ||
+          project.isFinancementCollectif ||
+          project.isFinancementCollectif) && (
+          <Text style={{ marginTop: 10 }}>
+            {appelOffre.affichageParagrapheECS &&
+            project.evaluationCarbone &&
+            project.evaluationCarbone > 0
+              ? `La valeur de l’évaluation carbone des modules est ${appelOffre.typeEngagementECS === 'plafond' ? 'inférieure ou égale à 740' : `de ${formatNumber(project.evaluationCarbone)}`} kg eq CO2/kWc.`
+              : ' '}
+            {addendumParagraphePrix && <Text> {addendumParagraphePrix}</Text>}
+            {project.isGouvernancePartagée && (
+              <Text>
+                {' '}
+                Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la
+                Date d’Achèvement de l’Installation.{' '}
+              </Text>
+            )}
+            {project.isFinancementCollectif && (
+              <Text>
+                {' '}
+                Vous vous êtes engagés au financement collectif jusqu’à trois ans minimum après la
+                Date d’Achèvement de l’Installation.{' '}
+              </Text>
+            )}
+          </Text>
+        )}
 
         {project.engagementFournitureDePuissanceAlaPointe && (
           <Text style={{ marginTop: 10 }}>
