@@ -2,41 +2,28 @@ import { mediator } from 'mediateur';
 import { cache } from 'react';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime } from '@potentiel-domain/common';
 import type { ListerDemandesEnInstructionQuery } from '@potentiel-domain/projet';
 
 export type DemandesEnInstruction = {
   domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
   total: number;
+  new: number;
 };
 
-// viovio
 export const getNombreDemandesEnInstruction = cache(
   async (utilisateur: string, rôle: 'dreal' | 'dgec'): Promise<Array<DemandesEnInstruction>> => {
-    const ilYAUnMois = DateTime.now().retirerNombreDeMois(1);
-
-    const demandesTotale = await mediator.send<ListerDemandesEnInstructionQuery>({
+    const demandes = await mediator.send<ListerDemandesEnInstructionQuery>({
       type: 'Projet.Query.ListerDemandesEnInstruction',
       data: {
         utilisateur,
         autoritéCompétente: rôle,
       },
     });
-
-        const demandesRécentes = await mediator.send<ListerDemandesEnInstructionQuery>({
-      type: 'Projet.Query.ListerDemandesEnInstruction',
-      data: {
-        utilisateur,
-        autoritéCompétente: rôle,
-      },
-    });
-
-    return demandes.
 
     return Object.entries(demandes.items).map(([domain, résultat]) => ({
       domain: domain as AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
-      total: ,
-      new: résultat.filter((d) => d.date.estUltérieureÀ(ilYAUnMois)).length,
+      total: résultat.total,
+      new: résultat.new,
     }));
   },
 );

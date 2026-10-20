@@ -4,11 +4,11 @@ import type { Région } from '@potentiel-domain/utilisateur';
 
 export type DemandesProjetScope = Record<
   AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
-  { count: number }
+  { total: number; new: number }
 >;
 
 export type GetNombreDemandesProjet = (
   rôle: 'dreal' | 'dgec',
+  date: DateTime.RawType,
   régions?: Région.RawType[],
-  date?: DateTime.RawType,
 ) => Promise<DemandesProjetScope>;

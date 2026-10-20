@@ -1,7 +1,7 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import type { RangeOptions } from '@potentiel-domain/entity';
 
 import type { GetNombreDemandesProjet } from './getNombreDemandesProjet.port.js';
@@ -10,7 +10,7 @@ import type { AutoritéCompétente } from './lauréat/abandon/index.js';
 
 type DemandesEnInstructionListItemReadModel = Record<
   AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
-  { count: number }
+  { total: number; new: number }
 >;
 
 export type ListerDemandesEnInstructionReadModel = {
@@ -45,7 +45,11 @@ export const registerListerDemandesEnInstructionQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const items = await getNombreDemandesProjet(autoritéCompétente, scope.régions, undefined);
+    const items = await getNombreDemandesProjet(
+      autoritéCompétente,
+      DateTime.now().retirerNombreDeMois(1).formatter(),
+      scope.régions,
+    );
 
     return {
       items,

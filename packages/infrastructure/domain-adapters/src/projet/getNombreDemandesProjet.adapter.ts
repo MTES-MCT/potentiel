@@ -13,55 +13,62 @@ const Mapper = {
 
 export const getNombreDemandesProjetAdapter: GetNombreDemandesProjet = async (
   rôle,
-  régions,
   date,
+  régions,
 ) => {
-  const result = await executeSelect<{ domaine: keyof typeof Mapper; count: number }>(
-    `SELECT SPLIT_PART(p.key,'|',1) AS domaine, count(*) FROM domain_views.projection p
+  console.log({ rôle, date, régions });
+  const result = await executeSelect<{
+    domaine: keyof typeof Mapper;
+    total: number;
+    new: number;
+  }>(
+    `SELECT
+    SPLIT_PART(p.key,'|',1) AS domaine,
+    count(*) AS total,
+    count(*) FILTER (WHERE p.value->>'demande.demandéLe' > $2::text) AS new
+  FROM domain_views.projection p
   WHERE SPLIT_PART(p.key,'|',1) IN (
-  'demande-abandon','demande-délai','changement-représentant-légal',
-  'changement-puissance','changement-actionnaire','demande-recours'
-)
-AND p.value->>'statut' IN ('demandé', 'en-instruction', 'confirmé')
-AND (p.value->>'demande.autoritéCompétente' = $1 OR p.value->>'demande.autoritéCompétente' IS NULL)
-${date ? `AND p.value->>'demande.demandéLe' << $3` : ''}
-${
-  régions?.length
-    ? `
-AND (
-  EXISTS (
-    SELECT 1 FROM domain_views.projection laur
-    WHERE laur.key LIKE 'lauréat|%'
-      AND laur.value->>'identifiantProjet' = p.value->>'identifiantProjet'
-      AND laur.value->>'localité.région' = ANY($2)
+    'demande-abandon','demande-délai','changement-représentant-légal',
+    'changement-puissance','changement-actionnaire','demande-recours'
   )
-  OR EXISTS (
-    SELECT 1 FROM domain_views.projection cand
-    WHERE cand.key LIKE 'candidature|%'
-      AND cand.value->>'identifiantProjet' = p.value->>'identifiantProjet'
-      AND cand.value->>'statut' = 'éliminé'
-      AND cand.value->>'localité.région' = ANY($2)
-  )
-)`
-    : ''
-}
-GROUP BY 1`,
-    rôle,
-    ...(régions?.length ? régions : []),
-    ...(date ? date : []),
+  AND p.value->>'statut' IN ('demandé', 'en-instruction', 'confirmé')
+  AND (p.value->>'demande.autoritéCompétente' = $1 OR p.value->>'demande.autoritéCompétente' IS NULL)
+  ${
+    régions?.length
+      ? `
+  AND (
+    EXISTS (
+      SELECT 1 FROM domain_views.projection laur
+      WHERE laur.key LIKE 'lauréat|%'
+        AND laur.value->>'identifiantProjet' = p.value->>'identifiantProjet'
+        AND laur.value->>'localité.région' = ANY($3)
+    )
+    OR EXISTS (
+      SELECT 1 FROM domain_views.projection cand
+      WHERE cand.key LIKE 'candidature|%'
+        AND cand.value->>'identifiantProjet' = p.value->>'identifiantProjet'
+        AND cand.value->>'statut' = 'éliminé'
+        AND cand.value->>'localité.région' = ANY($3)
+    )
+  )`
+      : ''
+  }
+  GROUP BY 1`,
+    [rôle, date, régions ?? []],
   );
 
   const résultats = {
-    actionnaire: { count: 0 },
-    puissance: { count: 0 },
-    représentantLégal: { count: 0 },
-    abandon: { count: 0 },
-    délai: { count: 0 },
-    recours: { count: 0 },
+    actionnaire: { total: 0, new: 0 },
+    puissance: { total: 0, new: 0 },
+    représentantLégal: { total: 0, new: 0 },
+    abandon: { total: 0, new: 0 },
+    délai: { total: 0, new: 0 },
+    recours: { total: 0, new: 0 },
   };
 
   for (const r of result) {
-    résultats[Mapper[r.domaine]].count += Number(r.count);
+    résultats[Mapper[r.domaine]].total += r.total;
+    résultats[Mapper[r.domaine]].new += r.new;
   }
 
   return résultats;
