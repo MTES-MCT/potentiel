@@ -88,15 +88,13 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         title: 'Confirmer le changement de producteur',
         children: (
           <span>
-            Vous êtes sur le point d’enregistrer ce changement de producteur. <br />
+            Vous êtes sur le point d’enregistrer un changement de producteur. <br />
             Les droits d’accès du producteur actuel ne seront pas révoqués. Les garanties
             financières actuelles ne seront pas supprimées sur Potentiel et restent celles de
             l’ancien producteur : pensez à suivre la mise à jour des garanties financières par le
             nouveau producteur.
           </span>
         ),
-        confirmLabel: 'Confirmer le changement',
-        cancelLabel: 'Annuler',
       }}
     >
       <Notice
