@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 export const getMotifMainlevéeLabel = (
-  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType,
+  motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.RawType,
 ) =>
   match(motif)
     .with('projet-abandonné', () => 'Projet abandonné')
