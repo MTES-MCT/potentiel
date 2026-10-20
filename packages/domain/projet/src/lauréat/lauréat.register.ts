@@ -90,18 +90,18 @@ import {
   registerRaccordementUseCases,
 } from './raccordement/raccordement.register.js';
 import {
-  type ReprésentantLégalCommandDependencies,
-  type ReprésentantLégalQueryDependencies,
   registerReprésentantLégalQueries,
   registerReprésentantLégalUseCases,
+  type ReprésentantLégalCommandDependencies,
+  type ReprésentantLégalQueryDependencies,
 } from './représentantLégal/représentantLégal.register.js';
 import { registerModifierSiteDeProductionCommand } from './site-de-production/modifierSiteDeProduction.command.js';
 import { registerModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
-import { registerTâcheQuery, type TâcheQueryDependencies } from './tâche/index.js';
 import {
   registerTâchePlanifiéeQuery,
   registerTâchePlanifiéeUseCases,
 } from './tâche-planifiée/index.js';
+import { registerTâcheQuery, type TâcheQueryDependencies } from './tâche/index.js';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &

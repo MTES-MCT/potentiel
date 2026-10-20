@@ -22,7 +22,6 @@ export const getNombreDemandesEnInstruction = cache(
         autoritéCompétente: rôle,
       },
     });
-
     return Object.entries(demandes.items).map(([domain, résultat]) => ({
       domain: domain as AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
       total: résultat.length,

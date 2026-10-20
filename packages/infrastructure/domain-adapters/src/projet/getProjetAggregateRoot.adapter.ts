@@ -1,4 +1,4 @@
-import { type GetProjetAggregateRoot, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { typeProjetAggregateRoot } from '@potentiel-domain/projet';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter.js';

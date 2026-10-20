@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
 import type { GetScopeProjetUtilisateur } from './getScopeProjetUtilisateur.port.js';
-import type { Candidature, Lauréat, Éliminé } from './index.js';
+import type { Candidature, GetNombreDemandesProjet, Lauréat, Éliminé } from './index.js';
 import type { AutoritéCompétente } from './lauréat/abandon/index.js';
 import { statut } from './lauréat/garanties-financières/statutGarantiesFinancières.valueType.js';
 import type { LauréatEntity } from './lauréat/lauréat.entity.js';
@@ -35,11 +35,13 @@ export type ListerDemandesEnInstructionQuery = Message<
 export type ListerDemandesEnInstructionDependencies = {
   list: List;
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
+  getNombreDemandesProjet: GetNombreDemandesProjet;
 };
 
 export const registerListerDemandesEnInstructionQuery = ({
   list,
   getScopeProjetUtilisateur,
+  getNombreDemandesProjet,
 }: ListerDemandesEnInstructionDependencies) => {
   const handler: MessageHandler<ListerDemandesEnInstructionQuery> = async ({
     autoritéCompétente,
@@ -47,6 +49,16 @@ export const registerListerDemandesEnInstructionQuery = ({
     range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+
+    const t0 = performance.now();
+    const test = await getNombreDemandesProjet({ utilisateur, rôle });
+    const t1 = performance.now();
+    const t2 = performance.now();
+
+    console.log(`test: ${t1 - t0} ms`);
+    console.log(`CompterDemandesEnInstruction: ${t2 - t1} ms`);
+
+    console.log(test);
 
     const demandesAbandon = await list<Lauréat.Abandon.DemandeAbandonEntity, LauréatEntity>(
       'demande-abandon',

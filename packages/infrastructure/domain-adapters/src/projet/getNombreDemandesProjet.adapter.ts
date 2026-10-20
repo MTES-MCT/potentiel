@@ -1,5 +1,8 @@
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Email } from '@potentiel-domain/common';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
+
+import { getScopeProjetUtilisateurAdapter } from '../index.js';
 
 const Mapper: Record<string, AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction> = {
   'changement-actionnaire': 'actionnaire',
@@ -11,11 +14,15 @@ const Mapper: Record<string, AppelOffre.DomainesConcernésParMiseÀJourAvecInstr
 };
 
 type Props = {
-  régions: Array<string>;
-  autoritéCompétente: 'dreal' | 'dgec';
+  utilisateur: string;
+  rôle: 'dreal' | 'dgec';
 };
 
-export const getDemandesEnInstructionAdapter = async ({ régions, autoritéCompétente }: Props) => {
+export const getNombreDemandesProjetAdapter = async ({ utilisateur, rôle }: Props) => {
+  const scope = await getScopeProjetUtilisateurAdapter(Email.convertirEnValueType(utilisateur));
+
+  console.log('scope', scope);
+
   const result = await executeSelect<Record<keyof typeof Mapper, string>>(
     `SELECT SPLIT_PART(p.key,'|',1) AS domain, count(*) FROM domain_views.projection p
   WHERE SPLIT_PART(p.key,'|',1) IN (
@@ -25,7 +32,7 @@ export const getDemandesEnInstructionAdapter = async ({ régions, autoritéComp�
 AND p.value->>'statut' IN ('demandé', 'en-instruction', 'confirmé')
 AND (p.value->>'demande.autoritéCompétente' = $1 OR p.value->>'demande.autoritéCompétente' IS NULL)
 ${
-  régions.length
+  scope?.régions?.length
     ? `
 AND (
   EXISTS (
@@ -45,8 +52,8 @@ AND (
     : ''
 }
 GROUP BY 1`,
-    autoritéCompétente,
-    régions,
+    rôle,
+    scope.régions,
   );
 
   console.log(result);
