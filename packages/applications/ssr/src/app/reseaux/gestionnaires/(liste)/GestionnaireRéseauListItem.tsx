@@ -43,6 +43,7 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
           href={Routes.Raccordement.lister({
             identifiantGestionnaireReseau: identifiantGestionnaireRéseau.codeEIC,
           })}
+          aria-label={`Voir les dossiers de raccordement du gestionnaire ${raisonSociale}`}
         >
           Voir les dossiers de raccordement
         </Link>
