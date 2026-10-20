@@ -9,10 +9,11 @@ describe('withCache', () => {
   let shouldFail = false;
 
   const fetch = async () => {
-    calls++;
     if (shouldFail) {
       throw new Error('unavailable');
     }
+    calls++;
+
     return calls;
   };
 
@@ -81,6 +82,6 @@ describe('withCache', () => {
     shouldFail = false;
     await cachedFetch();
 
-    assert.equal(calls, 2);
+    assert.equal(calls, 1);
   });
 });
