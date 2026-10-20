@@ -2,6 +2,7 @@
 
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useEffect, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -84,6 +85,29 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         },
       }}
     >
+      <Notice
+        severity="info"
+        title="Conséquences du changement de producteur"
+        description={
+          <span className="flex flex-col gap-2">
+            <span>
+              Accès :{' '}
+              <span className="font-semibold">
+                les droits du producteur actuel ne sont pas révoqués
+              </span>{' '}
+              à la soumission de ce formulaire. Ils ne le sont que lorsque le porteur de projet
+              déclare lui-même le changement.
+            </span>
+            <span>
+              Garanties financières : ce changement n’entraîne pas la suppression des garanties
+              financières actuelles sur Potentiel, qui{' '}
+              <span className="font-semibold">restent donc celles de l’ancien producteur</span>. Le
+              nouveau producteur devra fournir ses propres garanties financières : pensez à en
+              suivre la mise à jour sur le projet.
+            </span>
+          </span>
+        }
+      />
       <input
         name="identifiantProjet"
         type="hidden"
