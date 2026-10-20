@@ -3,13 +3,13 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 import type { DateTime, Email } from '@potentiel-domain/common';
 
 import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
-import type { MotifDemandeMainlevéeGarantiesFinancières } from '../../index.js';
+import type { MotifMainlevéeGarantiesFinancières } from '../../index.js';
 
 export type DemanderMainlevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.DemanderMainlevée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
+    motif: MotifMainlevéeGarantiesFinancières.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: Email.ValueType;
   }

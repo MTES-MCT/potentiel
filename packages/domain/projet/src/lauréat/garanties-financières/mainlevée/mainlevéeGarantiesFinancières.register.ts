@@ -1,6 +1,6 @@
 import type { GetProjetAggregateRoot } from '../../../index.js';
-import { registerAccorderMainlevéeGarantiesFinancièresCommand } from './accorder/accorderMainlevéeGarantiesFinancières.command.js';
-import { registerAccorderMainlevéeGarantiesFinancièresUseCase } from './accorder/accorderMainlevéeGarantiesFinancières.usecase.js';
+import { registerAccorderMainlevéeGarantiesFinancièresCommand } from './accorderDemande/accorderMainlevéeGarantiesFinancières.command.js';
+import { registerAccorderMainlevéeGarantiesFinancièresUseCase } from './accorderDemande/accorderMainlevéeGarantiesFinancières.usecase.js';
 import { registerAnnulerMainlevéeGarantiesFinancièresCommand } from './annuler/annulerDemandeMainlevéeGarantiesFinancières.command.js';
 import { registerAnnulerMainlevéeGarantiesFinancièresUseCase } from './annuler/annulerMainlevéeGarantiesFinancières.usecase.js';
 import { registerConsulterMainlevéeEnCoursQuery } from './consulter/consulterMainlevéeEnCours.query.js';

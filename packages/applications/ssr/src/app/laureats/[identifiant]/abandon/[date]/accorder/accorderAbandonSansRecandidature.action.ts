@@ -14,13 +14,14 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   choixPPAPourAutoritéCompétente: zod.stringbool().optional(),
+  accorderMainLevée: zod.stringbool(),
 });
 
 export type AccorderAbandonSansRecandidatureFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, choixPPAPourAutoritéCompétente },
+  { identifiantProjet, reponseSignee, choixPPAPourAutoritéCompétente, accorderMainLevée },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Abandon.AbandonUseCase>({
@@ -35,6 +36,9 @@ const action: FormAction<FormState, typeof schema> = async (
         ...(choixPPAPourAutoritéCompétente === false && { ppaAnnuléValue: true }),
       },
     });
+
+    if (accorderMainLevée) {
+    }
 
     return {
       status: 'success',

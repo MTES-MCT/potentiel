@@ -8,8 +8,8 @@ import type {
   IdentifiantProjet,
 } from '../../../../index.js';
 
-export type AccorderMainlevéeGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.AccorderMainlevée',
+export type AccorderDemandeMainlevéeGarantiesFinancièresCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.AccorderDemandeMainlevée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     accordéLe: DateTime.ValueType;
@@ -18,10 +18,10 @@ export type AccorderMainlevéeGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerAccorderMainlevéeGarantiesFinancièresCommand = (
+export const registerAccorderDemandeMainlevéeGarantiesFinancièresCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const handler: MessageHandler<AccorderMainlevéeGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<AccorderDemandeMainlevéeGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     accordéLe,
     accordéPar,
@@ -29,11 +29,11 @@ export const registerAccorderMainlevéeGarantiesFinancièresCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await projet.lauréat.garantiesFinancières.accorderMainlevée({
+    await projet.lauréat.garantiesFinancières.accorderDemandeMainlevée({
       accordéLe,
       accordéPar,
       réponseSignée,
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.Command.AccorderMainlevée', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Command.AccorderDemandeMainlevée', handler);
 };

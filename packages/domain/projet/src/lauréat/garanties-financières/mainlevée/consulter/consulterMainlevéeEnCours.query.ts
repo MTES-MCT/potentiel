@@ -9,14 +9,14 @@ import type { LauréatEntity } from '../../../index.js';
 import {
   DocumentMainlevée,
   type MainlevéeGarantiesFinancièresEntity,
-  MotifDemandeMainlevéeGarantiesFinancières,
+  MotifMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../../index.js';
 
 export type ConsulterMainlevéeEnCoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
-  motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
+  motif: MotifMainlevéeGarantiesFinancières.ValueType;
   demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
   instruction?: {
     démarréeLe: DateTime.ValueType;
@@ -79,7 +79,7 @@ const mapToReadModel = (
 ): ConsulterMainlevéeEnCoursReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
-  motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
+  motif: MotifMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {
     demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
     demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
