@@ -9,6 +9,9 @@ export const setupLogger = () => {
 
   const logger = createLogger({
     transports,
+    defaultMeta: {
+      application: 'subscribers',
+    },
   });
 
   initLogger(logger);
