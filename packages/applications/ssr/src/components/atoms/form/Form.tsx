@@ -41,7 +41,7 @@ export type FormProps = {
   };
 };
 
-const confirmSubmitModal = createModal({
+const ConfirmSubmitModal = createModal({
   id: 'form-confirm-submit',
   isOpenedByDefault: false,
 });
@@ -91,7 +91,7 @@ export const Form: FC<FormProps> = ({
 
         if (confirmSubmit) {
           pendingFormData.current = formData;
-          confirmSubmitModal.open();
+          ConfirmSubmitModal.open();
           return;
         }
 
@@ -104,7 +104,7 @@ export const Form: FC<FormProps> = ({
       className={className}
     >
       {confirmSubmit && (
-        <confirmSubmitModal.Component
+        <ConfirmSubmitModal.Component
           title={confirmSubmit.title}
           size="small"
           buttons={[
@@ -113,8 +113,8 @@ export const Form: FC<FormProps> = ({
               type: 'button',
               priority: 'secondary',
               onClick: () => {
+                ConfirmSubmitModal.close();
                 pendingFormData.current = null;
-                confirmSubmitModal.close();
               },
             },
             {
@@ -123,7 +123,7 @@ export const Form: FC<FormProps> = ({
               onClick: () => {
                 const formData = pendingFormData.current;
 
-                confirmSubmitModal.close();
+                ConfirmSubmitModal.close();
                 pendingFormData.current = null;
 
                 if (formData) {
@@ -137,7 +137,7 @@ export const Form: FC<FormProps> = ({
           ]}
         >
           {confirmSubmit.children}
-        </confirmSubmitModal.Component>
+        </ConfirmSubmitModal.Component>
       )}
       <FormCsrfInput />
       {retourUrl && (
