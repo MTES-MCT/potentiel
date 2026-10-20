@@ -22,7 +22,7 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
 
   return (
     <ListItem
-      heading={<span className="font-bold leading-4">{raisonSociale}</span>}
+      heading={<span className="font-bold">{raisonSociale}</span>}
       actions={
         <Button
           linkProps={{
@@ -35,16 +35,20 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
       }
     >
       <p>
-        {nombreRaccordements} projet{nombreRaccordements > 1 ? 's' : ''} associé
+        {nombreRaccordements} projet{nombreRaccordements > 1 ? 's' : ''} raccordé
         {nombreRaccordements > 1 ? 's' : ''}
       </p>
-      <Link
-        href={Routes.Raccordement.lister({
-          identifiantGestionnaireReseau: identifiantGestionnaireRéseau.codeEIC,
-        })}
-      >
-        Voir les dossiers de raccordement
-      </Link>
+      {nombreRaccordements ? (
+        <Link
+          href={Routes.Raccordement.lister({
+            identifiantGestionnaireReseau: identifiantGestionnaireRéseau.codeEIC,
+          })}
+        >
+          Voir les dossiers de raccordement
+        </Link>
+      ) : (
+        ''
+      )}
     </ListItem>
   );
 };
