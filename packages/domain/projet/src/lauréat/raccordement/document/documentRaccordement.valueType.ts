@@ -15,6 +15,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
     propositionTechniqueEtFinancière: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
+        /*turbopackIgnore: true*/
         folderRaccordementPath,
         TypeDocumentsRaccordement.propositionTechniqueEtFinancière.type,
       ),
@@ -22,6 +23,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
     conventionDeRaccordement: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
+        /*turbopackIgnore: true*/
         folderRaccordementPath,
         TypeDocumentsRaccordement.conventionDeRaccordement.type,
       ),
@@ -29,6 +31,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
     conventionDeRaccordementDirecte: DossierProjet.convertirEnValueType({
       identifiantProjet,
       typeDocument: join(
+        /*turbopackIgnore: true*/
         folderRaccordementPath,
         TypeDocumentsRaccordement.conventionDeRaccordementDirecte.type,
       ),

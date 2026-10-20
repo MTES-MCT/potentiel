@@ -21,7 +21,7 @@ export const Footer = () => (
     }
     termsLinkProps={terms.linkProps}
     websiteMapLinkProps={{
-      href: 'plan-du-site',
+      href: Routes.PlanDuSite.consulter,
       'aria-label': `plan du site potentiel`,
     }}
     bottomItems={bottomFooterLinks}

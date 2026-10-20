@@ -43,7 +43,10 @@ export const bind = ({
        * @todo Ici le valueType ne devrait pas savoir que l'enregistrement du document doit se faire dans un file system qui demande de créer un chemin de fichier (à l'aide du join)
        * cf upload.ts
        */
-      return join(dossierProjet.formatter(), `${dateCréation}.${extensionFichier}`) as RawType;
+      return join(
+        /*turbopackIgnore: true*/ dossierProjet.formatter(),
+        `${dateCréation}.${extensionFichier}`,
+      ) as RawType;
     },
   };
 };

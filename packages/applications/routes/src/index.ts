@@ -21,6 +21,7 @@ import {
   Raccordement,
   ReprésentantLégal,
 } from './lauréat/index.js';
+import { PlanDuSite } from './plan-du-site/index.js';
 import { Projet } from './projet/index.js';
 import { Période } from './période/index.js';
 import { Gestionnaire } from './réseau/index.js';
@@ -61,6 +62,7 @@ export const Routes = {
   TableauDeBord,
   Tache,
   Utilisateur,
+  PlanDuSite,
 };
 
 export { FiltersSearchParams } from './_helpers/filterSearchParams.js';

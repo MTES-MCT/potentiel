@@ -10,11 +10,11 @@ const typeAttestationActuelle = 'attestation-garanties-financieres';
 export const dossierProjetGarantiesFinancières = (identifiantProjet: string) => ({
   attestationGarantiesFinancièresDépôt: DossierProjet.convertirEnValueType({
     identifiantProjet,
-    typeDocument: join(domaine, typeAttestationSoumise),
+    typeDocument: join(/*turbopackIgnore: true*/ domaine, typeAttestationSoumise),
   }),
   attestationGarantiesFinancières: DossierProjet.convertirEnValueType({
     identifiantProjet,
-    typeDocument: join(domaine, typeAttestationActuelle),
+    typeDocument: join(/*turbopackIgnore: true*/ domaine, typeAttestationActuelle),
   }),
 });
 
