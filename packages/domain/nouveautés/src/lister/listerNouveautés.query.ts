@@ -35,11 +35,12 @@ export const registerListerNouveautésQuery = ({
 }: ListerNouveautésDependencies) => {
   const handler: MessageHandler<ListerNouveautésQuery> = async ({ rôle, limite }) => {
     const rôleUtilisateur = Role.convertirEnValueType(rôle);
-    const nouveautés = await récupérerNouveautés({ limite });
+    const nouveautés = await récupérerNouveautés();
 
     return {
       items: nouveautés
         .filter(({ rôles }) => rôles.includes(rôleUtilisateur.nom))
+        .slice(0, limite)
         .map(mapToReadModel),
     };
   };
