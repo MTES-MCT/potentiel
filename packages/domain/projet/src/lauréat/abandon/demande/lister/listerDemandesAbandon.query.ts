@@ -149,7 +149,7 @@ const mapToReadModel = ({
     preuveRecandidatureStatut: demande.recandidature
       ? StatutPreuveRecandidature.convertirEnValueType(demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
-    demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
+    demandéLe: DateTime.convertirEnValueType(demande.demandéeLe),
     estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
   };
 };

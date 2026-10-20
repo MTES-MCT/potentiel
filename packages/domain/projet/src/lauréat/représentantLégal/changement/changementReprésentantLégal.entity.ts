@@ -12,8 +12,8 @@ export type ChangementReprésentantLégalEntity = Entity<
     demande: {
       nomReprésentantLégal: string;
       typeReprésentantLégal: string;
-      demandéLe: string;
-      demandéPar: string;
+      demandéeLe: string;
+      demandéePar: string;
       pièceJustificative: {
         format: string;
       };

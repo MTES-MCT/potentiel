@@ -12,8 +12,8 @@ export type DemandeDélaiEntity = Entity<
     demande: {
       nombreDeMois: number;
       raison: string;
-      demandéLe: string;
-      demandéPar: string;
+      demandéeLe: string;
+      demandéePar: string;
       pièceJustificative: {
         format: string;
       };

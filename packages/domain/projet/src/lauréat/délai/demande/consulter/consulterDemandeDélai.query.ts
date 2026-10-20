@@ -82,8 +82,8 @@ const mapToReadModel: MapToReadModel = ({
   demandeDélai: {
     statut,
     demande: {
-      demandéLe,
-      demandéPar,
+      demandéeLe,
+      demandéePar,
       nombreDeMois,
       raison,
       pièceJustificative: { format },
@@ -99,13 +99,13 @@ const mapToReadModel: MapToReadModel = ({
     statut: Délai.StatutDemandeDélai.convertirEnValueType(statut),
     pièceJustificative: DocumentDélai.pièceJustificative({
       identifiantProjet: identifiantProjet.formatter(),
-      demandéLe,
+      demandéLe: demandéeLe,
       pièceJustificative: {
         format,
       },
     }),
-    demandéLe: DateTime.convertirEnValueType(demandéLe),
-    demandéPar: Email.convertirEnValueType(demandéPar),
+    demandéLe: DateTime.convertirEnValueType(demandéeLe),
+    demandéPar: Email.convertirEnValueType(demandéePar),
 
     autoritéCompétente:
       autoritéCompétente && AutoritéCompétente.convertirEnValueType(autoritéCompétente),

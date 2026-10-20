@@ -8,8 +8,8 @@ export type DemandeRecoursEntity = Entity<
     miseÀJourLe: string;
 
     demande: {
-      demandéPar: string;
-      demandéLe: string;
+      demandéePar: string;
+      demandéeLe: string;
       raison: string;
       pièceJustificative: {
         format: string;

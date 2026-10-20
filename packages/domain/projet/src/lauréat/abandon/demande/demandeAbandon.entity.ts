@@ -10,8 +10,8 @@ export type DemandeAbandonEntity = Entity<
     miseÀJourLe: string;
 
     demande: {
-      demandéPar: string;
-      demandéLe: string;
+      demandéePar: string;
+      demandéeLe: string;
       raison: string;
       autoritéCompétente: AutoritéCompétente.RawType;
       annulation?: { annuléLe: string; annuléPar: string };

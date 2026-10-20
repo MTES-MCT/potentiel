@@ -63,7 +63,7 @@ export const registerListerDemandeDélaiQuery = ({
       range,
       orderBy: {
         demande: {
-          demandéLe: 'descending',
+          demandéeLe: 'descending',
         },
       },
       join: {
@@ -97,13 +97,13 @@ const mapToReadModel = ({
   identifiantProjet,
   statut,
   miseÀJourLe,
-  demande: { demandéLe, nombreDeMois },
+  demande: { demandéeLe, nombreDeMois },
   lauréat: { nomProjet },
 }: DemandeDélaiEntity & Joined<LauréatEntity>): DemandeDélaiItemReadModel => ({
   nomProjet,
   statut: StatutDemandeDélai.convertirEnValueType(statut),
   miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  demandéLe: DateTime.convertirEnValueType(demandéLe),
+  demandéLe: DateTime.convertirEnValueType(demandéeLe),
   nombreDeMois,
 });
