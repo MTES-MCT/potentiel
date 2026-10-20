@@ -71,12 +71,12 @@ const mapToReadModel = (result: DemandeRecoursEntity) => {
 
   return {
     demande: {
-      demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
-      demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
+      demandéLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
+      demandéPar: Email.convertirEnValueType(result.demande.demandéePar),
       raison: result.demande.raison,
       pièceJustificative: DocumentRecours.pièceJustificative({
         identifiantProjet,
-        demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
+        demandéLe: DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
         pièceJustificative: result.demande.pièceJustificative,
       }),
       instruction: result.demande.instruction

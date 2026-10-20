@@ -29,8 +29,8 @@ export const délaiDemandéProjector = async ({
       miseÀJourLe: demandéLe,
       demande: {
         nombreDeMois,
-        demandéPar,
-        demandéLe,
+        demandéePar: demandéPar,
+        demandéeLe: demandéLe,
         raison,
         pièceJustificative: {
           format,

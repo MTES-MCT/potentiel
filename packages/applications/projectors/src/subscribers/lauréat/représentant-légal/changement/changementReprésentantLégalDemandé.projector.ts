@@ -26,8 +26,8 @@ export const changementReprésentantLégalDemandéProjector = async ({
         nomReprésentantLégal,
         typeReprésentantLégal,
         pièceJustificative,
-        demandéLe,
-        demandéPar,
+        demandéeLe: demandéLe,
+        demandéePar: demandéPar,
       },
     },
   );
