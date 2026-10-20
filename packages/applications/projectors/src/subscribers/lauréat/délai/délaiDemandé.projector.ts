@@ -21,7 +21,6 @@ export const délaiDemandéProjector = async ({
     throw new Error(`Le cahier des charges du projet ${identifiantProjet} est introuvable.`);
   }
 
-  // viovio
   await upsertProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${demandéLe}`,
     {

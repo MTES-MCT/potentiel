@@ -14,6 +14,7 @@ export * as IdentifiantProjet from './identifiantProjet.valueType.js';
 export type * from './getProjetAggregateRoot.port.js';
 export type * from './getScopeProjetUtilisateur.port.js';
 export type * from './récupérerGRDParVille.port.js';
+export type * from './getNombreDemandesProjet.port.js'
 // Aggregate Root
 export * from './projet.aggregateRoot.js';
 // Sagas

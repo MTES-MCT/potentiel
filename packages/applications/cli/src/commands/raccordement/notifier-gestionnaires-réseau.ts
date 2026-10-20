@@ -53,6 +53,9 @@ export class NotifierGestionnaireRéseau extends Command {
       getScopeProjetUtilisateur: () => {
         throw new Error('not implemented');
       },
+      getNombreDemandesProjet: () => {
+        throw new Error('not implemented');
+      },
     });
 
     registerUtilisateurQueries({
