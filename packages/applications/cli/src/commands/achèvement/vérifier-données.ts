@@ -91,7 +91,7 @@ export class VérifierDonnéesAchèvementCommand extends Command {
         laur.value->>'cahierDesCharges' as "cahierDesCharges",
         ach.value->>'prévisionnel.date' as "dateAchevementPrévisionnelStockée",
         racc.value->>'miseEnService.date' as "dateMiseEnService",
-        array_agg(CAST(delai.value->>'demande.nombreDeMois' AS INTEGER)) FILTER (WHERE delai.value->>'nombreDeMois' IS NOT NULL) as "délais"
+        array_agg(CAST(delai.value->>'demande.nombreDeMois' AS INTEGER)) FILTER (WHERE delai.value->>'demande.nombreDeMois' IS NOT NULL) as "délais"
       from domain_views.projection as laur
       inner join domain_views.projection as ach on ach.key = format(
         'achèvement|%s',
