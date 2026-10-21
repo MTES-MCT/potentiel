@@ -32,13 +32,11 @@ const action: FormAction<FormState, typeof schema> = async (
         rôleUtilisateurValue: utilisateur.rôle.nom,
         dateAccordValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
+        ...(accorderMainLevée && { accorderMainLevée: true }),
         ...(choixPPAPourAutoritéCompétente && { ppaSignaléValue: true }),
         ...(choixPPAPourAutoritéCompétente === false && { ppaAnnuléValue: true }),
       },
     });
-
-    if (accorderMainLevée) {
-    }
 
     return {
       status: 'success',

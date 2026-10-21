@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
@@ -21,6 +22,7 @@ type AccorderAbandonSansRecandidatureFormProps = {
   ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: boolean;
+  peutAccorderLaMainLevéeDesGarantiesFinancières?: true;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
@@ -28,6 +30,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
   estPPA,
   ppaSignaléLorsDeLaDemande,
   ppaSignaléLorsDeLaDemandeEtToujoursActif,
+  peutAccorderLaMainLevéeDesGarantiesFinancières,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const ppaDéjàSignaléParLAdministration = estPPA && !ppaSignaléLorsDeLaDemande;
   const ppaSignaléLorsDeLaDemandePuisAnnulé = ppaSignaléLorsDeLaDemande === true && !estPPA;
@@ -39,6 +42,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
   const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] = useState(
     estPPA === true,
   );
+  const [accorderMainLevée, setAccorderMainlevée] = useState(false);
 
   return (
     <>
@@ -99,6 +103,25 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 </>
               )}
 
+              {peutAccorderLaMainLevéeDesGarantiesFinancières && (
+                <Checkbox
+                  id="accorderMainLevée"
+                  className="my-2"
+                  small
+                  options={[
+                    {
+                      label: 'Accorder la mainlevée des garanties financières',
+                      nativeInputProps: {
+                        name: 'accorderMainLevée',
+                        onChange: (ev) => {
+                          setAccorderMainlevée(ev.target.checked);
+                        },
+                      },
+                    },
+                  ]}
+                />
+              )}
+
               <div className="flex flex-col gap-1">
                 <UploadNewOrModifyExistingDocument
                   label="Réponse signée"
@@ -112,9 +135,13 @@ export const AccorderAbandonSansRecandidatureForm = ({
 
                 <DownloadDocument
                   className="mb-2"
-                  url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
+                  url={
+                    accorderMainLevée
+                      ? Routes.Abandon.téléchargerModèleRéponseAvecMainlevée(identifiantProjet)
+                      : Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)
+                  }
                   format="docx"
-                  label="Télécharger le modèle de réponse"
+                  label={`Télécharger le modèle de réponse${accorderMainLevée && "pour accorder l'abandon avec mainlevée des garanties financières"}`}
                   small
                   hideFormat
                 />

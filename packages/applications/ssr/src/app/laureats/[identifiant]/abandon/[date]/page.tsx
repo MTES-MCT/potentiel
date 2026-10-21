@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -14,6 +14,7 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getGarantiesFinancières } from '../../_helpers';
 import { mapToAbandonTimelineItemProps } from '../(historique)/mapToAbandonTimelineItemProps';
 
 type PageProps = { params: Promise<{ identifiant: string; date: string }> };
@@ -55,6 +56,10 @@ export default async function Page(props: PageProps) {
       const estPPA = Option.isSome(powerPurchaseAgreement);
       const ppaSignaléLorsDeLaDemande = abandon.demande.ppaSignalé;
 
+      const garantiesFinancières = await getGarantiesFinancières(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
+
       const historique = await mediator.send<Lauréat.Abandon.ListerHistoriqueAbandonProjetQuery>({
         type: 'Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet',
         data: {
@@ -65,6 +70,9 @@ export default async function Page(props: PageProps) {
       const actions = mapToActions({
         utilisateur,
         abandon,
+        mainlevéeGarantiesFinancièresPossible:
+          !garantiesFinancières.mainlevée?.statut.estAccordé() &&
+          garantiesFinancières.actuelles?.garantiesFinancières.constitution !== undefined,
       });
 
       const projetsÀSélectionner = actions.includes('transmettre-preuve-recandidature')
@@ -104,11 +112,13 @@ type AvailableActions = DétailsAbandonPageProps['actions'];
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
   abandon: Lauréat.Abandon.ConsulterDemandeAbandonReadModel;
+  mainlevéeGarantiesFinancièresPossible: boolean;
 };
 
 const mapToActions = ({
   utilisateur,
   abandon: { statut, demande },
+  mainlevéeGarantiesFinancièresPossible,
 }: MapToActionsProps): AvailableActions => {
   const actions: AvailableActions = [];
   const statutRecandidature = demande.recandidature?.statut;
@@ -151,7 +161,15 @@ const mapToActions = ({
   if (rôle.aLaPermission('abandon.accorder') && changementPossible(statut, 'accordé')) {
     const avecRecandidature =
       statutRecandidature && rôle.aLaPermission('abandon.preuve-recandidature.accorder');
-    actions.push(avecRecandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
+    const accordMainlevéePossible = rôle.estDreal() && mainlevéeGarantiesFinancièresPossible;
+
+    actions.push(
+      avecRecandidature
+        ? 'accorder-avec-recandidature'
+        : accordMainlevéePossible
+          ? 'accorder-sans-recandidature-avec-mainlevée-optionnelle'
+          : 'accorder-sans-recandidature',
+    );
   }
 
   if (rôle.aLaPermission('abandon.rejeter') && changementPossible(statut, 'rejeté')) {

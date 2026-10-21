@@ -33,6 +33,7 @@ type AvailableActions = Array<
   | 'annuler'
   | 'accorder-avec-recandidature'
   | 'accorder-sans-recandidature'
+  | 'accorder-sans-recandidature-avec-mainlevée-optionnelle'
   | 'rejeter'
   | 'transmettre-preuve-recandidature'
   | 'passer-en-instruction'
