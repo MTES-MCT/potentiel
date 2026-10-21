@@ -5,7 +5,7 @@ CREATE VIEW domain_views.stats_demandes AS --
 -- Abandon
 SELECT VALUE->>'identifiantProjet' AS id,
   'abandon' AS categorie,
-  CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
+  CAST(VALUE->>'demande.demandéeLe' AS timestamp) AS demande,
   CAST(
     VALUE->>'demande.accord.accordéLe' AS timestamp
   ) AS accord,
@@ -18,7 +18,7 @@ UNION
 -- Recours
 SELECT VALUE->>'identifiantProjet' AS id,
   'recours' AS categorie,
-  CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
+  CAST(VALUE->>'demande.demandéeLe' AS timestamp) AS demande,
   CAST(
     VALUE->>'demande.accord.accordéLe' AS timestamp
   ) AS accord,
@@ -31,9 +31,9 @@ UNION
 -- Délai
 SELECT VALUE->>'identifiantProjet' AS id,
   'délai' AS categorie,
-  CAST(VALUE->>'demandéLe' AS timestamp) AS demande,
-  CAST(VALUE->>'accord.accordéeLe' AS timestamp) AS accord,
-  CAST(VALUE->>'rejet.rejetéeLe' AS timestamp) AS rejet,
+  CAST(VALUE->>'demande.demandéeLe' AS timestamp) AS demande,
+  CAST(VALUE->>'demande.accord.accordéeLe' AS timestamp) AS accord,
+  CAST(VALUE->>'demande.rejet.rejetéeLe' AS timestamp) AS rejet,
   value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'demande-délai|%'
@@ -47,7 +47,7 @@ SELECT VALUE->>'identifiantProjet' AS id,
     VALUE->>'demande.accord.accordéeLe' AS timestamp
   ) AS accord,
   CAST(VALUE->>'demande.rejet.rejetéeLe' AS timestamp) AS rejet,
-  value->>'demande.statut' as statut
+  value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'changement-puissance|%'
 UNION
@@ -60,7 +60,7 @@ SELECT VALUE->>'identifiantProjet' AS id,
     VALUE->>'demande.accord.accordéeLe' AS timestamp
   ) AS accord,
   CAST(VALUE->>'demande.rejet.rejetéLe' AS timestamp) AS rejet,
-  value->>'demande.statut' as statut
+  value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'changement-actionnaire|%'
 UNION
@@ -68,12 +68,12 @@ UNION
 -- Représentant légal
 SELECT VALUE->>'identifiantProjet' AS id,
   'représentant-légal' AS categorie,
-  CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
+  CAST(VALUE->>'demande.demandéeLe' AS timestamp) AS demande,
   CAST(
     VALUE->>'demande.accord.accordéLe' AS timestamp
   ) AS accord,
   CAST(VALUE->>'demande.rejet.rejetéLe' AS timestamp) AS rejet,
-  value->>'demande.statut' as statut
+  value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'changement-représentant-légal|%'
 UNION
