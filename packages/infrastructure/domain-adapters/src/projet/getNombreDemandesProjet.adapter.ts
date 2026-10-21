@@ -55,7 +55,7 @@ export const getNombreDemandesProjetAdapter: GetNombreDemandesProjet = async (
   GROUP BY 1`,
     rôle,
     date,
-    ...(régions?.length ? régions : []),
+    ...(régions?.length ? [régions] : []),
   );
 
   const résultats = {
