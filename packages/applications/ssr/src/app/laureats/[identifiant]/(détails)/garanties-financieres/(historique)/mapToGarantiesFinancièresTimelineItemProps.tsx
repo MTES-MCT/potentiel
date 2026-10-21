@@ -9,6 +9,7 @@ import {
   garantiesFinancièresActuelles,
   mainlevée,
 } from './events';
+import { mapToMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps } from './events/mainlevée/mapToMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps';
 
 type MapToGarantiesFinancièresTimelineItemProps = (
   record: Lauréat.HistoriqueGarantiesFinancièresProjetListItemReadModel,
@@ -125,5 +126,9 @@ export const mapToGarantiesFinancièresTimelineItemProps: MapToGarantiesFinanci�
           type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
         },
         mainlevée.mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps,
+      )
+      .with(
+        { type: 'MainlevéeGarantiesFinancièresAccordée-V1' },
+        mapToMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps,
       )
       .exhaustive();

@@ -161,14 +161,18 @@ const mapToActionComponents = ({
           dateDemande={dateDemande}
         />
       )}
-      {actions.includes('accorder-sans-recandidature') && (
-        <AccorderAbandonSansRecandidatureForm
-          identifiantProjet={identifiantProjet}
-          estPPA={estPPA}
-          ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
-          ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
-        />
-      )}
+      {actions.includes('accorder-sans-recandidature') ||
+        (actions.includes('accorder-sans-recandidature-avec-mainlevée-optionnelle') && (
+          <AccorderAbandonSansRecandidatureForm
+            identifiantProjet={identifiantProjet}
+            estPPA={estPPA}
+            ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
+            ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
+            peutAccorderLaMainlevéeDesGarantiesFinancières={actions.includes(
+              'accorder-sans-recandidature-avec-mainlevée-optionnelle',
+            )}
+          />
+        ))}
       {actions.includes('rejeter') && (
         <RejeterAbandonForm
           identifiantProjet={identifiantProjet}

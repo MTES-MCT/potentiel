@@ -53,7 +53,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({ id, form, isOpen, onClos
         onValidationError={form.onValidationError}
         key={`form-${id}`}
         actionButtons={{
-          submitLabel: form.submitLabel ?? 'Oui',
+          submitLabel: form.submitLabel ?? 'Confirmer',
           secondaryAction: {
             type: 'cancel',
             onClick: handleRejectClick,
