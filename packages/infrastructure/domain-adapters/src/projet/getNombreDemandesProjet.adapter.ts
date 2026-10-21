@@ -16,7 +16,6 @@ export const getNombreDemandesProjetAdapter: GetNombreDemandesProjet = async (
   date,
   régions,
 ) => {
-  console.log({ rôle, date, régions });
   const result = await executeSelect<{
     domaine: keyof typeof Mapper;
     total: number;
@@ -25,7 +24,7 @@ export const getNombreDemandesProjetAdapter: GetNombreDemandesProjet = async (
     `SELECT
     SPLIT_PART(p.key,'|',1) AS domaine,
     count(*) AS total,
-    count(*) FILTER (WHERE p.value->>'demande.demandéLe' > $2::text) AS new
+    count(*) FILTER (WHERE p.value->>'demande.demandéLe' > $2) AS new
   FROM domain_views.projection p
   WHERE SPLIT_PART(p.key,'|',1) IN (
     'demande-abandon','demande-délai','changement-représentant-légal',
@@ -54,7 +53,9 @@ export const getNombreDemandesProjetAdapter: GetNombreDemandesProjet = async (
       : ''
   }
   GROUP BY 1`,
-    [rôle, date, régions ?? []],
+    rôle,
+    date,
+    ...(régions?.length ? régions : []),
   );
 
   const résultats = {
