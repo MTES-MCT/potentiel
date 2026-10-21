@@ -48,7 +48,7 @@ const terms = {
 
 const bottomFooterLinks = [
   {
-    text: "Conditions générales d'utilisation",
+    text: 'CGU',
     linkProps: {
       href: 'https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation',
       target: '_blank',
