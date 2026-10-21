@@ -25,6 +25,7 @@ export const buildSendMagicLink: BuildSendVerificationRequest = ({
     const utilisateur = await getUtilisateurFromEmail(email);
 
     const estDésactivé = Option.isSome(utilisateur) && utilisateur.désactivé;
+
     if (estDésactivé) {
       return;
     }
@@ -35,11 +36,9 @@ export const buildSendMagicLink: BuildSendVerificationRequest = ({
         recipients: [email],
         values: { url },
       });
-
       return;
     }
 
-    //
     await sendEmail({
       key: 'auth/proconnect-obligatoire',
       recipients: [email],
