@@ -19,9 +19,6 @@ export type MainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
     accordéLe: DateTime.RawType;
     accordéPar: Email.RawType;
     motif: MotifMainlevéeGarantiesFinancières.RawType;
-    réponseSignée: {
-      format: string;
-    };
   }
 >;
 

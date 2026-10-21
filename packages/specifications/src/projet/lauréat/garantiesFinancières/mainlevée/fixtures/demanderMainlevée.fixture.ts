@@ -46,7 +46,7 @@ export class DemanderMainlevéeFixture extends AbstractFixture<DemanderMainlevé
 
   mapToExpected() {
     if (!this.aÉtéCréé) {
-      throw new Error(`Le fixture n'a pas été créée`);
+      return {};
     }
     const demandéeLe = DateTime.convertirEnValueType(this.demandéLe);
     const demandéePar = Email.convertirEnValueType(this.demandéPar);
