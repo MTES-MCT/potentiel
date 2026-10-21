@@ -2,20 +2,18 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import type { RangeOptions } from '@potentiel-domain/entity';
 
 import type { GetNombreDemandesProjet } from './getNombreDemandesProjet.port.js';
 import type { GetScopeProjetUtilisateur } from './getScopeProjetUtilisateur.port.js';
 import type { AutoritéCompétente } from './lauréat/abandon/index.js';
 
-type DemandesEnInstructionListItemReadModel = Record<
+export type DemandesEnInstructionListItemReadModel = Record<
   AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
   { total: number; new: number }
 >;
 
 export type ListerDemandesEnInstructionReadModel = {
   items: DemandesEnInstructionListItemReadModel;
-  range?: RangeOptions;
 };
 
 export type ListerDemandesEnInstructionQuery = Message<
@@ -24,7 +22,6 @@ export type ListerDemandesEnInstructionQuery = Message<
     utilisateur: Email.RawType;
     appelOffre?: Array<string>;
     autoritéCompétente: AutoritéCompétente.RawType;
-    range?: RangeOptions;
   },
   ListerDemandesEnInstructionReadModel
 >;
@@ -41,7 +38,6 @@ export const registerListerDemandesEnInstructionQuery = ({
   const handler: MessageHandler<ListerDemandesEnInstructionQuery> = async ({
     autoritéCompétente,
     utilisateur,
-    range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -53,7 +49,6 @@ export const registerListerDemandesEnInstructionQuery = ({
 
     return {
       items,
-      range,
     };
   };
 

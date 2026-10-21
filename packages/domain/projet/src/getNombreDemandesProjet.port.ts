@@ -1,11 +1,9 @@
-import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { DateTime } from '@potentiel-domain/common';
 import type { Région } from '@potentiel-domain/utilisateur';
 
-export type DemandesProjetScope = Record<
-  AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
-  { total: number; new: number }
->;
+import type { DemandesEnInstructionListItemReadModel } from './index.js';
+
+type DemandesProjetScope = DemandesEnInstructionListItemReadModel;
 
 export type GetNombreDemandesProjet = (
   rôle: 'dreal' | 'dgec',

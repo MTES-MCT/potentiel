@@ -68,9 +68,11 @@ export const getNavigationItemsBasedOnRole = async ({
     },
   ];
 
+  const autorité = rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined;
+
   const toutesDemandesMenuLinks = getDemandesLinks({
     estPorteur: rôle.estPorteur(),
-    autorité: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
+    autorité,
     keys: [
       'abandon',
       'actionnaire',
@@ -88,11 +90,8 @@ export const getNavigationItemsBasedOnRole = async ({
   });
 
   const demandesEnInstruction =
-    showNombreDemande && rôle.estAdministration()
-      ? await getNombreDemandesEnInstruction(
-          identifiantUtilisateur.email,
-          rôle.estDreal() ? 'dreal' : 'dgec',
-        )
+    showNombreDemande && autorité
+      ? await getNombreDemandesEnInstruction(identifiantUtilisateur.email, autorité)
       : [];
 
   const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = toutesDemandesMenuLinks.map((menuItem) => {
