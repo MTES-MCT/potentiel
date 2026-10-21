@@ -50,7 +50,6 @@ export default async function Page(props0: PageProps) {
                 gestionnaire.identifiantGestionnaireRéseau.formatter(),
             },
           });
-
         nombreRaccordementParGestionnaire[gestionnaire.identifiantGestionnaireRéseau.codeEIC] =
           nombreDeRaccordements.nombreRaccordements;
       }),

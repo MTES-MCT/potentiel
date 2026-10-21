@@ -29,7 +29,10 @@ export const convertirEnValueType = ({
 
   return {
     formatter() {
-      return join(identifiantProjet.formatter(), typeDocumentValue) as RawType;
+      return join(
+        /*turbopackIgnore: true*/ identifiantProjet.formatter(),
+        typeDocumentValue,
+      ) as RawType;
     },
     estÉgaleÀ(valueType: ValueType) {
       return this.formatter() === valueType.formatter();

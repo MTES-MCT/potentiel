@@ -21,7 +21,7 @@ export const Footer = () => (
     }
     termsLinkProps={terms.linkProps}
     websiteMapLinkProps={{
-      href: 'plan-du-site',
+      href: Routes.PlanDuSite.consulter,
       'aria-label': `plan du site potentiel`,
     }}
     bottomItems={bottomFooterLinks}
@@ -48,7 +48,7 @@ const terms = {
 
 const bottomFooterLinks = [
   {
-    text: "Conditions générales d'utilisation",
+    text: 'CGU',
     linkProps: {
       href: 'https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation',
       target: '_blank',
