@@ -138,7 +138,7 @@ const mapToListProps = ({
       motif: motif.motif,
       statut: statut.statut,
       estPartiEnPPA,
-      demandéLe: demande.demandéeLe.formatter(),
+      demandéLe: demande?.demandéeLe.formatter(),
       nomProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       appelOffre,

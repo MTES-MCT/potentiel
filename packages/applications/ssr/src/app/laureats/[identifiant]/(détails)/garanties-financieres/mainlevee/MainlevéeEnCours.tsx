@@ -31,11 +31,13 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
   mainlevée: { demande, motif, accord, instruction },
 }) => (
   <>
-    <div>
-      Mainlevée demandée le :{' '}
-      <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
-      <span className="font-semibold">{demande.demandéePar.email}</span>
-    </div>
+    {demande && (
+      <div>
+        Mainlevée demandée le :{' '}
+        <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
+        <span className="font-semibold">{demande.demandéePar.email}</span>
+      </div>
+    )}
     <div>
       Motif :{' '}
       <span className="font-semibold">
