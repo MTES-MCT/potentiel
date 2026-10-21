@@ -30,7 +30,7 @@ export type ListerMainlevéeItemReadModel = {
   motif: MotifMainlevéeGarantiesFinancières.ValueType;
   appelOffre: string;
   nomProjet: string;
-  demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
+  demande?: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
   instruction?: {
     démarréeLe: DateTime.ValueType;
     démarréePar: Email.ValueType;
@@ -38,7 +38,7 @@ export type ListerMainlevéeItemReadModel = {
   accord?: {
     accordéeLe: DateTime.ValueType;
     accordéePar: Email.ValueType;
-    courrierAccord: DocumentProjet.ValueType;
+    courrierAccord?: DocumentProjet.ValueType;
   };
   rejet?: {
     rejetéLe: DateTime.ValueType;
@@ -150,10 +150,12 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
   estPartiEnPPA: mainlevée['power-purchase-agreement'] ? true : undefined,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   motif: MotifMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
-  demande: {
-    demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
-    demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
-  },
+  demande: mainlevée.demande
+    ? {
+        demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
+        demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
+      }
+    : undefined,
   instruction: mainlevée.instruction
     ? {
         démarréeLe: DateTime.convertirEnValueType(mainlevée.instruction.démarréeLe),
@@ -164,11 +166,13 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
     ? {
         accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
         accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-        courrierAccord: DocumentMainlevée.demandeAccordée({
-          identifiantProjet: mainlevée.identifiantProjet,
-          accordéLe: mainlevée.accord.accordéeLe,
-          réponseSignée: mainlevée.accord.courrierAccord,
-        }),
+        courrierAccord: mainlevée.accord.courrierAccord
+          ? DocumentMainlevée.demandeAccordée({
+              identifiantProjet: mainlevée.identifiantProjet,
+              accordéLe: mainlevée.accord.accordéeLe,
+              réponseSignée: mainlevée.accord.courrierAccord,
+            })
+          : undefined,
       }
     : undefined,
   rejet: mainlevée.rejet

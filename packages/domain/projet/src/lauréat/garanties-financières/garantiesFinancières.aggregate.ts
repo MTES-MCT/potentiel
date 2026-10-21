@@ -290,7 +290,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  async annulerTâchesPlanififées() {
+  async annulerTâchesPlanifiées() {
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
     await this.#tâchePlanifiéeRappel1mois.annuler();
@@ -307,7 +307,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async annulerTâchesEtTâchesPlanifiées() {
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
     await this.annulerTâchePorteurDemanderGarantiesFinancières();
     await this.annulerTâchePorteurTransmettreAttestationConstitution();
   }
@@ -598,7 +598,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       await this.publish(event);
     }
 
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
   }
 
   private applyHistoriqueGarantiesFinancièresEffacéV1(
@@ -647,7 +647,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
     await this.annulerTâchePorteurDemanderGarantiesFinancières();
   }
 
@@ -964,7 +964,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
   }
 
   private applyDemandeMainlevéeGarantiesFinancièresAccordéeV1(
@@ -973,12 +973,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
   }
 
-  async accorderMainlevée({
-    accordéLe,
-    accordéPar,
-    motif,
-    réponseSignée: { format },
-  }: AccorderMainlevéeOptions) {
+  async accorderMainlevée({ accordéLe, accordéPar, motif }: AccorderMainlevéeOptions) {
     this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
 
     this.vérifierQueLeProjetNEstPasExempt();
@@ -1000,15 +995,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         accordéLe: accordéLe.formatter(),
         accordéPar: accordéPar.formatter(),
         motif: motif.formatter(),
-        réponseSignée: {
-          format,
-        },
       },
     };
 
     await this.publish(event);
 
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
   }
 
   private applyMainlevéeGarantiesFinancièresAccordéeV1(
