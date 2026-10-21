@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
@@ -22,7 +21,7 @@ type AccorderAbandonSansRecandidatureFormProps = {
   ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: boolean;
-  peutAccorderLaMainLevéeDesGarantiesFinancières?: true;
+  peutAccorderLaMainlevéeDesGarantiesFinancières: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
@@ -30,7 +29,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
   estPPA,
   ppaSignaléLorsDeLaDemande,
   ppaSignaléLorsDeLaDemandeEtToujoursActif,
-  peutAccorderLaMainLevéeDesGarantiesFinancières,
+  peutAccorderLaMainlevéeDesGarantiesFinancières,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const ppaDéjàSignaléParLAdministration = estPPA && !ppaSignaléLorsDeLaDemande;
   const ppaSignaléLorsDeLaDemandePuisAnnulé = ppaSignaléLorsDeLaDemande === true && !estPPA;
@@ -42,7 +41,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
   const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] = useState(
     estPPA === true,
   );
-  const [accorderMainLevée, setAccorderMainlevée] = useState(false);
+  const [accorderMainLevée, setAccorderMainlevée] = useState<boolean>(false);
 
   return (
     <>
@@ -103,28 +102,32 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 </>
               )}
 
-              {peutAccorderLaMainLevéeDesGarantiesFinancières && (
-                <Checkbox
-                  id="accorderMainLevée"
-                  className="my-2"
-                  small
-                  options={[
-                    {
-                      label: 'Accorder la mainlevée des garanties financières',
-                      nativeInputProps: {
-                        name: 'accorderMainLevée',
-                        onChange: (ev) => {
-                          setAccorderMainlevée(ev.target.checked);
-                        },
-                      },
+              {peutAccorderLaMainlevéeDesGarantiesFinancières && (
+                <Select
+                  state={
+                    validationErrors['accorderMainlevéeGarantiesFinancières'] ? 'error' : 'default'
+                  }
+                  stateRelatedMessage={validationErrors['accorderMainlevéeGarantiesFinancières']}
+                  id="accorderMainlevéeGarantiesFinancières"
+                  label="Accorder la mainlevée des garanties financières avec l'abandon"
+                  nativeSelectProps={{
+                    name: 'accorderMainlevéeGarantiesFinancières',
+                    required: true,
+                    'aria-required': true,
+                    onChange: (e) => {
+                      setAccorderMainlevée(e.target.value === 'true');
                     },
+                  }}
+                  options={[
+                    { label: 'Oui', value: 'true' },
+                    { label: 'Non', value: 'false' },
                   ]}
                 />
               )}
 
               <div className="flex flex-col gap-1">
                 <UploadNewOrModifyExistingDocument
-                  label="Réponse signée"
+                  label={`Réponse signée${accorderMainLevée ? " pour l'abandon et la mainlevée des garanties financières" : ''}`}
                   state={validationErrors['reponseSignee'] ? 'error' : 'default'}
                   stateRelatedMessage={validationErrors['reponseSignee']}
                   name="reponseSignee"
@@ -141,7 +144,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                       : Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)
                   }
                   format="docx"
-                  label={`Télécharger le modèle de réponse${accorderMainLevée && "pour accorder l'abandon avec mainlevée des garanties financières"}`}
+                  label="Télécharger le modèle de réponse"
                   small
                   hideFormat
                 />
