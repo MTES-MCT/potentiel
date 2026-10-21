@@ -142,6 +142,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
       />
       {!siretUnknown && (
         <Input
+          className="w-1/3"
           state={siretError || validationErrors['siret'] ? 'error' : 'default'}
           stateRelatedMessage={siretError ?? validationErrors['siret']}
           hintText={`Constitué de 14 chiffres. Précédemment : ${numéroIdentification?.siret ?? 'non renseigné'}`}
@@ -156,6 +157,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         />
       )}
       <Input
+        className="w-2/3"
         state={validationErrors['producteur'] ? 'error' : producteur.fromAPI ? 'info' : 'default'}
         stateRelatedMessage={
           validationErrors['producteur'] ??
@@ -174,6 +176,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         hintText={`Précédemment : ${producteurInitialValue}`}
       />
       <Input
+        className="w-2/3"
         textArea
         label="Raison"
         id="raison"

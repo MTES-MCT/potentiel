@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   ModifierProducteurForm,
   type ModifierProducteurFormProps,
@@ -14,19 +14,12 @@ export const ModifierProducteurPage: FC<ModifierProducteurPageProps> = ({
   producteur,
   numéroIdentification,
 }) => (
-  <ColumnPageTemplate
-    heading={<Heading1>Modifier le producteur</Heading1>}
-    leftColumn={{
-      children: (
-        <ModifierProducteurForm
-          identifiantProjet={identifiantProjet}
-          producteur={producteur}
-          numéroIdentification={numéroIdentification}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: <></>,
-    }}
-  />
+  <PageTemplate>
+    <Heading1>Modifier le producteur</Heading1>
+    <ModifierProducteurForm
+      identifiantProjet={identifiantProjet}
+      producteur={producteur}
+      numéroIdentification={numéroIdentification}
+    />
+  </PageTemplate>
 );
