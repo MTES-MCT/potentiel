@@ -75,7 +75,7 @@ Quand(
   `un utilisateur Dreal accorde la demande de mainlevée des garanties financières`,
   async function (this: PotentielWorld) {
     try {
-      await accorderMainlevée.call(this);
+      await accorderDemandeMainlevée.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -139,20 +139,22 @@ export async function démarrerInstructionMainlevée(this: PotentielWorld) {
   );
 }
 
-export async function accorderMainlevée(this: PotentielWorld) {
+export async function accorderDemandeMainlevée(this: PotentielWorld) {
   const { identifiantProjet } = this.lauréatWorld;
   const { accordéLe, accordéPar, courrierAccord } =
-    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.créer();
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.créer();
 
-  await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
-    type: 'Lauréat.GarantiesFinancières.UseCase.AccorderDemandeMainlevée',
-    data: {
-      identifiantProjetValue: identifiantProjet.formatter(),
-      accordéLeValue: accordéLe,
-      accordéParValue: accordéPar,
-      réponseSignéeValue: convertFixtureFileToReadableStream(courrierAccord),
+  await mediator.send<Lauréat.GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
+    {
+      type: 'Lauréat.GarantiesFinancières.UseCase.AccorderDemandeMainlevée',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        accordéLeValue: accordéLe,
+        accordéParValue: accordéPar,
+        réponseSignéeValue: convertFixtureFileToReadableStream(courrierAccord),
+      },
     },
-  });
+  );
 }
 
 export async function rejeterMainlevée(this: PotentielWorld) {

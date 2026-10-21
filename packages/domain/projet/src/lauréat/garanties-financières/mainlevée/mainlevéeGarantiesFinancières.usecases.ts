@@ -1,4 +1,4 @@
-import type { AccorderMainlevéeGarantiesFinancièresUseCase } from './accorderDemande/accorderMainlevéeGarantiesFinancières.usecase.js';
+import type { AccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './accorderDemande/accorderDemandeMainlevéeGarantiesFinancières.usecase.js';
 import type { AnnulerMainlevéeGarantiesFinancièresUseCase } from './annuler/annulerMainlevéeGarantiesFinancières.usecase.js';
 import type { DemanderMainlevéeGarantiesFinancièresUseCase } from './demander/demanderMainlevéeGarantiesFinancières.usecase.js';
 import type { DémarrerInstructionMainlevéeGarantiesFinancièresUseCase } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.usecase.js';
@@ -9,11 +9,11 @@ export type MainlevéeGarantiesFinancièresUseCases =
   | DemanderMainlevéeGarantiesFinancièresUseCase
   | AnnulerMainlevéeGarantiesFinancièresUseCase
   | DémarrerInstructionMainlevéeGarantiesFinancièresUseCase
-  | AccorderMainlevéeGarantiesFinancièresUseCase
+  | AccorderDemandeMainlevéeGarantiesFinancièresUseCase
   | RejeterMainlevéeGarantiesFinancièresUseCase;
 
 export type {
-  AccorderMainlevéeGarantiesFinancièresUseCase,
+  AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
   AnnulerMainlevéeGarantiesFinancièresUseCase,
   DemanderMainlevéeGarantiesFinancièresUseCase,
   DémarrerInstructionMainlevéeGarantiesFinancièresUseCase,

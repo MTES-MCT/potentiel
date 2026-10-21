@@ -157,6 +157,42 @@ Quand(
 );
 
 Quand(
+  /la DREAL accorde la mainlevée des garanties financières avec l'abandon/,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+      const rôle = Role.dreal.nom;
+
+      const { accordéLe, accordéePar, réponseSignée } =
+        this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
+          accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+        });
+
+      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.créer({
+        accordéLe,
+        accordéPar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+        motif: 'projet-abandonné',
+      });
+
+      await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({
+        type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          dateAccordValue: accordéLe,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
+          identifiantUtilisateurValue: accordéePar,
+          rôleUtilisateurValue: rôle,
+          accorderMainlevéeGarantiesFinancièresValue: true,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   "la dgec accorde la demande d'abandon avec annulation du signalement PPA pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {

@@ -58,15 +58,17 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
           <FormattedDate className="font-semibold" date={accord.accordéeLe.date} /> par{' '}
           <span className="font-semibold">{accord.accordéePar.email}</span>
         </div>
-        <div className="flex flex-col gap-1 justify-center">
-          <DownloadDocument
-            format="pdf"
-            label="Télécharger la réponse signée"
-            url={Routes.Document.télécharger(
-              DocumentProjet.bind(accord.courrierAccord).formatter(),
-            )}
-          />
-        </div>
+        {accord.courrierAccord && (
+          <div className="flex flex-col gap-1 justify-center">
+            <DownloadDocument
+              format="pdf"
+              label="Télécharger la réponse signée"
+              url={Routes.Document.télécharger(
+                DocumentProjet.bind(accord.courrierAccord).formatter(),
+              )}
+            />
+          </div>
+        )}
       </div>
     )}
   </>

@@ -1,0 +1,77 @@
+import { faker } from '@faker-js/faker';
+
+import { DateTime, Email } from '@potentiel-domain/common';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+
+import type { PièceJustificative } from '#helpers';
+import { AbstractFixture } from '../../../../../fixture.js';
+
+interface AccorderDemandeMainlevée {
+  readonly accordéLe: string;
+  readonly accordéPar: string;
+  readonly courrierAccord: PièceJustificative;
+}
+
+export class AccorderDemandeMainlevéeFixture
+  extends AbstractFixture<AccorderDemandeMainlevée>
+  implements AccorderDemandeMainlevée
+{
+  #accordéLe!: string;
+  get accordéLe(): string {
+    return this.#accordéLe;
+  }
+
+  #accordéPar!: string;
+  get accordéPar(): string {
+    return this.#accordéPar;
+  }
+  #courrierAccord!: AccorderDemandeMainlevée['courrierAccord'];
+
+  get courrierAccord(): AccorderDemandeMainlevée['courrierAccord'] {
+    return this.#courrierAccord;
+  }
+
+  créer(
+    partialData?: Partial<Readonly<AccorderDemandeMainlevée>>,
+  ): Readonly<AccorderDemandeMainlevée> {
+    const fixture: AccorderDemandeMainlevée = {
+      accordéLe: faker.date.soon().toISOString(),
+      accordéPar: faker.internet.email(),
+      courrierAccord: faker.potentiel.document(),
+      ...partialData,
+    };
+
+    this.#accordéLe = fixture.accordéLe;
+    this.#accordéPar = fixture.accordéPar;
+    this.#courrierAccord = fixture.courrierAccord;
+
+    this.aÉtéCréé = true;
+    return fixture;
+  }
+
+  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+    if (!this.aÉtéCréé) {
+      return {};
+    }
+    const accordéeLe = DateTime.convertirEnValueType(this.accordéLe);
+    const accordéePar = Email.convertirEnValueType(this.accordéPar);
+    return {
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé,
+      accord: {
+        accordéeLe,
+        accordéePar,
+        courrierAccord: Lauréat.GarantiesFinancières.DocumentMainlevée.demandeAccordée({
+          identifiantProjet: identifiantProjet.formatter(),
+          accordéLe: accordéeLe.formatter(),
+          réponseSignée: {
+            format: this.#courrierAccord.format,
+          },
+        }),
+      },
+      dernièreMiseÀJour: {
+        date: accordéeLe,
+        par: accordéePar,
+      },
+    };
+  }
+}

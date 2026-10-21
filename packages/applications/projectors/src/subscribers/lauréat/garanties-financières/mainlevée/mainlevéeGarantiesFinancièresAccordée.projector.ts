@@ -13,7 +13,11 @@ export const mainlevéeGarantiesFinancièresAccordéeProjector = async ({
     {
       identifiantProjet,
       motif,
-      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+      accord: {
+        accordéeLe: accordéLe,
+        accordéePar: accordéPar,
+      },
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
       dernièreMiseÀJour: {
         date: accordéLe,
         par: accordéPar,

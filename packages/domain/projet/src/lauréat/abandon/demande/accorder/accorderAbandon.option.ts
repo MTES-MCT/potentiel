@@ -10,5 +10,5 @@ export type AccorderOptions = {
   réponseSignée: DocumentProjet.ValueType;
   ppaSignalé?: true;
   ppaAnnulé?: true;
-  accorderMainLevéeGarantiesFinancières?: true;
+  accorderMainlevéeGarantiesFinancières?: true;
 };

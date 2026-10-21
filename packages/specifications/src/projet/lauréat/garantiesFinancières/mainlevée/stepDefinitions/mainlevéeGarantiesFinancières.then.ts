@@ -32,10 +32,10 @@ Alors(
       'Le modèle retourné ne correspond pas au modèle attendu',
     );
 
-    if (actualReadModel.accord) {
+    if (actualReadModel.accord?.courrierAccord && actualReadModel.demande) {
       await expectFileContent(
         actualReadModel.accord.courrierAccord,
-        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
+        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord,
       );
     }
   },

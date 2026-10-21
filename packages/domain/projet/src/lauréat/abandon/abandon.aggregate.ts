@@ -142,7 +142,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     rôleUtilisateur,
     ppaSignalé,
     ppaAnnulé,
-    accorderMainLevéeGarantiesFinancières,
+    accorderMainlevéeGarantiesFinancières,
   }: AccorderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
@@ -205,7 +205,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       });
     }
 
-    if (accorderMainLevéeGarantiesFinancières) {
+    if (accorderMainlevéeGarantiesFinancières) {
       await this.lauréat.garantiesFinancières.accorderMainlevée({
         accordéLe: dateAccord,
         accordéPar: identifiantUtilisateur,
