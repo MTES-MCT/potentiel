@@ -158,6 +158,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
         accordéPar: identifiantUtilisateur.formatter(),
         ppaSignalé,
         ppaAnnulé,
+        mainlevéeGarantiesFinancièresAccordée: accorderMainlevéeGarantiesFinancières,
       },
     };
 
