@@ -25,10 +25,12 @@ export type ActionsMainlevéeProps = {
 
 export type MainlevéeEnCoursProps = {
   mainlevée: PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
+  réponseSignéeAbandonAccordé?: PlainType<DocumentProjet.ValueType>;
 };
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
   mainlevée: { demande, motif, accord, instruction },
+  réponseSignéeAbandonAccordé,
 }) => (
   <>
     {demande && (
@@ -65,6 +67,17 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
               label="Télécharger la réponse signée"
               url={Routes.Document.télécharger(
                 DocumentProjet.bind(accord.courrierAccord).formatter(),
+              )}
+            />
+          </div>
+        )}
+        {réponseSignéeAbandonAccordé && (
+          <div className="flex flex-col gap-1 justify-center">
+            <DownloadDocument
+              format="pdf"
+              label="Télécharger la réponse signée"
+              url={Routes.Document.télécharger(
+                DocumentProjet.bind(réponseSignéeAbandonAccordé).formatter(),
               )}
             />
           </div>

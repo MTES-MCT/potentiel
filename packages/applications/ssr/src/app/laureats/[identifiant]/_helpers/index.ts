@@ -4,5 +4,6 @@ export * from './getGarantiesFinancières';
 export * from './getLauréat';
 export * from './getRaccordement';
 export * from './getRecours';
+export * from './getRéponseSignéeAbandonAccordé';
 export * from './peutEffectuerUnChangement';
 export type * from './types';
