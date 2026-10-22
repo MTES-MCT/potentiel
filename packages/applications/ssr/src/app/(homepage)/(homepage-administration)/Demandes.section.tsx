@@ -10,7 +10,7 @@ import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWith
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { DemandesDétails } from './Demandes.détails';
 
-const sectionTitle = 'Demandes à traiter';
+const sectionTitle = 'Demandes à instruire';
 
 export const DemandesSection = () =>
   SectionWithErrorHandling(

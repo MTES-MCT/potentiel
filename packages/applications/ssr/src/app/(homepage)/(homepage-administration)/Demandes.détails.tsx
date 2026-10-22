@@ -79,31 +79,26 @@ const DemandesParDomaine = ({
       }}
       orientation="horizontal"
       start={
-        newCount > 0 && (
+        newCount ? (
           <Badge noIcon severity="info">
-            New
+            Nouvelles demandes
           </Badge>
-        )
+        ) : newCount === 1 ? (
+          <Badge noIcon severity="info">
+            Nouvelle demande
+          </Badge>
+        ) : null
       }
-      title={
-        <div className="flex flex-row items-center gap-8">
-          {mapDomaineToLabel[domain]}
-          <BadgeMui badgeContent={total} max={99} color="primary" overlap="circular" />
-        </div>
-      }
+      title={mapDomaineToLabel[domain]}
       desc={
-        <>
-          <span className="italic text-sm">
-            {total
-              ? `${total} ${total > 1 ? 'demandes' : 'demande'} à traiter`
-              : `Aucune demande à
-          traiter`}
-          </span>
-          <span className="italic text-sm">
-            {' '}
-            {newCount > 0 && `dont ${newCount} ${newCount > 1 ? 'récentes' : ' récente'}`}
-          </span>
-        </>
+        total ? (
+          <div className="flex flex-row gap-4 items-center">
+            <BadgeMui badgeContent={total} max={99} color="primary" overlap="circular" />
+            <div className="italic text-sm">{total > 1 ? 'demandes' : 'demande'}</div>
+          </div>
+        ) : (
+          <span className="italic text-sm">Aucune demande à traiter</span>
+        )
       }
       titleAs="h3"
     />
