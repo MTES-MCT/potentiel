@@ -8,7 +8,7 @@ Fonctionnalité: Accorder une mainlevée des garanties financières avec l'aband
             | période        | 1                        |
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
-@select
+
     Scénario: Un utilisateur Dreal accorde la mainlevée avec l'abandon du projet
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
         | type GF | consignation |
@@ -16,9 +16,10 @@ Fonctionnalité: Accorder une mainlevée des garanties financières avec l'aband
         Quand la DREAL accorde la mainlevée des garanties financières avec l'abandon
         Alors une demande de mainlevée de garanties financières devrait être consultable
         Et les garanties financières actuelles du projet sont levées
+    
+    Scénario: Impossible d'accorder une mainlevée avec l'abandon si les garanties financières ne sont pas constituées
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand la DREAL accorde la mainlevée des garanties financières avec l'abandon
+        Alors l'utilisateur devrait être informé que "L'attestation et la date de prise d'effet des garanties financières sont requises"
 
-    # Autre scenarios
-    # Accorder une mainlevée avec l'abandon du projet lorsque le projet a déjà une demande de mainlevée (possible?)
-    # Impossible d'acorder une mainlevée avec l'abandon du projet si les garanties financières sont déjà levées
-    # Impossible d'acorder une mainlevée avec l'abandon du projet si les garanties financières ne sont pas constituées
-    # Impossible d'acorder une mainlevée avec l'abandon du projet si le projet a déjà une demande de mainlevée accordée
+
