@@ -21,30 +21,32 @@ export const NouveautésDétails = ({ nouveautés }: NouveautésDétailsProps) =
     {nouveautés.length === 0 ? (
       <div>Aucune nouveauté à afficher</div>
     ) : (
-      nouveautés.map((n) => (
-        <Card
-          background
-          border
-          title={n.title}
-          key={n.title}
-          desc={n.content ?? undefined}
-          detail={n.date ? <FormattedDate date={n.date} /> : undefined}
-          titleAs="h3"
-          size="small"
-          linkProps={
-            n.link
+      nouveautés.map((n) => {
+        return (
+          <Card
+            background
+            border
+            title={n.title}
+            key={n.title}
+            desc={n.content ?? undefined}
+            detail={n.date ? <FormattedDate date={n.date} /> : undefined}
+            titleAs="h3"
+            size="small"
+            {...(n.link
               ? {
-                  href: n.link.href,
-                  title: n.title,
-                  ...(n.link.external && {
-                    target: '_blank',
-                    title: `Ouvrir le lien dans un nouvel onglet`,
-                  }),
+                  enlargeLink: true as const,
+                  linkProps: {
+                    href: n.link.href,
+                    ...(n.link.external && {
+                      target: '_blank',
+                      'aria-label': `${n.title} dans un nouvel onglet`,
+                    }),
+                  },
                 }
-              : undefined
-          }
-        />
-      ))
+              : { enlargeLink: false as const })}
+          />
+        );
+      })
     )}
   </div>
 );
