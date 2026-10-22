@@ -32,6 +32,9 @@
       "path": "../../domain/entity"
     },
     {
+      "path": "../../domain/nouveautés"
+    },
+    {
       "path": "../../domain/projet"
     },
     {

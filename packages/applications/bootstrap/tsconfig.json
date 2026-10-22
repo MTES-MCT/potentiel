@@ -12,6 +12,9 @@
       "path": "../../domain/core"
     },
     {
+      "path": "../../domain/nouveautés"
+    },
+    {
       "path": "../../domain/projet"
     },
     {
@@ -31,6 +34,9 @@
     },
     {
       "path": "../../infrastructure/email"
+    },
+    {
+      "path": "../../infrastructure/grist-api-client"
     },
     {
       "path": "../../infrastructure/pg-event-sourcing"

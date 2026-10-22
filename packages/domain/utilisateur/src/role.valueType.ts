@@ -691,6 +691,11 @@ const référencielPermissions = {
       lister: 'Lauréat.Query.ListerHistoriqueProjet',
     },
   },
+  nouveautés: {
+    query: {
+      lister: 'Nouveautés.Query.ListerNouveautés',
+    },
+  },
 } as const;
 
 /**
@@ -1608,7 +1613,7 @@ const policies = {
     consulter: [],
   },
   tableauDeBord: {
-    consulter: [],
+    consulter: [référencielPermissions.nouveautés.query.lister],
   },
 } as const;
 

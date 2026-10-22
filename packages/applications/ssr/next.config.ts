@@ -26,6 +26,7 @@ const nextConfig: NextConfig = {
     '@potentiel-applications/routes',
     '@potentiel-domain/appel-offre',
     '@potentiel-domain/entity',
+    '@potentiel-domain/nouveautes',
     '@potentiel-domain/projet',
     '@potentiel-domain/reseau',
     '@potentiel-domain/statistiques-utilisation',
