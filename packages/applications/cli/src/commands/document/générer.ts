@@ -100,6 +100,8 @@ function getData(
               ?.dispositions ?? '!!!MANQUANT!!!',
           dateDemandeConfirmation: faker.date.recent().toLocaleDateString('fr-FR'),
           dateConfirmation: faker.date.recent().toLocaleDateString('fr-FR'),
+          afficherParagrapheMainleveeGarantiesFinancieres: '',
+          dateConstitutionGarantiesFinancieres: '',
         },
       };
     case 'recours':

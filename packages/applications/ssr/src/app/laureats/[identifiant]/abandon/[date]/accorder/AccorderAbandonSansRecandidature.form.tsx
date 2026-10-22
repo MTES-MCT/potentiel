@@ -160,11 +160,10 @@ export const AccorderAbandonSansRecandidatureForm = ({
 
                 <DownloadDocument
                   className="mb-2"
-                  url={
-                    accorderMainLevée
-                      ? Routes.Abandon.téléchargerModèleRéponseAvecMainlevée(identifiantProjet)
-                      : Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)
-                  }
+                  url={Routes.Abandon.téléchargerModèleRéponse({
+                    identifiantProjet,
+                    avecMainLevéeGF: accorderMainLevée,
+                  })}
                   format="docx"
                   label="Télécharger le modèle de réponse"
                   small
