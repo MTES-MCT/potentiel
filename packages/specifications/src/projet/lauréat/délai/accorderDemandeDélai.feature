@@ -10,7 +10,8 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
 
     Plan du scénario: la DREAL accorde la demande de délai d'un projet lauréat
         Etant donné une date d'achèvement prévisionnel pour le projet lauréat au "<date achèvement prévisionnel actuelle>"
-        Et une demande de délai en cours de "<durée du délai demandé>" mois pour le projet lauréat
+        Et une demande de délai en cours pour le projet lauréat avec :
+            | durée du délai demandé | <durée du délai demandé> |
         Quand la DREAL accorde la demande de délai pour le projet lauréat
         Alors la demande de délai devrait être accordée
         Et la date d'achèvement prévisionnel du projet lauréat devrait être au "<date achèvement prévisionnel attendue>"
@@ -31,7 +32,8 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2028-07-02"
-        Et une demande de délai en cours de "1" mois pour le projet lauréat
+        Et une demande de délai en cours pour le projet lauréat avec :
+            | durée du délai demandé | 1 |
         Quand la DREAL accorde la demande de délai pour le projet lauréat
         Alors la demande de délai devrait être accordée
         Et la date d'achèvement prévisionnel du projet lauréat devrait être au "2028-08-02"
@@ -43,6 +45,20 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée à la date du "2028-05-02" pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée à la date du "2028-06-02" pour le projet lauréat
         Et une tâche "rappel échéance achèvement à un mois" est planifiée à la date du "2028-07-02" pour le projet lauréat
+
+
+    Scénario: Un délai pour prolongation de phase d'essai est accordé
+        Etant donné une date d'achèvement prévisionnel pour le projet lauréat au "2024-05-01"
+        Et une demande de délai en cours pour le projet lauréat avec :
+            | motif                  | prolongation-phase-essai |
+            | durée du délai demandé | 1                        |
+        Quand la DGEC accorde la demande de délai pour le projet lauréat
+        Alors la demande de délai devrait être accordée
+        Et la date d'achèvement prévisionnel du projet lauréat devrait être au "2024-05-01"
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Du boulodrome de Bordeaux - Délai accordé |
+            | nom_projet | Du boulodrome de Bordeaux                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL accorde la demande de délai pour le projet lauréat
@@ -67,5 +83,11 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
             | appel d'offres | Eolien |
         Et une demande de délai en cours pour le projet lauréat
+        Quand la DREAL accorde la demande de délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
+
+    Scénario: Impossible d'accorder le délai pour prolongation de phase d'essai pour un utilisateur DREAL
+        Etant donné une demande de délai en cours pour le projet lauréat avec :
+            | motif | prolongation-phase-essai |
         Quand la DREAL accorde la demande de délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"

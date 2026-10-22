@@ -7,6 +7,7 @@ import type {
   GetProjetAggregateRoot,
   IdentifiantProjet,
 } from '../../../../index.js';
+import type { MotifDemandeDélai } from '../../index.js';
 
 export type DemanderDélaiCommand = Message<
   'Lauréat.Délai.Command.DemanderDélai',
@@ -17,6 +18,7 @@ export type DemanderDélaiCommand = Message<
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
+    motif: MotifDemandeDélai.ValueType;
   }
 >;
 
@@ -30,6 +32,7 @@ export const registerDemanderDélaiDélaiCommand = (
     nombreDeMois,
     identifiantUtilisateur,
     dateDemande,
+    motif,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -39,6 +42,7 @@ export const registerDemanderDélaiDélaiCommand = (
       identifiantUtilisateur,
       dateDemande,
       nombreDeMois,
+      motif,
     });
   };
   mediator.register('Lauréat.Délai.Command.DemanderDélai', handler);

@@ -159,7 +159,7 @@ EtantDonné(
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
-  const admin = this.utilisateurWorld.dgecFixture.créer({});
+  const dgec = this.utilisateurWorld.dgecFixture.créer({});
   const cre = this.utilisateurWorld.creFixture.créer();
 
   await inviterUtilisateur.call(this, {
@@ -168,7 +168,7 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
     fonction: validateur.fonction,
     nomComplet: validateur.nom,
   });
-  await inviterUtilisateur.call(this, { rôle: admin.role, email: admin.email });
+  await inviterUtilisateur.call(this, { rôle: dgec.role, email: dgec.email });
   await inviterUtilisateur.call(this, { rôle: cre.role, email: cre.email });
 }
 

@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import { IdentifiantProjet } from '../../../../index.js';
+import { IdentifiantProjet, Lauréat } from '../../../../index.js';
 import { DocumentDélai } from '../../index.js';
 import type { AccorderDemandeDélaiCommand } from './accorderDemandeDélai.command.js';
 
@@ -14,6 +14,7 @@ export type AccorderDemandeDélaiUseCase = Message<
     identifiantProjetValue: string;
     dateAccordValue: string;
     nombreDeMois: number;
+    motifValue: string;
     identifiantUtilisateurValue: string;
     réponseSignéeValue: { content: ReadableStream; format: string };
     rôleUtilisateurValue: string;
@@ -25,6 +26,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
     identifiantProjetValue,
     dateAccordValue,
     nombreDeMois,
+    motifValue,
     identifiantUtilisateurValue,
     réponseSignéeValue: { format, content },
     rôleUtilisateurValue,
@@ -32,6 +34,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifValue);
     const réponseSignée = DocumentDélai.demandeAccordée({
       identifiantProjet: identifiantProjet.formatter(),
       accordéLe: dateAccord.formatter(),
@@ -52,6 +55,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
         dateAccord,
         identifiantUtilisateur,
         identifiantProjet,
+        motif,
         réponseSignée,
         nombreDeMois,
         rôleUtilisateur,

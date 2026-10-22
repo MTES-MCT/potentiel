@@ -5,7 +5,7 @@ import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDélaiDemandéTimelineItemProps = (
-  event: Lauréat.Délai.DélaiDemandéEvent,
+  event: Lauréat.Délai.DélaiDemandéEvent | Lauréat.Délai.DélaiDemandéEventV1,
   permissionConsulterChangement: boolean,
 ): TimelineItemProps => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, nombreDeMois, raison } =

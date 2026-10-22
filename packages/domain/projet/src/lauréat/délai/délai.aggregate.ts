@@ -6,17 +6,26 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import type { Lauréat } from '../../index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
-import type { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
 import type { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options.js';
+import type {
+  DélaiAccordéEvent,
+  DélaiAccordéEventV1,
+} from './demande/accorder/accorderDélai.event.js';
 import type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
 import type { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options.js';
-import type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
+import type {
+  DemandeDélaiCorrigéeEvent,
+  DemandeDélaiCorrigéeEventV1,
+} from './demande/corriger/corrigerDemandeDélai.event.js';
 import type { CorrigerDemandeDélaiOptions } from './demande/corriger/corrigerDemandeDélai.options.js';
 import {
   DemandeDeDélaiInexistanteError,
   DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
 } from './demande/demandeDélai.error.js';
-import type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event.js';
+import type {
+  DélaiDemandéEvent,
+  DélaiDemandéEventV1,
+} from './demande/demander/demanderDélai.event.js';
 import type { DemanderDélaiOptions } from './demande/demander/demanderDélai.options.js';
 import type { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option.js';
 import type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
@@ -27,6 +36,7 @@ import type { DélaiEvent } from './délai.event.js';
 import {
   AutoritéCompétente,
   type DemandeDélaiPasséeEnInstructionEvent,
+  MotifDemandeDélai,
   StatutDemandeDélai,
 } from './index.js';
 
@@ -40,9 +50,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     instruction?: {
       passéEnInstructionPar: Email.ValueType;
     };
+    motif: MotifDemandeDélai.ValueType;
   };
 
   get autoritéCompétente(): AutoritéCompétente.ValueType {
+    if (this.#demande?.motif.estProlongationPhaseEssai()) {
+      return AutoritéCompétente.dgec;
+    }
     return AutoritéCompétente.convertirEnValueType(
       this.lauréat.projet.cahierDesChargesActuel.getAutoritéCompétente('délai'),
     );
@@ -62,6 +76,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     dateDemande,
     pièceJustificative,
     raison,
+    motif,
   }: DemanderDélaiOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('demande', 'délai');
 
@@ -70,7 +85,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     const event: DélaiDemandéEvent = {
-      type: 'DélaiDemandé-V1',
+      type: 'DélaiDemandé-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         nombreDeMois,
@@ -78,6 +93,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         raison,
         demandéLe: dateDemande.formatter(),
         demandéPar: identifiantUtilisateur.formatter(),
+        motif: motif.formatter(),
       },
     };
 
@@ -88,6 +104,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     identifiantUtilisateur,
     dateCorrection,
     nombreDeMois,
+    motif,
     pièceJustificative,
     raison,
   }: CorrigerDemandeDélaiOptions) {
@@ -99,16 +116,18 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       nombreDeMois,
       pièceJustificative,
       raison,
+      motif,
     });
 
     const event: DemandeDélaiCorrigéeEvent = {
-      type: 'DemandeDélaiCorrigée-V1',
+      type: 'DemandeDélaiCorrigée-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         corrigéeLe: dateCorrection.formatter(),
         corrigéePar: identifiantUtilisateur.formatter(),
         dateDemande: this.#demande.demandéLe,
         nombreDeMois,
+        motif: motif.formatter(),
         raison,
         pièceJustificative: pièceJustificative ? { format: pièceJustificative.format } : undefined,
       },
@@ -194,6 +213,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     réponseSignée,
     nombreDeMois,
     rôleUtilisateur,
+    motif,
   }: AccorderDemandeDélaiOptions) {
     if (!this.#demande) {
       throw new DemandeDeDélaiInexistanteError();
@@ -202,14 +222,15 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
-    const dateAchèvementPrévisionnelCalculée =
-      await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
-        type: 'délai-accordé',
-        nombreDeMois,
-      });
+    const dateAchèvementPrévisionnelCalculée = motif.estProlongationPhaseEssai()
+      ? this.parent.achèvement.dateAchèvementPrévisionnel.formatter()
+      : await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
+          type: 'délai-accordé',
+          nombreDeMois,
+        });
 
     const délaiAccordéEvent: DélaiAccordéEvent = {
-      type: 'DélaiAccordé-V1',
+      type: 'DélaiAccordé-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         dateDemande: this.#demande.demandéLe,
@@ -218,15 +239,18 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
         réponseSignée: { format: réponseSignée.format },
+        motif: motif.formatter(),
       },
     };
 
     await this.publish(délaiAccordéEvent);
 
-    await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
-      type: 'délai-accordé',
-      nombreDeMois,
-    });
+    if (!motif.estProlongationPhaseEssai()) {
+      await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
+        type: 'délai-accordé',
+        nombreDeMois,
+      });
+    }
   }
 
   async passerEnInstructionDemandeDélai({
@@ -262,8 +286,10 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
   apply(event: DélaiEvent) {
     match(event)
-      .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandé.bind(this))
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigée.bind(this))
+      .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandéV1.bind(this))
+      .with({ type: 'DélaiDemandé-V2' }, this.applyDélaiDemandé.bind(this))
+      .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigéeV1.bind(this))
+      .with({ type: 'DemandeDélaiCorrigée-V2' }, this.applyDemandeDélaiCorrigée.bind(this))
       .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
       .with(
         { type: 'DemandeDélaiPasséeEnInstruction-V1' },
@@ -271,20 +297,51 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       )
       .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
       .with({ type: 'DélaiAccordé-V1' }, this.applyDemandeDélaiAccordée.bind(this))
+      .with({ type: 'DélaiAccordé-V2' }, this.applyDemandeDélaiAccordée.bind(this))
       .with({ type: 'DemandeDélaiSupprimée-V1' }, this.applyDemandeDélaiSupprimée.bind(this))
       .exhaustive();
   }
 
-  private applyDélaiDemandé({ payload: { nombreDeMois, demandéLe, raison } }: DélaiDemandéEvent) {
-    this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe, raison };
+  private applyDélaiDemandéV1({
+    payload: { nombreDeMois, demandéLe, raison },
+  }: DélaiDemandéEventV1) {
+    this.#demande = {
+      statut: StatutDemandeDélai.demandé,
+      nombreDeMois,
+      demandéLe,
+      raison,
+      motif: MotifDemandeDélai.forceMajeure,
+    };
+  }
+
+  private applyDélaiDemandé({
+    payload: { nombreDeMois, demandéLe, raison, motif },
+  }: DélaiDemandéEvent) {
+    this.#demande = {
+      statut: StatutDemandeDélai.demandé,
+      nombreDeMois,
+      demandéLe,
+      raison,
+      motif: MotifDemandeDélai.convertirEnValueType(motif),
+    };
+  }
+
+  private applyDemandeDélaiCorrigéeV1({
+    payload: { nombreDeMois, raison },
+  }: DemandeDélaiCorrigéeEventV1) {
+    if (this.#demande) {
+      this.#demande.nombreDeMois = nombreDeMois;
+      this.#demande.raison = raison;
+    }
   }
 
   private applyDemandeDélaiCorrigée({
-    payload: { nombreDeMois, raison },
+    payload: { nombreDeMois, raison, motif },
   }: DemandeDélaiCorrigéeEvent) {
     if (this.#demande) {
       this.#demande.nombreDeMois = nombreDeMois;
       this.#demande.raison = raison;
+      this.#demande.motif = MotifDemandeDélai.convertirEnValueType(motif);
     }
   }
 
@@ -311,7 +368,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande = undefined;
   }
 
-  private applyDemandeDélaiAccordée(_: DélaiAccordéEvent) {
+  private applyDemandeDélaiAccordée(_: DélaiAccordéEvent | DélaiAccordéEventV1) {
     this.#demande = undefined;
   }
 
@@ -319,7 +376,11 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     nombreDeMois,
     pièceJustificative,
     raison,
-  }: Pick<CorrigerDemandeDélaiOptions, 'nombreDeMois' | 'pièceJustificative' | 'raison'>) {
+    motif,
+  }: Pick<
+    CorrigerDemandeDélaiOptions,
+    'nombreDeMois' | 'pièceJustificative' | 'raison' | 'motif'
+  >) {
     if (!this.#demande?.statut.estEnCours()) {
       throw new DemandeDeDélaiInexistanteError();
     }
@@ -327,7 +388,8 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     if (
       !pièceJustificative &&
       nombreDeMois === this.#demande.nombreDeMois &&
-      raison === this.#demande.raison
+      raison === this.#demande.raison &&
+      motif.estÉgaleÀ(this.#demande.motif)
     ) {
       throw new AucuneModificationApportéeError();
     }

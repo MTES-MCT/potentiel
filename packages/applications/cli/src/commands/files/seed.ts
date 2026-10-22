@@ -126,8 +126,11 @@ type EventWithDocument =
   | Lauréat.Actionnaire.ChangementActionnaireDemandéEvent
   | Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent
   | Lauréat.Délai.DélaiDemandéEvent
+  | Lauréat.Délai.DélaiDemandéEventV1
   | Lauréat.Délai.DélaiAccordéEvent
+  | Lauréat.Délai.DélaiAccordéEventV1
   | Lauréat.Délai.DemandeDélaiCorrigéeEvent
+  | Lauréat.Délai.DemandeDélaiCorrigéeEventV1
   | Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent
   | Lauréat.Producteur.ChangementProducteurEnregistréEvent
   | Lauréat.Producteur.ProducteurModifiéEvent
@@ -316,8 +319,15 @@ const map: DocumentRecord = {
     Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
   // Délai
   'DélaiDemandé-V1': Lauréat.Délai.DocumentDélai.pièceJustificative,
+  'DélaiDemandé-V2': Lauréat.Délai.DocumentDélai.pièceJustificative,
   'DélaiAccordé-V1': Lauréat.Délai.DocumentDélai.demandeAccordée,
+  'DélaiAccordé-V2': Lauréat.Délai.DocumentDélai.demandeAccordée,
   'DemandeDélaiCorrigée-V1': mapProperty(
+    Lauréat.Délai.DocumentDélai.pièceJustificative,
+    'demandéLe',
+    'dateDemande',
+  ),
+  'DemandeDélaiCorrigée-V2': mapProperty(
     Lauréat.Délai.DocumentDélai.pièceJustificative,
     'demandéLe',
     'dateDemande',

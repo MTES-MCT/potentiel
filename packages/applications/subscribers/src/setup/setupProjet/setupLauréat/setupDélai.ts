@@ -12,11 +12,14 @@ export const setupDélai = () => {
     eventType: [
       'RebuildTriggered',
       'DélaiDemandé-V1',
+      'DélaiDemandé-V2',
       'DemandeDélaiAnnulée-V1',
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',
       'DélaiAccordé-V1',
+      'DélaiAccordé-V2',
       'DemandeDélaiCorrigée-V1',
+      'DemandeDélaiCorrigée-V2',
       'DemandeDélaiSupprimée-V1',
     ],
     messageType: 'System.Projector.Lauréat.Délai',
@@ -26,12 +29,12 @@ export const setupDélai = () => {
   délai.addSubscription<DélaiNotification.SubscriptionEvent, DélaiNotification.Execute>({
     name: 'notifications',
     eventType: [
-      'DélaiDemandé-V1',
+      'DélaiDemandé-V2',
       'DemandeDélaiAnnulée-V1',
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',
-      'DélaiAccordé-V1',
-      'DemandeDélaiCorrigée-V1',
+      'DélaiAccordé-V2',
+      'DemandeDélaiCorrigée-V2',
     ],
     messageType: 'System.Notification.Lauréat.Délai',
   });
