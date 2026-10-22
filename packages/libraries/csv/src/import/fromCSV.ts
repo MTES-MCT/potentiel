@@ -21,7 +21,7 @@ export class CsvLineValidationError extends Error {
 
 const defaultParseOptions = {
   delimiter: [',', ';', '\t'] as string[] | string,
-  columns: true,
+  columns: true as const,
   ltrim: true,
   rtrim: true,
   skip_empty_lines: true,
@@ -86,7 +86,7 @@ const loadCSV = async (fileStream: ReadableStream, parseOptions: Partial<ParseOp
   checkDuplicateHeaders(headerRow);
 
   const rows = await new Promise<Record<string, string>[]>((resolve, reject) =>
-    parse(decoded, options, (err, records) => {
+    parse<Record<string, string>>(decoded, options, (err, records) => {
       if (err) reject(err);
       else {
         resolve(records);
