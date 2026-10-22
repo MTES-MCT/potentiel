@@ -24,17 +24,15 @@ export const changementActionnaireRejetéProjector = async ({
     'changement-actionnaire',
     {
       identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut),
-      },
+      statut: Where.equal(Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut),
     },
     {
       miseÀJourLe: rejetéLe,
+      statut: Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut,
       demande: {
-        statut: Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut,
         rejet: {
-          rejetéeLe: rejetéLe,
-          rejetéePar: rejetéPar,
+          rejetéLe,
+          rejetéPar,
           réponseSignée: {
             format,
           },

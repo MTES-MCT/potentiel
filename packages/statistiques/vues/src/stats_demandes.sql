@@ -31,9 +31,9 @@ UNION
 -- Délai
 SELECT VALUE->>'identifiantProjet' AS id,
   'délai' AS categorie,
-  CAST(VALUE->>'demandéLe' AS timestamp) AS demande,
-  CAST(VALUE->>'accord.accordéeLe' AS timestamp) AS accord,
-  CAST(VALUE->>'rejet.rejetéeLe' AS timestamp) AS rejet,
+  CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
+  CAST(VALUE->>'demande.accord.accordéLe' AS timestamp) AS accord,
+  CAST(VALUE->>'demande.rejet.rejetéLe' AS timestamp) AS rejet,
   value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'demande-délai|%'
@@ -42,12 +42,12 @@ UNION
 -- Puissance
 SELECT VALUE->>'identifiantProjet' AS id,
   'puissance' AS categorie,
-  CAST(VALUE->>'demande.demandéeLe' AS timestamp) AS demande,
+  CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
   CAST(
-    VALUE->>'demande.accord.accordéeLe' AS timestamp
+    VALUE->>'demande.accord.accordéLe' AS timestamp
   ) AS accord,
-  CAST(VALUE->>'demande.rejet.rejetéeLe' AS timestamp) AS rejet,
-  value->>'demande.statut' as statut
+  CAST(VALUE->>'demande.rejet.rejetéLe' AS timestamp) AS rejet,
+  value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'changement-puissance|%'
 UNION
@@ -55,12 +55,12 @@ UNION
 -- Actionnaire
 SELECT VALUE->>'identifiantProjet' AS id,
   'actionnaire' AS categorie,
-  CAST(VALUE->>'demande.demandéeLe' AS timestamp) AS demande,
+  CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
   CAST(
-    VALUE->>'demande.accord.accordéeLe' AS timestamp
+    VALUE->>'demande.accord.accordéLe' AS timestamp
   ) AS accord,
   CAST(VALUE->>'demande.rejet.rejetéLe' AS timestamp) AS rejet,
-  value->>'demande.statut' as statut
+  value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'changement-actionnaire|%'
 UNION
@@ -73,7 +73,7 @@ SELECT VALUE->>'identifiantProjet' AS id,
     VALUE->>'demande.accord.accordéLe' AS timestamp
   ) AS accord,
   CAST(VALUE->>'demande.rejet.rejetéLe' AS timestamp) AS rejet,
-  value->>'demande.statut' as statut
+  value->>'statut' as statut
 FROM domain_views.projection
 WHERE KEY LIKE 'changement-représentant-légal|%'
 UNION

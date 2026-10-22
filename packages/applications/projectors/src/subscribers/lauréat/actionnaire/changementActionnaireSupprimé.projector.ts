@@ -34,9 +34,7 @@ export const changementActionnaireSuppriméProjector = async ({
     `changement-actionnaire`,
     {
       identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut),
-      },
+      statut: Where.equal(Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut),
     },
   );
 };

@@ -1,11 +1,13 @@
 import type { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import type { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
+import Badge from '@mui/material/Badge';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
-import type { Role } from '@potentiel-domain/utilisateur';
+import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
+import { getNombreDemandesÀInstruire } from '@/app/_helpers/getNombreDemandesÀInstruire';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
 import { getDemandesLinks } from './getDemandesLinks';
@@ -13,13 +15,15 @@ import { getDemandesLinks } from './getDemandesLinks';
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
 
-  const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
+  const navigationItems = utilisateur
+    ? await getNavigationItemsBasedOnRole({ utilisateur, showNombreDemande: true })
+    : [];
 
   return <NavLinks items={navigationItems} />;
 }
 
 export type MenuItem = {
-  label: string;
+  label: React.ReactNode;
   url: string;
   permission: Role.Policy | Array<Role.Policy> | false;
 };
@@ -40,7 +44,17 @@ const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuPro
       },
     }));
 
-export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType }) => {
+type GetNavigationItemsBasedOnRoleProps = {
+  utilisateur: Utilisateur.ValueType;
+  showNombreDemande: boolean;
+};
+
+export const getNavigationItemsBasedOnRole = async ({
+  utilisateur,
+  showNombreDemande,
+}: GetNavigationItemsBasedOnRoleProps) => {
+  const { rôle, identifiantUtilisateur } = utilisateur;
+
   const projetMenuLinks: Array<MenuItem> = [
     {
       label: 'Lauréats',
@@ -54,9 +68,11 @@ export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType
     },
   ];
 
-  const toutesDemandesMenuLinks: Array<MenuItem> = getDemandesLinks({
+  const autorité = rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined;
+
+  const toutesDemandesMenuLinks = getDemandesLinks({
     estPorteur: rôle.estPorteur(),
-    autorité: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
+    autorité,
     keys: [
       'abandon',
       'actionnaire',
@@ -71,6 +87,32 @@ export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType
       'recours',
       'représentantLégal',
     ],
+  });
+
+  const demandesÀInstruire =
+    showNombreDemande && autorité
+      ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité)
+      : [];
+
+  const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = toutesDemandesMenuLinks.map((menuItem) => {
+    const demande = demandesÀInstruire.find((demande) => demande.domain === menuItem.domaine);
+
+    return demande?.total
+      ? {
+          ...menuItem,
+          label: (
+            <div className="flex flex-row items-center gap-6">
+              {menuItem.label}
+              <Badge
+                badgeContent={demande.total}
+                color="primary"
+                overlap="circular"
+                invisible={demande.total === 0}
+              />
+            </div>
+          ),
+        }
+      : menuItem;
   });
 
   const garantiesFinancièresMenuLinks: Array<MenuItem> = [
@@ -195,7 +237,7 @@ export const getNavigationItemsBasedOnRole = ({ rôle }: { rôle: Role.ValueType
     },
     {
       text: 'Demandes',
-      menuLinks: mapToMenuProps(toutesDemandesMenuLinks, rôle),
+      menuLinks: mapToMenuProps(toutesDemandesMenuLinksÉtoffé, rôle),
     },
     {
       text: 'Garanties Financières',

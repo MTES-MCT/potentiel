@@ -58,7 +58,7 @@ export const registerListerChangementActionnaireQuery = ({
         range,
         orderBy: {
           demande: {
-            demandéeLe: 'descending',
+            demandéLe: 'descending',
           },
         },
         join: {
@@ -74,9 +74,7 @@ export const registerListerChangementActionnaireQuery = ({
         },
         where: {
           identifiantProjet: Where.matchAny(scope.identifiantProjets),
-          demande: {
-            statut: Where.matchAny(statut),
-          },
+          statut: Where.matchAny(statut),
         },
       },
     );
@@ -94,9 +92,9 @@ const mapToReadModel = (
   entity: ChangementActionnaireEntity & Joined<LauréatEntity>,
 ): ChangementActionnaireItemReadModel => ({
   nomProjet: entity.lauréat.nomProjet,
-  statut: StatutChangementActionnaire.convertirEnValueType(entity.demande.statut),
+  statut: StatutChangementActionnaire.convertirEnValueType(entity.statut),
   miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   nouvelActionnaire: entity.demande.nouvelActionnaire,
 });

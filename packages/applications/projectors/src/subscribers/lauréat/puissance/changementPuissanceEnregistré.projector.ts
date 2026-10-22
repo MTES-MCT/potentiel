@@ -30,12 +30,12 @@ export const changementPuissanceEnregistréProjector = async ({
     {
       identifiantProjet,
       miseÀJourLe: enregistréLe,
+      statut: Lauréat.Puissance.StatutChangementPuissance.informationEnregistrée.statut,
       demande: {
         nouvellePuissance: puissance,
         nouvellePuissanceDeSite: puissanceDeSite,
-        statut: Lauréat.Puissance.StatutChangementPuissance.informationEnregistrée.statut,
-        demandéePar: enregistréPar,
-        demandéeLe: enregistréLe,
+        demandéPar: enregistréPar,
+        demandéLe: enregistréLe,
         raison,
         pièceJustificative,
       },

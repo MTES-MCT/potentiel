@@ -44,6 +44,9 @@ export class Executer extends Command {
       getScopeProjetUtilisateur: () => {
         throw new Error('notImplemented');
       },
+      getNombreDemandesÀInstruire: () => {
+        throw new Error('not implemented');
+      },
     });
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,

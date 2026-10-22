@@ -59,12 +59,14 @@ export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeD�
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const demande = await find<DemandeDélaiEntity>(
+    const demandeDélai = await find<DemandeDélaiEntity>(
       `demande-délai|${identifiantProjetValueType.formatter()}#${demandéLe}`,
     );
 
-    return Option.match(demande)
-      .some((demande) => mapToReadModel({ identifiantProjet: identifiantProjetValueType, demande }))
+    return Option.match(demandeDélai)
+      .some((demandeDélai) =>
+        mapToReadModel({ identifiantProjet: identifiantProjetValueType, demandeDélai }),
+      )
       .none();
   };
   mediator.register('Lauréat.Délai.Query.ConsulterDemandeDélai', handler);
@@ -72,22 +74,24 @@ export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeD�
 
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  demande: DemandeDélaiEntity;
+  demandeDélai: DemandeDélaiEntity;
 }) => ConsulterDemandeDélaiReadModel;
 
 const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
-  demande: {
+  demandeDélai: {
     statut,
-    demandéLe,
-    demandéPar,
-    nombreDeMois,
-    raison,
-    pièceJustificative: { format },
-    instruction,
-    accord,
-    rejet,
-    autoritéCompétente,
+    demande: {
+      demandéLe,
+      demandéPar,
+      nombreDeMois,
+      raison,
+      pièceJustificative: { format },
+      instruction,
+      accord,
+      rejet,
+      autoritéCompétente,
+    },
   },
 }) => {
   return {
@@ -115,11 +119,11 @@ const mapToReadModel: MapToReadModel = ({
 
     rejet: rejet && {
       motif: rejet.motif,
-      rejetéePar: Email.convertirEnValueType(rejet.rejetéePar),
-      rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéeLe),
+      rejetéePar: Email.convertirEnValueType(rejet.rejetéPar),
+      rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéLe),
       réponseSignée: DocumentDélai.demandeRejetée({
         identifiantProjet: identifiantProjet.formatter(),
-        rejetéeLe: rejet.rejetéeLe,
+        rejetéeLe: rejet.rejetéLe,
         réponseSignée: {
           format: rejet.réponseSignée.format,
         },
@@ -127,15 +131,15 @@ const mapToReadModel: MapToReadModel = ({
     },
 
     accord: accord && {
-      accordéePar: Email.convertirEnValueType(accord.accordéePar),
-      accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
+      accordéePar: Email.convertirEnValueType(accord.accordéPar),
+      accordéeLe: DateTime.convertirEnValueType(accord.accordéLe),
       nombreDeMois: accord.nombreDeMois,
       dateAchèvementPrévisionnelCalculée: DateTime.convertirEnValueType(
         accord.dateAchèvementPrévisionnelCalculée,
       ),
       réponseSignée: DocumentDélai.demandeAccordée({
         identifiantProjet: identifiantProjet.formatter(),
-        accordéLe: accord.accordéeLe,
+        accordéLe: accord.accordéLe,
         réponseSignée: {
           format: accord.réponseSignée.format,
         },

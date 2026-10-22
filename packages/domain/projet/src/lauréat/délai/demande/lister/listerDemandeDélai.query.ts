@@ -62,7 +62,9 @@ export const registerListerDemandeDélaiQuery = ({
     const demandes = await list<DemandeDélaiEntity, LauréatEntity>('demande-délai', {
       range,
       orderBy: {
-        demandéLe: 'descending',
+        demande: {
+          demandéLe: 'descending',
+        },
       },
       join: {
         entity: 'lauréat',
@@ -78,7 +80,7 @@ export const registerListerDemandeDélaiQuery = ({
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
         statut: Where.matchAny(statuts),
-        autoritéCompétente: Where.equal(autoritéCompétente),
+        demande: { autoritéCompétente: Where.equal(autoritéCompétente) },
       },
     });
 
@@ -93,11 +95,10 @@ export const registerListerDemandeDélaiQuery = ({
 
 const mapToReadModel = ({
   identifiantProjet,
-  demandéLe,
   statut,
-  nombreDeMois,
-  lauréat: { nomProjet },
   miseÀJourLe,
+  demande: { demandéLe, nombreDeMois },
+  lauréat: { nomProjet },
 }: DemandeDélaiEntity & Joined<LauréatEntity>): DemandeDélaiItemReadModel => ({
   nomProjet,
   statut: StatutDemandeDélai.convertirEnValueType(statut),

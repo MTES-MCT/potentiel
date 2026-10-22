@@ -26,17 +26,19 @@ export const délaiDemandéProjector = async ({
     {
       identifiantProjet,
       statut: Lauréat.Délai.StatutDemandeDélai.demandé.statut,
-      nombreDeMois,
-      demandéPar,
-      demandéLe,
-      raison,
-      pièceJustificative: {
-        format,
-      },
-      autoritéCompétente:
-        cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
-        Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI,
       miseÀJourLe: demandéLe,
+      demande: {
+        nombreDeMois,
+        demandéPar,
+        demandéLe,
+        raison,
+        pièceJustificative: {
+          format,
+        },
+        autoritéCompétente:
+          cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
+          Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI,
+      },
     },
   );
 };

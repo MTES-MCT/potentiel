@@ -60,7 +60,7 @@ export const registerConsulterChangementReprésentantLegalEnCoursQuery = ({
           .some((changement) =>
             mapToReadModel({
               identifiantProjet: identifiantProjetValueType,
-              demande: changement.demande,
+              changement,
             }),
           )
           .none();
@@ -75,10 +75,10 @@ export const registerConsulterChangementReprésentantLegalEnCoursQuery = ({
 
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  demande: ReprésentantLégal.ChangementReprésentantLégalEntity['demande'];
+  changement: ReprésentantLégal.ChangementReprésentantLégalEntity;
 }) => ConsulterChangementReprésentantLégalEnCoursReadModel;
 
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => {
+const mapToReadModel: MapToReadModel = ({ identifiantProjet, changement: { demande, statut } }) => {
   return {
     identifiantProjet,
     nomReprésentantLégal: demande.nomReprésentantLégal,
@@ -87,7 +87,7 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => {
     ),
     demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
     demandéPar: Email.convertirEnValueType(demande.demandéPar),
-    statut: StatutChangementReprésentantLégal.convertirEnValueType(demande.statut),
+    statut: StatutChangementReprésentantLégal.convertirEnValueType(statut),
     pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
       identifiantProjet: identifiantProjet.formatter(),
       demandéLe: demande.demandéLe,

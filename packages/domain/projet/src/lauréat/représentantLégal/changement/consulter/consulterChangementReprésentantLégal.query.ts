@@ -13,6 +13,7 @@ export type ConsulterChangementReprésentantLégalReadModel = {
 
   demande: {
     statut: StatutChangementReprésentantLégal.ValueType;
+
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     demandéeLe: DateTime.ValueType;
@@ -83,15 +84,15 @@ type MapToReadModel = (args: {
 const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   changement: {
+    statut,
     demande: { accord, rejet, ...demande },
   },
 }) => {
   return {
     identifiantProjet,
+
     demande: {
-      statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(
-        demande.statut,
-      ),
+      statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(statut),
       nomReprésentantLégal: demande.nomReprésentantLégal,
       typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
         demande.typeReprésentantLégal,

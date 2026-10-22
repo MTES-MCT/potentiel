@@ -16,16 +16,14 @@ export const changementReprésentantLégalRejetéProjector = async (
     'changement-représentant-légal',
     {
       identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(
-          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
-        ),
-      },
+      statut: Where.equal(
+        Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
+      ),
     },
     {
       miseÀJourLe: rejetéLe,
+      statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.statut,
       demande: {
-        statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.statut,
         rejet: {
           motif: motifRejet,
           rejetéLe,

@@ -22,16 +22,14 @@ export const changementReprésentantLégalAccordéProjector = async (
     'changement-représentant-légal',
     {
       identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(
-          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
-        ),
-      },
+      statut: Where.equal(
+        Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
+      ),
     },
     {
       miseÀJourLe: accordéLe,
+      statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter(),
       demande: {
-        statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter(),
         accord: {
           nomReprésentantLégal,
           typeReprésentantLégal,
