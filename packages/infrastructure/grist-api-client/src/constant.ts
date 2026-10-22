@@ -1,6 +1,5 @@
 import zod from 'zod';
 
-import { Nouveautés } from '@potentiel-domain/nouveautes';
 import { Role } from '@potentiel-domain/utilisateur';
 
 class GristClientConfigurationError extends Error {
@@ -47,68 +46,19 @@ export const gristRecordsSchema = zod.object({
   ),
 });
 
-export const nouveautéFieldsSchema = zod
-  .object({
-    Titre: zod.string().min(1),
-    Description: optionnalTextSchema,
-    Date: zod.number().nullish(),
-    Roles: zod
-      .tuple([zod.literal('L')], zod.enum(Role.roles))
-      .nullish()
-      .transform((valeur) => {
-        if (!valeur) {
-          return [];
-        }
-        const [, ...rôles] = valeur;
-        return rôles;
-      }),
-    Lien: optionnalTextSchema,
-    Type_de_lien: zod
-      .enum(Nouveautés.typesDeLien)
-      .or(zod.literal(''))
-      .nullish()
-      .transform((valeur) => valeur || 'interne'),
-    Route: optionnalTextSchema,
-  })
-  .transform(({ Type_de_lien, Lien, Route, ...fields }, ctx) => {
-    const lien = mapToLienNouveauté({ type: Type_de_lien, url: Lien, route: Route });
-
-    if (lien === null) {
-      ctx.issues.push({
-        code: 'custom',
-        input: { Type_de_lien, Lien, Route },
-        message:
-          'Lien interne : Route obligatoire et Lien vide. Lien externe : Lien obligatoire et Route vide.',
-      });
-      return zod.NEVER;
-    }
-
-    return { ...fields, lien };
-  });
-
-type MapToLienNouveautéProps = {
-  type?: Nouveautés.TypeDeLien;
-  url?: string;
-  route?: string;
-};
-
-const mapToLienNouveauté = ({
-  type,
-  url,
-  route,
-}: MapToLienNouveautéProps): Nouveautés.LienNouveauté | undefined | null => {
-  if (type === 'interne' && route && !url) {
-    return { type: 'interne', route };
-  }
-  if (type === 'externe' && url && !route) {
-    return { type: 'externe', url };
-  }
-  if (!type && !url && !route) {
-    return undefined;
-  }
-
-  /**
-   * null ici signifie "incohérent", là où "undefined" veut dire "pas de lien"
-   */
-  return null;
-};
+export const nouveautéFieldsSchema = zod.object({
+  Titre: zod.string().min(1),
+  Description: optionnalTextSchema,
+  Date: zod.number().nullish(),
+  Roles: zod
+    .tuple([zod.literal('L')], zod.enum(Role.roles))
+    .nullish()
+    .transform((valeur) => {
+      if (!valeur) {
+        return [];
+      }
+      const [, ...rôles] = valeur;
+      return rôles;
+    }),
+  Lien: optionnalTextSchema,
+});

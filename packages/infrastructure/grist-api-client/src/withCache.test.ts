@@ -28,11 +28,11 @@ describe('withCache', () => {
   test('renvoie la valeur en cache tant que la durée de cache n’est pas expirée', async () => {
     const cachedFetch = createCache();
 
-    // first call, retourne 1 call, set nows = 999 (not obsolete)
+    // premier appel (calls = 1), puis now = 999 : le cache n'est pas encore expiré
     await cachedFetch();
     now = 999;
 
-    // second call, expect 1 (fetch not recalled because cache has been triggered)
+    // second appel : fetch n'est pas rappelé, la valeur vient du cache
     await cachedFetch();
     assert.equal(calls, 1);
   });
@@ -40,11 +40,11 @@ describe('withCache', () => {
   test('rafraîchit la valeur une fois la durée de cache expirée', async () => {
     const cachedFetch = createCache();
 
-    // first call and set now to expired value (cf cacheTimeInMs)
+    // premier appel, puis now passe à une valeur expirée (cf cacheTimeInMs)
     await cachedFetch();
     now = 1000;
 
-    // second call expect a new fetch call
+    // second appel : fetch doit être rappelé
     await cachedFetch();
     assert.equal(calls, 2);
   });
@@ -52,7 +52,7 @@ describe('withCache', () => {
   test('mutualise les appels simultanés', async () => {
     const cachedFetch = createCache();
 
-    // concurrent call expect only one call
+    // appels simultanés : un seul appel à fetch attendu
     await Promise.all([cachedFetch(), cachedFetch()]);
     assert.equal(calls, 1);
   });
@@ -60,11 +60,11 @@ describe('withCache', () => {
   test('renvoie la valeur expirée si le rafraîchissement échoue', async () => {
     const cachedFetch = createCache();
 
-    // set first call and set now to expired value
+    // premier appel, puis now passe à une valeur expirée
     await cachedFetch();
     now = 1000;
 
-    // set erreur mode to true and second call expect calls to be eq 1
+    // le rafraîchissement échoue : la valeur expirée est renvoyée et calls reste à 1
     shouldFail = true;
     await cachedFetch();
 
@@ -74,11 +74,11 @@ describe('withCache', () => {
   test('propage l’erreur si aucune valeur n’est en cache', async () => {
     const cachedFetch = createCache();
 
-    // first call w/ erreur
+    // premier appel en erreur
     shouldFail = true;
     await assert.rejects(cachedFetch(), /unavailable/);
 
-    // second call without error mode
+    // second appel sans erreur
     shouldFail = false;
     await cachedFetch();
 

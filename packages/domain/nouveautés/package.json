@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@potentiel-domain/common": "*",
+    "@potentiel-domain/entity": "*",
     "@potentiel-domain/utilisateur": "*",
     "mediateur": "0.3.0"
   },

@@ -1,16 +1,17 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
+import type { RangeOptions } from '@potentiel-domain/entity';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import type { LienNouveauté, Nouveauté } from '../nouveauté.type.js';
+import type { Nouveauté } from '../nouveauté.type.js';
 import type { RécupérerNouveautésPort } from './listerNouveautés.port.js';
 
 export type NouveautéReadModel = {
   titre: string;
   description?: string;
   date?: DateTime.ValueType;
-  lien?: LienNouveauté;
+  lien?: string;
 };
 
 export type ListerNouveautésReadModel = {
@@ -21,7 +22,7 @@ export type ListerNouveautésQuery = Message<
   'Nouveautés.Query.ListerNouveautés',
   {
     rôle: Role.RawType;
-    limite?: number;
+    range?: RangeOptions;
   },
   ListerNouveautésReadModel
 >;
@@ -33,15 +34,17 @@ export type ListerNouveautésDependencies = {
 export const registerListerNouveautésQuery = ({
   récupérerNouveautés,
 }: ListerNouveautésDependencies) => {
-  const handler: MessageHandler<ListerNouveautésQuery> = async ({ rôle, limite }) => {
+  const handler: MessageHandler<ListerNouveautésQuery> = async ({ rôle, range }) => {
     const rôleUtilisateur = Role.convertirEnValueType(rôle);
     const nouveautés = await récupérerNouveautés();
 
+    const nouveautésDuRôle = nouveautés.filter(({ rôles }) => rôles.includes(rôleUtilisateur.nom));
+
     return {
-      items: nouveautés
-        .filter(({ rôles }) => rôles.includes(rôleUtilisateur.nom))
-        .slice(0, limite)
-        .map(mapToReadModel),
+      items: (range
+        ? nouveautésDuRôle.slice(range.startPosition, range.endPosition + 1)
+        : nouveautésDuRôle
+      ).map(mapToReadModel),
     };
   };
 
