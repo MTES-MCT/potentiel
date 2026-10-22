@@ -10,7 +10,12 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAchèvement, getGarantiesFinancières, getOptionalAbandon } from '../../../_helpers';
+import {
+  getAchèvement,
+  getGarantiesFinancières,
+  getOptionalAbandon,
+  getRéponseSignéeAbandonAccordé,
+} from '../../../_helpers';
 import { getMainlevéeGarantiesFinancières } from '../../../_helpers/getMainlevéeGarantiesFinancières';
 import { DétailsMainlevéePage, type DétailsMainlevéePageProps } from './DétailsMainlevée.page';
 
@@ -45,6 +50,14 @@ export default async function Page({ params }: IdentifiantParameter) {
       const abandon = lauréat.statut.estAbandonné()
         ? await getOptionalAbandon(lauréat.identifiantProjet.formatter())
         : undefined;
+
+      const réponseSignéeAbandonAccordé =
+        !mainlevée?.accord?.courrierAccord &&
+        abandon?.accordéLe &&
+        (await getRéponseSignéeAbandonAccordé({
+          dateDemande: abandon.demandéLe.formatter(),
+          identifiantProjet: lauréat.identifiantProjet.formatter(),
+        }));
 
       const mainlevéesRejetées =
         await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
@@ -85,6 +98,9 @@ export default async function Page({ params }: IdentifiantParameter) {
           achèvement={achèvement ? mapToPlainObject(achèvement) : undefined}
           abandon={abandon ? mapToPlainObject(abandon) : undefined}
           mainlevéesRejetées={mainlevéesRejetées.items.map(mapToPlainObject)}
+          réponseSignéeAbandonAccordé={
+            réponseSignéeAbandonAccordé ? mapToPlainObject(réponseSignéeAbandonAccordé) : undefined
+          }
         />
       );
     }),
