@@ -15,7 +15,7 @@ Fonctionnalité: Accorder une mainlevée des garanties financières avec l'aband
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL accorde la mainlevée des garanties financières avec l'abandon
         Alors une demande de mainlevée de garanties financières devrait être consultable
-        # Et les garanties financière du projet sont levées
+        Et les garanties financières actuelles du projet sont levées
 
     # Autre scenarios
     # Accorder une mainlevée avec l'abandon du projet lorsque le projet a déjà une demande de mainlevée (possible?)
