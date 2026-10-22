@@ -60,12 +60,13 @@ const mapToÉtapesData = ({
   recours,
 }: GetÉtapesData) => {
   // la "notification" d'un projet lauréat est sa date de recours accordé s'il a fait l'objet d'un recours, sinon sa date de désignation
-  const étapes: Array<ÉtapeProjet> = recours?.dateAccord
+  const étapes: Array<ÉtapeProjet> = recours?.accord
     ? [
         {
           type: 'recours',
           date: lauréat.notifiéLe.formatter(),
           dateDemande: recours.dateDemande.formatter(),
+          document: recours.accord.réponseSignée.formatter(),
         },
       ]
     : [
