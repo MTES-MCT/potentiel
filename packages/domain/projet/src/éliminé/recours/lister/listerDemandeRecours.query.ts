@@ -102,6 +102,6 @@ const mapToReadModel = (
     statut: StatutRecours.convertirEnValueType(entity.statut),
     miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   };
 };

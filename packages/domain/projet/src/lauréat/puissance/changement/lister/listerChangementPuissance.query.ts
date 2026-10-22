@@ -59,7 +59,7 @@ export const registerListerChangementPuissanceQuery = ({
         range,
         orderBy: {
           demande: {
-            demandéeLe: 'descending',
+            demandéLe: 'descending',
           },
         },
         join: [
@@ -107,7 +107,7 @@ const mapToReadModel = ({
     statut: StatutChangementPuissance.convertirEnValueType(entity.statut),
     miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet,
-    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
     nouvellePuissance: entity.demande.nouvellePuissance,
     unitéPuissance: candidature.unitéPuissance,
   };

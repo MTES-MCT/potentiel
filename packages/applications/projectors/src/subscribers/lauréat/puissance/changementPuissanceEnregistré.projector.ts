@@ -34,8 +34,8 @@ export const changementPuissanceEnregistréProjector = async ({
       demande: {
         nouvellePuissance: puissance,
         nouvellePuissanceDeSite: puissanceDeSite,
-        demandéePar: enregistréPar,
-        demandéeLe: enregistréLe,
+        demandéPar: enregistréPar,
+        demandéLe: enregistréLe,
         raison,
         pièceJustificative,
       },

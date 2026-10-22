@@ -32,8 +32,8 @@ export const changementActionnaireDemandéProjector = async ({
       statut: Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut,
       demande: {
         nouvelActionnaire: actionnaire,
-        demandéePar: demandéPar,
-        demandéeLe: demandéLe,
+        demandéPar,
+        demandéLe,
         raison,
         pièceJustificative: {
           format,

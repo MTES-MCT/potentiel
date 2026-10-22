@@ -11,8 +11,8 @@ export type ChangementPuissanceEntity = Entity<
     miseÀJourLe: string;
 
     demande: {
-      demandéePar: string;
-      demandéeLe: DateTime.RawType;
+      demandéPar: string;
+      demandéLe: DateTime.RawType;
       nouvellePuissance: number;
       nouvellePuissanceDeSite?: number;
       raison?: string;
@@ -23,15 +23,15 @@ export type ChangementPuissanceEntity = Entity<
         réponseSignée?: {
           format: string;
         };
-        accordéePar: string;
-        accordéeLe: DateTime.RawType;
+        accordéPar: string;
+        accordéLe: DateTime.RawType;
       };
       rejet?: {
         réponseSignée: {
           format: string;
         };
-        rejetéePar: string;
-        rejetéeLe: DateTime.RawType;
+        rejetéPar: string;
+        rejetéLe: DateTime.RawType;
       };
     };
   }

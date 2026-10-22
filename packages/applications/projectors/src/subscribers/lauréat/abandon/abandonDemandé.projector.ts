@@ -40,8 +40,8 @@ export const abandonDemandéProjector = async (
       identifiantProjet,
       demande: {
         pièceJustificative: event.payload.pièceJustificative,
-        demandéeLe: event.payload.demandéLe,
-        demandéePar: event.payload.demandéPar,
+        demandéLe: event.payload.demandéLe,
+        demandéPar: event.payload.demandéPar,
         raison: event.payload.raison,
         estUneRecandidature,
         ppaSignalé,

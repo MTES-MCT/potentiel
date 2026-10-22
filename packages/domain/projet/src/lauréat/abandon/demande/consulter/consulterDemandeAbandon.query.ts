@@ -101,15 +101,15 @@ const mapToReadModel = (result: DemandeAbandonEntity) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(result.identifiantProjet);
   return {
     demande: {
-      demandéLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
-      demandéPar: Email.convertirEnValueType(result.demande.demandéePar),
+      demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
+      demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
       raison: result.demande.raison,
       estUneRecandidature: !!result.demande.recandidature,
       ppaSignalé: result.demande.ppaSignalé,
       pièceJustificative: result.demande.pièceJustificative
         ? DocumentAbandon.pièceJustificative({
             identifiantProjet: result.identifiantProjet,
-            demandéLe: result.demande.demandéeLe,
+            demandéLe: result.demande.demandéLe,
             pièceJustificative: result.demande.pièceJustificative,
           })
         : undefined,

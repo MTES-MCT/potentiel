@@ -11,8 +11,8 @@ export const demandeDélaiRejetéeProjector = async ({
       miseÀJourLe: rejetéeLe,
       demande: {
         rejet: {
-          rejetéeLe,
-          rejetéePar,
+          rejetéLe: rejetéeLe,
+          rejetéPar: rejetéePar,
           réponseSignée: { format: réponseSignée.format },
         },
       },

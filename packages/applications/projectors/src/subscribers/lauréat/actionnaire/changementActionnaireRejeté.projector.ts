@@ -31,8 +31,8 @@ export const changementActionnaireRejetéProjector = async ({
       statut: Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut,
       demande: {
         rejet: {
-          rejetéeLe: rejetéLe,
-          rejetéePar: rejetéPar,
+          rejetéLe,
+          rejetéPar,
           réponseSignée: {
             format,
           },

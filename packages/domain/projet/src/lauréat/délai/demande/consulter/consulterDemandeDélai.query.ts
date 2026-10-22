@@ -82,8 +82,8 @@ const mapToReadModel: MapToReadModel = ({
   demandeDélai: {
     statut,
     demande: {
-      demandéeLe,
-      demandéePar,
+      demandéLe,
+      demandéPar,
       nombreDeMois,
       raison,
       pièceJustificative: { format },
@@ -99,13 +99,13 @@ const mapToReadModel: MapToReadModel = ({
     statut: Délai.StatutDemandeDélai.convertirEnValueType(statut),
     pièceJustificative: DocumentDélai.pièceJustificative({
       identifiantProjet: identifiantProjet.formatter(),
-      demandéLe: demandéeLe,
+      demandéLe,
       pièceJustificative: {
         format,
       },
     }),
-    demandéLe: DateTime.convertirEnValueType(demandéeLe),
-    demandéPar: Email.convertirEnValueType(demandéePar),
+    demandéLe: DateTime.convertirEnValueType(demandéLe),
+    demandéPar: Email.convertirEnValueType(demandéPar),
 
     autoritéCompétente:
       autoritéCompétente && AutoritéCompétente.convertirEnValueType(autoritéCompétente),
@@ -119,11 +119,11 @@ const mapToReadModel: MapToReadModel = ({
 
     rejet: rejet && {
       motif: rejet.motif,
-      rejetéePar: Email.convertirEnValueType(rejet.rejetéePar),
-      rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéeLe),
+      rejetéePar: Email.convertirEnValueType(rejet.rejetéPar),
+      rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéLe),
       réponseSignée: DocumentDélai.demandeRejetée({
         identifiantProjet: identifiantProjet.formatter(),
-        rejetéeLe: rejet.rejetéeLe,
+        rejetéeLe: rejet.rejetéLe,
         réponseSignée: {
           format: rejet.réponseSignée.format,
         },
@@ -131,15 +131,15 @@ const mapToReadModel: MapToReadModel = ({
     },
 
     accord: accord && {
-      accordéePar: Email.convertirEnValueType(accord.accordéePar),
-      accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
+      accordéePar: Email.convertirEnValueType(accord.accordéPar),
+      accordéeLe: DateTime.convertirEnValueType(accord.accordéLe),
       nombreDeMois: accord.nombreDeMois,
       dateAchèvementPrévisionnelCalculée: DateTime.convertirEnValueType(
         accord.dateAchèvementPrévisionnelCalculée,
       ),
       réponseSignée: DocumentDélai.demandeAccordée({
         identifiantProjet: identifiantProjet.formatter(),
-        accordéLe: accord.accordéeLe,
+        accordéLe: accord.accordéLe,
         réponseSignée: {
           format: accord.réponseSignée.format,
         },

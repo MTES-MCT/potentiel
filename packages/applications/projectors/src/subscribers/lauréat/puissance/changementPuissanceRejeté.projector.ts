@@ -23,8 +23,8 @@ export const changementPuissanceRejetéProjector = async ({
       statut: Lauréat.Puissance.StatutChangementPuissance.rejeté.statut,
       demande: {
         rejet: {
-          rejetéeLe: rejetéLe,
-          rejetéePar: rejetéPar,
+          rejetéLe,
+          rejetéPar,
           réponseSignée,
         },
       },

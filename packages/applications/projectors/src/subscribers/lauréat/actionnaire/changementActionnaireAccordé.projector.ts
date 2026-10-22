@@ -39,7 +39,7 @@ export const changementActionnaireAccordéProjector = async ({
         ...(demande.demande.pièceJustificative && {
           attestation: {
             format: demande.demande.pièceJustificative.format,
-            date: demande.demande.demandéeLe,
+            date: demande.demande.demandéLe,
           },
         }),
       },
@@ -50,14 +50,14 @@ export const changementActionnaireAccordéProjector = async ({
   );
 
   await updateOneProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire|${identifiantProjet}#${demande.demande.demandéeLe}`,
+    `changement-actionnaire|${identifiantProjet}#${demande.demande.demandéLe}`,
     {
       miseÀJourLe: accordéLe,
       statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut,
       demande: {
         accord: {
-          accordéeLe: accordéLe,
-          accordéePar: accordéPar,
+          accordéLe,
+          accordéPar,
           réponseSignée: {
             format,
           },

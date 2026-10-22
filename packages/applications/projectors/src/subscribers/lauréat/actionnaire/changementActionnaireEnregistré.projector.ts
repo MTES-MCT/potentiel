@@ -33,8 +33,8 @@ export const changementActionnaireEnregistréProjector = async ({
       statut: Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut,
       demande: {
         nouvelActionnaire: actionnaire,
-        demandéePar: enregistréPar,
-        demandéeLe: enregistréLe,
+        demandéPar: enregistréPar,
+        demandéLe: enregistréLe,
         raison,
         pièceJustificative,
       },

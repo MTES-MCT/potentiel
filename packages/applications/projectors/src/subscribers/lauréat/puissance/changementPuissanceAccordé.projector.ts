@@ -33,8 +33,8 @@ export const changementPuissanceAccordéProjector = async ({
       statut: Lauréat.Puissance.StatutChangementPuissance.accordé.statut,
       demande: {
         accord: {
-          accordéeLe: accordéLe,
-          accordéePar: accordéPar,
+          accordéLe,
+          accordéPar,
           réponseSignée,
         },
       },

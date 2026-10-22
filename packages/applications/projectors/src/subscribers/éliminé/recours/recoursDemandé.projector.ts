@@ -9,8 +9,8 @@ export const recoursDemandéProjector = async ({
     {
       identifiantProjet,
       demande: {
-        demandéeLe: demandéLe,
-        demandéePar: demandéPar,
+        demandéLe,
+        demandéPar,
         raison,
         pièceJustificative,
       },

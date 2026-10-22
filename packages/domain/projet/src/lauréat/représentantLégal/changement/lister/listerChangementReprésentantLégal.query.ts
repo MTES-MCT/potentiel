@@ -64,7 +64,7 @@ export const registerListerChangementReprésentantLégalQuery = ({
       range,
       orderBy: {
         demande: {
-          demandéeLe: 'descending',
+          demandéLe: 'descending',
         },
       },
       where: {
@@ -105,5 +105,5 @@ const mapToReadModel = (
   statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.statut),
   miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
 });

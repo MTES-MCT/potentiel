@@ -99,11 +99,11 @@ const mapToReadModel: MapToReadModel = ({
       ),
       pièceJustificative: ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative({
         identifiantProjet: identifiantProjet.formatter(),
-        demandéLe: demande.demandéeLe,
+        demandéLe: demande.demandéLe,
         pièceJustificative: { format: demande.pièceJustificative.format },
       }),
-      demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
-      demandéePar: Email.convertirEnValueType(demande.demandéePar),
+      demandéeLe: DateTime.convertirEnValueType(demande.demandéLe),
+      demandéePar: Email.convertirEnValueType(demande.demandéPar),
       accord: accord && {
         nomReprésentantLégal: accord.nomReprésentantLégal,
         typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(

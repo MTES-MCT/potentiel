@@ -85,12 +85,12 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, changement: { deman
     typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
       demande.typeReprésentantLégal,
     ),
-    demandéLe: DateTime.convertirEnValueType(demande.demandéeLe),
-    demandéPar: Email.convertirEnValueType(demande.demandéePar),
+    demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
+    demandéPar: Email.convertirEnValueType(demande.demandéPar),
     statut: StatutChangementReprésentantLégal.convertirEnValueType(statut),
     pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
       identifiantProjet: identifiantProjet.formatter(),
-      demandéLe: demande.demandéeLe,
+      demandéLe: demande.demandéLe,
       pièceJustificative: { format: demande.pièceJustificative.format },
     }),
   };

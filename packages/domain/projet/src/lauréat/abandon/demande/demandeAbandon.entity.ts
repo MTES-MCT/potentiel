@@ -1,3 +1,4 @@
+import type { DateTime } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
 import type { AutoritéCompétente, StatutAbandon } from '../index.js';
@@ -7,14 +8,14 @@ export type DemandeAbandonEntity = Entity<
   {
     identifiantProjet: string;
     statut: StatutAbandon.RawType;
-    miseÀJourLe: string;
+    miseÀJourLe: DateTime.RawType;
 
     demande: {
-      demandéePar: string;
-      demandéeLe: string;
+      demandéPar: string;
+      demandéLe: DateTime.RawType;
       raison: string;
       autoritéCompétente: AutoritéCompétente.RawType;
-      annulation?: { annuléLe: string; annuléPar: string };
+      annulation?: { annuléLe: DateTime.RawType; annuléPar: string };
       pièceJustificative?: {
         format: string;
       };
@@ -25,7 +26,7 @@ export type DemandeAbandonEntity = Entity<
       recandidature?: {
         statut: string;
         preuve?: {
-          demandéeLe: string;
+          demandéeLe: DateTime.RawType;
           identifiantProjet?: string;
           transmiseLe?: string;
           transmisePar?: string;
@@ -34,18 +35,18 @@ export type DemandeAbandonEntity = Entity<
 
       confirmation?: {
         demandéePar: string;
-        demandéeLe: string;
+        demandéeLe: DateTime.RawType;
 
         réponseSignée: {
           format: string;
         };
 
-        confirméLe?: string;
+        confirméLe?: DateTime.RawType;
         confirméPar?: string;
       };
 
       instruction?: {
-        passéEnInstructionLe: string;
+        passéEnInstructionLe: DateTime.RawType;
         passéEnInstructionPar: string;
       };
 
@@ -54,7 +55,7 @@ export type DemandeAbandonEntity = Entity<
           format: string;
         };
         accordéPar: string;
-        accordéLe: string;
+        accordéLe: DateTime.RawType;
       };
 
       rejet?: {
@@ -62,7 +63,7 @@ export type DemandeAbandonEntity = Entity<
           format: string;
         };
         rejetéPar: string;
-        rejetéLe: string;
+        rejetéLe: DateTime.RawType;
       };
     };
   }

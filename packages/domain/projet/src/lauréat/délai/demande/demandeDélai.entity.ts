@@ -12,8 +12,8 @@ export type DemandeDélaiEntity = Entity<
     demande: {
       nombreDeMois: number;
       raison: string;
-      demandéeLe: string;
-      demandéePar: string;
+      demandéLe: string;
+      demandéPar: string;
       pièceJustificative: {
         format: string;
       };
@@ -30,8 +30,8 @@ export type DemandeDélaiEntity = Entity<
       };
 
       accord?: {
-        accordéeLe: string;
-        accordéePar: string;
+        accordéLe: string;
+        accordéPar: string;
         nombreDeMois: number;
         dateAchèvementPrévisionnelCalculée: string;
         réponseSignée: {
@@ -40,8 +40,8 @@ export type DemandeDélaiEntity = Entity<
       };
 
       rejet?: {
-        rejetéeLe: string;
-        rejetéePar: string;
+        rejetéLe: string;
+        rejetéPar: string;
         motif: string;
         réponseSignée: {
           format: string;
