@@ -1,7 +1,6 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Tile from '@codegouvfr/react-dsfr/Tile';
-import BadgeMui from '@mui/material/Badge';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -92,10 +91,10 @@ const DemandesParDomaine = ({
       title={mapDomaineToLabel[domain]}
       desc={
         total ? (
-          <div className="flex flex-row gap-4 items-center">
-            <BadgeMui badgeContent={total} max={99} color="primary" overlap="circular" />
-            <div className="italic text-sm">{total > 1 ? 'demandes' : 'demande'}</div>
-          </div>
+          <span>
+            {total}{' '}
+            <span className="italic text-sm">{total > 1 ? 'demandes' : 'demande'} à instruire</span>
+          </span>
         ) : (
           <span className="italic text-sm">Aucune demande à traiter</span>
         )
