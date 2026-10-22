@@ -70,9 +70,6 @@ export default async function Page(props: PageProps) {
       const actions = mapToActions({
         utilisateur,
         abandon,
-        mainlevéeGarantiesFinancièresPossible:
-          !garantiesFinancières.mainlevée?.statut.estAccordé() &&
-          garantiesFinancières.actuelles?.garantiesFinancières.constitution !== undefined,
       });
 
       const projetsÀSélectionner = actions.includes('transmettre-preuve-recandidature')
@@ -84,10 +81,16 @@ export default async function Page(props: PageProps) {
 
       return (
         <DétailsAbandonPage
+          identifiantProjet={identifiantProjet}
           abandon={mapToPlainObject(abandon)}
           estPPA={estPPA}
           ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
-          identifiantProjet={identifiantProjet}
+          lesGarantiesFinancièresSontConstituées={
+            !!garantiesFinancières.actuelles?.garantiesFinancières.constitution
+          }
+          afficherOptionMainlevéeGf={
+            utilisateur.estDreal() && !!garantiesFinancières.actuelles?.garantiesFinancières
+          }
           actions={actions}
           informations={mapToInformations({
             utilisateur,
@@ -112,13 +115,11 @@ type AvailableActions = DétailsAbandonPageProps['actions'];
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
   abandon: Lauréat.Abandon.ConsulterDemandeAbandonReadModel;
-  mainlevéeGarantiesFinancièresPossible: boolean;
 };
 
 const mapToActions = ({
   utilisateur,
   abandon: { statut, demande },
-  mainlevéeGarantiesFinancièresPossible,
 }: MapToActionsProps): AvailableActions => {
   const actions: AvailableActions = [];
   const statutRecandidature = demande.recandidature?.statut;
@@ -161,15 +162,7 @@ const mapToActions = ({
   if (rôle.aLaPermission('abandon.accorder') && changementPossible(statut, 'accordé')) {
     const avecRecandidature =
       statutRecandidature && rôle.aLaPermission('abandon.preuve-recandidature.accorder');
-    const accordMainlevéePossible = rôle.estDreal() && mainlevéeGarantiesFinancièresPossible;
-
-    actions.push(
-      avecRecandidature
-        ? 'accorder-avec-recandidature'
-        : accordMainlevéePossible
-          ? 'accorder-sans-recandidature-avec-mainlevée-optionnelle'
-          : 'accorder-sans-recandidature',
-    );
+    actions.push(avecRecandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
   }
 
   if (rôle.aLaPermission('abandon.rejeter') && changementPossible(statut, 'rejeté')) {

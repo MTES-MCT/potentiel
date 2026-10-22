@@ -33,7 +33,6 @@ type AvailableActions = Array<
   | 'annuler'
   | 'accorder-avec-recandidature'
   | 'accorder-sans-recandidature'
-  | 'accorder-sans-recandidature-avec-mainlevée-optionnelle'
   | 'rejeter'
   | 'transmettre-preuve-recandidature'
   | 'passer-en-instruction'
@@ -51,6 +50,8 @@ export type DétailsAbandonPageProps = {
   actions: AvailableActions;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: true;
+  lesGarantiesFinancièresSontConstituées: boolean;
+  afficherOptionMainlevéeGf: boolean;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -62,6 +63,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   historique,
   estPPA,
   ppaSignaléLorsDeLaDemande,
+  lesGarantiesFinancièresSontConstituées,
+  afficherOptionMainlevéeGf,
 }) => (
   <ColumnPageTemplate
     heading={<TitrePageDemande statut={abandon.statut.statut} titre="Demande d'abandon" />}
@@ -114,6 +117,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             dateDemande: abandon.demande.demandéLe.date,
             estPPA,
             ppaSignaléLorsDeLaDemande,
+            afficherOptionMainlevéeGf,
+            lesGarantiesFinancièresSontConstituées,
           })}
           {mapToInformationsComponents({
             informations,
@@ -132,6 +137,8 @@ type MapToActionsComponentsProps = {
   dateDemande: string;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: true;
+  afficherOptionMainlevéeGf: boolean;
+  lesGarantiesFinancièresSontConstituées: boolean;
 };
 
 const mapToActionComponents = ({
@@ -141,6 +148,8 @@ const mapToActionComponents = ({
   dateDemande,
   estPPA,
   ppaSignaléLorsDeLaDemande,
+  afficherOptionMainlevéeGf,
+  lesGarantiesFinancièresSontConstituées,
 }: MapToActionsComponentsProps) => {
   const ppaSignaléLorsDeLaDemandeEtToujoursActif = !!ppaSignaléLorsDeLaDemande && estPPA;
 
@@ -161,16 +170,14 @@ const mapToActionComponents = ({
           dateDemande={dateDemande}
         />
       )}
-      {(actions.includes('accorder-sans-recandidature') ||
-        actions.includes('accorder-sans-recandidature-avec-mainlevée-optionnelle')) && (
+      {actions.includes('accorder-sans-recandidature') && (
         <AccorderAbandonSansRecandidatureForm
           identifiantProjet={identifiantProjet}
           estPPA={estPPA}
           ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
           ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
-          peutAccorderLaMainlevéeDesGarantiesFinancières={actions.includes(
-            'accorder-sans-recandidature-avec-mainlevée-optionnelle',
-          )}
+          afficherOptionMainlevéeGf={afficherOptionMainlevéeGf}
+          lesGarantiesFinancièresSontConstituées={lesGarantiesFinancièresSontConstituées}
         />
       )}
       {actions.includes('rejeter') && (

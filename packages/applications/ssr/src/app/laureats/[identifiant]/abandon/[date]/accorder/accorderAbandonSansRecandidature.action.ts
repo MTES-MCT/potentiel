@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   choixPPAPourAutoritéCompétente: zod.stringbool().optional(),
-  accorderMainlevéeGarantiesFinancières: zod.stringbool(),
+  accorderMainlevéeGarantiesFinancières: zod.stringbool().optional(),
 });
 
 export type AccorderAbandonSansRecandidatureFormKeys = keyof zod.infer<typeof schema>;
@@ -37,7 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
         rôleUtilisateurValue: utilisateur.rôle.nom,
         dateAccordValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
-        ...(accorderMainlevéeGarantiesFinancières && {
+        ...(accorderMainlevéeGarantiesFinancières === true && {
           accorderMainlevéeGarantiesFinancièresValue: true,
         }),
         ...(choixPPAPourAutoritéCompétente && { ppaSignaléValue: true }),
