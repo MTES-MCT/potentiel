@@ -81,7 +81,7 @@ Elle est accessible sur les environnements de tests, et à certains utilisateurs
 
 3. Keycloak
 
-Nous utilisons le service de Keycloak seulement en local.
+Nous utilisons le service de Keycloak seulement pour les environnements, et dans des cas marginaux (connexion à l'API pour la production).
 
 Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mis en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
 
