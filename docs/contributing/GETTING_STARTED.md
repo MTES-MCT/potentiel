@@ -6,7 +6,7 @@
   - [Table des matières](#table-des-matières)
   - [Mise en place du projet](#mise-en-place-du-projet)
   - [Configurer un environnement local](#configurer-un-environnement-local)
-  - [Système d'authentification avec Keycloak](#système-dauthentification-avec-keycloak)
+  - [Système d'authentification](#authentification)
   - [Lancer l'application en local](#lancer-lapplication-en-local)
   - [Avoir des données de test en local](#avoir-des-données-de-test-en-local)
     - [Le seed automatique](#le-seed-automatique)
@@ -65,7 +65,21 @@ Pour installer et lancer le projet vous aurez besoin de :
       git submodule update
    ```
 
-## <a id="keycloak"></a>Système d'authentification avec Keycloak
+## <a id="authentification"></a>Système d'authentification
+
+1. ProConnect
+
+C'est le système de connexion développé par l'Etat français. Il respecte les normes actuelles de sécurité, notamment avec l'activation du 2FA.
+
+C'est le mode de connexion privilégié en production, il est notamment obligatoire pour les Agens (DGEC, DREAL) et les partenaires (co-contractant, GRD).
+
+2. Magic Link
+
+Nous avons mis en place un système custom de connection via magic link.
+
+Elle est accessible sur les environnements de tests, et à certains utilisateurs (les porteurs par exemple - automne 2026). Ce moyen de connexion peut être facilement réactivé pour certains utilisateurs, voir le paragraphe dédié aux variables d'environnement.
+
+3. Keycloak
 
 Nous utilisons le service de Keycloak seulement en local.
 
@@ -81,6 +95,13 @@ En local, lorsque la commande `npm run up` (ou `docker compose up -d`) est lanc�
 Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
 
 Pour les environnements de production et de staging, Keycloak est hébergé sur une application scalingo et utilise le [repo du thème custom](https://github.com/MTES-MCT/potentiel-keycloak).
+
+4. Contrôle de l'authentification via des variables d'environnement
+
+`AUTH_PROVIDERS` liste les moyens de connexion disponibles pour un environnement (proconnect,magic-link,keycloak),
+`AUTH_PROVIDERS_KO` liste les moyens de connexion qui ne fonctionnent pas. Exemple : quand ProConnect est en maintenance.
+`AUTH_MAGICLINK_ENABLED_AGENTS`, si passée à `true`, permet aux Agents d'utiliser le magic link.
+`AUTH_MAGICLINK_ENABLED_PARTENAIRES`, si passée à `true`, permet aux Partenaires d'utiliser le magic link.
 
 ## <a id="lancer-application-en-local">Lancer l'application en local</a>
 
