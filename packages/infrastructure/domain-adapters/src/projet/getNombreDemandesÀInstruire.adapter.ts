@@ -1,5 +1,5 @@
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
-import type { GetNombreDemandesProjet } from '@potentiel-domain/projet';
+import type { GetNombreDemandesÀInstruire } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const Mapper = {
@@ -11,7 +11,7 @@ const Mapper = {
   'demande-recours': 'recours',
 } satisfies Record<string, AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction>;
 
-export const getNombreDemandesProjetAdapter: GetNombreDemandesProjet = async (
+export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire = async (
   rôle,
   date,
   régions,

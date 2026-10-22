@@ -698,7 +698,7 @@ const référencielPermissions = {
   },
   'demandes-en-instruction': {
     query: {
-      lister: 'Projet.Query.ListerDemandesEnInstruction',
+      lister: 'Projet.Query.ConsulterNombreDemandesÀInstruire',
     },
   },
 } as const;

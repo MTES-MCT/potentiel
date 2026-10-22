@@ -11,15 +11,15 @@ import {
   registerCandidaturesUseCases,
 } from './candidature/index.js';
 import {
+  type ConsulterNombreDemandesÀInstruireDependencies,
+  registerConsulterNombreDemandesÀInstruireQuery,
+} from './consulterNombreDemandesÀInstruire.query.js';
+import {
   type LauréatCommandDependencies,
   type LauréatQueryDependencies,
   registerLauréatQueries,
   registerLauréatUseCases,
 } from './lauréat/lauréat.register.js';
-import {
-  type ListerDemandesEnInstructionDependencies,
-  registerListerDemandesEnInstructionQuery,
-} from './listerDemandesEnInstruction.js';
 import {
   type EliminéCommandDependencies,
   type EliminéQueryDependencies,
@@ -31,7 +31,7 @@ export type ProjetQueryDependencies = EliminéQueryDependencies &
   CandidatureQueryDependencies &
   LauréatQueryDependencies &
   AccèsQueryDependencies &
-  ListerDemandesEnInstructionDependencies;
+  ConsulterNombreDemandesÀInstruireDependencies;
 
 export type ProjetCommandDependencies = EliminéCommandDependencies &
   CandiatureCommandDependencies &
@@ -50,5 +50,5 @@ export const registerProjetQueries = (dependencies: ProjetQueryDependencies) => 
   registerCandidatureQueries(dependencies);
   registerEliminéQueries(dependencies);
   registerLauréatQueries(dependencies);
-  registerListerDemandesEnInstructionQuery(dependencies);
+  registerConsulterNombreDemandesÀInstruireQuery(dependencies);
 };

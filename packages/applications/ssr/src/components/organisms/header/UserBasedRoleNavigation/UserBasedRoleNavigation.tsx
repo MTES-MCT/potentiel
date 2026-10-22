@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
-import { getNombreDemandesEnInstruction } from '@/app/_helpers/getNombreDemandesEnInstruction';
+import { getNombreDemandesÀInstruire } from '@/app/_helpers/getNombreDemandesÀInstruire';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
 import { getDemandesLinks } from './getDemandesLinks';
@@ -89,13 +89,13 @@ export const getNavigationItemsBasedOnRole = async ({
     ],
   });
 
-  const demandesEnInstruction =
+  const demandesÀInstruire =
     showNombreDemande && autorité
-      ? await getNombreDemandesEnInstruction(identifiantUtilisateur.email, autorité)
+      ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité)
       : [];
 
   const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = toutesDemandesMenuLinks.map((menuItem) => {
-    const demande = demandesEnInstruction.find((demande) => demande.domain === menuItem.domaine);
+    const demande = demandesÀInstruire.find((demande) => demande.domain === menuItem.domaine);
 
     return demande?.total
       ? {

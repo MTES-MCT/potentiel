@@ -23,6 +23,6 @@ export const setupProjet = () => {
     count: countProjection,
     listHistory: listHistoryProjection,
     getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
-    getNombreDemandesProjet: ProjetAdapter.getNombreDemandesProjetAdapter,
+    getNombreDemandesÀInstruire: ProjetAdapter.getNombreDemandesÀInstruireAdapter,
   });
 };

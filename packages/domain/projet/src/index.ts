@@ -11,10 +11,10 @@ export { CahierDesCharges } from './cahierDesCharges.valueType.js';
 export { DocumentProjet } from './document-projet/index.js';
 export * as IdentifiantProjet from './identifiantProjet.valueType.js';
 // Ports
+export type * from './getNombreDemandesÀInstruire.port.js';
 export type * from './getProjetAggregateRoot.port.js';
 export type * from './getScopeProjetUtilisateur.port.js';
 export type * from './récupérerGRDParVille.port.js';
-export type * from './getNombreDemandesProjet.port.js';
 // Aggregate Root
 export * from './projet.aggregateRoot.js';
 // Sagas
@@ -22,4 +22,4 @@ export * as ProjetSaga from './projet.saga.js';
 // Register
 export * from './register.js';
 // Query
-export * from './listerDemandesEnInstruction.js';
+export * from './consulterNombreDemandesÀInstruire.query.js';

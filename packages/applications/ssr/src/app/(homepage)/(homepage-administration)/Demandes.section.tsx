@@ -1,29 +1,28 @@
 import Contract from '@codegouvfr/react-dsfr/picto/Contract';
 
 import {
-  type DemandesEnInstruction,
-  getNombreDemandesEnInstruction,
-} from '@/app/_helpers/getNombreDemandesEnInstruction';
+  getNombreDemandesÀInstruire,
+  type NombreDemandesÀInstruire,
+} from '@/app/_helpers/getNombreDemandesÀInstruire';
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { DemandesDétails } from './Demandes.détails';
 
-const sectionTitle = 'Demandes à traiter';
+const sectionTitle = 'Demandes à instruire';
 
 export const DemandesSection = () =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
       const autorité = utilisateur.estDreal() ? 'dreal' : 'dgec';
 
-      const nombreDemandesEnInstruction = await getNombreDemandesEnInstruction(
+      const nombreDemandesÀInstruire = await getNombreDemandesÀInstruire(
         utilisateur.identifiantUtilisateur.email,
         autorité,
       );
 
-      const { avecNouvellesDemandes, sansNouvellesDemandes } = await mapDemandesToDemandesDétails(
-        nombreDemandesEnInstruction,
-      );
+      const { avecNouvellesDemandes, sansNouvellesDemandes } =
+        await mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
 
       return (
         <Section
@@ -42,7 +41,7 @@ export const DemandesSection = () =>
     sectionTitle,
   );
 
-const mapDemandesToDemandesDétails = async (demandes: Array<DemandesEnInstruction>) => {
+const mapDemandesToDemandesDétails = async (demandes: Array<NombreDemandesÀInstruire>) => {
   return {
     avecNouvellesDemandes: demandes.filter((demande) => demande.new > 0),
     sansNouvellesDemandes: demandes.filter((demande) => demande.new === 0),

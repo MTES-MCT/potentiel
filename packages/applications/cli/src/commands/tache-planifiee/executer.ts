@@ -44,7 +44,7 @@ export class Executer extends Command {
       getScopeProjetUtilisateur: () => {
         throw new Error('notImplemented');
       },
-      getNombreDemandesProjet: () => {
+      getNombreDemandesÀInstruire: () => {
         throw new Error('not implemented');
       },
     });
