@@ -102,7 +102,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 </>
               )}
 
-              {peutAccorderLaMainlevéeDesGarantiesFinancières && (
+              {peutAccorderLaMainlevéeDesGarantiesFinancières ? (
                 <Select
                   state={
                     validationErrors['accorderMainlevéeGarantiesFinancières'] ? 'error' : 'default'
@@ -123,6 +123,8 @@ export const AccorderAbandonSansRecandidatureForm = ({
                     { label: 'Non', value: 'false' },
                   ]}
                 />
+              ) : (
+                <input type="hidden" name="accorderMainlevéeGarantiesFinancières" value="false" />
               )}
 
               <div className="flex flex-col gap-1">
