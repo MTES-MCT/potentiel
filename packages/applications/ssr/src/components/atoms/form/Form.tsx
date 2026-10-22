@@ -1,5 +1,6 @@
 'use client';
 
+import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   type FC,
@@ -8,6 +9,7 @@ import {
   startTransition,
   useActionState,
   useEffect,
+  useRef,
 } from 'react';
 
 import type { formAction, ValidationErrors } from '@/utils/formAction';
@@ -31,7 +33,18 @@ export type FormProps = {
   onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
   onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
   className?: string;
+  confirmSubmit?: {
+    title: string;
+    children: ReactNode;
+    confirmLabel?: string;
+    cancelLabel?: string;
+  };
 };
+
+const ConfirmSubmitModal = createModal({
+  id: 'form-confirm-submit',
+  isOpenedByDefault: false,
+});
 
 export const Form: FC<FormProps> = ({
   id,
@@ -44,6 +57,7 @@ export const Form: FC<FormProps> = ({
   actionButtons,
   onError,
   onInvalid,
+  confirmSubmit,
   className,
 }) => {
   const router = useRouter();
@@ -64,20 +78,67 @@ export const Form: FC<FormProps> = ({
     }
   }, [state.status, onValidationError, state]);
 
+  const pendingFormData = useRef<FormData | null>(null);
+
   return (
     <form
       id={id}
       // use onSubmit instead of action to keep the form
       onSubmit={(e) => {
         e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        if (confirmSubmit) {
+          pendingFormData.current = formData;
+          ConfirmSubmitModal.open();
+          return;
+        }
+
         startTransition(() => {
-          formAction(new FormData(e.currentTarget));
+          formAction(formData);
         });
       }}
       onInvalid={onInvalid}
       onError={onError}
       className={className}
     >
+      {confirmSubmit && (
+        <ConfirmSubmitModal.Component
+          title={confirmSubmit.title}
+          size="small"
+          buttons={[
+            {
+              children: confirmSubmit.cancelLabel ?? 'Annuler',
+              type: 'button',
+              priority: 'secondary',
+              onClick: () => {
+                ConfirmSubmitModal.close();
+                pendingFormData.current = null;
+              },
+            },
+            {
+              children: confirmSubmit.confirmLabel ?? 'Confirmer',
+              type: 'button',
+              onClick: () => {
+                const formData = pendingFormData.current;
+
+                ConfirmSubmitModal.close();
+                pendingFormData.current = null;
+
+                if (formData) {
+                  startTransition(() => {
+                    formAction(formData);
+                  });
+                }
+              },
+              doClosesModal: true,
+            },
+          ]}
+        >
+          {confirmSubmit.children}
+        </ConfirmSubmitModal.Component>
+      )}
       <FormCsrfInput />
       {retourUrl && (
         <input

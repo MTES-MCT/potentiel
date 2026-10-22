@@ -2,6 +2,7 @@
 
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useEffect, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -83,7 +84,48 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
           type: 'back',
         },
       }}
+      confirmSubmit={{
+        title: 'Confirmer le changement de producteur',
+        children: (
+          <Notice
+            title="Le changement n'aura pas d'autres effets sur le projet"
+            description={
+              <span className="flex gap-2 flex-col">
+                <span>Les droits d’accès du producteur actuel ne seront pas révoqués.</span>
+                <span>
+                  Les garanties financières actuelles ne seront pas supprimées sur Potentiel et
+                  restent celles de l’ancien producteur : pensez à suivre la mise à jour des
+                  garanties financières par le nouveau producteur.
+                </span>
+              </span>
+            }
+          ></Notice>
+        ),
+      }}
     >
+      <Notice
+        severity="info"
+        title="Conséquences du changement de producteur"
+        description={
+          <span className="flex flex-col gap-2">
+            <span>
+              Accès :{' '}
+              <span className="font-semibold">
+                les droits du producteur actuel ne sont pas révoqués
+              </span>{' '}
+              à la soumission de ce formulaire. Ils ne le sont que lorsque le porteur de projet
+              déclare lui-même le changement.
+            </span>
+            <span>
+              Garanties financières : ce changement n’entraîne pas la suppression des garanties
+              financières actuelles sur Potentiel, qui{' '}
+              <span className="font-semibold">restent donc celles de l’ancien producteur</span>. Le
+              nouveau producteur devra fournir ses propres garanties financières : pensez à en
+              suivre la mise à jour sur le projet.
+            </span>
+          </span>
+        }
+      />
       <input
         name="identifiantProjet"
         type="hidden"
@@ -106,6 +148,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
       />
       {!siretUnknown && (
         <Input
+          className="w-1/3"
           state={siretError || validationErrors['siret'] ? 'error' : 'default'}
           stateRelatedMessage={siretError ?? validationErrors['siret']}
           hintText={`Constitué de 14 chiffres. Précédemment : ${numéroIdentification?.siret ?? 'non renseigné'}`}
@@ -120,6 +163,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         />
       )}
       <Input
+        className="w-2/3"
         state={validationErrors['producteur'] ? 'error' : producteur.fromAPI ? 'info' : 'default'}
         stateRelatedMessage={
           validationErrors['producteur'] ??
@@ -138,6 +182,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         hintText={`Précédemment : ${producteurInitialValue}`}
       />
       <Input
+        className="w-2/3"
         textArea
         label="Raison"
         id="raison"
