@@ -90,14 +90,9 @@ const DemandesParDomaine = ({
       }
       title={mapDomaineToLabel[domain]}
       desc={
-        total ? (
-          <span>
-            {total}{' '}
-            <span className="italic text-sm">{total > 1 ? 'demandes' : 'demande'} à instruire</span>
-          </span>
-        ) : (
-          <span className="italic text-sm">Aucune demande à traiter</span>
-        )
+        total
+          ? `${total} ${total > 1 ? 'demandes' : 'demande'} à instruire`
+          : 'Aucune demande à traiter'
       }
       titleAs="h3"
     />
