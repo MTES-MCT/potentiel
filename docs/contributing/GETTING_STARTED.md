@@ -71,7 +71,7 @@ Pour installer et lancer le projet vous aurez besoin de :
 
 C'est le système de connexion développé par l'Etat français. Il respecte les normes actuelles de sécurité, notamment avec l'activation du 2FA.
 
-C'est le mode de connexion privilégié en production, il est notamment obligatoire pour les Agens (DGEC, DREAL) et les partenaires (co-contractant, GRD).
+C'est le mode de connexion privilégié en production, il est notamment obligatoire pour les Agents (DGEC, DREAL) et les partenaires (co-contractant, GRD).
 
 2. Magic Link
 
