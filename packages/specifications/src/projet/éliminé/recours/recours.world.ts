@@ -133,11 +133,18 @@ export class RecoursWord {
       statut,
       identifiantProjet,
       dateDemande: DateTime.convertirEnValueType(this.#demanderRecoursFixture.demandéLe),
-      dateAccord: this.#accorderRecoursFixture.accordéLe
-        ? DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéLe)
-        : undefined,
-      dateRéponseSignée: this.#accorderRecoursFixture.dateAccord
-        ? DateTime.convertirEnValueType(this.#accorderRecoursFixture.dateAccord)
+      accord: this.#accorderRecoursFixture.aÉtéCréé
+        ? {
+            date: DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéLe),
+            réponseSignée: Éliminé.Recours.DocumentRecours.recoursAccordé({
+              identifiantProjet: identifiantProjet.formatter(),
+              dateRéponseSignée: this.#accorderRecoursFixture.dateAccord,
+              réponseSignée: this.#accorderRecoursFixture.réponseSignée,
+            }),
+            dateRéponseSignée: DateTime.convertirEnValueType(
+              this.#accorderRecoursFixture.dateAccord,
+            ),
+          }
         : undefined,
     };
 

@@ -4,8 +4,9 @@ import { DateTime } from '@potentiel-domain/common';
 import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantProjet } from '../../../index.js';
+import { type DocumentProjet, IdentifiantProjet } from '../../../index.js';
 import type { DemandeRecoursEntity } from '../demandeRecours.entity.js';
+import { DocumentRecours } from '../index.js';
 import type { RecoursEntity } from '../recours.entity.js';
 import * as StatutRecours from '../statutRecours.valueType.js';
 
@@ -13,8 +14,11 @@ export type ConsulterRecoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutRecours.ValueType;
   dateDemande: DateTime.ValueType;
-  dateAccord?: DateTime.ValueType;
-  dateRéponseSignée?: DateTime.ValueType;
+  accord?: {
+    date: DateTime.ValueType;
+    réponseSignée: DocumentProjet.ValueType;
+    dateRéponseSignée?: DateTime.ValueType;
+  };
 };
 
 export type ConsulterRecoursQuery = Message<
@@ -56,15 +60,23 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
 const mapToReadModel = (
   entity: RecoursEntity & { readonly demande?: DemandeRecoursEntity['demande'] },
 ): ConsulterRecoursReadModel => {
+  const accord = entity.demande?.accord;
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
     statut: StatutRecours.convertirEnValueType(entity.dernièreDemande.statut),
     dateDemande: DateTime.convertirEnValueType(entity.dernièreDemande.date),
-    dateAccord: entity.demande?.accord?.accordéLe
-      ? DateTime.convertirEnValueType(entity.demande?.accord?.accordéLe)
-      : undefined,
-    dateRéponseSignée: entity.demande?.accord?.dateRéponseSignée
-      ? DateTime.convertirEnValueType(entity.demande.accord.dateRéponseSignée)
+    accord: accord
+      ? {
+          date: DateTime.convertirEnValueType(accord.accordéLe),
+          réponseSignée: DocumentRecours.recoursAccordé({
+            identifiantProjet: entity.identifiantProjet,
+            dateRéponseSignée: accord.dateRéponseSignée || accord.accordéLe,
+            réponseSignée: accord.réponseSignée,
+          }),
+          dateRéponseSignée: accord.dateRéponseSignée
+            ? DateTime.convertirEnValueType(accord.dateRéponseSignée)
+            : undefined,
+        }
       : undefined,
   };
 };

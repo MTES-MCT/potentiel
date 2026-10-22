@@ -38,10 +38,17 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes
               key={étape.type}
               titre="Notification"
               date={date}
-              documentUrl={document ? Routes.Document.télécharger(document) : undefined}
+              document={
+                document
+                  ? {
+                      url: document,
+                      label: "Télécharger l'attestation",
+                    }
+                  : undefined
+              }
             />
           ))
-          .with({ type: 'recours' }, ({ date, dateDemande }) => (
+          .with({ type: 'recours' }, ({ date, dateDemande, document }) => (
             <ÉtapeProjet
               key={étape.type}
               titre="Recours accordé"
@@ -50,6 +57,14 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes
                 href: Routes.Recours.détail(identifiantProjet, dateDemande),
                 label: 'Voir les détails du recours',
               }}
+              document={
+                document
+                  ? {
+                      url: document,
+                      label: "Télécharger la réponse signée de l'accord",
+                    }
+                  : undefined
+              }
             />
           ))
           .with({ type: 'abandon' }, ({ date, dateDemande }) => (
@@ -81,14 +96,14 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, étapes
 type ÉtapeProjetProps = {
   titre: string;
   date: DateTime.RawType | undefined;
-  documentUrl?: string;
+  document?: { url: string; label: string };
   action?: {
     href: string;
     label: string;
   };
 };
 
-const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, documentUrl, action }) => {
+const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, document, action }) => {
   return (
     <TimelineItem>
       {date ? (
@@ -99,12 +114,12 @@ const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, documentUrl, action 
       <ContentArea>
         {date ? <FormattedDate date={date} /> : <span className="italic">À transmettre</span>}
         <ItemTitle title={titre} />
-        {documentUrl && (
+        {document && (
           <DownloadDocument
             className="mb-0"
-            label="Télécharger l'attestation"
+            label={document.label}
             format="pdf"
-            url={documentUrl}
+            url={Routes.Document.télécharger(document.url)}
             small
           />
         )}
