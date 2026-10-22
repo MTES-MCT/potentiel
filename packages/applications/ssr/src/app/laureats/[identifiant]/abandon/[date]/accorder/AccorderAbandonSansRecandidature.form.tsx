@@ -9,6 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
@@ -21,7 +22,8 @@ type AccorderAbandonSansRecandidatureFormProps = {
   ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: boolean;
-  peutAccorderLaMainlevéeDesGarantiesFinancières: boolean;
+  afficherOptionMainlevéeGf: boolean;
+  lesGarantiesFinancièresSontConstituées: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
@@ -29,7 +31,8 @@ export const AccorderAbandonSansRecandidatureForm = ({
   estPPA,
   ppaSignaléLorsDeLaDemande,
   ppaSignaléLorsDeLaDemandeEtToujoursActif,
-  peutAccorderLaMainlevéeDesGarantiesFinancières,
+  afficherOptionMainlevéeGf,
+  lesGarantiesFinancièresSontConstituées,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const ppaDéjàSignaléParLAdministration = estPPA && !ppaSignaléLorsDeLaDemande;
   const ppaSignaléLorsDeLaDemandePuisAnnulé = ppaSignaléLorsDeLaDemande === true && !estPPA;
@@ -102,29 +105,46 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 </>
               )}
 
-              {peutAccorderLaMainlevéeDesGarantiesFinancières ? (
-                <Select
-                  state={
-                    validationErrors['accorderMainlevéeGarantiesFinancières'] ? 'error' : 'default'
-                  }
-                  stateRelatedMessage={validationErrors['accorderMainlevéeGarantiesFinancières']}
-                  id="accorderMainlevéeGarantiesFinancières"
-                  label="Accorder la mainlevée des garanties financières avec l'abandon"
-                  nativeSelectProps={{
-                    name: 'accorderMainlevéeGarantiesFinancières',
-                    required: true,
-                    'aria-required': true,
-                    onChange: (e) => {
-                      setAccorderMainlevée(e.target.value === 'true');
-                    },
-                  }}
-                  options={[
-                    { label: 'Oui', value: 'true' },
-                    { label: 'Non', value: 'false' },
-                  ]}
-                />
-              ) : (
-                <input type="hidden" name="accorderMainlevéeGarantiesFinancières" value="false" />
+              {afficherOptionMainlevéeGf && (
+                <div>
+                  <Select
+                    state={
+                      validationErrors['accorderMainlevéeGarantiesFinancières']
+                        ? 'error'
+                        : 'default'
+                    }
+                    stateRelatedMessage={validationErrors['accorderMainlevéeGarantiesFinancières']}
+                    id="accorderMainlevéeGarantiesFinancières"
+                    label="Accorder la mainlevée des garanties financières avec l'abandon"
+                    hint={
+                      !lesGarantiesFinancièresSontConstituées &&
+                      "L'attestation de constitution des garanties financières reste à transmettre"
+                    }
+                    nativeSelectProps={{
+                      className: 'm-0',
+                      name: 'accorderMainlevéeGarantiesFinancières',
+                      required: true,
+                      'aria-required': true,
+                      onChange: (e) => {
+                        setAccorderMainlevée(e.target.value === 'true');
+                      },
+                      disabled: !lesGarantiesFinancièresSontConstituées,
+                    }}
+                    options={[
+                      { label: 'Oui', value: 'true' },
+                      { label: 'Non', value: 'false' },
+                    ]}
+                  />
+                  {!lesGarantiesFinancièresSontConstituées && (
+                    <TertiaryLink
+                      href={Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
+                        identifiantProjet,
+                      )}
+                    >
+                      Transmettre l'attestation des garanties financières
+                    </TertiaryLink>
+                  )}
+                </div>
               )}
 
               <div className="flex flex-col gap-1">
