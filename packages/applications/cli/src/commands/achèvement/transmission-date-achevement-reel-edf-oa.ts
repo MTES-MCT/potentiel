@@ -349,20 +349,6 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
       },
     ];
 
-    // const parRaisonPuisÉcart = (a: CsvLine, b: CsvLine) => {
-    //   const parRaison = a.raison.localeCompare(b.raison);
-
-    //   if (
-    //     parRaison === 0 &&
-    //     a.raison === 'Correction de la date' &&
-    //     b.raison === 'Correction de la date'
-    //   ) {
-    //     return (b.écartEnJours ?? 0) - (a.écartEnJours ?? 0);
-    //   }
-
-    //   return parRaison;
-    // };
-
     await writeFile(
       RESULT_FILE,
       await ExportCSV.toCSV({
