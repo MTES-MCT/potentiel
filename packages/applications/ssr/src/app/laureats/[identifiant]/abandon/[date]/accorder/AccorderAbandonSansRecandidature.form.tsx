@@ -3,6 +3,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -10,6 +11,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { Icon } from '@/components/atoms/Icon';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
@@ -115,13 +117,31 @@ export const AccorderAbandonSansRecandidatureForm = ({
                     }
                     stateRelatedMessage={validationErrors['accorderMainlevéeGarantiesFinancières']}
                     id="accorderMainlevéeGarantiesFinancières"
-                    label="Accorder la mainlevée des garanties financières avec l'abandon"
+                    label={
+                      <div>
+                        Accorder la mainlevée des garanties financières avec l'abandon{' '}
+                        {!lesGarantiesFinancièresSontConstituées && (
+                          <Tooltip title="L'attestation de constitution des garanties financières reste à transmettre dans Potentiel">
+                            <Icon id="fr-icon-error-warning-line" size="sm" />
+                          </Tooltip>
+                        )}
+                      </div>
+                    }
                     hint={
-                      !lesGarantiesFinancièresSontConstituées &&
-                      "L'attestation de constitution des garanties financières reste à transmettre"
+                      !lesGarantiesFinancièresSontConstituées && (
+                        <TertiaryLink
+                          href={Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
+                            identifiantProjet,
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Transmettre l'attestation de constitution des garanties financières{' '}
+                          <span className="sr-only">dans on nouvel onglet</span>
+                        </TertiaryLink>
+                      )
                     }
                     nativeSelectProps={{
-                      className: 'm-0',
                       name: 'accorderMainlevéeGarantiesFinancières',
                       required: true,
                       'aria-required': true,
@@ -129,21 +149,13 @@ export const AccorderAbandonSansRecandidatureForm = ({
                         setAccorderMainlevée(e.target.value === 'true');
                       },
                       disabled: !lesGarantiesFinancièresSontConstituées,
+                      className: 'mb-5',
                     }}
                     options={[
                       { label: 'Oui', value: 'true' },
                       { label: 'Non', value: 'false' },
                     ]}
                   />
-                  {!lesGarantiesFinancièresSontConstituées && (
-                    <TertiaryLink
-                      href={Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
-                        identifiantProjet,
-                      )}
-                    >
-                      Transmettre l'attestation des garanties financières
-                    </TertiaryLink>
-                  )}
                 </div>
               )}
 
