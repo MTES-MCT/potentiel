@@ -1,4 +1,5 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import Tile from '@codegouvfr/react-dsfr/Tile';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -19,6 +20,14 @@ export type DemandesDétailsProps = {
 
 export const DemandesDétails = ({ autorité, withNew, withNoNew }: DemandesDétailsProps) => (
   <div className="flex flex-col gap-4">
+    {withNew.length ? (
+      <Notice
+        severity="info"
+        title=""
+        description="Une demande récente est une demande datant de moins d'un mois."
+        className="w-fit"
+      />
+    ) : null}
     <div className="flex flex-row flex-wrap gap-2">
       {withNew.map(({ domain, total, new: newCount }) => (
         <DemandesParDomaine
@@ -69,16 +78,20 @@ const DemandesParDomaine = ({
       }}
       orientation="horizontal"
       start={
-        newCount > 0 && (
+        newCount ? (
           <Badge noIcon severity="info">
-            {newCount > 1 ? `${newCount} demandes récentes` : '1 demande récente'}
+            Nouvelles demandes
           </Badge>
-        )
+        ) : newCount === 1 ? (
+          <Badge noIcon severity="info">
+            Nouvelle demande
+          </Badge>
+        ) : null
       }
       title={mapDomaineToLabel[domain]}
       desc={
         total
-          ? `${total} ${total > 1 ? 'demandes' : 'demande'} à traiter`
+          ? `${total} ${total > 1 ? 'demandes' : 'demande'} à instruire`
           : 'Aucune demande à traiter'
       }
       titleAs="h3"
