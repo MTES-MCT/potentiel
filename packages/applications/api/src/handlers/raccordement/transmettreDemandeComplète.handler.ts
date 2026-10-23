@@ -13,7 +13,7 @@ export const transmettreDemandeComplèteHandler: Raccordement['transmettreDemand
   const utilisateur = getUtilisateur();
 
   const { reference, dateAccuseReception } = validate(
-    'TransmettreDemandeCompleteRaccordementBody',
+    'Raccordement.TransmettreDemandeCompleteRaccordementBody',
     body,
   );
 
