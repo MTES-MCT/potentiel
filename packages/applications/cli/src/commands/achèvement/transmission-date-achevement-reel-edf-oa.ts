@@ -38,7 +38,11 @@ type CsvLine = {
     | 'Identifiant projet invalide'
     | 'Date achèvement réel invalide'
     | 'Achèvement inexistant'
-    | 'Opération métier impossible';
+    | 'Opération métier impossible'
+    | 'Projet abandonné'
+    | 'Date achèvement avant date de notif du projet'
+    | 'Inconnue';
+  errorMessage?: string;
   dateAchèvementRéelTransmise: DateTime.RawType;
   dateMiseEnService?: DateTime.RawType;
 } & (
@@ -53,6 +57,19 @@ type Stats = {
   total: number;
   succès: Array<CsvLine>;
   erreurs: Array<CsvLine>;
+};
+
+type CompteParRaison = Partial<Record<CsvLine['raison'], number>>;
+
+const afficherDétailParRaison = (lignes: Array<CsvLine>) => {
+  const compteParRaison = lignes.reduce<CompteParRaison>((compte, { raison }) => {
+    compte[raison] = (compte[raison] ?? 0) + 1;
+    return compte;
+  }, {});
+
+  for (const [raison, nombre] of Object.entries(compteParRaison)) {
+    console.info(`     - ${raison} : ${nombre}`);
+  }
 };
 
 export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Command {
@@ -230,6 +247,30 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
           continue;
         }
 
+        if (error instanceof Lauréat.Abandon.ProjetAbandonnéError) {
+          stats.erreurs.push({
+            identifiantProjet,
+            statut: 'erreur ❌',
+            raison: 'Projet abandonné',
+            dateAchèvementRéelTransmise,
+            dateAchèvementRéelActuelle: undefined,
+            écartEnJours: undefined,
+          });
+          continue;
+        }
+
+        if (error instanceof Lauréat.Achèvement.DateAchèvementAntérieureÀDateNotificationError) {
+          stats.erreurs.push({
+            identifiantProjet,
+            statut: 'erreur ❌',
+            raison: 'Date achèvement avant date de notif du projet',
+            dateAchèvementRéelTransmise,
+            dateAchèvementRéelActuelle: undefined,
+            écartEnJours: undefined,
+          });
+          continue;
+        }
+
         if (
           AggregateNotFoundError.isAggregateNotFoundError(error as Error) ||
           OperationRejectedError.isOperationRejectedError(error as Error)
@@ -242,7 +283,20 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
             dateAchèvementRéelActuelle: undefined,
             écartEnJours: undefined,
           });
+          continue;
         }
+
+        console.log('ERREUR INCONNU', error);
+
+        stats.erreurs.push({
+          identifiantProjet,
+          statut: 'erreur ❌',
+          raison: 'Inconnue',
+          errorMessage: error as string,
+          dateAchèvementRéelTransmise,
+          dateAchèvementRéelActuelle: undefined,
+          écartEnJours: undefined,
+        });
       }
     }
 
@@ -252,7 +306,9 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
     console.info(
       `  ✅ ${stats.succès.length} mises à jour réussies (transmission, correction ou date identique)`,
     );
+    afficherDétailParRaison(stats.succès);
     console.info(`  ❌ ${stats.erreurs.length} mises à jour en échec`);
+    afficherDétailParRaison(stats.erreurs);
 
     if (!stats.succès.length && !stats.erreurs.length) {
       console.info('Aucun résultat à ajouter au fichier');
@@ -293,24 +349,10 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
       },
     ];
 
-    const parRaisonPuisÉcart = (a: CsvLine, b: CsvLine) => {
-      const parRaison = a.raison.localeCompare(b.raison);
-
-      if (
-        parRaison === 0 &&
-        a.raison === 'Correction de la date' &&
-        b.raison === 'Correction de la date'
-      ) {
-        return (b.écartEnJours ?? 0) - (a.écartEnJours ?? 0);
-      }
-
-      return parRaison;
-    };
-
     await writeFile(
       RESULT_FILE,
       await ExportCSV.toCSV({
-        data: [...stats.succès.sort(parRaisonPuisÉcart), ...stats.erreurs.sort(parRaisonPuisÉcart)],
+        data: [...stats.succès, ...stats.erreurs],
         fields,
       }),
       'utf-8',

@@ -86,6 +86,8 @@ export type {
 // Entity
 
 export type { AbandonEntity } from './abandon.entity.js';
+// Errors
+export { ProjetAbandonnéError } from './abandon.error.js';
 export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
 export type { DemandeAbandonEntity } from './demande/demandeAbandon.entity.js';
 export * as DocumentAbandon from './documentAbandon.valueType.js';
