@@ -199,8 +199,9 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site | 100 |
         Alors la dgec devrait être informé que "Le champ puissance de site ne peut être renseigné pour cet appel d'offres"
-
     Scénario: Impossible de corriger une candidature avec un installateur si l'appel d'offres ne le propose pas
+        Etant donné la candidature lauréate "Du boulodrome de Bordeaux" avec :
+            | appel d'offres | PPE2 - Bâtiment |
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Installateur.Inc |
         Alors la dgec devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
