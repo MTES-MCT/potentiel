@@ -40,11 +40,13 @@ const mapToItem = ({
     ),
     details: (
       <div className="flex flex-col gap-1 justify-center">
-        <div>
-          Mainlevée demandée le :{' '}
-          <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
-          <span className="font-semibold">{demande.demandéePar.email}</span>
-        </div>
+        {demande && (
+          <div>
+            Mainlevée demandée le :{' '}
+            <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
+            <span className="font-semibold">{demande.demandéePar.email}</span>
+          </div>
+        )}
         <DownloadDocument
           format="pdf"
           label="Télécharger la réponse signée"

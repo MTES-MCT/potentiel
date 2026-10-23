@@ -25,17 +25,21 @@ export type ActionsMainlevéeProps = {
 
 export type MainlevéeEnCoursProps = {
   mainlevée: PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
+  réponseSignéeAbandonAccordé?: PlainType<DocumentProjet.ValueType>;
 };
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
   mainlevée: { demande, motif, accord, instruction },
+  réponseSignéeAbandonAccordé,
 }) => (
-  <>
-    <div>
-      Mainlevée demandée le :{' '}
-      <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
-      <span className="font-semibold">{demande.demandéePar.email}</span>
-    </div>
+  <div className="flex flex-col gap-2">
+    {demande && (
+      <div>
+        Mainlevée demandée le :{' '}
+        <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
+        <span className="font-semibold">{demande.demandéePar.email}</span>
+      </div>
+    )}
     <div>
       Motif :{' '}
       <span className="font-semibold">
@@ -56,16 +60,29 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
           <FormattedDate className="font-semibold" date={accord.accordéeLe.date} /> par{' '}
           <span className="font-semibold">{accord.accordéePar.email}</span>
         </div>
-        <div className="flex flex-col gap-1 justify-center">
-          <DownloadDocument
-            format="pdf"
-            label="Télécharger la réponse signée"
-            url={Routes.Document.télécharger(
-              DocumentProjet.bind(accord.courrierAccord).formatter(),
-            )}
-          />
-        </div>
+        {accord.courrierAccord && (
+          <div className="flex flex-col gap-1 justify-center">
+            <DownloadDocument
+              format="pdf"
+              label="Télécharger la réponse signée"
+              url={Routes.Document.télécharger(
+                DocumentProjet.bind(accord.courrierAccord).formatter(),
+              )}
+            />
+          </div>
+        )}
+        {réponseSignéeAbandonAccordé && (
+          <div className="flex flex-col gap-1 justify-center">
+            <DownloadDocument
+              format="pdf"
+              label="Télécharger la réponse signée"
+              url={Routes.Document.télécharger(
+                DocumentProjet.bind(réponseSignéeAbandonAccordé).formatter(),
+              )}
+            />
+          </div>
+        )}
       </div>
     )}
-  </>
+  </div>
 );

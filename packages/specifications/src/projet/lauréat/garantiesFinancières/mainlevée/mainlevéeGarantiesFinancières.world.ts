@@ -2,6 +2,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { mapDateTime, mapToExemple } from '../../../../helpers/mapToExemple.js';
 import type { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
+import { AccorderDemandeMainlevéeFixture } from './fixtures/accorderDemandeMainlevée.fixture.js';
 import { AccorderMainlevéeFixture } from './fixtures/accorderMainlevée.fixture.js';
 import {
   type CréerDemanderMainlevéeFixtureProps,
@@ -13,24 +14,34 @@ import { RejeterMainlevéeFixture } from './fixtures/rejeterMainlevée.fixture.j
 export class MainlevéeGarantiesFinancièresWorld {
   readonly demander: DemanderMainlevéeFixture;
   readonly passerEnInstruction: PasserMainlevéeEnInstructionFixture;
-  readonly accorder: AccorderMainlevéeFixture;
+  readonly accorderDemande: AccorderDemandeMainlevéeFixture;
   readonly rejeter: RejeterMainlevéeFixture;
+  readonly accorder: AccorderMainlevéeFixture;
 
   constructor(public readonly garantiesFinancièresWorld: GarantiesFinancièresWorld) {
     this.demander = new DemanderMainlevéeFixture();
     this.passerEnInstruction = new PasserMainlevéeEnInstructionFixture();
-    this.accorder = new AccorderMainlevéeFixture();
+    this.accorderDemande = new AccorderDemandeMainlevéeFixture();
     this.rejeter = new RejeterMainlevéeFixture();
+    this.accorder = new AccorderMainlevéeFixture();
   }
 
-  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel {
+  mapToExpected(): Partial<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel> {
     const { identifiantProjet } = this.garantiesFinancièresWorld.lauréatWorld;
+
+    if (!this.demander.aÉtéCréé && !this.accorder.aÉtéCréé) {
+      throw new Error(
+        `La fixture d'initialisation de la mainlevée n'a pas n'a pas été créée (demande ou accord direct)`,
+      );
+    }
+
     return {
       identifiantProjet,
       ...this.demander.mapToExpected(),
       ...this.passerEnInstruction.mapToExpected(),
-      ...this.accorder.mapToExpected(identifiantProjet),
+      ...this.accorderDemande.mapToExpected(identifiantProjet),
       ...this.rejeter.mapToExpected(identifiantProjet),
+      ...this.accorder.mapToExpected(identifiantProjet),
     };
   }
 

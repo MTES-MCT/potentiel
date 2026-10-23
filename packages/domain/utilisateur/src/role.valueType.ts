@@ -233,7 +233,7 @@ const référencielPermissions = {
         annulerMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',
         démarrerInstructionMainlevée:
           'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-        accorderMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
+        accorderMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AccorderDemandeMainlevée',
         rejeterMainlevée: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
         renouveler: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
       },
@@ -251,7 +251,7 @@ const référencielPermissions = {
         annulerMainlevée: 'Lauréat.GarantiesFinancières.Command.AnnulerMainlevée',
         démarrerInstructionMainlevée:
           'Lauréat.GarantiesFinancières.Command.DémarrerInstructionMainlevée',
-        accorderMainlevée: 'Lauréat.GarantiesFinancières.Command.AccorderMainlevée',
+        accorderMainlevée: 'Lauréat.GarantiesFinancières.Command.AccorderDemandeMainlevée',
         rejeterMainlevée: 'Lauréat.GarantiesFinancières.Command.RejeterMainlevée',
       },
     },

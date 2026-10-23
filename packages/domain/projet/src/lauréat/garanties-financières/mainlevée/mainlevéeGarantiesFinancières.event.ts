@@ -2,14 +2,25 @@ import type { DateTime, Email } from '@potentiel-domain/common';
 import type { DomainEvent } from '@potentiel-domain/core';
 
 import type { IdentifiantProjet } from '../../../index.js';
-import type { MotifDemandeMainlevéeGarantiesFinancières } from '../index.js';
+import type { MotifMainlevéeGarantiesFinancières } from '../index.js';
 
 export type MainlevéeGarantiesFinancièresEvent =
   | DemandeMainlevéeGarantiesFinancièresAccordéeEvent
   | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
   | MainlevéeGarantiesFinancièresDemandéeEvent
   | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
-  | DemandeMainlevéeGarantiesFinancièresRejetéeEvent;
+  | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
+  | MainlevéeGarantiesFinancièresAccordéeEvent;
+
+export type MainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
+  'MainlevéeGarantiesFinancièresAccordée-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    accordéLe: DateTime.RawType;
+    accordéPar: Email.RawType;
+    motif: MotifMainlevéeGarantiesFinancières.RawType;
+  }
+>;
 
 export type DemandeMainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
   'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
@@ -36,7 +47,7 @@ export type MainlevéeGarantiesFinancièresDemandéeEvent = DomainEvent<
   'MainlevéeGarantiesFinancièresDemandée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    motif: MotifDemandeMainlevéeGarantiesFinancières.RawType;
+    motif: MotifMainlevéeGarantiesFinancières.RawType;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
   }

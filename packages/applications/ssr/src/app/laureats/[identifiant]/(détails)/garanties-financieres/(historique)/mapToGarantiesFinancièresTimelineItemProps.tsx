@@ -12,7 +12,7 @@ import {
 
 type MapToGarantiesFinancièresTimelineItemProps = (
   record: Lauréat.HistoriqueGarantiesFinancièresProjetListItemReadModel,
-) => TimelineItemProps;
+) => TimelineItemProps | undefined;
 
 export const mapToGarantiesFinancièresTimelineItemProps: MapToGarantiesFinancièresTimelineItemProps =
   (record) =>
@@ -126,4 +126,5 @@ export const mapToGarantiesFinancièresTimelineItemProps: MapToGarantiesFinanci�
         },
         mainlevée.mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps,
       )
+      .with({ type: 'MainlevéeGarantiesFinancièresAccordée-V1' }, () => undefined)
       .exhaustive();

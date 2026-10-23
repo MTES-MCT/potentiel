@@ -28,6 +28,7 @@ import {
   instructionDemandeMainlevéeGarantiesFinancièresDémarréeProjector,
   mainlevéeGarantiesFinancièresDemandéeProjector,
 } from './mainlevée/index.js';
+import { mainlevéeGarantiesFinancièresAccordéeProjector } from './mainlevée/mainlevéeGarantiesFinancièresAccordée.projector.js';
 
 export type SubscriptionEvent =
   | Lauréat.GarantiesFinancières.GarantiesFinancièresEvent
@@ -149,6 +150,10 @@ export const register = () => {
           type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
         },
         demandeMainlevéeGarantiesFinancièresRejetéeProjector,
+      )
+      .with(
+        { type: 'MainlevéeGarantiesFinancièresAccordée-V1' },
+        mainlevéeGarantiesFinancièresAccordéeProjector,
       )
       //#endregion Mainlevée
       .exhaustive();

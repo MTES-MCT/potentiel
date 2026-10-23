@@ -13,11 +13,11 @@ import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 export type ListItemDemandeMainlevéeProps = {
-  demandéLe: Iso8601DateTime;
+  demandéLe?: Iso8601DateTime;
   identifiantProjet: string;
   statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
   misÀJourLe: Iso8601DateTime;
-  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
+  motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.RawType;
   nomProjet: string;
   estPartiEnPPA?: true;
 };
@@ -58,11 +58,13 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
           Motif : <span className="font-semibold capitalize">{getMotifMainlevéeLabel(motif)}</span>
         </span>
       </li>
-      <li>
-        <span>
-          Date de la demande : <FormattedDate className="font-semibold" date={demandéLe} />
-        </span>
-      </li>
+      {demandéLe && (
+        <li>
+          <span>
+            Date de la demande : <FormattedDate className="font-semibold" date={demandéLe} />
+          </span>
+        </li>
+      )}
     </ul>
     <StatutMainlevéeBadge statut={statut} />
   </ListItem>

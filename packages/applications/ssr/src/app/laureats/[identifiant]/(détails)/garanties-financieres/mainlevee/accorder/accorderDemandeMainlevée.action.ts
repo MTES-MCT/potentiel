@@ -22,15 +22,17 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, reponseSignee },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        accordéLeValue: new Date().toISOString(),
-        accordéParValue: utilisateur.identifiantUtilisateur.formatter(),
-        réponseSignéeValue: reponseSignee,
+    await mediator.send<Lauréat.GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
+      {
+        type: 'Lauréat.GarantiesFinancières.UseCase.AccorderDemandeMainlevée',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          accordéLeValue: new Date().toISOString(),
+          accordéParValue: utilisateur.identifiantUtilisateur.formatter(),
+          réponseSignéeValue: reponseSignee,
+        },
       },
-    });
+    );
 
     return {
       status: 'success',

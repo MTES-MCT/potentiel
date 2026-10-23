@@ -16,8 +16,14 @@ export const détail = (identifiantProjet: string, demandéLe: string) =>
 export const demander = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon/demander`;
 
-export const téléchargerModèleRéponse = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`;
+export const téléchargerModèleRéponse = ({
+  identifiantProjet,
+  avecMainLevéeGF,
+}: {
+  identifiantProjet: string;
+  avecMainLevéeGF: boolean;
+}) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse${avecMainLevéeGF ? '?avec-mainlevee=true' : ''}`;
 
 export const détailRedirection = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon`;

@@ -5,6 +5,7 @@ import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet, Lauréat } from '../../index.js';
+import { GarantiesFinancières } from '../index.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
@@ -141,6 +142,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     rôleUtilisateur,
     ppaSignalé,
     ppaAnnulé,
+    accorderMainlevéeGarantiesFinancières,
   }: AccorderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
@@ -156,6 +158,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
         accordéPar: identifiantUtilisateur.formatter(),
         ppaSignalé,
         ppaAnnulé,
+        mainlevéeGarantiesFinancièresAccordée: accorderMainlevéeGarantiesFinancières,
       },
     };
 
@@ -200,6 +203,15 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
         annuléLe: dateAccord,
         annuléPar: identifiantUtilisateur,
+      });
+    }
+
+    if (accorderMainlevéeGarantiesFinancières) {
+      await this.lauréat.garantiesFinancières.accorderMainlevée({
+        accordéLe: dateAccord,
+        accordéPar: identifiantUtilisateur,
+        motif: GarantiesFinancières.MotifMainlevéeGarantiesFinancières.projetAbandonné,
+        réponseSignée,
       });
     }
   }
