@@ -11,8 +11,8 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@sentry/core": "10.65.0",
-    "@sentry/node": "10.65.0",
+    "@sentry/core": "10.76.2",
+    "@sentry/node": "10.76.2",
     "winston": "3.17.0"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@ import {
   retry,
   wrap,
 } from 'cockatiel';
-import nodemailer from 'nodemailer';
+import nodemailer, { type Transporter } from 'nodemailer';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -16,7 +16,7 @@ export type EmailOptions = {
   content: string;
 };
 
-let transporter: nodemailer.Transporter | null = null;
+let transporter: Transporter | null = null;
 
 const getTransporter = () => {
   const { SEND_EMAILS_FROM, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SSL } = process.env;
@@ -29,18 +29,20 @@ const getTransporter = () => {
   }
 
   if (!transporter) {
-    transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: Number(SMTP_PORT),
-      secure: SMTP_SSL === 'true',
-      auth: SMTP_USER
-        ? {
-            user: SMTP_USER,
-            pass: SMTP_PASS,
-          }
-        : undefined,
-      from: SEND_EMAILS_FROM,
-    });
+    transporter = nodemailer.createTransport(
+      {
+        host: SMTP_HOST,
+        port: Number(SMTP_PORT),
+        secure: SMTP_SSL === 'true',
+        auth: SMTP_USER
+          ? {
+              user: SMTP_USER,
+              pass: SMTP_PASS,
+            }
+          : undefined,
+      },
+      { from: SEND_EMAILS_FROM },
+    );
   }
   return transporter;
 };
@@ -69,8 +71,6 @@ export const sendEmail = async ({ content, subject, recipients }: EmailOptions) 
       subject,
       html: content,
       to: recipients.join(';'),
-      // biome-ignore lint/style/noNonNullAssertion: from is always set via createTransport options above
-      from: transporter.options.from!,
       headers: {
         // suppress out-of-office auto-replies
         'X-Auto-Response-Suppress': 'All',
