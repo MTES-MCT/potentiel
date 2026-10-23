@@ -32,7 +32,7 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
   mainlevée: { demande, motif, accord, instruction },
   réponseSignéeAbandonAccordé,
 }) => (
-  <>
+  <div className="flex flex-col gap-2">
     {demande && (
       <div>
         Mainlevée demandée le :{' '}
@@ -84,5 +84,5 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
         )}
       </div>
     )}
-  </>
+  </div>
 );
