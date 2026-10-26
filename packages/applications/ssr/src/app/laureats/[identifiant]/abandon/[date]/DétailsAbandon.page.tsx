@@ -85,7 +85,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
               </div>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <div className="whitespace-nowrap font-semibold">
               Autorité compétente pour l'instruction :
             </div>
