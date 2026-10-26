@@ -28,7 +28,7 @@ export function AuthTile({ title, provider, description, action, className }: Au
       title={
         <>
           {provider.isLastUsed && (
-            <div className="absolute right-4 top-4">
+            <div className="absolute right-4 top-2">
               <Badge small severity="success">
                 Utilisé récemment
               </Badge>
