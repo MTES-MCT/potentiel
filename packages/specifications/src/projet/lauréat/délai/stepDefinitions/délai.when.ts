@@ -244,7 +244,7 @@ export async function accorderDemandeDélai(this: PotentielWorld, rôle: Role.Ra
         dateAccordValue: accordéeLe,
         motifValue:
           this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif ??
-          Lauréat.Délai.MotifDemandeDélai.forceMajeure.motif,
+          Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif,
         nombreDeMois,
         réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         rôleUtilisateurValue: rôle,

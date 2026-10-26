@@ -12,7 +12,7 @@ const textMap: Record<
   Lauréat.Délai.MotifDemandeDélai.RawType,
   { title: string; description: React.ReactNode }
 > = {
-  'force-majeure': {
+  'prolongation-délai-achèvement': {
     title: `Cette demande concerne les délais de force majeure laissés à l'appréciation du préfet ou du ministre chargé de l'énergie`,
     description: (
       <>

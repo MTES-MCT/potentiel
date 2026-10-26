@@ -18,7 +18,7 @@ export const délaiDemandéProjector = async (
   const motif =
     event.type === 'DélaiDemandé-V2'
       ? event.payload.motif
-      : Lauréat.Délai.MotifDemandeDélai.forceMajeure.motif;
+      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif;
   const autoritéCompétente = await getAutoritéCompétente(identifiantProjet, motif);
 
   await upsertProjection<Lauréat.Délai.DemandeDélaiEntity>(
