@@ -18,7 +18,15 @@ export const récupérerNouveautés: Nouveautés.RécupérerNouveautésPort = as
 
   const { records } = gristRecordsSchema.parse(result);
 
+  if (!records.length) {
+    return [];
+  }
+
   return records.flatMap(({ id, fields }) => {
+    if (estLigneVide(fields)) {
+      return [];
+    }
+
     const parsedFields = nouveautéFieldsSchema.safeParse(fields);
 
     if (!parsedFields.success) {
@@ -44,3 +52,11 @@ export const récupérerNouveautés: Nouveautés.RécupérerNouveautésPort = as
     ];
   });
 };
+
+const estValeurVide = (valeur: unknown) =>
+  !valeur ||
+  // Grist encode les ChoiceList sous la forme ['L', ...choix] : ['L'] seul correspond à une liste vide
+  (Array.isArray(valeur) && valeur.every((élément) => élément === 'L'));
+
+const estLigneVide = (fields: Record<string, unknown>) =>
+  Object.values(fields).every(estValeurVide);
