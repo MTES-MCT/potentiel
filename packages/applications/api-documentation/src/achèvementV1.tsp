@@ -108,96 +108,180 @@ namespace Achevement {
     @format("date")
     dateNotification: string;
 
-    /** Société mère */
+    /** Société mère
+     * ⚠️ Corrrespond à l'actionnaire du lauréat (actionnaire.nom)
+     */
     societeMere: string;
 
-    /** Numéro SIREN */
+    /**
+     * Numéro SIREN 
+     * 🍀 Domaine producteur
+    */
     siren?: Siren;
 
-    /** Numéro SIRET */
+    /** 
+     * Numéro SIRET 
+     * 🍀 Domaine producteur
+     * */
     siret?: Siret;
 
     /**
      * Typologie de projet
-     * 🚧 Question : de quoi on parle là ?
+     * 
+     * 🚧 Question : Chez nous, ça correspond au typologie d'installation, c'est ça qu'on va retourner dans le champ "typologieInstallation"
+     * 
      **/ 
-    typologieDeProjet?: string;
+    // typologieDeProjet?: Array<string>;
 
-    /** Le(s) dossier(s) de raccordement rattaché(s) au projet */
+    /** 
+     * Le(s) dossier(s) de raccordement rattaché(s) au projet
+     * 
+     * 🍀 Domaine raccordement
+     * */
     dossiersRaccordement: Array<DossierRaccordementPourAchevement>;
 
-    /** Puissance actuelle du projet (Puissance Lauréate (DGEC)), en MW */
+    /** 
+     * Puissance actuelle du projet (Puissance Lauréate (DGEC)), en MW 
+     * 
+     * 🍀 Domaine puissance
+     * 
+     * */
     puissance: float32;
 
-    /** Puissance du projet à la candidature (Puissance installée (MWc)), en MWc */
+    /** 
+     * Puissance du projet à la candidature (Puissance installée (MWc)), en MWc 
+     * 
+     * 🍀 Domaine candidature
+     * */
     puissanceInitiale: float32;
 
-    /** CDC actuel du projet */
+    /** 
+     *  CDC actuel du projet 
+     * 
+     * 🍀 Domaine lauréat
+     * */
     cahierDesChargeschoisi: "initial" | "30/07/2021" | "30/08/2022" | "07/02/2023" | "30/07/2021-alternatif" | "30/08/2022-alternatif" | "07/02/2023-alternatif";
 
-    /** Adresse */
+    /** Adresse 
+     * 
+     * 🍀 Domaine lauréat
+     * 
+    */
     siteDeProduction: Addresse;
 
-    /** Nom et prénom du représentant légal  */
+    /** 
+     * Nom et prénom du représentant légal  
+     * 
+     * 🍀 Domaine lauréat
+     * */
     representLegal: string;
 
     /** 
      * Contact(s) (nom, prénom, email…)
      * 🚧 Question : On a pas les nom et prénom forcément 
+     * 
+     * 🍀 Domaine Accès
      **/
     emailPorteurs: Array<string>;
 
-    /** Investissement participatif (Oui/Non) */
-    investissementParticipatif: boolean;
+    //
 
-    /** Financement participatif (Oui/Non) */
-    financementParticipatif: boolean;
+    /** 
+     * 
+     * 🚧 Question : Pour ces 4 booleans : 
+     * 
+     * Investissement participatif (Oui/Non)
+     * Financement participatif (Oui/Non)
+     * Financement collectif (Oui/Non) 
+     * Gouvernance partagée (Oui/Non)
+     * 
+     * 
+     * On propose un champ optionnel typeActionnariat, soit renseignée soit undefined
+     * 
+     * 🍀 Domaine Candidature
+     */
+    typeActionnariat?: "financement-collectif" | "gouvernance-partagée"| "financement-collectif-et-gouvernance-partagée" | "financement-participatif" | "investissement-participatif";
 
-    /** Financement collectif (Oui/Non) */
-    financementCollectif: boolean;
+    // investissementParticipatif: boolean;
 
-    /** Gouvernance partagée (Oui/Non) */
-    gouvernancePartagee: boolean;
+    // /** Financement participatif (Oui/Non) */
+    // financementParticipatif: boolean;
 
-    /** Prix de référence (€/MWh) */
+    // /** Financement collectif (Oui/Non) */
+    // financementCollectif: boolean;
+
+    // /** Gouvernance partagée (Oui/Non) */
+    // gouvernancePartagee: boolean;
+
+    /** 
+     *  Prix de référence (€/MWh) 
+     * 
+     * 🍀 Domaine Candidature
+     * */
     prix: float32;
 
-    /** Eligible CdC modificatif 30.08.2022 */
+    /** 
+     * Eligible CdC modificatif 30.08.2022
+     * 
+     * 🚧 Question : Pourquoi avoir besoin de cette information ? C'est pas évident la fournir de notre côté.
+     *  */
     eligibleCdcModificatif30082022: boolean;
 
     /** 
      * Version CG applicable 
+     * 
      * 🚧 Question : Qu'est-ce que cette donnée ??
      **/
     versionCGApplicable?: string;
 
-    /** Délai accordé par les Autorités (mois) */
+    /** 
+     * Délai accordé par les Autorités (mois) 
+     * 
+     * 🍀 Domaine Délai
+     * */
     delaiAccordeEnMois?: uint16;
 
-    /** Recours */
+    /** 
+     * Recours 
+     *
+     * 🍀 Domaine Recours 
+     * */
     recours?: {
       /** 
        * Date du recours initial  
-       * 🚧 Question : Ca signifie la date à laquelle la demande de recours a eu lieu par le PP?
+       * 🚧 Question : Ca signifie la date à laquelle la demande de recours a eu lieu par le PP ?
        **/
       @format("date")
       dateDemande: string;
 
       /** 
-       * Date du recours initial  
-       * 🚧 Question : Ca signifie la date à laquelle la demande de recours a eu lieu par le PP?
+       * Date de décision du recours 
+       * 
+       * 🚧 Question : Ca signifie la date à laquelle le recours a eté accordé par l'administration ?
        **/
       @format("date")
       dateAccord: string;
     };
 
-    /** PP a choisi d'appliquer le coefficient K, afin d'indexer le prix sur l'inflation */
+    /** 
+     * PP a choisi d'appliquer le coefficient K, afin d'indexer le prix sur l'inflation 
+     * 
+     * 🍀 Domaine Candidature 
+     * */
     coefficientKChoisi: boolean;
 
-    /** Présence de trackers */
+    /** 
+     * Présence de trackers
+     *
+     * 🍀 Domaine Détail candidature 
+     */
     presenceDeTrackers?: boolean;
 
-    /** Gestionnaire réseau */
+    /** 
+     * Gestionnaire réseau
+     * 
+     * 🍀 Domaine Réseau 
+    */
     gestionnaireReseau?: {
       raisonSociale: string;
       /**
@@ -207,41 +291,117 @@ namespace Achevement {
       identifiant: string;
     };
 
-    /** Typologies d'installation */
+    /** 
+     * 
+     * Typologies d'installation 
+     * 
+     * * 🚧 Question : de quoi on parle là ? typologieInstallation.valueType ???
+     * [
+     *  "bâtiment.neuf", 
+     *  "bâtiment.existant-avec-rénovation-de-toiture", 
+     *  "bâtiment.existant-sans-rénovation-de-toiture", 
+     *  "bâtiment.serre", 
+     *  "bâtiment.serre-agrivoltaïque-pré-aper", 
+     *  "bâtiment.serre-agrivoltaïque-post-aper", 
+     *  "bâtiment.stabulation", 
+     *  "bâtiment.mixte", 
+     *  "bâtiment.non-précisé", 
+     *  "ombrière.parking", 
+     *  "ombrière.agrivoltaïque", 
+     *  "ombrière.agrivoltaïque-pré-aper", 
+     *  "ombrière.agrivoltaïque-post-aper", 
+     *  "ombrière.autre", 
+     *  "ombrière.mixte", 
+     *  "sol", 
+     *  "agrivoltaïque.culture", 
+     *  "agrivoltaïque.jachère-plus-de-5-ans", 
+     *  "agrivoltaïque.élevage", 
+     *  "agrivoltaïque.serre", 
+     *  "agrivoltaïque.non-précisé"
+     * ]
+     * 
+     * 🍀 Domaine installation
+     * 
+     */
     typologieInstallation: Array<string>;
 
-    /** Case cochée ou statut */
-    statut: "achevement-en-attente";
+    /** 
+     * 
+     * Case cochée ou statut
+     * 🚧 Question : Ce champ n'a aucun intérêt car la base de travail se fera que sur les lauréats qui auront initié leur achèvement 
+     * via la "coche" (qui a pour rappel l'effet de maj le statut "lauréat" -> "achevement-en-attente")
+     *  
+     */
+    // statut: "achevement-en-attente";
 
-    /** Technologie (dispositif de production) */
+    /** 
+     * 
+     * Technologie (dispositif de production) 
+     * 
+     * 🍀 Domaine Candidature
+     * */
     technologie?: "pv" | "eolien" | "hydraulique";
 
      /** 
      * Classé ?
+     * 
      * 🚧 Question : Ce champ n'a aucun intérêt car la base de travail se fera que sur des lauréats
      **/
 
-    /** Coordonnées géodésiques WGS84 */
+    /** 
+     * Coordonnées géodésiques WGS84
+     * 
+     * 🚧 Question : On stocke les coordonnées sous le format latitude / longitude du barycentre, c'est quand même plus simple.
+     * 
+     * On pourrait leur fournir ça plutôt qu'un format compliqué
+     * 
+     * 🍀 Domaine Lauréat 
+     * 
+     */
+    // coordonneesGeodesiques?: {
+    //   latitude: CoordonneesLatDMS;
+    //   longitude: CoordonneesLongDMS;
+    // };
     coordonneesGeodesiques?: {
-      latitude: CoordonneesLatDMS;
-      longitude: CoordonneesLongDMS;
+      latitude: float32;
+      longitude: float32;
     };
+
 
     /** 
     * Taux d'autoconsommation (AO autoconsommation)
-    * 🚧 Question : Qu'est-ce que cette donnée ??
+    * 
+    * 🚧 Question : On parle de nature de l'exploitation chez nous, on distinge le taux d'autoconsommation individuelle 
+    * du taux d'autoconsommation collective. On pourrait retourner ces deux valeurs 
+    * 
+    *
+    * 🍀 Domaine Nature de l'exploitation 
     **/
-    tauxAutoconsommation?: string;
+    natureDeLExploitation?: {
+      type: "vente-avec-injection-en-totalité" | "autoconsommation-individuelle" | "autoconsommation-collective" | "autoconsommation-individuelle-et-collective";
+      tauxPrevisionnelACI?: uint16;
+      tauxPrevisionnelACC?: uint16;
+    };
 
 
-    /** Evaluation carbone simplifiée indiquée au C. du formulaire 
-     * de candidature et arrondie (kg eq CO2/kWc)  */
+    /** 
+     * Evaluation carbone simplifiée indiquée au C. du formulaire 
+     * de candidature et arrondie (kg eq CO2/kWc)  
+     * 
+     * 🍀 Domaine Fournisseur 
+    */
     evaluationCarboneSimplifiee?: float32;
 
 
-    /** Type de terrain */
+    /** 
+     * Type de terrain 
+     * 
+     * 🚧 Question : On parle de "cas" numéroté : cas 1, cas 2, cas 3, cas 4, cas mixte. Est-ce que cette information vous suffit ? 
+     * 
+     * 🍀 Domaine Détail candidature 
+     * 
+    */
     typeDeTerrain?: string;
-
   }
 
   model TransmettreDateAchevementBody {
