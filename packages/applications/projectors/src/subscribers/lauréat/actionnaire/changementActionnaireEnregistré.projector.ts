@@ -30,11 +30,11 @@ export const changementActionnaireEnregistréProjector = async ({
     {
       identifiantProjet,
       miseÀJourLe: enregistréLe,
+      statut: Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut,
       demande: {
         nouvelActionnaire: actionnaire,
-        statut: Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut,
-        demandéePar: enregistréPar,
-        demandéeLe: enregistréLe,
+        demandéPar: enregistréPar,
+        demandéLe: enregistréLe,
         raison,
         pièceJustificative,
       },

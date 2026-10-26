@@ -7,12 +7,14 @@ export const demandeDélaiPasséeEnInstructionProjector = async ({
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${dateDemande}`,
     {
-      instruction: {
-        passéeEnInstructionLe,
-        passéeEnInstructionPar,
-      },
       statut: Lauréat.Délai.StatutDemandeDélai.enInstruction.statut,
       miseÀJourLe: passéeEnInstructionLe,
+      demande: {
+        instruction: {
+          passéeEnInstructionLe,
+          passéeEnInstructionPar,
+        },
+      },
     },
   );
 };

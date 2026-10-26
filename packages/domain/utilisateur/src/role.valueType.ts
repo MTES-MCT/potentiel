@@ -696,6 +696,11 @@ const référencielPermissions = {
       lister: 'Nouveautés.Query.ListerNouveautés',
     },
   },
+  'demandes-en-instruction': {
+    query: {
+      lister: 'Projet.Query.ConsulterNombreDemandesÀInstruire',
+    },
+  },
 } as const;
 
 /**
@@ -1613,7 +1618,10 @@ const policies = {
     consulter: [],
   },
   tableauDeBord: {
-    consulter: [référencielPermissions.nouveautés.query.lister],
+    consulter: [
+      référencielPermissions.nouveautés.query.lister,
+      référencielPermissions['demandes-en-instruction'].query.lister,
+    ],
   },
 } as const;
 

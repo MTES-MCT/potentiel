@@ -1,18 +1,19 @@
 import type { DateTime } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
+import type { StatutChangementActionnaire } from './index.js';
+
 export type ChangementActionnaireEntity = Entity<
   'changement-actionnaire',
   {
     identifiantProjet: string;
-
+    statut: StatutChangementActionnaire.RawType;
     miseÀJourLe: string;
 
     demande: {
       nouvelActionnaire: string;
-      statut: string;
-      demandéePar: string;
-      demandéeLe: DateTime.RawType;
+      demandéPar: string;
+      demandéLe: DateTime.RawType;
       raison: string;
       pièceJustificative?: {
         format: string;
@@ -22,16 +23,16 @@ export type ChangementActionnaireEntity = Entity<
         réponseSignée: {
           format: string;
         };
-        accordéePar: string;
-        accordéeLe: DateTime.RawType;
+        accordéPar: string;
+        accordéLe: DateTime.RawType;
       };
 
       rejet?: {
         réponseSignée: {
           format: string;
         };
-        rejetéePar: string;
-        rejetéeLe: DateTime.RawType;
+        rejetéPar: string;
+        rejetéLe: DateTime.RawType;
       };
     };
   }

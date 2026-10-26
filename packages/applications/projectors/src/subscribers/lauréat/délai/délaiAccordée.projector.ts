@@ -14,14 +14,16 @@ export const délaiAccordéProjector = async ({
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${payload.dateDemande}`,
     {
-      statut: Lauréat.Délai.StatutDemandeDélai.accordé.statut,
       miseÀJourLe: accordéLe,
-      accord: {
-        réponseSignée: { format: payload.réponseSignée.format },
-        accordéeLe: accordéLe,
-        accordéePar: accordéPar,
-        nombreDeMois,
-        dateAchèvementPrévisionnelCalculée,
+      statut: Lauréat.Délai.StatutDemandeDélai.accordé.statut,
+      demande: {
+        accord: {
+          réponseSignée: { format: payload.réponseSignée.format },
+          accordéLe,
+          accordéPar,
+          nombreDeMois,
+          dateAchèvementPrévisionnelCalculée,
+        },
       },
     },
   );

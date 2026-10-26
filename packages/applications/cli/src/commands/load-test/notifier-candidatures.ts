@@ -49,6 +49,9 @@ export class NotifierCandidatures extends Command {
       list: listProjection,
       listHistory: listHistoryProjection,
       getScopeProjetUtilisateur: async () => ({}),
+      getNombreDemandesÀInstruire: () => {
+        throw new Error('not implemented');
+      },
     });
 
     registerUtilisateurUseCases({

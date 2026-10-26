@@ -30,8 +30,6 @@ export const changementPuissanceSuppriméProjector = async ({
 
   await removeProjectionWhere<Lauréat.Puissance.ChangementPuissanceEntity>(`changement-puissance`, {
     identifiantProjet: Where.equal(identifiantProjet),
-    demande: {
-      statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
-    },
+    statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
   });
 };

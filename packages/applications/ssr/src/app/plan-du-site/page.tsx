@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: 'Plan du site' };
 export default async function Page() {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const items = await getNavigationItemsBasedOnRole({ rôle: utilisateur.rôle });
+      const items = await getNavigationItemsBasedOnRole({ utilisateur, showNombreDemande: false });
 
       return <PlanDuSitePage mainNavigation={{ items }} />;
     }),

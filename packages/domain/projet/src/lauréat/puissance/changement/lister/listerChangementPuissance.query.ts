@@ -59,7 +59,7 @@ export const registerListerChangementPuissanceQuery = ({
         range,
         orderBy: {
           demande: {
-            demandéeLe: 'descending',
+            demandéLe: 'descending',
           },
         },
         join: [
@@ -81,9 +81,7 @@ export const registerListerChangementPuissanceQuery = ({
         ],
         where: {
           identifiantProjet: Where.matchAny(scope.identifiantProjets),
-          demande: {
-            statut: Where.matchAny(statut),
-          },
+          statut: Where.matchAny(statut),
         },
       },
     );
@@ -106,10 +104,10 @@ const mapToReadModel = ({
 
   return {
     nomProjet: lauréat.nomProjet,
-    statut: StatutChangementPuissance.convertirEnValueType(entity.demande.statut),
+    statut: StatutChangementPuissance.convertirEnValueType(entity.statut),
     miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet,
-    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
     nouvellePuissance: entity.demande.nouvellePuissance,
     unitéPuissance: candidature.unitéPuissance,
   };

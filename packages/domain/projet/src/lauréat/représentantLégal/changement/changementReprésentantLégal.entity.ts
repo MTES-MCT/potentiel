@@ -1,14 +1,15 @@
 import type { Entity } from '@potentiel-domain/entity';
 
+import type { StatutChangementReprésentantLégal } from '../index.js';
+
 export type ChangementReprésentantLégalEntity = Entity<
   'changement-représentant-légal',
   {
     identifiantProjet: string;
-
+    statut: StatutChangementReprésentantLégal.RawType;
     miseÀJourLe: string;
 
     demande: {
-      statut: string;
       nomReprésentantLégal: string;
       typeReprésentantLégal: string;
       demandéLe: string;

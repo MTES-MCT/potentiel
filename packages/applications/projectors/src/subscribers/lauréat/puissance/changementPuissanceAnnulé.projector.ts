@@ -12,15 +12,11 @@ export const changementPuissanceAnnuléProjector = async ({
     `changement-puissance`,
     {
       identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
-      },
+      statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
     },
     {
       miseÀJourLe: annuléLe,
-      demande: {
-        statut: Lauréat.Puissance.StatutChangementPuissance.annulé.statut,
-      },
+      statut: Lauréat.Puissance.StatutChangementPuissance.annulé.statut,
     },
   );
 

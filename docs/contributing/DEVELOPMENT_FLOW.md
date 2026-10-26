@@ -124,13 +124,13 @@ Liste des environnements sur Scalingo :
 
 ### <a id="raz-environnement"></a> Remise à zéro d'un environnement de test
 
-Le script `.database/scripts/restore-test-env-db.sh` permet une remise à zéro de la base de donnée d'un environnement de test. Il peut être éxécuté depuis un [terminal one-off](https://doc.scalingo.com/platform/app/tasks#run-an-attached-one-off) :
+Le script `.database/scripts/restore-test-env-db.sh` permet une remise à zéro de la base de données d'un environnement de test. Il peut être exécuté depuis un [terminal one-off](https://doc.scalingo.com/platform/app/tasks#run-an-attached-one-off) :
 
 ```bash
 scalingo run --app XXX .database/scripts/restore-test-env-db.sh
 ```
 
-Par ailleurs, la commande `potentiel-cli seed files` permet de générer les documents "manquants" dans l'environnement, et ainsi éviter des erreurs liées à l'absence de ces documents lors des tests.
+Par ailleurs, la commande `potentiel-cli files seed` permet de générer les documents "manquants" dans l'environnement, et ainsi éviter des erreurs liées à l'absence de ces documents lors des tests.
 
 ## <a id="deploiement"></a> Déploiement
 

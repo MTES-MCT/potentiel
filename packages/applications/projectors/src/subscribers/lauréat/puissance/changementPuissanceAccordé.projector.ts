@@ -26,17 +26,15 @@ export const changementPuissanceAccordéProjector = async ({
     'changement-puissance',
     {
       identifiantProjet: Where.equal(identifiantProjet),
-      demande: {
-        statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
-      },
+      statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
     },
     {
       miseÀJourLe: accordéLe,
+      statut: Lauréat.Puissance.StatutChangementPuissance.accordé.statut,
       demande: {
-        statut: Lauréat.Puissance.StatutChangementPuissance.accordé.statut,
         accord: {
-          accordéeLe: accordéLe,
-          accordéePar: accordéPar,
+          accordéLe,
+          accordéPar,
           réponseSignée,
         },
       },
