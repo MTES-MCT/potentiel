@@ -310,7 +310,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       nombreDeMois,
       demandéLe,
       raison,
-      motif: MotifDemandeDélai.forceMajeure,
+      motif: MotifDemandeDélai.prolongationDélaiAchèvement,
     };
   }
 

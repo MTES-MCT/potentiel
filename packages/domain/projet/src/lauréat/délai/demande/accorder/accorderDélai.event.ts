@@ -7,7 +7,7 @@ import type { MotifDemandeDélai } from '../../index.js';
 /**
  * @deprecated Évènement déprécié, utiliser DélaiAccordéEvent-V2 à la place.
  * La V2 ajoute un motif requis.
- * On considèrera que le motif est "force-majeure" pour la V1
+ * On considèrera que le motif est "prolongation-délai-achèvement" pour la V1
  */
 export type DélaiAccordéEventV1 = DomainEvent<
   'DélaiAccordé-V1',

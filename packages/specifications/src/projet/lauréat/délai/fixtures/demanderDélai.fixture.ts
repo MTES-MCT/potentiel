@@ -63,7 +63,7 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
 
   créer(partialFixture: CréerDemandeDélaiFixture): Readonly<DemanderDélai> {
     const fixture = {
-      motif: Lauréat.Délai.MotifDemandeDélai.forceMajeure.motif,
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif,
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
