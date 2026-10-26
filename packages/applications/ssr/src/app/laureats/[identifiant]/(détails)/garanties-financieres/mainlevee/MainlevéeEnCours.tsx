@@ -30,7 +30,6 @@ export type MainlevéeEnCoursProps = {
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
   mainlevée: { demande, motif, accord, instruction },
-  réponseSignéeAbandonAccordé,
 }) => (
   <div className="flex flex-col gap-2">
     {demande && (
@@ -43,7 +42,7 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
     <div>
       Motif :{' '}
       <span className="font-semibold">
-        {motif.motif === 'projet-abandonné' ? `Abandon` : `Achèvement`} du projet
+        {motif.motif === 'projet-achevé' ? `Achèvement` : `Abandon`} du projet
       </span>
     </div>
     {instruction && (
@@ -60,28 +59,15 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
           <FormattedDate className="font-semibold" date={accord.accordéeLe.date} /> par{' '}
           <span className="font-semibold">{accord.accordéePar.email}</span>
         </div>
-        {accord.courrierAccord && (
-          <div className="flex flex-col gap-1 justify-center">
-            <DownloadDocument
-              format="pdf"
-              label="Télécharger la réponse signée"
-              url={Routes.Document.télécharger(
-                DocumentProjet.bind(accord.courrierAccord).formatter(),
-              )}
-            />
-          </div>
-        )}
-        {réponseSignéeAbandonAccordé && (
-          <div className="flex flex-col gap-1 justify-center">
-            <DownloadDocument
-              format="pdf"
-              label="Télécharger la réponse signée"
-              url={Routes.Document.télécharger(
-                DocumentProjet.bind(réponseSignéeAbandonAccordé).formatter(),
-              )}
-            />
-          </div>
-        )}
+        <div className="flex flex-col gap-1 justify-center">
+          <DownloadDocument
+            format="pdf"
+            label="Télécharger la réponse signée"
+            url={Routes.Document.télécharger(
+              DocumentProjet.bind(accord.courrierAccord).formatter(),
+            )}
+          />
+        </div>
       </div>
     )}
   </div>

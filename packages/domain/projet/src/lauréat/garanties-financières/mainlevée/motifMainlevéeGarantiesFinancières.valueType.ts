@@ -4,7 +4,7 @@ import {
   type ReadonlyValueType,
 } from '@potentiel-domain/core';
 
-export const motifs = ['projet-abandonné', 'projet-achevé'] as const;
+export const motifs = ['projet-abandonné', 'projet-achevé', 'accordé-avec-l-abandon'] as const;
 
 export type RawType = (typeof motifs)[number];
 
@@ -13,6 +13,7 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   formatter: () => Type;
   estProjetAbandonné: () => boolean;
   estProjetAchevé: () => boolean;
+  estAccordéAvecLAbandon: () => boolean;
 }>;
 
 export const bind = <Type extends RawType = RawType>({
@@ -31,6 +32,9 @@ export const bind = <Type extends RawType = RawType>({
     },
     estProjetAchevé() {
       return this.motif === 'projet-achevé';
+    },
+    estAccordéAvecLAbandon() {
+      return this.motif === 'accordé-avec-l-abandon';
     },
     estÉgaleÀ({ motif }) {
       return this.motif === motif;
@@ -53,6 +57,8 @@ function estValide(value: string): asserts value is RawType {
 
 export const projetAbandonné = convertirEnValueType<'projet-abandonné'>('projet-abandonné');
 export const projetAchevé = convertirEnValueType<'projet-achevé'>('projet-achevé');
+export const accordéAvecLAbandon =
+  convertirEnValueType<'accordé-avec-l-abandon'>('accordé-avec-l-abandon');
 
 class MotifDemandeMainlevéeInvalideError extends InvalidOperationError {
   constructor(value: string) {

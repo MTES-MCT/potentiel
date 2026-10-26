@@ -38,7 +38,7 @@ export type ListerMainlevéeItemReadModel = {
   accord?: {
     accordéeLe: DateTime.ValueType;
     accordéePar: Email.ValueType;
-    courrierAccord?: DocumentProjet.ValueType;
+    courrierAccord: DocumentProjet.ValueType;
   };
   rejet?: {
     rejetéLe: DateTime.ValueType;
@@ -166,13 +166,19 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
     ? {
         accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
         accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-        courrierAccord: mainlevée.accord.courrierAccord
-          ? DocumentMainlevée.demandeAccordée({
+        courrierAccord: MotifMainlevéeGarantiesFinancières.convertirEnValueType(
+          mainlevée.motif,
+        ).estAccordéAvecLAbandon()
+          ? DocumentMainlevée.accordée({
+              identifiantProjet: mainlevée.identifiantProjet,
+              accordéLe: mainlevée.accord.accordéeLe,
+              courrierAccord: mainlevée.accord.courrierAccord,
+            })
+          : DocumentMainlevée.demandeAccordée({
               identifiantProjet: mainlevée.identifiantProjet,
               accordéLe: mainlevée.accord.accordéeLe,
               réponseSignée: mainlevée.accord.courrierAccord,
-            })
-          : undefined,
+            }),
       }
     : undefined,
   rejet: mainlevée.rejet

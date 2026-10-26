@@ -35,7 +35,6 @@ export type DétailsMainlevéePageProps = ActionsMainlevéeProps & {
   abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
   mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];
   mainlevée?: MainlevéeEnCoursProps['mainlevée'];
-  réponseSignéeAbandonAccordé?: PlainType<DocumentProjet.ValueType>;
 };
 export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
   mainlevée,
@@ -45,7 +44,6 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
   actions,
   urlAppelOffre,
   mainlevéesRejetées,
-  réponseSignéeAbandonAccordé,
 }) => {
   const identifiantProjet = IdentifiantProjet.bind(
     garantiesFinancières.identifiantProjet,
@@ -106,12 +104,7 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
       actionMap={actionMap}
     >
       <div className="mb-4">
-        {mainlevée && (
-          <MainlevéeEnCours
-            mainlevée={mainlevée}
-            réponseSignéeAbandonAccordé={réponseSignéeAbandonAccordé}
-          />
-        )}
+        {mainlevée && <MainlevéeEnCours mainlevée={mainlevée} />}
 
         <div className={clsx('mt-4', fr.cx('fr-accordions-group'))}>
           <Accordion label="Garanties financières actuelles">

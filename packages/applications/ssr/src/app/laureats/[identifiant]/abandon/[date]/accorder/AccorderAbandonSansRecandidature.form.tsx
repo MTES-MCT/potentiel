@@ -133,11 +133,9 @@ export const AccorderAbandonSansRecandidatureForm = ({
                           href={Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
                             identifiantProjet,
                           )}
-                          target="_blank"
-                          rel="noopener noreferrer"
                         >
-                          Transmettre l'attestation de constitution des garanties financières{' '}
-                          <span className="sr-only">dans on nouvel onglet</span>
+                          Formulaire de transmission de l'attestation de constitution des garanties
+                          financières <Icon id="fr-icon-arrow-right-line" size="sm" />
                         </TertiaryLink>
                       )
                     }

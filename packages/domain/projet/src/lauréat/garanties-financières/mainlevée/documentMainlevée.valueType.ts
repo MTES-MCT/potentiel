@@ -15,3 +15,10 @@ export const demandeRejetée = DocumentProjet.documentFactory({
   nomChampDate: 'rejetéLe',
   nomChampDocument: 'réponseSignée',
 });
+
+export const accordée = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'accord-mainlevee',
+  nomChampDate: 'accordéLe',
+  nomChampDocument: 'courrierAccord',
+});
