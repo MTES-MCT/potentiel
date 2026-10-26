@@ -49,7 +49,7 @@
     "@potentiel-statistiques/statistiques-publiques": "*",
     "mediateur": "0.3.0",
     "winston": "^3.19.0",
-    "zod": "4.1.9"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
