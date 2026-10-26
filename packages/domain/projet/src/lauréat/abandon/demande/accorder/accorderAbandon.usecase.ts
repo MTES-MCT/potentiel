@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import { IdentifiantProjet } from '../../../../index.js';
+import { IdentifiantProjet, Lauréat } from '../../../../index.js';
 import { DocumentAbandon } from '../../index.js';
 import type { AccorderAbandonCommand } from './accorderAbandon.command.js';
 
@@ -46,13 +46,38 @@ export const registerAccorderAbandonUseCase = () => {
       réponseSignée: { format },
     });
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: réponseSignée,
-      },
-    });
+    if (accorderMainlevéeGarantiesFinancières) {
+      const [contentMainlevée, contentRéponseSignée] = content.tee();
+      const courrierAccord = Lauréat.GarantiesFinancières.DocumentMainlevée.accordée({
+        identifiantProjet: identifiantProjet.formatter(),
+        accordéLe: dateAccord.formatter(),
+        courrierAccord: { format },
+      });
+
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: contentMainlevée,
+          documentProjet: courrierAccord,
+        },
+      });
+
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: contentRéponseSignée,
+          documentProjet: réponseSignée,
+        },
+      });
+    } else {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content,
+          documentProjet: réponseSignée,
+        },
+      });
+    }
 
     await mediator.send<AccorderAbandonCommand>({
       type: 'Lauréat.Abandon.Command.AccorderAbandon',

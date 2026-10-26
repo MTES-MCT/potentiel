@@ -8,4 +8,5 @@ export const getMotifMainlevéeLabel = (
   match(motif)
     .with('projet-abandonné', () => 'Projet abandonné')
     .with('projet-achevé', () => 'Projet achevé')
+    .with('accordé-avec-l-abandon', () => 'Projet abandonné')
     .exhaustive();
