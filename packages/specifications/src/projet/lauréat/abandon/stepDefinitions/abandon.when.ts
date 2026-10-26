@@ -172,7 +172,8 @@ Quand(
       this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.créer({
         accordéLe,
         accordéPar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
-        motif: 'projet-abandonné',
+        motif: 'accordé-avec-l-abandon',
+        courrierAccord: réponseSignée,
       });
 
       await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({

@@ -35,7 +35,7 @@ Alors(
     if (actualReadModel.accord?.courrierAccord && actualReadModel.demande) {
       await expectFileContent(
         actualReadModel.accord.courrierAccord,
-        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord,
+        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
       );
     }
   },
