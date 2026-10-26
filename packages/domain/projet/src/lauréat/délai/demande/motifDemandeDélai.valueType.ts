@@ -4,13 +4,13 @@ import {
   type ReadonlyValueType,
 } from '@potentiel-domain/core';
 
-export const motifs = ['force-majeure', 'prolongation-phase-essai'] as const;
+export const motifs = ['prolongation-délai-achèvement', 'prolongation-phase-essai'] as const;
 export type RawType = (typeof motifs)[number];
 
 export type ValueType<T extends RawType = RawType> = ReadonlyValueType<{
   motif: T;
   formatter(): T;
-  estForceMajeure(): boolean;
+  estProlongationDélaiAchèvement(): boolean;
   estProlongationPhaseEssai(): boolean;
 }>;
 
@@ -26,8 +26,8 @@ export const bind = <T extends RawType = RawType>({
     estÉgaleÀ(motif: ValueType) {
       return this.motif === motif.motif;
     },
-    estForceMajeure() {
-      return this.motif === 'force-majeure';
+    estProlongationDélaiAchèvement() {
+      return this.motif === 'prolongation-délai-achèvement';
     },
     estProlongationPhaseEssai() {
       return this.motif === 'prolongation-phase-essai';
@@ -56,7 +56,9 @@ class MotifDélaiInvalideError extends InvalidOperationError {
   }
 }
 
-export const forceMajeure = convertirEnValueType<'force-majeure'>('force-majeure');
+export const prolongationDélaiAchèvement = convertirEnValueType<'prolongation-délai-achèvement'>(
+  'prolongation-délai-achèvement',
+);
 export const prolongationPhaseEssai = convertirEnValueType<'prolongation-phase-essai'>(
   'prolongation-phase-essai',
 );

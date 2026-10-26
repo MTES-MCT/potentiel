@@ -20,7 +20,7 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
   const motif =
     event.type === 'DemandeDélaiCorrigée-V2'
       ? event.payload.motif
-      : Lauréat.Délai.MotifDemandeDélai.forceMajeure.motif;
+      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif;
 
   return {
     date: corrigéeLe,

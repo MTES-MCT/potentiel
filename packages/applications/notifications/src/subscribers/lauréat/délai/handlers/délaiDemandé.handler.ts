@@ -19,7 +19,7 @@ export const handleDélaiDemandé = async (
   const motif =
     event.type === 'DélaiDemandé-V2'
       ? Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif)
-      : Lauréat.Délai.MotifDemandeDélai.forceMajeure;
+      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
 
   const recipients = motif.estProlongationPhaseEssai()
     ? await listerDgecRecipients(projet.identifiantProjet)

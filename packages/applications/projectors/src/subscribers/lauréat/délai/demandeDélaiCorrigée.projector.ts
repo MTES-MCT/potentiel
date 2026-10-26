@@ -13,7 +13,7 @@ export const demandeDélaiCorrigéeProjector = async (
   const motif =
     event.type === 'DemandeDélaiCorrigée-V2'
       ? event.payload.motif
-      : Lauréat.Délai.MotifDemandeDélai.forceMajeure.formatter();
+      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter();
   const autoritéCompétente = await getAutoritéCompétente(identifiantProjet, motif);
 
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
