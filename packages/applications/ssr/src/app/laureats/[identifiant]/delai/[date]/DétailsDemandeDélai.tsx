@@ -7,8 +7,8 @@ import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import type { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
