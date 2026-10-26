@@ -28,7 +28,7 @@ export const DemandesDétails = ({
       <Notice
         severity="info"
         title=""
-        description="Une demande récente est une demande datant de moins d'un mois."
+        description="Une nouvelle demande est une demande datant de moins d'un mois."
         className="w-fit"
       />
     ) : null}
@@ -96,7 +96,7 @@ const DemandesParDomaine = ({
       desc={
         total
           ? `${total} ${total > 1 ? 'demandes' : 'demande'} à instruire`
-          : 'Aucune demande à traiter'
+          : 'Aucune demande à instruire'
       }
       titleAs="h3"
     />
