@@ -24,7 +24,7 @@ export const DemandesDétails = ({
   sansNouvellesDemandes,
 }: DemandesDétailsProps) => (
   <div className="flex flex-col gap-4">
-    {withNew.length ? (
+    {avecNouvellesDemandes.length ? (
       <Notice
         severity="info"
         title=""
