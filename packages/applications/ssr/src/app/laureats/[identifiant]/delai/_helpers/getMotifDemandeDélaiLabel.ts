@@ -4,6 +4,6 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 export const getMotifDemandeDélaiLabel = (motif: Lauréat.Délai.MotifDemandeDélai.RawType) =>
   match(motif)
-    .with('prolongation-délai-achèvement', () => 'Force Majeure')
+    .with('prolongation-délai-achèvement', () => "Prolongation de délai d'achèvement")
     .with('prolongation-phase-essai', () => "Prolongation de phase d'essai")
     .exhaustive();
