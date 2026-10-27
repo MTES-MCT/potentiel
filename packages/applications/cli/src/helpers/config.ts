@@ -20,3 +20,11 @@ export const dnSchema = z.object({
   DEMARCHE_NUMERIQUE_API_URL: z.url(),
   DEMARCHE_NUMERIQUE_API_TOKEN: z.string(),
 });
+
+export const sentrySchema = z.object({
+  SENTRY_CRONS: z.url(),
+});
+
+export const loggerSchema = z.object({
+  LOGGER_LEVEL: z.enum(['error', 'warn', 'info', 'debug']),
+});
