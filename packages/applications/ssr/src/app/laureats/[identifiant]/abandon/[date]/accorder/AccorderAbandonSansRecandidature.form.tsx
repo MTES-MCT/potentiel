@@ -121,7 +121,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                       <div>
                         Accorder la mainlevée des garanties financières avec l'abandon{' '}
                         {!lesGarantiesFinancièresSontConstituées && (
-                          <Tooltip title="L'attestation de constitution des garanties financières reste à transmettre dans Potentiel">
+                          <Tooltip title="L'attestation de constitution des garanties financières reste à transmettre dans Potentiel pour vous permettre d'accorder une mainlevée">
                             <Icon id="fr-icon-error-warning-line" size="sm" />
                           </Tooltip>
                         )}
