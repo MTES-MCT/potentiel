@@ -154,6 +154,7 @@ type EventWithDocument =
   | Lauréat.ChangementNomProjetEnregistréEvent
   | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent
   | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent
+  | Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresAccordéeEvent
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursModifiéEvent
@@ -362,6 +363,8 @@ const map: DocumentRecord = {
     Lauréat.GarantiesFinancières.DocumentMainlevée.demandeAccordée,
   'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
     Lauréat.GarantiesFinancières.DocumentMainlevée.demandeRejetée,
+  'MainlevéeGarantiesFinancièresAccordée-V1':
+    Lauréat.GarantiesFinancières.DocumentMainlevée.accordée,
   // Recours
   'RecoursDemandé-V1': Éliminé.Recours.DocumentRecours.pièceJustificative,
   'RecoursAccordé-V1': mapProperty(
