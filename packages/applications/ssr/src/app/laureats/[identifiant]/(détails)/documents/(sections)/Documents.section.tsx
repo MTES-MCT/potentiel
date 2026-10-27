@@ -4,7 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getLauréatInfos } from '@/app/_helpers';
+import { getLauréatInfos, getRecours } from '@/app/_helpers';
 import {
   getAchèvement,
   getActionnaireInfos,
@@ -37,6 +37,18 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           url: Routes.Document.télécharger(attestationDésignation.formatter()),
           ariaLabel: `Télécharger l'attestation de désignation du projet ${nomProjet}`,
         });
+      } else {
+        const recours = await getRecours(identifiantProjet);
+
+        if (recours?.accord) {
+          documents.push({
+            type: "Réponse signée de l'accord du recours",
+            date: recours.accord.dateRéponseSignée?.formatter() || recours.accord.date.formatter(),
+            format: recours.accord.réponseSignée.format,
+            url: Routes.Document.télécharger(recours.accord.réponseSignée.formatter()),
+            ariaLabel: `Télécharger la réponse signée de l'accord de recours du projet ${nomProjet}`,
+          });
+        }
       }
 
       // EXPORT LAURÉAT

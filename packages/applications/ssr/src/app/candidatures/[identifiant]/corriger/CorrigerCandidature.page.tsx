@@ -49,9 +49,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
           <>
             <Notice
               severity="info"
-              title="Ce formulaire sert à
-                    
-                      corriger des erreurs importées ou transmises à la candidature."
+              title="Ce formulaire sert à corriger des erreurs importées ou transmises à la candidature."
               description={
                 <span>
                   <br />

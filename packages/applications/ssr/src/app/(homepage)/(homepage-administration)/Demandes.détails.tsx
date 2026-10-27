@@ -58,7 +58,7 @@ export const DemandesDétails = ({
 );
 
 const mapDomaineToLabel: Record<AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction, string> = {
-  actionnaire: 'Actionnaires',
+  actionnaire: 'Actionnaire',
   représentantLégal: 'Représentant légal',
   abandon: 'Abandon',
   puissance: 'Puissance',
@@ -84,11 +84,7 @@ const DemandesParDomaine = ({
       start={
         newCount ? (
           <Badge noIcon severity="info">
-            Nouvelles demandes
-          </Badge>
-        ) : newCount === 1 ? (
-          <Badge noIcon severity="info">
-            Nouvelle demande
+            {newCount === 1 ? 'Nouvelle demande' : 'Nouvelles demandes'}
           </Badge>
         ) : null
       }

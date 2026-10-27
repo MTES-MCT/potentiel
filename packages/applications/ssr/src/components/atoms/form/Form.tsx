@@ -106,7 +106,6 @@ export const Form: FC<FormProps> = ({
       {confirmSubmit && (
         <ConfirmSubmitModal.Component
           title={confirmSubmit.title}
-          size="small"
           buttons={[
             {
               children: confirmSubmit.cancelLabel ?? 'Annuler',
