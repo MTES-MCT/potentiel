@@ -15,9 +15,13 @@ import {
   modèleRéponseActionnaireFileName,
 } from './actionnaire/modèleRéponseSignéeActionnaire.js';
 import {
-  type ModèleRéponseDélai,
-  modèleRéponseDélaiFileName,
-} from './délai/modèleRéponseSignéeDélai.js';
+  type ModèleRéponseDélaiAchèvement,
+  modèleRéponseDélaiAchèvementFileName,
+} from './délai/modèleRéponseSignéeDélaiAchèvement.js';
+import {
+  type ModèleRéponseDélaiEssais,
+  modèleRéponseDélaiEssaisFileName,
+} from './délai/modèleRéponseSignéeDélaiEssais.js';
 import {
   type ModèleRéponseMainlevée,
   modèleRéponseMainlevéeFileName,
@@ -42,7 +46,8 @@ export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseMainlevée
   | ModèleRéponseActionnaire
   | ModèleRéponsePuissance
-  | ModèleRéponseDélai
+  | ModèleRéponseDélaiAchèvement
+  | ModèleRéponseDélaiEssais
 );
 
 export type GénérerModèleRéponsePort = (
@@ -91,7 +96,8 @@ const getModèleRéponseFilePath = (type: GénérerModèleRéponseOptions['type'
     'mise-en-demeure': modèleRéponseMiseEnDemeureFileName,
     actionnaire: modèleRéponseActionnaireFileName,
     puissance: modèleRéponsePuissanceFileName,
-    délai: modèleRéponseDélaiFileName,
+    'délai-achèvement': modèleRéponseDélaiAchèvementFileName,
+    'délai-essais': modèleRéponseDélaiEssaisFileName,
   };
   if (!modèles[type]) {
     throw new Error(`Modèle Inconnu : ${type}`);

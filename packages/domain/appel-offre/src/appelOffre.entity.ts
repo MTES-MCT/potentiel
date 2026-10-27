@@ -165,7 +165,7 @@ export type RèglesMiseÀJour = {
 };
 
 // Courriers
-export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
+export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délaiAchèvement';
 export type DonnéesCourriersRéponse = {
   référenceParagraphe: string;
   dispositions: string;

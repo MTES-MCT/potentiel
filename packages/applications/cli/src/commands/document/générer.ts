@@ -15,7 +15,8 @@ const types = [
   'mise-en-demeure',
   'actionnaire',
   'puissance',
-  'délai',
+  'délai-achèvement',
+  'délai-essais',
 ] as const;
 export type TypeDocument = ModèleRéponseSignée.GénérerModèleRéponseOptions['type'];
 
@@ -210,7 +211,7 @@ function getData(
           estAccordé: true,
         },
       };
-    case 'délai':
+    case 'délai-achèvement':
       return {
         type,
         data: {

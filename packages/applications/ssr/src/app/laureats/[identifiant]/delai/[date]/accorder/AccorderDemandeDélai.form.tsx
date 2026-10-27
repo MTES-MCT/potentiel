@@ -146,7 +146,11 @@ export const AccorderDemandeDélaiForm = ({
               />
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Délai.téléchargerModèleRéponse(identifiantProjet, dateDemande)}
+                url={Routes.Délai.téléchargerModèleRéponse({
+                  identifiantProjet,
+                  date: dateDemande,
+                  motif: nouveauMotif,
+                })}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />
