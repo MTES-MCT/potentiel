@@ -65,7 +65,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
             },
           }}
         >
-          <div>
+          <div className="flex flex-col gap-4">
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             <Select
               state={validationErrors['motif'] ? 'error' : 'default'}
@@ -86,30 +86,34 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
                 label: getMotifDemandeDélaiLabel(motif),
               }))}
             />
-            <Input
-              label="Durée du délai"
-              hintText="Veuillez saisir une durée de délai en mois, avec au minimum 1 mois"
-              className="w-full"
-              nativeInputProps={{
-                min: '1',
-                name: 'nombreDeMois',
-                required: true,
-                'aria-required': true,
-                type: 'number',
-                inputMode: 'numeric',
-                pattern: '[1-9]*',
-                onChange: (e) => ajouterDélaiÀLaDateActuelle(Number(e.target.value)),
-              }}
-              state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['nombreDeMois']}
-            />
+            <div>
+              <Input
+                label="Durée du délai"
+                hintText="Veuillez saisir une durée de délai en mois, avec au minimum 1 mois"
+                className="w-full"
+                nativeInputProps={{
+                  min: '1',
+                  name: 'nombreDeMois',
+                  required: true,
+                  'aria-required': true,
+                  type: 'number',
+                  inputMode: 'numeric',
+                  pattern: '[1-9]*',
+                  onChange: (e) => ajouterDélaiÀLaDateActuelle(Number(e.target.value)),
+                }}
+                state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['nombreDeMois']}
+              />
 
-            {afficherNouvelleDateDAchèvement && (
-              <div>
-                Après accord de votre demande de délai, la date d'achèvement prévisionnel serait le{' '}
-                <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
-              </div>
-            )}
+              {afficherNouvelleDateDAchèvement && (
+                <div>
+                  Après accord de votre demande de délai, la date d'achèvement{' '}
+                  <br className="hidden md:block" />
+                  prévisionnel serait le{' '}
+                  <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
+                </div>
+              )}
+            </div>
 
             <Input
               textArea
