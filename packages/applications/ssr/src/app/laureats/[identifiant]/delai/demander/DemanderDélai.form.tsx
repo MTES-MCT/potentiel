@@ -40,6 +40,9 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
 
   const peutDemanderUnDélai = () => nouvelleDate.estUltérieureÀ(dateActuelle.dateTime);
 
+  const afficherNouvelleDateDAchèvement =
+    peutDemanderUnDélai() && motif === 'prolongation-délai-achèvement';
+
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
     const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);
 
@@ -101,12 +104,13 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
               stateRelatedMessage={validationErrors['nombreDeMois']}
             />
 
-            {peutDemanderUnDélai() && (
+            {afficherNouvelleDateDAchèvement && (
               <div>
                 Après accord de votre demande de délai, la date d'achèvement prévisionnel serait le{' '}
                 <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
               </div>
             )}
+
             <Input
               textArea
               label="Raison"

@@ -17,10 +17,11 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
     raison,
   } = event.payload;
 
-  const motif =
-    event.type === 'DemandeDélaiCorrigée-V2'
-      ? event.payload.motif
-      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif;
+  const motifLabel = getMotifDemandeDélaiLabel(
+    event.type === 'DemandeDélaiCorrigée-V1'
+      ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif
+      : event.payload.motif,
+  );
 
   return {
     date: corrigéeLe,
@@ -40,7 +41,7 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
           Durée : <span className="font-semibold">{nombreDeMois} mois</span>
         </div>
         <div>
-          Motif : <span className="font-semibold">{getMotifDemandeDélaiLabel(motif)}</span>
+          Motif : <span className="font-semibold">{motifLabel.toLowerCase()}</span>
         </div>
       </div>
     ),

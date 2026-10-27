@@ -50,7 +50,9 @@ export const AccorderDemandeDélaiForm = ({
 
   const afficherNouvelleDateAchèvement =
     nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime) &&
-    !Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(nouveauMotif).estProlongationPhaseEssai();
+    Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
+      nouveauMotif,
+    ).estProlongationDélaiAchèvement();
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
     const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);

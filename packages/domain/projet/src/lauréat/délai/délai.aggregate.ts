@@ -245,7 +245,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
     await this.publish(délaiAccordéEvent);
 
-    if (!motif.estProlongationPhaseEssai()) {
+    if (motif.estProlongationDélaiAchèvement()) {
       await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
         type: 'délai-accordé',
         nombreDeMois,

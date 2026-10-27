@@ -49,6 +49,9 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
     setNouvelleDate(nouvelleDate);
   };
 
+  const afficherNouvelleDateAchèvement =
+    peutDemanderUnDélai() && nouveauMotif === 'prolongation-délai-achèvement';
+
   return (
     <Form
       action={corrigerDemandeDélaiAction}
@@ -102,7 +105,7 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
           stateRelatedMessage={validationErrors['nombreDeMois']}
         />
 
-        {peutDemanderUnDélai() && (
+        {afficherNouvelleDateAchèvement && (
           <div>
             Après accord de votre demande de délai, la date d'achèvement prévisionnel serait le{' '}
             <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />

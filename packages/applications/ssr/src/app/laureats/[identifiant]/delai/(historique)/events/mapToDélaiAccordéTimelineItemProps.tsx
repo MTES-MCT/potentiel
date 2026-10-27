@@ -2,25 +2,35 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
+import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
 
 export const mapToDélaiAccordéTimelineItemProps = (
   event: Lauréat.Délai.DélaiAccordéEvent | Lauréat.Délai.DélaiAccordéEventV1,
 ): TimelineItemProps => {
   const { accordéPar, accordéLe, nombreDeMois } = event.payload;
 
+  const motifLabel = getMotifDemandeDélaiLabel(
+    event.type === 'DélaiAccordé-V1'
+      ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif
+      : event.payload.motif,
+  );
+
   return {
     date: accordéLe,
-    title: 'Demande de délai de force majeure accordée',
+    title: 'Demande de délai accordée',
     actor: accordéPar,
     file: {
       document: Lauréat.Délai.DocumentDélai.demandeAccordée(event.payload),
       label: 'Télécharger la réponse signée',
-      ariaLabel: `Télécharger la réponse signée de la demande de délai accordée le ${formatDateToText(accordéLe)}`,
+      ariaLabel: `Télécharger la réponse signée de la demande de ${motifLabel.toLowerCase()} accordée le ${formatDateToText(accordéLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">
         <div>
           Durée : <span className="font-semibold">{nombreDeMois} mois</span>
+        </div>
+        <div>
+          Motif : <span className="font-semibold">{motifLabel.toLowerCase()}</span>
         </div>
       </div>
     ),
