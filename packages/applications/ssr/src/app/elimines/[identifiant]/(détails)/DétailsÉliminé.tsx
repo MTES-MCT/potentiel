@@ -16,7 +16,7 @@ export type DétailsÉliminéPageProps = {
 export const DétailsÉliminéPage: FC<DétailsÉliminéPageProps> = ({ identifiantProjet }) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <ÉtapesProjetSection identifiantProjet={identifiantProjet} />
         <ChiffresClésSection identifiantProjet={identifiantProjet} />
       </div>

@@ -18,7 +18,7 @@ export const PorteurListItem: FC<PorteurListItemProps> = ({
   statutProjet,
 }) => {
   return (
-    <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 last:border-none pb-2 pt-1">
+    <div className="flex flex-row flex-wrap items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 last:border-none pb-2 pt-1">
       <span className="font-semibold">
         <CopyButton
           textToCopy={identifiantUtilisateur}

@@ -44,7 +44,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
                   }
                 />
               }
-              className="flex-1"
+              className="w-full md:w-2/5"
             />
           )}
 
@@ -63,7 +63,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
                   }}
                 />
               }
-              className="flex-1"
+              className="w-full md:w-2/5"
             />
           )}
 
@@ -84,7 +84,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
                   Connexion avec mot de passe
                 </Button>
               }
-              className="flex-1 lg:flex-none"
+              className="w-full md:w-2/5"
             />
           )}
         </div>

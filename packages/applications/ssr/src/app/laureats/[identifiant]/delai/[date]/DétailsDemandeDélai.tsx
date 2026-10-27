@@ -10,7 +10,7 @@ import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
-import { ReadMore } from '@/components/atoms/ReadMore';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import type { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;
@@ -65,12 +65,9 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
   raison,
 }) => (
   <div className="flex flex-col gap-2">
-    <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-      <ReadMore text={raison} />
-    </div>
+    <DisplayRaisonChangement raison={raison} className="whitespace-nowrap font-semibold" />
     {autoritéCompétente && (
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <div className="font-semibold whitespace-nowrap">
           Autorité compétente pour l'instruction :
         </div>
@@ -83,7 +80,7 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
       </div>
     )}
     {pièceJustificative && (
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
         <DownloadDocument
           className="mb-0"

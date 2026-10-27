@@ -6,14 +6,14 @@ type ProfilsBadgeProps = {
   title: string;
 };
 export const ProfilesBadge: FC<ProfilsBadgeProps> = ({ profils, title }) => (
-  <div className="flex flex-row flex-grow gap-2 mt-2 mb-3 justify-center" title={title}>
+  <div className="flex flex-row flex-grow flex-wrap gap-2 mt-2 mb-3 justify-center" title={title}>
     {Object.entries(profils).map(([profil, value]) => (
       <Badge
         noIcon={value ? true : undefined}
         severity={value ? 'info' : 'error'}
         small
         key={profil}
-        className="overflow-auto whitespace-nowrap"
+        className="whitespace-nowrap"
       >
         {profil}
       </Badge>
