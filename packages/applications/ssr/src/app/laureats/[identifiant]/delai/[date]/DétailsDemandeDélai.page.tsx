@@ -119,6 +119,7 @@ const mapToActionComponents = ({
       <RejeterDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         dateDemande={dateDemande.formatter()}
+        motif={motif.motif}
       />
     )}
 

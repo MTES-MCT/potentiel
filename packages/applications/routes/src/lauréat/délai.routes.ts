@@ -23,5 +23,13 @@ export const corriger = (identifiantProjet: string, date: DateTime.RawType) =>
 
 export const lister = withFilters<ListerFilters>(`/laureats/changements/delai`);
 
-export const téléchargerModèleRéponse = (identifiantProjet: string, date: DateTime.RawType) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse`;
+export const téléchargerModèleRéponse = ({
+  date,
+  identifiantProjet,
+  motif,
+}: {
+  identifiantProjet: string;
+  date: DateTime.RawType;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
+}) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse?motif=${motif === 'prolongation-phase-essai' ? 'prolongation-phase-essai' : 'prolongation-delai-achevement'}`;
