@@ -58,7 +58,7 @@ export const DemandesDétails = ({
 );
 
 const mapDomaineToLabel: Record<AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction, string> = {
-  actionnaire: 'Actionnaires',
+  actionnaire: 'Actionnaire',
   représentantLégal: 'Représentant légal',
   abandon: 'Abandon',
   puissance: 'Puissance',
