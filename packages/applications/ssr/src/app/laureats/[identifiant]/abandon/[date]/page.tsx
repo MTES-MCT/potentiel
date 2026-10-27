@@ -7,6 +7,7 @@ import { type Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
+import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import {
   DétailsAbandonPage,
   type DétailsAbandonPageProps,
@@ -89,7 +90,9 @@ export default async function Page(props: PageProps) {
             !!garantiesFinancières.actuelles?.garantiesFinancières.constitution
           }
           afficherOptionMainlevéeGf={
-            utilisateur.estDreal() && !!garantiesFinancières.actuelles?.garantiesFinancières
+            isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
+            utilisateur.estDreal() &&
+            !!garantiesFinancières.actuelles?.garantiesFinancières
           }
           actions={actions}
           informations={mapToInformations({
