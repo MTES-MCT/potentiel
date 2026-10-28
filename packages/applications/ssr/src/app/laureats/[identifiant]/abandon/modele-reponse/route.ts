@@ -43,7 +43,7 @@ export const GET = async (
       const { identifiant } = await ctx.params;
 
       const url = new URL(request.url);
-      const avecMainlevée = url.searchParams.get('avec-mainlevee') === 'true';
+      const avecMainlevée = url.searchParams.get('mainlevee') === 'true';
 
       const identifiantProjet = decodeParameter(identifiant);
       const abandon = await getDemandeAbandonEnCours(identifiantProjet);

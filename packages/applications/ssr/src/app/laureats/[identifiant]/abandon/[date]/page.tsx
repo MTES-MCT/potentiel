@@ -86,10 +86,10 @@ export default async function Page(props: PageProps) {
           abandon={mapToPlainObject(abandon)}
           estPPA={estPPA}
           ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
-          lesGarantiesFinancièresSontConstituées={
+          garantiesFinancièresSontConstituées={
             !!garantiesFinancières.actuelles?.garantiesFinancières.constitution
           }
-          afficherOptionMainlevéeGf={
+          afficherOptionMainlevéeGarantiesFinancières={
             isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
             utilisateur.estDreal() &&
             !!garantiesFinancières.actuelles?.garantiesFinancières

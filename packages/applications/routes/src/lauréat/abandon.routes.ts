@@ -23,7 +23,7 @@ export const téléchargerModèleRéponse = ({
   identifiantProjet: string;
   avecMainLevéeGF: boolean;
 }) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse${avecMainLevéeGF ? '?avec-mainlevee=true' : ''}`;
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse${avecMainLevéeGF ? '?mainlevee=true' : ''}`;
 
 export const détailRedirection = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon`;

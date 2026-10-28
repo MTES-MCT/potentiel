@@ -50,8 +50,8 @@ export type DétailsAbandonPageProps = {
   actions: AvailableActions;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: true;
-  lesGarantiesFinancièresSontConstituées: boolean;
-  afficherOptionMainlevéeGf: boolean;
+  garantiesFinancièresSontConstituées: boolean;
+  afficherOptionMainlevéeGarantiesFinancières: boolean;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -63,8 +63,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   historique,
   estPPA,
   ppaSignaléLorsDeLaDemande,
-  lesGarantiesFinancièresSontConstituées,
-  afficherOptionMainlevéeGf,
+  garantiesFinancièresSontConstituées,
+  afficherOptionMainlevéeGarantiesFinancières,
 }) => (
   <ColumnPageTemplate
     heading={<TitrePageDemande statut={abandon.statut.statut} titre="Demande d'abandon" />}
@@ -117,8 +117,9 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             dateDemande: abandon.demande.demandéLe.date,
             estPPA,
             ppaSignaléLorsDeLaDemande,
-            afficherOptionMainlevéeGf,
-            lesGarantiesFinancièresSontConstituées,
+            afficherOptionMainlevéeGarantiesFinancières:
+              afficherOptionMainlevéeGarantiesFinancières,
+            garantiesFinancièresSontConstituées: garantiesFinancièresSontConstituées,
           })}
           {mapToInformationsComponents({
             informations,
@@ -137,8 +138,8 @@ type MapToActionsComponentsProps = {
   dateDemande: string;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: true;
-  afficherOptionMainlevéeGf: boolean;
-  lesGarantiesFinancièresSontConstituées: boolean;
+  afficherOptionMainlevéeGarantiesFinancières: boolean;
+  garantiesFinancièresSontConstituées: boolean;
 };
 
 const mapToActionComponents = ({
@@ -148,8 +149,8 @@ const mapToActionComponents = ({
   dateDemande,
   estPPA,
   ppaSignaléLorsDeLaDemande,
-  afficherOptionMainlevéeGf,
-  lesGarantiesFinancièresSontConstituées,
+  afficherOptionMainlevéeGarantiesFinancières,
+  garantiesFinancièresSontConstituées,
 }: MapToActionsComponentsProps) => {
   const ppaSignaléLorsDeLaDemandeEtToujoursActif = !!ppaSignaléLorsDeLaDemande && estPPA;
 
@@ -176,8 +177,8 @@ const mapToActionComponents = ({
           estPPA={estPPA}
           ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
           ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
-          afficherOptionMainlevéeGf={afficherOptionMainlevéeGf}
-          lesGarantiesFinancièresSontConstituées={lesGarantiesFinancièresSontConstituées}
+          afficherOptionMainlevéeGarantiesFinancières={afficherOptionMainlevéeGarantiesFinancières}
+          garantiesFinancièresSontConstituées={garantiesFinancièresSontConstituées}
         />
       )}
       {actions.includes('rejeter') && (
