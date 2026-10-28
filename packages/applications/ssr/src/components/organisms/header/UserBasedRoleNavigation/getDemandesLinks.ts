@@ -91,7 +91,10 @@ export const getDemandesLinks = ({ estPorteur, autorité, keys }: getDemandesLin
       'puissance',
       {
         label: 'Puissance',
-        url: Routes.Puissance.changement.lister({ statut: ['demandé'] }),
+        url: Routes.Puissance.changement.lister({
+          statut: ['demandé'],
+          autoriteCompetente: autorité,
+        }),
         permission: 'puissance.listerChangement',
       },
     ],
