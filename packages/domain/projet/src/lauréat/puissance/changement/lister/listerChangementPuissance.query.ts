@@ -6,7 +6,11 @@ import { type Joined, type List, type RangeOptions, Where } from '@potentiel-dom
 import type { CandidatureEntity } from '../../../../candidature/index.js';
 import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import type { LauréatEntity } from '../../../lauréat.entity.js';
-import { type ChangementPuissanceEntity, StatutChangementPuissance } from '../../index.js';
+import {
+  type AutoritéCompétente,
+  type ChangementPuissanceEntity,
+  StatutChangementPuissance,
+} from '../../index.js';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -31,6 +35,7 @@ export type ListerChangementPuissanceQuery = Message<
     statut?: Array<StatutChangementPuissance.RawType>;
     appelOffre?: Array<string>;
     nomProjet?: string;
+    autoritéCompétente?: AutoritéCompétente.RawType;
     range?: RangeOptions;
   },
   ListerChangementPuissanceReadModel
@@ -50,6 +55,7 @@ export const registerListerChangementPuissanceQuery = ({
     appelOffre,
     nomProjet,
     utilisateur,
+    autoritéCompétente,
     range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
@@ -82,6 +88,7 @@ export const registerListerChangementPuissanceQuery = ({
         where: {
           identifiantProjet: Where.matchAny(scope.identifiantProjets),
           statut: Where.matchAny(statut),
+          demande: { autoritéCompétente: Where.equal(autoritéCompétente) },
         },
       },
     );

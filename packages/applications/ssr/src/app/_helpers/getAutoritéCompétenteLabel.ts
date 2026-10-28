@@ -1,11 +1,14 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
 export const getAutoritéCompétenteLabel = (
-  autorité: Lauréat.Abandon.AutoritéCompétente.RawType | Lauréat.Délai.AutoritéCompétente.RawType,
+  autorité:
+    | Lauréat.Abandon.AutoritéCompétente.RawType
+    | Lauréat.Délai.AutoritéCompétente.RawType
+    | Lauréat.Puissance.AutoritéCompétente.RawType,
 ): string =>
   match(autorité)
     .with('dreal', () => 'DREAL, DEAL')
-    .with('dgec', () => 'DGEC')
+    .with(P.union('dgec', 'dgec-admin'), () => 'DGEC')
     .exhaustive();

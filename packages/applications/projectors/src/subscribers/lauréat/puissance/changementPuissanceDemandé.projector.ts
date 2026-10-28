@@ -12,6 +12,7 @@ export const changementPuissanceDemandéProjector = async ({
     demandéLe,
     demandéPar,
     raison,
+    autoritéCompétente,
     pièceJustificative: { format },
   },
 }: Lauréat.Puissance.ChangementPuissanceDemandéEvent) => {
@@ -29,6 +30,7 @@ export const changementPuissanceDemandéProjector = async ({
       miseÀJourLe: demandéLe,
       statut: Lauréat.Puissance.StatutChangementPuissance.demandé.statut,
       demande: {
+        autoritéCompétente,
         nouvellePuissance: puissance,
         nouvellePuissanceDeSite: puissanceDeSite,
         demandéPar,
