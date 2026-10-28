@@ -6,7 +6,12 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import { Délai } from '../../../index.js';
-import { AutoritéCompétente, DocumentDélai, type StatutDemandeDélai } from '../../index.js';
+import {
+  AutoritéCompétente,
+  DocumentDélai,
+  MotifDemandeDélai,
+  type StatutDemandeDélai,
+} from '../../index.js';
 import type { DemandeDélaiEntity } from '../demandeDélai.entity.js';
 
 export type ConsulterDemandeDélaiReadModel = {
@@ -23,6 +28,8 @@ export type ConsulterDemandeDélaiReadModel = {
   pièceJustificative: DocumentProjet.ValueType;
 
   autoritéCompétente?: AutoritéCompétente.ValueType;
+
+  motif: MotifDemandeDélai.ValueType;
 
   instruction?: {
     passéeEnInstructionLe: DateTime.ValueType;
@@ -91,6 +98,7 @@ const mapToReadModel: MapToReadModel = ({
       accord,
       rejet,
       autoritéCompétente,
+      motif,
     },
   },
 }) => {
@@ -111,6 +119,7 @@ const mapToReadModel: MapToReadModel = ({
       autoritéCompétente && AutoritéCompétente.convertirEnValueType(autoritéCompétente),
     nombreDeMois,
     raison,
+    motif: MotifDemandeDélai.convertirEnValueType(motif),
 
     instruction: instruction && {
       passéeEnInstructionLe: DateTime.convertirEnValueType(instruction.passéeEnInstructionLe),

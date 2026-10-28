@@ -177,7 +177,7 @@ export class LauréatWorld {
     this.#installationWorld = new InstallationWorld(this);
     this.#achèvementWorld = new AchèvementWorld(this);
     this.#fournisseurWorld = new FournisseurWorld();
-    this.#délaiWorld = new DélaiWorld();
+    this.#délaiWorld = new DélaiWorld(this);
     this.#garantiesFinancièresWorld = new GarantiesFinancièresWorld(this);
     this.#natureDeLExploitationWorld = new NatureDeLExploitationWorld(this);
 

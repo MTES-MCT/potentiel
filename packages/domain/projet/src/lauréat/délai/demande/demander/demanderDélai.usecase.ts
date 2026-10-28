@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { DocumentDélai } from '../../index.js';
+import { DocumentDélai, MotifDemandeDélai } from '../../index.js';
 import type { DemanderDélaiCommand } from './demanderDélai.command.js';
 
 export type DemanderDélaiUseCase = Message<
@@ -19,6 +19,7 @@ export type DemanderDélaiUseCase = Message<
       format: string;
     };
     raisonValue: string;
+    motifValue: string;
   }
 >;
 
@@ -30,10 +31,12 @@ export const registerDemanderDélaiDélaiUseCase = () => {
     identifiantUtilisateurValue,
     raisonValue,
     nombreDeMoisValue,
+    motifValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const motif = MotifDemandeDélai.convertirEnValueType(motifValue);
 
     const pièceJustificative = DocumentDélai.pièceJustificative({
       identifiantProjet: identifiantProjet.formatter(),
@@ -60,6 +63,7 @@ export const registerDemanderDélaiDélaiUseCase = () => {
         identifiantProjet,
         identifiantUtilisateur,
         pièceJustificative,
+        motif,
       },
     });
   };

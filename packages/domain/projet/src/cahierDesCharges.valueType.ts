@@ -165,9 +165,10 @@ export namespace CahierDesCharges {
       const key = match(domaine)
         .returnType<keyof AppelOffre.DonnéesCourriersRéponseParDomaine>()
         .with('abandon', () => 'texteEngagementRéalisationEtModalitésAbandon')
-        .with('délai', () => 'texteDélaisDAchèvement')
+        .with('délaiAchèvement', () => 'texteDélaisDAchèvement')
         .with('puissance', () => 'texteChangementDePuissance')
         .with('actionnaire', () => 'texteChangementDActionnariat')
+        .with('délaiPhaseEssai', () => 'texteDélaiPhaseEssai')
         .exhaustive();
 
       const { dispositions, référenceParagraphe } = {

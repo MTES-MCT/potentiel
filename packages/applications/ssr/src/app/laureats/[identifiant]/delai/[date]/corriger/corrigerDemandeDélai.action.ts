@@ -5,7 +5,7 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -18,6 +18,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateDemande: zod.string().min(1),
   nombreDeMois: zod.coerce.number().min(1),
+  motif: zod.enum(Lauréat.Délai.MotifDemandeDélai.motifs),
   raison: zod.string().min(1),
   pieceJustificative: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   pieceJustificativeDocumentSelection: documentSelectionSchema,
@@ -34,6 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (
     pieceJustificativeDocumentSelection,
     nombreDeMois,
     raison,
+    motif,
   },
 ) => {
   return withUtilisateur(async (utilisateur) => {
@@ -50,6 +52,7 @@ const action: FormAction<FormState, typeof schema> = async (
           pieceJustificativeDocumentSelection === 'edit_document' ? pieceJustificative : undefined,
         raisonValue: raison,
         nombreDeMoisValue: nombreDeMois,
+        motifValue: motif,
       },
     });
 

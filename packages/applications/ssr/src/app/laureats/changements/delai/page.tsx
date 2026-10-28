@@ -109,13 +109,14 @@ const mapToListProps = (
 
   return {
     items: changements.items.map(
-      ({ identifiantProjet, nomProjet, statut, miseÀJourLe, demandéLe, nombreDeMois }) => ({
+      ({ identifiantProjet, nomProjet, statut, miseÀJourLe, demandéLe, nombreDeMois, motif }) => ({
         identifiantProjet: mapToPlainObject(identifiantProjet),
         nomProjet,
         statut: mapToPlainObject(statut),
         miseÀJourLe: mapToPlainObject(miseÀJourLe),
         demandéLe: mapToPlainObject(demandéLe),
         nombreDeMois,
+        motif,
       }),
     ),
     pagination,

@@ -72,8 +72,9 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                 Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
                   dateAchèvementPrévisionnelActuelle,
                 ),
+              motif: Lauréat.Délai.MotifDemandeDélai.bind(demande.motif),
             })}
-            <InfoBoxDemandeDélai />
+            <InfoBoxDemandeDélai motif={demande.motif.motif} />
           </>
         ),
       }}
@@ -87,6 +88,7 @@ type MapToActionsComponentsProps = {
   dateDemande: DateTime.ValueType;
   nombreDeMois: number;
   dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType;
+  motif: Lauréat.Délai.MotifDemandeDélai.ValueType;
 };
 
 const mapToActionComponents = ({
@@ -95,6 +97,7 @@ const mapToActionComponents = ({
   actions,
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
+  motif,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
@@ -109,12 +112,14 @@ const mapToActionComponents = ({
         dateDemande={dateDemande.formatter()}
         nombreDeMois={nombreDeMois}
         dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
+        motif={motif.motif}
       />
     )}
     {actions.includes('rejeter') && (
       <RejeterDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         dateDemande={dateDemande.formatter()}
+        motif={motif.motif}
       />
     )}
 

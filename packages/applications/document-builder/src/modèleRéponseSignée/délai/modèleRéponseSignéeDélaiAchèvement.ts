@@ -1,6 +1,6 @@
 import type { ModèleRéponse } from '../modèleRéponseSignée.js';
 
-export const modèleRéponseDélaiFileName = 'délai-modèle-réponse.docx';
+export const modèleRéponseDélaiAchèvementFileName = 'délai-achèvement-modèle-réponse.docx';
 
 type DemandePrécédenteEnDate = {
   demandeEnDate: 'yes';
@@ -36,8 +36,8 @@ export type DemandePrécédente = {
 // soit exprimée en mois (jusqu'à 2022) ou en date.
 // Dans le cas où le délai est en date, la réponse est également en date.
 // Dans le cas où le délai est en nombre de mois, la réponse peut être exprimée en mois ou en date
-export type ModèleRéponseDélai = ModèleRéponse & {
-  type: 'délai';
+export type ModèleRéponseDélaiAchèvement = ModèleRéponse & {
+  type: 'délai-achèvement';
   data: {
     referenceParagrapheAchevement: string;
     contenuParagrapheAchevement: string;

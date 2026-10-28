@@ -1,12 +1,11 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
-import type { NextRequest } from 'next/server';
 
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -19,7 +18,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAchèvement, getPuissanceInfos, getReprésentantLégalInfos } from '../../../_helpers';
 
 export const GET = async (
-  _: NextRequest,
+  request: Request,
   ctx: RouteContext<'/laureats/[identifiant]/delai/[date]/modele-reponse'>,
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -30,6 +29,12 @@ export const GET = async (
       throw new AccèsFonctionnalitéRefuséError('délai.rejeterDemande', utilisateur.rôle.nom);
     }
 
+    const url = new URL(request.url);
+    const motif =
+      url.searchParams.get('motif') === 'prolongation-phase-essai'
+        ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai
+        : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
+
     const { identifiant, date } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
     const demandéLe = decodeParameter(date);
@@ -38,7 +43,6 @@ export const GET = async (
     const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
     const puissance = await getPuissanceInfos(identifiantProjet);
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
-    const achèvement = await getAchèvement(identifiantProjet);
 
     const demandeDélai = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
@@ -48,8 +52,6 @@ export const GET = async (
     if (Option.isNone(demandeDélai)) {
       return notFound();
     }
-
-    const texteDélaisDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('délai');
 
     const { logo, data } = mapLauréatToModèleRéponsePayload({
       identifiantProjet,
@@ -62,33 +64,55 @@ export const GET = async (
       utilisateur,
     });
 
-    const délaiRéalisationEnMois = cahierDesCharges.getDélaiRéalisationEnMois();
+    const commonData = {
+      ...data,
+      dateDemande: formatDateForDocument(new Date(demandéLe)),
+      justificationDemande: demandeDélai.raison ?? '',
+      enCopies: getEnCopies(lauréat.localité.région),
+      nombreDeMoisDemandé: demandeDélai.nombreDeMois,
+    };
 
-    const type = 'délai';
-    const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-      type,
-      logo,
-      data: {
-        ...data,
-        dateDemande: formatDateForDocument(new Date(demandéLe)),
-        justificationDemande: demandeDélai.raison ?? '',
-        enCopies: getEnCopies(lauréat.localité.région),
-        contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
-        referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
-        dateAchèvementDemandée: formatDateForDocument(
-          achèvement.dateAchèvementPrévisionnel.ajouterDélai(demandeDélai.nombreDeMois).dateTime
-            .date,
-        ),
-        dateLimiteAchevementActuelle: achèvement.dateAchèvementPrévisionnel.formatterDate(),
-        dateLimiteAchevementInitiale: formatDateForDocument(
-          lauréat.notifiéLe.ajouterNombreDeMois(délaiRéalisationEnMois).date,
-        ),
-        demandePrecedente: '',
-        nombreDeMoisDemandé: demandeDélai.nombreDeMois,
-      },
-    });
+    if (motif.estProlongationPhaseEssai()) {
+      const type = 'délai-essais';
+      const texteDélaiPhaseEssai = cahierDesCharges.getDonnéesCourriersRéponse('délaiPhaseEssai');
 
-    return new Response(content, {
-      headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
-    });
+      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
+        type,
+        logo,
+        data: {
+          ...commonData,
+          referenceTexteDelaiPhaseEssai: texteDélaiPhaseEssai.référenceParagraphe,
+          contenuTexteDelaiPhaseEssai: texteDélaiPhaseEssai.dispositions,
+        },
+      });
+      return new Response(content, {
+        headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
+      });
+    } else {
+      const type = 'délai-achèvement';
+      const texteDélaisDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('délaiAchèvement');
+      const délaiRéalisationEnMois = cahierDesCharges.getDélaiRéalisationEnMois();
+      const achèvement = await getAchèvement(identifiantProjet);
+      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
+        type,
+        logo,
+        data: {
+          ...commonData,
+          contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
+          referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
+          dateAchèvementDemandée: formatDateForDocument(
+            achèvement.dateAchèvementPrévisionnel.ajouterDélai(demandeDélai.nombreDeMois).dateTime
+              .date,
+          ),
+          dateLimiteAchevementActuelle: achèvement.dateAchèvementPrévisionnel.formatterDate(),
+          dateLimiteAchevementInitiale: formatDateForDocument(
+            lauréat.notifiéLe.ajouterNombreDeMois(délaiRéalisationEnMois).date,
+          ),
+          demandePrecedente: '',
+        },
+      });
+      return new Response(content, {
+        headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
+      });
+    }
   });
