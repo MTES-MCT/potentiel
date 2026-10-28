@@ -18,6 +18,7 @@ export type { HttpContext, Policy } from './generated/helpers/router.js';
 export type { PotentielApiRouter } from './generated/http/router.js';
 export { createPotentielApiRouter } from './generated/http/router.js';
 export * from './generated/models/all/index.js';
-export * from './generated/models/all/potentiel-api.js';
+export * from './generated/models/all/potentiel-api/index.js';
+export * from './generated/models/all/potentiel-api/raccordement.js';
 
 export const schemas = openApiDocument.components.schemas;
