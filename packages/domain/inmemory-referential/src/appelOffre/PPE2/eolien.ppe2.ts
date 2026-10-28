@@ -86,6 +86,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       natureDeLExploitation: { informationEnregistrée: true },
       typologieInstallation: {},
       siteDeProduction: {},
+      délaiPhaseEssai: { demande: true, autoritéCompétente: 'dgec' },
       représentantLégal: {
         demande: true,
         instructionAutomatique: 'accord',

@@ -42,6 +42,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       nomProjet: {},
       natureDeLExploitation: {},
       typologieInstallation: {},
+      délaiPhaseEssai: {},
       siteDeProduction: {},
       représentantLégal: {
         demande: true,
