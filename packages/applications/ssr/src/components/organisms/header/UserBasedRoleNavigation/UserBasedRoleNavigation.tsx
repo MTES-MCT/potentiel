@@ -6,7 +6,6 @@ import { headers } from 'next/headers';
 import { Routes } from '@potentiel-applications/routes';
 import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { getNombreDemandesÀInstruire } from '@/app/_helpers/getNombreDemandesÀInstruire';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
@@ -215,12 +214,8 @@ export const getNavigationItemsBasedOnRole = async ({
     },
   ];
 
-  const afficherTDB =
-    (isFeatureEnabled('tableau-de-bord-dreal') && utilisateur?.estDreal()) ||
-    (isFeatureEnabled('tableau-de-bord-dgec') && utilisateur?.estDGEC());
-
   const menu: MainNavigationProps.Item[] = [
-    ...(afficherTDB
+    ...(rôle.aLaPermission('tableauDeBord.consulter')
       ? mapToMenuProps(
           [
             {
