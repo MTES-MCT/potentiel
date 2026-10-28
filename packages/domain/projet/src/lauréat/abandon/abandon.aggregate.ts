@@ -5,7 +5,6 @@ import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet, Lauréat } from '../../index.js';
-import { GarantiesFinancières } from '../index.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
@@ -147,6 +146,32 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
+    if (ppaSignalé) {
+      await this.lauréat.powerPurchaseAgreement.signaler({
+        signaléLe: dateAccord,
+        signaléPar: identifiantUtilisateur,
+        rôleUtilisateur,
+      });
+    }
+
+    if (ppaAnnulé) {
+      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
+        annuléLe: dateAccord,
+        annuléPar: identifiantUtilisateur,
+      });
+    }
+
+    if (accorderMainlevéeGarantiesFinancières) {
+      await this.lauréat.garantiesFinancières.accorderMainlevée({
+        accordéLe: dateAccord,
+        accordéPar: identifiantUtilisateur,
+        motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.projetAbandonné,
+        réponseSignée: {
+          format: réponseSignée.format,
+        },
+      });
+    }
+
     const event: AbandonAccordéEvent = {
       type: 'AbandonAccordé-V1',
       payload: {
@@ -190,32 +215,6 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       statut: Lauréat.StatutLauréat.abandonné,
       modifiéPar: Email.système,
     });
-
-    if (ppaSignalé) {
-      await this.lauréat.powerPurchaseAgreement.signaler({
-        signaléLe: dateAccord,
-        signaléPar: identifiantUtilisateur,
-        rôleUtilisateur,
-      });
-    }
-
-    if (ppaAnnulé) {
-      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
-        annuléLe: dateAccord,
-        annuléPar: identifiantUtilisateur,
-      });
-    }
-
-    if (accorderMainlevéeGarantiesFinancières) {
-      await this.lauréat.garantiesFinancières.accorderMainlevée({
-        accordéLe: dateAccord,
-        accordéPar: identifiantUtilisateur,
-        motif: GarantiesFinancières.MotifMainlevéeGarantiesFinancières.projetAbandonné,
-        réponseSignée: {
-          format: réponseSignée.format,
-        },
-      });
-    }
   }
 
   async demanderPreuveRecandidature({ dateDemande }: DemanderPreuveRecandidatureOptions) {
