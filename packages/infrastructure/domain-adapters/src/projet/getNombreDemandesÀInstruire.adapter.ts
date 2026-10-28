@@ -22,7 +22,7 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
     'changement-représentant-légal',
     'changement-puissance',
     'changement-actionnaire',
-    'demande-recours',
+    ...(rôle === 'dreal' ? [] : ['demande-recours']),
   ];
 
   const result = await executeSelect<{
