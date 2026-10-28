@@ -43,7 +43,6 @@ export const GET = async (
     const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
     const puissance = await getPuissanceInfos(identifiantProjet);
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
-    const achèvement = await getAchèvement(identifiantProjet);
 
     const demandeDélai = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
@@ -65,35 +64,40 @@ export const GET = async (
       utilisateur,
     });
 
+    const commonData = {
+      ...data,
+      dateDemande: formatDateForDocument(new Date(demandéLe)),
+      justificationDemande: demandeDélai.raison ?? '',
+      enCopies: getEnCopies(lauréat.localité.région),
+      nombreDeMoisDemandé: demandeDélai.nombreDeMois,
+    };
+
     if (motif.estProlongationPhaseEssai()) {
       const type = 'délai-essais';
+      const texteDélaiPhaseEssai = cahierDesCharges.getDonnéesCourriersRéponse('délaiPhaseEssai');
+
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
         type,
         logo,
         data: {
-          ...data,
-          dateDemande: formatDateForDocument(new Date(demandéLe)),
-          justificationDemande: demandeDélai.raison ?? '',
-          enCopies: getEnCopies(lauréat.localité.région),
-          nombreDeMoisDemandé: demandeDélai.nombreDeMois,
+          ...commonData,
+          referenceTexteDelaiPhaseEssai: texteDélaiPhaseEssai.référenceParagraphe,
+          contenuTexteDelaiPhaseEssai: texteDélaiPhaseEssai.dispositions,
         },
       });
       return new Response(content, {
         headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
       });
     } else {
+      const type = 'délai-achèvement';
       const texteDélaisDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('délaiAchèvement');
       const délaiRéalisationEnMois = cahierDesCharges.getDélaiRéalisationEnMois();
-
-      const type = 'délai-achèvement';
+      const achèvement = await getAchèvement(identifiantProjet);
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
         type,
         logo,
         data: {
-          ...data,
-          dateDemande: formatDateForDocument(new Date(demandéLe)),
-          justificationDemande: demandeDélai.raison ?? '',
-          enCopies: getEnCopies(lauréat.localité.région),
+          ...commonData,
           contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
           referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
           dateAchèvementDemandée: formatDateForDocument(
@@ -105,7 +109,6 @@ export const GET = async (
             lauréat.notifiéLe.ajouterNombreDeMois(délaiRéalisationEnMois).date,
           ),
           demandePrecedente: '',
-          nombreDeMoisDemandé: demandeDélai.nombreDeMois,
         },
       });
       return new Response(content, {

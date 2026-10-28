@@ -168,6 +168,7 @@ export namespace CahierDesCharges {
         .with('délaiAchèvement', () => 'texteDélaisDAchèvement')
         .with('puissance', () => 'texteChangementDePuissance')
         .with('actionnaire', () => 'texteChangementDActionnariat')
+        .with('délaiPhaseEssai', () => 'texteDélaiPhaseEssai')
         .exhaustive();
 
       const { dispositions, référenceParagraphe } = {

@@ -7,8 +7,9 @@ export type ModèleRéponseDélaiEssais = ModèleRéponse & {
   data: {
     dateDemande: string;
     justificationDemande: string;
-
     enCopies: Array<string>;
     nombreDeMoisDemandé: number;
+    referenceTexteDelaiPhaseEssai: string;
+    contenuTexteDelaiPhaseEssai: string;
   };
 };
