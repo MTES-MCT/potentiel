@@ -166,7 +166,12 @@ export type RèglesMiseÀJour = {
 };
 
 // Courriers
-export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délaiAchèvement';
+export type DomainesCourriersRéponse =
+  | 'abandon'
+  | 'actionnaire'
+  | 'puissance'
+  | 'délaiAchèvement'
+  | 'délaiPhaseEssai';
 export type DonnéesCourriersRéponse = {
   référenceParagraphe: string;
   dispositions: string;
@@ -175,7 +180,8 @@ export type DonnéesCourriersRéponseParDomaine = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
   | 'texteChangementDActionnariat'
   | 'texteChangementDePuissance'
-  | 'texteDélaisDAchèvement',
+  | 'texteDélaisDAchèvement'
+  | 'texteDélaiPhaseEssai',
   DonnéesCourriersRéponse
 >;
 

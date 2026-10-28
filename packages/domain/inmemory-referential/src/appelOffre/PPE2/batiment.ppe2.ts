@@ -418,6 +418,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
           Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
         },
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1.1 et 2.4',
+          dispositions: `"Il est possible pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat de complément de rémunération uniquement durant d’éventuelles phases d’essais préalables à la prise d’effet de ce contrat qui ne peuvent excéder une durée de trois mois à compter de la première injection d’électricité sur le réseau public. Le Producteur devra conserver les justificatifs démontrant qu’il s’agit d’essais préalables et les tenir à disposition de l’administration et du Cocontractant durant la durée du contrat." et "Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée n’est pas prolongeable. Le Producteur devra conserver les justificatifs démontrant qu’il s’agit d’essais préalables et les tenir à disposition de l’administration et du Cocontractant durant la durée du contrat." `,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
@@ -458,6 +462,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           - en cas de non obtention de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
           Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
           Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
+        },
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1.1 et 2.4',
+          dispositions: `"Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases de test d’essai préalables à la prise d’effet du contrat de complément de rémunération dans les conditions de l’article 2.4, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat." et "Pour application du présent paragraphe, la production d’électricité dans le cadre de phases d’essais préalables à la mise en service de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
@@ -502,6 +510,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
           Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
         },
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1.1 et 2.4',
+          dispositions: `"Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases de test d’essai préalables à la prise d’effet du contrat de complément de rémunération dans les conditions de l’article 2.4, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat." et "Pour application du présent paragraphe, la production d’électricité dans le cadre de phases d’essais préalables à la mise en service de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       addendums: addendumPériode8EtSuivantes,
@@ -544,6 +556,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
           Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
         },
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1.1 et 2.4',
+          dispositions: `"Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases de test d’essai préalables à la prise d’effet du contrat de complément de rémunération dans les conditions de l’article 2.4, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat." et "Pour application du présent paragraphe, la production d’électricité dans le cadre de phases d’essais préalables à la mise en service de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       addendums: addendumPériode8EtSuivantes,
@@ -580,6 +596,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
           Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
         },
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1.1',
+          dispositions: `Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases de test d’essai préalables à la prise d’effet du contrat de complément de rémunération, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la mise en service, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie.`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       addendums: addendumPériode8EtSuivantes,
@@ -615,6 +635,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           - en cas de non obtention de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
           Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
           Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
+        },
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1.1',
+          dispositions: `Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases de test d’essai préalables à la prise d’effet du contrat de complément de rémunération, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la mise en service, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie.`,
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
