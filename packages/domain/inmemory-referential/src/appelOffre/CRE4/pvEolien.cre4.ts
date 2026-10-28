@@ -53,7 +53,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       fournisseur: {
         informationEnregistrée: true,
       },
-      délai: {
+      délaiAchèvement: {
         demande: true,
         autoritéCompétente: 'dreal',
       },

@@ -29,7 +29,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
       fournisseur: {
         informationEnregistrée: true,
       },
-      délai: {
+      délaiAchèvement: {
         demande: true,
         autoritéCompétente: 'dreal',
       },
