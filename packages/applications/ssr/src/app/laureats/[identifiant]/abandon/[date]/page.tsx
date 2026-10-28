@@ -80,19 +80,25 @@ export default async function Page(props: PageProps) {
           })
         : [];
 
+      const permissionAccorderMainlevéeGarantiesFinancières = utilisateur.rôle.aLaPermission(
+        'garantiesFinancières.mainlevée.accorder',
+      );
+
       return (
         <DétailsAbandonPage
           identifiantProjet={identifiantProjet}
           abandon={mapToPlainObject(abandon)}
           estPPA={estPPA}
           ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
-          garantiesFinancièresSontConstituées={
-            !!garantiesFinancières.actuelles?.garantiesFinancières.constitution
-          }
-          afficherOptionMainlevéeGarantiesFinancières={
+          afficherNoticeAttestationGarantiesFinancièresÀConstituer={
             isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
-            utilisateur.estDreal() &&
-            !!garantiesFinancières.actuelles?.garantiesFinancières
+            permissionAccorderMainlevéeGarantiesFinancières &&
+            garantiesFinancières.actuelles?.garantiesFinancières.constitution === undefined
+          }
+          afficherChampMainlevéeGarantiesFinancières={
+            isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
+            permissionAccorderMainlevéeGarantiesFinancières &&
+            !!garantiesFinancières.actuelles?.garantiesFinancières.constitution
           }
           actions={actions}
           informations={mapToInformations({
