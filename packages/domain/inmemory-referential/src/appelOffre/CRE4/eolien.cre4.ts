@@ -55,7 +55,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
       fournisseur: {
         informationEnregistrée: true,
       },
-      délai: {
+      délaiAchèvement: {
         demande: true,
         autoritéCompétente: 'dgec',
       },

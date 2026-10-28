@@ -93,7 +93,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
       fournisseur: {
         informationEnregistrée: true,
       },
-      délai: {
+      délaiAchèvement: {
         demande: true,
         autoritéCompétente: 'dreal',
       },
