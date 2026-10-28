@@ -89,6 +89,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   miseÀJour: {
     changement: {
       nomProjet: {},
+      délaiPhaseEssai: {},
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},

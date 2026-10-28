@@ -44,6 +44,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   },
   installateur: {},
   dispositifDeStockage: {},
+  délaiPhaseEssai: {},
 } satisfies AppelOffre.RèglesMiseÀJourPorteur;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
