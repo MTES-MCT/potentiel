@@ -37,7 +37,7 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
   FROM domain_views.projection p
   WHERE SPLIT_PART(p.key,'|',1) = ANY($3)
   AND p.value->>'statut' IN ('demandé', 'en-instruction', 'confirmé')
-  AND (p.value->>'demande.autoritéCompétente' = $1 OR p.value->>'demande.autoritéCompétente' IS NULL)
+  AND (p.value->>'autoritéCompétente' = $1 OR p.value->>'autoritéCompétente' IS NULL)
   ${
     régions?.length
       ? `

@@ -88,7 +88,7 @@ export const registerListerChangementPuissanceQuery = ({
         where: {
           identifiantProjet: Where.matchAny(scope.identifiantProjets),
           statut: Where.matchAny(statut),
-          demande: { autoritéCompétente: Where.equal(autoritéCompétente) },
+          autoritéCompétente: Where.equal(autoritéCompétente),
         },
       },
     );
