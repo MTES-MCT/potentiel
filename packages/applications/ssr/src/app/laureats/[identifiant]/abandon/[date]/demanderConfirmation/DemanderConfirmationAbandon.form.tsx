@@ -63,7 +63,6 @@ export const DemanderConfirmationAbandonForm = ({
                 className="mb-4"
                 url={Routes.Abandon.téléchargerModèleRéponse({
                   identifiantProjet,
-                  avecMainLevéeGF: false,
                 })}
                 format="docx"
                 label="Télécharger le modèle de réponse"

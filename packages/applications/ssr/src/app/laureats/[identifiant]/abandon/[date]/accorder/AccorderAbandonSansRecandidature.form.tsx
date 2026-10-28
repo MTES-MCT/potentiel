@@ -165,7 +165,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                   className="mb-2"
                   url={Routes.Abandon.téléchargerModèleRéponse({
                     identifiantProjet,
-                    avecMainLevéeGF: accorderMainLevée,
+                    ...(accorderMainLevée && { accorderMainlevéeGarantiesFinancières: true }),
                   })}
                   format="docx"
                   label="Télécharger le modèle de réponse"
