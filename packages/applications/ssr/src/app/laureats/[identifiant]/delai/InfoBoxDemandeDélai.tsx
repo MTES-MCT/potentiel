@@ -33,8 +33,7 @@ const textMap: Record<
         Son instruction est soumise au Ministre chargé de l'énergie.
         <br />
         <span className="font-semibold">
-          Son accord n'aura pas d'impact sur la date d'achèvement prévisionnel affichée sur
-          Potentiel.
+          Ce délai n'impacte pas la date d'achèvement prévisionnel affichée sur Potentiel.
         </span>
       </>
     ),
