@@ -5,7 +5,11 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 
 export const getDashboardRoute = (rôle: Role.ValueType) => {
-  if (rôle.estAdministration() && isFeatureEnabled('tableau-de-bord')) {
+  const afficherTDB =
+    (isFeatureEnabled('tableau-de-bord-dreal') && rôle.estDreal()) ||
+    (isFeatureEnabled('tableau-de-bord-dgec') && rôle.estDGEC());
+
+  if (afficherTDB) {
     return {
       texte: 'Tableau de bord',
       lien: Routes.TableauDeBord.consulter(),

@@ -7,6 +7,7 @@ export type DemandeDélaiEntity = Entity<
   {
     identifiantProjet: string;
     statut: StatutDemandeDélai.RawType;
+    autoritéCompétente?: AutoritéCompétente.RawType;
     miseÀJourLe: string;
 
     demande: {
@@ -17,7 +18,6 @@ export type DemandeDélaiEntity = Entity<
       pièceJustificative: {
         format: string;
       };
-      autoritéCompétente?: AutoritéCompétente.RawType;
 
       correction?: {
         corrigéeLe: string;

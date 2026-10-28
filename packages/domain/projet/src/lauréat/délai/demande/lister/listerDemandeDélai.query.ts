@@ -80,7 +80,7 @@ export const registerListerDemandeDélaiQuery = ({
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
         statut: Where.matchAny(statuts),
-        demande: { autoritéCompétente: Where.equal(autoritéCompétente) },
+        autoritéCompétente: Where.equal(autoritéCompétente),
       },
     });
 

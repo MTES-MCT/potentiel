@@ -13,7 +13,10 @@ export default async function Page() {
   return PageWithErrorHandling(async () => {
     const utilisateur = await getSessionUser({ headers: await headers() });
 
-    if (isFeatureEnabled('tableau-de-bord') && utilisateur?.estAdministration()) {
+    if (
+      (isFeatureEnabled('tableau-de-bord-dreal') && utilisateur?.estDreal()) ||
+      (isFeatureEnabled('tableau-de-bord-dgec') && utilisateur?.estDGEC())
+    ) {
       return <HomePageAdministration utilisateur={utilisateur} />;
     }
 

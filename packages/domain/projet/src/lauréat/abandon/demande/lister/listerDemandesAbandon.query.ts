@@ -85,12 +85,12 @@ export const registerListerDemandesAbandonQuery = ({
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
         statut: statut?.length ? Where.matchAny(statut) : undefined,
+        autoritéCompétente: Where.equal(autoritéCompétente),
         demande: {
           estUneRecandidature: Where.equal(recandidature),
           recandidature: {
             statut: Where.equal(preuveRecandidatureStatut),
           },
-          autoritéCompétente: Where.equal(autoritéCompétente),
         },
       },
       join: [

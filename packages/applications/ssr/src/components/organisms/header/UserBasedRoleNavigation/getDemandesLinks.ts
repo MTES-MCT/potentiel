@@ -42,7 +42,7 @@ export const getDemandesLinks = ({ estPorteur, autorité, keys }: getDemandesLin
         label: 'Délai',
         url: Routes.Délai.lister({
           statut: ['demandé', 'en-instruction'],
-          autoriteCompetente: autorité,
+          autorite: autorité,
         }),
         permission: 'délai.listerDemandes',
       },
@@ -91,7 +91,10 @@ export const getDemandesLinks = ({ estPorteur, autorité, keys }: getDemandesLin
       'puissance',
       {
         label: 'Puissance',
-        url: Routes.Puissance.changement.lister({ statut: ['demandé'] }),
+        url: Routes.Puissance.changement.lister({
+          statut: ['demandé'],
+          autorite: autorité,
+        }),
         permission: 'puissance.listerChangement',
       },
     ],

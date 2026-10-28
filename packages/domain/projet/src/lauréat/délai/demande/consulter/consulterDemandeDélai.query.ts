@@ -81,6 +81,7 @@ const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   demandeDélai: {
     statut,
+    autoritéCompétente,
     demande: {
       demandéLe,
       demandéPar,
@@ -90,7 +91,6 @@ const mapToReadModel: MapToReadModel = ({
       instruction,
       accord,
       rejet,
-      autoritéCompétente,
     },
   },
 }) => {

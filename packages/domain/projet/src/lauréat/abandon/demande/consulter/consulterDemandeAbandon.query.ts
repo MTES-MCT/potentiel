@@ -186,9 +186,7 @@ const mapToReadModel = (result: DemandeAbandonEntity) => {
             }),
           }
         : undefined,
-      autoritéCompétente: AutoritéCompétente.convertirEnValueType(
-        result.demande.autoritéCompétente,
-      ),
+      autoritéCompétente: AutoritéCompétente.convertirEnValueType(result.autoritéCompétente),
     },
     identifiantProjet,
     statut: StatutAbandon.convertirEnValueType(result.statut),

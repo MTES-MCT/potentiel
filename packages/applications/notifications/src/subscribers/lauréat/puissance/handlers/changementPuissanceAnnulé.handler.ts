@@ -10,7 +10,7 @@ export const handleChangementPuissanceAnnulé = async ({
   const projet = await getLauréat(payload.identifiantProjet);
   const recipients = await listerDrealsRecipients(projet.région);
 
-  if (payload.autoritéCompétente === 'dgec-admin') {
+  if (payload.autoritéCompétente === 'dgec') {
     const dgecs = await listerDgecRecipients(
       IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
     );
