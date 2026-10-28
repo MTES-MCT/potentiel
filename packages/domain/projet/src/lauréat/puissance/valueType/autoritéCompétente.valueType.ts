@@ -4,7 +4,7 @@ import {
   type ReadonlyValueType,
 } from '@potentiel-domain/core';
 
-export const autoritésCompétentes = ['dreal', 'dgec-admin'] as const;
+export const autoritésCompétentes = ['dreal', 'dgec'] as const;
 
 export type RawType = (typeof autoritésCompétentes)[number];
 
@@ -38,7 +38,7 @@ function estValide(value: string): asserts value is RawType {
 
 export const déterminer = (): ValueType => convertirEnValueType('dreal');
 // ancienne règle valable jusqu'à octobre 2025
-// ratio < 1 ? convertirEnValueType('dreal') : convertirEnValueType('dgec-admin');
+// ratio < 1 ? convertirEnValueType('dreal') : convertirEnValueType('dgec');
 
 class AutoritéCompétenteInvalideError extends InvalidOperationError {
   constructor(value: string) {

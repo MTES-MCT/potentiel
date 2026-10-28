@@ -1,4 +1,4 @@
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
@@ -10,5 +10,5 @@ export const getAutoritéCompétenteLabel = (
 ): string =>
   match(autorité)
     .with('dreal', () => 'DREAL, DEAL')
-    .with(P.union('dgec', 'dgec-admin'), () => 'DGEC')
+    .with('dgec', () => 'DGEC')
     .exhaustive();
