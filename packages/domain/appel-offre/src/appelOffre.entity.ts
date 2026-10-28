@@ -133,6 +133,7 @@ type ChangementReprésentantLégal =
 type RèglesMiseÀJourPorteurAvecInstruction = {
   actionnaire: ChangementActionnaire;
   délaiAchèvement: DemandeAvecAutoritéCompétente;
+  délaiPhaseEssai: DemandeAvecAutoritéCompétente;
   puissance: ChangementPuissance;
   représentantLégal: ChangementReprésentantLégal;
   recours: DemandeAvecAutoritéCompétente;

@@ -9,6 +9,7 @@ const changementsCDCModifié = {
   natureDeLExploitation: {},
   typologieInstallation: {},
   siteDeProduction: {},
+  délaiPhaseEssai: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
