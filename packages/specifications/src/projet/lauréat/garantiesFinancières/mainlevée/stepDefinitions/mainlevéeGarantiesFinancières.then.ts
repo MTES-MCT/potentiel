@@ -35,9 +35,9 @@ Alors(
     if (actualReadModel.accord?.courrierAccord) {
       await expectFileContent(
         actualReadModel.accord.courrierAccord,
-        actualReadModel.motif.estAccordéAvecLAbandon()
-          ? this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord
-          : this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord,
+        actualReadModel.demande
+          ? this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord
+          : this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
       );
     }
   },

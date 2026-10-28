@@ -210,7 +210,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       await this.lauréat.garantiesFinancières.accorderMainlevée({
         accordéLe: dateAccord,
         accordéPar: identifiantUtilisateur,
-        motif: GarantiesFinancières.MotifMainlevéeGarantiesFinancières.accordéAvecLAbandon,
+        motif: GarantiesFinancières.MotifMainlevéeGarantiesFinancières.projetAbandonné,
         réponseSignée: {
           format: réponseSignée.format,
         },
