@@ -19,7 +19,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   fournisseur: {
     informationEnregistrée: true,
   },
-  délai: {
+  délaiAchèvement: {
     demande: true,
     autoritéCompétente: 'dreal',
   },
