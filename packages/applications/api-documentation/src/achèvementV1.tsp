@@ -98,17 +98,6 @@ interface AchevementV1 {
 
 
   /**
-   * Transmettre la date d'achèvement de plusieurs projets par lot
-   * 
-   * _NB: à terme, ce endpoint sera retiré et remplacé par_ ```/laureats/{identifiantProjet}/achevement/confirmer```
-   */
-  @route("/achevements/transmettre-par-lot")
-  @post
-  transmettreDateDAchevementParLot(
-    @body body: TransmettreDateAchevementParLotBody[],
-  ): {} | Error;
-
-  /**
    * Transmettre la date d'achèvement d'un projet
    *
    * _NB: A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_

@@ -88,10 +88,12 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         title: 'Confirmer le changement de producteur',
         children: (
           <Notice
-            title="Le changement n'aura pas d'autres effets sur le projet"
+            title="Vous êtes sur le point d’enregistrer ce changement de producteur"
             description={
-              <span className="flex gap-2 flex-col">
-                <span>Les droits d’accès du producteur actuel ne seront pas révoqués.</span>
+              <span>
+                <span className="mt-2 block">
+                  Les droits d’accès du producteur actuel ne seront pas révoqués.
+                </span>
                 <span>
                   Les garanties financières actuelles ne seront pas supprimées sur Potentiel et
                   restent celles de l’ancien producteur : pensez à suivre la mise à jour des
@@ -107,8 +109,8 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         severity="info"
         title="Conséquences du changement de producteur"
         description={
-          <span className="flex flex-col gap-2">
-            <span>
+          <span>
+            <span className="mt-2 block">
               Accès :{' '}
               <span className="font-semibold">
                 les droits du producteur actuel ne sont pas révoqués
