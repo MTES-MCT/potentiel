@@ -172,7 +172,7 @@ Quand(
       this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.créer({
         accordéLe,
         accordéPar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
-        motif: 'accordé-avec-l-abandon',
+        motif: 'projet-abandonné',
         courrierAccord: réponseSignée,
       });
 

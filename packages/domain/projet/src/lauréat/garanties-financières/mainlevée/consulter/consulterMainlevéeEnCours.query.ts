@@ -96,18 +96,16 @@ const mapToReadModel = (
     ? {
         accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
         accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-        courrierAccord: MotifMainlevéeGarantiesFinancières.convertirEnValueType(
-          mainlevée.motif,
-        ).estAccordéAvecLAbandon()
-          ? DocumentMainlevée.accordée({
-              identifiantProjet: mainlevée.identifiantProjet,
-              accordéLe: mainlevée.accord.accordéeLe,
-              courrierAccord: mainlevée.accord.courrierAccord,
-            })
-          : DocumentMainlevée.demandeAccordée({
+        courrierAccord: mainlevée.demande
+          ? DocumentMainlevée.demandeAccordée({
               identifiantProjet: mainlevée.identifiantProjet,
               accordéLe: mainlevée.accord.accordéeLe,
               réponseSignée: mainlevée.accord.courrierAccord,
+            })
+          : DocumentMainlevée.accordée({
+              identifiantProjet: mainlevée.identifiantProjet,
+              accordéLe: mainlevée.accord.accordéeLe,
+              courrierAccord: mainlevée.accord.courrierAccord,
             }),
       }
     : undefined,
