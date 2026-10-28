@@ -6,7 +6,11 @@ import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { optionalStringArray, transformToOptionalEnumArray } from '@/app/_helpers';
+import {
+  getAutoritéCompétenteLabel,
+  optionalStringArray,
+  transformToOptionalEnumArray,
+} from '@/app/_helpers';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
@@ -27,15 +31,17 @@ const paramsSchema = z.object({
   nomProjet: z.string().optional(),
   appelOffre: optionalStringArray,
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Puissance.StatutChangementPuissance.statuts)),
+  autorite: z.enum(Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, statut, autorite } = paramsSchema.parse(searchParams);
 
       const changements = await mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ListerChangementPuissance',
@@ -50,6 +56,7 @@ export default async function Page(props: PageProps) {
                 (s) => Lauréat.Puissance.StatutChangementPuissance.convertirEnValueType(s).statut,
               )
             : undefined,
+          autoritéCompétente: autorite,
           appelOffre,
           nomProjet,
         },
@@ -80,6 +87,14 @@ export default async function Page(props: PageProps) {
             value: appelOffre.id,
           })),
           multiple: true,
+        },
+        {
+          label: 'Autorité compétente',
+          searchParamKey: 'autorite',
+          options: Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
+            label: getAutoritéCompétenteLabel(autorité),
+            value: autorité,
+          })),
         },
       ];
 

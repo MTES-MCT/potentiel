@@ -1,13 +1,14 @@
 import type { DateTime } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
-import type { StatutChangementPuissance } from '../index.js';
+import type { AutoritéCompétente, StatutChangementPuissance } from '../index.js';
 
 export type ChangementPuissanceEntity = Entity<
   'changement-puissance',
   {
     identifiantProjet: string;
     statut: StatutChangementPuissance.RawType;
+    autoritéCompétente?: AutoritéCompétente.RawType;
     miseÀJourLe: string;
 
     demande: {

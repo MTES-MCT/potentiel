@@ -215,8 +215,12 @@ export const getNavigationItemsBasedOnRole = async ({
     },
   ];
 
+  const afficherTDB =
+    (isFeatureEnabled('tableau-de-bord-dreal') && utilisateur?.estDreal()) ||
+    (isFeatureEnabled('tableau-de-bord-dgec') && utilisateur?.estDGEC());
+
   const menu: MainNavigationProps.Item[] = [
-    ...(isFeatureEnabled('tableau-de-bord')
+    ...(afficherTDB
       ? mapToMenuProps(
           [
             {

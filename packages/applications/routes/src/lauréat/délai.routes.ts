@@ -6,7 +6,7 @@ import { encodeParameter } from '../encodeParameter.js';
 
 type ListerFilters = {
   statut?: Array<Lauréat.Délai.StatutDemandeDélai.RawType>;
-  autoriteCompetente?: Lauréat.Délai.AutoritéCompétente.RawType;
+  autorite?: Lauréat.Délai.AutoritéCompétente.RawType;
 };
 
 export const demander = (identifiantProjet: string) =>

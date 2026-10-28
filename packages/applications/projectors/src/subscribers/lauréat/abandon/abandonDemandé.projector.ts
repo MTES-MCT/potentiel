@@ -38,6 +38,11 @@ export const abandonDemandéProjector = async (
     `demande-abandon|${identifiantProjet}#${event.payload.demandéLe}`,
     {
       identifiantProjet,
+      statut: Lauréat.Abandon.StatutAbandon.demandé.statut,
+      miseÀJourLe: event.payload.demandéLe,
+      autoritéCompétente:
+        cahierDesCharges.getRèglesChangements('abandon').autoritéCompétente ??
+        Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON,
       demande: {
         pièceJustificative: event.payload.pièceJustificative,
         demandéLe: event.payload.demandéLe,
@@ -45,17 +50,12 @@ export const abandonDemandéProjector = async (
         raison: event.payload.raison,
         estUneRecandidature,
         ppaSignalé,
-        autoritéCompétente:
-          cahierDesCharges.getRèglesChangements('abandon').autoritéCompétente ??
-          Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON,
         recandidature: estUneRecandidature
           ? {
               statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,
             }
           : undefined,
       },
-      statut: Lauréat.Abandon.StatutAbandon.demandé.statut,
-      miseÀJourLe: event.payload.demandéLe,
     },
   );
 };

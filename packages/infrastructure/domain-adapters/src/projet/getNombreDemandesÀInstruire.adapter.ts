@@ -16,6 +16,15 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
   date,
   régions,
 ) => {
+  const domaines = [
+    'demande-abandon',
+    'demande-délai',
+    'changement-représentant-légal',
+    'changement-puissance',
+    'changement-actionnaire',
+    ...(rôle === 'dreal' ? [] : ['demande-recours']),
+  ];
+
   const result = await executeSelect<{
     domaine: keyof typeof Mapper;
     total: number;
@@ -26,12 +35,9 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
     count(*) AS total,
     count(*) FILTER (WHERE p.value->>'demande.demandéLe' > $2) AS new
   FROM domain_views.projection p
-  WHERE SPLIT_PART(p.key,'|',1) IN (
-    'demande-abandon','demande-délai','changement-représentant-légal',
-    'changement-puissance','changement-actionnaire','demande-recours'
-  )
+  WHERE SPLIT_PART(p.key,'|',1) = ANY($3)
   AND p.value->>'statut' IN ('demandé', 'en-instruction', 'confirmé')
-  AND (p.value->>'demande.autoritéCompétente' = $1 OR p.value->>'demande.autoritéCompétente' IS NULL)
+  AND (p.value->>'autoritéCompétente' = $1 OR p.value->>'autoritéCompétente' IS NULL)
   ${
     régions?.length
       ? `
@@ -40,14 +46,14 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
       SELECT 1 FROM domain_views.projection laur
       WHERE laur.key LIKE 'lauréat|%'
         AND laur.value->>'identifiantProjet' = p.value->>'identifiantProjet'
-        AND laur.value->>'localité.région' = ANY($3)
+        AND laur.value->>'localité.région' = ANY($4)
     )
     OR EXISTS (
       SELECT 1 FROM domain_views.projection cand
       WHERE cand.key LIKE 'candidature|%'
         AND cand.value->>'identifiantProjet' = p.value->>'identifiantProjet'
         AND cand.value->>'statut' = 'éliminé'
-        AND cand.value->>'localité.région' = ANY($3)
+        AND cand.value->>'localité.région' = ANY($4)
     )
   )`
       : ''
@@ -55,6 +61,7 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
   GROUP BY 1`,
     rôle,
     date,
+    domaines,
     ...(régions?.length ? [régions] : []),
   );
 

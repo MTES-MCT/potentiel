@@ -8,13 +8,13 @@ export type DemandeAbandonEntity = Entity<
   {
     identifiantProjet: string;
     statut: StatutAbandon.RawType;
+    autoritéCompétente: AutoritéCompétente.RawType;
     miseÀJourLe: DateTime.RawType;
 
     demande: {
       demandéPar: string;
       demandéLe: DateTime.RawType;
       raison: string;
-      autoritéCompétente: AutoritéCompétente.RawType;
       annulation?: { annuléLe: DateTime.RawType; annuléPar: string };
       pièceJustificative?: {
         format: string;
