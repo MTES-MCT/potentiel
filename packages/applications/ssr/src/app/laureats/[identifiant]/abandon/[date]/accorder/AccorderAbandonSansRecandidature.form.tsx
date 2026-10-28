@@ -3,7 +3,6 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -11,7 +10,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Icon } from '@/components/atoms/Icon';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
@@ -24,8 +22,8 @@ type AccorderAbandonSansRecandidatureFormProps = {
   ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: boolean;
-  afficherOptionMainlevéeGarantiesFinancières: boolean;
-  garantiesFinancièresSontConstituées: boolean;
+  afficherChampMainlevéeGarantiesFinancières: boolean;
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
@@ -33,8 +31,8 @@ export const AccorderAbandonSansRecandidatureForm = ({
   estPPA,
   ppaSignaléLorsDeLaDemande,
   ppaSignaléLorsDeLaDemandeEtToujoursActif,
-  afficherOptionMainlevéeGarantiesFinancières,
-  garantiesFinancièresSontConstituées,
+  afficherChampMainlevéeGarantiesFinancières,
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const ppaDéjàSignaléParLAdministration = estPPA && !ppaSignaléLorsDeLaDemande;
   const ppaSignaléLorsDeLaDemandePuisAnnulé = ppaSignaléLorsDeLaDemande === true && !estPPA;
@@ -70,6 +68,23 @@ export const AccorderAbandonSansRecandidatureForm = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              {afficherNoticeAttestationGarantiesFinancièresÀConstituer && (
+                <Notice
+                  title={
+                    <>
+                      L'attestation de constitution des garanties financières reste à transmettre
+                      pour vous permettre d'accorder une mainlevée avec l'abandon.{' '}
+                      <TertiaryLink
+                        href={Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
+                          identifiantProjet,
+                        )}
+                      >
+                        Enregistrer l'attestation
+                      </TertiaryLink>
+                    </>
+                  }
+                />
+              )}
               {ppaDéjàSignaléParLAdministration ? (
                 <Notice title="Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par l'administration. Vous pouvez mettre à jour cette information depuis la page projet." />
               ) : (
@@ -107,7 +122,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 </>
               )}
 
-              {afficherOptionMainlevéeGarantiesFinancières && (
+              {afficherChampMainlevéeGarantiesFinancières && (
                 <div>
                   <Select
                     state={
@@ -117,28 +132,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                     }
                     stateRelatedMessage={validationErrors['accorderMainlevéeGarantiesFinancières']}
                     id="accorderMainlevéeGarantiesFinancières"
-                    label={
-                      <div>
-                        Accorder la mainlevée des garanties financières avec l'abandon{' '}
-                        {!garantiesFinancièresSontConstituées && (
-                          <Tooltip title="L'attestation de constitution des garanties financières reste à transmettre dans Potentiel pour vous permettre d'accorder une mainlevée">
-                            <Icon id="fr-icon-error-warning-line" size="sm" />
-                          </Tooltip>
-                        )}
-                      </div>
-                    }
-                    hint={
-                      !garantiesFinancièresSontConstituées && (
-                        <TertiaryLink
-                          href={Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
-                            identifiantProjet,
-                          )}
-                        >
-                          Formulaire de transmission de l'attestation de constitution des garanties
-                          financières <Icon id="fr-icon-arrow-right-line" size="sm" />
-                        </TertiaryLink>
-                      )
-                    }
+                    label="Accorder la mainlevée des garanties financières"
                     nativeSelectProps={{
                       name: 'accorderMainlevéeGarantiesFinancières',
                       required: true,
@@ -146,7 +140,6 @@ export const AccorderAbandonSansRecandidatureForm = ({
                       onChange: (e) => {
                         setAccorderMainlevée(e.target.value === 'true');
                       },
-                      disabled: !garantiesFinancièresSontConstituées,
                       className: 'mb-5',
                     }}
                     options={[
@@ -159,7 +152,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
 
               <div className="flex flex-col gap-1">
                 <UploadNewOrModifyExistingDocument
-                  label={`Réponse signée${accorderMainLevée ? " pour l'abandon et la mainlevée des garanties financières" : ''}`}
+                  label="Réponse signée"
                   state={validationErrors['reponseSignée'] ? 'error' : 'default'}
                   stateRelatedMessage={validationErrors['reponseSignée']}
                   name="reponseSignée"
