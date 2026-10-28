@@ -18,12 +18,12 @@ export const demander = (identifiantProjet: string) =>
 
 export const téléchargerModèleRéponse = ({
   identifiantProjet,
-  avecMainLevéeGF,
+  accorderMainlevéeGarantiesFinancières,
 }: {
   identifiantProjet: string;
-  avecMainLevéeGF: boolean;
+  accorderMainlevéeGarantiesFinancières?: true;
 }) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse${avecMainLevéeGF ? '?mainlevee=true' : ''}`;
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse${accorderMainlevéeGarantiesFinancières ? '?mainlevee=true' : ''}`;
 
 export const détailRedirection = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon`;
