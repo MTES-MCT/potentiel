@@ -973,12 +973,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
   }
 
-  async accorderMainlevée({
-    accordéLe,
-    accordéPar,
-    motif,
-    réponseSignée,
-  }: AccorderMainlevéeOptions) {
+  vérifierQueLaMainlevéePeutEtreAccordée() {
     this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
 
     this.vérifierQueLeProjetNEstPasExempt();
@@ -992,6 +987,15 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         StatutMainlevéeGarantiesFinancières.accordé,
       );
     }
+  }
+
+  async accorderMainlevée({
+    accordéLe,
+    accordéPar,
+    motif,
+    réponseSignée,
+  }: AccorderMainlevéeOptions) {
+    this.vérifierQueLaMainlevéePeutEtreAccordée();
 
     const event: MainlevéeGarantiesFinancièresAccordéeEvent = {
       type: 'MainlevéeGarantiesFinancièresAccordée-V1',

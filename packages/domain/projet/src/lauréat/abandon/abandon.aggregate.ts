@@ -147,14 +147,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     if (accorderMainlevéeGarantiesFinancières) {
-      await this.lauréat.garantiesFinancières.accorderMainlevée({
-        accordéLe: dateAccord,
-        accordéPar: identifiantUtilisateur,
-        motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.projetAbandonné,
-        réponseSignée: {
-          format: réponseSignée.format,
-        },
-      });
+      this.lauréat.garantiesFinancières.vérifierQueLaMainlevéePeutEtreAccordée();
     }
 
     const event: AbandonAccordéEvent = {
@@ -200,6 +193,17 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       statut: Lauréat.StatutLauréat.abandonné,
       modifiéPar: Email.système,
     });
+
+    if (accorderMainlevéeGarantiesFinancières) {
+      await this.lauréat.garantiesFinancières.accorderMainlevée({
+        accordéLe: dateAccord,
+        accordéPar: identifiantUtilisateur,
+        motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.projetAbandonné,
+        réponseSignée: {
+          format: réponseSignée.format,
+        },
+      });
+    }
 
     if (ppaSignalé) {
       await this.lauréat.powerPurchaseAgreement.signaler({
