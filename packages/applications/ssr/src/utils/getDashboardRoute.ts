@@ -2,14 +2,8 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
-
 export const getDashboardRoute = (rôle: Role.ValueType) => {
-  const afficherTDB =
-    (isFeatureEnabled('tableau-de-bord-dreal') && rôle.estDreal()) ||
-    (isFeatureEnabled('tableau-de-bord-dgec') && rôle.estDGEC());
-
-  if (afficherTDB) {
+  if (rôle.aLaPermission('tableauDeBord.consulter')) {
     return {
       texte: 'Tableau de bord',
       lien: Routes.TableauDeBord.consulter(),
