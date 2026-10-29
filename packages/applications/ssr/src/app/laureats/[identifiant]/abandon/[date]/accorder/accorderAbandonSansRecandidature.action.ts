@@ -12,7 +12,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignée: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  réponseSignée: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   choixPPAPourAutoritéCompétente: zod.stringbool().optional(),
   accorderMainlevéeGarantiesFinancières: zod.stringbool().optional(),
 });
@@ -23,7 +23,7 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   {
     identifiantProjet,
-    reponseSignée,
+    réponseSignée,
     choixPPAPourAutoritéCompétente,
     accorderMainlevéeGarantiesFinancières,
   },
@@ -36,7 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         rôleUtilisateurValue: utilisateur.rôle.nom,
         dateAccordValue: new Date().toISOString(),
-        réponseSignéeValue: reponseSignée,
+        réponseSignéeValue: réponseSignée,
         ...(accorderMainlevéeGarantiesFinancières === true && {
           accorderMainlevéeGarantiesFinancièresValue: true,
         }),
