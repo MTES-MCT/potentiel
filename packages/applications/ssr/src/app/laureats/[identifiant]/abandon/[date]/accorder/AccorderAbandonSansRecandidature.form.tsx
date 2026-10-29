@@ -81,6 +81,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                         )}
                       >
                         Enregistrer l'attestation
+                        <span className="sr-only"> des garanties financières</span>
                       </TertiaryLink>
                     </>
                   }
