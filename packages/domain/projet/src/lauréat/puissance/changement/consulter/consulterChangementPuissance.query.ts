@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import {
+  AutoritéCompétente,
   type ChangementPuissanceEntity,
   DocumentPuissance,
   StatutChangementPuissance,
@@ -13,7 +14,7 @@ import {
 
 export type ConsulterChangementPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-
+  autoritéCompétente?: AutoritéCompétente.ValueType;
   demande: {
     demandéePar: Email.ValueType;
     demandéeLe: DateTime.ValueType;
@@ -74,6 +75,9 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
   const statut = StatutChangementPuissance.convertirEnValueType(result.statut);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    autoritéCompétente: result.autoritéCompétente
+      ? AutoritéCompétente.convertirEnValueType(result.autoritéCompétente)
+      : undefined,
 
     demande: {
       demandéeLe: DateTime.convertirEnValueType(result.demande.demandéLe),

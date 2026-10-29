@@ -26,6 +26,7 @@ export type DétailsPuissancePageProps = {
   actions: Array<ChangementPuissanceActions>;
   dateDemandeEnCours?: string;
   historique: Array<TimelineItemProps>;
+  autoritéCompétente?: PlainType<Lauréat.Puissance.AutoritéCompétente.ValueType>;
 };
 
 export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
@@ -36,6 +37,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
   actions,
   dateDemandeEnCours,
   historique,
+  autoritéCompétente,
 }) => {
   const statut = Lauréat.Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
@@ -65,6 +67,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
               unitéPuissance={unitéPuissance}
               puissanceInitiale={puissanceInitiale}
               statut={statut}
+              autoritéCompétente={autoritéCompétente}
             />
             <div className="mb-4">
               <Heading2>Historique</Heading2>
