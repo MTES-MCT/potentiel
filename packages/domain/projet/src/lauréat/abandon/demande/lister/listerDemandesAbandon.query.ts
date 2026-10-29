@@ -14,7 +14,7 @@ import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../i
 import type { LauréatEntity } from '../../../lauréat.entity.js';
 import type { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import {
-  type AutoritéCompétente,
+  AutoritéCompétente,
   type DemandeAbandonEntity,
   StatutAbandon,
   StatutPreuveRecandidature,
@@ -29,6 +29,7 @@ type DemandeAbandonListItemReadModel = {
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
   demandéLe: DateTime.ValueType;
   miseÀJourLe: DateTime.ValueType;
+  autoritéCompétente: AutoritéCompétente.ValueType;
 };
 
 export type ListerDemandesAbandonReadModel = {
@@ -125,7 +126,7 @@ export const registerListerDemandesAbandonQuery = ({
     );
     return {
       ...demandesAbandons,
-      items: demandesAbandons.items.map((abandon) => mapToReadModel(abandon)),
+      items: demandesAbandons.items.map(mapToReadModel),
     };
   };
 
@@ -138,18 +139,18 @@ const mapToReadModel = ({
   demande,
   identifiantProjet,
   miseÀJourLe,
+  autoritéCompétente,
   'power-purchase-agreement': powerPurchaseAgreement,
-}: DemandeAbandonEntity & Joined<JoinedEntities>): DemandeAbandonListItemReadModel => {
-  return {
-    nomProjet: lauréat.nomProjet,
-    statut: StatutAbandon.convertirEnValueType(statut),
-    recandidature: !!demande.recandidature,
-    miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    preuveRecandidatureStatut: demande.recandidature
-      ? StatutPreuveRecandidature.convertirEnValueType(demande.recandidature.statut)
-      : StatutPreuveRecandidature.nonApplicable,
-    demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
-    estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
-  };
-};
+}: DemandeAbandonEntity & Joined<JoinedEntities>): DemandeAbandonListItemReadModel => ({
+  nomProjet: lauréat.nomProjet,
+  statut: StatutAbandon.convertirEnValueType(statut),
+  recandidature: !!demande.recandidature,
+  miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  preuveRecandidatureStatut: demande.recandidature
+    ? StatutPreuveRecandidature.convertirEnValueType(demande.recandidature.statut)
+    : StatutPreuveRecandidature.nonApplicable,
+  demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
+  estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
+  autoritéCompétente: AutoritéCompétente.convertirEnValueType(autoritéCompétente),
+});
