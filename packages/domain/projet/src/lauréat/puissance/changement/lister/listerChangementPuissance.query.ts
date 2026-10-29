@@ -107,21 +107,15 @@ const mapToReadModel = ({
   lauréat,
   ...entity
 }: ChangementPuissanceEntity &
-  Joined<[LauréatEntity, CandidatureEntity]>): ChangementPuissanceItemReadModel => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(entity.identifiantProjet);
-
-  console.log(entity);
-
-  return {
-    nomProjet: lauréat.nomProjet,
-    statut: StatutChangementPuissance.convertirEnValueType(entity.statut),
-    miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
-    identifiantProjet,
-    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
-    nouvellePuissance: entity.demande.nouvellePuissance,
-    unitéPuissance: candidature.unitéPuissance,
-    autoritéCompétente: entity.autoritéCompétente
-      ? AutoritéCompétente.convertirEnValueType(entity.autoritéCompétente)
-      : undefined,
-  };
-};
+  Joined<[LauréatEntity, CandidatureEntity]>): ChangementPuissanceItemReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+  nomProjet: lauréat.nomProjet,
+  statut: StatutChangementPuissance.convertirEnValueType(entity.statut),
+  miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
+  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
+  nouvellePuissance: entity.demande.nouvellePuissance,
+  unitéPuissance: candidature.unitéPuissance,
+  autoritéCompétente: entity.autoritéCompétente
+    ? AutoritéCompétente.convertirEnValueType(entity.autoritéCompétente)
+    : undefined,
+});

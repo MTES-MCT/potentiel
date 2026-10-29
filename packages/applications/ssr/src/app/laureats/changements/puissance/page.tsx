@@ -117,6 +117,9 @@ const mapToListProps = (
       demandéLe: mapToPlainObject(item.demandéLe),
       nouvellePuissance: item.nouvellePuissance,
       unitéPuissance: item.unitéPuissance,
+      autoritéCompétente: item.autoritéCompétente
+        ? mapToPlainObject(item.autoritéCompétente)
+        : undefined,
     })),
     pagination,
     total: changements.total,

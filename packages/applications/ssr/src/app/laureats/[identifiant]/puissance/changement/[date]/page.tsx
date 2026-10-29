@@ -79,6 +79,7 @@ export default async function Page(props: PageProps) {
               ? puissance.dateDernièreDemande.formatter()
               : undefined
           }
+          autoritéCompétente={changement.autoritéCompétente}
         />
       );
     }),
