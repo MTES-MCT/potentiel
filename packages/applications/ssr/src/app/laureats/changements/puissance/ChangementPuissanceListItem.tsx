@@ -22,6 +22,7 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
   demandéLe,
   nouvellePuissance,
   unitéPuissance,
+  autoritéCompétente,
 }) => (
   <ListItem
     miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
@@ -66,6 +67,16 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
             <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
           </span>
         </li>
+        {autoritéCompétente && (
+          <li>
+            <span>
+              Autorité compétente pour l'instruction :{' '}
+              <span className="font-semibold">
+                {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+              </span>
+            </span>
+          </li>
+        )}
       </ul>
       <StatutDemandeBadge statut={statut} small />
     </div>
