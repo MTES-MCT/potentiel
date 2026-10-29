@@ -14,7 +14,7 @@ export const modifierDateMiseEnServiceHandler: Raccordement['modifierMiseEnServi
 ) => {
   const utilisateur = getUtilisateur();
 
-  const { dateMiseEnService } = validate('MiseEnServiceBody', body);
+  const { dateMiseEnService } = validate('Raccordement.MiseEnServiceBody', body);
 
   await mediator.send<Lauréat.Raccordement.ModifierDateMiseEnServiceUseCase>({
     type: 'Lauréat.Raccordement.UseCase.ModifierDateMiseEnService',
