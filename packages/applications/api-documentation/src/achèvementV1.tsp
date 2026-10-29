@@ -172,10 +172,16 @@ namespace Achevement {
      **/
     siteDeProduction: Addresse;
 
-    /** 
-     * Nom et prénom du représentant légal 🍀 Domaine lauréat
-     **/
-    representLegal: string;
+    representLegal?: {
+      /** 
+       * Nom et prénom du représentant légal 🍀 Domaine lauréat
+       **/
+      nom: string;
+      /** 
+       * Type de représentant légal 🍀 Domaine lauréat
+       **/
+      type: "personne-physique" | "personne-morale" | "collectivité" | "autre" | "inconnu"
+    };
 
     /** 
      * Contact(s) : email - 🍀 Domaine Accès
