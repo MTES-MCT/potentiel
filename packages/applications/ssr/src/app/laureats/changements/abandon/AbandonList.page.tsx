@@ -19,21 +19,19 @@ export type AbandonListPageProps = {
 export const AbandonListPage: FC<AbandonListPageProps> = ({
   list: { items: abandons, currentPage, totalItems, itemsPerPage },
   filters,
-}) => {
-  return (
-    <ListPageTemplate
-      heading="Abandon"
-      actions={[]}
-      items={abandons.map((abandon) => ({
-        ...abandon,
-        key: `${abandon.identifiantProjet}-${abandon.dateDemande}`,
-      }))}
-      currentPage={currentPage}
-      totalItems={totalItems}
-      itemsPerPage={itemsPerPage}
-      ItemComponent={AbandonListItem}
-      filters={filters}
-      search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
-    />
-  );
-};
+}) => (
+  <ListPageTemplate
+    heading="Abandon"
+    actions={[]}
+    items={abandons.map((abandon) => ({
+      ...abandon,
+      key: `${abandon.identifiantProjet}-${abandon.dateDemande}`,
+    }))}
+    currentPage={currentPage}
+    totalItems={totalItems}
+    itemsPerPage={itemsPerPage}
+    ItemComponent={AbandonListItem}
+    filters={filters}
+    search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+  />
+);

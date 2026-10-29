@@ -21,6 +21,7 @@ export type AbandonListItemProps = {
   dateDemande: string;
   miseÀJourLe: Iso8601DateTime;
   estPartiEnPPA?: boolean;
+  autoritéCompétente: Lauréat.Abandon.AutoritéCompétente.RawType;
 };
 
 export const AbandonListItem: FC<AbandonListItemProps> = ({
@@ -32,6 +33,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   preuveRecandidatureStatut,
   dateDemande,
   estPartiEnPPA,
+  autoritéCompétente,
 }) => (
   <ListItem
     miseÀJourLe={miseÀJourLe}
@@ -54,16 +56,26 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </Button>
     }
   >
-    <div className="flex gap-1">
-      <StatutDemandeBadge statut={statut} small />
-      {recandidature && (
-        <>
-          <Badge noIcon small severity="info">
-            avec recandidature
-          </Badge>
-          <StatutPreuveRecandidatureBadge small statut={preuveRecandidatureStatut} />
-        </>
-      )}
+    <div>
+      <div className="text-sm mb-2">
+        <span>
+          Autorité compétente pour l'instruction :{' '}
+          <span className="font-semibold">{autoritéCompétente.toLocaleUpperCase()}</span>
+        </span>
+      </div>
+    </div>
+    <div>
+      <div className="flex gap-1">
+        <StatutDemandeBadge statut={statut} small />
+        {recandidature && (
+          <>
+            <Badge noIcon small severity="info">
+              avec recandidature
+            </Badge>
+            <StatutPreuveRecandidatureBadge small statut={preuveRecandidatureStatut} />
+          </>
+        )}
+      </div>
     </div>
   </ListItem>
 );
