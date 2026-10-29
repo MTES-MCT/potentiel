@@ -5,12 +5,12 @@ import { Routes } from '@potentiel-applications/routes';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export const InscriptionConnexion = () => (
-  <section className="lg:p-8 bg-[linear-gradient(180deg,_var(--text-label-blue-france)_50%,_var(--background-default-grey)_50%)]">
+  <section className="lg:p-4 bg-[linear-gradient(180deg,_var(--text-label-blue-france)_50%,_var(--background-default-grey)_50%)]">
     <h2 className="sr-only">Accéder à Potentiel</h2>
-    <div className="flex xl:mx-auto xl:max-w-5xl  lg:px-4 p-0 lg:p-8">
+    <div className="flex xl:mx-auto xl:max-w-5xl lg:px-4 p-0">
       <div className="flex mx-auto flex-col lg:flex-row">
         <div className="bg-theme-white px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col gap-[1.72rem]">
-          <h3 id="inscription" className="text-theme-blueFrance font-semibold text-4xl m-0 pb-5">
+          <h3 id="inscription" className="text-theme-blueFrance font-semibold text-3xl m-0 pb-5">
             Inscription
           </h3>
           <div>
@@ -78,7 +78,7 @@ export const InscriptionConnexion = () => (
           </div>
         </div>
         <div className="bg-dsfr-background-alt-blueFrance-default px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col gap-[1.72rem]">
-          <h3 id="connexion" className="text-theme-blueFrance font-semibold text-4xl m-0 pb-5">
+          <h3 id="connexion" className="text-theme-blueFrance font-semibold text-3xl m-0 pb-5">
             Connexion
           </h3>
           <div>
