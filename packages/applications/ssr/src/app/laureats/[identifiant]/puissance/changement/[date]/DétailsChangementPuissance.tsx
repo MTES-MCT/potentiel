@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
@@ -11,6 +11,7 @@ export type DétailsChangementPuissanceProps = {
   unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
   puissanceInitiale: DétailsPuissancePageProps['puissanceInitiale'];
   statut: Lauréat.Puissance.StatutChangementPuissance.ValueType;
+  autoritéCompétente: DétailsPuissancePageProps['autoritéCompétente'];
 };
 
 export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
@@ -18,8 +19,9 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
   unitéPuissance,
   puissanceInitiale,
   statut,
-}) => {
-  return statut.estInformationEnregistrée() ? (
+  autoritéCompétente,
+}) =>
+  statut.estInformationEnregistrée() ? (
     <DétailsChangement
       valeurs={
         <DétailsValeursPuissance
@@ -46,18 +48,19 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           puissanceInitiale={puissanceInitiale}
           nouvellePuissance={demande.nouvellePuissance}
           nouvellePuissanceDeSite={demande.nouvellePuissanceDeSite}
+          autoritéCompétente={autoritéCompétente}
         />
       }
       statut={demande.statut.statut}
     />
   );
-};
 
 type DétailsValeursPuissanceProps = {
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
   puissanceInitiale: DétailsChangementPuissanceProps['puissanceInitiale'];
   nouvellePuissance: DétailsPuissancePageProps['demande']['nouvellePuissance'];
   nouvellePuissanceDeSite: DétailsPuissancePageProps['demande']['nouvellePuissanceDeSite'];
+  autoritéCompétente?: DétailsPuissancePageProps['autoritéCompétente'];
 };
 
 const DétailsValeursPuissance = ({
@@ -65,6 +68,7 @@ const DétailsValeursPuissance = ({
   puissanceInitiale,
   nouvellePuissance,
   nouvellePuissanceDeSite,
+  autoritéCompétente,
 }: DétailsValeursPuissanceProps) => (
   <div className="flex flex-col gap-2">
     {puissanceInitiale === nouvellePuissance ? (
@@ -84,5 +88,13 @@ const DétailsValeursPuissance = ({
         {unitéPuissance}
       </div>
     ) : null}
+    {autoritéCompétente && (
+      <div>
+        <span className="font-medium">Autorité compétente pour l'instruction :</span>{' '}
+        {Lauréat.Puissance.AutoritéCompétente.bind(
+          autoritéCompétente,
+        ).autoritéCompétente.toLocaleUpperCase()}
+      </div>
+    )}
   </div>
 );

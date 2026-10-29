@@ -22,6 +22,7 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
   miseÀJourLe,
   demandéLe,
   nombreDeMois,
+  autoritéCompétente,
 }) => (
   <ListItem
     miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
@@ -58,6 +59,16 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
           <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
         </span>
       </li>
+      {autoritéCompétente && (
+        <li>
+          <span>
+            Autorité compétente pour l'instruction :{' '}
+            <span className="font-semibold">
+              {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+            </span>
+          </span>
+        </li>
+      )}
     </ul>
     <StatutDemandeBadge statut={statut} small />
   </ListItem>

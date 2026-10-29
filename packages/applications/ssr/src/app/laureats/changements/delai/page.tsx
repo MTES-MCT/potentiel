@@ -103,21 +103,26 @@ export default async function Page(props: PageProps) {
 
 const mapToListProps = (
   changements: Lauréat.Délai.ListerDemandeDélaiReadModel,
-): DemandeDélaiListPageProps['list'] => {
-  const pagination = mapToPagination(changements.range);
-
-  return {
-    items: changements.items.map(
-      ({ identifiantProjet, nomProjet, statut, miseÀJourLe, demandéLe, nombreDeMois }) => ({
-        identifiantProjet: mapToPlainObject(identifiantProjet),
-        nomProjet,
-        statut: mapToPlainObject(statut),
-        miseÀJourLe: mapToPlainObject(miseÀJourLe),
-        demandéLe: mapToPlainObject(demandéLe),
-        nombreDeMois,
-      }),
-    ),
-    pagination,
-    total: changements.total,
-  };
-};
+): DemandeDélaiListPageProps['list'] => ({
+  items: changements.items.map(
+    ({
+      identifiantProjet,
+      nomProjet,
+      statut,
+      miseÀJourLe,
+      demandéLe,
+      nombreDeMois,
+      autoritéCompétente,
+    }) => ({
+      identifiantProjet: mapToPlainObject(identifiantProjet),
+      nomProjet,
+      statut: mapToPlainObject(statut),
+      miseÀJourLe: mapToPlainObject(miseÀJourLe),
+      demandéLe: mapToPlainObject(demandéLe),
+      nombreDeMois,
+      autoritéCompétente: mapToPlainObject(autoritéCompétente),
+    }),
+  ),
+  pagination: mapToPagination(changements.range),
+  total: changements.total,
+});

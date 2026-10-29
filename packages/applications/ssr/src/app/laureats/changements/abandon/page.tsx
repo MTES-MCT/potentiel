@@ -151,32 +151,30 @@ export default async function Page(props: PageProps) {
 
 const mapToListProps = (
   readModel: Lauréat.Abandon.ListerDemandesAbandonReadModel,
-): AbandonListPageProps['list'] => {
-  const items = readModel.items.map(
+): AbandonListPageProps['list'] => ({
+  items: readModel.items.map(
     ({
       identifiantProjet,
       nomProjet,
-      statut: { statut },
+      statut,
       miseÀJourLe,
       recandidature,
-      preuveRecandidatureStatut: { statut: preuveRecandidatureStatut },
+      preuveRecandidatureStatut,
       demandéLe,
       estPartiEnPPA,
+      autoritéCompétente,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
-      statut,
+      statut: statut.formatter(),
       miseÀJourLe: miseÀJourLe.formatter(),
       recandidature,
-      preuveRecandidatureStatut,
+      preuveRecandidatureStatut: preuveRecandidatureStatut.statut,
       dateDemande: demandéLe.formatter(),
       estPartiEnPPA,
+      autoritéCompétente: autoritéCompétente.formatter(),
     }),
-  );
-
-  return {
-    items,
-    ...mapToPagination(readModel.range),
-    totalItems: readModel.total,
-  };
-};
+  ),
+  ...mapToPagination(readModel.range),
+  totalItems: readModel.total,
+});
