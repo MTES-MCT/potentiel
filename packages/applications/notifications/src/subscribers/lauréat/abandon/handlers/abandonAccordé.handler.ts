@@ -28,7 +28,7 @@ export const handleAbandonAccordé = async ({ payload }: Lauréat.Abandon.Abando
     url: buildUrl(Routes.Abandon.détailRedirection(payload.identifiantProjet)),
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
-    mainlevée_garanties_financière: payload.mainlevéeGarantiesFinancièresAccordée ? 'true' : '',
+    mainlevée_garanties_financières: payload.mainlevéeGarantiesFinancièresAccordée ? 'true' : '',
   };
 
   await sendEmail({

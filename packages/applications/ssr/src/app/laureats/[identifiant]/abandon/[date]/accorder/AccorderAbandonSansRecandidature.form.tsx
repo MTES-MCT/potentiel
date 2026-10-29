@@ -70,7 +70,8 @@ export const AccorderAbandonSansRecandidatureForm = ({
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               {afficherNoticeAttestationGarantiesFinancièresÀConstituer && (
                 <Notice
-                  title={
+                  title=""
+                  description={
                     <>
                       L'attestation de constitution des garanties financières reste à transmettre
                       pour vous permettre d'accorder une mainlevée avec l'abandon.{' '}
@@ -132,7 +133,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
                     }
                     stateRelatedMessage={validationErrors['accorderMainlevéeGarantiesFinancières']}
                     id="accorderMainlevéeGarantiesFinancières"
-                    label="Accorder la mainlevée des garanties financières"
+                    label="Accorder la mainlevée des garanties financières ?"
                     nativeSelectProps={{
                       name: 'accorderMainlevéeGarantiesFinancières',
                       required: true,
@@ -153,9 +154,9 @@ export const AccorderAbandonSansRecandidatureForm = ({
               <div className="flex flex-col gap-1">
                 <UploadNewOrModifyExistingDocument
                   label="Réponse signée"
-                  state={validationErrors['reponseSignée'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['reponseSignée']}
-                  name="reponseSignée"
+                  state={validationErrors['réponseSignée'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['réponseSignée']}
+                  name="réponseSignée"
                   required
                   className="mb-4"
                   formats={['pdf']}

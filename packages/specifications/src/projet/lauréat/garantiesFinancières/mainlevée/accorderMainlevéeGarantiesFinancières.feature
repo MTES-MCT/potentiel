@@ -20,7 +20,7 @@ Fonctionnalité: Accorder une mainlevée des garanties financières directement 
             | sujet                          | Potentiel - Du boulodrome de Marseille - Demande d'abandon accordée |
             | nom_projet                     | Du boulodrome de Marseille                                          |
             | url                            | https://potentiel.beta.gouv.fr/laureats/.*/abandon                  |
-            | mainlevée_garanties_financière | true                                                                |
+            | mainlevée_garanties_financières | true                                                                |
     
     Scénario: Impossible d'accorder une mainlevée avec l'abandon si les garanties financières ne sont pas constituées
         Etant donné une demande d'abandon en cours pour le projet lauréat

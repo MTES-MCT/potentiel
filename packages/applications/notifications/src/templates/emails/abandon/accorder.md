@@ -6,7 +6,7 @@ Madame, Monsieur,
 
 La demande d'abandon pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}** a été **accordée**. 
 
-{{#if mainlevée_garanties_financière}}
+{{#if mainlevée_garanties_financières}}
 La **mainlevée des garanties financières** a également été accordée. 
 {{/if}}
 
