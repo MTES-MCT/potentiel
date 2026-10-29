@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  motif: zod.enum(Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs),
+  motif: zod.enum(Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.motifs),
 });
 
 export type DemanderMainlevéeFormKeys = keyof zod.infer<typeof schema>;

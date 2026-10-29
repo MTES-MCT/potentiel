@@ -50,6 +50,8 @@ export type DétailsAbandonPageProps = {
   actions: AvailableActions;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: true;
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer: boolean;
+  afficherChampMainlevéeGarantiesFinancières: boolean;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -61,6 +63,8 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   historique,
   estPPA,
   ppaSignaléLorsDeLaDemande,
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer,
+  afficherChampMainlevéeGarantiesFinancières,
 }) => (
   <ColumnPageTemplate
     heading={<TitrePageDemande statut={abandon.statut.statut} titre="Demande d'abandon" />}
@@ -113,6 +117,9 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             dateDemande: abandon.demande.demandéLe.date,
             estPPA,
             ppaSignaléLorsDeLaDemande,
+            afficherChampMainlevéeGarantiesFinancières: afficherChampMainlevéeGarantiesFinancières,
+            afficherNoticeAttestationGarantiesFinancièresÀConstituer:
+              afficherNoticeAttestationGarantiesFinancièresÀConstituer,
           })}
           {mapToInformationsComponents({
             informations,
@@ -131,6 +138,8 @@ type MapToActionsComponentsProps = {
   dateDemande: string;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: true;
+  afficherChampMainlevéeGarantiesFinancières: boolean;
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer: boolean;
 };
 
 const mapToActionComponents = ({
@@ -140,6 +149,8 @@ const mapToActionComponents = ({
   dateDemande,
   estPPA,
   ppaSignaléLorsDeLaDemande,
+  afficherChampMainlevéeGarantiesFinancières,
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer,
 }: MapToActionsComponentsProps) => {
   const ppaSignaléLorsDeLaDemandeEtToujoursActif = !!ppaSignaléLorsDeLaDemande && estPPA;
 
@@ -166,6 +177,10 @@ const mapToActionComponents = ({
           estPPA={estPPA}
           ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
           ppaSignaléLorsDeLaDemandeEtToujoursActif={ppaSignaléLorsDeLaDemandeEtToujoursActif}
+          afficherChampMainlevéeGarantiesFinancières={afficherChampMainlevéeGarantiesFinancières}
+          afficherNoticeAttestationGarantiesFinancièresÀConstituer={
+            afficherNoticeAttestationGarantiesFinancièresÀConstituer
+          }
         />
       )}
       {actions.includes('rejeter') && (

@@ -5,7 +5,7 @@ import { demanderMainlevéeAction } from './demanderMainlevée.action';
 
 export type DemanderMainlevéeFormProps = {
   identifiantProjet: string;
-  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
+  motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.RawType;
   prérequisComplétés: boolean;
 };
 

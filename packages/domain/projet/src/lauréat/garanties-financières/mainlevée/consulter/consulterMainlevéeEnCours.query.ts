@@ -9,15 +9,15 @@ import type { LauréatEntity } from '../../../index.js';
 import {
   DocumentMainlevée,
   type MainlevéeGarantiesFinancièresEntity,
-  MotifDemandeMainlevéeGarantiesFinancières,
+  MotifMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../../index.js';
 
 export type ConsulterMainlevéeEnCoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
-  motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
-  demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
+  motif: MotifMainlevéeGarantiesFinancières.ValueType;
+  demande?: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
   instruction?: {
     démarréeLe: DateTime.ValueType;
     démarréePar: Email.ValueType;
@@ -79,11 +79,13 @@ const mapToReadModel = (
 ): ConsulterMainlevéeEnCoursReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
-  motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
-  demande: {
-    demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
-    demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
-  },
+  motif: MotifMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
+  demande: mainlevée.demande
+    ? {
+        demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
+        demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
+      }
+    : undefined,
   instruction: mainlevée.instruction
     ? {
         démarréeLe: DateTime.convertirEnValueType(mainlevée.instruction.démarréeLe),
@@ -94,11 +96,17 @@ const mapToReadModel = (
     ? {
         accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
         accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-        courrierAccord: DocumentMainlevée.demandeAccordée({
-          identifiantProjet: mainlevée.identifiantProjet,
-          accordéLe: mainlevée.accord.accordéeLe,
-          réponseSignée: mainlevée.accord.courrierAccord,
-        }),
+        courrierAccord: mainlevée.demande
+          ? DocumentMainlevée.demandeAccordée({
+              identifiantProjet: mainlevée.identifiantProjet,
+              accordéLe: mainlevée.accord.accordéeLe,
+              réponseSignée: mainlevée.accord.courrierAccord,
+            })
+          : DocumentMainlevée.accordée({
+              identifiantProjet: mainlevée.identifiantProjet,
+              accordéLe: mainlevée.accord.accordéeLe,
+              courrierAccord: mainlevée.accord.courrierAccord,
+            }),
       }
     : undefined,
   dernièreMiseÀJour: {

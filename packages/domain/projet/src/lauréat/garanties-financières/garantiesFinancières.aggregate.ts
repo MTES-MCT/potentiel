@@ -67,6 +67,7 @@ import {
   TypeTâchePlanifiéeGarantiesFinancières,
 } from './index.js';
 import type { AccorderMainlevéeOptions } from './mainlevée/accorder/accorderMainlevéeGarantiesFinancières.options.js';
+import type { AccorderDemandeMainlevéeOptions } from './mainlevée/accorderDemande/accorderDemandeMainlevéeGarantiesFinancières.options.js';
 import type { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeGarantiesFinancières.options.js';
 import type { DemanderMainlevéeOptions } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.options.js';
 import type { DémarrerInstructionMainlevéeOptions } from './mainlevée/démarrerInstruction/démarrerInstructionMainlevée.options.js';
@@ -84,6 +85,7 @@ import type {
   DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
   DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
   InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
+  MainlevéeGarantiesFinancièresAccordéeEvent,
   MainlevéeGarantiesFinancièresDemandéeEvent,
 } from './mainlevée/mainlevéeGarantiesFinancières.event.js';
 import type { RejeterMainlevéeOptions } from './mainlevée/rejeter/rejeterMainlevéeGarantiesFinancières.options.js';
@@ -288,7 +290,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  async annulerTâchesPlanififées() {
+  async annulerTâchesPlanifiées() {
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
     await this.#tâchePlanifiéeRappel1mois.annuler();
@@ -305,7 +307,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async annulerTâchesEtTâchesPlanifiées() {
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
     await this.annulerTâchePorteurDemanderGarantiesFinancières();
     await this.annulerTâchePorteurTransmettreAttestationConstitution();
   }
@@ -596,7 +598,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       await this.publish(event);
     }
 
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
   }
 
   private applyHistoriqueGarantiesFinancièresEffacéV1(
@@ -645,7 +647,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
     await this.annulerTâchePorteurDemanderGarantiesFinancières();
   }
 
@@ -936,11 +938,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.enInstruction;
   }
 
-  async accorderMainlevée({
+  async accorderDemandeMainlevée({
     accordéLe,
     accordéPar,
     réponseSignée: { format },
-  }: AccorderMainlevéeOptions) {
+  }: AccorderDemandeMainlevéeOptions) {
     if (!this.#statutMainlevée) {
       throw new MainlevéeNonTrouvéeError();
     }
@@ -962,11 +964,57 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.annulerTâchesPlanififées();
+    await this.annulerTâchesPlanifiées();
   }
 
   private applyDemandeMainlevéeGarantiesFinancièresAccordéeV1(
     _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  ) {
+    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
+  }
+
+  vérifierQueLaMainlevéePeutEtreAccordée() {
+    this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
+
+    this.vérifierQueLeProjetNEstPasExempt();
+
+    if (this.estÉchu) {
+      throw new GarantiesFinancièresDéjàÉchuesError();
+    }
+
+    if (this.#statutMainlevée) {
+      this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(
+        StatutMainlevéeGarantiesFinancières.accordé,
+      );
+    }
+  }
+
+  async accorderMainlevée({
+    accordéLe,
+    accordéPar,
+    motif,
+    réponseSignée,
+  }: AccorderMainlevéeOptions) {
+    this.vérifierQueLaMainlevéePeutEtreAccordée();
+
+    const event: MainlevéeGarantiesFinancièresAccordéeEvent = {
+      type: 'MainlevéeGarantiesFinancièresAccordée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        accordéLe: accordéLe.formatter(),
+        accordéPar: accordéPar.formatter(),
+        motif: motif.formatter(),
+        courrierAccord: réponseSignée,
+      },
+    };
+
+    await this.publish(event);
+
+    await this.annulerTâchesPlanifiées();
+  }
+
+  private applyMainlevéeGarantiesFinancièresAccordéeV1(
+    _: MainlevéeGarantiesFinancièresAccordéeEvent,
   ) {
     this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
   }
@@ -1014,7 +1062,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         },
         this.applyDépôtGarantiesFinancièresEnCoursSupprimé.bind(this),
       )
-
       .with(
         { type: 'DépôtGarantiesFinancièresSoumis-V1' },
         this.applyDépôtGarantiesFinancièresSoumisV1.bind(this),
@@ -1054,6 +1101,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       .with(
         { type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1' },
         this.applyDemandeMainlevéeGarantiesFinancièresAccordéeV1.bind(this),
+      )
+      .with(
+        { type: 'MainlevéeGarantiesFinancièresAccordée-V1' },
+        this.applyMainlevéeGarantiesFinancièresAccordéeV1.bind(this),
       )
       .with(
         { type: 'MainlevéeGarantiesFinancièresDemandée-V1' },

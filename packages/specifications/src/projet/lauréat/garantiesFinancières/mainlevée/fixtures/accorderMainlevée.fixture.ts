@@ -9,6 +9,7 @@ import { AbstractFixture } from '../../../../../fixture.js';
 interface AccorderMainlevée {
   readonly accordéLe: string;
   readonly accordéPar: string;
+  readonly motif: string;
   readonly courrierAccord: PièceJustificative;
 }
 
@@ -26,6 +27,11 @@ export class AccorderMainlevéeFixture
     return this.#accordéPar;
   }
 
+  #motif!: string;
+  get motif(): string {
+    return this.#motif;
+  }
+
   #courrierAccord!: AccorderMainlevée['courrierAccord'];
 
   get courrierAccord(): AccorderMainlevée['courrierAccord'] {
@@ -36,12 +42,14 @@ export class AccorderMainlevéeFixture
     const fixture: AccorderMainlevée = {
       accordéLe: faker.date.soon().toISOString(),
       accordéPar: faker.internet.email(),
+      motif: 'projet-abandonné',
       courrierAccord: faker.potentiel.document(),
       ...partialData,
     };
 
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéPar;
+    this.#motif = fixture.motif;
     this.#courrierAccord = fixture.courrierAccord;
 
     this.aÉtéCréé = true;
@@ -59,14 +67,15 @@ export class AccorderMainlevéeFixture
       accord: {
         accordéeLe,
         accordéePar,
-        courrierAccord: Lauréat.GarantiesFinancières.DocumentMainlevée.demandeAccordée({
+        courrierAccord: Lauréat.GarantiesFinancières.DocumentMainlevée.accordée({
           identifiantProjet: identifiantProjet.formatter(),
           accordéLe: accordéeLe.formatter(),
-          réponseSignée: {
-            format: this.#courrierAccord.format,
-          },
+          courrierAccord: { format: this.#courrierAccord.format },
         }),
       },
+      motif: Lauréat.GarantiesFinancières.MotifMainlevéeGarantiesFinancières.convertirEnValueType(
+        this.motif,
+      ),
       dernièreMiseÀJour: {
         date: accordéeLe,
         par: accordéePar,

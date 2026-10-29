@@ -9,6 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
 import {
@@ -21,6 +22,8 @@ type AccorderAbandonSansRecandidatureFormProps = {
   ppaSignaléLorsDeLaDemandeEtToujoursActif: boolean;
   estPPA: boolean;
   ppaSignaléLorsDeLaDemande?: boolean;
+  afficherChampMainlevéeGarantiesFinancières: boolean;
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer: boolean;
 };
 
 export const AccorderAbandonSansRecandidatureForm = ({
@@ -28,6 +31,8 @@ export const AccorderAbandonSansRecandidatureForm = ({
   estPPA,
   ppaSignaléLorsDeLaDemande,
   ppaSignaléLorsDeLaDemandeEtToujoursActif,
+  afficherChampMainlevéeGarantiesFinancières,
+  afficherNoticeAttestationGarantiesFinancièresÀConstituer,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const ppaDéjàSignaléParLAdministration = estPPA && !ppaSignaléLorsDeLaDemande;
   const ppaSignaléLorsDeLaDemandePuisAnnulé = ppaSignaléLorsDeLaDemande === true && !estPPA;
@@ -39,6 +44,7 @@ export const AccorderAbandonSansRecandidatureForm = ({
   const [choixPPAPourAutoritéCompétente, setChoixPPAPourAutoritéCompétente] = useState(
     estPPA === true,
   );
+  const [accorderMainLevée, setAccorderMainlevée] = useState<boolean>(false);
 
   return (
     <>
@@ -62,6 +68,25 @@ export const AccorderAbandonSansRecandidatureForm = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              {afficherNoticeAttestationGarantiesFinancièresÀConstituer && (
+                <Notice
+                  title=""
+                  description={
+                    <>
+                      L'attestation de constitution des garanties financières reste à transmettre
+                      pour vous permettre d'accorder une mainlevée avec l'abandon.{' '}
+                      <TertiaryLink
+                        href={Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
+                          identifiantProjet,
+                        )}
+                      >
+                        Enregistrer l'attestation
+                        <span className="sr-only"> des garanties financières</span>
+                      </TertiaryLink>
+                    </>
+                  }
+                />
+              )}
               {ppaDéjàSignaléParLAdministration ? (
                 <Notice title="Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA) par l'administration. Vous pouvez mettre à jour cette information depuis la page projet." />
               ) : (
@@ -99,12 +124,40 @@ export const AccorderAbandonSansRecandidatureForm = ({
                 </>
               )}
 
+              {afficherChampMainlevéeGarantiesFinancières && (
+                <div>
+                  <Select
+                    state={
+                      validationErrors['accorderMainlevéeGarantiesFinancières']
+                        ? 'error'
+                        : 'default'
+                    }
+                    stateRelatedMessage={validationErrors['accorderMainlevéeGarantiesFinancières']}
+                    id="accorderMainlevéeGarantiesFinancières"
+                    label="Accorder la mainlevée des garanties financières ?"
+                    nativeSelectProps={{
+                      name: 'accorderMainlevéeGarantiesFinancières',
+                      required: true,
+                      'aria-required': true,
+                      onChange: (e) => {
+                        setAccorderMainlevée(e.target.value === 'true');
+                      },
+                      className: 'mb-5',
+                    }}
+                    options={[
+                      { label: 'Oui', value: 'true' },
+                      { label: 'Non', value: 'false' },
+                    ]}
+                  />
+                </div>
+              )}
+
               <div className="flex flex-col gap-1">
                 <UploadNewOrModifyExistingDocument
                   label="Réponse signée"
-                  state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['reponseSignee']}
-                  name="reponseSignee"
+                  state={validationErrors['réponseSignée'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['réponseSignée']}
+                  name="réponseSignée"
                   required
                   className="mb-4"
                   formats={['pdf']}
@@ -112,7 +165,10 @@ export const AccorderAbandonSansRecandidatureForm = ({
 
                 <DownloadDocument
                   className="mb-2"
-                  url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
+                  url={Routes.Abandon.téléchargerModèleRéponse({
+                    identifiantProjet,
+                    ...(accorderMainLevée && { accorderMainlevéeGarantiesFinancières: true }),
+                  })}
                   format="docx"
                   label="Télécharger le modèle de réponse"
                   small

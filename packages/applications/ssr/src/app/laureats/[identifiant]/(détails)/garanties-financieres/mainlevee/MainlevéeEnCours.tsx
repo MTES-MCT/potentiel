@@ -25,21 +25,24 @@ export type ActionsMainlevéeProps = {
 
 export type MainlevéeEnCoursProps = {
   mainlevée: PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
+  réponseSignéeAbandonAccordé?: PlainType<DocumentProjet.ValueType>;
 };
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
   mainlevée: { demande, motif, accord, instruction },
 }) => (
-  <>
-    <div>
-      Mainlevée demandée le :{' '}
-      <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
-      <span className="font-semibold">{demande.demandéePar.email}</span>
-    </div>
+  <div className="flex flex-col gap-2">
+    {demande && (
+      <div>
+        Mainlevée demandée le :{' '}
+        <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
+        <span className="font-semibold">{demande.demandéePar.email}</span>
+      </div>
+    )}
     <div>
       Motif :{' '}
       <span className="font-semibold">
-        {motif.motif === 'projet-abandonné' ? `Abandon` : `Achèvement`} du projet
+        {motif.motif === 'projet-achevé' ? `Achèvement` : `Abandon`} du projet
       </span>
     </div>
     {instruction && (
@@ -67,5 +70,5 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
         </div>
       </div>
     )}
-  </>
+  </div>
 );

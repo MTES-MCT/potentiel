@@ -41,6 +41,7 @@ export const setupGarantiesFinancières: SetupProjet = ({
       'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
       'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
       'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
+      'MainlevéeGarantiesFinancièresAccordée-V1',
       'GarantiesFinancièresÉchues-V1',
       'RebuildTriggered',
     ],

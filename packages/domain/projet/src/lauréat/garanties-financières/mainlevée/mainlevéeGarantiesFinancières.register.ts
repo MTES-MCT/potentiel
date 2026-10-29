@@ -1,6 +1,6 @@
 import type { GetProjetAggregateRoot } from '../../../index.js';
-import { registerAccorderMainlevéeGarantiesFinancièresCommand } from './accorder/accorderMainlevéeGarantiesFinancières.command.js';
-import { registerAccorderMainlevéeGarantiesFinancièresUseCase } from './accorder/accorderMainlevéeGarantiesFinancières.usecase.js';
+import { registerAccorderDemandeMainlevéeGarantiesFinancièresCommand } from './accorderDemande/accorderDemandeMainlevéeGarantiesFinancières.command.js';
+import { registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './accorderDemande/accorderDemandeMainlevéeGarantiesFinancières.usecase.js';
 import { registerAnnulerMainlevéeGarantiesFinancièresCommand } from './annuler/annulerDemandeMainlevéeGarantiesFinancières.command.js';
 import { registerAnnulerMainlevéeGarantiesFinancièresUseCase } from './annuler/annulerMainlevéeGarantiesFinancières.usecase.js';
 import { registerConsulterMainlevéeEnCoursQuery } from './consulter/consulterMainlevéeEnCours.query.js';
@@ -27,13 +27,13 @@ export const registerMainlevéeGarantiesFinancièresUseCases = ({
   registerDemanderMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerAnnulerMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerDémarrerInstructionMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
-  registerAccorderMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
+  registerAccorderDemandeMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerRejeterMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
 
   registerDemanderMainlevéeGarantiesFinancièresUseCase();
   registerAnnulerMainlevéeGarantiesFinancièresUseCase();
   registerDémarrerInstructionMainlevéeGarantiesFinancièresUseCase();
-  registerAccorderMainlevéeGarantiesFinancièresUseCase();
+  registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase();
   registerRejeterMainlevéeGarantiesFinancièresUseCase();
 };
 

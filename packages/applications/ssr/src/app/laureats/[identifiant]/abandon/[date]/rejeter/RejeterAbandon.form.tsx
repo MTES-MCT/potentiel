@@ -62,7 +62,9 @@ export const RejeterAbandonForm = ({
 
               <DownloadDocument
                 className="mt-4"
-                url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
+                url={Routes.Abandon.téléchargerModèleRéponse({
+                  identifiantProjet,
+                })}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />

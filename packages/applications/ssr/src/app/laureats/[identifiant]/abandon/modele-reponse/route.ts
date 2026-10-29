@@ -2,6 +2,7 @@ import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges, getLauréatInfos } from '@/app/_helpers';
@@ -11,6 +12,7 @@ import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentH
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getGarantiesFinancières } from '../../_helpers';
 import {
   getDemandeAbandonEnCours,
   getPuissanceInfos,
@@ -18,7 +20,7 @@ import {
 } from '../../_helpers/getLauréat';
 
 export const GET = async (
-  _: Request,
+  request: Request,
   ctx: RouteContext<'/laureats/[identifiant]/abandon/modele-reponse'>,
 ) =>
   apiAction(() =>
@@ -39,6 +41,10 @@ export const GET = async (
       }
 
       const { identifiant } = await ctx.params;
+
+      const url = new URL(request.url);
+      const avecMainlevée = url.searchParams.get('mainlevee') === 'true';
+
       const identifiantProjet = decodeParameter(identifiant);
       const abandon = await getDemandeAbandonEnCours(identifiantProjet);
 
@@ -46,6 +52,9 @@ export const GET = async (
       const puissance = await getPuissanceInfos(identifiantProjet);
       const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+      const garantiesFinancières = await getGarantiesFinancières(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
 
       const { logo, data } = mapLauréatToModèleRéponsePayload({
         identifiantProjet,
@@ -78,6 +87,13 @@ export const GET = async (
           referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
           status: abandon.statut.statut,
           enCopies: getEnCopies(lauréat.localité.région),
+          afficherParagrapheMainleveeGarantiesFinancieres: avecMainlevée ? 'yes' : '',
+          dateConstitutionGarantiesFinancieres: garantiesFinancières.actuelles?.garantiesFinancières
+            .constitution?.date
+            ? formatDateForDocument(
+                garantiesFinancières.actuelles?.garantiesFinancières.constitution?.date.date,
+              )
+            : '',
         },
       });
 

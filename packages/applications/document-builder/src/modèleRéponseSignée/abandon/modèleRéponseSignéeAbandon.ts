@@ -19,5 +19,8 @@ export type ModèleRéponseAbandon = ModèleRéponse & {
     dateConfirmation: string;
 
     enCopies: Array<string>;
+
+    afficherParagrapheMainleveeGarantiesFinancieres: 'yes' | '';
+    dateConstitutionGarantiesFinancieres: string;
   };
 };

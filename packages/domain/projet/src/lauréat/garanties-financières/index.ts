@@ -20,7 +20,7 @@ export * as DocumentMainlevée from './mainlevée/documentMainlevée.valueType.j
 export type * from './mainlevée/mainlevéeGarantiesFinancières.entity.js';
 export type * from './mainlevée/mainlevéeGarantiesFinancières.queries.js';
 export type * from './mainlevée/mainlevéeGarantiesFinancières.usecases.js';
-export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType.js';
+export * as MotifMainlevéeGarantiesFinancières from './mainlevée/motifMainlevéeGarantiesFinancières.valueType.js';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType.js';
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType.js';
 // Ports

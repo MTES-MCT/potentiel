@@ -12,25 +12,34 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  réponseSignée: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   choixPPAPourAutoritéCompétente: zod.stringbool().optional(),
+  accorderMainlevéeGarantiesFinancières: zod.stringbool().optional(),
 });
 
 export type AccorderAbandonSansRecandidatureFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, choixPPAPourAutoritéCompétente },
+  {
+    identifiantProjet,
+    réponseSignée,
+    choixPPAPourAutoritéCompétente,
+    accorderMainlevéeGarantiesFinancières,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.Abandon.AbandonUseCase>({
+    await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         rôleUtilisateurValue: utilisateur.rôle.nom,
         dateAccordValue: new Date().toISOString(),
-        réponseSignéeValue: reponseSignee,
+        réponseSignéeValue: réponseSignée,
+        ...(accorderMainlevéeGarantiesFinancières === true && {
+          accorderMainlevéeGarantiesFinancièresValue: true,
+        }),
         ...(choixPPAPourAutoritéCompétente && { ppaSignaléValue: true }),
         ...(choixPPAPourAutoritéCompétente === false && { ppaAnnuléValue: true }),
       },
