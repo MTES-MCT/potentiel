@@ -49,7 +49,12 @@ export abstract class AbstractUtilisateur<TRole extends string> implements Utili
   ): Readonly<Utilisateur<TRole>> {
     const utilisateur: Utilisateur<TRole> = {
       role: this.role,
-      email: faker.internet.email({ firstName: this.role }).toLowerCase(),
+      email: faker.internet
+        .email({
+          firstName: this.role,
+          lastName: faker.person.lastName(),
+        })
+        .toLowerCase(),
       nom: faker.person.fullName(),
       ...partial,
     };
