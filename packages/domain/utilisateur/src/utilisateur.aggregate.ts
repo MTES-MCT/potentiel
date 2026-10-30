@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
+import type { CréerPorteurOptions } from './créer/créerPorteur.options.js';
 import type { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
 import type { DésactiverOptions } from './désactiver/désactiverUtilisateur.options.js';
 import {
@@ -83,6 +84,28 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
         identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
         invitéLe: invitéLe.formatter(),
         invitéPar: invitéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async créerPorteur({ crééLe }: CréerPorteurOptions) {
+    if (this.exists) {
+      if (!this.#utilisateur?.rôle.estPorteur()) {
+        throw new UtilisateurNonPorteurError();
+      }
+
+      return;
+    }
+
+    const event: PorteurInvitéEvent = {
+      type: 'PorteurInvité-V1',
+      payload: {
+        identifiantsProjet: [],
+        identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+        invitéLe: crééLe.formatter(),
+        invitéPar: Email.système.formatter(),
       },
     };
 
