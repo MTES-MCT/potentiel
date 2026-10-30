@@ -42,6 +42,10 @@ Fonctionnalité: Inviter un porteur sur un projet
         Quand le porteur invite la dgec sur le projet lauréat
         Alors l'utilisateur devrait être informé que "L'utilisateur ne peut être invité sur ce projet"
 
+    Scénario: Impossible d'inviter un porteur ayant une liste de projets vide
+        Quand le porteur invite un autre porteur ayant une liste de projets vide
+        Alors l'utilisateur devrait être informé que "Il est impossible d'inviter un porteur sans projet"
+
     @NotImplemented
     Scénario: Inviter un porteur désactivé
 

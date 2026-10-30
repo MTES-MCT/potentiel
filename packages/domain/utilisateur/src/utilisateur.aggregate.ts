@@ -47,12 +47,15 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     }
 
     const payload = utilisateur.formatter();
+
     if (payload.rôle === 'porteur-projet') {
       throw new PorteurInvitéSansProjetError();
     }
+
     if (payload.rôle === 'visiteur') {
       throw new InvitationVisiteurImpossibleError();
     }
+
     const event: UtilisateurInvitéEvent = {
       type: 'UtilisateurInvité-V2',
       payload: {
@@ -67,6 +70,10 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
   async inviterPorteur({ identifiantsProjet, invitéLe, invitéPar }: InviterPorteurOptions) {
     if (this.exists && !this.#utilisateur?.rôle.estPorteur()) {
       throw new UtilisateurNonPorteurError();
+    }
+
+    if (identifiantsProjet.length === 0) {
+      throw new PorteurInvitéSansProjetError();
     }
 
     const event: PorteurInvitéEvent = {

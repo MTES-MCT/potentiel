@@ -46,6 +46,18 @@ Quand(
 );
 
 Quand(
+  'le porteur invite un autre porteur ayant une liste de projets vide',
+  async function (this: PotentielWorld) {
+    const { email: invité } = this.utilisateurWorld.inviterPorteur.créer({});
+
+    await inviterPorteur.call(this, {
+      identifiantsProjet: [],
+      identifiantUtilisateur: invité,
+    });
+  },
+);
+
+Quand(
   'la dgec invite un utilisateur avec le rôle {string}',
   async function (this: PotentielWorld, rôle: string) {
     await inviterUtilisateur.call(this, getPayloadForRôle.call(this, rôle));
