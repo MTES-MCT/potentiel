@@ -50,12 +50,13 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
         </Section>
       </div>
       <div className="flex flex-1 flex-col gap-4">
-        <InviterPorteurForm
-          identifiantProjet={identifiantProjet}
-          nombreDeProjets={nombreDeProjets}
-          peutInviter={peutInviter}
-          statutProjet={statutProjet}
-        />
+        {peutInviter && (
+          <InviterPorteurForm
+            identifiantProjet={identifiantProjet}
+            nombreDeProjets={nombreDeProjets}
+            statutProjet={statutProjet}
+          />
+        )}
         <Button
           iconId="fr-icon-mail-line"
           priority="secondary"
