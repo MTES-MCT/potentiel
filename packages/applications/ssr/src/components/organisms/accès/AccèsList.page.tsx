@@ -27,7 +27,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
   <SectionPage title="Utilisateurs">
     <div className="flex flex-col md:flex-row gap-4">
       <div className="flex flex-[2] flex-col gap-4">
-        <Section title="Comptes ayant accès au projet">
+        <Section title="Comptes porteurs ayant accès au projet">
           {accès.length === 0 ? (
             <div className="flex flex-col items-center justify-center my-16">
               <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
@@ -50,12 +50,13 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
         </Section>
       </div>
       <div className="flex flex-1 flex-col gap-4">
-        <InviterPorteurForm
-          identifiantProjet={identifiantProjet}
-          nombreDeProjets={nombreDeProjets}
-          peutInviter={peutInviter}
-          statutProjet={statutProjet}
-        />
+        {peutInviter && (
+          <InviterPorteurForm
+            identifiantProjet={identifiantProjet}
+            nombreDeProjets={nombreDeProjets}
+            statutProjet={statutProjet}
+          />
+        )}
         <Button
           iconId="fr-icon-mail-line"
           priority="secondary"

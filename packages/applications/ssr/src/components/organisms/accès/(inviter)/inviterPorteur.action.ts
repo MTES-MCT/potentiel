@@ -4,13 +4,12 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { OperationRejectedError } from '@potentiel-domain/core';
 import { type Accès, IdentifiantProjet } from '@potentiel-domain/projet';
-import type { InviterPorteurUseCase, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
+import type { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { récupérerLesProjetsAuxquelsInviterLePorteur } from './récupérerLesProjetsAuxquelsInviterLePorteur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -28,12 +27,12 @@ const action: FormAction<FormState, typeof schema> = async (
   withUtilisateur(async (utilisateur) => {
     const invitationMultiple = inviterATousSesProjets === 'true';
 
-    const identifiantsProjet = await récupérerLesProjetsAuxquelsInviterLePorteur(
-      utilisateur,
-      identifiantUtilisateurInvité,
-      IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    const identifiantsProjet = await récupérerLesProjetsAuxquelsInviterLePorteur({
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       invitationMultiple,
-    );
+      utilisateur,
+      utilisateurInvité: identifiantUtilisateurInvité,
+    });
 
     if (!identifiantsProjet.length) {
       return {
@@ -110,52 +109,5 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     };
   });
-
-const récupérerLesProjetsAuxquelsInviterLePorteur = async (
-  utilisateur: Utilisateur.ValueType,
-  utilisateurInvité: string,
-  identifiantProjet: IdentifiantProjet.ValueType,
-  invitationMultiple: boolean,
-) => {
-  if (invitationMultiple) {
-    if (!utilisateur.rôle.estPorteur()) {
-      throw new OperationRejectedError('Cette action est réservée aux porteurs de projet');
-    }
-
-    const accèsInvité = await mediator.send<Accès.ListerAccèsQuery>({
-      type: 'Projet.Accès.Query.ListerAccès',
-      data: {
-        identifiantUtilisateur: utilisateurInvité,
-      },
-    });
-
-    const accèsPorteur = await mediator.send<Accès.ListerAccèsQuery>({
-      type: 'Projet.Accès.Query.ListerAccès',
-      data: {
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-      },
-    });
-
-    const projetsInvité = new Set(accèsInvité.items.map((a) => a.identifiantProjet.formatter()));
-
-    return accèsPorteur.items
-      .filter((accès) => !projetsInvité.has(accès.identifiantProjet.formatter()))
-      .map((accès) => accès.identifiantProjet.formatter());
-  }
-
-  const porteursAyantAccèsAuProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
-    type: 'Projet.Accès.Query.ConsulterAccès',
-    data: {
-      identifiantProjet: identifiantProjet.formatter(),
-    },
-  });
-
-  return Option.isSome(porteursAyantAccèsAuProjet) &&
-    !porteursAyantAccèsAuProjet.utilisateursAyantAccès.some(
-      (utilisateur) => utilisateur.email === utilisateurInvité,
-    )
-    ? [identifiantProjet.formatter()]
-    : [];
-};
 
 export const inviterPorteurAction = formAction(action, schema);

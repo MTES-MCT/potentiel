@@ -1,6 +1,6 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { type DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 import type { LoadAggregate } from '@potentiel-domain/core';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate.js';
@@ -24,11 +24,7 @@ export const registerCréerPorteurCommand = (loadAggregate: LoadAggregate) => {
       undefined,
     );
 
-    await utilisateurInvité.inviterPorteur({
-      identifiantsProjet: [],
-      invitéLe: crééLe,
-      invitéPar: Email.système,
-    });
+    await utilisateurInvité.créerPorteur({ crééLe });
   };
   mediator.register('Utilisateur.Command.CréerPorteur', handler);
 };
