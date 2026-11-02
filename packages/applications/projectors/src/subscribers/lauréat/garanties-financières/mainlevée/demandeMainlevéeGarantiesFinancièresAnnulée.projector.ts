@@ -9,6 +9,6 @@ export const demandeMainlevéeGarantiesFinancièresAnnuléeProjector = async ({
   const mainlevéeASupprimer = await getMainlevéeGf(identifiantProjet);
 
   await removeProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-    `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeASupprimer.demande.demandéeLe}`,
+    `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeASupprimer.demande?.demandéeLe}`,
   );
 };

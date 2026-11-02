@@ -3,7 +3,7 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
-import { MotifDemandeMainlevéeGarantiesFinancières } from '../../index.js';
+import { MotifMainlevéeGarantiesFinancières } from '../../index.js';
 import type { DemanderMainlevéeGarantiesFinancièresCommand } from './demanderMainlevéeGarantiesFinancières.command.js';
 
 export type DemanderMainlevéeGarantiesFinancièresUseCase = Message<
@@ -24,7 +24,7 @@ export const registerDemanderMainlevéeGarantiesFinancièresUseCase = () => {
     demandéParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const motif = MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motifValue);
+    const motif = MotifMainlevéeGarantiesFinancières.convertirEnValueType(motifValue);
     const demandéLe = DateTime.convertirEnValueType(demandéLeValue);
     const demandéPar = Email.convertirEnValueType(demandéParValue);
 

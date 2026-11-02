@@ -14,6 +14,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | motif | projet-abandonné |
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
+        Et les garanties financières actuelles du projet sont levées
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée accordée |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres       |
@@ -25,6 +26,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | motif | projet-achevé |
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
+        Et les garanties financières actuelles du projet sont levées
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée accordée |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres       |

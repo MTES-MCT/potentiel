@@ -14,5 +14,6 @@ export type AbandonAccordéEvent = DomainEvent<
     };
     ppaSignalé?: true;
     ppaAnnulé?: true;
+    mainlevéeGarantiesFinancièresAccordée?: true;
   }
 >;

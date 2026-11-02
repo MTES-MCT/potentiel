@@ -127,7 +127,7 @@ export const GET = async (
           ),
           estAccordée,
           dateMainlevée: Option.match(mainlevéeEnCours)
-            .some(({ demande }) => formatDateForDocument(demande.demandéeLe.date))
+            .some(({ demande }) => formatDateForDocument(demande?.demandéeLe.date))
             .none(() => formatDateForDocument(undefined)),
         },
       });

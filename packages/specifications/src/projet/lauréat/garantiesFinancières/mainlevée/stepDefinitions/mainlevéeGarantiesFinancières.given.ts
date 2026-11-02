@@ -7,7 +7,7 @@ import type { PotentielWorld } from '../../../../../potentiel.world.js';
 import { exécuterTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.when.js';
 import { modifierGarantiesFinancièresActuelles } from '../../actuelles/stepDefinitions/garantiesFinancièresActuelles.given.js';
 import {
-  accorderMainlevée,
+  accorderDemandeMainlevée,
   demanderMainlevée,
   démarrerInstructionMainlevée,
   rejeterMainlevée,
@@ -44,7 +44,7 @@ EtantDonné(
   'une demande de mainlevée de garanties financières accordée',
   async function (this: PotentielWorld) {
     await demanderMainlevée.call(this);
-    await accorderMainlevée.call(this);
+    await accorderDemandeMainlevée.call(this);
   },
 );
 

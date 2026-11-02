@@ -5,10 +5,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import type { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentMainlevée } from '../../index.js';
-import type { AccorderMainlevéeGarantiesFinancièresCommand } from './accorderMainlevéeGarantiesFinancières.command.js';
+import type { AccorderDemandeMainlevéeGarantiesFinancièresCommand } from './accorderDemandeMainlevéeGarantiesFinancières.command.js';
 
-export type AccorderMainlevéeGarantiesFinancièresUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
+export type AccorderDemandeMainlevéeGarantiesFinancièresUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.AccorderDemandeMainlevée',
   {
     identifiantProjetValue: string;
     accordéLeValue: string;
@@ -20,8 +20,8 @@ export type AccorderMainlevéeGarantiesFinancièresUseCase = Message<
   }
 >;
 
-export const registerAccorderMainlevéeGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<AccorderMainlevéeGarantiesFinancièresUseCase> = async ({
+export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () => {
+  const runner: MessageHandler<AccorderDemandeMainlevéeGarantiesFinancièresUseCase> = async ({
     identifiantProjetValue,
     accordéLeValue,
     accordéParValue,
@@ -46,8 +46,8 @@ export const registerAccorderMainlevéeGarantiesFinancièresUseCase = () => {
       },
     });
 
-    await mediator.send<AccorderMainlevéeGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.AccorderMainlevée',
+    await mediator.send<AccorderDemandeMainlevéeGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.AccorderDemandeMainlevée',
       data: {
         accordéLe,
         accordéPar,
@@ -56,5 +56,5 @@ export const registerAccorderMainlevéeGarantiesFinancièresUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée', runner);
+  mediator.register('Lauréat.GarantiesFinancières.UseCase.AccorderDemandeMainlevée', runner);
 };

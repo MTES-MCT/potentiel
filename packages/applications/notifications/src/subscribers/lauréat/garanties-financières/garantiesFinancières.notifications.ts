@@ -106,6 +106,7 @@ export const register = () => {
               'TypeGarantiesFinancièresImporté-V1',
               'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
               'DépôtGarantiesFinancièresEnCoursValidé-V1',
+              'MainlevéeGarantiesFinancièresAccordée-V1',
             ),
           },
           () => Promise.resolve(),

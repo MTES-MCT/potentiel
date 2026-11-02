@@ -126,4 +126,10 @@ export const mapToGarantiesFinancièresTimelineItemProps: MapToGarantiesFinanci�
         },
         mainlevée.mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps,
       )
+      .with(
+        {
+          type: 'MainlevéeGarantiesFinancièresAccordée-V1',
+        },
+        mainlevée.mapToMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps,
+      )
       .exhaustive();
