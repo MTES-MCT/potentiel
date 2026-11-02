@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import { useRouter } from 'next/navigation';
 
@@ -30,6 +31,23 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
   return (
     <PageTemplate>
       <Heading1>Identifiez-vous</Heading1>
+      <Notice
+        description="Le lien magique ne fonctionne plus pour certains profils. Si vous ne parvenez plus à vous connecter avec, c’est normal : utilisez ProConnect."
+        iconDisplayed
+        isClosable
+        link={{
+          linkProps: {
+            href: 'https://docs.potentiel.beta.gouv.fr/guide-dutilisation/pages-daide/potentiel-utilise-lauthentification-par-proconnect',
+            'aria-label':
+              "Ouvrir l'article de notre guide d'utilisation sur l'authentification avec ProConnect dans un nouvel onglet",
+          },
+          text: 'En savoir plus',
+        }}
+        onClose={function noRefCheck() {}}
+        severity="info"
+        title="Les connexions passent progressivement à ProConnect."
+        className="mb-6"
+      />
       <div className="flex flex-col mt-12 gap-6 items-center">
         <div className="flex flex-wrap gap-5 justify-center">
           {providers.proconnect && (
