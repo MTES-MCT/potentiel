@@ -46,7 +46,7 @@ Quand(
 );
 
 Quand(
-  'le porteur invite un autre porteur ayant une liste de projets vide',
+  'le porteur invite un autre porteur sans spécifier de projet',
   async function (this: PotentielWorld) {
     const { email: invité } = this.utilisateurWorld.inviterPorteur.créer({});
 
