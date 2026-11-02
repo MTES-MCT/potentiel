@@ -20,10 +20,6 @@ export const getNombreDemandesÀInstruire = cache(
       },
     });
 
-    return Object.entries(demandes).map(([domain, résultat]) => ({
-      domain: domain as AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
-      total: résultat.total,
-      new: résultat.new,
-    }));
+    return demandes;
   },
 );

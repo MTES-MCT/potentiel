@@ -11,27 +11,32 @@ const Mapper = {
   'demande-recours': 'recours',
 } satisfies Record<string, AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction>;
 
+type MapperKey = keyof typeof Mapper;
+
+const domainesDreal: MapperKey[] = [
+  'demande-abandon',
+  'demande-délai',
+  'changement-représentant-légal',
+  'changement-puissance',
+  'changement-actionnaire',
+];
+
+const domainesDgec: MapperKey[] = ['demande-abandon', 'demande-délai', 'demande-recours'];
+
 export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire = async (
   rôle,
   date,
   régions,
 ) => {
-  const domaines = [
-    'demande-abandon',
-    'demande-délai',
-    'changement-représentant-légal',
-    'changement-puissance',
-    'changement-actionnaire',
-    ...(rôle === 'dreal' ? [] : ['demande-recours']),
-  ];
+  const domaines = rôle === 'dreal' ? domainesDreal : domainesDgec;
 
   const result = await executeSelect<{
-    domaine: keyof typeof Mapper;
+    domain: MapperKey;
     total: number;
     new: number;
   }>(
     `SELECT
-    SPLIT_PART(p.key,'|',1) AS domaine,
+    SPLIT_PART(p.key,'|',1) AS domain,
     count(*) AS total,
     count(*) FILTER (WHERE p.value->>'demande.demandéLe' > $2) AS new
   FROM domain_views.projection p
@@ -65,18 +70,22 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
     ...(régions?.length ? [régions] : []),
   );
 
-  const résultats = {
-    actionnaire: { total: 0, new: 0 },
-    puissance: { total: 0, new: 0 },
-    représentantLégal: { total: 0, new: 0 },
-    abandon: { total: 0, new: 0 },
-    délai: { total: 0, new: 0 },
-    recours: { total: 0, new: 0 },
-  };
+  const résultats = domaines.map((domaine) => {
+    return {
+      domain: Mapper[domaine],
+      total: 0,
+      new: 0,
+    };
+  });
 
   for (const r of result) {
-    résultats[Mapper[r.domaine]].total += r.total;
-    résultats[Mapper[r.domaine]].new += r.new;
+    const test = résultats.find((d) => d.domain === Mapper[r.domain]);
+    if (test) {
+      test.new = r.new;
+      test.total = r.total;
+      continue;
+    }
+    throw new Error(`Domaine ${r.domain} non trouvé dans les résultats`);
   }
 
   return résultats;

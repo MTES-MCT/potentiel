@@ -151,6 +151,7 @@ export type RèglesMiseÀJourPorteur = RèglesMiseÀJourPorteurAvecInstruction &
 };
 
 export type DomainesConcernésParMiseÀJour = keyof RèglesMiseÀJourPorteur;
+
 export type DomainesConcernésParMiseÀJourAvecInstruction =
   keyof RèglesMiseÀJourPorteurAvecInstruction;
 

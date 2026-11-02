@@ -7,10 +7,11 @@ import type { GetNombreDemandesÀInstruire } from './getNombreDemandesÀInstruir
 import type { GetScopeProjetUtilisateur } from './getScopeProjetUtilisateur.port.js';
 import type { AutoritéCompétente } from './lauréat/abandon/index.js';
 
-export type ConsulterNombreDemandesÀInstruireReadModel = Record<
-  AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction,
-  { total: number; new: number }
->;
+export type ConsulterNombreDemandesÀInstruireReadModel = Array<{
+  domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
+  total: number;
+  new: number;
+}>;
 
 export type ConsulterNombreDemandesÀInstruireQuery = Message<
   'Projet.Query.ConsulterNombreDemandesÀInstruire',
