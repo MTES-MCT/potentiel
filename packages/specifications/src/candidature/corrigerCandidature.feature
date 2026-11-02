@@ -252,6 +252,9 @@ Fonctionnalité: Corriger une candidature
         Alors la dgec devrait être informé que "Le champ dispositif de stockage ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec installateur si l'appel d'offres ne le propose pas
+        Etant donné la candidature lauréate "De la place des Quinconces" avec :
+            | appel d'offres | PPE2 - Sol |
+            | période        | 8          |
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Mr Bricolage |
         Alors la dgec devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
