@@ -51,8 +51,7 @@ export abstract class AbstractUtilisateur<TRole extends string> implements Utili
       role: this.role,
       email: faker.internet
         .email({
-          firstName: this.role,
-          lastName: faker.person.lastName(),
+          firstName: `$‘this.role}-${faker.number.bigInt()}`,
         })
         .toLowerCase(),
       nom: faker.person.fullName(),

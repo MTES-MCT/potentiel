@@ -62,8 +62,7 @@ export class InviterUtilisateurFixture implements InviterUtilisateur, Fixture<In
   créer(partialFixture: InviterUtilisateurProps): Readonly<InviterUtilisateur> {
     const fixture: InviterUtilisateur = {
       email: faker.internet.email({
-        firstName: partialFixture.rôle,
-        lastName: faker.person.lastName(),
+        firstName: `${partialFixture.rôle}-${faker.number.bigInt()}`,
       }),
       ...partialFixture,
     };
