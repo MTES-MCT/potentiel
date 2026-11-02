@@ -1,11 +1,13 @@
-import Accordion from '@codegouvfr/react-dsfr/Accordion';
-
+import { ControlledAccordion } from '@/components/atoms/ControlledAccordion';
 import { Icon } from '@/components/atoms/Icon';
 
 export const Contexte = () => (
   <section className="mt-5 mb-10 xl:mx-auto xl:max-w-5xl px-2 lg:px-4">
     <h2 className="sr-only">Présentation de Potentiel et des appels d'offres</h2>
-    <Accordion label="Objectif de la Programmation pluriannuelle de l'énergie (PPE)" className="">
+    <ControlledAccordion
+      title="Objectif de la Programmation pluriannuelle de l'énergie (PPE)"
+      defaultExpanded={true}
+    >
       <div className="flex flex-col gap-4 text-justify">
         <div>
           La{' '}
@@ -49,9 +51,12 @@ export const Contexte = () => (
           34,0 GW (SDES).
         </div>
       </div>
-    </Accordion>
+    </ControlledAccordion>
 
-    <Accordion label="Le soutien de l'État aux énergies renouvelables électriques">
+    <ControlledAccordion
+      title="Le soutien de l'État aux énergies renouvelables électriques"
+      defaultExpanded={true}
+    >
       <div className="flex flex-col gap-4 text-justify">
         <div>
           Afin d'accompagner le développement des énergies renouvelables à hauteur des objectifs de
@@ -115,8 +120,11 @@ export const Contexte = () => (
           </ul>
         </div>
       </div>
-    </Accordion>
-    <Accordion label="Les étapes de vie d'un projet candidat d'un appel d'offres">
+    </ControlledAccordion>
+    <ControlledAccordion
+      title="Les étapes de vie d'un projet candidat d'un appel d'offres"
+      defaultExpanded={true}
+    >
       <div className="flex flex-col gap-4 text-justify">
         <div>
           Le développement d’un projet d’énergie renouvelable dans le cadre d’un appel d’offres suit
@@ -160,8 +168,11 @@ export const Contexte = () => (
           signé et l’installation entre en phase d’exploitation et de production d’électricité.
         </div>
       </div>
-    </Accordion>
-    <Accordion label="Le rôle de Potentiel dans ce processus d'appels offres">
+    </ControlledAccordion>
+    <ControlledAccordion
+      title="Le rôle de Potentiel dans ce processus d'appels offres"
+      defaultExpanded={true}
+    >
       <div className="flex flex-col gap-4 text-justify">
         <div>
           Potentiel occupe une place centrale dans le suivi des projets d’énergies renouvelables
@@ -200,6 +211,6 @@ export const Contexte = () => (
         développement des énergies renouvelables des filières éolienne et photovoltaïque, dans le
         cadre des appels d’offres pilotés par l’État.
       </div>
-    </Accordion>
+    </ControlledAccordion>
   </section>
 );

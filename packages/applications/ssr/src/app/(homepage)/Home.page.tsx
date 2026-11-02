@@ -1,3 +1,5 @@
+'use client';
+
 import { Contexte } from './Contexte';
 import { PropositionDeValeur } from './PropositionDeValeur';
 
