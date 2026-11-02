@@ -1,27 +1,29 @@
 import { Command } from '@oclif/core';
+import z from 'zod';
 
 import { getLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
 import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { dbSchema } from '#helpers';
-import { MattermostTransport, reportCronStatus } from '#helpers/monitoring';
+import { dbSchema, loggerSchema, sentrySchema } from '#helpers';
+import { reportCronStatus } from '#helpers/monitoring';
+
+const envSchema = z.object({
+  ...dbSchema.shape,
+  ...sentrySchema.shape,
+  ...loggerSchema.shape,
+});
 
 export class PendingAcknowlegement extends Command {
   static description = 'Checks that there are no overdue pending_acknowledgement in the database';
 
   async init() {
-    dbSchema.parse(process.env);
+    envSchema.parse(process.env);
 
     resetLogger();
     const logger = createLogger({
-      transports: [
-        new SentryTransport(),
-        new MattermostTransport({
-          level: 'error',
-        }),
-      ],
+      transports: [new SentryTransport()],
     });
     initLogger(logger);
   }
