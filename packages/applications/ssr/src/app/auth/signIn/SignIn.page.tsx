@@ -32,7 +32,8 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
     <PageTemplate>
       <Heading1>Identifiez-vous</Heading1>
       <Notice
-        description="Le lien magique ne fonctionne plus pour certains profils. Si vous ne parvenez plus à vous connecter avec, c’est normal : utilisez ProConnect."
+        description="Nous privilégions désormais la connexion via ProConnect pour des raisons de sécurité.
+À partir du 5 novembre 2026, la connexion avec Proconnect, avec double facteur d'authentification, devient obligatoire pour tous les profils hors porteur de projet"
         iconDisplayed
         isClosable
         link={{
@@ -45,7 +46,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
         }}
         onClose={function noRefCheck() {}}
         severity="info"
-        title="Les connexions passent progressivement à ProConnect."
+        title="Mode de connexion"
         className="mb-6"
       />
       <div className="flex flex-col mt-12 gap-6 items-center">
