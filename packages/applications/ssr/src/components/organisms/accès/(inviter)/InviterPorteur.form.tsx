@@ -15,13 +15,11 @@ export type InviterPorteurFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
   statutProjet: 'classé' | 'éliminé';
   nombreDeProjets?: number;
-  peutInviter: boolean;
 };
 
 export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
   identifiantProjet,
   nombreDeProjets,
-  peutInviter,
   statutProjet,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,11 +29,9 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
 
   return (
     <>
-      {peutInviter && (
-        <Button iconId="fr-icon-user-line" onClick={() => setIsOpen(true)}>
-          Inviter un nouvel utilisateur
-        </Button>
-      )}
+      <Button iconId="fr-icon-user-line" onClick={() => setIsOpen(true)}>
+        Inviter un nouveau porteur
+      </Button>
       <ModalWithForm
         id="inviter-porteur-form"
         title=""
