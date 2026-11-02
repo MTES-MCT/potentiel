@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import { useRouter } from 'next/navigation';
 
@@ -30,6 +31,24 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
   return (
     <PageTemplate>
       <Heading1>Identifiez-vous</Heading1>
+      <Notice
+        description="Nous privilégions désormais la connexion via ProConnect pour des raisons de sécurité.
+À partir du 5 novembre 2026, la connexion avec Proconnect, avec double facteur d'authentification, devient obligatoire pour tous les profils hors porteur de projet"
+        iconDisplayed
+        isClosable
+        link={{
+          linkProps: {
+            href: 'https://docs.potentiel.beta.gouv.fr/guide-dutilisation/pages-daide/potentiel-utilise-lauthentification-par-proconnect',
+            'aria-label':
+              "Ouvrir l'article de notre guide d'utilisation sur l'authentification avec ProConnect dans un nouvel onglet",
+          },
+          text: 'En savoir plus',
+        }}
+        onClose={function noRefCheck() {}}
+        severity="info"
+        title="Mode de connexion"
+        className="mb-6"
+      />
       <div className="flex flex-col mt-12 gap-6 items-center">
         <div className="flex flex-wrap gap-5 justify-center">
           {providers.proconnect && (
