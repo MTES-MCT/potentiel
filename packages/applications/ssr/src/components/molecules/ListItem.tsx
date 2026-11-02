@@ -26,7 +26,7 @@ export const ListItem: React.FC<ListItemProps> = ({
   miseÀJourLe,
   subtext,
 }) => (
-  <div className="flex flex-1 flex-col">
+  <div className="flex flex-1 flex-col w-full">
     <div className="flex gap-4 items-start justify-between">
       {heading}
       <div className="max-md:hidden flex md:max-lg:flex-col gap-2">{actions}</div>
