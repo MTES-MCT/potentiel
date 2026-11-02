@@ -54,8 +54,11 @@ export const ModifierRôleUtilisateurForm: FC<ModifierRôleUtilisateurFormProps>
         </div>
 
         <div>
+          <p className="mb-2">
+            <strong>Nouveau rôle</strong>
+          </p>
           <Select
-            label="Nouveau rôle"
+            label=""
             options={listeDesRolesSaufPorteur}
             nativeSelectProps={{
               name: 'nouveauRole',
@@ -63,6 +66,7 @@ export const ModifierRôleUtilisateurForm: FC<ModifierRôleUtilisateurFormProps>
               onChange: (event) => setRole(event.target.value as Role.RawType),
               required: true,
             }}
+            className="w-fit"
             state={validationErrors?.nouveauRole ? 'error' : 'default'}
             stateRelatedMessage={validationErrors?.nouveauRole}
           />
