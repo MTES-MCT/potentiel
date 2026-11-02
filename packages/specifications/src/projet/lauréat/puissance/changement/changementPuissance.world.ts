@@ -67,6 +67,9 @@ export class ChangementPuissanceWorld {
 
     const expected: Lauréat.Puissance.ConsulterChangementPuissanceReadModel = {
       identifiantProjet,
+      autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
+        ? this.demanderChangementPuissanceFixture.autoritéCompétente
+        : undefined,
       demande: {
         demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
         demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),

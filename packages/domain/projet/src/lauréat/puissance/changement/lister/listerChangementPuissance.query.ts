@@ -7,7 +7,7 @@ import type { CandidatureEntity } from '../../../../candidature/index.js';
 import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import type { LauréatEntity } from '../../../lauréat.entity.js';
 import {
-  type AutoritéCompétente,
+  AutoritéCompétente,
   type ChangementPuissanceEntity,
   StatutChangementPuissance,
 } from '../../index.js';
@@ -20,6 +20,7 @@ type ChangementPuissanceItemReadModel = {
   demandéLe: DateTime.ValueType;
   nouvellePuissance: number;
   unitéPuissance: string;
+  autoritéCompétente?: AutoritéCompétente.ValueType;
 };
 
 export type ListerChangementPuissanceReadModel = {
@@ -106,16 +107,15 @@ const mapToReadModel = ({
   lauréat,
   ...entity
 }: ChangementPuissanceEntity &
-  Joined<[LauréatEntity, CandidatureEntity]>): ChangementPuissanceItemReadModel => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(entity.identifiantProjet);
-
-  return {
-    nomProjet: lauréat.nomProjet,
-    statut: StatutChangementPuissance.convertirEnValueType(entity.statut),
-    miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
-    identifiantProjet,
-    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
-    nouvellePuissance: entity.demande.nouvellePuissance,
-    unitéPuissance: candidature.unitéPuissance,
-  };
-};
+  Joined<[LauréatEntity, CandidatureEntity]>): ChangementPuissanceItemReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+  nomProjet: lauréat.nomProjet,
+  statut: StatutChangementPuissance.convertirEnValueType(entity.statut),
+  miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
+  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
+  nouvellePuissance: entity.demande.nouvellePuissance,
+  unitéPuissance: candidature.unitéPuissance,
+  autoritéCompétente: entity.autoritéCompétente
+    ? AutoritéCompétente.convertirEnValueType(entity.autoritéCompétente)
+    : undefined,
+});
