@@ -2,6 +2,7 @@ import type { OAuth2Tokens } from 'better-auth';
 import type { BaseOAuthProviderOptions, GenericOAuthConfig } from 'better-auth/plugins';
 import { jwtVerify } from 'jose';
 
+import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { setCustomProfile } from '../profile';
 import { getJWKS, getOpenIdConfiguration } from './openid';
 
@@ -50,9 +51,13 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
     'idp_id',
   ];
 
+  // ACR = Authentication Context Class Reference
+  const acr = isFeatureEnabled('force-2fa')
+    ? { essential: true, values: ['eidas0-mfa', 'eidas1-mfa', 'eidas2', 'eidas3'] }
+    : null;
   // https://partenaires.proconnect.gouv.fr/docs/ressources/claim_amr
   const authorizationParams = {
-    claims: JSON.stringify({ id_token: { amr: null, acr: null } }),
+    claims: JSON.stringify({ id_token: { amr: null, acr } }),
   };
 
   // Ensure issuer ends without trailing slash for proper discovery URL construction
