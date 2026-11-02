@@ -50,11 +50,6 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
     'idp_id',
   ];
 
-  // https://partenaires.proconnect.gouv.fr/docs/ressources/claim_amr
-  const authorizationParams = {
-    claims: JSON.stringify({ id_token: { amr: null, acr: null } }),
-  };
-
   // Ensure issuer ends without trailing slash for proper discovery URL construction
   const issuer = options.issuer.replace(/\/$/, '');
   const discoveryUrl = `${issuer}/.well-known/openid-configuration`;
@@ -100,7 +95,16 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
     clientId: options.clientId,
     clientSecret: options.clientSecret,
     scopes: defaultScopes,
-    authorizationUrlParams: () => authorizationParams,
+    authorizationUrlParams: () => {
+      // ACR = Authentication Context Class Reference
+      const acr = process.env.FEATURES?.match(/force-2fa/)
+        ? { essential: true, values: ['eidas0-mfa', 'eidas1-mfa', 'eidas2', 'eidas3'] }
+        : null;
+      // https://partenaires.proconnect.gouv.fr/docs/ressources/claim_amr
+      return {
+        claims: JSON.stringify({ id_token: { amr: null, acr } }),
+      };
+    },
     redirectURI: options.redirectURI,
     pkce: options.pkce ?? true,
     disableImplicitSignUp: options.disableImplicitSignUp,
