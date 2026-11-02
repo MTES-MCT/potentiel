@@ -15,7 +15,7 @@ export default async function Page() {
     return utilisateur?.rôle.aLaPermission('tableauDeBord.consulter') ? (
       <HomePageAdministration utilisateur={utilisateur} />
     ) : (
-      <HomePage utilisateur={utilisateur} />
+      <HomePage />
     );
   });
 }
