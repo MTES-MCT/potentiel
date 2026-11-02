@@ -1,12 +1,14 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 
+import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document';
 import { Heading2 } from '@/components/atoms/headings';
 import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemande';
@@ -89,16 +91,29 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
               </div>
             )}
           </div>
+          <DisplayRaisonChangement
+            raison={abandon.demande.raison}
+            className="whitespace-nowrap font-semibold"
+          />
           <div className="flex flex-wrap gap-2">
             <div className="whitespace-nowrap font-semibold">
               Autorité compétente pour l'instruction :
             </div>
             {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
           </div>
-          <DisplayRaisonChangement
-            raison={abandon.demande.raison}
-            className="whitespace-nowrap font-semibold"
-          />
+          {abandon.demande.pièceJustificative ? (
+            <div className="flex gap-2">
+              <div className="font-medium whitespace-nowrap">Pièce(s) justificative(s) :</div>
+              <DownloadDocument
+                className="mb-0"
+                label="Télécharger la pièce justificative"
+                format={abandon.demande.pièceJustificative.format}
+                url={Routes.Document.télécharger(
+                  DocumentProjet.bind(abandon.demande.pièceJustificative).formatter(),
+                )}
+              />
+            </div>
+          ) : null}
           <div className="mb-4">
             <Heading2>Historique</Heading2>
             <Timeline items={historique} />
