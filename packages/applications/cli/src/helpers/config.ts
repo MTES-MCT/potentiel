@@ -21,6 +21,12 @@ export const dnSchema = z.object({
   DEMARCHE_NUMERIQUE_API_TOKEN: z.string(),
 });
 
+export const dnOptionalSchema = z.object({
+  IMPORTER_DEMARCHE_NUMERIQUE_MAX_CONCURRENT: z.string(),
+  IMPORTER_DEMARCHE_NUMERIQUE_MAX_FILE_SIZE: z.string(),
+  FEATURES: z.string(),
+});
+
 export const sentrySchema = z.object({
   SENTRY_CRONS: z.url(),
 });
