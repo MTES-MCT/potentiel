@@ -9,12 +9,12 @@ import type { IdentifiantProjet } from '../../index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import { ChangementImpossibleCarProjetAchevéError } from '../lauréat.error.js';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
 import type { TâcheAggregate } from '../tâche/tâche.aggregate.js';
-import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import type { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
-import type { ModifierDocumentOptions } from './document/modifier/modifierDocumentRaccordement.options.js';
 import type { ModifierTypeDocumentOptions } from './document/modifier-type/modifierTypeDocumentRaccordement.options.js';
+import type { ModifierDocumentOptions } from './document/modifier/modifierDocumentRaccordement.options.js';
 import type { SupprimerDocumentOptions } from './document/supprimer/supprimerDocumentRaccordement.options.js';
 import type { TransmettreDocumentOptions } from './document/transmettre/transmettreDocumentRaccordement.options.js';
 import {
@@ -352,6 +352,15 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
     }
 
+    const dossierAvecConventionDirecteDeRaccordement = dossiersRaccordements.filter(
+      (dossier) => dossier.conventionDeRaccordementDirecte,
+    );
+
+    if (dossierAvecConventionDirecteDeRaccordement.length) {
+      await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
+      await this.#tâcheTransmettreConventionDeRaccordement.achever();
+    }
+
     const dossierAvecPropositionTechniqueEtFinancièreSansConventionDeRaccordement =
       dossiersRaccordements.filter(
         (dossier) => dossier.propositionTechniqueEtFinancière && !dossier.conventionDeRaccordement,
@@ -372,15 +381,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
     } else {
       await this.#tâcheTransmettrePropositionTechniqueEtFinancière.ajouter();
-    }
-
-    const dossierAvecConventionDirecteDeRaccordement = dossiersRaccordements.filter(
-      (dossier) => dossier.conventionDeRaccordementDirecte,
-    );
-
-    if (dossierAvecConventionDirecteDeRaccordement.length) {
-      await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
-      await this.#tâcheTransmettreConventionDeRaccordement.achever();
     }
   }
   //#endregion helpers
