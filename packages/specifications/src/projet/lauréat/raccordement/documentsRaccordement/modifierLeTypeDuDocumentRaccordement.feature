@@ -17,6 +17,8 @@ Fonctionnalité: Modifier le type d'un document de raccordement par le système
             | document modifié         | proposition-technique-et-financière |
             | nouveau type de document | convention-de-raccordement          |
         Alors le document devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et une tâche indiquant de "transmettre une convention de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "transmettre une proposition technique et financière" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Impossible de modifier un document avec un type déjà transmis
         Etant donné une demande complète de raccordement pour le projet lauréat
