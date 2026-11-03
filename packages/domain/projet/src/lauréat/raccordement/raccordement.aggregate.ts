@@ -373,6 +373,15 @@ export class RaccordementAggregate extends AbstractAggregate<
     } else {
       await this.#tâcheTransmettrePropositionTechniqueEtFinancière.ajouter();
     }
+
+    const dossierAvecConventionDirecteDeRaccordement = dossiersRaccordements.filter(
+      (dossier) => dossier.conventionDeRaccordementDirecte,
+    );
+
+    if (dossierAvecConventionDirecteDeRaccordement.length) {
+      await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
+      await this.#tâcheTransmettreConventionDeRaccordement.achever();
+    }
   }
   //#endregion helpers
 
