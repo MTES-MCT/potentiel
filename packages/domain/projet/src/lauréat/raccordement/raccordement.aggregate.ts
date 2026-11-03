@@ -987,6 +987,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     const ancienDossier = this.récupérerDocumentDossier(dossier, ancienType);
 
     dossier[TypeDocumentsRaccordement.mapToFieldName(nouveauType)] = ancienDossier;
+    dossier[TypeDocumentsRaccordement.mapToFieldName(ancienType)] = undefined;
   }
 
   private applyDocumentRaccordementSuppriméEventV1({
