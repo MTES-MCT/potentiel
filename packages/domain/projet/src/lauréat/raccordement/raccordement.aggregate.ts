@@ -352,15 +352,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheTransmettreUnDocumenDeRaccordement.ajouter();
     }
 
-    const dossierAvecConventionDirecteDeRaccordement = dossiersRaccordements.filter(
-      (dossier) => dossier.conventionDeRaccordementDirecte,
-    );
-
-    if (dossierAvecConventionDirecteDeRaccordement.length) {
-      await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
-      await this.#tâcheTransmettreConventionDeRaccordement.achever();
-    }
-
     const dossierAvecPropositionTechniqueEtFinancièreSansConventionDeRaccordement =
       dossiersRaccordements.filter(
         (dossier) => dossier.propositionTechniqueEtFinancière && !dossier.conventionDeRaccordement,
@@ -382,6 +373,19 @@ export class RaccordementAggregate extends AbstractAggregate<
     } else {
       await this.#tâcheTransmettrePropositionTechniqueEtFinancière.ajouter();
     }
+
+    // const dossierAvecConventionDirecteDeRaccordement = dossiersRaccordements.filter(
+    //   (dossier) => dossier.conventionDeRaccordementDirecte,
+    // );
+
+    // if (
+    //   dossierAvecConventionDirecteDeRaccordement.length &&
+    //   dossierAvecPropositionTechniqueEtFinancièreSansConventionDeRaccordement.length === 0 &&
+    //   dossierAvecConventionDeRaccordementSansPropositionTechniqueEtFinancière.length === 0
+    // ) {
+    //   await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
+    //   await this.#tâcheTransmettreConventionDeRaccordement.achever();
+    // }
   }
   //#endregion helpers
 
