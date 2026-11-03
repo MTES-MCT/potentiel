@@ -21,10 +21,8 @@ export const DemandesSection = () =>
         autorité,
       );
 
-      const { avecNouvellesDemandes, sansNouvellesDemandes } = await mapDemandesToDemandesDétails(
-        nombreDemandesÀInstruire,
-        autorité,
-      );
+      const { avecNouvellesDemandes, sansNouvellesDemandes } =
+        await mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
 
       return (
         <Section
@@ -43,16 +41,7 @@ export const DemandesSection = () =>
     sectionTitle,
   );
 
-const mapDemandesToDemandesDétails = async (
-  demandes: Array<NombreDemandesÀInstruire>,
-  autorité: 'dgec' | 'dreal',
-) => {
-  // dirty fix, à améliorer
-  const filteredDemandes =
-    autorité === 'dreal' ? demandes.filter((demande) => demande.domain !== 'recours') : demandes;
-
-  return {
-    avecNouvellesDemandes: filteredDemandes.filter((demande) => demande.new > 0),
-    sansNouvellesDemandes: filteredDemandes.filter((demande) => demande.new === 0),
-  };
-};
+const mapDemandesToDemandesDétails = async (demandes: Array<NombreDemandesÀInstruire>) => ({
+  avecNouvellesDemandes: demandes.filter((demande) => demande.new > 0),
+  sansNouvellesDemandes: demandes.filter((demande) => demande.new === 0),
+});
