@@ -302,6 +302,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async annulerTâchePorteurDemanderGarantiesFinancières() {
     await this.#tâcheDemanderGarantiesFinancières.achever();
   }
+
   async annulerTâchePorteurTransmettreAttestationConstitution() {
     await this.#tâcheTransmettreAttestationConstitution.achever();
   }
@@ -741,6 +742,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
 
     await this.échoirOuPlanifierÉchéance(validéLe);
+    // annuler tâche éventuelle des GFs désormais archivées
+    await this.annulerTâchePorteurTransmettreAttestationConstitution();
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV1(
