@@ -32,8 +32,9 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
     <PageTemplate>
       <Heading1>Identifiez-vous</Heading1>
       <Notice
-        description="Nous privilégions désormais la connexion via ProConnect pour des raisons de sécurité.
-À partir du 5 novembre 2026, la connexion avec Proconnect, avec double facteur d'authentification, devient obligatoire pour tous les profils hors porteur de projet"
+        description={`
+          Pour des raisons de sécurité, nous privilégions désormais la connexion via ProConnect, avec double facteur d’authentification. 
+          Ce mode de connexion deviendra progressivement obligatoire à partir du 5 novembre 2026. Nous vous invitons à l’utiliser dès maintenant.`}
         iconDisplayed
         isClosable
         link={{
