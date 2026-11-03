@@ -373,19 +373,6 @@ export class RaccordementAggregate extends AbstractAggregate<
     } else {
       await this.#tâcheTransmettrePropositionTechniqueEtFinancière.ajouter();
     }
-
-    // const dossierAvecConventionDirecteDeRaccordement = dossiersRaccordements.filter(
-    //   (dossier) => dossier.conventionDeRaccordementDirecte,
-    // );
-
-    // if (
-    //   dossierAvecConventionDirecteDeRaccordement.length &&
-    //   dossierAvecPropositionTechniqueEtFinancièreSansConventionDeRaccordement.length === 0 &&
-    //   dossierAvecConventionDeRaccordementSansPropositionTechniqueEtFinancière.length === 0
-    // ) {
-    //   await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
-    //   await this.#tâcheTransmettreConventionDeRaccordement.achever();
-    // }
   }
   //#endregion helpers
 
