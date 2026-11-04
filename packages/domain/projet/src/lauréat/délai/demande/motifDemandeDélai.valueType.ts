@@ -4,6 +4,8 @@ import {
   type ReadonlyValueType,
 } from '@potentiel-domain/core';
 
+import { AutoritéCompétente } from '../index.js';
+
 export const motifs = ['prolongation-délai-achèvement', 'prolongation-phase-essai'] as const;
 export type RawType = (typeof motifs)[number];
 
@@ -12,6 +14,7 @@ export type ValueType<T extends RawType = RawType> = ReadonlyValueType<{
   formatter(): T;
   estProlongationDélaiAchèvement(): boolean;
   estProlongationPhaseEssai(): boolean;
+  autoritéCompétente(): AutoritéCompétente.ValueType;
 }>;
 
 export const bind = <T extends RawType = RawType>({
@@ -31,6 +34,9 @@ export const bind = <T extends RawType = RawType>({
     },
     estProlongationPhaseEssai() {
       return this.motif === 'prolongation-phase-essai';
+    },
+    autoritéCompétente() {
+      return this.estProlongationPhaseEssai() ? AutoritéCompétente.dgec : AutoritéCompétente.dreal;
     },
   };
 };

@@ -13,9 +13,8 @@ export const getAutoritéCompétente = async (
   if (!cahierDesCharges) {
     throw new Error(`Le cahier des charges du projet ${identifiantProjet} est introuvable.`);
   }
-  //TODO : autorité compétente pour phases d'essais à matérialiser dans le cahier des charges
-  return motif === 'prolongation-phase-essai'
-    ? 'dgec'
-    : (cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
-        Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI);
+  return cahierDesCharges.getAutoritéCompétente({
+    domain: 'délai',
+    motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif),
+  });
 };

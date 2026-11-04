@@ -4,6 +4,7 @@ import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InvalidOperationError, type PlainType } from '@potentiel-domain/core';
 
 import { TypeActionnariat } from './candidature/index.js';
+import type { Délai } from './lauréat/index.js';
 export namespace CahierDesCharges {
   export type ValueType = {
     appelOffre: PlainType<AppelOffre.AppelOffreReadModel>;
@@ -39,7 +40,9 @@ export namespace CahierDesCharges {
     getRèglesModification<TDomain extends keyof AppelOffre.RèglesMiseÀJour['modification']>(
       domaine: TDomain,
     ): boolean;
-    getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
+    getAutoritéCompétente(
+      props: { domain: 'abandon' } | { domain: 'délai'; motif: Délai.MotifDemandeDélai.ValueType },
+    ): AppelOffre.AutoritéCompétente;
     getChampsSupplémentaires(): AppelOffre.ChampsSupplémentairesCandidature;
     estChampRequisOuOptionnel(champ: AppelOffre.ChampCandidature): boolean;
     estChampRequis(champ: AppelOffre.ChampCandidature): boolean;
@@ -100,12 +103,27 @@ export namespace CahierDesCharges {
       return !!règlesModification[domaine];
     },
 
-    getAutoritéCompétente(domaine) {
-      const règlesChangement = this.getRèglesChangements(domaine);
-      if (!règlesChangement.demande) {
-        throw new CahierDesChargesEmpêcheModificationError();
-      }
-      return règlesChangement.autoritéCompétente;
+    getAutoritéCompétente(props) {
+      return match(props)
+        .with({ domain: 'abandon' }, ({ domain }) => {
+          const règlesChangement = this.getRèglesChangements(domain);
+          if (!règlesChangement.demande) {
+            throw new CahierDesChargesEmpêcheModificationError();
+          }
+          return règlesChangement.autoritéCompétente;
+        })
+        .with({ domain: 'délai' }, ({ domain, motif }) => {
+          const règlesChangement = this.getRèglesChangements(domain);
+          if (!règlesChangement.demande) {
+            throw new CahierDesChargesEmpêcheModificationError();
+          }
+          const autoritéCompétente = règlesChangement.motifs?.[motif.motif]?.autoritéCompétente;
+          if (!autoritéCompétente) {
+            throw new CahierDesChargesEmpêcheModificationError();
+          }
+          return autoritéCompétente;
+        })
+        .exhaustive();
     },
 
     changementEstDisponible(typeChangement, domaine) {

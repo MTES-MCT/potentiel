@@ -1,20 +1,27 @@
 import { Routes } from '@potentiel-applications/routes';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-export const handleDemandeDélaiCorrigée = async ({
-  payload,
-}: Lauréat.Délai.DemandeDélaiCorrigéeEvent) => {
+export const handleDemandeDélaiCorrigée = async (
+  event: Lauréat.Délai.DemandeDélaiCorrigéeEvent | Lauréat.Délai.DemandeDélaiCorrigéeEventV1,
+) => {
+  const { payload } = event;
   const projet = await getLauréat(payload.identifiantProjet);
 
   const { appelOffre, période } = projet.identifiantProjet;
+
+  const motif =
+    event.type === 'DemandeDélaiCorrigée-V2'
+      ? Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif)
+      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
 
   const recipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'délai',
+    motif,
   });
 
   return sendEmail({

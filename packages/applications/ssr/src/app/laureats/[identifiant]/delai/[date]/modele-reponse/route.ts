@@ -30,10 +30,9 @@ export const GET = async (
     }
 
     const url = new URL(request.url);
-    const motif =
-      url.searchParams.get('motif') === 'prolongation-phase-essai'
-        ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai
-        : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
+    const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
+      url.searchParams.get('motif') ?? '',
+    );
 
     const { identifiant, date } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
