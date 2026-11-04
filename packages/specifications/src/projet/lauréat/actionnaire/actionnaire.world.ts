@@ -119,6 +119,7 @@ export class ActionnaireWorld {
       demande: {
         nouvelActionnaire: baseFixture.actionnaire,
         statut,
+        autoritéCompétente: Lauréat.Actionnaire.AutoritéCompétente.dreal,
         demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
         demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
         raison: baseFixture.raison,
