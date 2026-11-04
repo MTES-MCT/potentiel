@@ -123,7 +123,8 @@ namespace Achevement {
     nomProjet: string;
 
     /** N°CRE */
-    numeroCRE: string;
+    @encodedName("application/json", "numeroCRE")
+    numeroCre: string;
 
     /** Candidat */
     nomCandidat: string;
@@ -137,15 +138,18 @@ namespace Achevement {
      */
     societeMere: string;
 
-    /**
-     * Numéro SIREN - 🍀 Domaine producteur
-    **/
-    siren?: Siren;
+    identification?: {
+      /**
+       * Numéro SIREN - 🍀 Domaine producteur
+      **/
+      siren?: Siren;
 
-    /** 
-     * Numéro SIRET - 🍀 Domaine producteur
-     **/
-    siret?: Siret;
+     /** 
+      * Numéro SIRET - 🍀 Domaine producteur
+      **/
+     siret?: Siret;
+   };
+
 
     /** 
      * Le(s) dossier(s) de raccordement rattaché(s) au projet - 🍀 Domaine raccordement
@@ -165,7 +169,7 @@ namespace Achevement {
     /** 
      *  CDC actuel du projet - 🍀 Domaine lauréat
      **/
-    cahierDesChargeschoisi: "initial" | "30/07/2021" | "30/08/2022" | "07/02/2023" | "30/07/2021-alternatif" | "30/08/2022-alternatif" | "07/02/2023-alternatif";
+    cahierDesCharges: "initial" | "30/07/2021" | "30/08/2022" | "07/02/2023" | "30/07/2021-alternatif" | "30/08/2022-alternatif" | "07/02/2023-alternatif";
 
     /** 
      * Adresse - 🍀 Domaine lauréat
@@ -206,11 +210,20 @@ namespace Achevement {
     /** 
      * Délai accordé par les Autorités (mois) 
      * 
+     * ⚠️ Demander pourquoi avoir besoin de cette donnée ? On peut proposer en alternatif : Array<{
+     *  motif: string;
+     *  nombreDeMois: uint8;
+     * }>
+     * 
      * 🍀 Domaine Délai
      * */
-    delaiAccordeEnMois?: uint16;
+    delaiAccordeEnMois?: uint8;
 
     /** 
+     * 
+     * ⚠️ Demander pourquoi avoir besoin de cette donnée ? 
+     * Pour un éliminé devenu lauréat suite à une demande de recous accordé, la date en question est la date de notification. 
+     * 
      * Dates de recours - 🍀 Domaine Recours 
      **/
     recours?: {
@@ -246,7 +259,8 @@ namespace Achevement {
         * L'identifiant du gestionnaire de réseau gérant le raccordement du projet.
         * Tous les dossiers d'un même projet sont gérés par le même gestionnaire de réseau.
       */
-      identifiant: string;
+      @encodedName("application/json", "codeEIC")
+      codeEic: string;
     };
 
     /** 
@@ -256,10 +270,13 @@ namespace Achevement {
 
     /** 
      * 
-     * Statut
+     * ⚠️ Demander pourquoi avoir besoin de cette donnée ? On peut proposer en alternatif : 
+     *   statut: "actif" | "abandonné" | "achevé";
+     *   achevementEnAttente: boolean;
      *  
      */
-    statut: "achevement-en-attente";
+    statut: "actif" | "abandonné" | "achevé";
+    achevementEnAttente: boolean;
 
     /** 
      * 
@@ -289,14 +306,18 @@ namespace Achevement {
     **/
     natureDeLExploitation?: {
       type: "vente-avec-injection-en-totalité" | "autoconsommation-individuelle" | "autoconsommation-collective" | "autoconsommation-individuelle-et-collective";
-      tauxPrevisionnelACI?: uint16;
-      tauxPrevisionnelACC?: uint16;
+      @encodedName("application/json", "tauxPrevisionnelACI")
+      tauxPrevisionnelAci?: uint16;
+      @encodedName("application/json", "tauxPrevisionnelACC")
+      tauxPrevisionnelAcc?: uint16;
     };
 
 
     /** 
      * Evaluation carbone simplifiée indiquée au C. du formulaire 
      * de candidature et arrondie (kg eq CO2/kWc)  
+     * 
+     * 🚧 à vérifier si vraiement optionnel
      * 
      * 🍀 Domaine Fournisseur 
     */
