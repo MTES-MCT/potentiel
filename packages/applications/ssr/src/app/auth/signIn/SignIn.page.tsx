@@ -51,7 +51,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
         className="mb-6"
       />
       <div className="flex flex-col mt-12 gap-6 items-center">
-        <div className="flex flex-wrap gap-5 justify-center">
+        <div className="flex flex-wrap gap-6 justify-center">
           {providers.proconnect && (
             <AuthTile
               title="ProConnect"
@@ -64,7 +64,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
                   }
                 />
               }
-              className="w-full md:w-2/5"
+              className="w-full md:flex-1"
             />
           )}
 
@@ -83,31 +83,30 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
                   }}
                 />
               }
-              className="w-full md:w-2/5"
-            />
-          )}
-
-          {providers.keycloak && (
-            <AuthTile
-              title="Mot de passe"
-              provider={providers.keycloak}
-              description={
-                "Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
-              }
-              action={
-                <Button
-                  className="mx-auto"
-                  onClick={() =>
-                    authClient.signIn.oauth2({ providerId: 'keycloak', callbackURL: callbackUrl })
-                  }
-                >
-                  Connexion avec mot de passe
-                </Button>
-              }
-              className="w-full md:w-2/5"
+              className="w-full md:flex-1"
             />
           )}
         </div>
+        {providers.keycloak && (
+          <AuthTile
+            title="Mot de passe"
+            provider={providers.keycloak}
+            description={
+              "Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
+            }
+            action={
+              <Button
+                className="mx-auto"
+                onClick={() =>
+                  authClient.signIn.oauth2({ providerId: 'keycloak', callbackURL: callbackUrl })
+                }
+              >
+                Connexion avec mot de passe
+              </Button>
+            }
+            className="w-full md:w-1/2"
+          />
+        )}
       </div>
       <div className="text-right italic mt-2">
         * Autres Partenaires : Caisse des dépôts, Gestionnaire de Réseau, Cocontractant

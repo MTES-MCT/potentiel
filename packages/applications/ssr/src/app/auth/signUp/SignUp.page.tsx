@@ -9,7 +9,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { authClient } from '@/auth/client';
 import type { AuthProvider } from '@/auth/providers/authProvider';
 import { Heading1 } from '@/components/atoms/headings';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { AuthTile, type ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -26,15 +25,19 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
   return (
     <PageTemplate>
       <Heading1>Inscrivez-vous</Heading1>
-      <div className="flex flex-col">
-        <p className="mb-6">
-          L'inscription autonome n'est possible qu'en tant que Porteur de Projet. Vous êtes
-          partenaire ?
-          <Link href="mailto:contact@potentiel.beta.gouv.fr" className="ml-2">
-            Contactez-nous par email
-          </Link>
-        </p>
-
+      <div className="flex flex-col gap-4">
+        <Notice
+          title=""
+          severity="info"
+          description="L'inscription autonome n'est possible qu'en tant que Porteur de Projet. Vous êtes
+          partenaire ?"
+          link={{
+            text: 'Contactez-nous par email',
+            linkProps: {
+              href: 'mailto:contact@potentiel.beta.gouv.fr',
+            },
+          }}
+        />
         {error && (
           <Notice
             className="md:w-2/3"
@@ -44,7 +47,7 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
             isClosable
           />
         )}
-        <div className="flex flex-col items-center lg:flex-row  lg:items-stretch gap-6 h-full">
+        <div className="flex flex-wrap gap-6 justify-center">
           {providers.proconnect && (
             <AuthTile
               title="ProConnect"
@@ -60,7 +63,7 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
                   }
                 />
               }
-              className="flex-1"
+              className="w-full md:flex-1"
             />
           )}
 
@@ -77,7 +80,7 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
                   }}
                 />
               }
-              className="flex-1"
+              className="w-full md:flex-1"
             />
           )}
         </div>
