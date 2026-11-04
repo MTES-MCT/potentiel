@@ -6,7 +6,6 @@ const changementsCDCModifié = {
   nomProjet: {},
   natureDeLExploitation: {},
   typologieInstallation: {},
-  délaiPhaseEssai: {},
   siteDeProduction: {},
   représentantLégal: {
     demande: true,

@@ -4,7 +4,6 @@ import { defaultModifications } from '../../constants.js';
 
 const changementsCDCModifié = {
   nomProjet: {},
-  délaiPhaseEssai: {},
   natureDeLExploitation: {},
   typologieInstallation: {},
   siteDeProduction: {},

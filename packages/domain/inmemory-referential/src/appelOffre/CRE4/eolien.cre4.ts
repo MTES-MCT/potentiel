@@ -39,7 +39,6 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   launchDate: 'mai 2017',
   miseÀJour: {
     changement: {
-      délaiPhaseEssai: {},
       nomProjet: {},
       natureDeLExploitation: {},
       typologieInstallation: {},

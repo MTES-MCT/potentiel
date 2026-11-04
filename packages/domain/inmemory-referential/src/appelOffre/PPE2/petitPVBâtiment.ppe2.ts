@@ -23,7 +23,6 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   délaiDCR: { grd: 3, potentiel: 4 },
   miseÀJour: {
     changement: {
-      délaiPhaseEssai: {},
       typologieInstallation: {},
       nomProjet: {
         informationEnregistrée: true,
@@ -77,10 +76,9 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       natureDeLExploitation: true,
       installateur: true,
       dispositifDeStockage: true,
-      délaiAchèvement: undefined,
+      délai: undefined,
       recours: undefined,
       abandon: undefined,
-      délaiPhaseEssai: undefined,
     },
   },
   paragraphePrixReference: '7',

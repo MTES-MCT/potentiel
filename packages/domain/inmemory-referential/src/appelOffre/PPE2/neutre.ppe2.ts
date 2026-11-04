@@ -25,7 +25,6 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},
-      délaiPhaseEssai: { demande: true, autoritéCompétente: 'dgec' },
       représentantLégal: {
         demande: true,
         instructionAutomatique: 'accord',
