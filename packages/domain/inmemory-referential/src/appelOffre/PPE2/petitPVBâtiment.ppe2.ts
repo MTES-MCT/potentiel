@@ -34,7 +34,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       },
       actionnaire: {},
       fournisseur: {},
-      délaiAchèvement: {
+      délai: {
         demande: true,
         autoritéCompétente: 'dreal',
       },

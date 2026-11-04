@@ -102,7 +102,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
       fournisseur: {
         informationEnregistrée: true,
       },
-      délaiAchèvement: {
+      délai: {
         demande: true,
         autoritéCompétente: 'dreal',
       },

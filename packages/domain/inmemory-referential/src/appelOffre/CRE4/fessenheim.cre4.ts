@@ -19,7 +19,7 @@ const changementsCDCModifié = {
   fournisseur: {
     informationEnregistrée: true,
   },
-  délaiAchèvement: {
+  délai: {
     demande: true,
     autoritéCompétente: 'dreal',
   },

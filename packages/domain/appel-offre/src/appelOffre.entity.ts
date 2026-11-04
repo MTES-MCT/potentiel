@@ -132,7 +132,7 @@ type ChangementReprésentantLégal =
 
 type RèglesMiseÀJourPorteurAvecInstruction = {
   actionnaire: ChangementActionnaire;
-  délaiAchèvement: DemandeAvecAutoritéCompétente;
+  délai: DemandeAvecAutoritéCompétente;
   puissance: ChangementPuissance;
   représentantLégal: ChangementReprésentantLégal;
   recours: DemandeAvecAutoritéCompétente;
@@ -172,7 +172,6 @@ export type DomainesCourriersRéponse =
   | 'puissance'
   | 'délaiAchèvement'
   | 'délaiPhaseEssai';
-
 export type DonnéesCourriersRéponse = {
   référenceParagraphe: string;
   dispositions: string;
