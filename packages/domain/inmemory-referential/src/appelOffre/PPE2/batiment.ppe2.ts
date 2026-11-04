@@ -83,7 +83,6 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},
-      délaiPhaseEssai: { demande: true, autoritéCompétente: 'dgec' },
       représentantLégal: {
         demande: true,
         instructionAutomatique: 'accord',
@@ -204,7 +203,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       typeImport: 'csv',
       miseÀJour: {
         changement: {
-          délaiPhaseEssai: {},
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
@@ -235,7 +233,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       typeImport: 'csv',
       miseÀJour: {
         changement: {
-          délaiPhaseEssai: {},
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
@@ -272,7 +269,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       typeImport: 'csv',
       miseÀJour: {
         changement: {
-          délaiPhaseEssai: {},
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
@@ -303,7 +299,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       typeImport: 'csv',
       miseÀJour: {
         changement: {
-          délaiPhaseEssai: {},
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
@@ -345,7 +340,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       typeImport: 'csv',
       miseÀJour: {
         changement: {
-          délaiPhaseEssai: {},
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
@@ -387,7 +381,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       typeImport: 'csv',
       miseÀJour: {
         changement: {
-          délaiPhaseEssai: {},
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',

@@ -7,7 +7,6 @@ const changementsCDCModifié: AppelOffre.RèglesMiseÀJourPorteur = {
   natureDeLExploitation: {},
   typologieInstallation: {},
   siteDeProduction: {},
-  délaiPhaseEssai: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',

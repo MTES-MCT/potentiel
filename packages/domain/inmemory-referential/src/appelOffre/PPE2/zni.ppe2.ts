@@ -21,7 +21,6 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   miseÀJour: {
     changement: {
       nomProjet: {},
-      délaiPhaseEssai: {},
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},
