@@ -8,14 +8,15 @@ export const recoursDemandéProjector = async ({
     `demande-recours|${identifiantProjet}#${demandéLe}`,
     {
       identifiantProjet,
+      statut: Éliminé.Recours.StatutRecours.demandé.statut,
+      autoritéCompétente: Éliminé.Recours.AutoritéCompétente.dgec.autoritéCompétente,
+      miseÀJourLe: demandéLe,
       demande: {
         demandéLe,
         demandéPar,
         raison,
         pièceJustificative,
       },
-      statut: Éliminé.Recours.StatutRecours.demandé.statut,
-      miseÀJourLe: demandéLe,
     },
   );
   await upsertProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
