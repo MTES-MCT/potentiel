@@ -73,7 +73,9 @@ export default async function Page(props: PageProps) {
           actions={mapToActions({
             utilisateur,
             demandeDélai,
-            autoritéCompétente: règles.demande ? règles.autoritéCompétente : undefined,
+            autoritéCompétente: règles.demande
+              ? règles.motifs[demandeDélai.motif.motif]?.autoritéCompétente
+              : undefined,
           })}
           historique={historique.items.map((item) =>
             mapToDélaiTimelineItemProps(

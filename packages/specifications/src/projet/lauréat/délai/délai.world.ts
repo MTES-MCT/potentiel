@@ -77,6 +77,11 @@ export class DélaiWorld {
         : this.#demanderDélaiFixture.motif,
     );
 
+    const autoritéCompétente = this.lauréatWorld.cahierDesCharges.getAutoritéCompétente({
+      domain: 'délai',
+      motif,
+    });
+
     const expected: Lauréat.Délai.ConsulterDemandeDélaiReadModel = {
       statut,
       identifiantProjet,
@@ -90,13 +95,7 @@ export class DélaiWorld {
         demandéLe: this.#demanderDélaiFixture.demandéLe,
         pièceJustificative: { format: this.#demanderDélaiFixture.pièceJustificative.format },
       }),
-      autoritéCompétente: motif.estProlongationPhaseEssai()
-        ? Lauréat.Délai.AutoritéCompétente.dgec
-        : Lauréat.Délai.AutoritéCompétente.convertirEnValueType(
-            ao.miseÀJour.changement === 'indisponible' || !ao?.miseÀJour.changement.délai.demande
-              ? Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI
-              : ao.miseÀJour.changement.délai.autoritéCompétente,
-          ),
+      autoritéCompétente: Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente),
       instruction: this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé
         ? {
             passéeEnInstructionLe: DateTime.convertirEnValueType(
