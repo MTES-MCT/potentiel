@@ -58,6 +58,10 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
               <div className="whitespace-nowrap">Explications :</div>
               <blockquote className="font-semibold italic">"{recours.demande.raison}"</blockquote>
             </div>
+            <div>
+              <span className="font-medium">Autorité compétente pour l'instruction :</span>{' '}
+              {recours.autoritéCompétente?.autoritéCompétente.toLocaleUpperCase()}
+            </div>
           </div>
           <div className="mb-4">
             <Heading2>Historique</Heading2>
