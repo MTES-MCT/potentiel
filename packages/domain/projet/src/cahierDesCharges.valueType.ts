@@ -65,7 +65,7 @@ export namespace CahierDesCharges {
         nomProjet: {},
         abandon: {},
         actionnaire: {},
-        délaiAchèvement: {},
+        délai: {},
         fournisseur: {},
         producteur: {},
         puissance: {},

@@ -17,7 +17,7 @@ const changementsCDCModifié: AppelOffre.RèglesMiseÀJourPorteur = {
   fournisseur: {
     informationEnregistrée: true,
   },
-  délaiAchèvement: {
+  délai: {
     demande: true,
     autoritéCompétente: 'dreal',
   },
