@@ -5,7 +5,9 @@ import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { autoritéCompétente } from '../../autoritéCompétente.valueType.js';
 import {
+  AutoritéCompétente,
   type ChangementActionnaireEntity,
   DocumentActionnaire,
   StatutChangementActionnaire,
@@ -17,6 +19,7 @@ export type ConsulterChangementActionnaireReadModel = {
   demande: {
     nouvelActionnaire: string;
     statut: StatutChangementActionnaire.ValueType;
+    autoritéCompétente?: AutoritéCompétente.ValueType;
 
     demandéePar: Email.ValueType;
     demandéeLe: DateTime.ValueType;
@@ -79,6 +82,8 @@ export const mapToReadModel = (result: ChangementActionnaireEntity) => {
     demande: {
       nouvelActionnaire: result.demande.nouvelActionnaire,
       statut: StatutChangementActionnaire.convertirEnValueType(result.statut),
+      autoritéCompétente:
+        result.autoritéCompétente && AutoritéCompétente.convertirEnValueType(autoritéCompétente),
 
       demandéeLe: DateTime.convertirEnValueType(result.demande.demandéLe),
       demandéePar: Email.convertirEnValueType(result.demande.demandéPar),

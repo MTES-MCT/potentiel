@@ -6,13 +6,18 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import { ReprésentantLégal } from '../../../index.js';
-import { type StatutChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
+import {
+  type AutoritéCompétente,
+  type StatutChangementReprésentantLégal,
+  TypeReprésentantLégal,
+} from '../../index.js';
 
 export type ConsulterChangementReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
   demande: {
     statut: StatutChangementReprésentantLégal.ValueType;
+    autoritéCompétente?: AutoritéCompétente.ValueType;
 
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
@@ -84,6 +89,7 @@ type MapToReadModel = (args: {
 const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   changement: {
+    autoritéCompétente,
     statut,
     demande: { accord, rejet, ...demande },
   },
@@ -93,6 +99,9 @@ const mapToReadModel: MapToReadModel = ({
 
     demande: {
       statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(statut),
+      autoritéCompétente:
+        autoritéCompétente &&
+        ReprésentantLégal.AutoritéCompétente.convertirEnValueType(autoritéCompétente),
       nomReprésentantLégal: demande.nomReprésentantLégal,
       typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
         demande.typeReprésentantLégal,

@@ -7,6 +7,9 @@ export type RecoursEntity = Entity<
   'recours',
   {
     identifiantProjet: string;
-    dernièreDemande: { date: DateTime.RawType; statut: StatutRecours.RawType };
+    dernièreDemande: {
+      date: DateTime.RawType;
+      statut: StatutRecours.RawType;
+    };
   }
 >;
