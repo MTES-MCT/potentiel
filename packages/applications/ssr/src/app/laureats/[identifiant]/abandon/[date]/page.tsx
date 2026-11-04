@@ -84,6 +84,13 @@ export default async function Page(props: PageProps) {
         'garantiesFinancières.mainlevée.accorder',
       );
 
+      const mainlevéeGarantiesFinancièresPossible =
+        isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
+        permissionAccorderMainlevéeGarantiesFinancières &&
+        garantiesFinancières.actuelles?.garantiesFinancières !== undefined &&
+        !garantiesFinancières.actuelles?.garantiesFinancières.estÉchu() &&
+        !garantiesFinancières.dépôt;
+
       return (
         <DétailsAbandonPage
           identifiantProjet={identifiantProjet}
@@ -91,13 +98,11 @@ export default async function Page(props: PageProps) {
           estPPA={estPPA}
           ppaSignaléLorsDeLaDemande={ppaSignaléLorsDeLaDemande}
           afficherNoticeAttestationGarantiesFinancièresÀConstituer={
-            isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
-            permissionAccorderMainlevéeGarantiesFinancières &&
+            mainlevéeGarantiesFinancièresPossible &&
             garantiesFinancières.actuelles?.garantiesFinancières.constitution === undefined
           }
           afficherChampMainlevéeGarantiesFinancières={
-            isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
-            permissionAccorderMainlevéeGarantiesFinancières &&
+            mainlevéeGarantiesFinancièresPossible &&
             !!garantiesFinancières.actuelles?.garantiesFinancières.constitution
           }
           actions={actions}
