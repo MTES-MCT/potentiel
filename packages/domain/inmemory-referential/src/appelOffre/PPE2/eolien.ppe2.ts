@@ -100,7 +100,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
         demande: true,
         motifs: {
           'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
-          'prolongation-phase-essai': undefined,
+          'prolongation-phase-essai': { autoritéCompétente: 'dgec' },
         },
       },
       producteur: {

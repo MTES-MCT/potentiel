@@ -90,7 +90,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
         demande: true,
         motifs: {
           'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
-          'prolongation-phase-essai': undefined,
+          'prolongation-phase-essai': { autoritéCompétente: 'dgec' },
         },
       },
       producteur: {
@@ -207,6 +207,13 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
             demande: true,
             autoritéCompétente: 'dgec',
           },
+          délai: {
+            demande: true,
+            motifs: {
+              'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+              'prolongation-phase-essai': undefined,
+            },
+          },
         },
         modification: defaultModifications,
       },
@@ -240,6 +247,13 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
             demande: true,
             autoritéCompétente: 'dgec',
           },
+          délai: {
+            demande: true,
+            motifs: {
+              'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+              'prolongation-phase-essai': undefined,
+            },
+          },
         },
       },
       champsSupplémentaires: {
@@ -268,6 +282,13 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
+          },
+          délai: {
+            demande: true,
+            motifs: {
+              'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+              'prolongation-phase-essai': undefined,
+            },
           },
         },
         modification: defaultModifications,
@@ -310,6 +331,13 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
             demande: true,
             autoritéCompétente: 'dgec',
           },
+          délai: {
+            demande: true,
+            motifs: {
+              'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+              'prolongation-phase-essai': undefined,
+            },
+          },
         },
         modification: defaultModifications,
       },
@@ -350,6 +378,13 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
+          },
+          délai: {
+            demande: true,
+            motifs: {
+              'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+              'prolongation-phase-essai': undefined,
+            },
           },
         },
         modification: defaultModifications,
