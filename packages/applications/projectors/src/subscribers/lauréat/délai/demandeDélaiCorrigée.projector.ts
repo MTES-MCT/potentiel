@@ -19,11 +19,11 @@ export const demandeDélaiCorrigéeProjector = async (
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${dateDemande}`,
     {
+      autoritéCompétente,
       demande: {
         nombreDeMois,
         raison,
         motif,
-        autoritéCompétente,
         ...(pièceJustificative && {
           pièceJustificative: { format: pièceJustificative.format },
         }),
