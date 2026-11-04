@@ -831,6 +831,26 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   //#region Behavior Mainlevée
 
+  vérifierQueLesGarantiesFinancièresPeuventÊtreLevées(
+    nouveauStatut: StatutMainlevéeGarantiesFinancières.ValueType,
+  ) {
+    this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
+
+    this.vérifierQueLeProjetNEstPasExempt();
+
+    if (this.estÉchu) {
+      throw new GarantiesFinancièresDéjàÉchuesError();
+    }
+
+    if (this.aUnDépôtEnCours) {
+      throw new DépôtDeGarantiesFinancièresÀSupprimerError();
+    }
+
+    if (this.#statutMainlevée) {
+      this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut);
+    }
+  }
+
   async demanderMainlevée({ motif, demandéLe, demandéPar }: DemanderMainlevéeOptions) {
     if (motif.estProjetAbandonné() && !this.lauréat.abandon.statut.estAccordé()) {
       throw new ProjetNonAbandonnéError();
@@ -845,21 +865,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       }
     }
 
-    this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
-
-    this.vérifierQueLeProjetNEstPasExempt();
-
-    if (this.estÉchu) {
-      throw new GarantiesFinancièresDéjàÉchuesError();
-    }
-
-    this.#statutMainlevée?.vérifierQueLeChangementDeStatutEstPossibleEn(
+    this.vérifierQueLesGarantiesFinancièresPeuventÊtreLevées(
       StatutMainlevéeGarantiesFinancières.demandé,
     );
-
-    if (this.aUnDépôtEnCours) {
-      throw new DépôtDeGarantiesFinancièresÀSupprimerError();
-    }
 
     const event: MainlevéeGarantiesFinancièresDemandéeEvent = {
       type: 'MainlevéeGarantiesFinancièresDemandée-V1',
@@ -976,29 +984,15 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
   }
 
-  vérifierQueLaMainlevéePeutEtreAccordée() {
-    this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
-
-    this.vérifierQueLeProjetNEstPasExempt();
-
-    if (this.estÉchu) {
-      throw new GarantiesFinancièresDéjàÉchuesError();
-    }
-
-    if (this.#statutMainlevée) {
-      this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(
-        StatutMainlevéeGarantiesFinancières.accordé,
-      );
-    }
-  }
-
   async accorderMainlevée({
     accordéLe,
     accordéPar,
     motif,
     réponseSignée,
   }: AccorderMainlevéeOptions) {
-    this.vérifierQueLaMainlevéePeutEtreAccordée();
+    this.vérifierQueLesGarantiesFinancièresPeuventÊtreLevées(
+      StatutMainlevéeGarantiesFinancières.accordé,
+    );
 
     const event: MainlevéeGarantiesFinancièresAccordéeEvent = {
       type: 'MainlevéeGarantiesFinancièresAccordée-V1',

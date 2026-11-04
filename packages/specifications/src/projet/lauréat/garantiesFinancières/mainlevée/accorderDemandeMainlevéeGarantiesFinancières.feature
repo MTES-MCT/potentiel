@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@mainlevée
 Fonctionnalité: Accorder une demande de mainlevée des garanties financières
 
     Contexte:

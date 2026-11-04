@@ -147,7 +147,9 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     if (accorderMainlevéeGarantiesFinancières) {
-      this.lauréat.garantiesFinancières.vérifierQueLaMainlevéePeutEtreAccordée();
+      this.lauréat.garantiesFinancières.vérifierQueLesGarantiesFinancièresPeuventÊtreLevées(
+        Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé,
+      );
     }
 
     const event: AbandonAccordéEvent = {
