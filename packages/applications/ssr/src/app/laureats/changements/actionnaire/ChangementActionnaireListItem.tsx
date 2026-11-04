@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -22,6 +22,7 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
   miseÀJourLe,
   demandéLe,
   nouvelActionnaire,
+  autoritéCompétente,
 }) => (
   <ListItem
     miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
@@ -66,10 +67,17 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
           <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
         </span>
       </li>
+      {autoritéCompétente && (
+        <li>
+          <span>
+            Autorité compétente pour l'instruction :{' '}
+            <span className="font-semibold">
+              {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+            </span>
+          </span>
+        </li>
+      )}
     </ul>
-    <StatutDemandeBadge
-      statut={Lauréat.Actionnaire.StatutChangementActionnaire.bind(statut).statut}
-      small
-    />
+    <StatutDemandeBadge statut={statut.statut} small />
   </ListItem>
 );

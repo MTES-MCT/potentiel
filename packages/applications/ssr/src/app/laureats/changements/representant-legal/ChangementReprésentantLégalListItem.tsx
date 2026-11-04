@@ -4,7 +4,7 @@ import type { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
@@ -20,6 +20,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
   statut,
   miseÀJourLe,
   demandéLe,
+  autoritéCompétente,
 }) => (
   <ListItem
     miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
@@ -44,9 +45,18 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
       </Button>
     }
   >
-    <StatutDemandeBadge
-      statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).formatter()}
-      small
-    />
+    <div className="flex flex-col gap-2">
+      {autoritéCompétente && (
+        <div>
+          <span>
+            Autorité compétente pour l'instruction :{' '}
+            <span className="font-semibold">
+              {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+            </span>
+          </span>
+        </div>
+      )}
+      <StatutDemandeBadge statut={statut.statut} small />
+    </div>
   </ListItem>
 );
