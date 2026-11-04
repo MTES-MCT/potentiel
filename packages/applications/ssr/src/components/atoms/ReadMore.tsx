@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 type Props = { text: string; maxLength?: number; className?: string };
 
-export const ReadMore = ({ text, maxLength = 100, className }: Props) => {
+export const ReadMore = ({ text, maxLength = 20, className }: Props) => {
   const [isTruncated, setIsTruncated] = useState(true);
 
   if (text.length <= maxLength) {
@@ -17,7 +17,7 @@ export const ReadMore = ({ text, maxLength = 100, className }: Props) => {
       <button
         type="button"
         onClick={() => setIsTruncated(!isTruncated)}
-        className="cursor-pointer text-sm text-dsfr-text-title-blueFrance-default font-medium whitespace-nowrap"
+        className="cursor-pointer text-sm text-dsfr-text-title-blueFrance-default font-medium whitespace-nowrap ml-2"
       >
         {isTruncated ? ' Voir plus' : ' Voir moins'}
       </button>
