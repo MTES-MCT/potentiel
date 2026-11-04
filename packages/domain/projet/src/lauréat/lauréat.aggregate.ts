@@ -309,7 +309,7 @@ export class LauréatAggregate extends AbstractAggregate<
       champsSupplémentaire.typologieInstallation ||
       champsSupplémentaire.dispositifDeStockage
     ) {
-      await this.#installation.importer({
+      await this.installation.importer({
         installateur: this.projet.candidature.installateur ?? '',
         typologieInstallation: this.projet.candidature.dépôt.typologieInstallation,
         dispositifDeStockage: this.projet.candidature.dépôt.dispositifDeStockage,

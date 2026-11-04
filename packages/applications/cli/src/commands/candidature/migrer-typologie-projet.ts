@@ -1,7 +1,13 @@
+import { writeFile } from 'node:fs/promises';
+
 import { Command } from '@oclif/core';
 import { match, P } from 'ts-pattern';
 
-import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
+import type { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { ExportCSV } from '@potentiel-libraries/csv';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
 
@@ -9,78 +15,13 @@ type Stats = {
   total: number;
   sucess: Array<{
     identifiantProjet: IdentifiantProjet.RawType;
-    ancienneValeur: string;
+    valeurDétail: ActualTypologieProjetPossibleValue;
+    valueTypologie: Candidature.TypologieInstallation.RawType['typologie'];
   }>;
 
-  errors: { identifiantProjet: IdentifiantProjet.RawType; message: string }[];
+  errors: Array<{ identifiantProjet: IdentifiantProjet.RawType; message: string }>;
 };
 
-/*
-Bâtiment	1135
-Sol	956
-Ombrière de parking	526
-Candidat à l'AO PV Sol/Neutre - Sol	414
-Bâti agricole (serre ou hangar)	244
-Ombrière autre	243
-Serre agrivoltaïque	197
-Ombrière agrivoltaïque	186
-PV Sol	168
-Bâti standard	126
-Hangar agricole	53
-AO PV Bâtiment - Ombrière agrivoltaïque	47
-Hangar	44
-Centre commercial	39
-Serre	32
-AO PV Bâtiment - Bâtiment	32
-Flottant	31
-Ombrière	30
-Eolien	29
-AO PV Sol - Sol	20
-AO PV Bâtiment - Serre agrivoltaïque	18
-AO PV Bâtiment - Ombrière de parking	18
-Candidat à l'AO PV Sol/Neutre - Flottant	16
-Mixte	10
-Industriel	10
-Exploitation	10
-Cas 3	10
-AO PV Sol - Flottant	9
-Candidat à l'AO PV Bâtiment/Neutre - Ombrière agrivoltaïque	9
-Bâtiment non agricole	8
-Candidat à l'AO PV Bâtiment/Neutre - Ombrière de parking	6
-Industrie	5
-Centre commercial 	5
-Candidat à l'AO PV Bâtiment/Neutre - Bâtiment	4
-Commerce	4
-AO PV Bâtiment - Ombrière autre	4
-Candidat à l'AO PV Bâtiment/Neutre - Serre agrivoltaïque	4
-Supermarché 	3
-PC	2
-Hypermarché	2
-Bureaux	2
-Exploitation Agricole	2
-Methaniseur Agricole 	2
-Serre agrivoltaïque + Ombrière agrivoltaïque	2
-Producteur 	1
-Entrepôt frigorifique	1
-Supermarché	1
-Methaniseur Agricole	1
-Paul-François Croisille	1
-ANDRIEU Stéphanie	1
-AO PV Bâtiment - Hangar	1
-Zoo	1
-Serre agrivoltaïque + Hangar	1
-Bâtiment agricole	1
-PLI_2019_jdvwitkqHt	1
-Collectivité 	1
-JOBARD Thibaut	1
-Public	1
-PLI_2019_FmvxZuwgxX	1
-industrie	1
-STEP	1
-PLI_2019_B7vWlnjqBC	1
-Cas 3 et autre	1
-Transport	1 
-*/
 type ActualTypologieProjetPossibleValue =
   | 'Centre commercial'
   | 'AO PV Bâtiment - Hangar'
@@ -147,46 +88,11 @@ type ActualTypologieProjetPossibleValue =
   | 'PC'
   | 'Methaniseur Agricole ';
 
-/*
-[
-  "bâtiment.neuf", 
-  "bâtiment.existant-avec-rénovation-de-toiture", 
-  "bâtiment.existant-sans-rénovation-de-toiture", 
-  "bâtiment.serre", 
-  "bâtiment.serre-agrivoltaïque-pré-aper", 
-  "bâtiment.serre-agrivoltaïque-post-aper", 
-  "bâtiment.stabulation", 
-  "bâtiment.mixte", 
-  "bâtiment.non-précisé", 
-  
-  "ombrière.parking", 
-  "ombrière.agrivoltaïque", 
-  "ombrière.agrivoltaïque-pré-aper", 
-  "ombrière.agrivoltaïque-post-aper", 
-  "ombrière.autre", 
-  "ombrière.mixte", 
-  
-  "sol", 
-  
-  "agrivoltaïque.culture", 
-  "agrivoltaïque.jachère-plus-de-5-ans",
-  "agrivoltaïque.élevage",
-  "agrivoltaïque.serre", 
-  "agrivoltaïque.non-précisé"
-]
-*/
-
 const getTypologieInstallation = (value: ActualTypologieProjetPossibleValue) =>
   match(value)
     .returnType<Candidature.TypologieInstallation.RawType['typologie'] | undefined>()
 
     //#region BATIMENT
-    ///////////// BATIMENT /////////////
-    .with(
-      P.union('AO PV Bâtiment - Ombrière agrivoltaïque', 'Ombrière agrivoltaïque'),
-      () => 'ombrière.agrivoltaïque',
-    )
-
     .with(
       P.union(
         'AO PV Bâtiment - Bâtiment',
@@ -194,56 +100,10 @@ const getTypologieInstallation = (value: ActualTypologieProjetPossibleValue) =>
         'Bâti standard',
         "Candidat à l'AO PV Bâtiment/Neutre - Bâtiment",
         'Bâtiment non agricole',
-        'Entrepôt frigorifique',
-      ),
-      () => 'bâtiment.non-précisé',
-    )
-
-    /*
-      ✨ NEW 'bâtiment.industrie' ? (16 occurences)
-    */
-    .with(P.union('industrie', 'Industrie', 'Industriel'), () => undefined)
-
-    /*
-      ✨ NEW 'bâtiment.hangar' ? (16 occurences)
-    */
-    .with(P.union('Hangar', 'AO PV Bâtiment - Hangar'), () => undefined)
-
-    /*
-      ✨ NEW 'bâtiment.agricole' ? (312 occurences)
-    */
-    .with(
-      P.union(
+        'Hangar',
+        'AO PV Bâtiment - Hangar',
         'Bâtiment agricole',
         'Bâti agricole (serre ou hangar)',
-        'Hangar agricole',
-        'Methaniseur Agricole',
-        'Methaniseur Agricole ',
-        'Exploitation',
-        'Exploitation Agricole',
-      ),
-      () => undefined,
-    )
-
-    /* 
-      🧐 'bâtiment.serre-agrivoltaïque-pré-aper' OU 'bâtiment.serre-agrivoltaïque-post-aper'
-    */
-    .with(
-      P.union("Candidat à l'AO PV Bâtiment/Neutre - Serre agrivoltaïque"),
-      () => 'bâtiment.serre-agrivoltaïque-post-aper',
-    )
-
-    /*
-      🧐 J'aurais tendance à passer ça en bâtiment non précisé parce que 
-      je suis pas sur qu'un nouveau type "bâtiment.centre-commercial" fasse sens (2 occurences)
-    */
-    .with('Bureaux', () => 'bâtiment.non-précisé')
-
-    /*
-      ✨ NEW 'bâtiment.centre-commercial' ? (54 occurences)
-    */
-    .with(
-      P.union(
         'Centre commercial',
         'Centre commercial ',
         'Commerce',
@@ -251,34 +111,25 @@ const getTypologieInstallation = (value: ActualTypologieProjetPossibleValue) =>
         'Supermarché',
         'Supermarché ',
       ),
-      () => undefined,
+      () => 'bâtiment.non-précisé',
+    )
+
+    .with(
+      P.union("Candidat à l'AO PV Bâtiment/Neutre - Serre agrivoltaïque"),
+      () => 'bâtiment.serre',
     )
 
     //#region SOL
-    ///////////// SOL /////////////
-
-    /*
-      🧐 soit 'sol', soit on modifie 'sol' en 'sol.non-précisé'
-    */
     .with(
-      P.union('AO PV Sol - Sol', 'PV Sol', "Candidat à l'AO PV Sol/Neutre - Sol", 'Sol'),
-      () => 'sol',
+      P.union('AO PV Sol - Sol', 'PV Sol', "Candidat à l'AO PV Sol/Neutre - Sol", 'Sol', 'Cas 3'),
+      () => 'sol.non-précisé',
     )
 
-    /*
-      ✨ NEW 'sol.flottant' ?
-    */
     .with(
       P.union('AO PV Sol - Flottant', 'Flottant', "Candidat à l'AO PV Sol/Neutre - Flottant"),
-      () => undefined,
+      () => 'sol.flottant',
     )
-
     //#region OMBRIERE
-    .with(
-      "Candidat à l'AO PV Bâtiment/Neutre - Ombrière agrivoltaïque",
-      () => 'ombrière.agrivoltaïque',
-    )
-
     .with(
       P.union(
         "Candidat à l'AO PV Bâtiment/Neutre - Ombrière de parking",
@@ -288,22 +139,10 @@ const getTypologieInstallation = (value: ActualTypologieProjetPossibleValue) =>
       () => 'ombrière.parking',
     )
 
-    /* 
-      🧐  'ombrière.autre' OU 'ombrière.non-précisé' (NEW ?)
-    */
-
     .with(
       P.union('AO PV Bâtiment - Ombrière autre', 'Ombrière autre', 'Ombrière'),
       () => 'ombrière.autre',
     )
-
-    //#region EOLIEN
-    ///////////// EOLIEN /////////////
-
-    /*
-      ✨ NEW 'eolien' ?
-    */
-    .with('Eolien', () => undefined)
 
     //#region AGRIVOLTAÏQUE
 
@@ -311,6 +150,7 @@ const getTypologieInstallation = (value: ActualTypologieProjetPossibleValue) =>
       P.union('Serre agrivoltaïque', 'AO PV Bâtiment - Serre agrivoltaïque'),
       () => 'agrivoltaïque.serre',
     )
+
     .with('Serre agrivoltaïque + Ombrière agrivoltaïque', () => 'ombrière.mixte')
 
     ///////////// UNDEFINED /////////////
@@ -326,29 +166,31 @@ const getTypologieInstallation = (value: ActualTypologieProjetPossibleValue) =>
         'PLI_2019_FmvxZuwgxX',
         'PLI_2019_jdvwitkqHt',
         'Serre',
-
-        'Cas 3',
         'Cas 3 et autre',
-
         'Collectivité ',
-
         'Mixte',
-
         'PC',
         'STEP',
-
         'Transport',
-
         'Zoo',
+        'Entrepôt frigorifique',
+        'industrie',
+        'Industrie',
+        'Industriel',
+        'Methaniseur Agricole',
+        'Methaniseur Agricole ',
+        'Exploitation',
+        'Exploitation Agricole',
+        'Hangar agricole',
+        'Bureaux',
+        'AO PV Bâtiment - Ombrière agrivoltaïque',
+        'Ombrière agrivoltaïque',
+        "Candidat à l'AO PV Bâtiment/Neutre - Ombrière agrivoltaïque",
+        'Eolien',
+        'Serre agrivoltaïque + Hangar',
       ),
       () => undefined,
     )
-
-    /* 
-      🧐 'agrivolatïque.serre' ou 'bâtiment.hangar'
-    */
-    .with('Serre agrivoltaïque + Hangar', () => undefined)
-
     .exhaustive();
 
 export class Migrer extends Command {
@@ -362,6 +204,133 @@ export class Migrer extends Command {
       errors: [],
     };
 
-    getTypologieInstallation('Bureaux');
+    try {
+      const projets = await executeSelect<{
+        identifiantProjet: IdentifiantProjet.RawType;
+        typologieDeProjet: ActualTypologieProjetPossibleValue;
+      }>(`
+        with dernier_detail as (
+          select distinct on (es.payload->>'identifiantProjet')
+            es.payload->>'identifiantProjet'  as "identifiantProjet",
+            es.payload->'détail'->>'Typologie de projet'     as "typologieDeProjet"
+          from event_store.event_stream es
+          where es.type = 'DétailCandidatureImporté-V1'
+          order by es.payload->>'identifiantProjet', es.created_at desc   -- adapte la colonne d'ordre (created_at / version / position)
+        )
+        select d.*
+        from dernier_detail d
+        where d."typologieDeProjet" is not null
+        and not exists (
+          select 1
+          from domain_views.projection p
+          where p.key = format('installation|%s', d."identifiantProjet")
+        )
+        and  exists (
+          select 1
+          from domain_views.projection p
+          where p.key = format('lauréat|%s', d."identifiantProjet")
+        );
+      `);
+
+      if (!projets.length) {
+        console.info(
+          'ℹ️ Aucun projet lauréat avec une typologie précisée (détail de sa candidature) non migrée',
+        );
+        process.exit(0);
+      }
+
+      stats.total = projets.length;
+
+      let count = 0;
+
+      for (const { identifiantProjet, typologieDeProjet } of projets) {
+        count++;
+        process.stdout.write(`\r⏳ [${count}/${stats.total}]`);
+
+        const typologieInstallation = getTypologieInstallation(typologieDeProjet);
+
+        if (!typologieInstallation) {
+          stats.errors.push({
+            identifiantProjet,
+            message:
+              "⏭️ La typologie d'installation n'existe pas ou n'est pas migrable pour le projet",
+          });
+          console.log(
+            `⏭️ La typologie d'installation n'existe pas ou n'est pas migrable pour le projet`,
+          );
+          continue;
+        }
+
+        try {
+          const event: Lauréat.Installation.InstallationImportéeEvent = {
+            type: 'InstallationImportée-V1',
+            payload: {
+              identifiantProjet,
+              installateur: '',
+              typologieInstallation: [
+                {
+                  typologie: typologieInstallation,
+                },
+              ],
+              importéeLe: DateTime.now().formatter(),
+              importéePar: Email.système.formatter(),
+            },
+          };
+
+          await publish(`installation|${identifiantProjet}`, event);
+          stats.sucess.push({
+            identifiantProjet,
+            valeurDétail: typologieDeProjet,
+            valueTypologie: typologieInstallation,
+          });
+        } catch (error) {
+          stats.errors.push({ identifiantProjet, message: error as string });
+        }
+      }
+
+      console.info(`\n📊 Résultat :`);
+      console.info(`  ✅ ${stats.sucess.length} projets migrés`);
+      console.info(`  ❌ ${stats.errors.length} projets en erreur`);
+
+      if (stats.sucess.length) {
+        await writeFile(
+          './typologieInstallation-success.csv',
+          await ExportCSV.toCSV({
+            data: stats.sucess,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              {
+                label: 'Valeur détail candidature',
+                value: 'valeurDétail',
+              },
+              {
+                label: 'Typologie installation migrée',
+                value: 'valueTypologie',
+              },
+            ],
+          }),
+          'utf-8',
+        );
+      }
+
+      if (stats.errors.length) {
+        await writeFile(
+          './typologieInstallation-errors.csv',
+          await ExportCSV.toCSV({
+            data: stats.errors,
+            fields: [
+              { label: 'Identifiant projet', value: 'identifiantProjet' },
+              {
+                label: 'Message',
+                value: 'message',
+              },
+            ],
+          }),
+          'utf-8',
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

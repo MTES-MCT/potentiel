@@ -25,7 +25,7 @@ export const ombrière = [
   'ombrière.mixte',
 ] as const;
 
-export const sol = ['sol'] as const;
+export const sol = ['sol', 'sol.non-précisé', 'sol.flottant'] as const;
 
 export const agrivoltaïque = [
   'agrivoltaïque.culture',

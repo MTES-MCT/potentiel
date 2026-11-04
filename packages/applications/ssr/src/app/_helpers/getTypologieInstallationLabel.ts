@@ -20,6 +20,8 @@ const typologieToLabelMap: Record<
   'ombrière.autre': 'Ombrière',
   'ombrière.agrivoltaïque': 'Ombrière agrivoltaïque',
   sol: 'Installation au sol',
+  'sol.flottant': 'Sol flottant',
+  'sol.non-précisé': 'Installation au sol (non précisé)',
   'bâtiment.non-précisé': 'Bâtiment (non précisé)',
   'ombrière.agrivoltaïque-pré-aper': 'Ombrière agrivoltaïque (pré-APER)',
   'ombrière.agrivoltaïque-post-aper': 'Ombrière agrivoltaïque (post-APER)',
