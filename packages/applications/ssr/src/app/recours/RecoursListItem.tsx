@@ -47,7 +47,7 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
       }
     >
       <div className="flex flex-col gap-2">
-        <div>
+        <div className="text-sm">
           Autorité compétente pour l'instruction :{' '}
           <span className="font-semibold">
             {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}

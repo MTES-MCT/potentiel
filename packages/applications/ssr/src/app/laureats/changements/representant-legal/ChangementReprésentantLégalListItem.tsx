@@ -47,12 +47,10 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
   >
     <div className="flex flex-col gap-2">
       {autoritéCompétente && (
-        <div>
-          <span>
-            Autorité compétente pour l'instruction :{' '}
-            <span className="font-semibold">
-              {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
-            </span>
+        <div className="text-sm">
+          Autorité compétente pour l'instruction :{' '}
+          <span className="font-semibold">
+            {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
           </span>
         </div>
       )}
