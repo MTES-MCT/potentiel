@@ -5,8 +5,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import type { StatutDemandeBadgeProps } from '@/components/organisms/demande/StatutDemandeBadge';
 import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
