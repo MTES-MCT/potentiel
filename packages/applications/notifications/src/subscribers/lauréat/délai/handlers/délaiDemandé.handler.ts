@@ -1,12 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  buildUrl,
-  getLauréat,
-  listerDgecRecipients,
-  listerRecipientsAutoritéInstructrice,
-} from '#helpers';
+import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleDélaiDemandé = async (
@@ -21,13 +16,12 @@ export const handleDélaiDemandé = async (
       ? Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif)
       : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
 
-  const recipients = motif.estProlongationPhaseEssai()
-    ? await listerDgecRecipients(projet.identifiantProjet)
-    : await listerRecipientsAutoritéInstructrice({
-        identifiantProjet: projet.identifiantProjet,
-        région: projet.région,
-        domain: 'délai',
-      });
+  const recipients = await listerRecipientsAutoritéInstructrice({
+    identifiantProjet: projet.identifiantProjet,
+    région: projet.région,
+    domain: 'délai',
+    motif,
+  });
 
   return sendEmail({
     key: 'délai/demander',

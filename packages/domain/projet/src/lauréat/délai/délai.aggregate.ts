@@ -2,6 +2,7 @@ import { match } from 'ts-pattern';
 
 import { type DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 import type { Lauréat } from '../../index.js';
 import { AucuneModificationApportéeError } from '../../projet.error.js';
@@ -18,10 +19,6 @@ import type {
   DemandeDélaiCorrigéeEventV1,
 } from './demande/corriger/corrigerDemandeDélai.event.js';
 import type { CorrigerDemandeDélaiOptions } from './demande/corriger/corrigerDemandeDélai.options.js';
-import {
-  DemandeDeDélaiInexistanteError,
-  DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
-} from './demande/demandeDélai.error.js';
 import type {
   DélaiDemandéEvent,
   DélaiDemandéEventV1,
@@ -32,6 +29,11 @@ import type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemand
 import type { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options.js';
 import type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event.js';
 import type { SupprimerDemandeDélaiOptions } from './demande/supprimer/supprimerDemandeDélai.options.js';
+import {
+  DemandeDeDélaiInexistanteError,
+  DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
+  RôleNonAutoriséError,
+} from './délai.error.js';
 import type { DélaiEvent } from './délai.event.js';
 import {
   AutoritéCompétente,
@@ -52,15 +54,6 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     };
     motif: MotifDemandeDélai.ValueType;
   };
-
-  get autoritéCompétente(): AutoritéCompétente.ValueType {
-    if (this.#demande?.motif.estProlongationPhaseEssai()) {
-      return AutoritéCompétente.dgec;
-    }
-    return AutoritéCompétente.convertirEnValueType(
-      this.lauréat.projet.cahierDesChargesActuel.getAutoritéCompétente('délai'),
-    );
-  }
 
   get lauréat() {
     return this.parent;
@@ -191,7 +184,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
-    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
+    this.verifierInstructeur(this.#demande.motif, rôleUtilisateur);
 
     const event: DemandeDélaiRejetéeEvent = {
       type: 'DemandeDélaiRejetée-V1',
@@ -220,7 +213,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
-    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
+    this.verifierInstructeur(this.#demande.motif, rôleUtilisateur);
 
     const dateAchèvementPrévisionnelCalculée = motif.estProlongationPhaseEssai()
       ? this.parent.achèvement.dateAchèvementPrévisionnel.formatter()
@@ -265,7 +258,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutDemandeDélai.enInstruction,
     );
-    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
+    this.verifierInstructeur(this.#demande.motif, rôleUtilisateur);
 
     if (this.#demande.instruction?.passéEnInstructionPar.estÉgaleÀ(identifiantUtilisateur)) {
       throw new DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal();
@@ -392,6 +385,15 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       motif.estÉgaleÀ(this.#demande.motif)
     ) {
       throw new AucuneModificationApportéeError();
+    }
+  }
+
+  private verifierInstructeur(motif: MotifDemandeDélai.ValueType, rôleUtilisateur: Role.ValueType) {
+    const autorité = AutoritéCompétente.convertirEnValueType(
+      this.lauréat.projet.cahierDesChargesActuel.getAutoritéCompétente({ domain: 'délai', motif }),
+    );
+    if (!autorité.estCompétent(rôleUtilisateur)) {
+      throw new RôleNonAutoriséError();
     }
   }
 }

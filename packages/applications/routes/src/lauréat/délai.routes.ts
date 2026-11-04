@@ -31,5 +31,9 @@ export const téléchargerModèleRéponse = ({
   identifiantProjet: string;
   date: DateTime.RawType;
   motif: Lauréat.Délai.MotifDemandeDélai.RawType;
-}) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse?motif=${motif === 'prolongation-phase-essai' ? 'prolongation-phase-essai' : 'prolongation-delai-achevement'}`;
+}) => {
+  const baseUrl = `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse`;
+  const searchParams = new URLSearchParams();
+  searchParams.set('motif', motif);
+  return `${baseUrl}?${searchParams.toString()}`;
+};

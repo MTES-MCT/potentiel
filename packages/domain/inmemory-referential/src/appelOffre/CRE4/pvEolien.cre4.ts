@@ -55,7 +55,10 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
       délai: {
         demande: true,
-        autoritéCompétente: 'dreal',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+          'prolongation-phase-essai': undefined,
+        },
       },
       producteur: {
         informationEnregistrée: false,

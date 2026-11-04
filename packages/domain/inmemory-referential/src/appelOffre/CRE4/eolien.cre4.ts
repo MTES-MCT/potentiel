@@ -57,7 +57,10 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
       },
       délai: {
         demande: true,
-        autoritéCompétente: 'dgec',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dgec' },
+          'prolongation-phase-essai': undefined,
+        },
       },
       producteur: {
         informationEnregistrée: false,
