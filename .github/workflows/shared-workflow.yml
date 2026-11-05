@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: package.json
+          package-manager-cache: false
       - id: cache-key
         run: echo "key=node-cache-${{ runner.os }}-${{ runner.arch }}-npm-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache node modules
@@ -92,6 +93,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: package.json
+          package-manager-cache: false
       - id: get-tags
         env:
           SPECS_WORKERS: ${{ vars.SPECS_WORKERS || '3' }}
