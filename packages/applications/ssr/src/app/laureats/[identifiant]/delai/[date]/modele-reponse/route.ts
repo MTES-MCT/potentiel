@@ -33,6 +33,7 @@ export const GET = async (
     const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
       url.searchParams.get('motif') ?? '',
     );
+    const estAccordé = url.searchParams.get('estAccordé') === 'true';
 
     const { identifiant, date } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
@@ -82,6 +83,7 @@ export const GET = async (
           ...commonData,
           referenceTexteDelaiPhaseEssai: texteDélaiPhaseEssai.référenceParagraphe,
           contenuTexteDelaiPhaseEssai: texteDélaiPhaseEssai.dispositions,
+          estAccordé: estAccordé ? 'true' : '',
         },
       });
       return new Response(content, {

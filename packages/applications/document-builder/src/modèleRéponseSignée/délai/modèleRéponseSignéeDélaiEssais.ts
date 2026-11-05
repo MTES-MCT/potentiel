@@ -11,5 +11,6 @@ export type ModèleRéponseDélaiEssais = ModèleRéponse & {
     nombreDeMoisDemandé: number;
     referenceTexteDelaiPhaseEssai: string;
     contenuTexteDelaiPhaseEssai: string;
+    estAccordé: string;
   };
 };

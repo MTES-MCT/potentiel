@@ -158,6 +158,7 @@ export const AccorderDemandeDélaiForm = ({
                   identifiantProjet,
                   date: dateDemande,
                   motif: nouveauMotif,
+                  estAccordé: true,
                 })}
                 format="docx"
                 label="Télécharger le modèle de réponse"
