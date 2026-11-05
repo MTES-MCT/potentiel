@@ -27,6 +27,7 @@ type AccorderDemandeDélaiFormProps = {
   dateAchèvementPrévisionnelActuelle: PlainType<Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType>;
   nombreDeMois: number;
   motif: Lauréat.Délai.MotifDemandeDélai.RawType;
+  motifsDisponibles: Array<Lauréat.Délai.MotifDemandeDélai.RawType>;
 };
 
 export const AccorderDemandeDélaiForm = ({
@@ -35,6 +36,7 @@ export const AccorderDemandeDélaiForm = ({
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
   motif,
+  motifsDisponibles,
 }: AccorderDemandeDélaiFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderDemandeDélaiFormKeys>
@@ -90,25 +92,29 @@ export const AccorderDemandeDélaiForm = ({
               <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <div>
-                <Select
-                  state={validationErrors['motif'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['motif']}
-                  id="motif"
-                  label="Motif de la demande de délai"
-                  className="w-fit"
-                  nativeSelectProps={{
-                    name: 'motif',
-                    required: true,
-                    value: nouveauMotif,
-                    onChange: (e) => setNouveauMotif(e.target.value),
-                    'aria-required': true,
-                  }}
-                  placeholder="Choisir un motif"
-                  options={Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
-                    value: motif,
-                    label: getMotifDemandeDélaiLabel(motif),
-                  }))}
-                />
+                {motifsDisponibles.length > 1 ? (
+                  <Select
+                    state={validationErrors['motif'] ? 'error' : 'default'}
+                    stateRelatedMessage={validationErrors['motif']}
+                    id="motif"
+                    label="Motif de la demande de délai"
+                    className="w-fit"
+                    nativeSelectProps={{
+                      name: 'motif',
+                      required: true,
+                      value: nouveauMotif,
+                      onChange: (e) => setNouveauMotif(e.target.value),
+                      'aria-required': true,
+                    }}
+                    placeholder="Choisir un motif"
+                    options={Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
+                      value: motif,
+                      label: getMotifDemandeDélaiLabel(motif),
+                    }))}
+                  />
+                ) : (
+                  <input type={'hidden'} value={motifsDisponibles[0]} name="motif" />
+                )}
                 <Input
                   label="Durée du délai"
                   hintText="Veuillez saisir une durée de délai en mois, d'au minimum 1 mois"
