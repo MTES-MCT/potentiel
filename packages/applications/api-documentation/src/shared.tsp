@@ -32,3 +32,29 @@ scalar Siren extends string;
 @pattern("^[0-9]{14}$")
 @example("12345678900012")
 scalar Siret extends string;
+
+
+
+union TypologieInstallation {
+  "bâtiment.neuf",
+  "bâtiment.existant-avec-rénovation-de-toiture",
+  "bâtiment.existant-sans-rénovation-de-toiture",
+  "bâtiment.serre",
+  "bâtiment.serre-agrivoltaïque-pré-aper",
+  "bâtiment.serre-agrivoltaïque-post-aper",
+  "bâtiment.stabulation",
+  "bâtiment.mixte",
+  "bâtiment.non-précisé",
+  "ombrière.parking",
+  "ombrière.agrivoltaïque",
+  "ombrière.agrivoltaïque-pré-aper",
+  "ombrière.agrivoltaïque-post-aper",
+  "ombrière.autre",
+  "ombrière.mixte",
+  "sol",
+  "agrivoltaïque.culture",
+  "agrivoltaïque.jachère-plus-de-5-ans",
+  "agrivoltaïque.élevage",
+  "agrivoltaïque.serre",
+  "agrivoltaïque.non-précisé",
+}
