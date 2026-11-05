@@ -28,7 +28,7 @@ export const ColumnPageTemplate: FC<ColumnPageTemplateProps> = ({
   <div className={clsx('flex flex-col w-full', classes?.root)}>
     {heading ?? null}
     <div className={clsx('flex flex-col lg:flex-row gap-12 mt-6 items-start', classes?.content)}>
-      <div className={clsx(`flex-1`, classes?.left)}>{leftColumn.children}</div>
+      <div className={clsx(`flex-1 w-full`, classes?.left)}>{leftColumn.children}</div>
       {rightColumn.children ? (
         <div
           className={clsx(

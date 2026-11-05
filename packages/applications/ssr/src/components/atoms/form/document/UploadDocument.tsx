@@ -182,7 +182,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
               ${fileSizeLimitInMegaBytes} Mo), veuillez ré-essayer`}
           {documentFilenames.length === 0 && !exceedMaxFileSize && 'Aucun document sélectionné'}
           {documentFilenames.length === 1 && (
-            <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-row flex-wrap items-center gap-2">
               <span
                 className="max-w-[300px] flex-1 overflow-hidden truncate text-ellipsis"
                 title={documentFilenames[0]}

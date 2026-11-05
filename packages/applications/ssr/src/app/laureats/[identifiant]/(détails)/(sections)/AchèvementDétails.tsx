@@ -75,9 +75,9 @@ export const AchèvementDétails = ({
         </>
       )}
       {actions.map(({ label, url }) => (
-        <TertiaryLink key={label} href={url}>
-          {label}
-        </TertiaryLink>
+        <div key={label}>
+          <TertiaryLink href={url}>{label}</TertiaryLink>
+        </div>
       ))}
     </>
   );
