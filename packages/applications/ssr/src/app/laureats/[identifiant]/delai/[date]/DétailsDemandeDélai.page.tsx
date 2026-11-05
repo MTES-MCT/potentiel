@@ -34,6 +34,7 @@ export type DétailsDemandeDélaiPageProps = {
   >;
   actions: Array<DemandeDélaiActions>;
   historique: Array<TimelineItemProps>;
+  motifsDisponibles: Array<Lauréat.Délai.MotifDemandeDélai.RawType>;
 };
 
 export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
@@ -42,6 +43,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
   dateAchèvementPrévisionnelActuelle,
   actions,
   historique,
+  motifsDisponibles,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.bind(identifiantProjet);
   const statut = Lauréat.Délai.StatutDemandeDélai.convertirEnValueType(demande.statut.statut);
@@ -73,6 +75,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                   dateAchèvementPrévisionnelActuelle,
                 ),
               motif: Lauréat.Délai.MotifDemandeDélai.bind(demande.motif),
+              motifsDisponibles,
             })}
             <InfoBoxDemandeDélai motif={demande.motif.motif} />
           </>
@@ -89,6 +92,7 @@ type MapToActionsComponentsProps = {
   nombreDeMois: number;
   dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType;
   motif: Lauréat.Délai.MotifDemandeDélai.ValueType;
+  motifsDisponibles: Array<Lauréat.Délai.MotifDemandeDélai.RawType>;
 };
 
 const mapToActionComponents = ({
@@ -98,6 +102,7 @@ const mapToActionComponents = ({
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
   motif,
+  motifsDisponibles,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
@@ -113,6 +118,7 @@ const mapToActionComponents = ({
         nombreDeMois={nombreDeMois}
         dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
         motif={motif.motif}
+        motifsDisponibles={motifsDisponibles}
       />
     )}
     {actions.includes('rejeter') && (

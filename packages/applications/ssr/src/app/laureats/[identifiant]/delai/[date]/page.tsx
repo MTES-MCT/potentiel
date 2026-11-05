@@ -61,7 +61,17 @@ export default async function Page(props: PageProps) {
       }
 
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
-      const règles = await cahierDesCharges.getRèglesChangements('délai');
+      const règlesChangement = cahierDesCharges.getRèglesChangements('délai');
+
+      if (!règlesChangement.motifs) {
+        return notFound();
+      }
+
+      const motifsDisponibles = utilisateur.estDGEC()
+        ? Object.keys(règlesChangement.motifs)
+        : Object.entries(règlesChangement.motifs)
+            .filter(([, motif]) => motif?.autoritéCompétente === utilisateur.rôle.nom)
+            .map(([key]) => key);
 
       return (
         <DétailsDemandeDélaiPage
@@ -73,8 +83,8 @@ export default async function Page(props: PageProps) {
           actions={mapToActions({
             utilisateur,
             demandeDélai,
-            autoritéCompétente: règles.demande
-              ? règles.motifs[demandeDélai.motif.motif]?.autoritéCompétente
+            autoritéCompétente: règlesChangement.demande
+              ? règlesChangement.motifs[demandeDélai.motif.motif]?.autoritéCompétente
               : undefined,
           })}
           historique={historique.items.map((item) =>
@@ -82,6 +92,9 @@ export default async function Page(props: PageProps) {
               item,
               utilisateur.rôle.aLaPermission('délai.consulterDemande'),
             ),
+          )}
+          motifsDisponibles={motifsDisponibles?.map(
+            (m) => Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(m).motif,
           )}
         />
       );
