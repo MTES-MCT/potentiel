@@ -119,7 +119,7 @@ jobs:
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
-        run: |
+        run: | # zizmor: ignore[template-injection]
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
           npm run specs -- --tags "$TAGS_FILTER"
         env:
