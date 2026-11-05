@@ -7,7 +7,6 @@ import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema, loggerSchema, sentrySchema } from '#helpers';
-import { reportCronStatus } from '#helpers/monitoring';
 
 const envSchema = z.object({
   ...dbSchema.shape,
@@ -17,6 +16,7 @@ const envSchema = z.object({
 
 export class PendingAcknowlegement extends Command {
   static description = 'Checks that there are no overdue pending_acknowledgement in the database';
+  static monitoringSlug = 'pending-acknowledgement';
 
   async init() {
     envSchema.parse(process.env);
@@ -59,8 +59,6 @@ export class PendingAcknowlegement extends Command {
         ],
       });
     }
-
-    await reportCronStatus('pending-acknowledgement', 'ok');
   }
 }
 
