@@ -73,7 +73,7 @@ export const getTypologieInstallation = (champs: Champs) => {
     .split(',')
     .map((t) => t.trim());
   if (typologiesPrincipales?.includes('installation au sol')) {
-    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol' };
+    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol.non-précisé' };
     typologieInstallation.push(typologie);
   }
 
@@ -81,7 +81,7 @@ export const getTypologieInstallation = (champs: Champs) => {
     ?.trim()
     .toLowerCase();
   if (typeDInstallationPhotovoltaïque === 'installation au sol') {
-    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol' };
+    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol.non-précisé' };
     typologieInstallation.push(typologie);
   }
 
@@ -90,7 +90,7 @@ export const getTypologieInstallation = (champs: Champs) => {
     .split(',')
     .map((t) => t.trim());
   if (typeInstallationMixte?.includes('installation au sol')) {
-    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol' };
+    const typologie: Candidature.TypologieInstallation.RawType = { typologie: 'sol.non-précisé' };
     typologieInstallation.push(typologie);
   }
 
