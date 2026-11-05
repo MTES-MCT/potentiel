@@ -31,7 +31,7 @@ jobs:
           api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Staging
         run: |
-          scalingo integration-link-manual-deploy ${{ github.ref_name }}
+          scalingo integration-link-manual-deploy ${GITHUB_REF_NAME}
 
   application-version:
     runs-on: ubuntu-latest
@@ -74,7 +74,7 @@ jobs:
           app_name: ${{ secrets.SCALINGO_APP }}
           api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Production
-        run: scalingo integration-link-manual-deploy ${{ github.ref_name }}
+        run: scalingo integration-link-manual-deploy ${GITHUB_REF_NAME}
 
   deploy-demo:
     needs: deploy-production
@@ -87,4 +87,4 @@ jobs:
           app_name: ${{ secrets.SCALINGO_APP }}
           api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Demo
-        run: scalingo integration-link-manual-deploy ${{ github.ref_name }}
+        run: scalingo integration-link-manual-deploy ${GITHUB_REF_NAME}
