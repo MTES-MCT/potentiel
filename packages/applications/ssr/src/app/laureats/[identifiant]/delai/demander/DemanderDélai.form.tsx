@@ -20,17 +20,21 @@ import { type DemanderDélaiFormKeys, demanderDélaiAction } from './DemanderDé
 export type DemanderDélaiFormProps = {
   identifiantProjet: string;
   dateAchèvementPrévisionnelActuelle: PlainType<Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType>;
+  motifsDisponibles: Array<Lauréat.Délai.MotifDemandeDélai.RawType>;
 };
 
 export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
   identifiantProjet,
   dateAchèvementPrévisionnelActuelle,
+  motifsDisponibles,
 }) => {
   const dateActuelle = Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
     dateAchèvementPrévisionnelActuelle,
   );
 
-  const [motif, setMotif] = useState<Lauréat.Délai.MotifDemandeDélai.RawType>();
+  const [motif, setMotif] = useState<Lauréat.Délai.MotifDemandeDélai.RawType | undefined>(
+    motifsDisponibles.length === 1 ? motifsDisponibles[0] : undefined,
+  );
 
   const [nouvelleDate, setNouvelleDate] = useState<DateTime.ValueType>(dateActuelle.dateTime);
 
@@ -67,25 +71,29 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
         >
           <div className="flex flex-col gap-4">
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-            <Select
-              state={validationErrors['motif'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['motif']}
-              id="motif"
-              label="Motif de la demande de délai"
-              className="w-full"
-              nativeSelectProps={{
-                name: 'motif',
-                required: true,
-                value: motif,
-                onChange: (e) => setMotif(e.target.value),
-                'aria-required': true,
-              }}
-              placeholder="Choisir un motif"
-              options={Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
-                value: motif,
-                label: getMotifDemandeDélaiLabel(motif),
-              }))}
-            />
+            {motifsDisponibles.length > 1 ? (
+              <Select
+                state={validationErrors['motif'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['motif']}
+                id="motif"
+                label="Motif de la demande de délai"
+                className="w-full"
+                nativeSelectProps={{
+                  name: 'motif',
+                  required: true,
+                  value: motif,
+                  onChange: (e) => setMotif(e.target.value),
+                  'aria-required': true,
+                }}
+                placeholder="Choisir un motif"
+                options={motifsDisponibles.map((motif) => ({
+                  value: motif,
+                  label: getMotifDemandeDélaiLabel(motif),
+                }))}
+              />
+            ) : (
+              <input type={'hidden'} value={motifsDisponibles[0]} name="motif" />
+            )}
             <div>
               <Input
                 label="Durée du délai"

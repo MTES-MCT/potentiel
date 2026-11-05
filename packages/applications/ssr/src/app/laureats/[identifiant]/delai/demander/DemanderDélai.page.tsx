@@ -8,6 +8,7 @@ export type DemanderDélaiPageProps = DemanderDélaiFormProps;
 export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
   identifiantProjet,
   dateAchèvementPrévisionnelActuelle,
+  motifsDisponibles,
 }) => (
   <div className="flex flex-col w-full">
     <Heading1>Demander un délai</Heading1>
@@ -15,6 +16,7 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
     <DemanderDélaiForm
       identifiantProjet={identifiantProjet}
       dateAchèvementPrévisionnelActuelle={dateAchèvementPrévisionnelActuelle}
+      motifsDisponibles={motifsDisponibles}
     />
   </div>
 );

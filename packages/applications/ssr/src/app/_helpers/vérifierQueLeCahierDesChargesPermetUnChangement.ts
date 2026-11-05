@@ -10,4 +10,5 @@ export const vérifierQueLeCahierDesChargesPermetUnChangement = async (
 ) => {
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   cahierDesCharges.vérifierQueLeChangementEstPossible(typeChangement, domaine);
+  return cahierDesCharges.getRèglesChangements(domaine);
 };
