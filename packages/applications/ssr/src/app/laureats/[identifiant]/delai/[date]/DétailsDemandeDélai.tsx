@@ -67,16 +67,12 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
   <div className="flex flex-col gap-2">
     <DisplayRaisonChangement raison={raison} className="whitespace-nowrap font-semibold" />
     {autoritéCompétente && (
-      <div className="flex flex-wrap gap-2">
-        <div className="font-semibold whitespace-nowrap">
-          Autorité compétente pour l'instruction :
-        </div>
-        <div>
-          {match(autoritéCompétente.autoritéCompétente)
-            .with('dreal', () => 'DREAL')
-            .with('dgec', () => 'DGEC')
-            .exhaustive()}
-        </div>
+      <div>
+        <span className="flex-1 font-semibold">Autorité compétente pour l'instruction :</span>{' '}
+        {match(autoritéCompétente.autoritéCompétente)
+          .with('dreal', () => 'DREAL')
+          .with('dgec', () => 'DGEC')
+          .exhaustive()}
       </div>
     )}
     {pièceJustificative && (
