@@ -127,11 +127,13 @@ export const AccorderDemandeDélaiForm = ({
                   state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
                   stateRelatedMessage={validationErrors['nombreDeMois']}
                 />
-                {afficherNouvelleDateAchèvement && (
+                {afficherNouvelleDateAchèvement ? (
                   <div>
                     Après accord de votre demande de délai, la date d'achèvement prévisionnel serait
                     le <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
                   </div>
+                ) : (
+                  <div>Ce délai n'affecte pas la date d'achèvement prévisionnelle.</div>
                 )}
               </div>
 
