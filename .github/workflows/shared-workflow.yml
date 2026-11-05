@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:dev
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run lint
@@ -66,7 +66,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build
@@ -99,7 +99,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
@@ -126,7 +126,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run test:apps
@@ -140,7 +140,7 @@ jobs:
       APPLICATION_STAGE: production
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: ./.github/actions/setup
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:cli

@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-shared-workflow:
-    uses: ./.github/workflows/shared-workflow.yml
+    uses: $/.github/workflows/shared-workflow.yml
 
   deploy-development:
     needs: call-shared-workflow
