@@ -3,6 +3,8 @@ name: Build, quality and security
 on:
   workflow_call:
 
+permissions: {}
+
 jobs:
   setup:
     runs-on: ubuntu-latest
