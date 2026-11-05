@@ -19,8 +19,8 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: scalingo-community/setup-scalingo@087daa48a4b6150e3cf00faeda4177ed5008433e #v0.1.1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: scalingo-community/setup-scalingo@87fe86eedc708ffb9d232c756b21f6a5784f6c8a # v0.1.1
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
@@ -35,10 +35,10 @@ jobs:
     outputs:
       applicationVersion: ${{ steps.app_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: '0'
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: package.json
       - name: Set application version
@@ -56,14 +56,14 @@ jobs:
     steps:
       - name: Push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v7
+        uses: mathieudutour/github-tag-action@af99e60ce8132224b8e6ebab5023449fe256ed46 # v7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: false
           default_prerelease_bump: false
           custom_tag: ${{ env.APPLICATION_VERSION }}
           tag_prefix: ''
-      - uses: scalingo-community/setup-scalingo@087daa48a4b6150e3cf00faeda4177ed5008433e #v0.1.1
+      - uses: scalingo-community/setup-scalingo@87fe86eedc708ffb9d232c756b21f6a5784f6c8a # v0.1.1
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
@@ -76,7 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: demo
     steps:
-      - uses: scalingo-community/setup-scalingo@087daa48a4b6150e3cf00faeda4177ed5008433e #v0.1.1
+      - uses: scalingo-community/setup-scalingo@87fe8i6eedc708ffb9d232c756b21f6a5784f6c8a # v0.1.1
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}

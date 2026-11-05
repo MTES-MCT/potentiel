@@ -206,3 +206,10 @@ Actuellement le site est hébergé sur Scalingo, nous utilisons donc le [mécani
 Pour mettre l'application en maintenance, il faut éteindre l'application `web` en passant la quantity à `0` dans l'onglet [resources](https://dashboard.scalingo.com/apps/osc-secnum-fr1/potentiel-production/resources)
 
 Une fois la maintenance effectuée, on peut repasser la valeur à `1` et bien penser à redémarrer l'application
+
+## Mises à jour des dépendences
+
+### Github actions
+Les actions Github tierces sont systématiquement épinglées au SHA spécifique : l'utilisation de tag ou de branche est proscrite, afin d'éviter [des attaques](https://www.stephane-robert.info/docs/pipeline-cicd/github/securite/attaques-supply-chain/).
+
+L'outil [pin-github-action](https://github.com/mheap/pin-github-action) permet de maintenir ces SHA sans difficulté : il suffit de modifier la version en commentaire, et d'exécuter `npx pin-github-action --recursive .github/actions .github/workflows`

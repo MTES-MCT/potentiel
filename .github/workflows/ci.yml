@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
-      - uses: scalingo-community/setup-scalingo@087daa48a4b6150e3cf00faeda4177ed5008433e #v0.1.1
+      - uses: scalingo-community/setup-scalingo@fa1a5f8a4ae990609b6f863d675ace8a8efe803a # v0.1.2
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
