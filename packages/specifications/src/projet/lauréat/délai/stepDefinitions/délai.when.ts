@@ -16,6 +16,19 @@ Quand('le porteur demande un délai pour le projet lauréat', async function (th
 });
 
 Quand(
+  'le porteur demande un délai avec un motif identique à celui de la demande déjà en cours',
+  async function (this: PotentielWorld) {
+    if (!this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé) {
+      throw new Error(`Pas de première demande en cours !`);
+    }
+    await demanderDélai.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
+    });
+  },
+);
+
+Quand(
   'le porteur demande un délai pour le projet lauréat avec :',
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
