@@ -26,14 +26,14 @@ Fonctionnalité: Demander un délai pour un projet lauréat
             | nom_projet | Du boulodrome de Marseille                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |
 
-    Scénario: Impossible de demander un délai pour un projet si une demande de délai est en cours
+    Scénario: Impossible de demander un délai pour un projet si une demande de délai du même motif est en cours
         Etant donné une demande de délai en cours pour le projet lauréat
-        Quand le porteur demande un délai pour le projet lauréat
-        Alors le porteur devrait être informé que "Une demande de délai est déjà en cours"
+        Quand le porteur demande un délai avec un motif identique à celui de la demande déjà en cours
+        Alors le porteur devrait être informé que "Une demande de délai est déjà en cours"      
 
-    Scénario: Impossible de demander un délai pour un projet si un délai est en instruction
+    Scénario: Impossible de demander un délai pour un projet si un délai pour le même motif est déjà en instruction
         Etant donné une demande de délai en instruction pour le projet lauréat
-        Quand le porteur demande un délai pour le projet lauréat
+        Quand le porteur demande un délai avec un motif identique à celui de la demande déjà en cours
         Alors le porteur devrait être informé que "Une demande de délai est déjà en cours"
 
     Scénario: Impossible de demander un délai pour un projet achevé
