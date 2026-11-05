@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
-      - uses: scalingo-community/setup-scalingo@87fe86eedc708ffb9d232c756b21f6a5784f6c8a # v0.1.1
+      - uses: scalingo-community/setup-scalingo@fa1a5f8a4ae990609b6f863d675ace8a8efe803a # v0.1.2
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
@@ -69,7 +69,7 @@ jobs:
           default_prerelease_bump: false
           custom_tag: ${{ env.APPLICATION_VERSION }}
           tag_prefix: ''
-      - uses: scalingo-community/setup-scalingo@87fe86eedc708ffb9d232c756b21f6a5784f6c8a # v0.1.1
+      - uses: scalingo-community/setup-scalingo@fa1a5f8a4ae990609b6f863d675ace8a8efe803a # v0.1.2
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: demo
     steps:
-      - uses: scalingo-community/setup-scalingo@87fe8i6eedc708ffb9d232c756b21f6a5784f6c8a # v0.1.1
+      - uses: scalingo-community/setup-scalingo@fa1a5f8a4ae990609b6f863d675ace8a8efe803a # v0.1.2
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
