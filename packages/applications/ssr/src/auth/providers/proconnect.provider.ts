@@ -109,7 +109,7 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
     pkce: options.pkce ?? true,
     disableImplicitSignUp: options.disableImplicitSignUp,
     disableSignUp: options.disableSignUp,
-    overrideUserInfo: false,
+    overrideUserInfo: true,
     getUserInfo,
     mapProfileToUser,
     accountSubject: ({ profile }) => profile.id ?? '',
