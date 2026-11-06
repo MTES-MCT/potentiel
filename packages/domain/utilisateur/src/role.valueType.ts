@@ -278,10 +278,12 @@ const référencielPermissions = {
       },
       query: {
         consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-        listerProjetAvecAchevementATransmettre:
-          'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
-        listerProjetsEnAttenteDAchevement:
-          'Lauréat.Achevement.Query.ListerProjetsEnAttenteDAchevement',
+        listerProjetAvecAchèvementÀTransmettre:
+          'Lauréat.Achèvement.Query.ListerProjetAvecAchèvementÀTransmettre',
+        listerProjetsEnAttenteDAchèvement:
+          'Lauréat.Achèvement.Query.ListerProjetsEnAttenteDAchèvement',
+        consulterProjetPourAchèvement:
+          'Lauréat.Achèvement.Query.ConsulterDonnéesProjetPourAchèvement',
       },
     },
     représentantLégal: {
@@ -1014,11 +1016,14 @@ const policies = {
       référencielPermissions.lauréat.achèvement.command.modifierAchèvement,
       référencielPermissions.document.command.enregister,
     ],
-    listerProjetAvecAchevementATransmettre: [
-      référencielPermissions.lauréat.achèvement.query.listerProjetAvecAchevementATransmettre,
+    listerProjetAvecAchèvementÀTransmettre: [
+      référencielPermissions.lauréat.achèvement.query.listerProjetAvecAchèvementÀTransmettre,
     ],
-    listerProjetsEnAttenteDAchevement: [
-      référencielPermissions.lauréat.achèvement.query.listerProjetsEnAttenteDAchevement,
+    listerProjetsEnAttenteDAchèvement: [
+      référencielPermissions.lauréat.achèvement.query.listerProjetsEnAttenteDAchèvement,
+    ],
+    consulterProjetPourAchèvement: [
+      référencielPermissions.lauréat.achèvement.query.consulterProjetPourAchèvement,
     ],
     initier: [
       référencielPermissions.lauréat.achèvement.useCase.initierAchèvement,
@@ -2324,8 +2329,9 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
 
   // Achèvement
   'achèvement.transmettreDate',
-  'achèvement.listerProjetAvecAchevementATransmettre',
-  'achèvement.listerProjetsEnAttenteDAchevement',
+  'achèvement.listerProjetAvecAchèvementÀTransmettre',
+  'achèvement.listerProjetsEnAttenteDAchèvement',
+  'achèvement.consulterProjetPourAchèvement',
 
   // Actionnaire
   'actionnaire.consulterChangement',

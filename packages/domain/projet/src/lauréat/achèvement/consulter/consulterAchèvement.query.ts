@@ -86,6 +86,7 @@ const mapToReadModel = ({
       estAchevé: false,
     };
   }
+
   const {
     date: dateAchèvementRéel,
     attestationConformité,

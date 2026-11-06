@@ -286,7 +286,7 @@ namespace Achevement {
      */
     @route("/laureats/{identifiantProjet}/achevement")
     @get
-    récupérerProjet(
+    recupererProjet(
       @path identifiantProjet: string,
     ): ProjetPourAchevementV2 | Error;
   }

@@ -18,6 +18,9 @@
       "path": "../../domain/projet"
     },
     {
+      "path": "../../libraries/monads"
+    },
+    {
       "path": "../../libraries/monitoring"
     },
     {
@@ -27,5 +30,7 @@
       "path": "../request-context"
     }
   ],
-  "include": ["src/"]
+  "include": [
+    "src/"
+  ]
 }

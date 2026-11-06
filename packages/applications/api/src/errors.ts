@@ -41,6 +41,13 @@ export class ForbiddenError extends ApiError {
   }
 }
 
+export class NotFoundError extends ApiError {
+  constructor(message: string) {
+    super(message, 404);
+    this.name = NotFoundError.name;
+  }
+}
+
 export class NotImplementedError extends ApiError {
   constructor(message = 'Not Implemented') {
     super(message, 501);
