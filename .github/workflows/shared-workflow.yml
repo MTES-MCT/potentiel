@@ -3,21 +3,26 @@ name: Build, quality and security
 on:
   workflow_call:
 
+permissions: {}
+
 jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
       cache-key: ${{ steps.cache-key.outputs.key }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: package.json
+          package-manager-cache: false
       - id: cache-key
         run: echo "key=node-cache-${{ runner.os }}-${{ runner.arch }}-npm-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache node modules
         id: cache-node-modules
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: |
             node_modules
@@ -32,13 +37,15 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:dev
       - name: Cache turbo build setup
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: |
             .turbo
@@ -51,8 +58,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run lint
@@ -65,8 +74,10 @@ jobs:
       NODE_ENV: production
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build
@@ -76,10 +87,13 @@ jobs:
     outputs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: package.json
+          package-manager-cache: false
       - id: get-tags
         env:
           SPECS_WORKERS: ${{ vars.SPECS_WORKERS || '3' }}
@@ -98,12 +112,14 @@ jobs:
         tags: ${{ fromJson(needs.get_tags.outputs.tag_chunks) }}
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
-        run: |
+        run: | # zizmor: ignore[template-injection]
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
           npm run specs -- --tags "$TAGS_FILTER"
         env:
@@ -125,8 +141,10 @@ jobs:
       APPLICATION_STAGE: test
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run test:apps
@@ -139,8 +157,10 @@ jobs:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
       APPLICATION_STAGE: production
     steps:
-      - uses: actions/checkout@v6
-      - uses: ./.github/actions/setup
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: $/.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:cli

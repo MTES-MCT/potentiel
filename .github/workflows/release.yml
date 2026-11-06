@@ -9,9 +9,11 @@ on:
     branches:
       - release/*
 
+permissions: {}
+
 jobs:
   call-shared-workflow:
-    uses: ./.github/workflows/shared-workflow.yml
+    uses: $/.github/workflows/shared-workflow.yml
 
   deploy-staging:
     needs: call-shared-workflow
@@ -19,15 +21,17 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v6
-      - uses: scalingo-community/setup-scalingo@087daa48a4b6150e3cf00faeda4177ed5008433e #v0.1.1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: scalingo-community/setup-scalingo@fa1a5f8a4ae990609b6f863d675ace8a8efe803a # v0.1.2
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
           api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Staging
         run: |
-          scalingo integration-link-manual-deploy ${{ github.ref_name }}
+          scalingo integration-link-manual-deploy ${GITHUB_REF_NAME}
 
   application-version:
     runs-on: ubuntu-latest
@@ -35,12 +39,14 @@ jobs:
     outputs:
       applicationVersion: ${{ steps.app_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: '0'
-      - uses: actions/setup-node@v6
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: package.json
+          package-manager-cache: false
       - name: Set application version
         id: app_version
         run: |
@@ -56,30 +62,30 @@ jobs:
     steps:
       - name: Push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v7
+        uses: mathieudutour/github-tag-action@af99e60ce8132224b8e6ebab5023449fe256ed46 # v7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: false
           default_prerelease_bump: false
           custom_tag: ${{ env.APPLICATION_VERSION }}
           tag_prefix: ''
-      - uses: scalingo-community/setup-scalingo@087daa48a4b6150e3cf00faeda4177ed5008433e #v0.1.1
+      - uses: scalingo-community/setup-scalingo@fa1a5f8a4ae990609b6f863d675ace8a8efe803a # v0.1.2
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
           api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Production
-        run: scalingo integration-link-manual-deploy ${{ github.ref_name }}
+        run: scalingo integration-link-manual-deploy ${GITHUB_REF_NAME}
 
   deploy-demo:
     needs: deploy-production
     runs-on: ubuntu-latest
     environment: demo
     steps:
-      - uses: scalingo-community/setup-scalingo@087daa48a4b6150e3cf00faeda4177ed5008433e #v0.1.1
+      - uses: scalingo-community/setup-scalingo@fa1a5f8a4ae990609b6f863d675ace8a8efe803a # v0.1.2
         with:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
           api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Demo
-        run: scalingo integration-link-manual-deploy ${{ github.ref_name }}
+        run: scalingo integration-link-manual-deploy ${GITHUB_REF_NAME}
