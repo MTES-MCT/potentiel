@@ -106,7 +106,8 @@ namespace Achevement {
       /** 
        * Type de représentant légal 🍀 Domaine lauréat
        **/
-      type: "personne-physique" | "personne-morale" | "collectivité" | "autre" | "inconnu"
+      @encodedName("application/json", "type")
+      typeRepresentantLegal: "personne-physique" | "personne-morale" | "collectivité" | "autre" | "inconnu"
     };
   
     /** 
@@ -224,7 +225,8 @@ namespace Achevement {
     * 🍀 Domaine Nature de l'exploitation 
     **/
     natureDeLExploitation?: {
-      type: "vente-avec-injection-en-totalité" | "autoconsommation-individuelle" | "autoconsommation-collective" | "autoconsommation-individuelle-et-collective";
+      @encodedName("application/json", "type")
+      typeNatureDeLExploitation: "vente-avec-injection-en-totalité" | "autoconsommation-individuelle" | "autoconsommation-collective" | "autoconsommation-individuelle-et-collective";
       @encodedName("application/json", "tauxPrevisionnelACI")
       tauxPrevisionnelAci?: uint16;
       @encodedName("application/json", "tauxPrevisionnelACC")
@@ -286,7 +288,7 @@ namespace Achevement {
      */
     @route("/laureats/{identifiantProjet}/achevement")
     @get
-    récupérerProjet(
+    recupererProjet(
       @path identifiantProjet: string,
     ): ProjetPourAchevementV2 | Error;
   }

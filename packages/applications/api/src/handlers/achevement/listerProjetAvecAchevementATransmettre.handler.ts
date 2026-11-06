@@ -11,8 +11,8 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['lister
     const utilisateur = getUtilisateur();
 
     const result =
-      await mediator.send<Lauréat.Achèvement.ListerProjetAvecAchevementATransmettreQuery>({
-        type: 'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
+      await mediator.send<Lauréat.Achèvement.ListerProjetAvecAchèvementÀTransmettreQuery>({
+        type: 'Lauréat.Achèvement.Query.ListerProjetAvecAchèvementÀTransmettre',
         data: {
           appelOffre: appelOffre ? [appelOffre] : undefined,
           periode,

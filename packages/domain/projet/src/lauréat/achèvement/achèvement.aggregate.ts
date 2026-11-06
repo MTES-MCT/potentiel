@@ -82,6 +82,9 @@ export class AchèvementAggregate extends AbstractAggregate<
   }
 
   #estInitié: boolean = false;
+  get estInitié() {
+    return this.#estInitié;
+  }
 
   #dateAchèvementRéel: DateTime.ValueType | undefined;
   get dateAchèvementRéel() {
@@ -208,7 +211,7 @@ export class AchèvementAggregate extends AbstractAggregate<
       throw new ProjetDéjàAchevéError();
     }
 
-    if (this.#estInitié) {
+    if (this.estInitié) {
       throw new AchèvementDéjàInitiéError();
     }
 

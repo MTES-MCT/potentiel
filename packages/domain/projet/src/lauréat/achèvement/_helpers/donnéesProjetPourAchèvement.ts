@@ -1,13 +1,12 @@
-import { type Message, type MessageHandler, mediator } from 'mediateur';
-
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import {
   type Joined,
+  type JoinOptionsParams,
   type LeftJoin,
   type List,
-  type RangeOptions,
   Where,
+  type WhereOptions,
 } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
@@ -18,7 +17,7 @@ import {
   type DétailCandidatureEntity,
   Localité,
 } from '../../../candidature/index.js';
-import { Candidature, type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
+import { Candidature, IdentifiantProjet } from '../../../index.js';
 import type { ActionnaireEntity } from '../../actionnaire/actionnaire.entity.js';
 import type { FournisseurEntity } from '../../fournisseur/fournisseur.entity.js';
 import {
@@ -36,13 +35,13 @@ import type { DossierRaccordementEntity, RaccordementEntity } from '../../raccor
 import type { ReprésentantLégalEntity } from '../../représentantLégal/représentantLégal.entity.js';
 import type { AchèvementEntity } from '../achèvement.entity.js';
 
-type DossierRaccordementEnAttenteDAchevement = {
+type DossierRaccordementPourAchèvement = {
   référence: Raccordement.RéférenceDossierRaccordement.ValueType;
   dateDemandeComplète?: DateTime.ValueType;
   dateMiseEnService?: DateTime.ValueType;
 };
 
-type ProjetEnAttenteDAchevement = {
+export type DonnéesProjetPourAchèvementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   nomCandidat: string;
@@ -50,7 +49,7 @@ type ProjetEnAttenteDAchevement = {
   sociétéMère: string;
   siren?: string;
   siret?: string;
-  dossiersRaccordement: Array<DossierRaccordementEnAttenteDAchevement>;
+  dossiersRaccordement: Array<DossierRaccordementPourAchèvement>;
   puissance: number;
   puissanceInitiale: number;
   cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType;
@@ -70,6 +69,7 @@ type ProjetEnAttenteDAchevement = {
   };
   typologieInstallation: Array<Candidature.TypologieInstallation.ValueType>;
   statut: StatutLauréat.ValueType;
+  achèvementEnAttente: boolean;
   technologie: Candidature.TypeTechnologie.ValueType;
   coordonnéesGéodésiques?: { latitude: number; longitude: number };
   natureDeLExploitation?: {
@@ -85,30 +85,7 @@ type ProjetEnAttenteDAchevement = {
   };
 };
 
-export type ListerProjetsEnAttenteDAchevementReadModel = {
-  items: Array<ProjetEnAttenteDAchevement>;
-  range: RangeOptions;
-  total: number;
-};
-
-export type ListerProjetsEnAttenteDAchevementQuery = Message<
-  'Lauréat.Achevement.Query.ListerProjetsEnAttenteDAchevement',
-  {
-    appelOffre?: Array<string>;
-    periode?: string;
-    depuis?: DateTime.RawType;
-    range?: RangeOptions;
-    identifiantUtilisateur: Email.RawType;
-  },
-  ListerProjetsEnAttenteDAchevementReadModel
->;
-
-export type ListerProjetsEnAttenteDAchevementDependencies = {
-  list: List;
-  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
-};
-
-type ProjetEnAttenteDAchevementJoins = [
+export type DonnéesProjetPourAchèvementJoins = [
   LauréatEntity,
   CandidatureEntity,
   PuissanceEntity,
@@ -123,106 +100,73 @@ type ProjetEnAttenteDAchevementJoins = [
   LeftJoin<RaccordementEntity>,
 ];
 
-export const registerListerProjetsEnAttenteDAchevementQuery = ({
-  list,
-  getScopeProjetUtilisateur,
-}: ListerProjetsEnAttenteDAchevementDependencies) => {
-  const handler: MessageHandler<ListerProjetsEnAttenteDAchevementQuery> = async ({
-    appelOffre,
-    periode,
-    depuis,
-    range,
-    identifiantUtilisateur,
-  }) => {
-    const scope = await getScopeProjetUtilisateur(
-      Email.convertirEnValueType(identifiantUtilisateur),
-    );
-
-    const {
-      items: projets,
-      range: { endPosition, startPosition },
-      total: totalProjet,
-    } = await list<AchèvementEntity, ProjetEnAttenteDAchevementJoins>('achèvement', {
-      where: {
-        identifiantProjet: Where.matchAny(scope.identifiantProjets),
-        estAchevé: Where.equal(false),
-        initiation: {
-          initiéLe: depuis ? Where.greaterOrEqual(depuis) : Where.notEqualNull(),
-        },
-      },
-      join: [
-        {
-          entity: 'lauréat',
-          on: 'identifiantProjet',
-          where: {
-            appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
-            période: Where.equal(periode),
-            localité: {
-              région: Where.matchAny(scope.régions),
-            },
-          },
-        },
-        { entity: 'candidature', on: 'identifiantProjet' },
-        { entity: 'puissance', on: 'identifiantProjet' },
-        { entity: 'détail-candidature', on: 'identifiantProjet', type: 'left' },
-        { entity: 'actionnaire', on: 'identifiantProjet', type: 'left' },
-        { entity: 'producteur', on: 'identifiantProjet', type: 'left' },
-        { entity: 'représentant-légal', on: 'identifiantProjet', type: 'left' },
-        { entity: 'accès', on: 'identifiantProjet', type: 'left' },
-        { entity: 'installation', on: 'identifiantProjet', type: 'left' },
-        { entity: 'nature-de-l-exploitation', on: 'identifiantProjet', type: 'left' },
-        { entity: 'fournisseur', on: 'identifiantProjet', type: 'left' },
-        { entity: 'raccordement', on: 'identifiantProjet', type: 'left' },
-      ],
-      orderBy: {
-        identifiantProjet: 'ascending',
-      },
-      range,
-    });
-
-    if (totalProjet === 0) {
-      return { items: [], range: { endPosition: 0, startPosition: 0 }, total: 0 };
-    }
-
-    const { items: dossiers } = await list<DossierRaccordementEntity>('dossier-raccordement', {
-      where: {
-        identifiantProjet: Where.matchAny(projets.map((projet) => projet.identifiantProjet)),
-      },
-      orderBy: { référence: 'ascending' },
-    });
-
-    const codeEICs = projets
-      .map((p) => p.raccordement?.identifiantGestionnaireRéseau)
-      .filter((id) => id !== undefined);
-
-    const { items: gestionnaires } = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
-      'gestionnaire-réseau',
-      {
-        where: {
-          codeEIC: Where.matchAny(codeEICs),
-        },
-      },
-    );
-
-    return {
-      items: projets.map((projet) => mapToReadModel({ projet, dossiers, gestionnaires })),
-      range: { endPosition, startPosition },
-      total: totalProjet,
-    };
-  };
-
-  mediator.register('Lauréat.Achevement.Query.ListerProjetsEnAttenteDAchevement', handler);
+type GetDonnéesProjetPourAchèvementJoinProps = {
+  whereLauréat?: WhereOptions<Omit<LauréatEntity, 'type'>>;
 };
 
-type MapToReadModelProps = {
-  projet: AchèvementEntity & Joined<ProjetEnAttenteDAchevementJoins>;
+export const getDonnéesProjetPourAchèvementJoin = ({
+  whereLauréat,
+}: GetDonnéesProjetPourAchèvementJoinProps = {}): JoinOptionsParams<
+  AchèvementEntity,
+  DonnéesProjetPourAchèvementJoins
+>['join'] => [
+  { entity: 'lauréat', on: 'identifiantProjet', where: whereLauréat },
+  { entity: 'candidature', on: 'identifiantProjet' },
+  { entity: 'puissance', on: 'identifiantProjet' },
+  { entity: 'détail-candidature', on: 'identifiantProjet', type: 'left' },
+  { entity: 'actionnaire', on: 'identifiantProjet', type: 'left' },
+  { entity: 'producteur', on: 'identifiantProjet', type: 'left' },
+  { entity: 'représentant-légal', on: 'identifiantProjet', type: 'left' },
+  { entity: 'accès', on: 'identifiantProjet', type: 'left' },
+  { entity: 'installation', on: 'identifiantProjet', type: 'left' },
+  { entity: 'nature-de-l-exploitation', on: 'identifiantProjet', type: 'left' },
+  { entity: 'fournisseur', on: 'identifiantProjet', type: 'left' },
+  { entity: 'raccordement', on: 'identifiantProjet', type: 'left' },
+];
+
+type ListerDonnéesRaccordementProps = {
+  list: List;
+  projets: ReadonlyArray<AchèvementEntity & Joined<DonnéesProjetPourAchèvementJoins>>;
+};
+
+export const listerDonnéesRaccordement = async ({
+  list,
+  projets,
+}: ListerDonnéesRaccordementProps) => {
+  const { items: dossiers } = await list<DossierRaccordementEntity>('dossier-raccordement', {
+    where: {
+      identifiantProjet: Where.matchAny(projets.map((projet) => projet.identifiantProjet)),
+    },
+    orderBy: { référence: 'ascending' },
+  });
+
+  const codeEICs = projets
+    .map((projet) => projet.raccordement?.identifiantGestionnaireRéseau)
+    .filter((codeEIC) => codeEIC !== undefined);
+
+  const { items: gestionnaires } = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
+    'gestionnaire-réseau',
+    {
+      where: {
+        codeEIC: Where.matchAny(codeEICs),
+      },
+    },
+  );
+
+  return { dossiers, gestionnaires };
+};
+
+type MapToDonnéesProjetPourAchèvementReadModelProps = {
+  projet: AchèvementEntity & Joined<DonnéesProjetPourAchèvementJoins>;
   dossiers: ReadonlyArray<DossierRaccordementEntity>;
   gestionnaires: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
 };
 
-const mapToReadModel = ({
+export const mapToDonnéesProjetPourAchèvementReadModel = ({
   projet: {
     identifiantProjet,
+    estAchevé,
+    initiation,
     lauréat: { localité, nomProjet, notifiéLe, statut, cahierDesCharges, coordonnées },
     candidature: {
       nomCandidat,
@@ -246,7 +190,7 @@ const mapToReadModel = ({
   },
   dossiers,
   gestionnaires,
-}: MapToReadModelProps): ProjetEnAttenteDAchevement => {
+}: MapToDonnéesProjetPourAchèvementReadModelProps): DonnéesProjetPourAchèvementReadModel => {
   const gestionnaire = gestionnaires.find(
     ({ codeEIC }) => codeEIC === raccordement?.identifiantGestionnaireRéseau,
   );
@@ -305,6 +249,7 @@ const mapToReadModel = ({
         Candidature.TypologieInstallation.convertirEnValueType,
       ) ?? [],
     statut: StatutLauréat.convertirEnValueType(statut),
+    achèvementEnAttente: !!initiation && !estAchevé,
     technologie: Candidature.TypeTechnologie.convertirEnValueType(technologie),
     coordonnéesGéodésiques: coordonnées,
     natureDeLExploitation: natureDeLExploitation

@@ -18,6 +18,9 @@
       "path": "../../domain/projet"
     },
     {
+      "path": "../../libraries/monads"
+    },
+    {
       "path": "../../libraries/monitoring"
     },
     {
