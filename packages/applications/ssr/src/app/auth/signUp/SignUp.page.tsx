@@ -56,8 +56,8 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
               action={
                 <ProConnectButton
                   onClick={() =>
-                    authClient.signIn.oauth2({
-                      providerId: 'proconnect',
+                    authClient.signIn.social({
+                      provider: 'proconnect',
                       callbackURL: callbackUrl,
                     })
                   }

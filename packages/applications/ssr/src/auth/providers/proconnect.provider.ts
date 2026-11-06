@@ -89,29 +89,30 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
     return mapUserInfoToProfile(decodedUserInfo);
   };
 
+  // ACR = Authentication Context Class Reference
+  const acr = process.env.FEATURES?.match(/force-2fa/)
+    ? { essential: true, values: ['eidas0-mfa', 'eidas1-mfa', 'eidas2', 'eidas3'] }
+    : null;
+  // https://partenaires.proconnect.gouv.fr/docs/ressources/claim_amr
+  const authorizationUrlParams = {
+    claims: JSON.stringify({ id_token: { amr: null, acr } }),
+  };
+
   return {
     providerId: 'proconnect',
     discoveryUrl,
     clientId: options.clientId,
     clientSecret: options.clientSecret,
     scopes: defaultScopes,
-    authorizationUrlParams: () => {
-      // ACR = Authentication Context Class Reference
-      const acr = process.env.FEATURES?.match(/force-2fa/)
-        ? { essential: true, values: ['eidas0-mfa', 'eidas1-mfa', 'eidas2', 'eidas3'] }
-        : null;
-      // https://partenaires.proconnect.gouv.fr/docs/ressources/claim_amr
-      return {
-        claims: JSON.stringify({ id_token: { amr: null, acr } }),
-      };
-    },
+    authorizationUrlParams,
     redirectURI: options.redirectURI,
     pkce: options.pkce ?? true,
     disableImplicitSignUp: options.disableImplicitSignUp,
     disableSignUp: options.disableSignUp,
-    overrideUserInfo: true,
+    overrideUserInfo: false,
     getUserInfo,
     mapProfileToUser,
+    accountSubject: ({ profile }) => profile.id ?? '',
   };
 }
 
