@@ -98,7 +98,10 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       },
       délai: {
         demande: true,
-        autoritéCompétente: 'dreal',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+          'prolongation-phase-essai': { autoritéCompétente: 'dgec' },
+        },
       },
       producteur: {
         informationEnregistrée: true,
@@ -185,6 +188,10 @@ Des dérogations au délai d’Achèvement sont toutefois possibles dans le cas 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé.
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
+    texteDélaiPhaseEssai: {
+      référenceParagraphe: '2.4',
+      dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+    },
   },
   délaiDCR: { grd: 3 },
   periodes: [
@@ -237,6 +244,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       donnéesCourriersRéponse: {
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: '6.2',
           dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
@@ -281,6 +292,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: '6.2',
           dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
@@ -326,6 +341,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
       },
@@ -363,6 +382,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
       },
@@ -400,6 +423,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       puissanceAppelée: 925,
       familles: [],
       donnéesCourriersRéponse: {
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
       },
@@ -439,6 +466,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie. Le Producteur devra conserver les justificatifs démontrant qu’il s’agit d’essais préalables et les tenir à disposition de l’administration et du Cocontractant durant la durée du contrat."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
@@ -476,6 +507,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie. Le Producteur devra conserver les justificatifs démontrant qu’il s’agit d’essais préalables et les tenir à disposition de l’administration et du Cocontractant durant la durée du contrat."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
@@ -512,6 +547,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '2.4',
+          dispositions: `"Pour application du présent paragraphe, la production d’électricité et son éventuelle rémunération, dans le cadre de phases préalables à la prise d’effet du contrat de complément de rémunération de l’Installation ne remet pas en cause la nouveauté de l’installation. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant la phase de mise en service par les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie. Le Producteur devra conserver les justificatifs démontrant qu’il s’agit d’essais préalables et les tenir à disposition de l’administration et du Cocontractant durant la durée du contrat."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
@@ -545,6 +584,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1',
+          dispositions: `"Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases d’essais préalables à la prise d’effet du contrat de complément de rémunération dans les conditions de l’article 2.4, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la première injection, cette durée est prolongeable sur justificatif en cas de nécessité révélée durant les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
@@ -578,6 +621,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1',
+          dispositions: `"Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases d’essais préalables à la prise d’effet du contrat de complément de rémunération dans les conditions de l’article 2.4, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la mise en service cette durée est prolongeable sur justificatif en cas de nécessité révélée durant les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
@@ -597,6 +644,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon:
           texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+        texteDélaiPhaseEssai: {
+          référenceParagraphe: '7.1',
+          dispositions: `"Il est interdit pour l’Installation de vendre de l’électricité avant la prise d’effet du contrat, sauf durant d’éventuelles phases d’essais préalables à la prise d’effet du contrat de complément de rémunération dans les conditions de l’article 2.4, auquel cas le producteur devra conserver les justificatifs démontrant qu’il s’agit bien de tests et les tenir à disposition de l’administration et du cocontractant durant la durée du contrat. Lesdites phases ne peuvent excéder une durée de 3 mois à compter de la mise en service cette durée est prolongeable sur justificatif en cas de nécessité révélée durant les essais ou sur demande dument justifiée auprès du ministre chargé de l’énergie."`,
+        },
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',

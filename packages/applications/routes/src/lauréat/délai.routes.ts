@@ -12,16 +12,42 @@ type ListerFilters = {
 export const demander = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/demander`;
 
-export const détail = (identifiantProjet: string, date: DateTime.RawType) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}`;
+export const détail = ({
+  identifiantProjet,
+  date,
+  motif,
+}: {
+  identifiantProjet: string;
+  date: DateTime.RawType;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
+}) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/delai/${motif === 'prolongation-délai-achèvement' ? 'achevement' : 'phase-essai'}/${date}`;
 
-export const détailsPourRedirection = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai`;
+export const détailsPourRedirection = (
+  identifiantProjet: string,
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType,
+) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/delai/${motif === 'prolongation-délai-achèvement' ? 'achevement' : 'phase-essai'}`;
 
 export const corriger = (identifiantProjet: string, date: DateTime.RawType) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/corriger`;
 
 export const lister = withFilters<ListerFilters>(`/laureats/changements/delai`);
 
-export const téléchargerModèleRéponse = (identifiantProjet: string, date: DateTime.RawType) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse`;
+export const téléchargerModèleRéponse = ({
+  date,
+  identifiantProjet,
+  motif,
+  estAccordé,
+}: {
+  identifiantProjet: string;
+  date: DateTime.RawType;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
+  estAccordé?: true;
+}) => {
+  const baseUrl = `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse`;
+  const searchParams = new URLSearchParams();
+  searchParams.set('motif', motif);
+  searchParams.set('estAccordé', estAccordé ? 'true' : 'false');
+  return `${baseUrl}?${searchParams.toString()}`;
+};

@@ -72,7 +72,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
 
   get autoritéCompétente(): AutoritéCompétente.ValueType {
     return AutoritéCompétente.convertirEnValueType(
-      this.lauréat.projet.cahierDesChargesActuel.getAutoritéCompétente('abandon'),
+      this.lauréat.projet.cahierDesChargesActuel.getAutoritéCompétente({ domain: 'abandon' }),
     );
   }
 

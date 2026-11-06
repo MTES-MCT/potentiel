@@ -8,6 +8,7 @@ import type {
   GetProjetAggregateRoot,
   IdentifiantProjet,
 } from '../../../../index.js';
+import type { MotifDemandeDélai } from '../../index.js';
 
 export type AccorderDemandeDélaiCommand = Message<
   'Lauréat.Délai.Command.AccorderDemandeDélai',
@@ -16,6 +17,7 @@ export type AccorderDemandeDélaiCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     dateAccord: DateTime.ValueType;
     nombreDeMois: number;
+    motif: MotifDemandeDélai.ValueType;
     réponseSignée: DocumentProjet.ValueType;
     rôleUtilisateur: Role.ValueType;
   }
@@ -29,6 +31,7 @@ export const registerAccorderDemandeDélaiCommand = (
     dateAccord,
     identifiantUtilisateur,
     nombreDeMois,
+    motif,
     réponseSignée,
     rôleUtilisateur,
   }) => {
@@ -36,6 +39,7 @@ export const registerAccorderDemandeDélaiCommand = (
 
     await projet.lauréat.délai.accorderDemandeDélai({
       identifiantUtilisateur,
+      motif,
       réponseSignée,
       dateAccord,
       nombreDeMois,

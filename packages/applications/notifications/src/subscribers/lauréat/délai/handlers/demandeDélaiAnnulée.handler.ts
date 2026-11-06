@@ -1,5 +1,8 @@
+import { mediator } from 'mediateur';
+
 import { Routes } from '@potentiel-applications/routes';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
 import { sendEmail } from '#sendEmail';
@@ -11,10 +14,24 @@ export const handleDemandeDélaiAnnulée = async ({
 
   const { appelOffre, période } = projet.identifiantProjet;
 
+  const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+    type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+    data: {
+      identifiantProjet: projet.identifiantProjet.formatter(),
+      demandéLe: payload.dateDemande,
+      motif: payload.motifDemande,
+    },
+  });
+
+  const motif = Option.isSome(demande)
+    ? demande.motif
+    : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
+
   const recipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'délai',
+    motif,
   });
 
   return sendEmail({
@@ -25,7 +42,13 @@ export const handleDemandeDélaiAnnulée = async ({
       departement_projet: projet.département,
       appel_offre: appelOffre,
       période,
-      url: buildUrl(Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)),
+      url: buildUrl(
+        Routes.Délai.détail({
+          identifiantProjet: projet.identifiantProjet.formatter(),
+          date: payload.dateDemande,
+          motif: motif.formatter(),
+        }),
+      ),
     },
   });
 };

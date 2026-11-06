@@ -1,7 +1,7 @@
 import type { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToDemandeDélaiSuppriméeTimelineItemProps = (
-  event: Lauréat.Délai.DemandeDélaiSuppriméeEvent,
+  event: Lauréat.Délai.DemandeDélaiSuppriméeEvent | Lauréat.Délai.DemandeDélaiSuppriméeEventV1,
 ) => {
   const { suppriméLe } = event.payload;
 

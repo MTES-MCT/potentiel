@@ -44,20 +44,11 @@ export type DélaiUseCase =
   | AccorderDemandeDélaiUseCase
   | CorrigerDemandeDélaiUseCase;
 
-export type { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
 export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
-export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
-export type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
-// Entities
 export type * from './demande/demandeDélai.entity.js';
-// Event
-export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event.js';
 export * as DocumentDélai from './demande/documentDélai.valueType.js';
-export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event.js';
-export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
-// ValueTypes
+export * as MotifDemandeDélai from './demande/motifDemandeDélai.valueType.js';
 export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType.js';
-export type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event.js';
 export type * from './délai.event.js';
 // Register
 export * from './délai.register.js';

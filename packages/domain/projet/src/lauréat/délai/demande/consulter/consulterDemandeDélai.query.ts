@@ -6,7 +6,12 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { type DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import { Délai } from '../../../index.js';
-import { AutoritéCompétente, DocumentDélai, type StatutDemandeDélai } from '../../index.js';
+import {
+  AutoritéCompétente,
+  DocumentDélai,
+  MotifDemandeDélai,
+  type StatutDemandeDélai,
+} from '../../index.js';
 import type { DemandeDélaiEntity } from '../demandeDélai.entity.js';
 
 export type ConsulterDemandeDélaiReadModel = {
@@ -23,6 +28,8 @@ export type ConsulterDemandeDélaiReadModel = {
   pièceJustificative: DocumentProjet.ValueType;
 
   autoritéCompétente: AutoritéCompétente.ValueType;
+
+  motif: MotifDemandeDélai.ValueType;
 
   instruction?: {
     passéeEnInstructionLe: DateTime.ValueType;
@@ -46,7 +53,7 @@ export type ConsulterDemandeDélaiReadModel = {
 
 export type ConsulterDemandeDélaiQuery = Message<
   'Lauréat.Délai.Query.ConsulterDemandeDélai',
-  { identifiantProjet: string; demandéLe: string },
+  { identifiantProjet: string; demandéLe: string; motif: string },
   Option.Type<ConsulterDemandeDélaiReadModel>
 >;
 
@@ -56,11 +63,12 @@ export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeD�
   const handler: MessageHandler<ConsulterDemandeDélaiQuery> = async ({
     identifiantProjet,
     demandéLe,
+    motif,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
     const demandeDélai = await find<DemandeDélaiEntity>(
-      `demande-délai|${identifiantProjetValueType.formatter()}#${demandéLe}`,
+      `demande-délai|${identifiantProjetValueType.formatter()}#${motif}#${demandéLe}`,
     );
 
     return Option.match(demandeDélai)
@@ -91,6 +99,7 @@ const mapToReadModel: MapToReadModel = ({
       instruction,
       accord,
       rejet,
+      motif,
     },
   },
 }) => {
@@ -110,6 +119,7 @@ const mapToReadModel: MapToReadModel = ({
     autoritéCompétente: AutoritéCompétente.convertirEnValueType(autoritéCompétente),
     nombreDeMois,
     raison,
+    motif: MotifDemandeDélai.convertirEnValueType(motif),
 
     instruction: instruction && {
       passéeEnInstructionLe: DateTime.convertirEnValueType(instruction.passéeEnInstructionLe),

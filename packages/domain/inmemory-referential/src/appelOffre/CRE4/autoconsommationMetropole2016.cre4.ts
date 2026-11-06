@@ -31,7 +31,10 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
       },
       délai: {
         demande: true,
-        autoritéCompétente: 'dreal',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+          'prolongation-phase-essai': undefined,
+        },
       },
       producteur: {
         informationEnregistrée: true,

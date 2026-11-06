@@ -38,7 +38,7 @@ export default async function Page(props: IdentifiantParameter) {
 
       const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
-      const autoritéCompétente = cahierDesCharges.getAutoritéCompétente('abandon');
+      const autoritéCompétente = cahierDesCharges.getAutoritéCompétente({ domain: 'abandon' });
       cahierDesCharges.vérifierQueLeChangementEstPossible('demande', 'abandon');
 
       return (

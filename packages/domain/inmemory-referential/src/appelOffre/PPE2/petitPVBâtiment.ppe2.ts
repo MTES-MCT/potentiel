@@ -36,7 +36,10 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       fournisseur: {},
       délai: {
         demande: true,
-        autoritéCompétente: 'dreal',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+          'prolongation-phase-essai': undefined,
+        },
       },
       producteur: {
         informationEnregistrée: true,

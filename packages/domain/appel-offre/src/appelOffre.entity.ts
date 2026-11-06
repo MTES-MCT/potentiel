@@ -130,9 +130,24 @@ type ChangementReprésentantLégal =
       instructionAutomatique: RègleInstructionAutomatique;
     };
 
+type MotifDemandeDélai = 'prolongation-délai-achèvement' | 'prolongation-phase-essai';
+type DemandeDélai =
+  | {
+      demande?: undefined;
+      motifs?: undefined;
+      informationEnregistrée?: undefined;
+      instructionAutomatique?: undefined;
+    }
+  | {
+      demande: true;
+      informationEnregistrée?: undefined;
+      instructionAutomatique?: undefined;
+      motifs: Record<MotifDemandeDélai, { autoritéCompétente: AutoritéCompétente } | undefined>;
+    };
+
 type RèglesMiseÀJourPorteurAvecInstruction = {
   actionnaire: ChangementActionnaire;
-  délai: DemandeAvecAutoritéCompétente;
+  délai: DemandeDélai;
   puissance: ChangementPuissance;
   représentantLégal: ChangementReprésentantLégal;
   recours: DemandeAvecAutoritéCompétente;
@@ -166,7 +181,12 @@ export type RèglesMiseÀJour = {
 };
 
 // Courriers
-export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
+export type DomainesCourriersRéponse =
+  | 'abandon'
+  | 'actionnaire'
+  | 'puissance'
+  | 'délaiAchèvement'
+  | 'délaiPhaseEssai';
 export type DonnéesCourriersRéponse = {
   référenceParagraphe: string;
   dispositions: string;
@@ -175,7 +195,8 @@ export type DonnéesCourriersRéponseParDomaine = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
   | 'texteChangementDActionnariat'
   | 'texteChangementDePuissance'
-  | 'texteDélaisDAchèvement',
+  | 'texteDélaisDAchèvement'
+  | 'texteDélaiPhaseEssai',
   DonnéesCourriersRéponse
 >;
 

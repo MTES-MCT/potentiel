@@ -1,5 +1,5 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -21,18 +21,30 @@ export const registerDélaiProjectors = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, délaiRebuildTriggeredProjector)
-      .with({ type: 'DélaiDemandé-V1' }, délaiDemandéProjector)
+      .with({ type: P.union('DélaiDemandé-V1', 'DélaiDemandé-V2') }, délaiDemandéProjector)
       .with(
         {
-          type: 'DemandeDélaiPasséeEnInstruction-V1',
+          type: P.union('DemandeDélaiPasséeEnInstruction-V1', 'DemandeDélaiPasséeEnInstruction-V2'),
         },
         demandeDélaiPasséeEnInstructionProjector,
       )
-      .with({ type: 'DemandeDélaiAnnulée-V1' }, demandeDélaiAnnuléeProjector)
-      .with({ type: 'DemandeDélaiRejetée-V1' }, demandeDélaiRejetéeProjector)
-      .with({ type: 'DélaiAccordé-V1' }, délaiAccordéProjector)
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, demandeDélaiCorrigéeProjector)
-      .with({ type: 'DemandeDélaiSupprimée-V1' }, demandeDélaiSuppriméeProjector)
+      .with(
+        { type: P.union('DemandeDélaiAnnulée-V1', 'DemandeDélaiAnnulée-V2') },
+        demandeDélaiAnnuléeProjector,
+      )
+      .with(
+        { type: P.union('DemandeDélaiRejetée-V1', 'DemandeDélaiRejetée-V2') },
+        demandeDélaiRejetéeProjector,
+      )
+      .with({ type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2') }, délaiAccordéProjector)
+      .with(
+        { type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2') },
+        demandeDélaiCorrigéeProjector,
+      )
+      .with(
+        { type: P.union('DemandeDélaiSupprimée-V1', 'DemandeDélaiSupprimée-V2') },
+        demandeDélaiSuppriméeProjector,
+      )
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Délai', handler);

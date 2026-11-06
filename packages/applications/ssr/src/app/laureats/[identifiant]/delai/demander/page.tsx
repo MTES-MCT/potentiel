@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -54,11 +55,17 @@ export default async function Page(props: IdentifiantParameter) {
         return notFound();
       }
 
-      await vérifierQueLeCahierDesChargesPermetUnChangement(
+      const règlesChangement = (await vérifierQueLeCahierDesChargesPermetUnChangement(
         lauréat.identifiantProjet,
         'demande',
         'délai',
-      );
+      )) as AppelOffre.RèglesMiseÀJourPorteur['délai'];
+
+      const motifsDisponibles = règlesChangement.demande && Object.keys(règlesChangement.motifs);
+
+      if (!motifsDisponibles?.length) {
+        return notFound();
+      }
 
       const demandeEnCours = (
         await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
@@ -76,10 +83,11 @@ export default async function Page(props: IdentifiantParameter) {
         return (
           <DemandeEnCoursPage
             title="Demande de délai"
-            href={Routes.Délai.détail(
-              identifiantProjet.formatter(),
-              demandeEnCours.demandéLe.formatter(),
-            )}
+            href={Routes.Délai.détail({
+              identifiantProjet: identifiantProjet.formatter(),
+              date: demandeEnCours.demandéLe.formatter(),
+              motif: demandeEnCours.motif.formatter(),
+            })}
           />
         );
       }
@@ -89,6 +97,9 @@ export default async function Page(props: IdentifiantParameter) {
           identifiantProjet={identifiantProjet.formatter()}
           dateAchèvementPrévisionnelActuelle={mapToPlainObject(
             achèvement.dateAchèvementPrévisionnel,
+          )}
+          motifsDisponibles={motifsDisponibles?.map(
+            (m) => Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(m).motif,
           )}
         />
       );

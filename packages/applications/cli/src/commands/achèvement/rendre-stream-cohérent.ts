@@ -127,6 +127,7 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       left join
         domain_views.projection as delai on delai.key like 'demande-délai|%'
         and delai.value->>'identifiantProjet' = laur.value->>'identifiantProjet'
+        and delai.value->>'demande.motif' = 'prolongation-délai-achèvement' 
         and delai.value->>'statut' = 'accordé'
       left join 
         event_store.event_stream as covid on covid.stream_id = format(
