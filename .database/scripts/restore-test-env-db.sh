@@ -15,7 +15,7 @@ if [[ "$APPLICATION_NAME" == *"production"* ]] && [[ "${IS_REVIEW_APP:-}" != "tr
   exit 1
 fi
 
-dbclient-fetcher pgsql 16
+dbclient-fetcher pgsql 18
 
 DB_URL=$SCALINGO_POSTGRESQL_URL
 

@@ -41,7 +41,7 @@ handle_error() {
 trap 'handle_error $LINENO' ERR
 
 echo "Installing PG utils..."
-dbclient-fetcher pgsql
+dbclient-fetcher pgsql 18
 
 DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 echo "Today's date to use in file names is ${DATE}"
