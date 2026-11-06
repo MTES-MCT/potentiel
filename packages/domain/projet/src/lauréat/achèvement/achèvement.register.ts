@@ -7,10 +7,16 @@ import { registerCorrigerDateAchèvementCommand } from './corriger/corrigerDateA
 import { registerCorrigerDateAchèvementUseCase } from './corriger/corrigerDateAchèvement.usecase.js';
 import { registerEnregistrerAttestationConformitéCommand } from './enregistrer/enregistrerAttestationConformité.command.js';
 import { registerEnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
+import { registerInitierAchèvementCommand } from './initier/initierAchèvement.command.js';
+import { registerInitierAchèvementUseCase } from './initier/initierAchèvement.usecase.js';
 import {
   type ListerProjetAvecAchevementATransmettreDependencies,
   registerListerProjetAvecAchevementATransmettreQuery,
 } from './lister/listerProjetAvecAchevementATransmettre.query.js';
+import {
+  type ListerProjetsEnAttenteDAchevementDependencies,
+  registerListerProjetsEnAttenteDAchevementQuery,
+} from './lister/listerProjetsEnAttenteDAchevement.query.js';
 import { registerModifierAchèvementCommand } from './modifier/modifierAchèvement.command.js';
 import { registerModifierAchèvementUseCase } from './modifier/modifierAchèvement.usecase.js';
 import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command.js';
@@ -25,6 +31,9 @@ export type AchèvementCommandDependencies = {
 };
 
 export const registerAchèvementUseCases = (dependencies: AchèvementCommandDependencies) => {
+  registerInitierAchèvementCommand(dependencies.getProjetAggregateRoot);
+  registerInitierAchèvementUseCase();
+
   registerTransmettreAttestationConformitéCommand(dependencies.getProjetAggregateRoot);
   registerTransmettreAttestationConformitéUseCase();
 
@@ -45,9 +54,11 @@ export const registerAchèvementUseCases = (dependencies: AchèvementCommandDepe
 };
 
 export type AchèvementQueryDependencies = ConsulterAchèvementDependencies &
-  ListerProjetAvecAchevementATransmettreDependencies;
+  ListerProjetAvecAchevementATransmettreDependencies &
+  ListerProjetsEnAttenteDAchevementDependencies;
 
 export const registerAchèvementQueries = (dependencies: AchèvementQueryDependencies) => {
   registerConsulterAchèvementQuery(dependencies);
   registerListerProjetAvecAchevementATransmettreQuery(dependencies);
+  registerListerProjetsEnAttenteDAchevementQuery(dependencies);
 };

@@ -9,6 +9,7 @@ import { ProjetAbandonnéError } from '../abandon/abandon.error.js';
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import {
+  AchèvementDéjàInitiéError,
   AttestationConformitéEtRapportAssociésDéjàEnregistrésError,
   AttestationConformitéNonTransmiseError,
   DateAchèvementAntérieureÀDateNotificationError,
@@ -29,6 +30,8 @@ import type { DateAchèvementCorrigéeEvent } from './corriger/corrigerDateAchè
 import type { CorrigerDateAchèvementOptions } from './corriger/corrigerDateAchèvement.option.js';
 import type { EnregistrerAttestationConformitéOptions } from './enregistrer/enregistrerAttestationConformité.option.js';
 import { DateAchèvementPrévisionnel, TypeTâchePlanifiéeAchèvement } from './index.js';
+import type { AchèvementInitiéEvent } from './initier/initierAchèvement.event.js';
+import type { InitierAchèvementOptions } from './initier/initierAchèvement.option.js';
 import type {
   AchèvementModifiéEvent,
   AchèvementModifiéEventV1,
@@ -77,6 +80,8 @@ export class AchèvementAggregate extends AbstractAggregate<
   get estAchevé() {
     return this.#estAchevé;
   }
+
+  #estInitié: boolean = false;
 
   #dateAchèvementRéel: DateTime.ValueType | undefined;
   get dateAchèvementRéel() {
@@ -159,6 +164,30 @@ export class AchèvementAggregate extends AbstractAggregate<
     return date;
   }
 
+  async initierAchèvement({ initiéLe, initiéPar }: InitierAchèvementOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+
+    if (this.#estAchevé) {
+      throw new ProjetDéjàAchevéError();
+    }
+
+    if (this.#estInitié) {
+      throw new AchèvementDéjàInitiéError();
+    }
+
+    const event: AchèvementInitiéEvent = {
+      type: 'AchèvementInitié-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        initiéLe: initiéLe.formatter(),
+        initiéPar: initiéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async transmettreAttestationConformité({
     identifiantUtilisateur,
     date,
@@ -177,6 +206,10 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     if (this.estAchevé) {
       throw new ProjetDéjàAchevéError();
+    }
+
+    if (this.#estInitié) {
+      throw new AchèvementDéjàInitiéError();
     }
 
     const event: AttestationConformitéTransmiseEvent = {
@@ -432,6 +465,7 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   apply(event: AchèvementEvent): void {
     match(event)
+      .with({ type: 'AchèvementInitié-V1' }, this.applyAchèvementInitié.bind(this))
       .with(
         { type: 'AttestationConformitéTransmise-V1' },
         this.applyAttestationConformitéTransmiseV1.bind(this),
@@ -461,6 +495,10 @@ export class AchèvementAggregate extends AbstractAggregate<
         this.applyAttestationConformitéModifiée.bind(this),
       )
       .exhaustive();
+  }
+
+  private applyAchèvementInitié(_: AchèvementInitiéEvent) {
+    this.#estInitié = true;
   }
 
   private applyAttestationConformitéTransmiseV1({

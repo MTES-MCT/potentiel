@@ -98,7 +98,7 @@ namespace Achevement {
      **/
     siteDeProduction: Addresse;
   
-    representLegal?: {
+    representantLegal?: {
       /** 
        * Nom et prénom du représentant légal 🍀 Domaine lauréat
        **/
@@ -247,7 +247,7 @@ namespace Achevement {
      * 🍀 Domaine Détail candidature 
      * 
     */
-    typeDeTerrain?: "cas 1" | "cas 2" | "cas 3" | "cas 4" | "cas mixte";
+    typeDeTerrain?: "cas 1" | "cas 2" | "cas 2 bis" | "cas 3" | "cas 4" | "cas mixte";
   }
   
   

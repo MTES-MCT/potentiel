@@ -24,6 +24,12 @@ export class ProjetDéjàAchevéError extends InvalidOperationError {
   }
 }
 
+export class AchèvementDéjàInitiéError extends InvalidOperationError {
+  constructor() {
+    super("L'achèvement du projet a déjà été initié");
+  }
+}
+
 export class ProjetNonAchevéError extends InvalidOperationError {
   constructor() {
     super(`Le projet n'est pas achevé`);

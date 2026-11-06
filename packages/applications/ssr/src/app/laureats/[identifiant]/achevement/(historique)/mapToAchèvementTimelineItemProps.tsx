@@ -5,6 +5,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../(details)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 import {
+  mapToAchèvementInitiéTimelineItemProps,
   mapToAchèvementModifiéTimelineItemProps,
   mapToAttestationConformitéTransmiseTimelineItemProps,
   mapToDateAchèvementCorrigéeTimelineItemProps,
@@ -20,6 +21,7 @@ type MapToAchèvementTimelineItemProps = (
 
 export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProps = (readmodel) =>
   match(readmodel)
+    .with({ type: 'AchèvementInitié-V1' }, mapToAchèvementInitiéTimelineItemProps)
     .with({ type: 'DateAchèvementTransmise-V1' }, mapToDateAchèvementTransmiseTimelineItemProps)
     .with({ type: 'DateAchèvementCorrigée-V1' }, mapToDateAchèvementCorrigéeTimelineItemProps)
     .with(

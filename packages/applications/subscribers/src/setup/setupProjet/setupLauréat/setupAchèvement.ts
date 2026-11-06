@@ -10,6 +10,7 @@ export const setupAchèvement = () => {
   achèvement.addSubscription<AchèvementProjector.SubscriptionEvent, AchèvementProjector.Execute>({
     name: 'projector',
     eventType: [
+      'AchèvementInitié-V1',
       'AttestationConformitéTransmise-V1',
       'AttestationConformitéTransmise-V2',
       'AttestationConformitéModifiée-V1',

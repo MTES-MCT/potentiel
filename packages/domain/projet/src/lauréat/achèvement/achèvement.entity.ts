@@ -14,6 +14,12 @@ export type AchèvementEntity = Entity<
       date: DateTime.RawType;
       aBénéficiéDuDélaiCDC2022?: boolean;
     };
+
+    initiation?: {
+      initiéLe: DateTime.RawType;
+      initiéPar: Email.RawType;
+    };
+
     réel?: {
       date: DateTime.RawType;
       attestationConformité?: { format: string; transmiseLe: DateTime.RawType };

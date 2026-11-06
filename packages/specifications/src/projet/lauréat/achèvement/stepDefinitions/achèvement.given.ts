@@ -8,7 +8,7 @@ import { upload } from '@potentiel-libraries/file-storage';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
-import { transmettreDateAchèvement } from './achèvement.when.js';
+import { initierAchèvement, transmettreDateAchèvement } from './achèvement.when.js';
 
 // #region Prévisionnel
 EtantDonné(
@@ -177,4 +177,10 @@ EtantDonné(
     );
   },
 );
-// #endregion Réel
+
+EtantDonné(
+  "l'achèvement réel initié pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    await initierAchèvement.call(this, this.lauréatWorld.identifiantProjet);
+  },
+);

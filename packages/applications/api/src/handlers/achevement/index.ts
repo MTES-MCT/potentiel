@@ -2,6 +2,7 @@ import type { AchevementV1, AchevementV2 } from '@potentiel-applications/api-doc
 
 import { NotImplementedError } from '../../errors.js';
 import { listerProjetAvecAchevementATransmettreHandler } from './listerProjetAvecAchevementATransmettre.handler.js';
+import { listerProjetsEnAttenteDAchevementHandler } from './listerProjetsEnAttenteDAchevement.handler.js';
 import { transmettreDateAchevementHandler } from './transmettreDateAchevement.handler.js';
 
 export const achevementV1Handlers: AchevementV1 = {
@@ -10,9 +11,7 @@ export const achevementV1Handlers: AchevementV1 = {
 };
 
 export const achevementV2Handlers: AchevementV2 = {
-  listerProjetsEnAttenteDAchevement: () => {
-    throw new NotImplementedError();
-  },
+  listerProjetsEnAttenteDAchevement: listerProjetsEnAttenteDAchevementHandler,
   récupérerProjet: () => {
     throw new NotImplementedError();
   },
