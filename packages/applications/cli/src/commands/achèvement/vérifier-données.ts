@@ -104,6 +104,7 @@ export class VérifierDonnéesAchèvementCommand extends Command {
       left join domain_views.projection as delai on delai.key like 'demande-délai|%'
       and delai.value->>'identifiantProjet' = laur.value->>'identifiantProjet'
       and delai.value->>'statut' = 'accordé'
+      and delai.value->>'demande.motif' = 'prolongation-délai-achèvement' 
       group by 1,
         2,
         3,
