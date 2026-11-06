@@ -1,19 +1,11 @@
-import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
-
-import { Benefices } from './Benefices';
-import { Bienvenue } from './Bienvenue';
-import { InscriptionConnexion } from './InscriptionConnexion';
+import { Contexte } from './Contexte';
 import { PropositionDeValeur } from './PropositionDeValeur';
 
-export type HomePageProps = {
-  utilisateur?: PotentielUtilisateur;
-};
-export function HomePage({ utilisateur }: HomePageProps) {
+export function HomePage() {
   return (
     <>
       <PropositionDeValeur />
-      {utilisateur ? <Bienvenue utilisateur={utilisateur} /> : <InscriptionConnexion />}
-      <Benefices />
+      <Contexte />
     </>
   );
 }
