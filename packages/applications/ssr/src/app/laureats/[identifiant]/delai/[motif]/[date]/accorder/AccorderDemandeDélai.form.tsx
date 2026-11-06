@@ -15,7 +15,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
-import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
+import { getMotifDemandeDélaiLabel } from '../../../_helpers/getMotifDemandeDélaiLabel';
 import {
   type AccorderDemandeDélaiFormKeys,
   accorderDemandeDélaiAction,

@@ -83,10 +83,11 @@ export default async function Page(props: IdentifiantParameter) {
         return (
           <DemandeEnCoursPage
             title="Demande de délai"
-            href={Routes.Délai.détail(
-              identifiantProjet.formatter(),
-              demandeEnCours.demandéLe.formatter(),
-            )}
+            href={Routes.Délai.détail({
+              identifiantProjet: identifiantProjet.formatter(),
+              date: demandeEnCours.demandéLe.formatter(),
+              motif: demandeEnCours.motif.formatter(),
+            })}
           />
         );
       }

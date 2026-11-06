@@ -11,7 +11,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
-import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
+import { getMotifDemandeDélaiLabel } from '../../../_helpers/getMotifDemandeDélaiLabel';
 import {
   type CorrigerDemandeDélaiFormKeys,
   corrigerDemandeDélaiAction,

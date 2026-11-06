@@ -38,10 +38,11 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
     actions={
       <Button
         linkProps={{
-          href: Routes.Délai.détail(
-            IdentifiantProjet.bind(identifiantProjet).formatter(),
-            DateTime.bind(demandéLe).formatter(),
-          ),
+          href: Routes.Délai.détail({
+            identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+            date: DateTime.bind(demandéLe).formatter(),
+            motif: motif.motif,
+          }),
         }}
         aria-label={`voir le détail de la demande de délai pour le projet ${nomProjet}`}
       >

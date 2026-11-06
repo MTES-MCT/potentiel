@@ -43,7 +43,9 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: Routes.Délai.détail(identifiantProjet, dateDemandeValue) },
+      redirection: {
+        url: Routes.Délai.détail({ identifiantProjet, date: dateDemandeValue, motif: motif }),
+      },
     };
   });
 };

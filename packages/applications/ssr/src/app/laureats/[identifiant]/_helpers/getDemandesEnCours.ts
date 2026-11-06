@@ -76,7 +76,11 @@ export const getDemandesEnCours = async ({
     if (délai) {
       demandes.push({
         text: 'Délai',
-        href: Routes.Délai.détail(identifiantProjet.formatter(), délai.demandéLe.formatter()),
+        href: Routes.Délai.détail({
+          identifiantProjet: identifiantProjet.formatter(),
+          date: délai.demandéLe.formatter(),
+          motif: délai.motif.formatter(),
+        }),
       });
     }
   }

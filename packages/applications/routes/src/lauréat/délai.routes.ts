@@ -12,11 +12,22 @@ type ListerFilters = {
 export const demander = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/demander`;
 
-export const détail = (identifiantProjet: string, date: DateTime.RawType) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}`;
+export const détail = ({
+  identifiantProjet,
+  date,
+  motif,
+}: {
+  identifiantProjet: string;
+  date: DateTime.RawType;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
+}) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/delai/${motif === 'prolongation-délai-achèvement' ? 'achevement' : 'phase-essai'}/${date}`;
 
-export const détailsPourRedirection = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai`;
+export const détailsPourRedirection = (
+  identifiantProjet: string,
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType,
+) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/delai/${motif === 'prolongation-délai-achèvement' ? 'achevement' : 'phase-essai'}`;
 
 export const corriger = (identifiantProjet: string, date: DateTime.RawType) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/corriger`;

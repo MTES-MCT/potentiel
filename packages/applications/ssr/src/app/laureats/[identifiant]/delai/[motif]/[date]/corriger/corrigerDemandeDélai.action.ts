@@ -59,10 +59,11 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Délai.détail(
+        url: Routes.Délai.détail({
           identifiantProjet,
-          DateTime.convertirEnValueType(dateDemande).formatter(),
-        ),
+          date: DateTime.convertirEnValueType(dateDemande).formatter(),
+          motif,
+        }),
       },
     };
   });

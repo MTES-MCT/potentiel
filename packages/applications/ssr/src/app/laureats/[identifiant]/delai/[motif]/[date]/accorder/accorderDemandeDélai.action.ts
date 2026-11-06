@@ -40,7 +40,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Délai.détailsPourRedirection(identifiantProjet),
+        url: Routes.Délai.détailsPourRedirection(identifiantProjet, motif),
         message: `La demande de délai a bien été accordée`,
       },
     };

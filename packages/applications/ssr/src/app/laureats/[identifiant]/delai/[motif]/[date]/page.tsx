@@ -13,7 +13,7 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToDélaiTimelineItemProps } from '../(historique)/mapToDélaiTimelineItemProps';
+import { mapToDélaiTimelineItemProps } from '../../(historique)/mapToDélaiTimelineItemProps';
 import { type DemandeDélaiActions, DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
 
 export const metadata: Metadata = { title: 'Demande de délai' };
@@ -24,6 +24,11 @@ export default async function Page(props: PageProps) {
   const params = await props.params;
 
   const { identifiant, date, motif } = params;
+
+  const motifDemande =
+    motif === 'achevement'
+      ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement
+      : Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai;
 
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
@@ -38,7 +43,7 @@ export default async function Page(props: PageProps) {
         data: {
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe,
-          motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
+          motif: motifDemande.formatter(),
         },
       });
 

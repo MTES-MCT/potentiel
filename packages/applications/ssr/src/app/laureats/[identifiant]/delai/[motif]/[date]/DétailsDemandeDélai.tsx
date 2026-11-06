@@ -10,7 +10,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
-import { getMotifDemandeDélaiLabel } from '../_helpers/getMotifDemandeDélaiLabel';
+import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
 import type { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;

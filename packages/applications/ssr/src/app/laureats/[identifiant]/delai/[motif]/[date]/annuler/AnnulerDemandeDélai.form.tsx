@@ -3,16 +3,20 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { annulerDemandeDélaiAction } from './annulerDemandeDélai.action';
 
 type AnnulerDemandeDélaiFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
 };
 
-export const AnnulerDemandeDélaiForm = ({ identifiantProjet }: AnnulerDemandeDélaiFormProps) => {
+export const AnnulerDemandeDélaiForm = ({
+  identifiantProjet,
+  motif,
+}: AnnulerDemandeDélaiFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,6 +42,7 @@ export const AnnulerDemandeDélaiForm = ({ identifiantProjet }: AnnulerDemandeD�
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir annuler la demande de délai ?</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={motif} name="motif" />
             </>
           ),
         }}

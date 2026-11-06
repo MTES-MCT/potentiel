@@ -32,7 +32,11 @@ export const handleDélaiDemandé = async (
       appel_offre: appelOffre,
       période,
       url: buildUrl(
-        Routes.Délai.détail(projet.identifiantProjet.formatter(), event.payload.demandéLe),
+        Routes.Délai.détail({
+          identifiantProjet: projet.identifiantProjet.formatter(),
+          date: event.payload.demandéLe,
+          motif: motif.formatter(),
+        }),
       ),
     },
   });

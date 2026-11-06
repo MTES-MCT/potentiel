@@ -15,11 +15,11 @@ import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentH
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAchèvement, getPuissanceInfos, getReprésentantLégalInfos } from '../../../_helpers';
+import { getAchèvement, getPuissanceInfos, getReprésentantLégalInfos } from '../../../../_helpers';
 
 export const GET = async (
   request: Request,
-  ctx: RouteContext<'/laureats/[identifiant]/delai/[date]/modele-reponse'>,
+  ctx: RouteContext<'/laureats/[identifiant]/delai/[motif]/[date]/modele-reponse'>,
 ) =>
   withUtilisateur(async (utilisateur) => {
     if (!utilisateur.rôle.aLaPermission('délai.accorderDemande')) {

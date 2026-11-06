@@ -11,7 +11,7 @@ import { TitrePageDemande } from '@/components/organisms/demande/TitrePageDemand
 import { Timeline, type TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { InfoBoxDemandeDélai } from '../InfoBoxDemandeDélai';
+import { InfoBoxDemandeDélai } from '../../InfoBoxDemandeDélai';
 import { AccorderDemandeDélaiForm } from './accorder/AccorderDemandeDélai.form';
 import { AnnulerDemandeDélaiForm } from './annuler/AnnulerDemandeDélai.form';
 import { DétailsDemandeDélai } from './DétailsDemandeDélai';
@@ -109,6 +109,7 @@ const mapToActionComponents = ({
       <PasserEnInstructionDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         estUneReprise={actions.includes('reprendre-instruction')}
+        motif={motif.formatter()}
       />
     )}
     {actions.includes('accorder') && (
@@ -140,7 +141,10 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('annuler') && (
-      <AnnulerDemandeDélaiForm identifiantProjet={identifiantProjet.formatter()} />
+      <AnnulerDemandeDélaiForm
+        identifiantProjet={identifiantProjet.formatter()}
+        motif={motif.formatter()}
+      />
     )}
   </ActionsList>
 );

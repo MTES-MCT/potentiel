@@ -12,11 +12,12 @@ export const mapToDélaiDemandéTimelineItemProps = (
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, nombreDeMois, raison } =
     event.payload;
 
-  const motifLabel = getMotifDemandeDélaiLabel(
+  const motif =
     event.type === 'DélaiDemandé-V1'
       ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif
-      : event.payload.motif,
-  );
+      : event.payload.motif;
+
+  const motifLabel = getMotifDemandeDélaiLabel(motif);
 
   return {
     date: demandéLe,
@@ -28,7 +29,7 @@ export const mapToDélaiDemandéTimelineItemProps = (
     },
     link: permissionConsulterChangement
       ? {
-          url: Routes.Délai.détail(identifiantProjet, demandéLe),
+          url: Routes.Délai.détail({ identifiantProjet, date: demandéLe, motif }),
           ariaLabel: `Voir le détail de la demande de ${motifLabel} en date du ${formatDateToText(demandéLe)}`,
           label: 'Détail de la demande',
         }

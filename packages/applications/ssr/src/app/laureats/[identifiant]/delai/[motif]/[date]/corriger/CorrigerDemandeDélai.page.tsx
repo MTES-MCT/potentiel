@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
-import { InfoBoxDateAchèvementPrévisionnel } from '../../InfoBoxDateAchèvementPrévisionnel';
+import { InfoBoxDateAchèvementPrévisionnel } from '../../../InfoBoxDateAchèvementPrévisionnel';
 import {
   CorrigerDemandeDélaiForm,
   type CorrigerDemandeDélaiFormProps,

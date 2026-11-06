@@ -57,6 +57,7 @@ export const RejeterDemandeDélaiForm = ({
               <p className="mt-3">Êtes-vous sûr de vouloir rejeter la demande de délai ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={motif} name="motif" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

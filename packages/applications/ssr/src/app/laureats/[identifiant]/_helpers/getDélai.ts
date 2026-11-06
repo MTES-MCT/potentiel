@@ -22,17 +22,20 @@ export const getDemandeDélaiEnCoursInfos = async (
 type GetDateDernièreDemandeDélai = (args: {
   identifiantProjet: IdentifiantProjet.RawType;
   emailUtilisateur: Email.RawType;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
 }) => Promise<DateTime.RawType | undefined>;
 
 export const getDateDernièreDemandeDélai: GetDateDernièreDemandeDélai = async ({
   identifiantProjet,
   emailUtilisateur,
+  motif,
 }) => {
   const demandesDélai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
     type: 'Lauréat.Délai.Query.ListerDemandeDélai',
     data: {
       utilisateur: emailUtilisateur,
       identifiantProjet,
+      motif,
     },
   });
 

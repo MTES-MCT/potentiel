@@ -42,7 +42,13 @@ export const handleDemandeDélaiAnnulée = async ({
       departement_projet: projet.département,
       appel_offre: appelOffre,
       période,
-      url: buildUrl(Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)),
+      url: buildUrl(
+        Routes.Délai.détail({
+          identifiantProjet: projet.identifiantProjet.formatter(),
+          date: payload.dateDemande,
+          motif: motif.formatter(),
+        }),
+      ),
     },
   });
 };
