@@ -53,10 +53,10 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
       <Button
         linkProps={{
           href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-          'aria-label': `voir le détail du projet ${nomProjet}`,
+          'aria-label': `consulter le détail du projet ${nomProjet}`,
         }}
       >
-        Voir le projet
+        Consulter
       </Button>
     }
   >
