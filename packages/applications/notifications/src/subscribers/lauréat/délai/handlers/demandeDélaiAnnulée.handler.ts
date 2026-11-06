@@ -19,6 +19,7 @@ export const handleDemandeDélaiAnnulée = async ({
     data: {
       identifiantProjet: projet.identifiantProjet.formatter(),
       demandéLe: payload.dateDemande,
+      motif: payload.motifDemande,
     },
   });
 

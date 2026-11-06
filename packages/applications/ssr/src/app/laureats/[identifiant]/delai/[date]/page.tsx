@@ -18,12 +18,12 @@ import { type DemandeDélaiActions, DétailsDemandeDélaiPage } from './Détails
 
 export const metadata: Metadata = { title: 'Demande de délai' };
 
-type PageProps = { params: Promise<{ identifiant: string; date: string }> };
+type PageProps = { params: Promise<{ identifiant: string; date: string; motif: string }> };
 
 export default async function Page(props: PageProps) {
   const params = await props.params;
 
-  const { identifiant, date } = params;
+  const { identifiant, date, motif } = params;
 
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
@@ -35,7 +35,11 @@ export default async function Page(props: PageProps) {
 
       const demandeDélai = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
         type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-        data: { identifiantProjet: identifiantProjet.formatter(), demandéLe },
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe,
+          motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
+        },
       });
 
       if (Option.isNone(demandeDélai)) {

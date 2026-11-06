@@ -12,7 +12,7 @@ export const mapToDélaiAccordéTimelineItemProps = (
   const motifLabel = getMotifDemandeDélaiLabel(
     event.type === 'DélaiAccordé-V1'
       ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif
-      : event.payload.motif,
+      : event.payload.motifDemande,
   );
 
   return {

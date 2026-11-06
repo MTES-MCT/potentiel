@@ -29,15 +29,15 @@ export const GET = async (
       throw new AccèsFonctionnalitéRefuséError('délai.rejeterDemande', utilisateur.rôle.nom);
     }
 
+    const { identifiant, date } = await ctx.params;
+    const identifiantProjet = decodeParameter(identifiant);
+    const demandéLe = decodeParameter(date);
+
     const url = new URL(request.url);
     const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
       url.searchParams.get('motif') ?? '',
     );
     const estAccordé = url.searchParams.get('estAccordé') === 'true';
-
-    const { identifiant, date } = await ctx.params;
-    const identifiantProjet = decodeParameter(identifiant);
-    const demandéLe = decodeParameter(date);
 
     const lauréat = await getLauréatInfos(identifiantProjet);
     const représentantLégal = await getReprésentantLégalInfos(identifiantProjet);
@@ -46,7 +46,7 @@ export const GET = async (
 
     const demandeDélai = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-      data: { identifiantProjet, demandéLe },
+      data: { identifiantProjet, demandéLe, motif: motif.formatter() },
     });
 
     if (Option.isNone(demandeDélai)) {

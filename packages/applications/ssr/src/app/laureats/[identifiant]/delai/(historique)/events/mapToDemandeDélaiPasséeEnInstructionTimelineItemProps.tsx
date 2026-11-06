@@ -3,7 +3,9 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDemandeDélaiPasséeEnInstructionTimelineItemProps = (
-  event: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent,
+  event:
+    | Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent
+    | Lauréat.Délai.DemandeDélaiPasséeEnInstructionEventV1,
 ): TimelineItemProps => {
   const { passéeEnInstructionLe, passéeEnInstructionPar } = event.payload;
 

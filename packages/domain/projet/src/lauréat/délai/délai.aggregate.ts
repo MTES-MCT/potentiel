@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { type DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
@@ -12,7 +12,10 @@ import type {
   DélaiAccordéEvent,
   DélaiAccordéEventV1,
 } from './demande/accorder/accorderDélai.event.js';
-import type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
+import type {
+  DemandeDélaiAnnuléeEvent,
+  DemandeDélaiAnnuléeEventV1,
+} from './demande/annuler/annulerDemandeDélai.event.js';
 import type { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options.js';
 import type {
   DemandeDélaiCorrigéeEvent,
@@ -25,22 +28,24 @@ import type {
 } from './demande/demander/demanderDélai.event.js';
 import type { DemanderDélaiOptions } from './demande/demander/demanderDélai.options.js';
 import type { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option.js';
-import type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
+import type { DemandeDélaiRejetéeEventV1 } from './demande/rejeter/rejeterDemandeDélai.event.js';
 import type { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options.js';
-import type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event.js';
+import type {
+  DemandeDélaiSuppriméeEvent,
+  DemandeDélaiSuppriméeEventV1,
+} from './demande/supprimer/supprimerDemandeDélai.event.js';
 import type { SupprimerDemandeDélaiOptions } from './demande/supprimer/supprimerDemandeDélai.options.js';
 import {
   DemandeDeDélaiInexistanteError,
   DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
   RôleNonAutoriséError,
 } from './délai.error.js';
-import type { DélaiEvent } from './délai.event.js';
-import {
-  AutoritéCompétente,
-  type DemandeDélaiPasséeEnInstructionEvent,
-  MotifDemandeDélai,
-  StatutDemandeDélai,
-} from './index.js';
+import type {
+  DemandeDélaiPasséeEnInstructionEvent,
+  DemandeDélaiPasséeEnInstructionEventV1,
+  DélaiEvent,
+} from './délai.event.js';
+import { AutoritéCompétente, MotifDemandeDélai, StatutDemandeDélai } from './index.js';
 
 export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {
@@ -139,7 +144,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.annulé);
 
-    const event: DemandeDélaiAnnuléeEvent = {
+    const event: DemandeDélaiAnnuléeEventV1 = {
       type: 'DemandeDélaiAnnulée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
@@ -160,7 +165,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       return;
     }
 
-    const event: DemandeDélaiSuppriméeEvent = {
+    const event: DemandeDélaiSuppriméeEventV1 = {
       type: 'DemandeDélaiSupprimée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
@@ -186,7 +191,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
     this.verifierInstructeur(this.#demande.motif, rôleUtilisateur);
 
-    const event: DemandeDélaiRejetéeEvent = {
+    const event: DemandeDélaiRejetéeEventV1 = {
       type: 'DemandeDélaiRejetée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
@@ -232,7 +237,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
         réponseSignée: { format: réponseSignée.format },
-        motif: motif.formatter(),
+        motifDemande: motif.formatter(),
       },
     };
 
@@ -265,12 +270,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     const event: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent = {
-      type: 'DemandeDélaiPasséeEnInstruction-V1',
+      type: 'DemandeDélaiPasséeEnInstruction-V2',
       payload: {
         identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
         passéeEnInstructionLe: datePassageEnInstruction.formatter(),
         passéeEnInstructionPar: identifiantUtilisateur.formatter(),
         dateDemande: this.#demande.demandéLe,
+        motifDemande: this.#demande.motif.formatter(),
       },
     };
 
@@ -283,15 +289,26 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       .with({ type: 'DélaiDemandé-V2' }, this.applyDélaiDemandé.bind(this))
       .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigéeV1.bind(this))
       .with({ type: 'DemandeDélaiCorrigée-V2' }, this.applyDemandeDélaiCorrigée.bind(this))
-      .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
       .with(
-        { type: 'DemandeDélaiPasséeEnInstruction-V1' },
+        { type: P.union('DemandeDélaiAnnulée-V1', 'DemandeDélaiAnnulée-V2') },
+        this.applyDemandeDélaiAnnulée.bind(this),
+      )
+      .with(
+        {
+          type: P.union('DemandeDélaiPasséeEnInstruction-V1', 'DemandeDélaiPasséeEnInstruction-V2'),
+        },
         this.applyDemandeDélaiPasséeEnInstruction.bind(this),
       )
-      .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
+      .with(
+        { type: P.union('DemandeDélaiRejetée-V1', 'DemandeDélaiRejetée-V2') },
+        this.applyDemandeDélaiRejetée.bind(this),
+      )
       .with({ type: 'DélaiAccordé-V1' }, this.applyDemandeDélaiAccordée.bind(this))
       .with({ type: 'DélaiAccordé-V2' }, this.applyDemandeDélaiAccordée.bind(this))
-      .with({ type: 'DemandeDélaiSupprimée-V1' }, this.applyDemandeDélaiSupprimée.bind(this))
+      .with(
+        { type: P.union('DemandeDélaiSupprimée-V1', 'DemandeDélaiSupprimée-V2') },
+        this.applyDemandeDélaiSupprimée.bind(this),
+      )
       .exhaustive();
   }
 
@@ -338,17 +355,17 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
   }
 
-  private applyDemandeDélaiAnnulée() {
+  private applyDemandeDélaiAnnulée(_: DemandeDélaiAnnuléeEvent | DemandeDélaiAnnuléeEventV1) {
     this.#demande = undefined;
   }
 
-  private applyDemandeDélaiSupprimée() {
+  private applyDemandeDélaiSupprimée(_: DemandeDélaiSuppriméeEvent | DemandeDélaiSuppriméeEventV1) {
     this.#demande = undefined;
   }
 
   private applyDemandeDélaiPasséeEnInstruction({
     payload: { passéeEnInstructionPar },
-  }: DemandeDélaiPasséeEnInstructionEvent) {
+  }: DemandeDélaiPasséeEnInstructionEventV1 | DemandeDélaiPasséeEnInstructionEvent) {
     if (this.#demande) {
       this.#demande.statut = StatutDemandeDélai.enInstruction;
       this.#demande.instruction = {
@@ -357,7 +374,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
   }
 
-  private applyDemandeDélaiRejetée(_: DemandeDélaiRejetéeEvent) {
+  private applyDemandeDélaiRejetée(_: DemandeDélaiRejetéeEventV1) {
     this.#demande = undefined;
   }
 

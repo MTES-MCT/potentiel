@@ -32,6 +32,6 @@ export type DélaiAccordéEvent = DomainEvent<
     accordéPar: Email.RawType;
     dateDemande: DateTime.RawType;
     réponseSignée: { format: string };
-    motif: MotifDemandeDélai.RawType;
+    motifDemande: MotifDemandeDélai.RawType;
   }
 >;

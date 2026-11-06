@@ -11,13 +11,14 @@ export const demandeDélaiCorrigéeProjector = async (
   } = event;
 
   const motif =
-    event.type === 'DemandeDélaiCorrigée-V2'
-      ? event.payload.motif
-      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter();
+    event.type === 'DemandeDélaiCorrigée-V1'
+      ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif
+      : event.payload.motif;
+
   const autoritéCompétente = await getAutoritéCompétente(identifiantProjet, motif);
 
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
-    `demande-délai|${identifiantProjet}#${dateDemande}`,
+    `demande-délai|${identifiantProjet}#${motif}#${dateDemande}`,
     {
       autoritéCompétente,
       demande: {

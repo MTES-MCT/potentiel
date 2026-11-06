@@ -24,18 +24,27 @@ export const registerDélaiProjectors = () => {
       .with({ type: P.union('DélaiDemandé-V1', 'DélaiDemandé-V2') }, délaiDemandéProjector)
       .with(
         {
-          type: 'DemandeDélaiPasséeEnInstruction-V1',
+          type: P.union('DemandeDélaiPasséeEnInstruction-V1', 'DemandeDélaiPasséeEnInstruction-V2'),
         },
         demandeDélaiPasséeEnInstructionProjector,
       )
-      .with({ type: 'DemandeDélaiAnnulée-V1' }, demandeDélaiAnnuléeProjector)
-      .with({ type: 'DemandeDélaiRejetée-V1' }, demandeDélaiRejetéeProjector)
+      .with(
+        { type: P.union('DemandeDélaiAnnulée-V1', 'DemandeDélaiAnnulée-V2') },
+        demandeDélaiAnnuléeProjector,
+      )
+      .with(
+        { type: P.union('DemandeDélaiRejetée-V1', 'DemandeDélaiRejetée-V2') },
+        demandeDélaiRejetéeProjector,
+      )
       .with({ type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2') }, délaiAccordéProjector)
       .with(
         { type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2') },
         demandeDélaiCorrigéeProjector,
       )
-      .with({ type: 'DemandeDélaiSupprimée-V1' }, demandeDélaiSuppriméeProjector)
+      .with(
+        { type: P.union('DemandeDélaiSupprimée-V1', 'DemandeDélaiSupprimée-V2') },
+        demandeDélaiSuppriméeProjector,
+      )
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Délai', handler);

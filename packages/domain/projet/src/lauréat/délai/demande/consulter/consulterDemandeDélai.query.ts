@@ -53,7 +53,7 @@ export type ConsulterDemandeDélaiReadModel = {
 
 export type ConsulterDemandeDélaiQuery = Message<
   'Lauréat.Délai.Query.ConsulterDemandeDélai',
-  { identifiantProjet: string; demandéLe: string },
+  { identifiantProjet: string; demandéLe: string; motif: string },
   Option.Type<ConsulterDemandeDélaiReadModel>
 >;
 
@@ -63,11 +63,12 @@ export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeD�
   const handler: MessageHandler<ConsulterDemandeDélaiQuery> = async ({
     identifiantProjet,
     demandéLe,
+    motif,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
     const demandeDélai = await find<DemandeDélaiEntity>(
-      `demande-délai|${identifiantProjetValueType.formatter()}#${demandéLe}`,
+      `demande-délai|${identifiantProjetValueType.formatter()}#${motif}#${demandéLe}`,
     );
 
     return Option.match(demandeDélai)

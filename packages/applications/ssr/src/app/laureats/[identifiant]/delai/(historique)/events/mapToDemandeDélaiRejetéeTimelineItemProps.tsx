@@ -4,7 +4,7 @@ import { formatDateToText } from '@/app/_helpers';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDemandeDélaiRejetéeTimelineItemProps = (
-  event: Lauréat.Délai.DemandeDélaiRejetéeEvent,
+  event: Lauréat.Délai.DemandeDélaiRejetéeEvent | Lauréat.Délai.DemandeDélaiRejetéeEventV1,
 ): TimelineItemProps => {
   const { rejetéeLe, rejetéePar } = event.payload;
 

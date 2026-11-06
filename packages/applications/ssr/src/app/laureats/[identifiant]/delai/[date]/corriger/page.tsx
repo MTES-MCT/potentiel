@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -17,13 +17,14 @@ type PageProps = {
   params: Promise<{
     identifiant: string;
     date: string;
+    motif: string;
   }>;
 };
 
 export default async function Page(props: PageProps) {
   const params = await props.params;
 
-  const { identifiant, date } = params;
+  const { identifiant, date, motif } = params;
 
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
@@ -41,6 +42,7 @@ export default async function Page(props: PageProps) {
         data: {
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe,
+          motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
         },
       });
 

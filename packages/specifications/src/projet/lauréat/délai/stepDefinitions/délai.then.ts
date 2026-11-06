@@ -28,6 +28,7 @@ Alors(
         data: {
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe,
+          motif: this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
         },
       });
 
@@ -88,6 +89,7 @@ Alors(
         demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
           ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
           : '',
+        motif: this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
       },
     });
     assert(Option.isSome(demandeEnCours), 'Demande de délai non trouvée !');
@@ -113,6 +115,7 @@ async function vérifierDemandeDélai(
         demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
           ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
           : '',
+        motif: this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
       },
     });
 
