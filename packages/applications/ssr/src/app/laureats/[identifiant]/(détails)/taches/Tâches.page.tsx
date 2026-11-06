@@ -23,6 +23,7 @@ const TâchesList = ({ tâches, utilisateurEstPorteur }: Props) => {
   if (tâches.items.length === 0) {
     return <span>Aucune tâche à afficher</span>;
   }
+
   return (
     <ul className="flex flex-col gap-3">
       {mapToPlainObject(tâches.items)
@@ -37,16 +38,15 @@ const TâchesList = ({ tâches, utilisateurEstPorteur }: Props) => {
                 <ListItem
                   miseÀJourLe={miseÀJourLe.date}
                   heading={<Heading3 as="h2">{titre}</Heading3>}
-                  actions={null}
-                >
-                  <div className="lex flex flex-col gap-2">
-                    <p>{description}</p>
-                    {utilisateurEstPorteur && (
+                  actions={
+                    utilisateurEstPorteur && (
                       <TertiaryLink href={lien} aria-label={ariaLabel}>
                         {action}
                       </TertiaryLink>
-                    )}
-                  </div>
+                    )
+                  }
+                >
+                  <p>{description}</p>
                 </ListItem>
               </Tile>
             </li>
