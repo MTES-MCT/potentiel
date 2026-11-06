@@ -8,6 +8,14 @@ export class AttestationNonGénéréeError extends InvalidOperationError {
   }
 }
 
+export class AttestationNonRégénérableSuiteÀRecoursError extends InvalidOperationError {
+  constructor() {
+    super(
+      `L'attestation d'un projet éliminé ayant fait l'objet d'un recours ne peut être rénégérée`,
+    );
+  }
+}
+
 export class CandidatureDéjàImportéeError extends InvalidOperationError {
   constructor() {
     super("Il est impossible d'importer 2 fois la même candidature");

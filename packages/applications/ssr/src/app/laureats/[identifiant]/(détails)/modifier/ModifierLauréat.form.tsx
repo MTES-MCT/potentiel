@@ -46,7 +46,7 @@ export type ModifierLauréatFormProps = {
     unitéPuissance: string;
   };
   cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
-  peutRegénérerAttestation: boolean;
+  nePeutPasRégénérerAttestation?: { text: string };
 };
 export type FieldValidationErrors =
   ValidationErrors<ModifierLauréatEtCandidatureNotifiéeFormEntries>;
@@ -56,7 +56,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   lauréat,
   projet,
   cahierDesCharges,
-  peutRegénérerAttestation,
+  nePeutPasRégénérerAttestation,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
   const cdcActuel = CahierDesCharges.bind(cahierDesCharges);
@@ -78,16 +78,11 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         },
       }}
     >
-      {!peutRegénérerAttestation && (
+      {nePeutPasRégénérerAttestation && (
         <Notice
           severity="info"
           title=""
-          description={
-            <span>
-              La période de l'appel d'offre de ce projet ne dispose pas de modèle d'attestation de
-              désignation, il est donc impossible de regénérer l'attestation existante.
-            </span>
-          }
+          description={<span>{nePeutPasRégénérerAttestation.text}</span>}
         />
       )}
       <div className="flex flex-col gap-4">
@@ -320,12 +315,12 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-        {peutRegénérerAttestation ? (
+        {nePeutPasRégénérerAttestation ? (
+          <input type="hidden" name="doitRegenererAttestation" value="false" />
+        ) : (
           <FormRow>
             <AttestationField validationErrors={validationErrors} />
           </FormRow>
-        ) : (
-          <input type="hidden" name="doitRegenererAttestation" value="false" />
         )}
       </div>
     </Form>
