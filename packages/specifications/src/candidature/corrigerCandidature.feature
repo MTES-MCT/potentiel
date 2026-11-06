@@ -58,6 +58,15 @@ Fonctionnalité: Corriger une candidature
             | doit régénérer attestation | oui  |
         Alors la dgec devrait être informé que "L'attestation d'une candidature non notifiée ne peut pas être régénérée"
 
+    Scénario: Impossible de régénérer l'attestation d'une candidature notifiée ayant fait l'objet d'un recours
+        Etant donné le projet éliminé "Du boulodrome de Bellecour" avec :
+            | appel d'offres | PPE2 - ZNI |
+        Et une demande de recours accordée pour le projet éliminé
+        Quand le DGEC validateur corrige la candidature avec :
+            | nom candidat               | abcd |
+            | doit régénérer attestation | oui  |
+        Alors la dgec devrait être informé que "L'attestation d'un projet éliminé ayant fait l'objet d'un recours ne peut être rénégérée"
+
     Scénario: Impossible de changer l'AO d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | appel d'offres | x |

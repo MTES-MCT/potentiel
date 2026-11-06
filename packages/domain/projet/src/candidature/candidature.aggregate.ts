@@ -14,6 +14,7 @@ import type { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 import { AucuneModificationApportéeError } from '../projet.error.js';
 import {
   AttestationNonGénéréeError,
+  AttestationNonRégénérableSuiteÀRecoursError,
   AutorisationRequiseError,
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
@@ -343,6 +344,9 @@ export class CandidatureAggregate extends AbstractAggregate<
   ) {
     if (!this.#estNotifiée && candidature.doitRégénérerAttestation) {
       throw new AttestationNonGénéréeError();
+    }
+    if (this.statut.estÉliminé()) {
+      throw new AttestationNonRégénérableSuiteÀRecoursError();
     }
   }
 
