@@ -61,7 +61,6 @@ export const SynthèsePériode = ({
             <Introduction période={période} synthèse={synthèse} />
           </View>
           <TableauLauréatPériode
-            key={`${crypto.randomUUID()}`}
             lauréats={pages[0]}
             indexPage={0}
             pagesLength={pages.length}
@@ -75,7 +74,6 @@ export const SynthèsePériode = ({
         (page, index) =>
           index > 0 && (
             <Page
-              key={`${crypto.randomUUID()}`}
               size="A4"
               style={{
                 backgroundColor: '#FFF',
@@ -87,7 +85,6 @@ export const SynthèsePériode = ({
             >
               <View style={{ paddingLeft: 15 }}>
                 <TableauLauréatPériode
-                  key={`${crypto.randomUUID()}`}
                   lauréats={page}
                   indexPage={index}
                   pagesLength={pages.length}
