@@ -169,7 +169,7 @@ export class PuissanceAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         puissance,
         puissanceDeSite,
-        autoritéCompétente: AutoritéCompétente.déterminer().autoritéCompétente,
+        autoritéCompétente: AutoritéCompétente.dreal.autoritéCompétente,
         pièceJustificative: {
           format: pièceJustificative.format,
         },

@@ -1,3 +1,5 @@
+/** biome-ignore-all assist/source/organizeImports: organized by hand for this index */
+
 import type { AccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase.js';
 import type { AnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase.js';
 import type {
@@ -50,26 +52,6 @@ export type ActionnaireUseCase =
   | AccorderChangementActionnaireUseCase
   | RejeterChangementActionnaireUseCase
   | EnregistrerChangementActionnaireUseCase;
-
-// Entities
-export type * from './actionnaire.entity.js';
-// Events
-export type * from './actionnaire.event.js';
-// Event
-export type { ActionnaireEvent } from './actionnaire.event.js';
-export type { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.event.js';
-export type { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.event.js';
-export type { ChangementActionnaireDemandéEvent } from './changement/demander/demanderChangementActionnaire.event.js';
-export type { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementActionnaire.event.js';
-export type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.event.js';
-export type { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.event.js';
-export type * from './changementActionnaire.entity.js';
-export * as DocumentActionnaire from './documentActionnaire.valueType.js';
-export type { ActionnaireImportéEvent } from './importer/importerActionnaire.event.js';
-export * as InstructionChangementActionnaire from './instructionChangementActionnaire.valueType.js';
-export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.event.js';
-// ValueType
-export * as StatutChangementActionnaire from './statutChangementActionnaire.valueType.js';
 export type {
   AccorderChangementActionnaireUseCase,
   AnnulerChangementActionnaireUseCase,
@@ -78,3 +60,25 @@ export type {
   ModifierActionnaireUseCase,
   RejeterChangementActionnaireUseCase,
 };
+
+// Entities
+export type * from './actionnaire.entity.js';
+export type * from './changementActionnaire.entity.js';
+
+// Event
+export type * from './actionnaire.event.js';
+export type { ActionnaireEvent } from './actionnaire.event.js';
+export type { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.event.js';
+export type { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.event.js';
+export type { ChangementActionnaireDemandéEvent } from './changement/demander/demanderChangementActionnaire.event.js';
+export type { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementActionnaire.event.js';
+export type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.event.js';
+export type { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.event.js';
+export type { ActionnaireImportéEvent } from './importer/importerActionnaire.event.js';
+export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.event.js';
+
+// Value Type
+export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
+export * as DocumentActionnaire from './documentActionnaire.valueType.js';
+export * as InstructionChangementActionnaire from './instructionChangementActionnaire.valueType.js';
+export * as StatutChangementActionnaire from './statutChangementActionnaire.valueType.js';

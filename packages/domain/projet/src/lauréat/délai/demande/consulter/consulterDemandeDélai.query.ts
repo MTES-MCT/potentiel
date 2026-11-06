@@ -22,7 +22,7 @@ export type ConsulterDemandeDélaiReadModel = {
 
   pièceJustificative: DocumentProjet.ValueType;
 
-  autoritéCompétente?: AutoritéCompétente.ValueType;
+  autoritéCompétente: AutoritéCompétente.ValueType;
 
   instruction?: {
     passéeEnInstructionLe: DateTime.ValueType;
@@ -107,8 +107,7 @@ const mapToReadModel: MapToReadModel = ({
     demandéLe: DateTime.convertirEnValueType(demandéLe),
     demandéPar: Email.convertirEnValueType(demandéPar),
 
-    autoritéCompétente:
-      autoritéCompétente && AutoritéCompétente.convertirEnValueType(autoritéCompétente),
+    autoritéCompétente: AutoritéCompétente.convertirEnValueType(autoritéCompétente),
     nombreDeMois,
     raison,
 

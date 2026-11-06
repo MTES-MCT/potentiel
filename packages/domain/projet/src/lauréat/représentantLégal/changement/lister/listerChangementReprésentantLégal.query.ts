@@ -12,6 +12,7 @@ import {
 import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import type { LauréatEntity } from '../../../lauréat.entity.js';
 import {
+  AutoritéCompétente,
   type ChangementReprésentantLégalEntity,
   StatutChangementReprésentantLégal,
 } from '../../index.js';
@@ -21,6 +22,7 @@ type ChangementReprésentantLégalItemReadModel = {
   demandéLe: DateTime.ValueType;
   nomProjet: string;
   statut: StatutChangementReprésentantLégal.ValueType;
+  autoritéCompétente?: AutoritéCompétente.ValueType;
   miseÀJourLe: DateTime.ValueType;
 };
 
@@ -106,4 +108,6 @@ const mapToReadModel = (
   miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
+  autoritéCompétente:
+    entity.autoritéCompétente && AutoritéCompétente.convertirEnValueType(entity.autoritéCompétente),
 });

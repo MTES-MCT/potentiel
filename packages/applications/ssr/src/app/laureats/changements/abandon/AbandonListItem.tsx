@@ -56,13 +56,11 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </Button>
     }
   >
-    <div>
-      <div className="text-sm mb-2">
-        <span>
-          Autorité compétente pour l'instruction :{' '}
-          <span className="font-semibold">{autoritéCompétente.toLocaleUpperCase()}</span>
-        </span>
-      </div>
+    <div className="text-sm mb-2">
+      <span>
+        Autorité compétente pour l'instruction :{' '}
+        <span className="font-semibold">{autoritéCompétente.toLocaleUpperCase()}</span>
+      </span>
     </div>
     <div>
       <div className="flex gap-1">

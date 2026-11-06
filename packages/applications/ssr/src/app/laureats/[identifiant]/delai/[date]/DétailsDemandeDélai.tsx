@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -69,10 +68,7 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
     {autoritéCompétente && (
       <div>
         <span className="flex-1 font-semibold">Autorité compétente pour l'instruction :</span>{' '}
-        {match(autoritéCompétente.autoritéCompétente)
-          .with('dreal', () => 'DREAL')
-          .with('dgec', () => 'DGEC')
-          .exhaustive()}
+        {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
       </div>
     )}
     {pièceJustificative && (

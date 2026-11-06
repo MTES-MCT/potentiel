@@ -20,6 +20,7 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
         <DétailsValeursReprésentantLégal
           nomReprésentantLégal={demande.nomReprésentantLégal}
           typeReprésentantLégal={demande.typeReprésentantLégal.type}
+          autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
         />
       }
       changement={{
@@ -36,6 +37,7 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
         <DétailsValeursReprésentantLégal
           nomReprésentantLégal={demande.nomReprésentantLégal}
           typeReprésentantLégal={demande.typeReprésentantLégal.type}
+          autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
         />
       }
       statut={demande.statut.statut}
@@ -45,11 +47,13 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
 type DétailsValeursReprésentantLégalProps = PlainType<{
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
+  autoritéCompétente?: string;
 }>;
 
 const DétailsValeursReprésentantLégal = ({
   typeReprésentantLégal,
   nomReprésentantLégal,
+  autoritéCompétente,
 }: DétailsValeursReprésentantLégalProps) => (
   <div className="flex flex-col gap-2">
     <div>
@@ -59,5 +63,11 @@ const DétailsValeursReprésentantLégal = ({
     <div>
       <span className="font-medium">Nom représentant légal :</span> {nomReprésentantLégal}
     </div>
+    {autoritéCompétente && (
+      <div>
+        <span className="font-medium">Autorité compétente pour l'instruction :</span>{' '}
+        {autoritéCompétente.toLocaleUpperCase()}
+      </div>
+    )}
   </div>
 );

@@ -1,10 +1,13 @@
 import type { Entity } from '@potentiel-domain/entity';
 
+import type { AutoritéCompétente } from './index.js';
+
 export type DemandeRecoursEntity = Entity<
   'demande-recours',
   {
     identifiantProjet: string;
     statut: string;
+    autoritéCompétente: AutoritéCompétente.RawType;
     miseÀJourLe: string;
 
     demande: {

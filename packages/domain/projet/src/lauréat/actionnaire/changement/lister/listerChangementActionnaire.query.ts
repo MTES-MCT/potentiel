@@ -5,7 +5,11 @@ import { type Joined, type List, type RangeOptions, Where } from '@potentiel-dom
 
 import { type GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import type { LauréatEntity } from '../../../lauréat.entity.js';
-import { type ChangementActionnaireEntity, StatutChangementActionnaire } from '../../index.js';
+import {
+  AutoritéCompétente,
+  type ChangementActionnaireEntity,
+  StatutChangementActionnaire,
+} from '../../index.js';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -14,6 +18,7 @@ type ChangementActionnaireItemReadModel = {
   miseÀJourLe: DateTime.ValueType;
   demandéLe: DateTime.ValueType;
   nouvelActionnaire: string;
+  autoritéCompétente?: AutoritéCompétente.ValueType;
 };
 
 export type ListerChangementActionnaireReadModel = {
@@ -97,4 +102,6 @@ const mapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   nouvelActionnaire: entity.demande.nouvelActionnaire,
+  autoritéCompétente:
+    entity.autoritéCompétente && AutoritéCompétente.convertirEnValueType(entity.autoritéCompétente),
 });

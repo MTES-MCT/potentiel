@@ -6,12 +6,13 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { type DocumentProjet, IdentifiantProjet } from '../../../index.js';
 import type { DemandeRecoursEntity } from '../demandeRecours.entity.js';
-import { DocumentRecours } from '../index.js';
+import { AutoritéCompétente, DocumentRecours } from '../index.js';
 import * as StatutRecours from '../statutRecours.valueType.js';
 
 export type ConsulterDemandeRecoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutRecours.ValueType;
+  autoritéCompétente: AutoritéCompétente.ValueType;
   demande: {
     raison: string;
     pièceJustificative: DocumentProjet.ValueType;
@@ -70,6 +71,9 @@ const mapToReadModel = (result: DemandeRecoursEntity) => {
   ).formatter();
 
   return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    statut: StatutRecours.convertirEnValueType(result.statut),
+    autoritéCompétente: AutoritéCompétente.convertirEnValueType(result.autoritéCompétente),
     demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
       demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
@@ -114,7 +118,5 @@ const mapToReadModel = (result: DemandeRecoursEntity) => {
           }
         : undefined,
     },
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    statut: StatutRecours.convertirEnValueType(result.statut),
   };
 };

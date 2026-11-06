@@ -1,3 +1,5 @@
+/** biome-ignore-all assist/source/organizeImports: organized by hand for this index */
+
 import type { AccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase.js';
 import type { AnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase.js';
 import type {
@@ -69,16 +71,22 @@ export type { RejeterChangementReprésentantLégalUseCase } from './changement/r
 export * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType.js';
 export * as TypeTâchePlanifiéeChangementReprésentantLégal from './changement/typeTâchePlanifiéeChangementReprésentantLégal.valueType.js';
 export type { ModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase.js';
+
 // Entities
 export type * from './représentantLégal.entity.js';
+
 // Event
 export type * from './représentantLégal.event.js';
+
 // Register
 export {
   registerReprésentantLégalQueries,
   registerReprésentantLégalUseCases,
 } from './représentantLégal.register.js';
+
 // Saga
 export * as ReprésentantLégalSaga from './saga/représentantLégal.saga.js';
+
 // ValueType
+export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
 export * as TypeReprésentantLégal from './typeReprésentantLégal.valueType.js';

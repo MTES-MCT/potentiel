@@ -1,3 +1,5 @@
+/** biome-ignore-all assist/source/organizeImports: organized by hand for this index */
+
 import type { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase.js';
 import type { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase.js';
 import type {
@@ -48,25 +50,6 @@ export type RecoursUseCase =
   | DemanderRecoursUseCase
   | RejeterRecoursUseCase
   | PasserEnInstructionRecoursUseCase;
-
-export type {
-  RecoursAccordéEvent,
-  RecoursAccordéV1Event,
-} from './accorder/recoursAccordé.event.js';
-export type { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
-// Entities
-export type * from './demandeRecours.entity.js';
-export type { RecoursDemandéEvent } from './demander/demanderRecours.event.js';
-export * as DocumentRecours from './documentRecours.valueType.js';
-export type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event.js';
-export type * from './recours.entity.js';
-// Event
-export type { RecoursEvent } from './recours.event.js';
-// Register
-export { registerRecoursQueries, registerRecoursUseCases } from './recours.register.js';
-export type { RecoursRejetéEvent } from './rejeter/rejeterRecours.event.js';
-// ValueTypes
-export * as StatutRecours from './statutRecours.valueType.js';
 export type {
   AccorderRecoursUseCase,
   AnnulerRecoursUseCase,
@@ -74,3 +57,26 @@ export type {
   PasserEnInstructionRecoursUseCase,
   RejeterRecoursUseCase,
 };
+
+// Entities
+export type * from './demandeRecours.entity.js';
+export type * from './recours.entity.js';
+
+// Event
+export type {
+  RecoursAccordéEvent,
+  RecoursAccordéV1Event,
+} from './accorder/recoursAccordé.event.js';
+export type { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
+export type { RecoursDemandéEvent } from './demander/demanderRecours.event.js';
+export type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event.js';
+export type { RecoursEvent } from './recours.event.js';
+export type { RecoursRejetéEvent } from './rejeter/rejeterRecours.event.js';
+
+// Register
+export { registerRecoursQueries, registerRecoursUseCases } from './recours.register.js';
+
+// ValueTypes
+export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
+export * as DocumentRecours from './documentRecours.valueType.js';
+export * as StatutRecours from './statutRecours.valueType.js';

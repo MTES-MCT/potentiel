@@ -61,6 +61,9 @@ export class ChangementReprésentantLégalWorld {
       identifiantProjet,
       demande: {
         statut: expectedStatut,
+        autoritéCompétente: expectedStatut.estInformationEnregistrée()
+          ? undefined
+          : Lauréat.ReprésentantLégal.AutoritéCompétente.dreal,
         nomReprésentantLégal:
           this.#demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:

@@ -6,7 +6,7 @@ import { type Joined, type List, type RangeOptions, Where } from '@potentiel-dom
 import type { GetScopeProjetUtilisateur } from '../../../getScopeProjetUtilisateur.port.js';
 import { type Candidature, IdentifiantProjet } from '../../../index.js';
 import type { DemandeRecoursEntity } from '../demandeRecours.entity.js';
-import { StatutRecours } from '../index.js';
+import { AutoritéCompétente, StatutRecours } from '../index.js';
 
 type DemandeRecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -17,6 +17,7 @@ type DemandeRecoursListItemReadModel = {
   statut: StatutRecours.ValueType;
   demandéLe: DateTime.ValueType;
   miseÀJourLe: DateTime.ValueType;
+  autoritéCompétente: AutoritéCompétente.ValueType;
 };
 
 export type ListerDemandeRecoursReadModel = {
@@ -103,5 +104,6 @@ const mapToReadModel = (
     miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
     demandéLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
+    autoritéCompétente: AutoritéCompétente.convertirEnValueType(entity.autoritéCompétente),
   };
 };

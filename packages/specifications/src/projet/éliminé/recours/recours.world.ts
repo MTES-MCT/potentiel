@@ -64,6 +64,7 @@ export class RecoursWord {
     const expected: Éliminé.Recours.ConsulterDemandeRecoursReadModel = {
       statut,
       identifiantProjet,
+      autoritéCompétente: Éliminé.Recours.AutoritéCompétente.dgec,
       demande: {
         demandéLe: DateTime.convertirEnValueType(this.#demanderRecoursFixture.demandéLe),
         demandéPar: Email.convertirEnValueType(this.#demanderRecoursFixture.demandéPar),

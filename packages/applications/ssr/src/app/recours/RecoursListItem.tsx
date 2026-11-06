@@ -20,6 +20,7 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
   statut,
   miseÀJourLe,
   demandéLe,
+  autoritéCompétente,
 }) => {
   return (
     <ListItem
@@ -45,7 +46,15 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
         </Button>
       }
     >
-      <StatutDemandeBadge statut={statut.statut} small />
+      <div className="flex flex-col gap-2">
+        <div className="text-sm">
+          Autorité compétente pour l'instruction :{' '}
+          <span className="font-semibold">
+            {autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+          </span>
+        </div>
+        <StatutDemandeBadge statut={statut.statut} small />
+      </div>
     </ListItem>
   );
 };

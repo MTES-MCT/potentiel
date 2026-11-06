@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../../fixture.js';
@@ -53,10 +52,6 @@ export class DemanderChangementPuissanceFixture
 
   get puissanceDeSite(): number | undefined {
     return this.#puissanceDeSite;
-  }
-
-  get autoritéCompétente(): Lauréat.Puissance.AutoritéCompétente.ValueType {
-    return Lauréat.Puissance.AutoritéCompétente.déterminer();
   }
 
   créer(

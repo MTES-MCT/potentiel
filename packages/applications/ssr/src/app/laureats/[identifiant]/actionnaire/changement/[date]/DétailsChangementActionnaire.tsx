@@ -11,7 +11,12 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
 }) => {
   return demande.statut.statut === 'information-enregistrée' ? (
     <DétailsChangement
-      valeurs={<DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
+      valeurs={
+        <DétailsValeursActionnaire
+          nouvelActionnaire={demande.nouvelActionnaire}
+          autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
+        />
+      }
       changement={{
         enregistréPar: demande.demandéePar,
         enregistréLe: demande.demandéeLe,
@@ -23,7 +28,12 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
   ) : (
     <DétailsDemande
       demande={demande}
-      valeurs={<DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
+      valeurs={
+        <DétailsValeursActionnaire
+          nouvelActionnaire={demande.nouvelActionnaire}
+          autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
+        />
+      }
       statut={demande.statut.statut}
     />
   );
@@ -31,10 +41,19 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
 
 type Props = {
   nouvelActionnaire: string;
+  autoritéCompétente?: string;
 };
 
-const DétailsValeursActionnaire: FC<Props> = ({ nouvelActionnaire }: Props) => (
-  <div>
-    <span className="font-medium">Nouvel actionnaire :</span> {nouvelActionnaire}
+const DétailsValeursActionnaire: FC<Props> = ({ nouvelActionnaire, autoritéCompétente }: Props) => (
+  <div className="flex flex-col gap-2">
+    <div>
+      <span className="font-medium">Nouvel actionnaire :</span> {nouvelActionnaire}
+    </div>
+    {autoritéCompétente && (
+      <div>
+        <span className="font-medium">Autorité compétente pour l'instruction :</span>{' '}
+        {autoritéCompétente.toLocaleUpperCase()}
+      </div>
+    )}
   </div>
 );

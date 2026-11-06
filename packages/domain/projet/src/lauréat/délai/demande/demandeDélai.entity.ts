@@ -7,7 +7,7 @@ export type DemandeDélaiEntity = Entity<
   {
     identifiantProjet: string;
     statut: StatutDemandeDélai.RawType;
-    autoritéCompétente?: AutoritéCompétente.RawType;
+    autoritéCompétente: AutoritéCompétente.RawType;
     miseÀJourLe: string;
 
     demande: {
