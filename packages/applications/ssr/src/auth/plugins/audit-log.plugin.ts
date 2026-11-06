@@ -22,8 +22,7 @@ export const auditLogs = () => {
               const user = ctx.context.newSession?.user;
               if (!user?.email) return;
 
-              const provider =
-                ctx.path === '/magic-link/verify' ? 'magic-link' : ctx.params.providerId;
+              const provider = ctx.path === '/magic-link/verify' ? 'magic-link' : ctx.params?.id;
 
               const utilisateur = await getUtilisateurFromEmail(user.email);
               const rôle = Option.isNone(utilisateur) ? Role.visiteur : utilisateur.rôle;
