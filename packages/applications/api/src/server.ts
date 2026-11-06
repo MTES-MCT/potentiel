@@ -8,7 +8,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getUtilisateur } from '#helpers';
 import { handleError } from './errors.js';
-import { achevementHandlers } from './handlers/achevement/index.js';
+import { achevementV1Handlers, achevementV2Handlers } from './handlers/achevement/index.js';
 import { raccordementHandlers } from './handlers/raccordement/index.js';
 
 export const writeErrorResponse = (
@@ -27,16 +27,21 @@ export const writeErrorResponse = (
 };
 
 export const createApiServer = (basePath: string) => {
-  const router = createPotentielApiRouter(raccordementHandlers, achevementHandlers, {
-    basePath,
-    onInternalError: (ctx, error) => {
-      const { statusCode, message, body } = handleError(error);
-      writeErrorResponse(ctx, statusCode, message, body);
+  const router = createPotentielApiRouter(
+    raccordementHandlers,
+    achevementV1Handlers,
+    achevementV2Handlers,
+    {
+      basePath,
+      onInternalError: (ctx, error) => {
+        const { statusCode, message, body } = handleError(error);
+        writeErrorResponse(ctx, statusCode, message, body);
+      },
+      onInvalidRequest: (ctx, route, errors) =>
+        writeErrorResponse(ctx, 400, 'Bad Request', { route, errors }),
+      onRequestNotFound: (ctx) => writeErrorResponse(ctx, 404, 'Not Found'),
     },
-    onInvalidRequest: (ctx, route, errors) =>
-      writeErrorResponse(ctx, 400, 'Bad Request', { route, errors }),
-    onRequestNotFound: (ctx) => writeErrorResponse(ctx, 404, 'Not Found'),
-  });
+  );
   return async (request: http.IncomingMessage, response: http.ServerResponse) => {
     try {
       getUtilisateur();

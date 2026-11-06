@@ -41,6 +41,20 @@ export class ForbiddenError extends ApiError {
   }
 }
 
+export class NotFoundError extends ApiError {
+  constructor(message: string) {
+    super(message, 404);
+    this.name = NotFoundError.name;
+  }
+}
+
+export class NotImplementedError extends ApiError {
+  constructor(message = 'Not Implemented') {
+    super(message, 501);
+    this.name = NotImplementedError.name;
+  }
+}
+
 const mapDomainErrorToApiError = (error: DomainError): ApiError => {
   const code = match(error)
     .with(P.instanceOf(InvalidOperationError), () => 400)

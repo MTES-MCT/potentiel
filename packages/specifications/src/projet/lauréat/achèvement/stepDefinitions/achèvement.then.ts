@@ -1,4 +1,4 @@
-import { Then as Alors } from '@cucumber/cucumber';
+import { Then as Alors, type DataTable } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
@@ -9,6 +9,106 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { expectFileContent, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
+
+Alors(
+  `les données d'un projet lauréat devrait être consultable avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    return waitForExpect(async () => {
+      const projet = await consulterProjetPourAchèvement(
+        this.lauréatWorld.identifiantProjet.formatter(),
+      );
+
+      assert(Option.isSome(projet), 'Projet non trouvé');
+      expect(projet.identifiantProjet.formatter()).to.equal(
+        this.lauréatWorld.identifiantProjet.formatter(),
+      );
+      expect(projet.nomProjet).to.equal(this.lauréatWorld.notifierLauréatFixture.nomProjet);
+      expect(projet.statut.formatter()).to.equal(exemple['statut']);
+      expect(projet.achèvementEnAttente).to.equal(exemple['achèvement en attente'] === 'oui');
+    });
+  },
+);
+
+Alors(`les données d'un projet lauréat inexistant ne devraient pas être consultable`, async () => {
+  const projet = await consulterProjetPourAchèvement('PPE2 - Bâtiment#1##inexistant');
+
+  expect(Option.isNone(projet)).to.be.true;
+});
+
+Alors(
+  `l'achèvement du projet lauréat devrait être en attente`,
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: { identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter() },
+      });
+
+      assert(
+        Option.isSome(achèvement),
+        `Achèvement non trouvé pour le projet ${this.lauréatWorld.identifiantProjet.formatter()}`,
+      );
+
+      expect(achèvement.estAchevé).to.be.false;
+
+      mapToPlainObject(achèvement).should.be.deep.equal(
+        mapToPlainObject(this.lauréatWorld.achèvementWorld.mapToExpected()),
+      );
+      expect(achèvement.achèvementEnAttente).to.be.true;
+    });
+  },
+);
+
+Alors(
+  /le projet lauréat (devrait|ne devrait pas) être listé dans les projets en attente d'achèvement$/,
+  async function (this: PotentielWorld, etat: 'devrait' | 'ne devrait pas') {
+    return waitForExpect(async () => {
+      const identifiants = await listerProjetsEnAttenteDAchèvement({ potentielWorld: this });
+
+      if (etat === 'devrait') {
+        expect(identifiants).to.include(this.lauréatWorld.identifiantProjet.formatter());
+      } else {
+        expect(identifiants).not.to.include(this.lauréatWorld.identifiantProjet.formatter());
+      }
+    });
+  },
+);
+
+Alors(
+  `le projet lauréat devrait être listé dans les projets en attente d'achèvement depuis une date antérieure à l'initiation`,
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiants = await listerProjetsEnAttenteDAchèvement({
+        potentielWorld: this,
+        depuis: DateTime.convertirEnValueType(
+          this.lauréatWorld.achèvementWorld.initierAchèvementFixture.initiéLe,
+        )
+          .retirerNombreDeJours(1)
+          .formatter(),
+      });
+      expect(identifiants).to.include(this.lauréatWorld.identifiantProjet.formatter());
+    });
+  },
+);
+
+Alors(
+  `le projet lauréat ne devrait pas être listé dans les projets en attente d'achèvement depuis une date postérieure à l'initiation`,
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiants = await listerProjetsEnAttenteDAchèvement({
+        potentielWorld: this,
+        depuis: DateTime.convertirEnValueType(
+          this.lauréatWorld.achèvementWorld.initierAchèvementFixture.initiéLe,
+        )
+          .ajouterNombreDeJours(1)
+          .formatter(),
+      });
+      expect(identifiants).not.to.include(this.lauréatWorld.identifiantProjet.formatter());
+    });
+  },
+);
 
 Alors(
   `l'achèvement réel du projet devrait être consultable`,
@@ -122,3 +222,29 @@ Alors(
     });
   },
 );
+
+const consulterProjetPourAchèvement = (identifiantProjetValue: string) =>
+  mediator.send<Lauréat.Achèvement.ConsulterDonnéesProjetPourAchèvementQuery>({
+    type: 'Lauréat.Achèvement.Query.ConsulterDonnéesProjetPourAchèvement',
+    data: { identifiantProjetValue },
+  });
+
+type ListerProjetsEnAttenteDAchèvementProps = {
+  potentielWorld: PotentielWorld;
+  depuis?: string;
+};
+
+const listerProjetsEnAttenteDAchèvement = async ({
+  potentielWorld,
+  depuis,
+}: ListerProjetsEnAttenteDAchèvementProps) => {
+  const { items } = await mediator.send<Lauréat.Achèvement.ListerProjetsEnAttenteDAchèvementQuery>({
+    type: 'Lauréat.Achèvement.Query.ListerProjetsEnAttenteDAchèvement',
+    data: {
+      depuis: depuis ? DateTime.convertirEnValueType(depuis).formatter() : undefined,
+      identifiantUtilisateur: potentielWorld.utilisateurWorld.cocontractantFixture.email,
+    },
+  });
+
+  return items.map(({ identifiantProjet }) => identifiantProjet.formatter());
+};

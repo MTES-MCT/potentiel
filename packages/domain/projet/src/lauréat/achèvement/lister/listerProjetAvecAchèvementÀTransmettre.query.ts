@@ -23,7 +23,7 @@ import type { PowerPurchaseAgreementEntity } from '../../power-purchase-agreemen
 import type { PuissanceEntity } from '../../puissance/index.js';
 import type { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement/index.js';
 
-type ProjetAvecAchevementATransmettre = {
+type ProjetAvecAchèvementÀTransmettre = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireReseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   référenceDossierRaccordement: Raccordement.RéférenceDossierRaccordement.ValueType;
@@ -40,29 +40,29 @@ type ProjetAvecAchevementATransmettre = {
   typologieInstallation: Array<Candidature.TypologieInstallation.ValueType>;
 };
 
-export type ListerProjetAvecAchevementATransmettreReadModel = {
-  items: Array<ProjetAvecAchevementATransmettre>;
+export type ListerProjetAvecAchèvementÀTransmettreReadModel = {
+  items: Array<ProjetAvecAchèvementÀTransmettre>;
   range: RangeOptions;
   total: number;
 };
 
-export type ListerProjetAvecAchevementATransmettreQuery = Message<
-  'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
+export type ListerProjetAvecAchèvementÀTransmettreQuery = Message<
+  'Lauréat.Achèvement.Query.ListerProjetAvecAchèvementÀTransmettre',
   {
     appelOffre?: Array<string>;
     periode?: string;
     range?: RangeOptions;
     identifiantUtilisateur: Email.RawType;
   },
-  ListerProjetAvecAchevementATransmettreReadModel
+  ListerProjetAvecAchèvementÀTransmettreReadModel
 >;
 
-export type ListerProjetAvecAchevementATransmettreDependencies = {
+export type ListerProjetAvecAchèvementÀTransmettreDependencies = {
   list: List;
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
-type ProjetAvecAchevementATransmettreJoins = [
+type ProjetAvecAchèvementÀTransmettreJoins = [
   LauréatEntity,
   RaccordementEntity,
   CandidatureEntity,
@@ -72,11 +72,11 @@ type ProjetAvecAchevementATransmettreJoins = [
   LeftJoin<PowerPurchaseAgreementEntity>,
   LeftJoin<InstallationEntity>,
 ];
-export const registerListerProjetAvecAchevementATransmettreQuery = ({
+export const registerListerProjetAvecAchèvementÀTransmettreQuery = ({
   list,
   getScopeProjetUtilisateur,
-}: ListerProjetAvecAchevementATransmettreDependencies) => {
-  const handler: MessageHandler<ListerProjetAvecAchevementATransmettreQuery> = async ({
+}: ListerProjetAvecAchèvementÀTransmettreDependencies) => {
+  const handler: MessageHandler<ListerProjetAvecAchèvementÀTransmettreQuery> = async ({
     appelOffre,
     periode,
     range,
@@ -90,7 +90,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
       items: projets,
       range: { endPosition, startPosition },
       total: totalProjet,
-    } = await list<DossierRaccordementEntity, ProjetAvecAchevementATransmettreJoins>(
+    } = await list<DossierRaccordementEntity, ProjetAvecAchèvementÀTransmettreJoins>(
       'dossier-raccordement',
       {
         where: {
@@ -176,12 +176,12 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
     };
   };
 
-  mediator.register('Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre', handler);
+  mediator.register('Lauréat.Achèvement.Query.ListerProjetAvecAchèvementÀTransmettre', handler);
 };
 
 type MapToReadModelProps = (
-  projet: DossierRaccordementEntity & Joined<ProjetAvecAchevementATransmettreJoins>,
-) => ProjetAvecAchevementATransmettre | undefined;
+  projet: DossierRaccordementEntity & Joined<ProjetAvecAchèvementÀTransmettreJoins>,
+) => ProjetAvecAchèvementÀTransmettre | undefined;
 
 export const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,

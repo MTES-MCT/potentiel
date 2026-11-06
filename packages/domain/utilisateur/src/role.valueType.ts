@@ -264,6 +264,7 @@ const référencielPermissions = {
         modifierAchèvement: 'Lauréat.Achèvement.Command.ModifierAchèvement',
         transmettreDateAchèvement: 'Lauréat.Achèvement.Command.TransmettreDateAchèvement',
         modifierAttestationConformité: 'Lauréat.Achèvement.Command.ModifierAttestationConformité',
+        initierAchèvement: 'Lauréat.Achèvement.Command.InitierAchèvement',
       },
       useCase: {
         transmettreAttestationConformité:
@@ -273,11 +274,16 @@ const référencielPermissions = {
         modifierAchèvement: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
         transmettreDateAchèvement: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
         modifierAttestationConformité: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+        initierAchèvement: 'Lauréat.Achèvement.UseCase.InitierAchèvement',
       },
       query: {
         consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-        listerProjetAvecAchevementATransmettre:
-          'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
+        listerProjetAvecAchèvementÀTransmettre:
+          'Lauréat.Achèvement.Query.ListerProjetAvecAchèvementÀTransmettre',
+        listerProjetsEnAttenteDAchèvement:
+          'Lauréat.Achèvement.Query.ListerProjetsEnAttenteDAchèvement',
+        consulterProjetPourAchèvement:
+          'Lauréat.Achèvement.Query.ConsulterDonnéesProjetPourAchèvement',
       },
     },
     représentantLégal: {
@@ -1010,8 +1016,18 @@ const policies = {
       référencielPermissions.lauréat.achèvement.command.modifierAchèvement,
       référencielPermissions.document.command.enregister,
     ],
-    listerProjetAvecAchevementATransmettre: [
-      référencielPermissions.lauréat.achèvement.query.listerProjetAvecAchevementATransmettre,
+    listerProjetAvecAchèvementÀTransmettre: [
+      référencielPermissions.lauréat.achèvement.query.listerProjetAvecAchèvementÀTransmettre,
+    ],
+    listerProjetsEnAttenteDAchèvement: [
+      référencielPermissions.lauréat.achèvement.query.listerProjetsEnAttenteDAchèvement,
+    ],
+    consulterProjetPourAchèvement: [
+      référencielPermissions.lauréat.achèvement.query.consulterProjetPourAchèvement,
+    ],
+    initier: [
+      référencielPermissions.lauréat.achèvement.useCase.initierAchèvement,
+      référencielPermissions.lauréat.achèvement.command.initierAchèvement,
     ],
   },
   candidature: {
@@ -2211,6 +2227,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'achèvement.enregistrerAttestation',
   'achèvement.modifierAttestation',
 
+  // Achèvement
+  'achèvement.initier',
+
   // Candidature
   'candidature.attestation.télécharger',
 
@@ -2310,7 +2329,9 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
 
   // Achèvement
   'achèvement.transmettreDate',
-  'achèvement.listerProjetAvecAchevementATransmettre',
+  'achèvement.listerProjetAvecAchèvementÀTransmettre',
+  'achèvement.listerProjetsEnAttenteDAchèvement',
+  'achèvement.consulterProjetPourAchèvement',
 
   // Actionnaire
   'actionnaire.consulterChangement',
