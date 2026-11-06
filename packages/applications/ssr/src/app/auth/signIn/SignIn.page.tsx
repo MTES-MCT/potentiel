@@ -25,7 +25,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
   const router = useRouter();
 
   if (!isPending && !data?.user && forceProConnect) {
-    authClient.signIn.oauth2({ providerId: 'proconnect', callbackURL: callbackUrl });
+    authClient.signIn.social({ provider: 'proconnect', callbackURL: callbackUrl });
   }
 
   return (
@@ -60,7 +60,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
               action={
                 <ProConnectButton
                   onClick={() =>
-                    authClient.signIn.oauth2({ providerId: 'proconnect', callbackURL: callbackUrl })
+                    authClient.signIn.social({ provider: 'proconnect', callbackURL: callbackUrl })
                   }
                 />
               }
@@ -98,7 +98,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
               <Button
                 className="mx-auto"
                 onClick={() =>
-                  authClient.signIn.oauth2({ providerId: 'keycloak', callbackURL: callbackUrl })
+                  authClient.signIn.social({ provider: 'keycloak', callbackURL: callbackUrl })
                 }
               >
                 Connexion avec mot de passe

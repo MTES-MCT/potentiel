@@ -6,10 +6,10 @@ import { auth } from '.';
 import { getProviderConfiguration } from './providers/getProviderConfiguration';
 import { getOpenIdConfiguration } from './providers/openid';
 
-const getIdToken = async (providerId: string) => {
+const getIdToken = async () => {
   try {
     const tokens = await auth.api.getAccessToken({
-      body: { providerId },
+      body: { useAccountCookie: true },
       headers: await headers(),
     });
     return tokens.idToken;
@@ -33,7 +33,7 @@ export const getLogoutUrl = async (provider: string) => {
     return;
   }
 
-  const idToken = await getIdToken(provider);
+  const idToken = await getIdToken();
   if (!idToken) {
     return;
   }
