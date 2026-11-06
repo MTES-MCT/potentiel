@@ -12,6 +12,7 @@ export type ConsulterAchèvementAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
   aBénéficiéDuDélaiCDC2022: boolean;
+  achèvementEnAttente: false;
 
   estAchevé: true;
   attestation: Option.Type<DocumentProjet.ValueType>;
@@ -26,6 +27,7 @@ export type ConsulterAchèvementNonAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
   aBénéficiéDuDélaiCDC2022: boolean;
+  achèvementEnAttente: boolean;
 
   estAchevé: false;
 };
@@ -67,6 +69,7 @@ export const registerConsulterAchèvementQuery = ({ find }: ConsulterAchèvement
 const mapToReadModel = ({
   identifiantProjet,
   prévisionnel: { date: dateAchèvementPrévisionnel, aBénéficiéDuDélaiCDC2022 },
+  initiation,
   réel,
 }: AchèvementEntity): ConsulterAchèvementReadModel => {
   const common = {
@@ -79,6 +82,7 @@ const mapToReadModel = ({
   if (!réel) {
     return {
       ...common,
+      achèvementEnAttente: !!initiation,
       estAchevé: false,
     };
   }
@@ -92,6 +96,7 @@ const mapToReadModel = ({
 
   return {
     ...common,
+    achèvementEnAttente: false,
     estAchevé: true,
     attestation: attestationConformité
       ? DocumentAchèvement.attestationConformité({

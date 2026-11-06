@@ -7,12 +7,14 @@ import type { LauréatWorld } from '../lauréat.world.js';
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture.js';
 import { CorrigerDateAchèvementFixture } from './fixture/corrigerDateAchèvement.fixture.js';
 import { EnregistrerAttestationConformitéFixture } from './fixture/enregistrerAttestationConformité.fixture.js';
+import { InitierAchèvementFixture } from './fixture/initierAchèvement.fixture.js';
 import { ModifierAchèvementFixture } from './fixture/modifierAchèvement.fixture.js';
 import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture.js';
 import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture.js';
 import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture.js';
 
 export class AchèvementWorld {
+  #initierAchèvementFixture: InitierAchèvementFixture;
   #transmettreAttestationConformitéFixture: TransmettreAttestationConformitéFixture;
   #enregistrerAttestationConformitéFixture: EnregistrerAttestationConformitéFixture;
   #modifierAttestationConformitéFixture: ModifierAttestationConformitéFixture;
@@ -20,6 +22,10 @@ export class AchèvementWorld {
   #calculerDateAchèvementPrévisionnelFixture: CalculerDateAchèvementPrévisionnelFixture;
   #transmettreDateAchèvementFixture: TransmettreDateAchèvementFixture;
   #corrigerDateAchèvementFixture: CorrigerDateAchèvementFixture;
+
+  get initierAchèvementFixture() {
+    return this.#initierAchèvementFixture;
+  }
 
   get transmettreAttestationConformitéFixture() {
     return this.#transmettreAttestationConformitéFixture;
@@ -49,6 +55,7 @@ export class AchèvementWorld {
   }
 
   constructor(private lauréat: LauréatWorld) {
+    this.#initierAchèvementFixture = new InitierAchèvementFixture();
     this.#transmettreAttestationConformitéFixture = new TransmettreAttestationConformitéFixture(
       lauréat,
     );
@@ -85,12 +92,14 @@ export class AchèvementWorld {
           this.dateAchèvementPrévisionnelCalculée,
         ),
       aBénéficiéDuDélaiCDC2022: false,
+      achèvementEnAttente: false,
     };
 
     if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {
       result = {
         ...result,
         estAchevé: true,
+        achèvementEnAttente: false,
         ...this.transmettreAttestationConformitéFixture.mapToExpected(),
       };
     }
@@ -98,6 +107,7 @@ export class AchèvementWorld {
       result = {
         ...result,
         estAchevé: true,
+        achèvementEnAttente: false,
         ...this.transmettreDateAchèvementFixture.mapToExpected(),
       };
     }
@@ -136,6 +146,13 @@ export class AchèvementWorld {
       result = {
         ...result,
         ...this.corrigerDateAchèvementFixture.mapToExpected(),
+      };
+    }
+
+    if (this.initierAchèvementFixture.aÉtéCréé && !result.estAchevé) {
+      result = {
+        ...result,
+        achèvementEnAttente: true,
       };
     }
 

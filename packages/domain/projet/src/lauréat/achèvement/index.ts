@@ -5,10 +5,15 @@ import type {
 } from './consulter/consulterAchèvement.query.js';
 import type { CorrigerDateAchèvementUseCase } from './corriger/corrigerDateAchèvement.usecase.js';
 import type { EnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
+import type { InitierAchèvementUseCase } from './initier/initierAchèvement.usecase.js';
 import type {
   ListerProjetAvecAchevementATransmettreQuery,
   ListerProjetAvecAchevementATransmettreReadModel,
 } from './lister/listerProjetAvecAchevementATransmettre.query.js';
+import type {
+  ListerProjetsEnAttenteDAchevementQuery,
+  ListerProjetsEnAttenteDAchevementReadModel,
+} from './lister/listerProjetsEnAttenteDAchevement.query.js';
 import type { ModifierAchèvementUseCase } from './modifier/modifierAchèvement.usecase.js';
 import type { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
 import type { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
@@ -17,6 +22,7 @@ import type { TransmettreDateAchèvementUseCase } from './transmettre/transmettr
 export type {
   CorrigerDateAchèvementUseCase,
   EnregistrerAttestationConformitéUseCase,
+  InitierAchèvementUseCase,
   ModifierAchèvementUseCase,
   ModifierAttestationConformitéUseCase,
   TransmettreAttestationConformitéUseCase,
@@ -26,7 +32,8 @@ export type {
 // Query
 export type AchèvementQuery =
   | ConsulterAchèvementQuery
-  | ListerProjetAvecAchevementATransmettreQuery;
+  | ListerProjetAvecAchevementATransmettreQuery
+  | ListerProjetsEnAttenteDAchevementQuery;
 
 // Entity
 export type { AchèvementEntity } from './achèvement.entity.js';
@@ -45,4 +52,6 @@ export type {
   ConsulterAchèvementReadModel,
   ListerProjetAvecAchevementATransmettreQuery,
   ListerProjetAvecAchevementATransmettreReadModel,
+  ListerProjetsEnAttenteDAchevementQuery,
+  ListerProjetsEnAttenteDAchevementReadModel,
 };
