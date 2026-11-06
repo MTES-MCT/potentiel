@@ -13,7 +13,6 @@ export type TableauLauréatPériodeProps = {
     région: string;
     unitéPuissance: string;
   }[];
-  key: string;
   indexPage: number;
   pagesLength: number;
   typeDeSynthèse: DonnéesDocument['typeDeSynthèse'];
@@ -64,12 +63,11 @@ const manageWrapWithHyphen = (text: string) => {
 };
 export const TableauLauréatPériode: FC<TableauLauréatPériodeProps> = ({
   lauréats,
-  key,
   indexPage,
   pagesLength,
   typeDeSynthèse,
 }) => (
-  <View key={key}>
+  <View>
     {typeDeSynthèse === 'candidature' && (
       <Text style={{ marginTop: 1, marginBottom: 15, fontWeight: 'bold' }}>
         Données de candidature des lauréats avant désignation triées par région et département (
