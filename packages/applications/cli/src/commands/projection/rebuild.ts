@@ -36,7 +36,7 @@ export class RebuildProjectionCommand extends Command {
     const streamId = parsedStreamId?.trim() || undefined;
 
     if (!category) {
-      this.error('La catégorie est obligatoire');
+      throw new Error('La catégorie est obligatoire');
     }
 
     const logger = getLogger();
@@ -48,7 +48,7 @@ export class RebuildProjectionCommand extends Command {
       .reverse();
 
     if (!subscriptions.length) {
-      this.error(`Aucun subscriber trouvé pour la catégorie ${category}`);
+      throw new Error(`Aucun subscriber trouvé pour la catégorie ${category}`);
     }
 
     for (const subscription of subscriptions) {
