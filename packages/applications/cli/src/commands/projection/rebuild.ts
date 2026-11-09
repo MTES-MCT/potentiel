@@ -35,10 +35,6 @@ export class RebuildProjectionCommand extends Command {
     const [category, parsedStreamId] = categoryOuStreamId.split('|');
     const streamId = parsedStreamId?.trim() || undefined;
 
-    if (!category) {
-      throw new Error('La catégorie est obligatoire');
-    }
-
     const logger = getLogger();
 
     const subscriptions = setupSubscribers({})
