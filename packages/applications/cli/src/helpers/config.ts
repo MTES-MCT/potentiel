@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const appSchema = z.object({
+export const stageSchema = z.object({
   APPLICATION_STAGE: z.enum(['production', 'staging', 'development', 'local', 'test', 'demo']),
 });
 

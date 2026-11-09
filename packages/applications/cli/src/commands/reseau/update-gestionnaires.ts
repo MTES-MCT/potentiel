@@ -12,11 +12,11 @@ import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema } from '#helpers';
+import { dbSchema, stageSchema } from '#helpers';
 import { addGRDs, mapToRéférencielGRD, updateGRDs } from '#helpers/réseau';
 
 const envSchema = z.object({
-  ...appSchema.shape,
+  ...stageSchema.shape,
   ...dbSchema.shape,
   ORE_ENDPOINT: z.url(),
 });

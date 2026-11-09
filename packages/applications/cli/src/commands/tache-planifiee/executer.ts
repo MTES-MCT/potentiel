@@ -17,11 +17,11 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema } from '#helpers';
+import { dbSchema, stageSchema } from '#helpers';
 
 const envSchema = z.object({
   ...dbSchema.shape,
-  ...appSchema.shape,
+  ...stageSchema.shape,
 });
 
 export class Executer extends Command {
