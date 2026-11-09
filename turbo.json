@@ -3,7 +3,7 @@
   "globalDependencies": ["package.json", "package-lock.json"],
   "tasks": {
     "build": {
-      "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs,html}", "!src/**/*.d.ts"],
+      "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs,html}", "!src/**/*.d.ts", "next.config.ts"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "src/**/*.d.ts"],
       "dependsOn": ["^build:dev", "^build"],
       "outputLogs": "new-only"
