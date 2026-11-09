@@ -11,8 +11,8 @@ import { CandidatureAggregate } from './candidature/candidature.aggregate.js';
 import { CahierDesCharges, type IdentifiantProjet } from './index.js';
 import { LauréatAggregate } from './lauréat/lauréat.aggregate.js';
 import {
-  AggrégatDéjàChargéError,
-  AggrégatNonChargéError,
+  AgrégatDéjàChargéError,
+  AgrégatNonChargéError,
   AppelOffreInexistantError,
   CahierDesChargesInexistantError,
   FamilleInexistanteError,
@@ -46,7 +46,7 @@ export class ProjetAggregateRoot {
 
   get éliminé() {
     if (!this.#éliminé) {
-      throw new AggrégatNonChargéError('éliminé');
+      throw new AgrégatNonChargéError('éliminé');
     }
     return this.#éliminé;
   }
@@ -54,7 +54,7 @@ export class ProjetAggregateRoot {
   #lauréat?: AggregateType<LauréatAggregate>;
   get lauréat() {
     if (!this.#lauréat) {
-      throw new AggrégatNonChargéError('lauréat');
+      throw new AgrégatNonChargéError('lauréat');
     }
     return this.#lauréat;
   }
@@ -68,7 +68,7 @@ export class ProjetAggregateRoot {
   #accès?: AggregateType<AccèsAggregate>;
   get accès() {
     if (!this.#accès) {
-      throw new AggrégatNonChargéError('accès');
+      throw new AgrégatNonChargéError('accès');
     }
     return this.#accès;
   }
@@ -76,7 +76,7 @@ export class ProjetAggregateRoot {
   #candidature?: AggregateType<CandidatureAggregate>;
   get candidature() {
     if (!this.#candidature) {
-      throw new AggrégatNonChargéError('candidature');
+      throw new AgrégatNonChargéError('candidature');
     }
     return this.#candidature;
   }
@@ -209,7 +209,7 @@ export class ProjetAggregateRoot {
 
   async initCandidature() {
     if (this.#candidature) {
-      throw new AggrégatDéjàChargéError('candidature');
+      throw new AgrégatDéjàChargéError('candidature');
     }
     this.#candidature = await this.#loadAggregate(
       CandidatureAggregate,
@@ -220,7 +220,7 @@ export class ProjetAggregateRoot {
 
   async initAccès() {
     if (this.#accès) {
-      throw new AggrégatDéjàChargéError('accès');
+      throw new AgrégatDéjàChargéError('accès');
     }
     this.#accès = await this.#loadAggregate(
       AccèsAggregate,

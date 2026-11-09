@@ -482,7 +482,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  // Logique métier identique à celle de l'aggrégat GarantiesFinancières,
+  // Logique métier identique à celle de l'agrégat GarantiesFinancières,
   // qui n'est pas réutilisée pour des raisons d'optimisation du chargement de l'agrégat Candidature
   private vérifierSiLesGarantiesFinancièresSontValides(
     garantiesFinancières: GarantiesFinancières.ValueType | undefined,

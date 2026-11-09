@@ -32,14 +32,14 @@ export class CahierDesChargesInexistantError extends InvalidOperationError {
   }
 }
 
-export class AggrégatDéjàChargéError extends InvalidOperationError {
-  constructor(public aggrégat: string) {
+export class AgrégatDéjàChargéError extends InvalidOperationError {
+  constructor(public agrégat: string) {
     super(`L'agrégat a déjà été chargé`);
   }
 }
 
-export class AggrégatNonChargéError extends InvalidOperationError {
-  constructor(public aggrégat: string) {
+export class AgrégatNonChargéError extends InvalidOperationError {
+  constructor(public agrégat: string) {
     super(`L'agrégat n'a pas été chargé`);
   }
 }
