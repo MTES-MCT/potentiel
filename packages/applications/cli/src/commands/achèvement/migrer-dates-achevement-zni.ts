@@ -2,7 +2,7 @@ import { Command } from '@oclif/core';
 import { mediator } from 'mediateur';
 import z from 'zod';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
@@ -69,6 +69,10 @@ and a.value is null;
         reference_raccordement,
       } of projets) {
         try {
+          console.log(`\n✏️ Traitement projet ${id_projet}`);
+          const date = DateTime.now().formatter();
+          const user = Email.système.email;
+
           if (statut_projet === 'actif') {
             await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
               type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
@@ -76,10 +80,11 @@ and a.value is null;
                 identifiantProjetValue: id_projet,
                 dateAchèvementValue:
                   DateTime.convertirEnValueType(date_mise_en_service).formatter(),
-                transmiseLeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-                transmiseParValue: 'system@system',
+                transmiseLeValue: date,
+                transmiseParValue: user,
               },
             });
+            console.log(`✅ Date d'achèvement transmise`);
           }
 
           await mediator.send<Lauréat.Raccordement.SupprimerDateMiseEnServiceUseCase>({
@@ -87,10 +92,11 @@ and a.value is null;
             data: {
               identifiantProjetValue: id_projet,
               référenceDossierValue: reference_raccordement,
-              suppriméeLeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-              suppriméeParValue: 'system@system',
+              suppriméeLeValue: date,
+              suppriméeParValue: user,
             },
           });
+          console.log(`✅ Date de mise en service supprimée`);
 
           success++;
         } catch (error) {
@@ -111,7 +117,7 @@ and a.value is null;
         console.warn(
           `⚠️  Seuls ${success} sur ${projets.length} projets ont été traités avec succès`,
         );
-        console.error(errors);
+        errors.map((e) => console.log(e.identifiantProjet, e.message));
       }
 
       console.info('\n✅ Migration terminée');
