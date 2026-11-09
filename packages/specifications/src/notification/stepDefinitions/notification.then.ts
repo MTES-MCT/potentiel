@@ -116,7 +116,11 @@ Alors(
         ? {
             domain: 'délai',
             motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-              this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
+              this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.aÉtéCréé
+                ? this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.motif
+                : this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.aÉtéCréé
+                  ? this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.motif
+                  : this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
             ),
           }
         : {
@@ -128,7 +132,6 @@ Alors(
       .with('dgec', () => cdc.appelOffre.dossierSuiviPar)
       .with('dreal', () => this.utilisateurWorld.drealFixture.email)
       .exhaustive();
-
     await vérifierEmailEnvoyé.call(this, email, data);
   },
 );
