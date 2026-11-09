@@ -9,7 +9,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerGarantiesFinancièresActuelles } from '../../../(détails)/garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
+import { récupérerGarantiesFinancièresActuelles } from '../../../(details)/garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
 import {
   TransmettreAttestationConformitéPage,
   type TransmettreAttestationConformitéPageProps,

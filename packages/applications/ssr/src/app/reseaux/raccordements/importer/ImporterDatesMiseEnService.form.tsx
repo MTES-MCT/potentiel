@@ -12,7 +12,7 @@ import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
   type GestionnaireRéseauSelectProps,
-} from '../../../laureats/[identifiant]/(détails)/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+} from '../../../laureats/[identifiant]/(details)/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 import {
   type ImporterDatesMiseEnServiceFormKeys,
   importerDatesMiseEnServiceAction,

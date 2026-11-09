@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import type { HistoryRecord } from '@potentiel-domain/entity';
 import type { Éliminé } from '@potentiel-domain/projet';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '@/app/laureats/[identifiant]/(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '@/app/laureats/[identifiant]/(details)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 import type { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToÉliminéNotifiéTimelineItemProps } from './events';
 
