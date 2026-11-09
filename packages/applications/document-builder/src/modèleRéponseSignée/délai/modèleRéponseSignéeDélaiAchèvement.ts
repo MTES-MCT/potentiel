@@ -2,36 +2,6 @@ import type { ModèleRéponse } from '../modèleRéponseSignée.js';
 
 export const modèleRéponseDélaiAchèvementFileName = 'délai-achèvement-modèle-réponse.docx';
 
-type DemandePrécédenteEnDate = {
-  demandeEnDate: 'yes';
-  demandeEnMois?: undefined;
-  dateDemandePrecedenteDemandée: string;
-  dateDemandePrecedenteAccordée: string;
-};
-
-type DemandePrécédenteEnMois = {
-  demandeEnDate?: undefined;
-  demandeEnMois: 'yes';
-  dureeDelaiDemandePrecedenteEnMois: string;
-} & (DemandePrécédenteEnMoisAccordéeAvecDate | DemandePrécédenteEnMoisAccordéeAvecMois);
-
-type DemandePrécédenteEnMoisAccordéeAvecDate = {
-  demandeEnMoisAccordéeEnDate: 'yes';
-  dateDemandePrecedenteAccordée: string;
-};
-
-type DemandePrécédenteEnMoisAccordéeAvecMois = {
-  demandeEnMoisAccordéeEnDate?: undefined;
-  delaiDemandePrecedenteAccordeEnMois: string;
-};
-
-export type DemandePrécédente = {
-  demandePrecedente: 'yes';
-  dateDepotDemandePrecedente: string;
-  dateReponseDemandePrecedente: string;
-  autreDelaiDemandePrecedenteAccorde: 'yes' | '';
-} & (DemandePrécédenteEnDate | DemandePrécédenteEnMois);
-
 // Ce type est basé sur la possibilité qu'une demande de délai
 // soit exprimée en mois (jusqu'à 2022) ou en date.
 // Dans le cas où le délai est en date, la réponse est également en date.
@@ -39,15 +9,15 @@ export type DemandePrécédente = {
 export type ModèleRéponseDélaiAchèvement = ModèleRéponse & {
   type: 'délai-achèvement';
   data: {
-    referenceParagrapheAchevement: string;
-    contenuParagrapheAchevement: string;
-    dateLimiteAchevementInitiale: string;
-    dateLimiteAchevementActuelle: string;
+    référenceParagrapheAchèvement: string;
+    contenuParagrapheAchèvement: string;
+    dateLimiteAchèvementInitiale: string;
+    dateLimiteAchèvementActuelle: string;
     dateAchèvementDemandée: string;
     dateDemande: string;
     justificationDemande: string;
 
     enCopies: Array<string>;
     nombreDeMoisDemandé: number;
-  } & ({ demandePrecedente: '' } | DemandePrécédente);
+  };
 };

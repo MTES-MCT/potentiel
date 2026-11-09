@@ -99,17 +99,16 @@ export const GET = async (
         logo,
         data: {
           ...commonData,
-          contenuParagrapheAchevement: texteDélaiDAchèvement.dispositions,
-          referenceParagrapheAchevement: texteDélaiDAchèvement.référenceParagraphe,
+          contenuParagrapheAchèvement: texteDélaiDAchèvement.dispositions,
+          référenceParagrapheAchèvement: texteDélaiDAchèvement.référenceParagraphe,
           dateAchèvementDemandée: formatDateForDocument(
             achèvement.dateAchèvementPrévisionnel.ajouterDélai(demandeDélai.nombreDeMois).dateTime
               .date,
           ),
-          dateLimiteAchevementActuelle: achèvement.dateAchèvementPrévisionnel.formatterDate(),
-          dateLimiteAchevementInitiale: formatDateForDocument(
+          dateLimiteAchèvementActuelle: achèvement.dateAchèvementPrévisionnel.formatterDate(),
+          dateLimiteAchèvementInitiale: formatDateForDocument(
             lauréat.notifiéLe.ajouterNombreDeMois(délaiRéalisationEnMois).date,
           ),
-          demandePrecedente: '',
         },
       });
       return new Response(content, {

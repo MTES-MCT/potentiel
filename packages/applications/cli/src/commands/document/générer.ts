@@ -218,24 +218,15 @@ function getData(
         type,
         data: {
           ...common,
-          referenceParagrapheAchevement:
+          référenceParagrapheAchèvement:
             appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.référenceParagraphe ??
             '!!!MANQUANT!!!',
-          contenuParagrapheAchevement:
+          contenuParagrapheAchèvement:
             appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.dispositions ??
             '!!!MANQUANT!!!',
-          dateLimiteAchevementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateLimiteAchèvementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
           dateAchèvementDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateLimiteAchevementActuelle: faker.date.recent().toLocaleDateString('fr-FR'),
-
-          demandePrecedente: 'yes',
-          dateDepotDemandePrecedente: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateReponseDemandePrecedente: faker.date.recent().toLocaleDateString('fr-FR'),
-          autreDelaiDemandePrecedenteAccorde: '',
-
-          demandeEnDate: 'yes',
-          dateDemandePrecedenteDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateDemandePrecedenteAccordée: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateLimiteAchèvementActuelle: faker.date.recent().toLocaleDateString('fr-FR'),
 
           nombreDeMoisDemandé: faker.number.int(),
 
