@@ -25,10 +25,10 @@ const envSchema = z.object({
 });
 
 /***
- * @deprecated Cette commande ne peut pas marcher car au moment dans l'aggrégat abandon on détermine
+ * @deprecated Cette commande ne peut pas marcher car au moment dans l'agrégat abandon on détermine
  * une date limite de transmission de la preuve de recandidature (30/06/2025).
  *
- * Donc l'aggrégat va automatiquement throw DateLégaleTransmissionPreuveRecandidatureDépasséeError()
+ * Donc l'agrégat va automatiquement throw DateLégaleTransmissionPreuveRecandidatureDépasséeError()
  * On conserve cette commande CLI temporairement le temps de trancher de la suppression de la feature
  */
 export class Relancer extends Command {

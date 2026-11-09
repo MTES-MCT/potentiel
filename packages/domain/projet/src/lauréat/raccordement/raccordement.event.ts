@@ -72,7 +72,7 @@ export type DossierDuRaccordementSuppriméEvent = DomainEvent<
 //#region DCR
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEvent à la place.
- * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise-V1',
@@ -86,7 +86,7 @@ export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
 
 /**
  * @deprecated Utilisez DemandeComplèteDeRaccordementTransmise-V3 à la place.
- * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type DemandeComplèteRaccordementTransmiseEventV2 = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise-V2',
@@ -118,7 +118,7 @@ export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
 
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
- * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = DomainEvent<
   'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
@@ -130,7 +130,7 @@ export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = Domai
 >;
 
 /**
- * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
   'DemandeComplèteRaccordementModifiée-V1',
@@ -143,7 +143,7 @@ export type DemandeComplèteRaccordementModifiéeEventV1 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type DemandeComplèteRaccordementModifiéeEventV2 = DomainEvent<
   'DemandeComplèteRaccordementModifiée-V2',
@@ -155,7 +155,7 @@ export type DemandeComplèteRaccordementModifiéeEventV2 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type DemandeComplèteRaccordementModifiéeEventV3 = DomainEvent<
   'DemandeComplèteRaccordementModifiée-V3',
@@ -188,7 +188,7 @@ export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
 //#region PTF
 /**
  * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
- * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreTransmiseEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise-V1',
@@ -200,7 +200,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEventV1 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
@@ -212,7 +212,7 @@ export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEve
 >;
 
 /**
- * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreTransmiseEventV2 = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise-V2',
@@ -227,7 +227,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEventV2 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementTransmisEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise-V3',
@@ -244,7 +244,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée-V1',
@@ -256,7 +256,7 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée-V2',
@@ -271,7 +271,7 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez DocumentRaccordementModifiéEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreModifiée-V3',
@@ -423,7 +423,7 @@ export type GestionnaireRéseauInconnuAttribuéEvent = DomainEvent<
 >;
 
 /**
- * @deprecated Utilisez GestionnaireRéseauRaccordementModifiéEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * @deprecated Utilisez GestionnaireRéseauRaccordementModifiéEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conservé pour la compatibilité avec le chargement des agrégats et la fonctionnalité de rebuild des projections
  */
 export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
   'GestionnaireRéseauProjetModifié-V1',
