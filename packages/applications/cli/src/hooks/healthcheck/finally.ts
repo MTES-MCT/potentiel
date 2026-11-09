@@ -10,6 +10,9 @@ export type CommandWithHealthcheckClient = { _healthcheckClient?: HealthcheckCli
  * After running the command, signal success or error to the healthcheck service
  */
 const healthcheckFinallyHook: Hook.Finally = async ({ Command, error }) => {
+  if (error) {
+    getLogger().error(error);
+  }
   const command = (await Command?.load()) as CommandWithHealthcheckClient | undefined;
   if (command?._healthcheckClient) {
     if (error) {
@@ -17,9 +20,6 @@ const healthcheckFinallyHook: Hook.Finally = async ({ Command, error }) => {
     } else {
       await command?._healthcheckClient.success();
     }
-  }
-  if (error) {
-    getLogger(Command?.id).error(error);
   }
 };
 
