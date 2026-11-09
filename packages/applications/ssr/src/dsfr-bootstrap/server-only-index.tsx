@@ -1,3 +1,4 @@
+import FaviconPng from '@codegouvfr/react-dsfr/dsfr/favicon/android-chrome-192x192.png';
 import {
   createGetHtmlAttributes,
   DsfrHeadBase,
@@ -12,5 +13,10 @@ export const { getHtmlAttributes } = createGetHtmlAttributes({
 });
 
 export function DsfrHead(props: DsfrHeadProps) {
-  return <DsfrHeadBase Link={Link} {...props} />;
+  return (
+    <>
+      <link rel="icon" href={FaviconPng as unknown as string} type="image/png" sizes="192x192" />
+      <DsfrHeadBase Link={Link} {...props} />
+    </>
+  );
 }
