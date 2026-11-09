@@ -7,7 +7,7 @@ import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { appSchema, dbSchema, s3Schema, throwIfEnvProduction } from '#helpers';
+import { dbSchema, s3Schema, throwIfStageProduction } from '#helpers';
 
 // Pour ces évènements, soit le document n'est pas pertinent, soit il s'agit d'un faux positif (ex: Raccordement)
 const eventsToIgnore = [
@@ -31,7 +31,6 @@ and type not in (${eventsToIgnore.map((s) => `'${s}'`).join(',')});`;
 
 const envSchema = z.object({
   ...dbSchema.shape,
-  ...appSchema.shape,
   ...s3Schema.shape,
 });
 
@@ -43,11 +42,10 @@ export class SeedFilesCommand extends Command {
   };
 
   async run() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+    throwIfStageProduction();
+    envSchema.parse(process.env);
 
     const { flags } = await this.parse(SeedFilesCommand);
-
-    throwIfEnvProduction(APPLICATION_STAGE);
 
     const events = await executeSelect<Event>(selectEventsWithFiles);
     const stats = {

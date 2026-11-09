@@ -5,9 +5,7 @@ import { setupLogger } from '../helpers/setupLogger.js';
 
 const hook: Hook<'init'> = async ({ argv, id }) => {
   dotenv.config();
-  setupLogger({
-    defaultMeta: { application: 'cli', argv, command: id },
-  });
+  setupLogger({ defaultMeta: { application: 'cli', argv, command: id }, service: id });
 };
 
 export default hook;

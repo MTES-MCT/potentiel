@@ -1,15 +1,17 @@
-import { Command } from '@oclif/core';
+import fs from 'node:fs';
+
+import { Command, Flags } from '@oclif/core';
 import zod from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
 import { ExportCSV } from '@potentiel-libraries/csv';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { appSchema, dbSchema } from '#helpers';
+import { dbSchema, restrictUsageToStages } from '#helpers';
 
 const envSchema = zod.object({
   ...dbSchema.shape,
-  ...appSchema.shape,
   // Datagouv env variables
   DATAGOUV_API_URL: zod.url(),
   DATAGOUV_API_KEY: zod.string(),
@@ -36,29 +38,34 @@ type DataLine = {
 
 export class PublierDatagouvStats extends Command {
   static monitoringSlug = 'publier-datagouv';
+  static flags = {
+    dryRun: Flags.boolean(),
+  };
 
   async run() {
-    try {
-      const env = envSchema.parse(process.env);
+    const { flags } = await this.parse(PublierDatagouvStats);
 
-      if (env.APPLICATION_STAGE !== 'production') {
-        console.log("Ce script ne doit tourner qu'en production");
-        return;
-      }
-
+    if (flags.dryRun) {
       const buffer = await this.generateCsvBuffer();
-      this.log(`🧐🧐🧐Taille du fichier envoyé : ${buffer.length} octets`);
-
-      await this.uploadCsv({
-        buffer,
-        apiUrl: env.DATAGOUV_API_URL,
-        datasetId: env.DATAGOUV_DATASET_ID,
-        resourceId: env.DATAGOUV_RESSOURCE_ID,
-        apiKey: env.DATAGOUV_API_KEY,
-      });
-    } catch (err) {
-      this.error(err instanceof Error ? err.message : String(err));
+      fs.writeFileSync('output.csv', buffer);
+      getLogger().info(`[DRY RUN] Fichier CSV généré : output.csv`);
+      return;
     }
+
+    if (restrictUsageToStages('production')) return;
+
+    const env = envSchema.parse(process.env);
+
+    const buffer = await this.generateCsvBuffer();
+    getLogger().info(`🧐🧐🧐Taille du fichier envoyé : ${buffer.length} octets`);
+
+    await this.uploadCsv({
+      buffer,
+      apiUrl: env.DATAGOUV_API_URL,
+      datasetId: env.DATAGOUV_DATASET_ID,
+      resourceId: env.DATAGOUV_RESSOURCE_ID,
+      apiKey: env.DATAGOUV_API_KEY,
+    });
   }
 
   async generateCsvBuffer() {
@@ -92,7 +99,7 @@ export class PublierDatagouvStats extends Command {
       ],
     });
 
-    this.log(`🧐🧐🧐Lignes récupérées en base : ${data.length}`);
+    getLogger().info(`🧐🧐🧐Lignes récupérées en base : ${data.length}`);
 
     return Buffer.from(csv, 'utf8');
   }
@@ -130,6 +137,6 @@ export class PublierDatagouvStats extends Command {
       throw new Error(await response.text());
     }
 
-    this.log('Ressource mise à jour');
+    getLogger().info('Ressource mise à jour');
   }
 }

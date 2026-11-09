@@ -20,10 +20,9 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 
-import { appSchema, dbSchema, throwIfEnvProduction } from '#helpers';
+import { dbSchema, throwIfStageProduction } from '#helpers';
 
 const envSchema = zod.object({
-  ...appSchema.shape,
   ...dbSchema.shape,
 });
 
@@ -34,9 +33,8 @@ export class NotifierCandidatures extends Command {
   };
 
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
-
-    throwIfEnvProduction(APPLICATION_STAGE);
+    throwIfStageProduction();
+    envSchema.parse(process.env);
 
     Période.registerPériodeUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,

@@ -23,10 +23,10 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema } from '#helpers';
+import { dbSchema, stageSchema } from '#helpers';
 
 const envSchema = z.object({
-  ...appSchema.shape,
+  ...stageSchema.shape,
   ...dbSchema.shape,
 });
 
@@ -65,7 +65,7 @@ export class NotifierGestionnaireRéseau extends Command {
   }
 
   async run() {
-    const logger = getLogger(NotifierGestionnaireRéseau.name);
+    const logger = getLogger();
     const gestionnaires = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
       type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
       data: {},

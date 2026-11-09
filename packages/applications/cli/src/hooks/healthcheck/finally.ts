@@ -1,5 +1,7 @@
 import type { Hook } from '@oclif/core';
 
+import { getLogger } from '@potentiel-libraries/monitoring';
+
 import type { HealthcheckClient } from '#helpers';
 
 export type CommandWithHealthcheckClient = { _healthcheckClient?: HealthcheckClient };
@@ -9,7 +11,7 @@ export type CommandWithHealthcheckClient = { _healthcheckClient?: HealthcheckCli
  */
 const healthcheckFinallyHook: Hook.Finally = async ({ Command, error }) => {
   if (error) {
-    console.log(error);
+    getLogger().error(error);
   }
   const command = (await Command?.load()) as CommandWithHealthcheckClient | undefined;
   if (command?._healthcheckClient) {

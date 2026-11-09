@@ -14,11 +14,12 @@ import {
 import { getDossier } from '@potentiel-infrastructure/dn-api-client';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema, dnSchema, throwIfEnvProduction } from '#helpers';
+import { dbSchema, dnSchema, stageSchema, throwIfStageProduction } from '#helpers';
 
 const envSchema = zod.object({
-  ...appSchema.shape,
+  ...stageSchema.shape,
   ...dbSchema.shape,
   ...dnSchema.shape,
 });
@@ -39,9 +40,8 @@ export class ImporterCandidatures extends Command {
   };
 
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
-
-    throwIfEnvProduction(APPLICATION_STAGE);
+    throwIfStageProduction();
+    envSchema.parse(process.env);
 
     const { flags } = await this.parse(ImporterCandidatures);
 
@@ -71,6 +71,7 @@ export class ImporterCandidatures extends Command {
     const { faker } = await import('@faker-js/faker');
 
     const importId = faker.string.uuid().slice(0, 8);
+    const logger = getLogger();
 
     console.log(`--- Début du job d'import de candidatures (Import ${importId}) ---`);
     const { flags } = await this.parse(ImporterCandidatures);
@@ -138,7 +139,7 @@ export class ImporterCandidatures extends Command {
 
     const endApiCalls = process.hrtime.bigint();
     const durationAPICalls = Number(endApiCalls - start) / 1_000_000;
-    this.log(
+    logger.info(
       `Chargement de ${occurrences} candidatures depuis l'API DN en ${durationAPICalls.toFixed(2)}ms (${(
         durationAPICalls / occurrences
       ).toFixed(2)}ms/candidature)`,
@@ -170,13 +171,13 @@ export class ImporterCandidatures extends Command {
     const end = process.hrtime.bigint();
     const durationTotal = Number(end - start) / 1_000_000;
     const duractionImport = Number(end - endApiCalls) / 1_000_000;
-    this.log(
+    logger.info(
       `Import de ${occurrences} candidatures terminé en ${duractionImport.toFixed(2)}ms (${(
         duractionImport / occurrences
       ).toFixed(2)}ms/candidature)`,
     );
 
-    this.log(
+    logger.info(
       `Total (API+import): ${occurrences} candidatures en ${durationTotal.toFixed(2)}ms (${(
         durationTotal / occurrences
       ).toFixed(2)}ms/candidature)`,

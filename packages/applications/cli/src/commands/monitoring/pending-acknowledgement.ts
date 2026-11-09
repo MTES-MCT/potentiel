@@ -44,7 +44,7 @@ export class PendingAcknowlegement extends Command {
         created_at < (now() - interval '10 minutes')::text;`,
     );
 
-    const logger = getLogger('Monitoring');
+    const logger = getLogger();
 
     if (pendingAcknowledgements.length === 0) {
       logger.info('No pending_acknowledgement found');

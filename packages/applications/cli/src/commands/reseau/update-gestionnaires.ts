@@ -12,11 +12,11 @@ import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { appSchema, dbSchema } from '#helpers';
+import { dbSchema, stageSchema } from '#helpers';
 import { addGRDs, mapToRéférencielGRD, updateGRDs } from '#helpers/réseau';
 
 const envSchema = z.object({
-  ...appSchema.shape,
+  ...stageSchema.shape,
   ...dbSchema.shape,
   ORE_ENDPOINT: z.url(),
 });
@@ -38,7 +38,8 @@ export class UpdateGestionnaires extends Command {
   }
 
   async run() {
-    getLogger().info('Import des GRDs...');
+    const logger = getLogger();
+    logger.info('Import des GRDs...');
 
     const gestionnairesFromORE = await récupérerTousLesGRD();
 
@@ -54,6 +55,6 @@ export class UpdateGestionnaires extends Command {
 
     await updateGRDs(àModifier);
 
-    getLogger().info('Fin du script ✨');
+    logger.info('Fin du script ✨');
   }
 }
