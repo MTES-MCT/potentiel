@@ -237,8 +237,6 @@ namespace Achevement {
      * Evaluation carbone simplifiée indiquée au C. du formulaire 
      * de candidature et arrondie (kg eq CO2/kWc)  
      * 
-     * 🚧 à vérifier si vraiement optionnel
-     * 
      * 🍀 Domaine Fournisseur 
     */
     evaluationCarboneSimplifiee?: float32;

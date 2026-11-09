@@ -25,13 +25,11 @@ namespace Achevement {
     /**
      * La référence du dossier de raccordement.
      * Un projet peut avoir plusieurs dossiers de raccordement (une ligne = un dossier)
-     * TODO à déplacer dans un champs `raccordements: DossierRaccordement[]`
      */
     referenceDossierRaccordement: string;
 
     /**
      * La date de qualification de la Demande Complète de Raccordement.
-     * TODO à déplacer dans un champs `raccordements: DossierRaccordement[]`
      */
     @format("date")
     @encodedName("application/json", "dateDCR")
@@ -72,9 +70,8 @@ namespace Achevement {
     /**
      * Récupère les projets en attente d'achèvement
      *
-     * _NB: Ce endpoint est déprécié et sera supprimé. Il ne retourne que les projets ayant un dossier de raccordement, une entréepar dossier de raccordement. Utiliser /achevements/en-attente_
+     * _NB: Ce endpoint ne retourne que les projets ayant un dossier de raccordement, une entrée par dossier de raccordement. Utiliser /achevements/en-attente_
      *
-     * @deprecated
      */
     @route("/achevements/a-transmettre")
     @get
@@ -95,8 +92,6 @@ namespace Achevement {
 
     /**
      * Transmettre la date d'achèvement d'un projet
-     *
-     * _NB: A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_ => Point à vérifier
      */
     @route("/laureats/{identifiantProjet}/achevement/date-achevement")
     @post
