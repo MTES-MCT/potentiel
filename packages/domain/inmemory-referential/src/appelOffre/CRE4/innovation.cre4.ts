@@ -77,7 +77,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
         Les modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
         Des modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `
           Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -176,7 +176,7 @@ Le Candidat dont l’offre a été retenue met en oeuvre les éléments, disposi
       référenceParagraphe: '5.4.2',
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. `,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `
       Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :

@@ -19,7 +19,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
      Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.
      Après l'achèvement, les modifications à la hausse ne sont pas acceptées.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - trente (30) mois à compter de la Date de désignation ; 
@@ -174,7 +174,7 @@ conditions ou du prélèvement d’une part de la garantie financière. L’acco
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.
  Après l'achèvement, les modifications à la hausse ne sont pas acceptées.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `
       Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :

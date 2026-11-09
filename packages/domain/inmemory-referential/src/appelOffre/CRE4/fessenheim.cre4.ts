@@ -74,7 +74,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
       référenceParagraphe: '5.4.4',
       dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dixpourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre  à  condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée)  et que la Puissance modifiée soit :- Inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant ; - Inférieure  à  la  limite  de  puissance  de  30  MWc  spécifiée  au  paragraphe  2.2  si  celle-ci  est  applicable. Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.4',
       dispositions: `
           Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -176,7 +176,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
 Les modifications de la structure du capital du Candidat après constitution des garanties financières prévues au 6.2 sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. 
 Si le candidat a joint à son offre la lettre d’engagement du 3.2.6, il est de sa responsabilité de s’assurer du respect de son engagement.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.4',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.

@@ -195,7 +195,7 @@ export type DonnéesCourriersRéponseParDomaine = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
   | 'texteChangementDActionnariat'
   | 'texteChangementDePuissance'
-  | 'texteDélaisDAchèvement'
+  | 'texteDélaiDAchèvement'
   | 'texteDélaiPhaseEssai',
   DonnéesCourriersRéponse
 >;

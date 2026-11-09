@@ -7,11 +7,11 @@ import { type FC, useState } from 'react';
 import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
 import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
+import { InfoDateAchèvementPrévisionnelAprèsDélaiAccordé } from '../InfoDateAchèvementPrévisionnelAprèsDélaiAccordé';
 import {
   type CorrigerDemandeDélaiFormKeys,
   corrigerDemandeDélaiAction,
@@ -72,7 +72,7 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
           stateRelatedMessage={validationErrors['motif']}
           id="motif"
           label="Motif de la demande de délai"
-          className="w-full"
+          className="w-full md:w-1/2"
           nativeSelectProps={{
             name: 'motif',
             required: true,
@@ -106,10 +106,9 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
         />
 
         {afficherNouvelleDateAchèvement && (
-          <div>
-            Après accord de votre demande de délai, la date d'achèvement prévisionnel serait le{' '}
-            <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
-          </div>
+          <InfoDateAchèvementPrévisionnelAprèsDélaiAccordé
+            nouvelleDate={nouvelleDate.formatter()}
+          />
         )}
       </div>
 

@@ -125,7 +125,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
       référenceParagraphe: '5.2.2',
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.2',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - trente (30) mois à compter de la Date de désignation.

@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
@@ -22,15 +22,15 @@ export const handleDemandeDélaiAnnulée = async ({
     },
   });
 
-  const motif = Option.isSome(demande)
-    ? demande.motif
-    : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
+  if (Option.isNone(demande)) {
+    throw new Error("La demande de délai n'a pas été trouvée");
+  }
 
   const recipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'délai',
-    motif,
+    motif: demande.motif,
   });
 
   return sendEmail({

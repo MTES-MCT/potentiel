@@ -159,7 +159,7 @@ Après constitution des garanties financières, si le Candidat n’a pas joint �
       familles: [],
       puissanceAppelée: 500,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `          
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
@@ -184,7 +184,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.
@@ -212,7 +212,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       familles: [],
       puissanceAppelée: 500,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
@@ -236,7 +236,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.
@@ -264,7 +264,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       familles: [],
       puissanceAppelée: 500,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
@@ -288,7 +288,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.
@@ -315,7 +315,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       familles: [],
       puissanceAppelée: 500,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
@@ -339,7 +339,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.
@@ -366,7 +366,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       familles: [],
       puissanceAppelée: 630,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `
           Le Candidat dont l’offre a été retenue s’engage à transmettre à EDF l’attestation de conformité mentionnée au 6.5  dans un délai de trente-six (36) mois à compter de la Date de désignation.
@@ -390,7 +390,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.
@@ -417,7 +417,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       familles: [],
       puissanceAppelée: 250,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
@@ -441,7 +441,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.
@@ -468,7 +468,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       familles: [],
       puissanceAppelée: 500,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
@@ -492,7 +492,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.
@@ -519,7 +519,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       familles: [],
       puissanceAppelée: 700,
       donnéesCourriersRéponse: {
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
@@ -543,7 +543,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
     Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.

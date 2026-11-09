@@ -8,11 +8,11 @@ import type { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import type { ValidationErrors } from '@/utils/formAction';
 import { getMotifDemandeDélaiLabel } from '../_helpers/getMotifDemandeDélaiLabel';
+import { InfoDateAchèvementPrévisionnelAprèsDélaiAccordé } from '../[date]/InfoDateAchèvementPrévisionnelAprèsDélaiAccordé';
 import { InfoBoxDateAchèvementPrévisionnel } from '../InfoBoxDateAchèvementPrévisionnel';
 import { InfoBoxDemandeDélai } from '../InfoBoxDemandeDélai';
 import { type DemanderDélaiFormKeys, demanderDélaiAction } from './DemanderDélai.action';
@@ -92,7 +92,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
                 }))}
               />
             ) : (
-              <input type={'hidden'} value={motifsDisponibles[0]} name="motif" />
+              <input type={'hidden'} value={motif} name="motif" />
             )}
             <div>
               <Input
@@ -114,12 +114,9 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
               />
 
               {afficherNouvelleDateDAchèvement && (
-                <div>
-                  Après accord de votre demande de délai, la date d'achèvement{' '}
-                  <br className="hidden md:block" />
-                  prévisionnel serait le{' '}
-                  <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
-                </div>
+                <InfoDateAchèvementPrévisionnelAprèsDélaiAccordé
+                  nouvelleDate={nouvelleDate.formatter()}
+                />
               )}
             </div>
 

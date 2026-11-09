@@ -13,7 +13,7 @@ const textMap: Record<
   { title: string; description: React.ReactNode }
 > = {
   'prolongation-délai-achèvement': {
-    title: `Cette demande concerne les prolongations des délais d'achèvement laissés à l'appréciation du Préfet ou du Ministre chargé de l'énergie`,
+    title: `Cette demande concerne les prolongations des délais d'achèvement laissés à l'appréciation du Préfet ou du Ministre chargé de l'énergie.`,
     description: (
       <>
         Elle ne concerne pas les délais pour contentieux ou raccordement qui sont automatiquement
@@ -27,7 +27,7 @@ const textMap: Record<
   },
   'prolongation-phase-essai': {
     title:
-      'Cette demande concerne un délai de prolongation des phases d’essais préalables à la prise d’effet du contrat de complément de rémunération',
+      'Cette demande concerne un délai de prolongation des phases d’essais préalables à la prise d’effet du contrat de complément de rémunération.',
     description: (
       <>
         Son instruction est soumise au Ministre chargé de l'énergie.

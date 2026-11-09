@@ -53,6 +53,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
+            <InfoBoxDemandeDélai motif={demande.motif.motif} />
             <DétailsDemandeDélai demande={demande} />
             <div>
               <Heading2>Historique</Heading2>
@@ -77,7 +78,6 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
               motif: Lauréat.Délai.MotifDemandeDélai.bind(demande.motif),
               motifsDisponibles,
             })}
-            <InfoBoxDemandeDélai motif={demande.motif.motif} />
           </>
         ),
       }}

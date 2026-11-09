@@ -21,7 +21,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     Les modifications après l’Achèvement ou hors de cette fourchette ne sont pas autorisées.
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation, ou par une décision de justice concernant l’autorisation sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `
           Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  ce  que  l’Achèvement  de  son  Installation  intervienne avant une limite définie par la date la plus tardive des deux dates suivantes : 
@@ -178,7 +178,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
  Les modifications après l’Achèvement ou hors de cette fourchette ne sont pas autorisées.
  Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation, ou par une décision de justice concernant l’autorisation sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - trente-six (36) mois à compter de la Date de désignation.

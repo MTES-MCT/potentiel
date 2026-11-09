@@ -9,8 +9,8 @@ export type ModèleRéponseDélaiEssais = ModèleRéponse & {
     justificationDemande: string;
     enCopies: Array<string>;
     nombreDeMoisDemandé: number;
-    referenceTexteDelaiPhaseEssai: string;
-    contenuTexteDelaiPhaseEssai: string;
+    référenceTexteDélaiPhaseEssai: string;
+    contenuTexteDélaiPhaseEssai: string;
     estAccordé: string;
   };
 };

@@ -219,10 +219,10 @@ function getData(
         data: {
           ...common,
           referenceParagrapheAchevement:
-            appelOffre.donnéesCourriersRéponse.texteDélaisDAchèvement?.référenceParagraphe ??
+            appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.référenceParagraphe ??
             '!!!MANQUANT!!!',
           contenuParagrapheAchevement:
-            appelOffre.donnéesCourriersRéponse.texteDélaisDAchèvement?.dispositions ??
+            appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.dispositions ??
             '!!!MANQUANT!!!',
           dateLimiteAchevementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
           dateAchèvementDemandée: faker.date.recent().toLocaleDateString('fr-FR'),

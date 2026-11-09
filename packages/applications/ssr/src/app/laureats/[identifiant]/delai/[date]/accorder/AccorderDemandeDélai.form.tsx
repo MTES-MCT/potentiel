@@ -10,12 +10,12 @@ import type { DateTime } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
 import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
+import { InfoDateAchèvementPrévisionnelAprèsDélaiAccordé } from '../InfoDateAchèvementPrévisionnelAprèsDélaiAccordé';
 import {
   type AccorderDemandeDélaiFormKeys,
   accorderDemandeDélaiAction,
@@ -52,9 +52,7 @@ export const AccorderDemandeDélaiForm = ({
 
   const afficherNouvelleDateAchèvement =
     nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime) &&
-    Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-      nouveauMotif,
-    ).estProlongationDélaiAchèvement();
+    nouveauMotif === 'prolongation-délai-achèvement';
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
     const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);
@@ -134,10 +132,9 @@ export const AccorderDemandeDélaiForm = ({
                   stateRelatedMessage={validationErrors['nombreDeMois']}
                 />
                 {afficherNouvelleDateAchèvement ? (
-                  <div>
-                    Après accord de votre demande de délai, la date d'achèvement prévisionnel serait
-                    le <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
-                  </div>
+                  <InfoDateAchèvementPrévisionnelAprèsDélaiAccordé
+                    nouvelleDate={nouvelleDate.formatter()}
+                  />
                 ) : (
                   <div>Ce délai n'affecte pas la date d'achèvement prévisionnelle.</div>
                 )}

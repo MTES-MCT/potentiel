@@ -13,9 +13,9 @@ export const handleDemandeDélaiCorrigée = async (
   const { appelOffre, période } = projet.identifiantProjet;
 
   const motif =
-    event.type === 'DemandeDélaiCorrigée-V2'
-      ? Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif)
-      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
+    event.type === 'DemandeDélaiCorrigée-V1'
+      ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement
+      : Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif);
 
   const recipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet: projet.identifiantProjet,

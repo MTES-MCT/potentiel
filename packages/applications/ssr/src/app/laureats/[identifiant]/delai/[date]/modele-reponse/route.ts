@@ -81,8 +81,8 @@ export const GET = async (
         logo,
         data: {
           ...commonData,
-          referenceTexteDelaiPhaseEssai: texteDélaiPhaseEssai.référenceParagraphe,
-          contenuTexteDelaiPhaseEssai: texteDélaiPhaseEssai.dispositions,
+          référenceTexteDélaiPhaseEssai: texteDélaiPhaseEssai.référenceParagraphe,
+          contenuTexteDélaiPhaseEssai: texteDélaiPhaseEssai.dispositions,
           estAccordé: estAccordé ? 'true' : '',
         },
       });
@@ -91,7 +91,7 @@ export const GET = async (
       });
     } else {
       const type = 'délai-achèvement';
-      const texteDélaisDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('délaiAchèvement');
+      const texteDélaiDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('délaiAchèvement');
       const délaiRéalisationEnMois = cahierDesCharges.getDélaiRéalisationEnMois();
       const achèvement = await getAchèvement(identifiantProjet);
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
@@ -99,8 +99,8 @@ export const GET = async (
         logo,
         data: {
           ...commonData,
-          contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
-          referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
+          contenuParagrapheAchevement: texteDélaiDAchèvement.dispositions,
+          referenceParagrapheAchevement: texteDélaiDAchèvement.référenceParagraphe,
           dateAchèvementDemandée: formatDateForDocument(
             achèvement.dateAchèvementPrévisionnel.ajouterDélai(demandeDélai.nombreDeMois).dateTime
               .date,
