@@ -39,7 +39,7 @@ export class RebuildProjectionCommand extends Command {
       this.error('La catégorie est obligatoire');
     }
 
-    const logger = getLogger('projection-rebuild');
+    const logger = getLogger();
 
     const subscriptions = setupSubscribers({})
       .listSubscriptions()

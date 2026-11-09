@@ -5,7 +5,7 @@ import { action } from '@oclif/core/ux';
 import { bulkhead } from 'cockatiel';
 import { z } from 'zod';
 
-import { getLogger, type Logger } from '@potentiel-libraries/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { s3Schema } from '#helpers';
 
@@ -24,7 +24,6 @@ export class Backup extends Command {
   #destinationBucketName!: string;
   #source!: S3;
   #destination!: S3;
-  #logger!: Logger;
 
   static flags = {
     workers: Flags.integer({ default: 5, description: 'number of upload to make in parallel' }),
@@ -36,8 +35,6 @@ export class Backup extends Command {
   };
 
   async init() {
-    this.#logger = getLogger();
-
     const config = configSchema.parse(process.env);
     this.#sourceBucketName = config.S3_BUCKET;
     this.#destinationBucketName = config.S3_BACKUP_BUCKET;
@@ -65,7 +62,7 @@ export class Backup extends Command {
 
   async run() {
     const { flags } = await this.parse(Backup);
-    this.#logger.info('🏁 Creating production files backup');
+    getLogger().info('🏁 Creating production files backup');
 
     const startAfter = flags.recover
       ? (await this.getAllFileKeys(this.#destination, this.#destinationBucketName)).pop()
@@ -74,12 +71,12 @@ export class Backup extends Command {
     const keys = await this.getAllFileKeys(this.#source, this.#sourceBucketName, startAfter);
 
     if (keys.length < 1) {
-      this.#logger.warn('⚠️ No file keys found');
+      getLogger().warn('⚠️ No file keys found');
       return;
     }
 
     const nbFiles = keys.length;
-    this.#logger.info(`${nbFiles} files found`);
+    getLogger().info(`${nbFiles} files found`);
 
     action.start('Copying files process');
     let done = 0;
@@ -102,7 +99,7 @@ export class Backup extends Command {
   }
 
   async getAllFileKeys(s3: S3, bucket: string, startAfter?: string) {
-    this.#logger.info(`ℹ Getting all files from ${bucket}`);
+    getLogger().info(`ℹ Getting all files from ${bucket}`);
     const fetchFiles = async (startAfter?: string): Promise<string[]> => {
       const { Contents: fileKeys, IsTruncated } = await s3.listObjectsV2({
         Bucket: bucket,
@@ -121,8 +118,8 @@ export class Backup extends Command {
 
   async copyFile(key: string) {
     try {
-      this.#logger.debug(`ℹ Start backuping file`, { key });
-      this.#logger.debug(`ℹ Getting file content`, { key });
+      getLogger().debug(`ℹ Start backuping file`, { key });
+      getLogger().debug(`ℹ Getting file content`, { key });
       const { Body } = await this.#source.getObject({
         Bucket: this.#sourceBucketName,
         Key: key,
@@ -138,12 +135,12 @@ export class Backup extends Command {
           },
         }).done();
 
-        this.#logger.debug('ℹ Backup done', { key });
+        getLogger().debug('ℹ Backup done', { key });
       } else {
-        this.#logger.warn('⚠️ No content found', { key });
+        getLogger().warn('⚠️ No content found', { key });
       }
     } catch (e) {
-      this.#logger.error(e as Error);
+      getLogger().error(e as Error);
     }
   }
 }

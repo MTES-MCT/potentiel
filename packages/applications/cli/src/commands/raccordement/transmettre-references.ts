@@ -58,7 +58,7 @@ export default class TransmettreRéférences extends Command {
 
   async run() {
     const { args } = await this.parse(TransmettreRéférences);
-    const logger = getLogger(TransmettreRéférences.name);
+    const logger = getLogger();
 
     logger.info('🏁 Début de la transmissions des dossiers de raccordement');
 

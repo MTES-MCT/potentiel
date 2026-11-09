@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 
-import { Command, type Config, Flags } from '@oclif/core';
+import { Command, Flags } from '@oclif/core';
 import zod from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
 import { ExportCSV } from '@potentiel-libraries/csv';
-import { getLogger, type Logger } from '@potentiel-libraries/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema, restrictUsageToStages } from '#helpers';
@@ -41,11 +41,6 @@ export class PublierDatagouvStats extends Command {
   static flags = {
     dryRun: Flags.boolean(),
   };
-  readonly _logger: Logger;
-  constructor(argv: string[], config: Config) {
-    super(argv, config);
-    this._logger = getLogger('datagouv');
-  }
 
   async run() {
     const { flags } = await this.parse(PublierDatagouvStats);
@@ -53,7 +48,7 @@ export class PublierDatagouvStats extends Command {
     if (flags.dryRun) {
       const buffer = await this.generateCsvBuffer();
       fs.writeFileSync('output.csv', buffer);
-      getLogger('[DRY RUN]').info(`Fichier CSV généré : output.csv`);
+      getLogger().info(`[DRY RUN] Fichier CSV généré : output.csv`);
       return;
     }
 
@@ -62,7 +57,7 @@ export class PublierDatagouvStats extends Command {
     const env = envSchema.parse(process.env);
 
     const buffer = await this.generateCsvBuffer();
-    this._logger.info(`🧐🧐🧐Taille du fichier envoyé : ${buffer.length} octets`);
+    getLogger().info(`🧐🧐🧐Taille du fichier envoyé : ${buffer.length} octets`);
 
     await this.uploadCsv({
       buffer,
@@ -104,7 +99,7 @@ export class PublierDatagouvStats extends Command {
       ],
     });
 
-    this._logger.info(`🧐🧐🧐Lignes récupérées en base : ${data.length}`);
+    getLogger().info(`🧐🧐🧐Lignes récupérées en base : ${data.length}`);
 
     return Buffer.from(csv, 'utf8');
   }
@@ -142,6 +137,6 @@ export class PublierDatagouvStats extends Command {
       throw new Error(await response.text());
     }
 
-    this._logger.info('Ressource mise à jour');
+    getLogger().info('Ressource mise à jour');
   }
 }

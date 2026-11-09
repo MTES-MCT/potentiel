@@ -67,7 +67,7 @@ export class Executer extends Command {
     }
 
     const àExécuterLe = DateTime.convertirEnValueType(new Date(flags.date));
-    const logger = getLogger('Scheduler');
+    const logger = getLogger();
     logger.info('Lancement du script...');
 
     const tâches = await mediator.send<Lauréat.TâchePlanifiée.ListerTâchesPlanifiéesQuery>({

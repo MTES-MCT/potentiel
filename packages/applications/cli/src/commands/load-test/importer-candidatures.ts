@@ -71,7 +71,7 @@ export class ImporterCandidatures extends Command {
     const { faker } = await import('@faker-js/faker');
 
     const importId = faker.string.uuid().slice(0, 8);
-    const logger = getLogger('importer-candidatures');
+    const logger = getLogger();
 
     console.log(`--- Début du job d'import de candidatures (Import ${importId}) ---`);
     const { flags } = await this.parse(ImporterCandidatures);

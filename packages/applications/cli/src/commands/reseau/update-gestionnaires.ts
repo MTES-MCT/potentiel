@@ -38,7 +38,8 @@ export class UpdateGestionnaires extends Command {
   }
 
   async run() {
-    getLogger().info('Import des GRDs...');
+    const logger = getLogger();
+    logger.info('Import des GRDs...');
 
     const gestionnairesFromORE = await récupérerTousLesGRD();
 
@@ -54,6 +55,6 @@ export class UpdateGestionnaires extends Command {
 
     await updateGRDs(àModifier);
 
-    getLogger().info('Fin du script ✨');
+    logger.info('Fin du script ✨');
   }
 }

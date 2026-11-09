@@ -65,7 +65,7 @@ export class NotifierGestionnaireRéseau extends Command {
   }
 
   async run() {
-    const logger = getLogger(NotifierGestionnaireRéseau.name);
+    const logger = getLogger();
     const gestionnaires = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
       type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
       data: {},
