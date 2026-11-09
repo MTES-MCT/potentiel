@@ -666,8 +666,6 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(raccordementReactivé);
-
-    // @TODO autre PR : recréer tâches raccordement si nécessaire
   }
   private applyRaccordementReactivéEventV1() {
     this.#désactivé = undefined;

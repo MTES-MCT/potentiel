@@ -47,7 +47,6 @@ export class PublierDatagouvStats extends Command {
       }
 
       const buffer = await this.generateCsvBuffer();
-      this.log(`🧐🧐🧐Taille du fichier envoyé : ${buffer.length} octets`);
 
       await this.uploadCsv({
         buffer,
@@ -91,8 +90,6 @@ export class PublierDatagouvStats extends Command {
         'nombre_de_projets',
       ],
     });
-
-    this.log(`🧐🧐🧐Lignes récupérées en base : ${data.length}`);
 
     return Buffer.from(csv, 'utf8');
   }
