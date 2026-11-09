@@ -211,60 +211,61 @@ const numéroIdentificationSchema = z
 
 export const référenceRaccordementSchema = z.string().min(1);
 
-export const dépôtSchema = z
-  .object({
-    nomProjet: requiredStringSchema,
-    sociétéMère: optionalStringWithDefaultValueSchema,
-    nomCandidat: requiredStringSchema,
-    puissance: strictlyPositiveNumberSchema,
-    prixReference: strictlyPositiveNumberSchema,
-    nomReprésentantLégal: requiredStringSchema,
-    emailContact: requiredStringSchema.pipe(z.email()),
-    puissanceALaPointe: booleanSchema.optional().default(false),
-    evaluationCarboneSimplifiée: optionalStrictlyPositiveNumberSchema,
-    actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
-    technologie: z.enum(Candidature.TypeTechnologie.types),
-    typeGarantiesFinancières: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)),
-    dateÉchéanceGf: optionalDateSchema,
-    dateConstitutionGf: optionalDateSchema,
-    coefficientKChoisi: booleanSchema.optional(),
-    historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
-    obligationDeSolarisation: booleanSchema.optional(),
-    puissanceDeSite: optionalStrictlyPositiveNumberSchema,
-    autorisation: autorisationSchema,
-    installateur: optionalStringSchema,
-    localité: localitéSchema,
-    coordonnées: coordonnéesSchema.optional(),
-    typologieInstallation: z.array(
+export const dépôtBaseSchema = z.object({
+  nomProjet: requiredStringSchema,
+  sociétéMère: optionalStringWithDefaultValueSchema,
+  nomCandidat: requiredStringSchema,
+  puissance: strictlyPositiveNumberSchema,
+  prixReference: strictlyPositiveNumberSchema,
+  nomReprésentantLégal: requiredStringSchema,
+  emailContact: requiredStringSchema.pipe(z.email()),
+  puissanceALaPointe: booleanSchema.optional().default(false),
+  evaluationCarboneSimplifiée: optionalStrictlyPositiveNumberSchema,
+  actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
+  technologie: z.enum(Candidature.TypeTechnologie.types),
+  typeGarantiesFinancières: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)),
+  dateÉchéanceGf: optionalDateSchema,
+  dateConstitutionGf: optionalDateSchema,
+  coefficientKChoisi: booleanSchema.optional(),
+  historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
+  obligationDeSolarisation: booleanSchema.optional(),
+  puissanceDeSite: optionalStrictlyPositiveNumberSchema,
+  autorisation: autorisationSchema,
+  installateur: optionalStringSchema,
+  localité: localitéSchema,
+  coordonnées: coordonnéesSchema.optional(),
+  typologieInstallation: z.array(
+    z.object({
+      typologie: z.enum(Candidature.TypologieInstallation.typologies),
+      détails: z.string().optional(),
+    }),
+  ),
+  dispositifDeStockage: dispositifDeStockageSchema,
+  natureDeLExploitation: natureDeLExploitationOptionalSchema,
+  puissanceDuProjetInitial: optionalStrictlyPositiveNumberSchema,
+  numéroIdentification: numéroIdentificationSchema,
+  raccordements: z
+    .array(
       z.object({
-        typologie: z.enum(Candidature.TypologieInstallation.typologies),
-        détails: z.string().optional(),
+        référence: référenceRaccordementSchema,
+        dateQualification: z
+          .string()
+          .transform((val) => DateTime.convertirEnValueType(new Date(val)).formatter()),
       }),
-    ),
-    dispositifDeStockage: dispositifDeStockageSchema,
-    natureDeLExploitation: natureDeLExploitationOptionalSchema,
-    puissanceDuProjetInitial: optionalStrictlyPositiveNumberSchema,
-    numéroIdentification: numéroIdentificationSchema,
-    raccordements: z
-      .array(
-        z.object({
-          référence: référenceRaccordementSchema,
-          dateQualification: z
-            .string()
-            .transform((val) => DateTime.convertirEnValueType(new Date(val)).formatter()),
-        }),
-      )
-      .optional(),
-    fournisseurs: z
-      .array(
-        z.object({
-          typeFournisseur: z.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseur),
-          nomDuFabricant: z.string(),
-          lieuDeFabrication: z.string(),
-        }),
-      )
-      .optional(),
-  })
+    )
+    .optional(),
+  fournisseurs: z
+    .array(
+      z.object({
+        typeFournisseur: z.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseur),
+        nomDuFabricant: z.string(),
+        lieuDeFabrication: z.string(),
+      }),
+    )
+    .optional(),
+});
+
+export const dépôtSchema = dépôtBaseSchema
   // Garanties financières et date d'échéance
   .superRefine((data, ctx) => {
     const typeGF = data.typeGarantiesFinancières;
