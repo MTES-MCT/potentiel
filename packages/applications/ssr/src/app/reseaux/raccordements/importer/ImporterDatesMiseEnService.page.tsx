@@ -2,7 +2,7 @@ import Notice from '@codegouvfr/react-dsfr/Notice';
 import { Table } from '@codegouvfr/react-dsfr/Table';
 import type { FC } from 'react';
 
-import type { GestionnaireRéseauSelectProps } from '@/app/laureats/[identifiant]/(détails)/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+import type { GestionnaireRéseauSelectProps } from '@/app/laureats/[identifiant]/(details)/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';

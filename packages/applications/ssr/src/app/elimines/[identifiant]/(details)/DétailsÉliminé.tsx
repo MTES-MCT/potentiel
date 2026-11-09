@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { IdentifiantProjetSection } from '@/app/laureats/[identifiant]/(détails)/(sections)/IdentifiantProjet.section';
+import { IdentifiantProjetSection } from '@/app/laureats/[identifiant]/(details)/(sections)/IdentifiantProjet.section';
 import { SectionPage } from '@/components/atoms/section/SectionPage';
 import { CahierDesChargesSection } from './_sections/CahierDesCharges.section';
 import { ChiffresClésSection } from './_sections/ChiffresClés.section';

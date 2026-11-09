@@ -4,7 +4,7 @@ import type { HistoryRecord } from '@potentiel-domain/entity';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { TimelineItemProps } from '@/components/organisms/timeline';
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../(details)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
 import { mapToChangementNomProjetEnregistréTimelineItemProps } from './events/mapToChangementNomProjetEnregistréTimelineItemProps';
 import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
