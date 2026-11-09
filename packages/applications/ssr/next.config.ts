@@ -12,7 +12,9 @@ const nextConfig: NextConfig = {
     },
   },
   poweredByHeader: false,
-  turbopack: {},
+  turbopack: {
+    root: __dirname,
+  },
   serverExternalPackages: [
     '@potentiel-domain/common',
     '@potentiel-domain/core',
