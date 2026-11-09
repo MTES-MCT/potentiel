@@ -1,5 +1,6 @@
 import { Command, Flags } from '@oclif/core';
 
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
@@ -27,31 +28,29 @@ export class SupprimerSubscriber extends Command {
       flags: { category, name },
     } = await this.parse(SupprimerSubscriber);
 
-    try {
-      const { rowCount } = await executeQuery(
-        `
+    const logger = getLogger();
+
+    const { rowCount } = await executeQuery(
+      `
         DELETE FROM event_store.subscriber
         WHERE stream_category=$1 AND subscriber_name=$2;`,
-        category,
-        name,
-      );
+      category,
+      name,
+    );
 
-      if (!rowCount) {
-        this.error(`❌ Aucun subscriber ${category} (${name}) trouvé`);
-      }
-
-      this.log(
-        [
-          `✅ Le subscriber ${category} (${name}) a bien été supprimé`,
-          `⚠️ Une fois votre traitement effectué, pensez bien à redémarrer l'application cible pour que le subscriber soit recréé. Cette requête SQL devrait alors renvoyer un résultat :`,
-          '',
-          `  SELECT * FROM event_store.subscriber WHERE stream_category = '${category}' AND subscriber_name = '${name}';`,
-        ].join('\n'),
-      );
-
-      process.exit(0);
-    } catch (error) {
-      this.error(`❌ Une erreur est survenue : ${(error as Error).message}`);
+    if (!rowCount) {
+      throw new Error(`❌ Aucun subscriber ${category} (${name}) trouvé`);
     }
+
+    logger.info(
+      [
+        `✅ Le subscriber ${category} (${name}) a bien été supprimé`,
+        `⚠️ Une fois votre traitement effectué, pensez bien à redémarrer l'application cible pour que le subscriber soit recréé. Cette requête SQL devrait alors renvoyer un résultat :`,
+        '',
+        `  SELECT * FROM event_store.subscriber WHERE stream_category = '${category}' AND subscriber_name = '${name}';`,
+      ].join('\n'),
+    );
+
+    process.exit(0);
   }
 }
