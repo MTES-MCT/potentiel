@@ -82,7 +82,7 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature sans modification
         Alors la dgec devrait être informé que "Aucune modification n’a été apportée"
 
-    Scénario: Impossible de regénérer l'attestation d'une candidature sans modifications
+    Scénario: Impossible de régénérer l'attestation d'une candidature sans modifications
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | doit régénérer attestation | oui |

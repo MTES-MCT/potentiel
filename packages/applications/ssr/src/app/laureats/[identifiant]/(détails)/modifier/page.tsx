@@ -1,7 +1,13 @@
 import type { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import type { CahierDesCharges, Candidature, Lauréat } from '@potentiel-domain/projet';
+import {
+  type CahierDesCharges,
+  type Candidature,
+  IdentifiantProjet,
+  type Lauréat,
+  type Éliminé,
+} from '@potentiel-domain/projet';
 
 import { getCahierDesCharges, getCandidature, getLauréatInfos } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -13,6 +19,7 @@ import {
   getFournisseurInfos,
   getProducteurInfos,
   getPuissanceInfos,
+  getRecours,
   getReprésentantLégalInfos,
 } from '../../_helpers';
 import { ModifierLauréatPage, type ModifierLauréatPageProps } from './ModifierLauréat.page';
@@ -26,7 +33,10 @@ export default async function Page(props0: IdentifiantParameter) {
 
   return PageWithErrorHandling(async () =>
     withUtilisateur(async () => {
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
+
       const candidature = await getCandidature(identifiantProjet);
       const lauréat = await getLauréatInfos(identifiantProjet);
       const actionnaire = await getActionnaireInfos(identifiantProjet);
@@ -35,6 +45,7 @@ export default async function Page(props0: IdentifiantParameter) {
       const producteur = await getProducteurInfos(identifiantProjet);
       const fournisseur = await getFournisseurInfos(identifiantProjet);
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+      const recours = await getRecours(identifiantProjet);
 
       const props = mapToProps({
         candidature,
@@ -45,6 +56,7 @@ export default async function Page(props0: IdentifiantParameter) {
         producteur,
         fournisseur,
         cahierDesCharges,
+        recours,
       });
 
       return (
@@ -53,7 +65,7 @@ export default async function Page(props0: IdentifiantParameter) {
           lauréat={props.lauréat}
           projet={props.projet}
           cahierDesCharges={props.cahierDesCharges}
-          peutRegénérerAttestation={props.peutRegénérerAttestation}
+          nePeutPasRégénérerAttestation={props.nePeutPasRégénérerAttestation}
         />
       );
     }),
@@ -69,6 +81,7 @@ type MapToProps = (args: {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   cahierDesCharges: CahierDesCharges.ValueType;
+  recours?: Éliminé.Recours.ConsulterRecoursReadModel;
 }) => ModifierLauréatPageProps;
 
 const mapToProps: MapToProps = ({
@@ -80,6 +93,7 @@ const mapToProps: MapToProps = ({
   producteur,
   fournisseur,
   cahierDesCharges,
+  recours,
 }) => ({
   candidature: {
     sociétéMère: candidature.dépôt.sociétéMère,
@@ -168,5 +182,12 @@ const mapToProps: MapToProps = ({
     unitéPuissance: candidature.unitéPuissance.formatter(),
   },
   cahierDesCharges: mapToPlainObject(cahierDesCharges),
-  peutRegénérerAttestation: cahierDesCharges.période.type !== 'legacy',
+  nePeutPasRégénérerAttestation:
+    cahierDesCharges.période.type === 'legacy' || recours?.accord
+      ? {
+          text: recours?.accord
+            ? "Ce projet a fait l'objet d'un recours, il est donc impossible de régénérer l'attestation existante."
+            : "la période de l'appel d'offre de ce projet ne dispose pas de modèle d'attestation, il est donc impossible de régénérer l'attestation existante.",
+        }
+      : undefined,
 });
