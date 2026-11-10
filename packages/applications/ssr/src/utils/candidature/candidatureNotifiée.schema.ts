@@ -2,7 +2,11 @@ import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { dateDAutorisationSchema, dépôtSchema, numéroDAutorisationSchema } from './dépôt.schema';
+import {
+  dateDAutorisationSchema,
+  dépôtBaseSchema,
+  numéroDAutorisationSchema,
+} from './dépôt.schema';
 import { identifiantProjetSchema } from './identifiantProjet.schema';
 import { instructionSchema } from './instruction.schema';
 import type { NestedKeysForSchema } from './nestedKeysForSchema';
@@ -10,7 +14,7 @@ import { booleanSchema, optionalEnumForCorrection } from './schemaBase';
 
 export const doitRegenererAttestationSchema = booleanSchema.optional();
 
-const candidatureNotifiéeSchema = dépôtSchema
+const candidatureNotifiéeSchema = dépôtBaseSchema
   .pick({
     sociétéMère: true,
     nomReprésentantLégal: true,
@@ -35,11 +39,11 @@ const candidatureNotifiéeSchema = dépôtSchema
     noteTotale: instructionSchema.shape.noteTotale,
     volumeRéservé: instructionSchema.shape.volumeRéservé,
   })
-  .extend(dépôtSchema.shape.localité.shape);
+  .extend(dépôtBaseSchema.shape.localité.shape);
 
 const partialCandidatureNotifiéeSchema = candidatureNotifiéeSchema.partial();
 
-const lauréatSchema = dépôtSchema
+const lauréatSchema = dépôtBaseSchema
   .pick({
     sociétéMère: true,
     nomReprésentantLégal: true,
@@ -49,7 +53,7 @@ const lauréatSchema = dépôtSchema
     evaluationCarboneSimplifiée: true,
     nomCandidat: true,
   })
-  .extend(dépôtSchema.shape.localité.shape);
+  .extend(dépôtBaseSchema.shape.localité.shape);
 
 const partialLauréatSchema = lauréatSchema.partial();
 

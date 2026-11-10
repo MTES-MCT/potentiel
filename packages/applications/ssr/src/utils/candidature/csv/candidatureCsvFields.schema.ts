@@ -42,9 +42,11 @@ export const gouvernancePartagéeCsvSchema = optionalOuiNonVideSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
 
 export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
-export const notifiedOnCsvSchema = z.undefined({
-  error: 'Le champ notifiedOn ne peut pas être présent',
-});
+export const notifiedOnCsvSchema = z
+  .undefined({
+    error: 'Le champ notifiedOn ne peut pas être présent',
+  })
+  .optional();
 export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
 
 export const volumeRéservéSchema = optionalOuiNonVideSchema;
