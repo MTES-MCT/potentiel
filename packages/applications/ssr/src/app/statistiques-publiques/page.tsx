@@ -1,5 +1,6 @@
 import { SignJWT } from 'jose';
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
 import { z } from 'zod';
 
 import { StatistiquesPubliquesPage } from '@/app/statistiques-publiques/StatistiquesPubliques.page';
@@ -18,6 +19,8 @@ const schema = z.object({
 
 export default async function Page() {
   return PageWithErrorHandling(async () => {
+    await connection();
+
     const {
       METABASE_PUBLIC_SITE_URL,
       METABASE_PUBLIC_SECRET_KEY,

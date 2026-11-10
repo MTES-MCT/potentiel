@@ -17,5 +17,3 @@ export const GET = async ({ headers }: NextRequest) =>
 
     redirect(Routes.Auth.signIn());
   });
-
-export const dynamic = 'force-dynamic';

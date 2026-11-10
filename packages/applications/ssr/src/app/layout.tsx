@@ -1,6 +1,7 @@
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import type { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
+import { Suspense } from 'react';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
@@ -25,13 +26,7 @@ export const metadata: Metadata = {
   description: "Facilite le parcours des producteurs d'énergies renouvelables électriques",
 };
 
-export const dynamic = 'force-dynamic';
-
-export default async function RootLayout({ children }: LayoutProps<'/'>) {
-  const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
-  const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
-  const utilisateur = await getSessionUser({ headers: await headers() });
-
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html {...getHtmlAttributes({ lang: 'fr' })}>
       <head>
@@ -41,42 +36,58 @@ export default async function RootLayout({ children }: LayoutProps<'/'>) {
       </head>
 
       <body className="flex flex-col min-h-screen">
-        {/*
-          NB : la documentation (https://react-dsfr.codegouv.studio/) indique que ce composant doit être placé dans chaque page, et non dans le layout.
-          Cette issue https://github.com/codegouvfr/react-dsfr/issues/305#issuecomment-2758317047 explique que : 
-            - Until <StartDsfrOnHydration /> is hydrated, DSFR elements remain non-interactive
-            - Once it is hydrated, you can no longer stream in new HTML chunks conaining DSFR components (i.e. no server components below this point)
-          Cependant, aucune différence n'est visible et le SSR semble bien fonctionner.
-        */}
-        <StartDsfrOnHydration />
-
-        <EnvBadge utilisateur={utilisateur} />
-
-        <Providers features={featureFlag}>
-          <SkipLinks
-            links={[
-              {
-                anchor: '#contenu',
-                label: 'Accéder au contenu',
-              },
-              {
-                anchor: '#main-navigation',
-                label: 'Accéder au menu',
-              },
-              {
-                anchor: '#footer',
-                label: 'Accéder au pied de page',
-              },
-            ]}
-          />
-          <Header />
-          <main id="contenu" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          {crispWebsiteId && <CrispChat websiteId={crispWebsiteId} />}
-        </Providers>
+        <Suspense>
+          <RootLayoutContent>{children}</RootLayoutContent>
+        </Suspense>
       </body>
     </html>
   );
 }
+
+type RootLayoutContentProps = Pick<LayoutProps<'/'>, 'children'>;
+
+const RootLayoutContent = async ({ children }: RootLayoutContentProps) => {
+  const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
+  const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
+  const utilisateur = await getSessionUser({ headers: await headers() });
+
+  return (
+    <>
+      {/*
+      NB : la documentation (https://react-dsfr.codegouv.studio/) indique que ce composant doit être placé dans chaque page, et non dans le layout.
+      Cette issue https://github.com/codegouvfr/react-dsfr/issues/305#issuecomment-2758317047 explique que :
+        - Until <StartDsfrOnHydration /> is hydrated, DSFR elements remain non-interactive
+        - Once it is hydrated, you can no longer stream in new HTML chunks conaining DSFR components (i.e. no server components below this point)
+      Cependant, aucune différence n'est visible et le SSR semble bien fonctionner.
+    */}
+      <StartDsfrOnHydration />
+
+      <EnvBadge utilisateur={utilisateur} />
+
+      <Providers features={featureFlag}>
+        <SkipLinks
+          links={[
+            {
+              anchor: '#contenu',
+              label: 'Accéder au contenu',
+            },
+            {
+              anchor: '#main-navigation',
+              label: 'Accéder au menu',
+            },
+            {
+              anchor: '#footer',
+              label: 'Accéder au pied de page',
+            },
+          ]}
+        />
+        <Header />
+        <main id="contenu" className="flex-1">
+          {children}
+        </main>
+        <Footer />
+        {crispWebsiteId && <CrispChat websiteId={crispWebsiteId} />}
+      </Providers>
+    </>
+  );
+};
