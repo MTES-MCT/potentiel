@@ -1,14 +1,11 @@
-import Accordion from '@codegouvfr/react-dsfr/Accordion';
+import { fr } from '@codegouvfr/react-dsfr';
 
 import { Icon } from '@/components/atoms/Icon';
 
 export const Contexte = () => (
-  <section className="mt-5 mb-10 xl:mx-auto xl:max-w-5xl px-2 lg:px-4">
+  <section className="flex flex-col gap-6 mt-5 mb-10 xl:mx-auto xl:max-w-5xl px-2 lg:px-4">
     <h2 className="sr-only">Présentation de Potentiel et des appels d'offres</h2>
-    <Accordion
-      label="Objectif de la Programmation pluriannuelle de l'énergie (PPE)"
-      defaultExpanded
-    >
+    <ContexteSection title="Objectif de la Programmation pluriannuelle de l'énergie (PPE)">
       <div className="flex flex-col gap-4 text-justify">
         <div>
           La{' '}
@@ -52,9 +49,8 @@ export const Contexte = () => (
           34,0 GW (SDES).
         </div>
       </div>
-    </Accordion>
-
-    <Accordion label="Le soutien de l'État aux énergies renouvelables électriques" defaultExpanded>
+    </ContexteSection>
+    <ContexteSection title="Le soutien de l'État aux énergies renouvelables électriques">
       <div className="flex flex-col gap-4 text-justify">
         <div>
           Afin d'accompagner le développement des énergies renouvelables à hauteur des objectifs de
@@ -118,8 +114,8 @@ export const Contexte = () => (
           </ul>
         </div>
       </div>
-    </Accordion>
-    <Accordion label="Les étapes de vie d'un projet candidat d'un appel d'offres" defaultExpanded>
+    </ContexteSection>
+    <ContexteSection title="Les étapes de vie d'un projet candidat d'un appel d'offres">
       <div className="flex flex-col gap-4 text-justify">
         <div>
           Le développement d’un projet d’énergie renouvelable dans le cadre d’un appel d’offres suit
@@ -163,8 +159,9 @@ export const Contexte = () => (
           signé et l’installation entre en phase d’exploitation et de production d’électricité.
         </div>
       </div>
-    </Accordion>
-    <Accordion label="Le rôle de Potentiel dans ce processus d'appels offres" defaultExpanded>
+    </ContexteSection>
+    <ContexteSection title="Le rôle de Potentiel dans ce processus d'appels offres">
+      {' '}
       <div className="flex flex-col gap-4 text-justify">
         <div>
           Potentiel occupe une place centrale dans le suivi des projets d’énergies renouvelables
@@ -203,6 +200,19 @@ export const Contexte = () => (
         développement des énergies renouvelables des filières éolienne et photovoltaïque, dans le
         cadre des appels d’offres pilotés par l’État.
       </div>
-    </Accordion>
+    </ContexteSection>
   </section>
 );
+
+const ContexteSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
+  return (
+    <div className="flex flex-col md:flex-row gap-4">
+      <h3 className={fr.cx('fr-accordion__title')}>
+        <div className="pl-4 py-3 bg-dsfr-background-actionLow-blueFrance-default text-dsfr-background-flat-blueFrance-default font-medium md:w-[200px] w-full">
+          {title}
+        </div>
+      </h3>
+      <div className="flex flex-col px-2 md:px-4 gap-4 text-justify">{children}</div>
+    </div>
+  );
+};
