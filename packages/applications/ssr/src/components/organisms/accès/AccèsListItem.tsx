@@ -18,16 +18,16 @@ export const PorteurListItem: FC<PorteurListItemProps> = ({
   statutProjet,
 }) => {
   return (
-    <div className="flex flex-row flex-wrap items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 last:border-none pb-2 pt-1">
-      <span className="font-semibold">
+    <div className="flex flex-row flex-nowrap items-center border-b-2 border-dsfr-border-default-grey-default pt-1 pb-2 last:border-none">
+      <div className="min-w-0 flex-1 font-semibold">
         <CopyButton
           textToCopy={identifiantUtilisateur}
           aria-label="Copier l'adresse email de l'utilisateur"
         >
-          {identifiantUtilisateur}
+          <span className="break-all">{identifiantUtilisateur}</span>
         </CopyButton>
-      </span>
-      <div className="flex flex-row gap-3">
+      </div>
+      <div className="shrink-0">
         <RetirerAccèsProjetButton
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}

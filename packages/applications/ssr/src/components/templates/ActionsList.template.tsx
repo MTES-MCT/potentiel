@@ -20,10 +20,13 @@ export const ActionsList: FC<ActionsListPageTemplateProps> = ({
   if (actionsListLength === 0) {
     return null;
   }
+
   return (
-    <div className="flex flex-col gap-4 flex-wrap">
+    <div className="flex flex-col items-center md:items-start gap-4 flex-wrap">
       <Heading2 className="mb-1">Actions</Heading2>
-      <div className={clsx(`flex md:flex-col gap-4 flex-wrap`, className)}>{children}</div>
+      <div className={clsx(`flex md:flex-col gap-4 flex-wrap justify-center`, className)}>
+        {children}
+      </div>
     </div>
   );
 };
