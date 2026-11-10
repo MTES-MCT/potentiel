@@ -16,7 +16,7 @@ Pour les projets dont soit l'achèvement, soit la mise en service est antérieur
 Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.
 Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.4',
       dispositions: `
 Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -55,7 +55,10 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
       délai: {
         demande: true,
-        autoritéCompétente: 'dreal',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+          'prolongation-phase-essai': undefined,
+        },
       },
       producteur: {
         informationEnregistrée: false,
@@ -153,7 +156,7 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       dispositions: `Les modifications de la structure du capital du Candidat avant la constitution des garanties financières prévues au 6.2 ne sont pas autorisées.
 Les modifications de la structure du capital du Candidat après constitution des garanties financières sont réputées autorisées si le Candidat n’a pas joint à son offre la lettre d’engagement du 3.3.7. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat a joint à son offre la lettre d’engagement du 3.3.7, les modifications de la structure du capital du Candidat doivent être autorisées par le Préfet.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.4',
       dispositions: `
       Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne dans un délai de vingt-quatre (24) mois à compter de la Date de désignation.

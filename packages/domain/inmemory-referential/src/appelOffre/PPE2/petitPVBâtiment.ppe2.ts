@@ -36,7 +36,10 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       fournisseur: {},
       délai: {
         demande: true,
-        autoritéCompétente: 'dreal',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+          'prolongation-phase-essai': undefined,
+        },
       },
       producteur: {
         informationEnregistrée: true,
@@ -126,7 +129,7 @@ Des modifications à la baisse, en-dessous de 90 % de la Puissance formulée dan
 Après l'Achèvement, les modifications à la hausse ne sont pas autorisées et les modifications à la baisse sont autorisées et font l’objet d’une information à l’entité indiquée au 5.2 accompagnée d’une nouvelle attestation mentionnée au 6.5. Celle-ci porte seulement sur les éléments modifiés.
 Si ces modifications interviennent après la signature du contrat de complément de rémunération, le producteur doit effectuer une demande de modification du contrat, accompagnée de la nouvelle attestation.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant trente-quatre (34) mois à compter de la Date de désignation. En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.2.1 est réduite de la durée de dépassement et le Préfet peut prélever la totalité ou une partie de la garantie financière, conformément au 5.1. Le prélèvement de la garantie financière ne limite pas la possibilité de recours de l’État aux sanctions du 8.2. 
 Des dérogations au délai d’Achèvement sont toutefois accordées dans le cas où des contentieux administratifs effectués à l’encontre de l’autorisation d’urbanisme liée à l’installation ou à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’Achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date de recours initial et la date de décision ayant autorité de la chose jugée est alors accordé. Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès du Cocontractant. 

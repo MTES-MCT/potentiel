@@ -34,6 +34,7 @@ export type DétailsDemandeDélaiPageProps = {
   >;
   actions: Array<DemandeDélaiActions>;
   historique: Array<TimelineItemProps>;
+  motifsDisponibles: Array<Lauréat.Délai.MotifDemandeDélai.RawType>;
 };
 
 export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
@@ -42,6 +43,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
   dateAchèvementPrévisionnelActuelle,
   actions,
   historique,
+  motifsDisponibles,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.bind(identifiantProjet);
   const statut = Lauréat.Délai.StatutDemandeDélai.convertirEnValueType(demande.statut.statut);
@@ -51,6 +53,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
+            <InfoBoxDemandeDélai motif={demande.motif.motif} />
             <DétailsDemandeDélai demande={demande} />
             <div>
               <Heading2>Historique</Heading2>
@@ -72,8 +75,9 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                 Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
                   dateAchèvementPrévisionnelActuelle,
                 ),
+              motif: Lauréat.Délai.MotifDemandeDélai.bind(demande.motif),
+              motifsDisponibles,
             })}
-            <InfoBoxDemandeDélai />
           </>
         ),
       }}
@@ -87,6 +91,8 @@ type MapToActionsComponentsProps = {
   dateDemande: DateTime.ValueType;
   nombreDeMois: number;
   dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType;
+  motif: Lauréat.Délai.MotifDemandeDélai.ValueType;
+  motifsDisponibles: Array<Lauréat.Délai.MotifDemandeDélai.RawType>;
 };
 
 const mapToActionComponents = ({
@@ -95,6 +101,8 @@ const mapToActionComponents = ({
   actions,
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
+  motif,
+  motifsDisponibles,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
@@ -109,12 +117,15 @@ const mapToActionComponents = ({
         dateDemande={dateDemande.formatter()}
         nombreDeMois={nombreDeMois}
         dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
+        motif={motif.motif}
+        motifsDisponibles={motifsDisponibles}
       />
     )}
     {actions.includes('rejeter') && (
       <RejeterDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         dateDemande={dateDemande.formatter()}
+        motif={motif.motif}
       />
     )}
 

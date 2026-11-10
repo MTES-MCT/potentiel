@@ -1,6 +1,5 @@
 import {
   InvalidOperationError,
-  OperationRejectedError,
   type PlainType,
   type ReadonlyValueType,
 } from '@potentiel-domain/core';
@@ -15,7 +14,6 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   autoritéCompétente: Type;
   formatter(): Type;
   estCompétent(rôle: Role.ValueType): boolean;
-  peutInstruire(rôle: Role.ValueType): void;
 }>;
 
 export const bind = <Type extends RawType = RawType>({
@@ -41,11 +39,6 @@ export const bind = <Type extends RawType = RawType>({
       }
       return false;
     },
-    peutInstruire(rôle) {
-      if (!this.estCompétent(rôle)) {
-        throw new RôleNonAutoriséError();
-      }
-    },
   };
 };
 
@@ -70,11 +63,5 @@ class AutoritéCompétenteInvalideError extends InvalidOperationError {
     super(`L'autorité compétente ne correspond à aucune valeur connue`, {
       value,
     });
-  }
-}
-
-class RôleNonAutoriséError extends OperationRejectedError {
-  constructor() {
-    super(`Vous n'avez pas le rôle requis pour instruire cette demande`);
   }
 }

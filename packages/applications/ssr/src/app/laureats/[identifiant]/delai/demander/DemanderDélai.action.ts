@@ -5,7 +5,7 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -16,13 +16,14 @@ const schema = zod.object({
   nombreDeMois: zod.coerce.number().min(1),
   raison: zod.string().min(1),
   pieceJustificative: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  motif: zod.enum(Lauréat.Délai.MotifDemandeDélai.motifs),
 });
 
 export type DemanderDélaiFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, pieceJustificative, nombreDeMois, raison },
+  { identifiantProjet, pieceJustificative, nombreDeMois, raison, motif },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     const dateDemandeValue = DateTime.now().formatter();
@@ -36,6 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
         pièceJustificativeValue: pieceJustificative,
         raisonValue: raison,
         nombreDeMoisValue: nombreDeMois,
+        motifValue: motif,
       },
     });
 

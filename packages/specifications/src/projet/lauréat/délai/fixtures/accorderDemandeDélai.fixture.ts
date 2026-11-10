@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { Lauréat } from '@potentiel-domain/projet';
+
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../fixture.js';
 
@@ -9,6 +11,7 @@ interface AccorderDemandeDélai {
   readonly accordéePar: string;
   readonly nombreDeMois: number;
   readonly dateAchèvementPrévisionnelActuelle: string;
+  readonly motif: string;
 }
 
 export class AccorderDemandeDélaiFixture
@@ -39,6 +42,12 @@ export class AccorderDemandeDélaiFixture
     return this.#nombreDeMois;
   }
 
+  #motif!: string;
+
+  get motif(): string {
+    return this.#motif;
+  }
+
   #dateAchèvementPrévisionnelActuelle!: string;
 
   get dateAchèvementPrévisionnelActuelle(): string {
@@ -52,6 +61,7 @@ export class AccorderDemandeDélaiFixture
       réponseSignée: faker.potentiel.document(),
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       dateAchèvementPrévisionnelActuelle: faker.date.recent().toISOString(),
+      motif: faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs),
       ...partialData,
     };
 
@@ -60,6 +70,7 @@ export class AccorderDemandeDélaiFixture
     this.#réponseSignée = fixture.réponseSignée;
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#dateAchèvementPrévisionnelActuelle = fixture.dateAchèvementPrévisionnelActuelle;
+    this.#motif = fixture.motif;
 
     this.aÉtéCréé = true;
 

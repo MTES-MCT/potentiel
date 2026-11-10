@@ -15,7 +15,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     - Inférieure à la limite de puissance de 5 MWc spécifiée au paragraphe 2.2.
      Les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation, ou par une décision de justice concernant l’autorisation d’urbanisme sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     -trente (30) mois à compter de la Date de désignation.
@@ -83,7 +83,10 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
       },
       délai: {
         demande: true,
-        autoritéCompétente: 'dreal',
+        motifs: {
+          'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+          'prolongation-phase-essai': undefined,
+        },
       },
       producteur: {
         informationEnregistrée: true,
@@ -158,7 +161,7 @@ Le Candidat dont l’offre a été retenue met en oeuvre les éléments, disposi
       dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents (70%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.
  Les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation, ou par une décision de justice concernant l’autorisation d’urbanisme sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - trente (30) mois à compter de la Date de désignation.

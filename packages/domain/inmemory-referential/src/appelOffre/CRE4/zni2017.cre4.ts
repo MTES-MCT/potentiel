@@ -21,7 +21,10 @@ const changementsCDCModifié = {
   },
   délai: {
     demande: true,
-    autoritéCompétente: 'dreal',
+    motifs: {
+      'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+      'prolongation-phase-essai': undefined,
+    },
   },
   producteur: {
     informationEnregistrée: true,
@@ -160,7 +163,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
 Les modifications de la structure du capital du Candidat après constitution des garanties financières prévues au 6.2 sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. 
 Si le candidat a joint à son offre la lettre d’engagement du 3.2.6, il est de sa responsabilité de s’assurer du respect de son engagement.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.4',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - {{délai de réalisation}} mois à compter de la Date de désignation.

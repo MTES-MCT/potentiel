@@ -15,7 +15,8 @@ const types = [
   'mise-en-demeure',
   'actionnaire',
   'puissance',
-  'délai',
+  'délai-achèvement',
+  'délai-essais',
 ] as const;
 export type TypeDocument = ModèleRéponseSignée.GénérerModèleRéponseOptions['type'];
 
@@ -212,29 +213,20 @@ function getData(
           estAccordé: true,
         },
       };
-    case 'délai':
+    case 'délai-achèvement':
       return {
         type,
         data: {
           ...common,
-          referenceParagrapheAchevement:
-            appelOffre.donnéesCourriersRéponse.texteDélaisDAchèvement?.référenceParagraphe ??
+          référenceParagrapheAchèvement:
+            appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.référenceParagraphe ??
             '!!!MANQUANT!!!',
-          contenuParagrapheAchevement:
-            appelOffre.donnéesCourriersRéponse.texteDélaisDAchèvement?.dispositions ??
+          contenuParagrapheAchèvement:
+            appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.dispositions ??
             '!!!MANQUANT!!!',
-          dateLimiteAchevementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateLimiteAchèvementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
           dateAchèvementDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateLimiteAchevementActuelle: faker.date.recent().toLocaleDateString('fr-FR'),
-
-          demandePrecedente: 'yes',
-          dateDepotDemandePrecedente: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateReponseDemandePrecedente: faker.date.recent().toLocaleDateString('fr-FR'),
-          autreDelaiDemandePrecedenteAccorde: '',
-
-          demandeEnDate: 'yes',
-          dateDemandePrecedenteDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateDemandePrecedenteAccordée: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateLimiteAchèvementActuelle: faker.date.recent().toLocaleDateString('fr-FR'),
 
           nombreDeMoisDemandé: faker.number.int(),
 

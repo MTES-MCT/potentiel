@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import type { Lauréat } from '@potentiel-domain/projet';
 
@@ -21,7 +21,7 @@ export const mapToDélaiTimelineItemProps = (
     .returnType<TimelineItemProps>()
     .with(
       {
-        type: 'DélaiDemandé-V1',
+        type: P.union('DélaiDemandé-V1', 'DélaiDemandé-V2'),
       },
       (event) => mapToDélaiDemandéTimelineItemProps(event, permissionConsulterChangement),
     )
@@ -45,13 +45,13 @@ export const mapToDélaiTimelineItemProps = (
     )
     .with(
       {
-        type: 'DélaiAccordé-V1',
+        type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2'),
       },
       mapToDélaiAccordéTimelineItemProps,
     )
     .with(
       {
-        type: 'DemandeDélaiCorrigée-V1',
+        type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2'),
       },
       mapToDemandeDélaiCorrigéeTimelineItemProps,
     )

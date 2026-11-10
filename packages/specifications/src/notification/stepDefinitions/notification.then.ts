@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
-import type { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { sleep, waitForExpect } from '#helpers';
@@ -103,20 +103,35 @@ Alors(
       throw new Error('Projet non trouvé');
     }
 
-    const domaine = this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
+    const domain = this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
       ? 'délai'
       : this.lauréatWorld.abandonWorld.demanderAbandonFixture.aÉtéCréé
         ? 'abandon'
         : '';
 
-    assert(domaine, "Domaine inconnu, l'autorité instructrice ne peut être déterminée");
+    assert(domain, "Domaine inconnu, l'autorité instructrice ne peut être déterminée");
 
-    const autorité = cdc.getAutoritéCompétente(domaine);
+    const autorité = cdc.getAutoritéCompétente(
+      domain === 'délai'
+        ? {
+            domain: 'délai',
+            motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
+              this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.aÉtéCréé
+                ? this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.motif
+                : this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.aÉtéCréé
+                  ? this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.motif
+                  : this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
+            ),
+          }
+        : {
+            domain: 'abandon',
+          },
+    );
+
     const email = match(autorité)
       .with('dgec', () => cdc.appelOffre.dossierSuiviPar)
       .with('dreal', () => this.utilisateurWorld.drealFixture.email)
       .exhaustive();
-
     await vérifierEmailEnvoyé.call(this, email, data);
   },
 );

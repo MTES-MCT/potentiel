@@ -19,7 +19,10 @@ const changementsCDCModifié: AppelOffre.RèglesMiseÀJourPorteur = {
   },
   délai: {
     demande: true,
-    autoritéCompétente: 'dreal',
+    motifs: {
+      'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+      'prolongation-phase-essai': undefined,
+    },
   },
   producteur: {
     informationEnregistrée: true,
@@ -133,7 +136,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
           référenceParagraphe: '5.4.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -166,7 +169,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.4.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -197,7 +200,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -228,7 +231,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -259,7 +262,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -290,7 +293,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -321,7 +324,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -352,7 +355,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -383,7 +386,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80 %) et cent pourcents (100 %) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ou après l’Achèvement ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -414,7 +417,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.4',
           dispositions: `Les modifications de la Puissance installée avant la Mise en service sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
         },
-        texteDélaisDAchèvement: {
+        texteDélaiDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - vingt-quatre (24) mois à compter de la Date de désignation.

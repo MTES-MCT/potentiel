@@ -23,5 +23,20 @@ export const corriger = (identifiantProjet: string, date: DateTime.RawType) =>
 
 export const lister = withFilters<ListerFilters>(`/laureats/changements/delai`);
 
-export const téléchargerModèleRéponse = (identifiantProjet: string, date: DateTime.RawType) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse`;
+export const téléchargerModèleRéponse = ({
+  date,
+  identifiantProjet,
+  motif,
+  estAccordé,
+}: {
+  identifiantProjet: string;
+  date: DateTime.RawType;
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType;
+  estAccordé?: true;
+}) => {
+  const baseUrl = `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse`;
+  const searchParams = new URLSearchParams();
+  searchParams.set('motif', motif);
+  searchParams.set('estAccordé', estAccordé ? 'true' : 'false');
+  return `${baseUrl}?${searchParams.toString()}`;
+};

@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { Lauréat } from '@potentiel-domain/projet';
+
 import type { PièceJustificative } from '#helpers';
 import { AbstractFixture } from '../../../../fixture.js';
 
@@ -7,6 +9,7 @@ interface CorrigerDemandeDélai {
   readonly corrigéeLe: string;
   readonly corrigéePar: string;
   readonly nombreDeMois: number;
+  readonly motif: string;
   readonly raison: string;
   readonly pièceJustificative?: PièceJustificative;
 }
@@ -44,12 +47,19 @@ export class CorrigerDemandeDélaiFixture
     return this.#nombreDeMois;
   }
 
+  #motif!: string;
+
+  get motif(): string {
+    return this.#motif;
+  }
+
   créer(partialFixture: Partial<Readonly<CorrigerDemandeDélai>>): Readonly<CorrigerDemandeDélai> {
     const fixture = {
       corrigéeLe: faker.date.recent().toISOString(),
       corrigéePar: faker.internet.email(),
-      raison: faker.word.words(),
+      raison: `correction ${faker.word.words()}`,
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
+      motif: faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs),
       pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
@@ -59,6 +69,7 @@ export class CorrigerDemandeDélaiFixture
     this.#raison = fixture.raison;
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#pièceJustificative = fixture.pièceJustificative;
+    this.#motif = fixture.motif;
 
     this.aÉtéCréé = true;
 

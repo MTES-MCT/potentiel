@@ -21,7 +21,10 @@ const changementsCDCModifié = {
   },
   délai: {
     demande: true,
-    autoritéCompétente: 'dreal',
+    motifs: {
+      'prolongation-délai-achèvement': { autoritéCompétente: 'dreal' },
+      'prolongation-phase-essai': undefined,
+    },
   },
   producteur: {
     informationEnregistrée: true,
@@ -159,7 +162,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
 Les modifications de la structure du capital du Candidat après constitution des garanties financières prévues au 6.2 sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. 
 Si le candidat a joint à son offre la lettre d’engagement du 3.2.6, il est de sa responsabilité de s’assurer du respect de son engagement.`,
     },
-    texteDélaisDAchèvement: {
+    texteDélaiDAchèvement: {
       référenceParagraphe: '6.4',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - 24 mois à compter de la Date de désignation.
@@ -226,7 +229,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -293,7 +296,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -360,7 +363,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -427,7 +430,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -494,7 +497,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -560,7 +563,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -626,7 +629,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -692,7 +695,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -758,7 +761,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
@@ -824,7 +827,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
             },
-            texteDélaisDAchèvement: {
+            texteDélaiDAchèvement: {
               référenceParagraphe: '6.4',
               dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     - vingt-quatre (24) mois à compter de la Date de désignation.
