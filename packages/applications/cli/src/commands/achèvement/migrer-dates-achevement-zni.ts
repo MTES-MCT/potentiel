@@ -61,6 +61,8 @@ and a.value is null;
 
       console.info(`ℹ️  ${projets.length} projets à traiter`);
 
+      const projetsAvecNouvelleDateDAchèvement = [];
+
       let success = 0;
       for (const {
         id_projet,
@@ -85,6 +87,7 @@ and a.value is null;
               },
             });
             console.log(`✅ Date d'achèvement transmise`);
+            projetsAvecNouvelleDateDAchèvement.push(id_projet);
           }
 
           await mediator.send<Lauréat.Raccordement.SupprimerDateMiseEnServiceUseCase>({
@@ -121,6 +124,7 @@ and a.value is null;
       }
 
       console.info('\n✅ Migration terminée');
+      console.log("Projets avec nouvelle date d'achèvement", projetsAvecNouvelleDateDAchèvement);
     } catch (error) {
       console.error(error);
     }
