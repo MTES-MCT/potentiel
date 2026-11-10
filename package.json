@@ -68,13 +68,13 @@
     "wait-for-expect": "3.0.2"
   },
   "engines": {
-    "node": "^24.14.0"
+    "node": "^26.13.0"
   },
   "dependencies": {
     "isomorphic-dompurify": "2.23.0",
     "ts-pattern": "5.7.0"
   },
-  "packageManager": "npm@11.11.0",
+  "packageManager": "npm@11.20.0",
   "gitmoji": {
     "autoAdd": false,
     "emojiFormat": "emoji",
