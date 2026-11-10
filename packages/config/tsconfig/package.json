@@ -3,6 +3,6 @@
   "private": true,
   "devDependencies": {
     "@tsconfig/node24": "24.0.1",
-    "@types/node": "20.17.30"
+    "@types/node": "26.6.6"
   }
 }
