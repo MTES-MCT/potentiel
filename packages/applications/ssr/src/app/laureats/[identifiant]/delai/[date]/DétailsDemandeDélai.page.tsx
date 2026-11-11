@@ -50,36 +50,30 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
   return (
     <ColumnPageTemplate
       heading={<TitrePageDemande statut={statut.statut} titre="Demande de délai" />}
-      leftColumn={{
-        children: (
-          <div className="flex flex-col gap-8">
-            <InfoBoxDemandeDélai motif={demande.motif.motif} />
-            <DétailsDemandeDélai demande={demande} />
-            <div>
-              <Heading2>Historique</Heading2>
-              <Timeline items={historique} />
-            </div>
+      leftColumn={
+        <>
+          <InfoBoxDemandeDélai motif={demande.motif.motif} />
+          <DétailsDemandeDélai demande={demande} />
+          <div>
+            <Heading2>Historique</Heading2>
+            <Timeline items={historique} />
           </div>
+        </>
+      }
+      rightColumn={mapToActionComponents({
+        actions,
+        identifiantProjet: identifiantProjetValueType,
+        dateDemande: DateTime.bind(demande.demandéLe),
+        nombreDeMois: demande.nombreDeMois,
+        dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
+          dateAchèvementPrévisionnelActuelle,
         ),
-      }}
-      rightColumn={{
-        className: 'flex flex-col gap-8',
-        children: (
-          <>
-            {mapToActionComponents({
-              actions,
-              identifiantProjet: identifiantProjetValueType,
-              dateDemande: DateTime.bind(demande.demandéLe),
-              nombreDeMois: demande.nombreDeMois,
-              dateAchèvementPrévisionnelActuelle:
-                Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
-                  dateAchèvementPrévisionnelActuelle,
-                ),
-              motif: Lauréat.Délai.MotifDemandeDélai.bind(demande.motif),
-              motifsDisponibles,
-            })}
-          </>
-        ),
+        motif: Lauréat.Délai.MotifDemandeDélai.bind(demande.motif),
+        motifsDisponibles,
+      })}
+      classes={{
+        left: 'flex flex-col gap-8',
+        right: 'flex flex-col gap-8',
       }}
     />
   );

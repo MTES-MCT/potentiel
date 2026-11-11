@@ -16,40 +16,36 @@ export const TransmettreAttestationConformitéPage: FC<
 > = ({ identifiantProjet, demanderMainlevée, lauréatNotifiéLe }) => (
   <ColumnPageTemplate
     heading={<Heading1>Transmettre l'attestation de conformité du projet</Heading1>}
-    leftColumn={{
-      children: (
-        <TransmettreAttestationConformitéForm
-          demanderMainlevée={demanderMainlevée}
-          identifiantProjet={identifiantProjet}
-          lauréatNotifiéLe={lauréatNotifiéLe}
+    leftColumn={
+      <TransmettreAttestationConformitéForm
+        demanderMainlevée={demanderMainlevée}
+        identifiantProjet={identifiantProjet}
+        lauréatNotifiéLe={lauréatNotifiéLe}
+      />
+    }
+    rightColumn={
+      <>
+        <InfoBoxAttestationConformité />
+        <Notice
+          severity="warning"
+          title="Avant de transmettre votre attestation de conformité"
+          className="mb-4"
+          description={
+            <span>
+              <br />
+              Veuillez vérifier avec le cocontractant que tous les éléments attendus sur Potentiel
+              sont corrects.
+              <br />
+              Une fois l'achèvement déclaré sur Potentiel, vous ne pourrez plus effectuer de
+              demandes ni de déclarations sur la plateforme.
+              <br />
+              Vous aurez cependant toujours la possibilité de modifier les rubriques :{' '}
+              <span className="font-semibold">Raccordement au réseau</span> et{' '}
+              <span className="font-semibold">Garanties financières</span>.
+            </span>
+          }
         />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <>
-          <InfoBoxAttestationConformité />
-          <Notice
-            severity="warning"
-            title="Avant de transmettre votre attestation de conformité"
-            className="mb-4"
-            description={
-              <span>
-                <br />
-                Veuillez vérifier avec le cocontractant que tous les éléments attendus sur Potentiel
-                sont corrects.
-                <br />
-                Une fois l'achèvement déclaré sur Potentiel, vous ne pourrez plus effectuer de
-                demandes ni de déclarations sur la plateforme.
-                <br />
-                Vous aurez cependant toujours la possibilité de modifier les rubriques :{' '}
-                <span className="font-semibold">Raccordement au réseau</span> et{' '}
-                <span className="font-semibold">Garanties financières</span>.
-              </span>
-            }
-          />
-        </>
-      ),
-    }}
+      </>
+    }
   />
 );

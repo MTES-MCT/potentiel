@@ -16,51 +16,45 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
   aBénéficiéDuDélaiCDC2022,
 }) => (
   <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <ChoisirCahierDesChargesForm
-          identifiantProjet={identifiantProjet}
-          cahierDesCharges={cahierDesCharges}
-          cahiersDesChargesDisponibles={cahiersDesChargesDisponibles}
-          aBénéficiéDuDélaiCDC2022={aBénéficiéDuDélaiCDC2022}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <div>
-          <Notice
-            severity="info"
-            title="Liens vers les cahiers des charges"
-            description={
-              <span>
-                <br />
-                Pour plus d'informations sur les cahiers des charges modificatifs, veuillez
-                consulter cette&nbsp;
-                <Link
-                  target="_blank"
-                  href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/gestion-de-mon-projet-sur-potentiel/cahiers-des-charges-modificatifs"
-                >
-                  page d'aide <span className="sr-only">dans un nouvel onglet</span>
-                </Link>
-                <br />
-                <span>
-                  Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
-                  sur&nbsp;
-                  <Link
-                    target="_blank"
-                    href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}
-                    aria-label="Page de la CRE listant les cahiers des charges disponibles pour votre appel d'offres"
-                  >
-                    cette page de la CRE <span className="sr-only">dans un nouvel onglet</span>
-                  </Link>
-                  .
-                </span>
-              </span>
-            }
-          />
-        </div>
-      ),
-    }}
+    leftColumn={
+      <ChoisirCahierDesChargesForm
+        identifiantProjet={identifiantProjet}
+        cahierDesCharges={cahierDesCharges}
+        cahiersDesChargesDisponibles={cahiersDesChargesDisponibles}
+        aBénéficiéDuDélaiCDC2022={aBénéficiéDuDélaiCDC2022}
+      />
+    }
+    rightColumn={
+      <Notice
+        severity="info"
+        title="Liens vers les cahiers des charges"
+        description={
+          <span>
+            <br />
+            Pour plus d'informations sur les cahiers des charges modificatifs, veuillez consulter
+            cette&nbsp;
+            <Link
+              target="_blank"
+              href="https://docs.potentiel.beta.gouv.fr/guide-dutilisation/gestion-de-mon-projet-sur-potentiel/cahiers-des-charges-modificatifs"
+            >
+              page d'aide <span className="sr-only">dans un nouvel onglet</span>
+            </Link>
+            <br />
+            <span>
+              Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
+              sur&nbsp;
+              <Link
+                target="_blank"
+                href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}
+                aria-label="Page de la CRE listant les cahiers des charges disponibles pour votre appel d'offres"
+              >
+                cette page de la CRE <span className="sr-only">dans un nouvel onglet</span>
+              </Link>
+              .
+            </span>
+          </span>
+        }
+      />
+    }
   />
 );

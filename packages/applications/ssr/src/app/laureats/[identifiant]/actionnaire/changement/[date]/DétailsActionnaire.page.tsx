@@ -48,34 +48,33 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
           }
         />
       }
-      leftColumn={{
-        children: (
-          <div className="flex flex-col gap-8">
-            <DétailsChangementActionnaire demande={demande} />
-            <div>
-              <Heading2>Historique</Heading2>
-              <Timeline items={historique} />
-            </div>
+      leftColumn={
+        <>
+          <DétailsChangementActionnaire demande={demande} />
+          <div>
+            <Heading2>Historique</Heading2>
+            <Timeline items={historique} />
           </div>
-        ),
-      }}
-      rightColumn={{
-        className: 'flex flex-col gap-8',
-        children: (
-          <>
-            {dateDemandeEnCoursSiDifférente && (
-              <InfoBoxDemandeEnCours
-                identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-                dateDemandeEnCours={dateDemandeEnCoursSiDifférente}
-              />
-            )}
-            {mapToActionComponents({
-              actions,
-              identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-              dateDemandeEnCoursSiDifférente,
-            })}
-          </>
-        ),
+        </>
+      }
+      rightColumn={
+        <>
+          {dateDemandeEnCoursSiDifférente && (
+            <InfoBoxDemandeEnCours
+              identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+              dateDemandeEnCours={dateDemandeEnCoursSiDifférente}
+            />
+          )}
+          {mapToActionComponents({
+            actions,
+            identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+            dateDemandeEnCoursSiDifférente,
+          })}
+        </>
+      }
+      classes={{
+        left: 'flex flex-col gap-8',
+        right: 'flex flex-col gap-8',
       }}
     />
   );

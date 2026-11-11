@@ -9,28 +9,24 @@ import { CorrigerRéférencesDossierForm } from './CorrigerRéférencesDossier.f
 export const CorrigerRéférencesDossierPage = () => (
   <PageTemplate banner={<Heading1>Corriger des références dossier</Heading1>}>
     <ColumnPageTemplate
-      leftColumn={{
-        children: <CorrigerRéférencesDossierForm />,
-      }}
-      rightColumn={{
-        children: (
-          <Notice
-            severity="info"
-            title="Résumé du tableau attendu pour la correction des références de raccordement"
-            description={
-              <Table
-                className="lg:mx-4 my-4 border-spacing-0"
-                headers={['Colonne', 'Format']}
-                data={[
-                  ['identifiantProjet', 'chaîne de caractères'],
-                  ['referenceDossier', 'chaîne de caractères'],
-                  ['referenceDossierCorrigee', 'chaîne de caractères'],
-                ]}
-              />
-            }
-          />
-        ),
-      }}
+      leftColumn={<CorrigerRéférencesDossierForm />}
+      rightColumn={
+        <Notice
+          severity="info"
+          title="Résumé du tableau attendu pour la correction des références de raccordement"
+          description={
+            <Table
+              className="lg:mx-4 my-4 border-spacing-0"
+              headers={['Colonne', 'Format']}
+              data={[
+                ['identifiantProjet', 'chaîne de caractères'],
+                ['referenceDossier', 'chaîne de caractères'],
+                ['referenceDossierCorrigee', 'chaîne de caractères'],
+              ]}
+            />
+          }
+        />
+      }
     />
   </PageTemplate>
 );

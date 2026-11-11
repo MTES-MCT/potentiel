@@ -23,33 +23,29 @@ export const ModifierDateMiseEnServicePage = ({
   peutSupprimer,
 }: ModifierDateMiseEnServicePageProps) => (
   <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <DateMiseEnServiceForm
-          identifiantProjet={identifiantProjet}
-          dateDésignation={dateDésignation}
-          dossierRaccordement={dossierRaccordement}
-          action={modifierDateMiseEnServiceAction}
-          submitLabel="Modifier"
-        />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <>
-          {peutSupprimer && dossierRaccordement.dateMiseEnService && (
-            <SupprimerDateMiseEnService
-              identifiantProjet={identifiantProjet}
-              référenceDossier={dossierRaccordement.référence}
-              dateMiseEnService={dossierRaccordement.dateMiseEnService}
-            />
-          )}
-          <DateMiseEnServiceAlert
-            intervalleDatesMeSDélaiCDC2022={intervalleDatesMeSDélaiCDC2022}
-            dateDésignation={dateDésignation}
+    leftColumn={
+      <DateMiseEnServiceForm
+        identifiantProjet={identifiantProjet}
+        dateDésignation={dateDésignation}
+        dossierRaccordement={dossierRaccordement}
+        action={modifierDateMiseEnServiceAction}
+        submitLabel="Modifier"
+      />
+    }
+    rightColumn={
+      <>
+        {peutSupprimer && dossierRaccordement.dateMiseEnService && (
+          <SupprimerDateMiseEnService
+            identifiantProjet={identifiantProjet}
+            référenceDossier={dossierRaccordement.référence}
+            dateMiseEnService={dossierRaccordement.dateMiseEnService}
           />
-        </>
-      ),
-    }}
+        )}
+        <DateMiseEnServiceAlert
+          intervalleDatesMeSDélaiCDC2022={intervalleDatesMeSDélaiCDC2022}
+          dateDésignation={dateDésignation}
+        />
+      </>
+    }
   />
 );

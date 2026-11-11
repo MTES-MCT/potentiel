@@ -70,78 +70,76 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
 }) => (
   <ColumnPageTemplate
     heading={<TitrePageDemande statut={abandon.statut.statut} titre="Demande d'abandon" />}
-    leftColumn={{
-      children: (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-4">
-            <Heading2>Détails</Heading2>
+    leftColumn={
+      <>
+        <div className="flex flex-row gap-4">
+          <Heading2>Détails</Heading2>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-xs italic gap-2 font-semibold">
+            Demandé le <FormattedDate date={DateTime.bind(abandon.demande.demandéLe).formatter()} />
+            <DisplayAuteur email={Email.bind(abandon.demande.demandéPar)} />
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="text-xs italic gap-2 font-semibold">
-              Demandé le{' '}
-              <FormattedDate date={DateTime.bind(abandon.demande.demandéLe).formatter()} />
-              <DisplayAuteur email={Email.bind(abandon.demande.demandéPar)} />
-            </div>
-            {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
-              <div>
-                Abandon avec recandidature :{' '}
-                <StatutPreuveRecandidatureBadge
-                  statut={abandon.demande.recandidature.statut.statut}
-                />
-              </div>
-            )}
-          </div>
-          <DisplayRaisonChangement
-            raison={abandon.demande.raison}
-            className="whitespace-nowrap font-semibold"
-          />
-          <div className="flex flex-wrap gap-2">
-            <div className="whitespace-nowrap font-semibold">
-              Autorité compétente pour l'instruction :
-            </div>
-            {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
-          </div>
-          {abandon.demande.pièceJustificative ? (
-            <div className="flex gap-2">
-              <div className="font-medium whitespace-nowrap">Pièce(s) justificative(s) :</div>
-              <DownloadDocument
-                className="mb-0"
-                label="Télécharger la pièce justificative"
-                format={abandon.demande.pièceJustificative.format}
-                url={Routes.Document.télécharger(
-                  DocumentProjet.bind(abandon.demande.pièceJustificative).formatter(),
-                )}
+          {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
+            <div>
+              Abandon avec recandidature :{' '}
+              <StatutPreuveRecandidatureBadge
+                statut={abandon.demande.recandidature.statut.statut}
               />
             </div>
-          ) : null}
-          <div className="mb-4">
-            <Heading2>Historique</Heading2>
-            <Timeline items={historique} />
-          </div>
+          )}
         </div>
-      ),
-    }}
-    rightColumn={{
-      className: 'flex flex-col gap-8',
-      children: (
-        <>
-          {mapToActionComponents({
-            actions,
-            identifiantProjet,
-            projetsÀSélectionner,
-            dateDemande: abandon.demande.demandéLe.date,
-            estPPA,
-            ppaSignaléLorsDeLaDemande,
-            afficherChampMainlevéeGarantiesFinancières: afficherChampMainlevéeGarantiesFinancières,
-            afficherNoticeAttestationGarantiesFinancièresÀConstituer:
-              afficherNoticeAttestationGarantiesFinancièresÀConstituer,
-          })}
-          {mapToInformationsComponents({
-            informations,
-            identifiantProjet,
-          })}
-        </>
-      ),
+        <DisplayRaisonChangement
+          raison={abandon.demande.raison}
+          className="whitespace-nowrap font-semibold"
+        />
+        <div className="flex flex-wrap gap-2">
+          <div className="whitespace-nowrap font-semibold">
+            Autorité compétente pour l'instruction :
+          </div>
+          {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+        </div>
+        {abandon.demande.pièceJustificative ? (
+          <div className="flex gap-2">
+            <div className="font-medium whitespace-nowrap">Pièce(s) justificative(s) :</div>
+            <DownloadDocument
+              className="mb-0"
+              label="Télécharger la pièce justificative"
+              format={abandon.demande.pièceJustificative.format}
+              url={Routes.Document.télécharger(
+                DocumentProjet.bind(abandon.demande.pièceJustificative).formatter(),
+              )}
+            />
+          </div>
+        ) : null}
+        <div className="mb-4">
+          <Heading2>Historique</Heading2>
+          <Timeline items={historique} />
+        </div>
+      </>
+    }
+    rightColumn={
+      <>
+        {mapToActionComponents({
+          actions,
+          identifiantProjet,
+          projetsÀSélectionner,
+          dateDemande: abandon.demande.demandéLe.date,
+          estPPA,
+          ppaSignaléLorsDeLaDemande,
+          afficherChampMainlevéeGarantiesFinancières: afficherChampMainlevéeGarantiesFinancières,
+          afficherNoticeAttestationGarantiesFinancièresÀConstituer:
+            afficherNoticeAttestationGarantiesFinancièresÀConstituer,
+        })}
+        {mapToInformationsComponents({
+          informations,
+          identifiantProjet,
+        })}
+      </>
+    }
+    classes={{
+      left: 'flex flex-col gap-4',
+      right: 'flex flex-col gap-8',
     }}
   />
 );
