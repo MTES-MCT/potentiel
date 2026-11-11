@@ -19,33 +19,29 @@ export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePagePr
 }) => (
   <PageTemplate banner={<Heading1>Importer des dates de mise en service</Heading1>}>
     <ColumnPageTemplate
-      leftColumn={{
-        children: (
-          <ImporterDatesMiseEnServiceForm
-            gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-            listeGestionnairesRéseau={listeGestionnairesRéseau}
-          />
-        ),
-      }}
-      rightColumn={{
-        children: (
-          <Notice
-            severity="info"
-            title="Résumé du tableau attendu pour l'import des dates de mise en service"
-            description={
-              <Table
-                className="lg:mx-4 my-4 border-spacing-0"
-                headers={['Colonne', 'Format', 'Optionnel']}
-                data={[
-                  ['identifiantProjet', 'chaîne de caractères', 'oui'],
-                  ['referenceDossier', 'chaîne de caractères', 'non'],
-                  ['dateMiseEnService', 'date au format JJ/MM/AAAA', 'non'],
-                ]}
-              />
-            }
-          />
-        ),
-      }}
+      leftColumn={
+        <ImporterDatesMiseEnServiceForm
+          gestionnaireRéseauActuel={gestionnaireRéseauActuel}
+          listeGestionnairesRéseau={listeGestionnairesRéseau}
+        />
+      }
+      rightColumn={
+        <Notice
+          severity="info"
+          title="Résumé du tableau attendu pour l'import des dates de mise en service"
+          description={
+            <Table
+              className="lg:mx-4 my-4 border-spacing-0"
+              headers={['Colonne', 'Format', 'Optionnel']}
+              data={[
+                ['identifiantProjet', 'chaîne de caractères', 'oui'],
+                ['referenceDossier', 'chaîne de caractères', 'non'],
+                ['dateMiseEnService', 'date au format JJ/MM/AAAA', 'non'],
+              ]}
+            />
+          }
+        />
+      }
     />
   </PageTemplate>
 );

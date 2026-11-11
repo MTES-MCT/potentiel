@@ -3,19 +3,13 @@ import type { FC } from 'react';
 
 type ColumnPageTemplateProps = {
   heading?: React.ReactNode;
-  leftColumn: {
-    children: React.ReactNode;
-  };
-  rightColumn: {
-    /** @deprecated use classes. */
-    className?: string;
-    children: React.ReactNode;
-  };
+  leftColumn: React.ReactNode;
+  rightColumn?: React.ReactNode;
   classes?: {
     root?: string;
+    content?: string;
     left?: string;
     right?: string;
-    content?: string;
   };
 };
 
@@ -28,17 +22,10 @@ export const ColumnPageTemplate: FC<ColumnPageTemplateProps> = ({
   <div className={clsx('flex flex-col w-full', classes?.root)}>
     {heading ?? null}
     <div className={clsx('flex flex-col lg:flex-row gap-12 mt-6 items-start', classes?.content)}>
-      <div className={clsx(`flex-1 w-full`, classes?.left)}>{leftColumn.children}</div>
-      {rightColumn.children ? (
-        <div
-          className={clsx(
-            `flex-auto md:max-w-lg items-stretch`,
-            classes?.right,
-            // TODO remove
-            rightColumn.className,
-          )}
-        >
-          {rightColumn.children}
+      <div className={clsx(`flex-1 w-full`, classes?.left)}>{leftColumn}</div>
+      {rightColumn ? (
+        <div className={clsx(`flex-auto md:max-w-lg items-stretch`, classes?.right)}>
+          {rightColumn}
         </div>
       ) : null}
     </div>

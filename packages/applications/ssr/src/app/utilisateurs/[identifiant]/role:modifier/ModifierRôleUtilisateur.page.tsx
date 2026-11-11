@@ -20,19 +20,14 @@ export const ModifierRôleUtilisateurPage: FC<ModifierRôleUtilisateurPageProps>
     banner={<Heading1>Modifier le rôle de {utilisateur.identifiantUtilisateur.email}</Heading1>}
   >
     <ColumnPageTemplate
-      leftColumn={{
-        children: (
-          <ModifierRôleUtilisateurForm
-            utilisateur={utilisateur}
-            gestionnairesRéseau={gestionnairesRéseau}
-            régions={régions}
-            zones={zones}
-          />
-        ),
-      }}
-      rightColumn={{
-        children: null,
-      }}
+      leftColumn={
+        <ModifierRôleUtilisateurForm
+          utilisateur={utilisateur}
+          gestionnairesRéseau={gestionnairesRéseau}
+          régions={régions}
+          zones={zones}
+        />
+      }
     />
   </PageTemplate>
 );

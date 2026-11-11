@@ -19,25 +19,21 @@ export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
 }) => (
   <PageTemplate banner={<Heading1>Inviter un utilisateur</Heading1>}>
     <ColumnPageTemplate
-      leftColumn={{
-        children: (
-          <InviterUtilisateurForm
-            rôle={rôle}
-            gestionnairesRéseau={gestionnairesRéseau}
-            régions={régions}
-            zones={zones}
-          />
-        ),
-      }}
-      rightColumn={{
-        children: (
-          <Notice
-            severity="info"
-            title=""
-            description="L'invitation d'un porteur de projet se fait depuis la page du projet."
-          />
-        ),
-      }}
+      leftColumn={
+        <InviterUtilisateurForm
+          rôle={rôle}
+          gestionnairesRéseau={gestionnairesRéseau}
+          régions={régions}
+          zones={zones}
+        />
+      }
+      rightColumn={
+        <Notice
+          severity="info"
+          title=""
+          description="L'invitation d'un porteur de projet se fait depuis la page du projet."
+        />
+      }
     />
   </PageTemplate>
 );

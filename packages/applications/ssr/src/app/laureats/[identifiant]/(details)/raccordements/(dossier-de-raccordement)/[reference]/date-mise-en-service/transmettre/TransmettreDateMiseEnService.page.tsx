@@ -21,24 +21,20 @@ export const TransmettreDateMiseEnServicePage = ({
   intervalleDatesMeSDélaiCDC2022,
 }: TransmettreDateMiseEnServicePageProps) => (
   <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <DateMiseEnServiceForm
-          identifiantProjet={identifiantProjet}
-          dateDésignation={dateDésignation}
-          dossierRaccordement={dossierRaccordement}
-          action={transmettreDateMiseEnServiceAction}
-          submitLabel="Transmettre"
-        />
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <DateMiseEnServiceAlert
-          intervalleDatesMeSDélaiCDC2022={intervalleDatesMeSDélaiCDC2022}
-          dateDésignation={dateDésignation}
-        />
-      ),
-    }}
+    leftColumn={
+      <DateMiseEnServiceForm
+        identifiantProjet={identifiantProjet}
+        dateDésignation={dateDésignation}
+        dossierRaccordement={dossierRaccordement}
+        action={transmettreDateMiseEnServiceAction}
+        submitLabel="Transmettre"
+      />
+    }
+    rightColumn={
+      <DateMiseEnServiceAlert
+        intervalleDatesMeSDélaiCDC2022={intervalleDatesMeSDélaiCDC2022}
+        dateDésignation={dateDésignation}
+      />
+    }
   />
 );

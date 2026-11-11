@@ -10,14 +10,9 @@ export type ModifierSiteDeProductionPageProps = ModifierSiteDeProductionFormProp
 export const ModifierSiteDeProductionPage: React.FC<ModifierSiteDeProductionPageProps> = ({
   lauréat,
   rôle,
-}) => {
-  return (
-    <ColumnPageTemplate
-      heading={<Heading1>Modifier le site de production</Heading1>}
-      leftColumn={{
-        children: <ModifierSiteDeProductionForm lauréat={lauréat} rôle={rôle} />,
-      }}
-      rightColumn={{ children: <></> }}
-    />
-  );
-};
+}) => (
+  <ColumnPageTemplate
+    heading={<Heading1>Modifier le site de production</Heading1>}
+    leftColumn={<ModifierSiteDeProductionForm lauréat={lauréat} rôle={rôle} />}
+  />
+);

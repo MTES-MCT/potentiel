@@ -17,52 +17,51 @@ export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormPr
 }) => (
   <PageTemplate banner={<Heading1>Corriger des candidats par lot</Heading1>}>
     <ColumnPageTemplate
-      leftColumn={{
-        children: <CorrigerCandidaturesParLotForm périodes={périodes} />,
-      }}
-      rightColumn={{
-        children: (
-          <div className="flex flex-col gap-4">
-            <Notice
-              severity="info"
-              title="Correction individuelle"
-              description={
+      leftColumn={<CorrigerCandidaturesParLotForm périodes={périodes} />}
+      rightColumn={
+        <>
+          <Notice
+            severity="info"
+            title="Correction individuelle"
+            description={
+              <span>
+                <br />
+                Il est possible de corriger les données candidature par candidature et de régénérer
+                une attestation post-désignation en consultant{' '}
+                <Link href={Routes.Candidature.lister()}>la liste des candidatures</Link>.
+              </span>
+            }
+          />
+          <Notice
+            severity="info"
+            title="Si les candidatures que vous modifiez sont notifiées"
+            description={
+              <span className="flex flex-col gap-2 text-justify">
                 <span>
+                  - La modification de ces champs ne mettra pas à jour le projet :
+                  <br />• Nom du projet
+                  <br />• Localité (adresse, commune, code postal, département, région)
+                  <br />• Actionnaire (société mère)
+                  <br />• Nom du représentant légal
+                  <br />• Puissance (la puissance initiale sera par contre modifiée)
+                  <br />• Producteur
+                  <br />• Fournisseurs
+                  <br />• Évaluation carbone simplifiée
                   <br />
-                  Il est possible de corriger les données candidature par candidature et de
-                  régénérer une attestation post-désignation en consultant{' '}
-                  <Link href={Routes.Candidature.lister()}>la liste des candidatures</Link>.
+                  Pour les modifier, utilisez le formulaire disponible sur chaque page Projet.
                 </span>
-              }
-            />
-            <Notice
-              severity="info"
-              title="Si les candidatures que vous modifiez sont notifiées"
-              description={
-                <span className="flex flex-col gap-2 text-justify">
-                  <span>
-                    - La modification de ces champs ne mettra pas à jour le projet :
-                    <br />• Nom du projet
-                    <br />• Localité (adresse, commune, code postal, département, région)
-                    <br />• Actionnaire (société mère)
-                    <br />• Nom du représentant légal
-                    <br />• Puissance (la puissance initiale sera par contre modifiée)
-                    <br />• Producteur
-                    <br />• Fournisseurs
-                    <br />• Évaluation carbone simplifiée
-                    <br />
-                    Pour les modifier, utilisez le formulaire disponible sur chaque page Projet.
-                  </span>
-                  <span>
-                    - Aussi, les données suivantes ne pourront être modifiées :
-                    <br />• Statut
-                    <br />• Garanties financières
-                  </span>
+                <span>
+                  - Aussi, les données suivantes ne pourront être modifiées :
+                  <br />• Statut
+                  <br />• Garanties financières
                 </span>
-              }
-            />
-          </div>
-        ),
+              </span>
+            }
+          />
+        </>
+      }
+      classes={{
+        right: 'flex flex-col gap-4',
       }}
     />
   </PageTemplate>

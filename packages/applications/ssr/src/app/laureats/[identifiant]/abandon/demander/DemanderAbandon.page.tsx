@@ -24,33 +24,27 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   return (
     <ColumnPageTemplate
       heading={<Heading1>Demander l'abandon du projet</Heading1>}
-      leftColumn={{
-        children: (
-          <DemanderAbandonForm
-            identifiantProjet={identifiantProjet}
-            estDéjàSignaléPPA={estDéjàSignaléPPA}
-          />
-        ),
-      }}
-      rightColumn={{
-        children: (
-          <div>
-            <Notice
-              severity="info"
-              title="Suite à votre demande d'abandon"
-              description={
-                <span>
-                  <br />
-                  {autoritéCompétenteText}
-                  <br />
-                  Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
-                  notification par courriel.
-                </span>
-              }
-            />
-          </div>
-        ),
-      }}
+      leftColumn={
+        <DemanderAbandonForm
+          identifiantProjet={identifiantProjet}
+          estDéjàSignaléPPA={estDéjàSignaléPPA}
+        />
+      }
+      rightColumn={
+        <Notice
+          severity="info"
+          title="Suite à votre demande d'abandon"
+          description={
+            <span>
+              <br />
+              {autoritéCompétenteText}
+              <br />
+              Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
+              notification par courriel.
+            </span>
+          }
+        />
+      }
     />
   );
 };
