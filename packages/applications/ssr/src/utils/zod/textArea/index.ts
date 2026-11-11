@@ -1,0 +1,1 @@
+export { formatTextArea } from './formatTextArea';
