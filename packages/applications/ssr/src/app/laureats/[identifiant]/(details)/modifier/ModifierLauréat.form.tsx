@@ -315,13 +315,13 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-        {nePeutPasRégénérerAttestation ? (
-          <input type="hidden" name="doitRegenererAttestation" value="false" />
-        ) : (
-          <FormRow>
+        <FormRow>
+          {nePeutPasRégénérerAttestation ? (
+            <input type="hidden" name="doitRegenererAttestation" value="false" />
+          ) : (
             <AttestationField validationErrors={validationErrors} />
-          </FormRow>
-        )}
+          )}
+        </FormRow>
       </div>
     </Form>
   );
