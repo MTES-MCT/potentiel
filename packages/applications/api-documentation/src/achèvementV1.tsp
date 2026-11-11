@@ -88,16 +88,5 @@ namespace Achevement {
       @query
       periode?: string,
     ): ListResult<ProjetPourAchevementV1> | Error;
-
-
-    /**
-     * Transmettre la date d'achèvement d'un projet
-     */
-    @route("/laureats/{identifiantProjet}/achevement/date-achevement")
-    @post
-    transmettreDateDAchevement(
-      @path identifiantProjet: string,
-      @body body: TransmettreDateAchevementBody,
-    ): {} | Error;
   }
 }

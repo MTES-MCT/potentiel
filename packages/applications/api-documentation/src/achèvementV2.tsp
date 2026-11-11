@@ -280,15 +280,25 @@ namespace Achevement {
     ): ListResult<ProjetPourAchevementV2> | Error;
   
       /**
-     * Récupère les informations d'un projet
-     *
-     * _NB: A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_ => Point à vérifier
-     */
+       * Récupère les données d'un projet lauréat pour permettre l'instruction par le cocontractant
+       */
     @route("/laureats/{identifiantProjet}/achevement")
     @get
     recupererProjet(
       @path identifiantProjet: string,
     ): ProjetPourAchevementV2 | Error;
+
+
+
+    /**
+     * Transmettre la date d'achèvement d'un projet
+     */
+    @route("/laureats/{identifiantProjet}/achevement/date-achevement")
+    @post
+    transmettreDateDAchevement(
+      @path identifiantProjet: string,
+      @body body: TransmettreDateAchevementBody,
+    ): {} | Error;
   }
 
 }

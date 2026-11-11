@@ -48,13 +48,6 @@ export class NotFoundError extends ApiError {
   }
 }
 
-export class NotImplementedError extends ApiError {
-  constructor(message = 'Not Implemented') {
-    super(message, 501);
-    this.name = NotImplementedError.name;
-  }
-}
-
 const mapDomainErrorToApiError = (error: DomainError): ApiError => {
   const code = match(error)
     .with(P.instanceOf(InvalidOperationError), () => 400)

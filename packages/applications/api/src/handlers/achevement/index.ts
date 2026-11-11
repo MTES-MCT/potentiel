@@ -7,10 +7,10 @@ import { transmettreDateAchevementHandler } from './transmettreDateAchevement.ha
 
 export const achevementV1Handlers: AchevementV1 = {
   listerProjetAvecAchevementATransmettre: listerProjetAvecAchevementATransmettreHandler,
-  transmettreDateDAchevement: transmettreDateAchevementHandler,
 };
 
 export const achevementV2Handlers: AchevementV2 = {
   listerProjetsEnAttenteDAchevement: listerProjetsEnAttenteDAchevementHandler,
   recupererProjet: recupererProjetPourAchevementHandler,
+  transmettreDateDAchevement: transmettreDateAchevementHandler,
 };
