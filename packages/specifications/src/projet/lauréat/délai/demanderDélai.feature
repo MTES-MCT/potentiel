@@ -25,20 +25,15 @@ Fonctionnalité: Demander un délai pour un projet lauréat
             | nom_projet | Du boulodrome de Marseille                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |
 
-@select
     Plan du scénario: Un porteur peut déposer une seconde demande de délai si le motif est différent de celui de la première demande de délai
         Etant donné une demande de délai en cours pour le projet lauréat avec :
             | motif | <première demande> |
         Quand le porteur demande un délai pour le projet lauréat avec :
             | motif | <seconde demande> |
-        Alors la demande de délai devrait être consultable avec :
+        Alors la demande de délai en cours devrait être consultable avec :
             | motif | <première demande> |
-        Et  la demande de délai devrait être consultable avec :
+        Et  la demande de délai en cours devrait être consultable avec :
             | motif | <seconde demande> |    
-        Et un email a été envoyé à la dgec avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Délai demandé |
-            | nom_projet | Du boulodrome de Marseille                             |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       | 
 
     Exemples:  
     | première demande              | seconde demande               |   
@@ -59,7 +54,7 @@ Fonctionnalité: Demander un délai pour un projet lauréat
         Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur demande un délai pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
-
+@select
     Scénario: Impossible de demander un délai pour un projet si le cahier des charges ne le permet pas
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | CRE4 - Sol |
