@@ -54,49 +54,48 @@ export const DétailsChangementReprésentantLégalPage: FC<
           }
         />
       }
-      leftColumn={{
-        children: (
-          <div className="flex flex-col gap-8">
-            <DétailsChangementReprésentantLégal
-              demandéeLe={demande.demandéeLe}
-              demandéePar={demande.demandéePar}
-              nomReprésentantLégal={demande.nomReprésentantLégal}
-              typeReprésentantLégal={demande.typeReprésentantLégal}
-              pièceJustificative={demande.pièceJustificative}
-              statut={demande.statut}
-              accord={demande.accord}
-              rejet={demande.rejet}
-            />
-            <div>
-              <Heading2>Historique</Heading2>
-              <Timeline items={historique} />
-            </div>
+      leftColumn={
+        <>
+          <DétailsChangementReprésentantLégal
+            demandéeLe={demande.demandéeLe}
+            demandéePar={demande.demandéePar}
+            nomReprésentantLégal={demande.nomReprésentantLégal}
+            typeReprésentantLégal={demande.typeReprésentantLégal}
+            pièceJustificative={demande.pièceJustificative}
+            statut={demande.statut}
+            accord={demande.accord}
+            rejet={demande.rejet}
+          />
+          <div>
+            <Heading2>Historique</Heading2>
+            <Timeline items={historique} />
           </div>
-        ),
-      }}
-      rightColumn={{
-        className: 'flex flex-col gap-8',
-        children: (
-          <>
-            {dateDemandeEnCoursSiDifférente && (
-              <InfoBoxDemandeEnCours
-                lien={Routes.ReprésentantLégal.changement.détails(
-                  idProjet,
-                  dateDemandeEnCoursSiDifférente,
-                )}
-              />
-            )}
-            {mapToActionComponents({
-              actions,
-              identifiantProjet: idProjet,
-              typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind({
-                type: demande.typeReprésentantLégal.type,
-              }).formatter(),
-              nomReprésentantLégal: demande.nomReprésentantLégal,
-              dateDemande: DateTime.bind(demande.demandéeLe).formatter(),
-            })}
-          </>
-        ),
+        </>
+      }
+      rightColumn={
+        <>
+          {dateDemandeEnCoursSiDifférente && (
+            <InfoBoxDemandeEnCours
+              lien={Routes.ReprésentantLégal.changement.détails(
+                idProjet,
+                dateDemandeEnCoursSiDifférente,
+              )}
+            />
+          )}
+          {mapToActionComponents({
+            actions,
+            identifiantProjet: idProjet,
+            typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind({
+              type: demande.typeReprésentantLégal.type,
+            }).formatter(),
+            nomReprésentantLégal: demande.nomReprésentantLégal,
+            dateDemande: DateTime.bind(demande.demandéeLe).formatter(),
+          })}
+        </>
+      }
+      classes={{
+        left: 'flex flex-col gap-8',
+        right: 'flex flex-col gap-8',
       }}
     />
   );

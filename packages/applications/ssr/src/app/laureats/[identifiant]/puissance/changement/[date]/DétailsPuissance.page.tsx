@@ -53,40 +53,35 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
           }
         />
       }
-      leftColumn={{
-        children: (
-          <div className="flex flex-col gap-8">
-            {dateDemandeEnCours && dateDemandeEnCours !== demande.demandéeLe.date && (
-              <InfoBoxDemandeEnCours
-                identifiantProjet={identifiantProjet}
-                dateDemandeEnCours={dateDemandeEnCours}
-              />
-            )}
-            <DétailsChangementPuissance
-              demande={demande}
-              unitéPuissance={unitéPuissance}
-              puissanceInitiale={puissanceInitiale}
-              statut={statut}
-              autoritéCompétente={autoritéCompétente}
+      leftColumn={
+        <>
+          {dateDemandeEnCours && dateDemandeEnCours !== demande.demandéeLe.date && (
+            <InfoBoxDemandeEnCours
+              identifiantProjet={identifiantProjet}
+              dateDemandeEnCours={dateDemandeEnCours}
             />
-            <div className="mb-4">
-              <Heading2>Historique</Heading2>
-              <Timeline items={historique} />
-            </div>
+          )}
+          <DétailsChangementPuissance
+            demande={demande}
+            unitéPuissance={unitéPuissance}
+            puissanceInitiale={puissanceInitiale}
+            statut={statut}
+            autoritéCompétente={autoritéCompétente}
+          />
+          <div className="mb-4">
+            <Heading2>Historique</Heading2>
+            <Timeline items={historique} />
           </div>
-        ),
-      }}
-      rightColumn={{
-        className: 'flex flex-col gap-8',
-        children: (
-          <>
-            {mapToActionComponents({
-              actions,
-              identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-              estÀLaBaisse: demande.nouvellePuissance < puissanceInitiale,
-            })}
-          </>
-        ),
+        </>
+      }
+      rightColumn={mapToActionComponents({
+        actions,
+        identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+        estÀLaBaisse: demande.nouvellePuissance < puissanceInitiale,
+      })}
+      classes={{
+        left: 'flex flex-col gap-8',
+        right: 'flex flex-col gap-8',
       }}
     />
   );

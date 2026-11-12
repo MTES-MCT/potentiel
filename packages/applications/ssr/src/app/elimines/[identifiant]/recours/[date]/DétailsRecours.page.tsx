@@ -38,49 +38,44 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
 }) => (
   <ColumnPageTemplate
     heading={<Heading1>Demande de recours</Heading1>}
-    leftColumn={{
-      children: (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-4">
-            <Heading2>Détails</Heading2>
-            <StatutDemandeBadge statut={recours.statut.statut} />
+    leftColumn={
+      <>
+        <div className="flex flex-row gap-4">
+          <Heading2>Détails</Heading2>
+          <StatutDemandeBadge statut={recours.statut.statut} />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-xs italic">
+            Demandé le{' '}
+            <FormattedDate
+              className="font-semibold"
+              date={DateTime.bind(recours.demande.demandéLe).formatter()}
+            />
+            <DisplayAuteur email={Email.bind(recours.demande.demandéPar)} />
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="text-xs italic">
-              Demandé le{' '}
-              <FormattedDate
-                className="font-semibold"
-                date={DateTime.bind(recours.demande.demandéLe).formatter()}
-              />
-              <DisplayAuteur email={Email.bind(recours.demande.demandéPar)} />
-            </div>
-            <div className="flex gap-2">
-              <div className="whitespace-nowrap">Explications :</div>
-              <blockquote className="font-semibold italic">"{recours.demande.raison}"</blockquote>
-            </div>
-            <div>
-              <span className="font-medium">Autorité compétente pour l'instruction :</span>{' '}
-              {recours.autoritéCompétente?.autoritéCompétente.toLocaleUpperCase()}
-            </div>
+          <div className="flex gap-2">
+            <div className="whitespace-nowrap">Explications :</div>
+            <blockquote className="font-semibold italic">"{recours.demande.raison}"</blockquote>
           </div>
-          <div className="mb-4">
-            <Heading2>Historique</Heading2>
-            <Timeline items={historique} />
+          <div>
+            <span className="font-medium">Autorité compétente pour l'instruction :</span>{' '}
+            {recours.autoritéCompétente?.autoritéCompétente.toLocaleUpperCase()}
           </div>
         </div>
-      ),
-    }}
-    rightColumn={{
-      className: 'flex flex-col gap-8',
-      children: (
-        <>
-          {mapToActionComponents({
-            actions,
-            identifiantProjet,
-            date: recours.demande.demandéLe,
-          })}
-        </>
-      ),
+        <div className="mb-4">
+          <Heading2>Historique</Heading2>
+          <Timeline items={historique} />
+        </div>
+      </>
+    }
+    rightColumn={mapToActionComponents({
+      actions,
+      identifiantProjet,
+      date: recours.demande.demandéLe,
+    })}
+    classes={{
+      left: 'flex flex-col gap-4',
+      right: 'flex flex-col gap-8',
     }}
   />
 );

@@ -1,9 +1,9 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import {
   CorrigerCandidatureForm,
@@ -30,52 +30,48 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
 
   return (
     <ColumnPageTemplate
-      leftColumn={{
-        children: (
-          <CorrigerCandidatureForm
-            candidature={candidature}
-            estNotifiée={estNotifiée}
-            aUneAttestation={aUneAttestation}
-            champsSupplémentaires={champsSupplémentaires}
-            unitéPuissance={unitéPuissance}
-            typesActionnariatDisponibles={typesActionnariatDisponibles}
-            typesGarantiesFinancièresDisponibles={typesGarantiesFinancièresDisponibles}
-            volumeRéservéDisponible={volumeRéservéDisponible}
+      leftColumn={
+        <CorrigerCandidatureForm
+          candidature={candidature}
+          estNotifiée={estNotifiée}
+          aUneAttestation={aUneAttestation}
+          champsSupplémentaires={champsSupplémentaires}
+          unitéPuissance={unitéPuissance}
+          typesActionnariatDisponibles={typesActionnariatDisponibles}
+          typesGarantiesFinancièresDisponibles={typesGarantiesFinancièresDisponibles}
+          volumeRéservéDisponible={volumeRéservéDisponible}
+        />
+      }
+      rightColumn={
+        <>
+          <Notice
+            severity="info"
+            title="Ce formulaire sert à corriger des erreurs importées ou transmises à la candidature."
+            description={
+              <span>
+                <br />
+                Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
+                <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
+              </span>
+            }
           />
-        ),
-      }}
-      rightColumn={{
-        children: (
-          <>
+          {estLauréat && (
             <Notice
-              severity="info"
-              title="Ce formulaire sert à corriger des erreurs importées ou transmises à la candidature."
+              severity="warning"
+              title=""
               description={
                 <span>
-                  <br />
-                  Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
-                  <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
+                  Cette candidature étant déjà notifiée, veuillez utiliser la{' '}
+                  <Link href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>
+                    page de correction du projet et de la candidature
+                  </Link>
+                  .
                 </span>
               }
             />
-            {estLauréat && (
-              <Notice
-                severity="warning"
-                title=""
-                description={
-                  <span>
-                    Cette candidature étant déjà notifiée, veuillez utiliser la{' '}
-                    <Link href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>
-                      page de correction du projet et de la candidature
-                    </Link>
-                    .
-                  </span>
-                }
-              />
-            )}
-          </>
-        ),
-      }}
+          )}
+        </>
+      }
     />
   );
 };
