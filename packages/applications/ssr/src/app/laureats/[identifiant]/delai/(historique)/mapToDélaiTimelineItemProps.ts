@@ -51,7 +51,7 @@ export const mapToDélaiTimelineItemProps = (
     )
     .with(
       {
-        type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2'),
+        type: 'DemandeDélaiCorrigée-V1',
       },
       mapToDemandeDélaiCorrigéeTimelineItemProps,
     )

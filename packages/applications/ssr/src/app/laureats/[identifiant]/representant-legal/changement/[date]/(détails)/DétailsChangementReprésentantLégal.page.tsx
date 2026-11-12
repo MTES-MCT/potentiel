@@ -63,6 +63,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
               nomReprésentantLégal={demande.nomReprésentantLégal}
               typeReprésentantLégal={demande.typeReprésentantLégal}
               pièceJustificative={demande.pièceJustificative}
+              autoritéCompétente={demande.autoritéCompétente}
               statut={demande.statut}
               accord={demande.accord}
               rejet={demande.rejet}

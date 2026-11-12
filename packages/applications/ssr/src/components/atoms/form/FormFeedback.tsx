@@ -4,6 +4,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import type { FC } from 'react';
 import { useFormStatus } from 'react-dom';
+import { match, P } from 'ts-pattern';
 
 import type { FormState } from '@/utils/formAction';
 import { Link } from '../LinkNoPrefetch';
@@ -20,12 +21,10 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
     return undefined;
   }
 
-  switch (formState.status) {
-    case 'success':
-      if (formState.result) {
-        const {
-          result: { successMessage, errors, link },
-        } = formState;
+  return match(formState)
+    .with({ status: 'success' }, ({ result }) => {
+      if (result) {
+        const { successMessage, errors, link } = result;
 
         return (
           <>
@@ -46,6 +45,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
                 }
               />
             )}
+
             {errors.length > 0 && (
               <Notice
                 isClosable
@@ -68,33 +68,25 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
           </>
         );
       }
-
       return <Alert closable small severity="success" description="L'opération est un succès" />;
-
-    case 'rate-limit-error':
-    case 'domain-error':
-      return <FormAlertError description={formState.message} title="" />;
-
-    case 'unknown-error':
-      return <FormAlertError description="Une erreur est survenue" title="" />;
-
-    case 'validation-error':
-      return (
-        <FormAlertError
-          description="Erreur lors de la validation des données du formulaire"
-          title=""
-        />
-      );
-
-    case 'csrf-error':
-      return (
-        <FormAlertError
-          description="L'intégrité des données n'a pas pu être vérifiée. Veuillez recharger la page et réessayer."
-          title=""
-        />
-      );
-
-    default:
-      return null;
-  }
+    })
+    .with({ status: P.union('rate-limit-error', 'domain-error') }, ({ message }) => (
+      <FormAlertError description={message} title="" />
+    ))
+    .with({ status: 'unknown-error' }, () => (
+      <FormAlertError description="Une erreur est survenue" title="" />
+    ))
+    .with({ status: 'validation-error' }, () => (
+      <FormAlertError
+        description="Erreur lors de la validation des données du formulaire"
+        title=""
+      />
+    ))
+    .with({ status: 'csrf-error' }, () => (
+      <FormAlertError
+        description="L'intégrité des données n'a pas pu être vérifiée. Veuillez recharger la page et réessayer."
+        title=""
+      />
+    ))
+    .otherwise(() => null);
 };

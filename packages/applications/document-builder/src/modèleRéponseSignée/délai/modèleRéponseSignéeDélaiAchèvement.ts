@@ -16,7 +16,6 @@ export type ModèleRéponseDélaiAchèvement = ModèleRéponse & {
     dateAchèvementDemandée: string;
     dateDemande: string;
     justificationDemande: string;
-
     enCopies: Array<string>;
     nombreDeMoisDemandé: number;
   };

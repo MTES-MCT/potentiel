@@ -7,7 +7,6 @@ import type {
   GetProjetAggregateRoot,
   IdentifiantProjet,
 } from '../../../../index.js';
-import type { MotifDemandeDélai } from '../../index.js';
 
 export type CorrigerDemandeDélaiCommand = Message<
   'Lauréat.Délai.Command.CorrigerDemandeDélai',
@@ -16,7 +15,6 @@ export type CorrigerDemandeDélaiCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     dateCorrection: DateTime.ValueType;
     nombreDeMois: number;
-    motif: MotifDemandeDélai.ValueType;
     raison: string;
     pièceJustificative?: DocumentProjet.ValueType;
   }
@@ -30,7 +28,6 @@ export const registerCorrigerDemandeDélaiCommand = (
     identifiantUtilisateur,
     dateCorrection,
     nombreDeMois,
-    motif,
     raison,
     pièceJustificative,
   }) => {
@@ -39,7 +36,6 @@ export const registerCorrigerDemandeDélaiCommand = (
       identifiantUtilisateur,
       dateCorrection,
       nombreDeMois,
-      motif,
       raison,
       pièceJustificative,
     });
