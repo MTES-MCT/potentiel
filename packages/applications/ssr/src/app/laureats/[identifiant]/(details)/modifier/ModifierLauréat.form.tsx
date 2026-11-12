@@ -62,267 +62,271 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   const cdcActuel = CahierDesCharges.bind(cahierDesCharges);
 
   return (
-    <Form
-      omitMandatoryFieldsLegend
-      action={modifierLauréatAction}
-      onValidationError={setValidationErrors}
-      pendingModal={{
-        id: 'form-modifier-lauréat',
-        title: 'Modifier le projet lauréat',
-        children: 'Modification du projet lauréat en cours...',
-      }}
-      actionButtons={{
-        submitLabel: 'Modifier',
-        secondaryAction: {
-          type: 'back',
-        },
-      }}
-    >
-      {nePeutPasRégénérerAttestation && (
-        <Notice
-          severity="info"
-          title=""
-          description={<span>{nePeutPasRégénérerAttestation.text}</span>}
-        />
+    <>
+      {validationErrors['identifiantProjet'] && (
+        <FormAlertError description={validationErrors['identifiantProjet']} title="" />
       )}
-      <div className="flex flex-col gap-4">
-        <FormRow>
-          <div className="flex-1 text-lg font-bold">Champs à modifier</div>
-          <div className="flex-[2] text-center text-lg font-bold">Valeur à la candidature</div>
-          <div className="flex-[2] text-center text-lg font-bold">Valeur actuelle (lauréat)</div>
-        </FormRow>
-        <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
-        {validationErrors['identifiantProjet'] && (
-          <FormAlertError description={validationErrors['identifiantProjet']} title="" />
+      <Form
+        omitMandatoryFieldsLegend
+        action={modifierLauréatAction}
+        onValidationError={setValidationErrors}
+        pendingModal={{
+          id: 'form-modifier-lauréat',
+          title: 'Modifier le projet lauréat',
+          children: 'Modification du projet lauréat en cours...',
+        }}
+        actionButtons={{
+          submitLabel: 'Modifier',
+          secondaryAction: {
+            type: 'back',
+          },
+        }}
+      >
+        {nePeutPasRégénérerAttestation && (
+          <Notice
+            severity="info"
+            title=""
+            description={<span>{nePeutPasRégénérerAttestation.text}</span>}
+          />
         )}
-        <FormRow>
-          <ProjectField
-            candidature={candidature.nomProjet}
-            lauréat={lauréat.nomProjet.currentValue}
-            estEnCoursDeModification={lauréat.nomProjet.estEnCoursDeModification}
-            label="Nom du projet"
-            name="nomProjet"
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
-        <FormRow>
-          <ProjectField
-            candidature={candidature.nomCandidat}
-            lauréat={lauréat.nomCandidat.currentValue}
-            label="Nom du producteur"
-            name="nomCandidat"
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
-        <FormRow>
-          <CandidatureField
-            candidature={candidature.emailContact}
-            label={
-              <>
-                Email de contact{' '}
-                <Tooltip
-                  kind="hover"
-                  title="La modification de l'email entraînera la mise à jour des comptes ayant accès au projet"
-                >
-                  <Icon id="ri-information-line" />
-                </Tooltip>
-              </>
-            }
-            name="emailContact"
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
-        <FormRow>
-          <ProjectField
-            candidature={candidature.nomReprésentantLégal}
-            lauréat={lauréat.nomReprésentantLégal.currentValue}
-            estEnCoursDeModification={lauréat.nomReprésentantLégal.estEnCoursDeModification}
-            label="Nom du représentant légal"
-            name="nomReprésentantLégal"
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
-        <FormRow>
-          <CandidatureSelectField
-            candidature={candidature.actionnariat ?? ''}
-            label="Type d'actionnariat"
-            name="actionnariat"
-            options={[
-              { label: 'Aucun', value: '' },
-              ...cdcActuel.getTypesActionnariat().map((type) => ({
-                label: getActionnariatTypeLabel(type),
-                value: type,
-              })),
-            ]}
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
-        <FormRow>
-          <ProjectField
-            candidature={candidature.sociétéMère}
-            lauréat={lauréat.sociétéMère.currentValue}
-            estEnCoursDeModification={lauréat.sociétéMère.estEnCoursDeModification}
-            label="Actionnaire(s)"
-            name="sociétéMère"
-            validationErrors={validationErrors}
-            required={candidature.sociétéMère !== ''}
-          />
-        </FormRow>
-        <LocalitéField
-          candidature={candidature}
-          lauréat={lauréat}
-          validationErrors={validationErrors}
-        />
-        <FormRow>
-          <CandidatureSelectField
-            candidature={candidature.technologie}
-            label="Technologie"
-            name="technologie"
-            options={Candidature.TypeTechnologie.types.map((type) => ({
-              value: type,
-              label: getTechnologieTypeLabel(type),
-            }))}
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
-        <FormRow>
-          <CandidatureField
-            candidature={candidature.prixReference}
-            label="Prix de référence"
-            name="prixReference"
-            validationErrors={validationErrors}
-            required
-          />
-        </FormRow>
-        <FormRow>
-          <ProjectField
-            candidature={candidature.puissance}
-            lauréat={lauréat.puissance.currentValue}
-            estEnCoursDeModification={lauréat.puissance.estEnCoursDeModification}
-            label={`Puissance installée (en ${projet.unitéPuissance})`}
-            name="puissance"
-            validationErrors={validationErrors}
-            nativeInputProps={{
-              step: 0.1,
-            }}
-            required
-          />
-        </FormRow>
-        {cdcActuel.estChampRequisOuOptionnel('puissanceALaPointe') && (
+        <div className="flex flex-col gap-4">
           <FormRow>
-            <CandidatureSelectField
-              candidature={candidature.puissanceALaPointe ? 'true' : 'false'}
-              label="Puissance à la pointe"
-              name="puissanceALaPointe"
-              options={[
-                { label: 'Oui', value: 'true' },
-                { label: 'Non', value: 'false' },
-              ]}
-              validationErrors={validationErrors}
-              required={cdcActuel.estChampRequis('puissanceALaPointe')}
-            />
+            <div className="flex-1 text-lg font-bold">Champs à modifier</div>
+            <div className="flex-[2] text-center text-lg font-bold">Valeur à la candidature</div>
+            <div className="flex-[2] text-center text-lg font-bold">Valeur actuelle (lauréat)</div>
           </FormRow>
-        )}
-
-        {cdcActuel.estChampRequisOuOptionnel('puissanceDeSite') && (
+          <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
           <FormRow>
             <ProjectField
-              candidature={candidature.puissanceDeSite ?? 0}
-              label={`Puissance de site (en ${projet.unitéPuissance})`}
-              name="puissanceDeSite"
-              lauréat={lauréat.puissanceDeSite.currentValue}
+              candidature={candidature.nomProjet}
+              lauréat={lauréat.nomProjet.currentValue}
+              estEnCoursDeModification={lauréat.nomProjet.estEnCoursDeModification}
+              label="Nom du projet"
+              name="nomProjet"
               validationErrors={validationErrors}
-              required={cdcActuel.estChampRequis('puissanceDeSite')}
+              required
             />
           </FormRow>
-        )}
-        {cdcActuel.estChampRequisOuOptionnel('autorisation') && (
-          <>
-            <FormRow>
-              <CandidatureField
-                candidature={candidature.numéroDAutorisation ?? ''}
-                label="Numéro d'autorisation"
-                name="numéroDAutorisation"
-                validationErrors={validationErrors}
-                required={cdcActuel.estChampRequis('autorisation')}
-              />
-            </FormRow>
-            <FormRow>
-              <DateDAutorisationField
-                value={candidature.dateDAutorisation ?? ''}
-                validationErrors={validationErrors}
-              />
-            </FormRow>
-          </>
-        )}
-
-        {cdcActuel.estChampRequisOuOptionnel('coefficientKChoisi') && (
           <FormRow>
-            <CandidatureSelectField
-              candidature={candidature.coefficientKChoisi ? 'true' : 'false'}
-              label="Choix du coefficient K"
-              name="coefficientKChoisi"
-              options={[
-                { label: 'Oui', value: 'true' },
-                { label: 'Non', value: 'false' },
-              ]}
+            <ProjectField
+              candidature={candidature.nomCandidat}
+              lauréat={lauréat.nomCandidat.currentValue}
+              label="Nom du producteur"
+              name="nomCandidat"
               validationErrors={validationErrors}
-              required={cdcActuel.estChampRequis('coefficientKChoisi')}
+              required
             />
           </FormRow>
-        )}
-
-        <FormRow>
-          <ProjectField
-            candidature={candidature.evaluationCarboneSimplifiée}
-            lauréat={lauréat.evaluationCarboneSimplifiée.currentValue}
-            label="Evaluation carbone"
-            name="evaluationCarboneSimplifiée"
-            validationErrors={validationErrors}
-            estEnCoursDeModification={lauréat.evaluationCarboneSimplifiée.estEnCoursDeModification}
-            required={!!candidature.evaluationCarboneSimplifiée}
-          />
-        </FormRow>
-        {candidature.noteTotale && (
           <FormRow>
             <CandidatureField
-              candidature={candidature.noteTotale}
-              label="Note"
-              name="noteTotale"
+              candidature={candidature.emailContact}
+              label={
+                <>
+                  Email de contact{' '}
+                  <Tooltip
+                    kind="hover"
+                    title="La modification de l'email entraînera la mise à jour des comptes ayant accès au projet"
+                  >
+                    <Icon id="ri-information-line" />
+                  </Tooltip>
+                </>
+              }
+              name="emailContact"
               validationErrors={validationErrors}
               required
             />
           </FormRow>
-        )}
-        {cdcActuel.période.volumeRéservé && (
+          <FormRow>
+            <ProjectField
+              candidature={candidature.nomReprésentantLégal}
+              lauréat={lauréat.nomReprésentantLégal.currentValue}
+              estEnCoursDeModification={lauréat.nomReprésentantLégal.estEnCoursDeModification}
+              label="Nom du représentant légal"
+              name="nomReprésentantLégal"
+              validationErrors={validationErrors}
+              required
+            />
+          </FormRow>
           <FormRow>
             <CandidatureSelectField
-              candidature={candidature.volumeRéservé ? 'true' : 'false'}
-              label="Volume réservé"
-              name="volumeRéservé"
+              candidature={candidature.actionnariat ?? ''}
+              label="Type d'actionnariat"
+              name="actionnariat"
               options={[
-                { label: 'Oui', value: 'true' },
-                { label: 'Non', value: 'false' },
+                { label: 'Aucun', value: '' },
+                ...cdcActuel.getTypesActionnariat().map((type) => ({
+                  label: getActionnariatTypeLabel(type),
+                  value: type,
+                })),
               ]}
               validationErrors={validationErrors}
               required
             />
           </FormRow>
-        )}
-        <FormRow>
-          {nePeutPasRégénérerAttestation ? (
-            <input type="hidden" name="doitRegenererAttestation" value="false" />
-          ) : (
-            <AttestationField validationErrors={validationErrors} />
+          <FormRow>
+            <ProjectField
+              candidature={candidature.sociétéMère}
+              lauréat={lauréat.sociétéMère.currentValue}
+              estEnCoursDeModification={lauréat.sociétéMère.estEnCoursDeModification}
+              label="Actionnaire(s)"
+              name="sociétéMère"
+              validationErrors={validationErrors}
+              required={candidature.sociétéMère !== ''}
+            />
+          </FormRow>
+          <LocalitéField
+            candidature={candidature}
+            lauréat={lauréat}
+            validationErrors={validationErrors}
+          />
+          <FormRow>
+            <CandidatureSelectField
+              candidature={candidature.technologie}
+              label="Technologie"
+              name="technologie"
+              options={Candidature.TypeTechnologie.types.map((type) => ({
+                value: type,
+                label: getTechnologieTypeLabel(type),
+              }))}
+              validationErrors={validationErrors}
+              required
+            />
+          </FormRow>
+          <FormRow>
+            <CandidatureField
+              candidature={candidature.prixReference}
+              label="Prix de référence"
+              name="prixReference"
+              validationErrors={validationErrors}
+              required
+            />
+          </FormRow>
+          <FormRow>
+            <ProjectField
+              candidature={candidature.puissance}
+              lauréat={lauréat.puissance.currentValue}
+              estEnCoursDeModification={lauréat.puissance.estEnCoursDeModification}
+              label={`Puissance installée (en ${projet.unitéPuissance})`}
+              name="puissance"
+              validationErrors={validationErrors}
+              nativeInputProps={{
+                step: 0.1,
+              }}
+              required
+            />
+          </FormRow>
+          {cdcActuel.estChampRequisOuOptionnel('puissanceALaPointe') && (
+            <FormRow>
+              <CandidatureSelectField
+                candidature={candidature.puissanceALaPointe ? 'true' : 'false'}
+                label="Puissance à la pointe"
+                name="puissanceALaPointe"
+                options={[
+                  { label: 'Oui', value: 'true' },
+                  { label: 'Non', value: 'false' },
+                ]}
+                validationErrors={validationErrors}
+                required={cdcActuel.estChampRequis('puissanceALaPointe')}
+              />
+            </FormRow>
           )}
-        </FormRow>
-      </div>
-    </Form>
+
+          {cdcActuel.estChampRequisOuOptionnel('puissanceDeSite') && (
+            <FormRow>
+              <ProjectField
+                candidature={candidature.puissanceDeSite ?? 0}
+                label={`Puissance de site (en ${projet.unitéPuissance})`}
+                name="puissanceDeSite"
+                lauréat={lauréat.puissanceDeSite.currentValue}
+                validationErrors={validationErrors}
+                required={cdcActuel.estChampRequis('puissanceDeSite')}
+              />
+            </FormRow>
+          )}
+          {cdcActuel.estChampRequisOuOptionnel('autorisation') && (
+            <>
+              <FormRow>
+                <CandidatureField
+                  candidature={candidature.numéroDAutorisation ?? ''}
+                  label="Numéro d'autorisation"
+                  name="numéroDAutorisation"
+                  validationErrors={validationErrors}
+                  required={cdcActuel.estChampRequis('autorisation')}
+                />
+              </FormRow>
+              <FormRow>
+                <DateDAutorisationField
+                  value={candidature.dateDAutorisation ?? ''}
+                  validationErrors={validationErrors}
+                />
+              </FormRow>
+            </>
+          )}
+
+          {cdcActuel.estChampRequisOuOptionnel('coefficientKChoisi') && (
+            <FormRow>
+              <CandidatureSelectField
+                candidature={candidature.coefficientKChoisi ? 'true' : 'false'}
+                label="Choix du coefficient K"
+                name="coefficientKChoisi"
+                options={[
+                  { label: 'Oui', value: 'true' },
+                  { label: 'Non', value: 'false' },
+                ]}
+                validationErrors={validationErrors}
+                required={cdcActuel.estChampRequis('coefficientKChoisi')}
+              />
+            </FormRow>
+          )}
+
+          <FormRow>
+            <ProjectField
+              candidature={candidature.evaluationCarboneSimplifiée}
+              lauréat={lauréat.evaluationCarboneSimplifiée.currentValue}
+              label="Evaluation carbone"
+              name="evaluationCarboneSimplifiée"
+              validationErrors={validationErrors}
+              estEnCoursDeModification={
+                lauréat.evaluationCarboneSimplifiée.estEnCoursDeModification
+              }
+              required={!!candidature.evaluationCarboneSimplifiée}
+            />
+          </FormRow>
+          {candidature.noteTotale && (
+            <FormRow>
+              <CandidatureField
+                candidature={candidature.noteTotale}
+                label="Note"
+                name="noteTotale"
+                validationErrors={validationErrors}
+                required
+              />
+            </FormRow>
+          )}
+          {cdcActuel.période.volumeRéservé && (
+            <FormRow>
+              <CandidatureSelectField
+                candidature={candidature.volumeRéservé ? 'true' : 'false'}
+                label="Volume réservé"
+                name="volumeRéservé"
+                options={[
+                  { label: 'Oui', value: 'true' },
+                  { label: 'Non', value: 'false' },
+                ]}
+                validationErrors={validationErrors}
+                required
+              />
+            </FormRow>
+          )}
+          <FormRow>
+            {nePeutPasRégénérerAttestation ? (
+              <input type="hidden" name="doitRegenererAttestation" value="false" />
+            ) : (
+              <AttestationField validationErrors={validationErrors} />
+            )}
+          </FormRow>
+        </div>
+      </Form>
+    </>
   );
 };
