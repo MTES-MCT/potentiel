@@ -69,14 +69,15 @@ export const modifierLauréatEtCandidatureSchéma = z
     path: ['identifiantProjet'],
     message: 'Le formulaire ne contient pas de modification',
   })
-  .refine((value) => !(value.candidature && value.doitRegenererAttestation === undefined), {
+  .refine((value) => !value.candidature || value.doitRegenererAttestation !== undefined, {
     path: ['doitRegenererAttestation'],
     message:
       "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
   })
   .refine(
     (value) =>
-      value.candidature || (!value.candidature && value.laureat && !value.doitRegenererAttestation),
+      (value.candidature && value.doitRegenererAttestation !== undefined) ||
+      (!value.candidature && value.doitRegenererAttestation !== true),
     {
       path: ['doitRegenererAttestation'],
       message: "Vous pouvez régénérer l'attestation uniquement lorsque la candidature est corrigée",

@@ -125,6 +125,7 @@ export const formAction =
       const data = schema
         ? await schema.parseAsync(unflatten(dataReduced))
         : unflatten(dataReduced);
+
       const result = await action(previousState, data as zod.infer<TSchema>);
 
       // Si le formulaire contient un champ "retour" valide, on redirige vers cette url en priorité.
