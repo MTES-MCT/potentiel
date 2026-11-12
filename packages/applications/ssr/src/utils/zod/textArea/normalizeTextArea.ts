@@ -1,4 +1,4 @@
-const INVISIBLE_CHARACTERS = /[​-‍⁠﻿]/g;
+const INVISIBLE_CHARACTERS = /[\u200B-\u200D\u2060\uFEFF]/g;
 const WHITESPACES = /[^\S\n]+/g;
 
 const normalizeLine = (line: string) => line.replace(WHITESPACES, ' ').trim();

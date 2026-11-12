@@ -19,11 +19,11 @@ describe('normalizeTextArea', () => {
     });
 
     it('replaces non-breaking spaces with a space', () => {
-      expect(normalizeTextArea('un texte ici')).to.equal('un texte ici');
+      expect(normalizeTextArea('un\u00A0texte\u202Fici')).to.equal('un texte ici');
     });
 
     it('removes invisible characters', () => {
-      expect(normalizeTextArea('﻿un​texte')).to.equal('untexte');
+      expect(normalizeTextArea('\uFEFFun\u200Btexte')).to.equal('untexte');
     });
   });
 
@@ -52,6 +52,6 @@ describe('normalizeTextArea', () => {
   });
 
   it('returns an empty string for a whitespace-only text', () => {
-    expect(normalizeTextArea(' \n\t\n  ')).to.equal('');
+    expect(normalizeTextArea(' \n\t\n\u00A0 ')).to.equal('');
   });
 });
