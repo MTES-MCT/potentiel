@@ -1,5 +1,6 @@
 import { fr } from '@codegouvfr/react-dsfr';
 
+import { Heading3 } from '@/components/atoms/headings';
 import { Icon } from '@/components/atoms/Icon';
 
 export const Contexte = () => (
@@ -207,11 +208,11 @@ export const Contexte = () => (
 const ContexteSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
   return (
     <div className="flex flex-col md:flex-row gap-4">
-      <h3 className={fr.cx('fr-accordion__title')}>
+      <Heading3 className={fr.cx('fr-accordion__title')}>
         <div className="pl-4 py-3 bg-dsfr-background-actionLow-blueFrance-default text-dsfr-background-flat-blueFrance-default font-medium md:w-[200px] w-full">
           {title}
         </div>
-      </h3>
+      </Heading3>
       <div className="flex flex-col px-2 md:px-4 gap-4 text-justify">{children}</div>
     </div>
   );
