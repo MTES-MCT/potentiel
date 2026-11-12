@@ -112,3 +112,7 @@ Fonctionnalité: Transmettre une attestation de conformité avec un rapport asso
       | date transmission au Cocontractant | 2025-10-01 |
     Alors le porteur devrait être informé que "La date d'achèvement ne peut pas être antérieure à la date de notification du projet"
 
+  Scénario: Impossible pour le porteur de transmettre l'achèvement réel si l'achèvement a été initié
+    Etant donné l'achèvement réel initié pour le projet lauréat
+    Quand le porteur transmet l'achèvement réel pour le projet lauréat
+    Alors l'utilisateur devrait être informé que "L'achèvement du projet a déjà été initié"

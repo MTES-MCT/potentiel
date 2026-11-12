@@ -1,19 +1,19 @@
 import { mediator } from 'mediateur';
 
-import type { AchevementV1 } from '@potentiel-applications/api-documentation';
+import type { AchevementV2 } from '@potentiel-applications/api-documentation';
 import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getUtilisateur, validate } from '#helpers';
 
-export const transmettreDateAchevementHandler: AchevementV1['transmettreDateDAchevement'] = async (
+export const transmettreDateAchevementHandler: AchevementV2['transmettreDateDAchevement'] = async (
   _,
   identifiantProjet,
   body,
 ) => {
   const utilisateur = getUtilisateur();
 
-  const { dateAchevement } = validate('TransmettreDateAchevementBody', body);
+  const { dateAchevement } = validate('Achevement.TransmettreDateAchevementBody', body);
 
   await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
     type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',

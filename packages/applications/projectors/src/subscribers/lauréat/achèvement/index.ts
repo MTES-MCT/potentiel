@@ -4,6 +4,7 @@ import { match, P } from 'ts-pattern';
 import type { Lauréat } from '@potentiel-domain/projet';
 import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { achèvementInitiéProjector } from './achèvementInitié.projector.js';
 import { achèvementModifiéProjector } from './achèvementModifié.projector.js';
 import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector.js';
 import { attestationConformitéEnregistréeProjector } from './attestationConformité/attestationConformitéEnregistrée.projector.js';
@@ -21,6 +22,7 @@ export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, achèvementRebuildTriggered)
+      .with({ type: 'AchèvementInitié-V1' }, achèvementInitiéProjector)
       .with(
         { type: P.union('AttestationConformitéTransmise-V1', 'AttestationConformitéTransmise-V2') },
         attestationConformitéTransmiseProjector,

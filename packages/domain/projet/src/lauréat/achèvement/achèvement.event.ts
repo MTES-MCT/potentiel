@@ -4,6 +4,7 @@ import type {
   AttestationConformitéEnregistréeEvent,
   AttestationConformitéEnregistréeEventV1,
 } from './enregistrer/enregistrerAttestationConformité.event.js';
+import type { AchèvementInitiéEvent } from './initier/initierAchèvement.event.js';
 import type {
   AchèvementModifiéEvent,
   AchèvementModifiéEventV1,
@@ -19,6 +20,7 @@ import type {
 import type { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event.js';
 
 export type AchèvementEvent =
+  | AchèvementInitiéEvent
   | AttestationConformitéTransmiseEventV1
   | AttestationConformitéTransmiseEvent
   | AttestationConformitéEnregistréeEventV1
@@ -32,6 +34,7 @@ export type AchèvementEvent =
   | DateAchèvementCorrigéeEvent;
 
 export type {
+  AchèvementInitiéEvent,
   AchèvementModifiéEvent,
   AchèvementModifiéEventV1,
   AttestationConformitéEnregistréeEvent,

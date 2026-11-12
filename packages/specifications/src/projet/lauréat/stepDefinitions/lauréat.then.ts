@@ -53,7 +53,7 @@ Alors('le cahier des charges devrait être modifié', async function (this: Pote
 
 Alors(
   `le statut du projet lauréat devrait être {string}`,
-  async function (this: PotentielWorld, statut: 'abandonné' | 'achevé') {
+  async function (this: PotentielWorld, statut: 'actif' | 'abandonné' | 'achevé') {
     await waitForExpect(async () => {
       const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
         type: 'Lauréat.Query.ConsulterLauréat',
@@ -63,6 +63,10 @@ Alors(
       });
 
       assert(Option.isSome(lauréat), "Le projet lauréat n'existe pas");
+
+      if (statut === 'actif') {
+        expect(lauréat.statut.estActif()).to.be.true;
+      }
 
       if (statut === 'abandonné') {
         expect(lauréat.statut.estAbandonné()).to.be.true;

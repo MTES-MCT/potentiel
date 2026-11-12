@@ -15,7 +15,7 @@ export const modifierDemandeComplèteHandler: Raccordement['modifierDemandeCompl
   const utilisateur = getUtilisateur();
 
   const { nouvelleReference } = validate(
-    'ModifierDemandeCompleteBodyMergePatchCreateOrUpdate',
+    'Raccordement.ModifierDemandeCompleteBodyMergePatchCreateOrUpdate',
     body,
   );
 

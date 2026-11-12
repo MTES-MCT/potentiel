@@ -391,6 +391,33 @@ Quand(
 );
 // #endregion Attestation de conformité
 
+// #region Initier l'achèvement réel
+Quand(`le porteur initie l'achèvement du projet lauréat`, async function (this: PotentielWorld) {
+  try {
+    await initierAchèvement.call(this, this.lauréatWorld.identifiantProjet);
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
+
+export async function initierAchèvement(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+) {
+  const { initiéLe, initiéPar } = this.lauréatWorld.achèvementWorld.initierAchèvementFixture.créer({
+    initiéPar: this.utilisateurWorld.porteurFixture.email,
+  });
+
+  await mediator.send<Lauréat.Achèvement.InitierAchèvementUseCase>({
+    type: 'Lauréat.Achèvement.UseCase.InitierAchèvement',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      initiéLeValue: initiéLe,
+      initiéParValue: initiéPar,
+    },
+  });
+}
+
 export async function transmettreDateAchèvement(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
