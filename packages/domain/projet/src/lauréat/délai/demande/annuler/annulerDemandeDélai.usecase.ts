@@ -11,6 +11,7 @@ export type AnnulerDemandeDélaiUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     dateAnnulationValue: string;
+    dateDemandeValue: string;
   }
 >;
 
@@ -19,10 +20,12 @@ export const registerAnnulerDemandeDélaiUseCase = () => {
     identifiantUtilisateurValue,
     dateAnnulationValue,
     identifiantProjetValue,
+    dateDemandeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAnnulation = DateTime.convertirEnValueType(dateAnnulationValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
 
     await mediator.send<AnnulerDemandeDélaiCommand>({
       type: 'Lauréat.Délai.Command.AnnulerDemande',
@@ -30,6 +33,7 @@ export const registerAnnulerDemandeDélaiUseCase = () => {
         dateAnnulation,
         identifiantUtilisateur,
         identifiantProjet,
+        dateDemande,
       },
     });
   };

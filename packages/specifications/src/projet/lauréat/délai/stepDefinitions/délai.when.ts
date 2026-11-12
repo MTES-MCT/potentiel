@@ -170,6 +170,7 @@ export async function annulerDemandeDélai(this: PotentielWorld) {
         dateAnnulationValue: annuléeLe,
         identifiantUtilisateurValue: annuléePar,
         identifiantProjetValue: identifiantProjet,
+        dateDemandeValue: this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe,
       },
     });
   } catch (error) {
@@ -200,6 +201,7 @@ export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, no
         identifiantUtilisateurValue: passéeEnInstructionPar,
         datePassageEnInstructionValue: passéeEnInstructionLe,
         rôleUtilisateurValue: Role.dreal.nom,
+        dateDemandeValue: this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
       },
     });
   } catch (error) {
@@ -224,6 +226,7 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
         réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         identifiantProjetValue: identifiantProjet,
         rôleUtilisateurValue: Role.dreal.nom,
+        dateDemandeValue: this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
       },
     });
   } catch (error) {
@@ -258,6 +261,7 @@ export async function accorderDemandeDélai(this: PotentielWorld, rôle: Role.Ra
         nombreDeMois,
         réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         rôleUtilisateurValue: rôle,
+        dateDemandeValue: this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
       },
     });
   } catch (error) {

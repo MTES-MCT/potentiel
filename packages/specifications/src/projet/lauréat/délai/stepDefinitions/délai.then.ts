@@ -1,4 +1,4 @@
-import { Then as Alors } from '@cucumber/cucumber';
+import { Then as Alors, type DataTable } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
@@ -16,6 +16,23 @@ Alors(/la demande.* de délai devrait être consultable/, async function (this: 
     Lauréat.Délai.StatutDemandeDélai.demandé,
   );
 });
+
+Alors(
+  /la demande.* de délai devrait être consultable avec :/,
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    const { motif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple);
+    if (!motif) {
+      throw new Error('Motif à préciser exemple');
+    }
+    await vérifierDemandeDélai.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Lauréat.Délai.StatutDemandeDélai.demandé,
+      motif,
+    );
+  },
+);
 
 Alors(
   'la demande de délai ne devrait plus être consultable',
@@ -104,8 +121,10 @@ async function vérifierDemandeDélai(
   this: PotentielWorld,
   identifiantProjet: string,
   statut: Lauréat.Délai.StatutDemandeDélai.ValueType,
+  motif?: string,
 ) {
   return waitForExpect(async () => {
+    // TODO : récupérer la demande correspondant au motif, si pas de motif passé on prend la première demande trouvée
     const demandeEnCours = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
       data: {

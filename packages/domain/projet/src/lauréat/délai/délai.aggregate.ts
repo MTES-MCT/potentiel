@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { type DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import type { Role } from '@potentiel-domain/utilisateur';
 
@@ -39,18 +39,20 @@ import {
   StatutDemandeDélai,
 } from './index.js';
 
-export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
-  #demande?: {
-    statut: StatutDemandeDélai.ValueType;
-    nombreDeMois: number;
-    demandéLe: DateTime.RawType;
-    raison: string;
+type Demande = {
+  statut: StatutDemandeDélai.ValueType;
+  nombreDeMois: number;
+  demandéLe: DateTime.RawType;
+  raison: string;
 
-    instruction?: {
-      passéEnInstructionPar: Email.ValueType;
-    };
-    motif: MotifDemandeDélai.ValueType;
+  instruction?: {
+    passéEnInstructionPar: Email.ValueType;
   };
+
+  motif: MotifDemandeDélai.ValueType;
+};
+export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
+  #demandes: Map<DateTime.RawType, Demande> = new Map();
 
   get lauréat() {
     return this.parent;
@@ -58,6 +60,10 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
   private get identifiantProjet() {
     return this.lauréat.projet.identifiantProjet;
+  }
+
+  private getDemandeActuelle({ dateDemande }: { dateDemande: DateTime.ValueType }) {
+    return this.#demandes.get(dateDemande.formatter());
   }
 
   async demanderDélai({
@@ -68,10 +74,14 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     raison,
     motif,
   }: DemanderDélaiOptions) {
+    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
+
     this.lauréat.vérifierQueLeChangementEstPossible('demande', 'délai');
 
-    if (this.#demande) {
-      this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.demandé);
+    if (demandeActuelle) {
+      demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+        StatutDemandeDélai.demandé,
+      );
     }
 
     const event: DélaiDemandéEvent = {
@@ -96,8 +106,11 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     nombreDeMois,
     pièceJustificative,
     raison,
+    dateDemande,
   }: CorrigerDemandeDélaiOptions) {
-    if (!this.#demande) {
+    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
+
+    if (!demandeActuelle) {
       throw new DemandeDeDélaiInexistanteError();
     }
 
@@ -105,6 +118,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       nombreDeMois,
       pièceJustificative,
       raison,
+      dateDemande,
     });
 
     const event: DemandeDélaiCorrigéeEvent = {
@@ -113,7 +127,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.identifiantProjet.formatter(),
         corrigéeLe: dateCorrection.formatter(),
         corrigéePar: identifiantUtilisateur.formatter(),
-        dateDemande: this.#demande.demandéLe,
+        dateDemande: demandeActuelle.demandéLe,
         nombreDeMois,
         raison,
         pièceJustificative: pièceJustificative ? { format: pièceJustificative.format } : undefined,
@@ -126,12 +140,14 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   async annulerDemandeDélai({
     identifiantUtilisateur,
     dateAnnulation,
+    dateDemande,
   }: AnnulerDemandeDélaiOptions) {
-    if (!this.#demande) {
+    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
+    if (!demandeActuelle) {
       throw new DemandeDeDélaiInexistanteError();
     }
 
-    this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.annulé);
+    demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.annulé);
 
     const event: DemandeDélaiAnnuléeEvent = {
       type: 'DemandeDélaiAnnulée-V1',
@@ -139,32 +155,30 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.identifiantProjet.formatter(),
         annuléLe: dateAnnulation.formatter(),
         annuléPar: identifiantUtilisateur.formatter(),
-        dateDemande: this.#demande.demandéLe,
+        dateDemande: demandeActuelle.demandéLe,
       },
     };
 
     await this.publish(event);
   }
 
-  async supprimerDemandeDélai({
+  async supprimerDemandesDélai({
     identifiantUtilisateur,
     dateSuppression,
   }: SupprimerDemandeDélaiOptions) {
-    if (!this.#demande) {
-      return;
-    }
+    this.#demandes.forEach(async (demande) => {
+      const event: DemandeDélaiSuppriméeEvent = {
+        type: 'DemandeDélaiSupprimée-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          suppriméLe: dateSuppression.formatter(),
+          suppriméPar: identifiantUtilisateur.formatter(),
+          dateDemande: demande.demandéLe,
+        },
+      };
 
-    const event: DemandeDélaiSuppriméeEvent = {
-      type: 'DemandeDélaiSupprimée-V1',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        suppriméLe: dateSuppression.formatter(),
-        suppriméPar: identifiantUtilisateur.formatter(),
-        dateDemande: this.#demande.demandéLe,
-      },
-    };
-
-    await this.publish(event);
+      await this.publish(event);
+    });
   }
 
   async rejeterDemandeDélai({
@@ -172,19 +186,21 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     identifiantUtilisateur,
     rôleUtilisateur,
     réponseSignée,
+    dateDemande,
   }: RejeterDemandeDélaiOptions) {
-    if (!this.#demande) {
+    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
+    if (!demandeActuelle) {
       throw new DemandeDeDélaiInexistanteError();
     }
 
-    this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
-    this.verifierInstructeur(this.#demande.motif, rôleUtilisateur);
+    demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
+    this.verifierInstructeur(demandeActuelle.motif, rôleUtilisateur);
 
     const event: DemandeDélaiRejetéeEvent = {
       type: 'DemandeDélaiRejetée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        dateDemande: this.#demande.demandéLe,
+        dateDemande: demandeActuelle.demandéLe,
         réponseSignée: { format: réponseSignée.format },
         rejetéeLe: dateRejet.formatter(),
         rejetéePar: identifiantUtilisateur.formatter(),
@@ -201,13 +217,17 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     nombreDeMois,
     rôleUtilisateur,
     motif,
+    dateDemande,
   }: AccorderDemandeDélaiOptions) {
-    if (!this.#demande) {
+    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
+    if (!demandeActuelle) {
       throw new DemandeDeDélaiInexistanteError();
     }
 
-    this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
-    this.verifierInstructeur(this.#demande.motif, rôleUtilisateur);
+    //TODO : vérifier s'il n'y a pas une autre demande avec le même motif !
+
+    demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
+    this.verifierInstructeur(motif, rôleUtilisateur);
 
     const dateAchèvementPrévisionnelCalculée = motif.estProlongationPhaseEssai()
       ? this.parent.achèvement.dateAchèvementPrévisionnel.formatter()
@@ -220,7 +240,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       type: 'DélaiAccordé-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        dateDemande: this.#demande.demandéLe,
+        dateDemande: demandeActuelle.demandéLe,
         nombreDeMois,
         dateAchèvementPrévisionnelCalculée,
         accordéLe: dateAccord.formatter(),
@@ -244,17 +264,19 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     identifiantUtilisateur,
     datePassageEnInstruction,
     rôleUtilisateur,
+    dateDemande,
   }: PasserEnInstructionDemandeDélaiOptions) {
-    if (!this.#demande) {
+    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
+    if (!demandeActuelle) {
       throw new DemandeDeDélaiInexistanteError();
     }
 
-    this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+    demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutDemandeDélai.enInstruction,
     );
-    this.verifierInstructeur(this.#demande.motif, rôleUtilisateur);
+    this.verifierInstructeur(demandeActuelle.motif, rôleUtilisateur);
 
-    if (this.#demande.instruction?.passéEnInstructionPar.estÉgaleÀ(identifiantUtilisateur)) {
+    if (demandeActuelle.instruction?.passéEnInstructionPar.estÉgaleÀ(identifiantUtilisateur)) {
       throw new DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal();
     }
 
@@ -264,7 +286,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
         passéeEnInstructionLe: datePassageEnInstruction.formatter(),
         passéeEnInstructionPar: identifiantUtilisateur.formatter(),
-        dateDemande: this.#demande.demandéLe,
+        dateDemande: demandeActuelle.demandéLe,
       },
     };
 
@@ -291,76 +313,89 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   private applyDélaiDemandéV1({
     payload: { nombreDeMois, demandéLe, raison },
   }: DélaiDemandéEventV1) {
-    this.#demande = {
+    this.#demandes.set(demandéLe, {
       statut: StatutDemandeDélai.demandé,
       nombreDeMois,
       demandéLe,
       raison,
       motif: MotifDemandeDélai.prolongationDélaiAchèvement,
-    };
+    });
   }
 
   private applyDélaiDemandé({
     payload: { nombreDeMois, demandéLe, raison, motif },
   }: DélaiDemandéEvent) {
-    this.#demande = {
+    this.#demandes.set(demandéLe, {
       statut: StatutDemandeDélai.demandé,
       nombreDeMois,
       demandéLe,
       raison,
       motif: MotifDemandeDélai.convertirEnValueType(motif),
-    };
+    });
   }
 
   private applyDemandeDélaiCorrigée({
-    payload: { nombreDeMois, raison },
+    payload: { nombreDeMois, raison, dateDemande },
   }: DemandeDélaiCorrigéeEvent) {
-    if (this.#demande) {
-      this.#demande.nombreDeMois = nombreDeMois;
-      this.#demande.raison = raison;
+    const demandeActuelle = this.getDemandeActuelle({
+      dateDemande: DateTime.convertirEnValueType(dateDemande),
+    });
+    if (demandeActuelle) {
+      demandeActuelle.nombreDeMois = nombreDeMois;
+      demandeActuelle.raison = raison;
     }
   }
 
-  private applyDemandeDélaiAnnulée() {
-    this.#demande = undefined;
+  private applyDemandeDélaiAnnulée({ payload: { dateDemande } }: DemandeDélaiAnnuléeEvent) {
+    this.#demandes.delete(dateDemande);
   }
 
-  private applyDemandeDélaiSupprimée() {
-    this.#demande = undefined;
+  private applyDemandeDélaiSupprimée({ payload: { dateDemande } }: DemandeDélaiSuppriméeEvent) {
+    this.#demandes.delete(dateDemande);
   }
 
   private applyDemandeDélaiPasséeEnInstruction({
-    payload: { passéeEnInstructionPar },
+    payload: { passéeEnInstructionPar, dateDemande },
   }: DemandeDélaiPasséeEnInstructionEvent) {
-    if (this.#demande) {
-      this.#demande.statut = StatutDemandeDélai.enInstruction;
-      this.#demande.instruction = {
+    const demandeActuelle = this.getDemandeActuelle({
+      dateDemande: DateTime.convertirEnValueType(dateDemande),
+    });
+    if (demandeActuelle) {
+      demandeActuelle.statut = StatutDemandeDélai.enInstruction;
+      demandeActuelle.instruction = {
         passéEnInstructionPar: Email.convertirEnValueType(passéeEnInstructionPar),
       };
     }
   }
 
-  private applyDemandeDélaiRejetée(_: DemandeDélaiRejetéeEvent) {
-    this.#demande = undefined;
+  private applyDemandeDélaiRejetée({ payload: { dateDemande } }: DemandeDélaiRejetéeEvent) {
+    this.#demandes.delete(dateDemande);
   }
 
-  private applyDemandeDélaiAccordée(_: DélaiAccordéEvent | DélaiAccordéEventV1) {
-    this.#demande = undefined;
+  private applyDemandeDélaiAccordée({
+    payload: { dateDemande },
+  }: DélaiAccordéEvent | DélaiAccordéEventV1) {
+    this.#demandes.delete(dateDemande);
   }
 
   private vérifierSiCorrectionEstValide({
     nombreDeMois,
     pièceJustificative,
     raison,
-  }: Pick<CorrigerDemandeDélaiOptions, 'nombreDeMois' | 'pièceJustificative' | 'raison'>) {
-    if (!this.#demande?.statut.estEnCours()) {
+    dateDemande,
+  }: Pick<
+    CorrigerDemandeDélaiOptions,
+    'nombreDeMois' | 'pièceJustificative' | 'raison' | 'dateDemande'
+  >) {
+    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
+    if (!demandeActuelle?.statut.estEnCours()) {
       throw new DemandeDeDélaiInexistanteError();
     }
 
     if (
       !pièceJustificative &&
-      nombreDeMois === this.#demande.nombreDeMois &&
-      raison === this.#demande.raison
+      nombreDeMois === demandeActuelle.nombreDeMois &&
+      raison === demandeActuelle.raison
     ) {
       throw new AucuneModificationApportéeError();
     }

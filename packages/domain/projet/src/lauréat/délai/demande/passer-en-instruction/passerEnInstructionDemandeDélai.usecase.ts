@@ -13,6 +13,7 @@ export type PasserEnInstructionDemandeDélaiUseCase = Message<
     identifiantUtilisateurValue: string;
     datePassageEnInstructionValue: string;
     rôleUtilisateurValue: string;
+    dateDemandeValue: string;
   }
 >;
 
@@ -22,10 +23,12 @@ export const registerPasserEnInstructionDemandeDélaiUseCase = () => {
     identifiantUtilisateurValue,
     datePassageEnInstructionValue,
     rôleUtilisateurValue,
+    dateDemandeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const datePassageEnInstruction = DateTime.convertirEnValueType(datePassageEnInstructionValue);
+    const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const rôle = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<PasserEnInstructionDemandeDélaiCommand>({
@@ -35,6 +38,7 @@ export const registerPasserEnInstructionDemandeDélaiUseCase = () => {
         identifiantUtilisateur,
         datePassageEnInstruction,
         rôleUtilisateur: rôle,
+        dateDemande,
       },
     });
   };

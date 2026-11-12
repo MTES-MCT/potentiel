@@ -4,6 +4,7 @@ import type { DocumentProjet } from '#document-projet';
 
 export type CorrigerDemandeDélaiOptions = {
   identifiantUtilisateur: Email.ValueType;
+  dateDemande: DateTime.ValueType;
   dateCorrection: DateTime.ValueType;
   nombreDeMois: number;
   raison: string;
