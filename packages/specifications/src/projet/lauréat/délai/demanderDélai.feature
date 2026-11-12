@@ -25,17 +25,25 @@ Fonctionnalité: Demander un délai pour un projet lauréat
             | nom_projet | Du boulodrome de Marseille                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |
 
-@NotImplemented
-    Scénario: Un porteur demande un délai pour prolongation de phase d'essai alors qu'une demande de prolongation de délai d'achèvement est en cours
+@select
+    Plan du scénario: Un porteur peut déposer une seconde demande de délai si le motif est différent de celui de la première demande de délai
         Etant donné une demande de délai en cours pour le projet lauréat avec :
-            | motif | prolongation-délai-achèvement |
+            | motif | <première demande> |
         Quand le porteur demande un délai pour le projet lauréat avec :
-            | motif | prolongation-phase-essai |
-        Alors la demande de délai devrait être consultable
+            | motif | <seconde demande> |
+        Alors la demande de délai devrait être consultable avec :
+            | motif | <première demande> |
+        Et  la demande de délai devrait être consultable avec :
+            | motif | <seconde demande> |    
         Et un email a été envoyé à la dgec avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Délai demandé |
             | nom_projet | Du boulodrome de Marseille                             |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |        
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       | 
+
+    Exemples:  
+    | première demande              | seconde demande               |   
+    | prolongation-délai-achèvement | prolongation-phase-essai      |    
+    | prolongation-phase-essai      | prolongation-délai-achèvement |      
 
     Scénario: Impossible de demander un délai pour un projet si une demande de délai du même motif est en cours
         Etant donné une demande de délai en cours pour le projet lauréat
@@ -58,3 +66,5 @@ Fonctionnalité: Demander un délai pour un projet lauréat
             | période        | 10         |
         Quand le porteur demande un délai pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
+
+# TODO : La DGEC ne peut pas accorder une demande de délai d'achèvement s'il y a déjà une demande de délai d'achèvement en cours

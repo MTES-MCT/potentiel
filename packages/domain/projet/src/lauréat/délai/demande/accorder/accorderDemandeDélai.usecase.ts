@@ -12,6 +12,7 @@ export type AccorderDemandeDélaiUseCase = Message<
   'Lauréat.Délai.UseCase.AccorderDemandeDélai',
   {
     identifiantProjetValue: string;
+    dateDemandeValue: string;
     dateAccordValue: string;
     nombreDeMois: number;
     identifiantUtilisateurValue: string;
@@ -23,6 +24,7 @@ export type AccorderDemandeDélaiUseCase = Message<
 export const registerAccorderDemandeDélaiUseCase = () => {
   const runner: MessageHandler<AccorderDemandeDélaiUseCase> = async ({
     identifiantProjetValue,
+    dateDemandeValue,
     dateAccordValue,
     nombreDeMois,
     identifiantUtilisateurValue,
@@ -30,6 +32,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
     rôleUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const réponseSignée = DocumentDélai.demandeAccordée({
@@ -49,6 +52,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
     await mediator.send<AccorderDemandeDélaiCommand>({
       type: 'Lauréat.Délai.Command.AccorderDemandeDélai',
       data: {
+        dateDemande,
         dateAccord,
         identifiantUtilisateur,
         identifiantProjet,

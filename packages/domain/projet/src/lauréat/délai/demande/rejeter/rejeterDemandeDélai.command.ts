@@ -17,6 +17,7 @@ export type RejeterDemandeDélaiCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
     rôleUtilisateur: Role.ValueType;
+    dateDemande: DateTime.ValueType;
   }
 >;
 
@@ -29,6 +30,7 @@ export const registerRejeterDemandeDélaiCommand = (
     identifiantUtilisateur,
     réponseSignée,
     rôleUtilisateur,
+    dateDemande,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -37,6 +39,7 @@ export const registerRejeterDemandeDélaiCommand = (
       identifiantUtilisateur,
       réponseSignée,
       rôleUtilisateur,
+      dateDemande,
     });
   };
   mediator.register('Lauréat.Délai.Command.RejeterDemandeDélai', handler);

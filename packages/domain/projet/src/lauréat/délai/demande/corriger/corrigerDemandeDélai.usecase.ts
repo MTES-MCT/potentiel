@@ -35,6 +35,7 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
+    const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const dateCorrection = DateTime.convertirEnValueType(dateCorrectionValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const pièceJustificative = pièceJustificativeValue
@@ -56,6 +57,7 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
         nombreDeMois,
         raison,
         pièceJustificative,
+        dateDemande,
       },
     });
 

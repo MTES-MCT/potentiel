@@ -103,6 +103,7 @@ const mapToActionComponents = ({
       <PasserEnInstructionDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         estUneReprise={actions.includes('reprendre-instruction')}
+        dateDemande={dateDemande.formatter()}
       />
     )}
     {actions.includes('accorder') && (
@@ -134,7 +135,10 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('annuler') && (
-      <AnnulerDemandeDélaiForm identifiantProjet={identifiantProjet.formatter()} />
+      <AnnulerDemandeDélaiForm
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+      />
     )}
   </ActionsList>
 );
