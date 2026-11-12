@@ -111,12 +111,24 @@ Alors(
 
     assert(domain, "Domaine inconnu, l'autorité instructrice ne peut être déterminée");
 
+    if (domain === 'délai') {
+      if (!this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.size) {
+        throw new Error('Aucune demande de délai');
+      }
+      if (this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.size > 1) {
+        throw new Error(
+          "Plusieurs demandes de délai : il est impossible de définir l'autorité concernée. Utilise un step spécifique.",
+        );
+      }
+    }
+
     const autorité = cdc.getAutoritéCompétente(
       domain === 'délai'
         ? {
             domain: 'délai',
             motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-              this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
+              this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value!
+                .motif,
             ),
           }
         : {

@@ -7,46 +7,49 @@ import { AbstractFixture } from '../../../../fixture.js';
 
 export type CréerDemandeDélaiFixture = Partial<Readonly<DemanderDélai>> & {
   identifiantProjet: string;
-  motif?: string;
+  motif: string;
+  nombreDeMois?: number;
 };
 
-interface DemanderDélai {
+type Demande = {
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly nombreDeMois: number;
   readonly raison: string;
   readonly pièceJustificative: PièceJustificative;
   readonly motif: string;
+};
+interface DemanderDélai {
+  readonly demandes: Map<Lauréat.Délai.MotifDemandeDélai.RawType, Demande>;
 }
 
 export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> implements DemanderDélai {
-  #pièceJustificative!: PièceJustificative;
-  get pièceJustificative(): PièceJustificative {
-    return this.#pièceJustificative;
+  #demandes: Map<Lauréat.Délai.MotifDemandeDélai.RawType, Demande> = new Map();
+
+  get demandes(): Map<Lauréat.Délai.MotifDemandeDélai.RawType, Demande> {
+    return this.#demandes;
   }
 
-  #demandéLe!: string;
-
-  get demandéLe(): string {
-    return this.#demandéLe;
+  getPièceJustificative(
+    motif: Lauréat.Délai.MotifDemandeDélai.RawType,
+  ): PièceJustificative | undefined {
+    return this.#demandes.get(motif)?.pièceJustificative;
   }
 
-  #demandéPar!: string;
-
-  get demandéPar(): string {
-    return this.#demandéPar;
+  getDemandéLe(motif: Lauréat.Délai.MotifDemandeDélai.RawType): string | undefined {
+    return this.#demandes.get(motif)?.demandéLe;
   }
 
-  #raison!: string;
-
-  get raison(): string {
-    return this.#raison;
+  getDemandéPar(motif: Lauréat.Délai.MotifDemandeDélai.RawType): string | undefined {
+    return this.#demandes.get(motif)?.demandéPar;
   }
 
-  #nombreDeMois!: number;
+  getRaison(motif: Lauréat.Délai.MotifDemandeDélai.RawType): string | undefined {
+    return this.#demandes.get(motif)?.raison;
+  }
 
-  get nombreDeMois(): number {
-    return this.#nombreDeMois;
+  getNombreDeMois(motif: Lauréat.Délai.MotifDemandeDélai.RawType): number | undefined {
+    return this.#demandes.get(motif)?.nombreDeMois;
   }
 
   #identifiantProjet!: string;
@@ -55,15 +58,8 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
     return this.#identifiantProjet;
   }
 
-  #motif!: string;
-
-  get motif(): string {
-    return this.#motif;
-  }
-
   créer(partialFixture: CréerDemandeDélaiFixture): Readonly<DemanderDélai> {
     const fixture = {
-      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif,
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
@@ -72,16 +68,13 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
       ...partialFixture,
     };
 
-    this.#demandéLe = fixture.demandéLe;
-    this.#demandéPar = fixture.demandéPar;
-    this.#raison = fixture.raison;
-    this.#nombreDeMois = fixture.nombreDeMois;
-    this.#identifiantProjet = fixture.identifiantProjet;
-    this.#pièceJustificative = fixture.pièceJustificative;
-    this.#motif = fixture.motif;
+    this.#demandes.set(
+      Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(fixture.motif).formatter(),
+      fixture,
+    );
 
     this.aÉtéCréé = true;
 
-    return fixture;
+    return this;
   }
 }

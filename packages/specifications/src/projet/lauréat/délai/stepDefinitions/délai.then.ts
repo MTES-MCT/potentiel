@@ -18,7 +18,7 @@ Alors(/la demande.* de délai devrait être consultable/, async function (this: 
 });
 
 Alors(
-  /la demande.* de délai devrait être consultable avec :/,
+  'la demande de délai en cours devrait être consultable avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { motif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple);
@@ -40,11 +40,18 @@ Alors(
     await waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
+      const demandeFixture = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
+        .values()
+        .next().value;
+
+      if (!demandeFixture) {
+        throw new Error('Demande fixture inexistante');
+      }
       const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
         type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
-          demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe,
+          demandéLe: demandeFixture.demandéLe,
         },
       });
 
@@ -98,13 +105,18 @@ Alors('la demande de délai devrait être accordée', async function (this: Pote
 Alors(
   /l'autorité instructrice de la demande de délai devrait être (.*)/,
   async function (this: PotentielWorld, autorité: string) {
+    const demandeFixture = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
+      .values()
+      .next().value;
+
+    if (!demandeFixture) {
+      throw new Error('Demande fixture inexistante');
+    }
     const demandeEnCours = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
       data: {
         identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-        demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
-          ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
-          : '',
+        demandéLe: demandeFixture.demandéLe,
       },
     });
     assert(Option.isSome(demandeEnCours), 'Demande de délai non trouvée !');
@@ -124,14 +136,17 @@ async function vérifierDemandeDélai(
   motif?: string,
 ) {
   return waitForExpect(async () => {
-    // TODO : récupérer la demande correspondant au motif, si pas de motif passé on prend la première demande trouvée
+    const demandeFixture = motif
+      ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
+          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
+        )
+      : this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value;
+
     const demandeEnCours = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
       data: {
         identifiantProjet,
-        demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
-          ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe
-          : '',
+        demandéLe: demandeFixture?.demandéLe ?? '',
       },
     });
 
@@ -139,7 +154,7 @@ async function vérifierDemandeDélai(
 
     const actual = mapToPlainObject(demandeEnCours);
 
-    const expected = mapToPlainObject(this.lauréatWorld.délaiWorld.mapToExpected(statut));
+    const expected = mapToPlainObject(this.lauréatWorld.délaiWorld.mapToExpected(statut, motif));
 
     actual.should.be.deep.equal(expected);
   });

@@ -24,6 +24,7 @@ import type { DemanderDélaiOptions } from './demande/demander/demanderDélai.op
 import type { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option.js';
 import type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
 import type { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options.js';
+import { DélaiEnCoursErreur } from './demande/statutDemandeDélai.valueType.js';
 import type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event.js';
 import type { SupprimerDemandeDélaiOptions } from './demande/supprimer/supprimerDemandeDélai.options.js';
 import {
@@ -74,14 +75,10 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     raison,
     motif,
   }: DemanderDélaiOptions) {
-    const demandeActuelle = this.getDemandeActuelle({ dateDemande });
-
     this.lauréat.vérifierQueLeChangementEstPossible('demande', 'délai');
 
-    if (demandeActuelle) {
-      demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-        StatutDemandeDélai.demandé,
-      );
+    if (this.#demandes.values().find((v) => v.motif.estÉgaleÀ(motif))) {
+      throw new DélaiEnCoursErreur();
     }
 
     const event: DélaiDemandéEvent = {
