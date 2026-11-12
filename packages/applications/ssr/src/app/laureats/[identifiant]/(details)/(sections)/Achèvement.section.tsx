@@ -59,6 +59,7 @@ const getAchèvementData = async (
   rôle: Role.ValueType,
 ) => {
   const achèvement = await getAchèvement(identifiantProjet);
+
   const gfActuelles = rôle.aLaPermission('garantiesFinancières.actuelles.consulter')
     ? (await getGarantiesFinancières(identifiantProjet)).actuelles
     : undefined;
@@ -104,6 +105,14 @@ const getAchèvementData = async (
       label: "Transmettre la date d'achèvement réel",
       url: Routes.Achèvement.transmettreDateAchèvement(identifiantProjet),
     });
+
+    if (rôle.aLaPermission('achèvement.initier')) {
+      actions.push({
+        permission: 'achèvement.initier',
+        label: "Initier l'achèvement de mon projet",
+        url: Routes.Achèvement.initierAchèvement(identifiantProjet),
+      });
+    }
   }
 
   return {
