@@ -12,7 +12,7 @@
     "lint:fix": "biome check --write .",
     "prebuild": "react-dsfr update-icons --silent",
     "test": "tsx -r dotenv/config --test src/**/*.test.ts",
-    "clean": "rm -rf dist tsconfig.tsbuildinfo .next",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo tsconfig.server.tsbuildinfo .next",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
