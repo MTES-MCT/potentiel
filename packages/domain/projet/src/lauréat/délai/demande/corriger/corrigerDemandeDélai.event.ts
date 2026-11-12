@@ -4,6 +4,11 @@ import type { DomainEvent } from '@potentiel-domain/core';
 import type { IdentifiantProjet } from '../../../../index.js';
 import type { MotifDemandeDélai } from '../../index.js';
 
+/**
+ * @deprecated Évènement déprécié, utiliser DemandeDélaiCorrigée-V2 à la place.
+ * La V2 ajoute un motif requis.
+ * On considèrera que le motif est "prolongation-délai-achèvement" pour la V1
+ */
 export type DemandeDélaiCorrigéeEventV1 = DomainEvent<
   'DemandeDélaiCorrigée-V1',
   {
