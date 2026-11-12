@@ -118,9 +118,7 @@ Alors(
             motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
               this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.aÉtéCréé
                 ? this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.motif
-                : this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.aÉtéCréé
-                  ? this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.motif
-                  : this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
+                : this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
             ),
           }
         : {

@@ -1,7 +1,6 @@
 'use client';
 
 import Input from '@codegouvfr/react-dsfr/Input';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { type FC, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -33,10 +32,6 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
   );
 
   const [nouvelleDate, setNouvelleDate] = useState(dateActuelle.ajouterDélai(nombreDeMois));
-  const [nouveauMotif, setNouveauMotif] = useState<Lauréat.Délai.MotifDemandeDélai.RawType>(
-    motif.motif,
-  );
-
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerDemandeDélaiFormKeys>
   >({});
@@ -50,7 +45,7 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
   };
 
   const afficherNouvelleDateAchèvement =
-    peutDemanderUnDélai() && nouveauMotif === 'prolongation-délai-achèvement';
+    peutDemanderUnDélai() && motif.motif === 'prolongation-délai-achèvement';
 
   return (
     <Form
@@ -66,26 +61,8 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={demandéLe.date} name="dateDemande" />
 
+      <div>Motif : {getMotifDemandeDélaiLabel(motif.motif)}</div>
       <div>
-        <Select
-          state={validationErrors['motif'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['motif']}
-          id="motif"
-          label="Motif de la demande de délai"
-          className="w-full md:w-1/2"
-          nativeSelectProps={{
-            name: 'motif',
-            required: true,
-            value: nouveauMotif,
-            onChange: (e) => setNouveauMotif(e.target.value),
-            'aria-required': true,
-          }}
-          placeholder="Choisir un motif"
-          options={Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
-            value: motif,
-            label: getMotifDemandeDélaiLabel(motif),
-          }))}
-        />
         <Input
           label="Durée du délai"
           hintText="Veuillez saisir une durée de délai en mois, avec au minimum 1 mois"

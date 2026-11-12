@@ -1,27 +1,36 @@
+import { mediator } from 'mediateur';
+
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-export const handleDemandeDélaiCorrigée = async (
-  event: Lauréat.Délai.DemandeDélaiCorrigéeEvent | Lauréat.Délai.DemandeDélaiCorrigéeEventV1,
-) => {
-  const { payload } = event;
+export const handleDemandeDélaiCorrigée = async ({
+  payload,
+}: Lauréat.Délai.DemandeDélaiCorrigéeEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
 
   const { appelOffre, période } = projet.identifiantProjet;
 
-  const motif =
-    event.type === 'DemandeDélaiCorrigée-V1'
-      ? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement
-      : Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif);
+  const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+    type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+    data: {
+      identifiantProjet: projet.identifiantProjet.formatter(),
+      demandéLe: payload.dateDemande,
+    },
+  });
+
+  if (Option.isNone(demande)) {
+    throw new Error("La demande de délai n'a pas été trouvée");
+  }
 
   const recipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'délai',
-    motif,
+    motif: demande.motif,
   });
 
   return sendEmail({

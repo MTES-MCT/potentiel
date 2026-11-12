@@ -111,11 +111,10 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { nombreDeMois, raison, pièceJustificative, corrigéeLe, corrigéePar, motif } =
+    const { nombreDeMois, raison, pièceJustificative, corrigéeLe, corrigéePar } =
       this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.créer(
         avecLesMêmesValeurs
           ? {
-              motif: this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
               corrigéePar: this.utilisateurWorld.porteurFixture.email,
               nombreDeMois: this.lauréatWorld.délaiWorld.demanderDélaiFixture.nombreDeMois,
               raison: this.lauréatWorld.délaiWorld.demanderDélaiFixture.raison,
@@ -136,7 +135,6 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
       ? this.lauréatWorld.délaiWorld.demanderDélaiFixture
       : this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer({
           identifiantProjet,
-          motif,
         });
 
     await mediator.send<Lauréat.Délai.CorrigerDemandeDélaiUseCase>({
@@ -147,7 +145,6 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
         dateDemandeValue: demandéLe,
         dateCorrectionValue: corrigéeLe,
         nombreDeMoisValue: nombreDeMois,
-        motifValue: motif,
         raisonValue: raison,
         pièceJustificativeValue: pièceJustificative
           ? convertFixtureFileToReadableStream(pièceJustificative)
