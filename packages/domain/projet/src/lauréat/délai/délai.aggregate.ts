@@ -14,10 +14,7 @@ import type {
 } from './demande/accorder/accorderDélai.event.js';
 import type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
 import type { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options.js';
-import type {
-  DemandeDélaiCorrigéeEvent,
-  DemandeDélaiCorrigéeEventV1,
-} from './demande/corriger/corrigerDemandeDélai.event.js';
+import type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
 import type { CorrigerDemandeDélaiOptions } from './demande/corriger/corrigerDemandeDélai.options.js';
 import type {
   DélaiDemandéEvent,
@@ -97,7 +94,6 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     identifiantUtilisateur,
     dateCorrection,
     nombreDeMois,
-    motif,
     pièceJustificative,
     raison,
   }: CorrigerDemandeDélaiOptions) {
@@ -109,18 +105,16 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       nombreDeMois,
       pièceJustificative,
       raison,
-      motif,
     });
 
     const event: DemandeDélaiCorrigéeEvent = {
-      type: 'DemandeDélaiCorrigée-V2',
+      type: 'DemandeDélaiCorrigée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         corrigéeLe: dateCorrection.formatter(),
         corrigéePar: identifiantUtilisateur.formatter(),
         dateDemande: this.#demande.demandéLe,
         nombreDeMois,
-        motif: motif.formatter(),
         raison,
         pièceJustificative: pièceJustificative ? { format: pièceJustificative.format } : undefined,
       },
@@ -281,8 +275,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     match(event)
       .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandéV1.bind(this))
       .with({ type: 'DélaiDemandé-V2' }, this.applyDélaiDemandé.bind(this))
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigéeV1.bind(this))
-      .with({ type: 'DemandeDélaiCorrigée-V2' }, this.applyDemandeDélaiCorrigée.bind(this))
+      .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigée.bind(this))
       .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
       .with(
         { type: 'DemandeDélaiPasséeEnInstruction-V1' },
@@ -319,22 +312,12 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     };
   }
 
-  private applyDemandeDélaiCorrigéeV1({
-    payload: { nombreDeMois, raison },
-  }: DemandeDélaiCorrigéeEventV1) {
-    if (this.#demande) {
-      this.#demande.nombreDeMois = nombreDeMois;
-      this.#demande.raison = raison;
-    }
-  }
-
   private applyDemandeDélaiCorrigée({
-    payload: { nombreDeMois, raison, motif },
+    payload: { nombreDeMois, raison },
   }: DemandeDélaiCorrigéeEvent) {
     if (this.#demande) {
       this.#demande.nombreDeMois = nombreDeMois;
       this.#demande.raison = raison;
-      this.#demande.motif = MotifDemandeDélai.convertirEnValueType(motif);
     }
   }
 
@@ -369,11 +352,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     nombreDeMois,
     pièceJustificative,
     raison,
-    motif,
-  }: Pick<
-    CorrigerDemandeDélaiOptions,
-    'nombreDeMois' | 'pièceJustificative' | 'raison' | 'motif'
-  >) {
+  }: Pick<CorrigerDemandeDélaiOptions, 'nombreDeMois' | 'pièceJustificative' | 'raison'>) {
     if (!this.#demande?.statut.estEnCours()) {
       throw new DemandeDeDélaiInexistanteError();
     }
@@ -381,8 +360,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     if (
       !pièceJustificative &&
       nombreDeMois === this.#demande.nombreDeMois &&
-      raison === this.#demande.raison &&
-      motif.estÉgaleÀ(this.#demande.motif)
+      raison === this.#demande.raison
     ) {
       throw new AucuneModificationApportéeError();
     }

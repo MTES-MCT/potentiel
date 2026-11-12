@@ -9,12 +9,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { formatTextArea, singleDocument } from '@/utils/zod';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   nombreDeMois: zod.coerce.number().min(1),
-  raison: zod.string().min(1),
+  raison: formatTextArea().min(1),
   pieceJustificative: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   motif: zod.enum(Lauréat.Délai.MotifDemandeDélai.motifs),
 });

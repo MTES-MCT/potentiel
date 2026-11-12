@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { match } from 'ts-pattern';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
@@ -87,12 +88,16 @@ export default async function Page(props: PageProps) {
               ? règlesChangement.motifs[demandeDélai.motif.motif]?.autoritéCompétente
               : undefined,
           })}
-          historique={historique.items.map((item) =>
-            mapToDélaiTimelineItemProps(
-              item,
-              utilisateur.rôle.aLaPermission('délai.consulterDemande'),
-            ),
-          )}
+          historique={historique.items
+            .filter((item) =>
+              isDélaiDetailsEvent({ item, demandéLe: demandeDélai.demandéLe.formatter() }),
+            )
+            .map((item) =>
+              mapToDélaiTimelineItemProps(
+                item,
+                utilisateur.rôle.aLaPermission('délai.consulterDemande'),
+              ),
+            )}
           motifsDisponibles={motifsDisponibles?.map(
             (m) => Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(m).motif,
           )}
@@ -101,6 +106,14 @@ export default async function Page(props: PageProps) {
     }),
   );
 }
+
+type isDélaiDetailsEventProps = {
+  item: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel;
+  demandéLe: DateTime.RawType;
+};
+
+const isDélaiDetailsEvent = ({ item: { payload }, demandéLe }: isDélaiDetailsEventProps) =>
+  ('demandéLe' in payload ? payload.demandéLe : payload.dateDemande) === demandéLe;
 
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;

@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import type { CorrigerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { DocumentDélai, MotifDemandeDélai } from '../../index.js';
+import { DocumentDélai } from '../../index.js';
 import type { CorrigerDemandeDélaiCommand } from './corrigerDemandeDélai.command.js';
 
 export type CorrigerDemandeDélaiUseCase = Message<
@@ -15,7 +15,6 @@ export type CorrigerDemandeDélaiUseCase = Message<
     dateDemandeValue: string;
     dateCorrectionValue: string;
     nombreDeMoisValue: number;
-    motifValue: string;
     raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
@@ -29,7 +28,6 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
     identifiantProjetValue,
     identifiantUtilisateurValue,
     dateDemandeValue,
-    motifValue,
     dateCorrectionValue,
     nombreDeMoisValue: nombreDeMois,
     raisonValue: raison,
@@ -37,7 +35,6 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const motif = MotifDemandeDélai.convertirEnValueType(motifValue);
     const dateCorrection = DateTime.convertirEnValueType(dateCorrectionValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const pièceJustificative = pièceJustificativeValue
@@ -57,7 +54,6 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
         identifiantUtilisateur,
         dateCorrection,
         nombreDeMois,
-        motif,
         raison,
         pièceJustificative,
       },
