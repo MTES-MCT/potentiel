@@ -89,9 +89,6 @@ export default async function Page(props: PageProps) {
               : undefined,
           })}
           historique={historique.items
-            /**
-             * TODO : Réfléchir en équipe si ce fixe nous suffit
-             */
             .filter((item) =>
               isDélaiDetailsEvent({ item, demandéLe: demandeDélai.demandéLe.formatter() }),
             )

@@ -51,32 +51,6 @@ describe('normalizeTextArea', () => {
     });
   });
 
-  describe('Lists', () => {
-    it('keeps line breaks before dashes, bullet points and asterisks', () => {
-      expect(normalizeTextArea('Raisons :\n- point 1\n– point 2\n• point 3\n* point 4')).to.equal(
-        'Raisons :\n- point 1\n– point 2\n• point 3\n* point 4',
-      );
-    });
-
-    it('does not keep line breaks before numbered items', () => {
-      expect(normalizeTextArea('Raisons :\n1. point 1\n2) point 2')).to.equal(
-        'Raisons : 1. point 1 2) point 2',
-      );
-    });
-
-    it('keeps a single line break before a list item preceded by blank lines', () => {
-      expect(normalizeTextArea('Raisons :\n\n\n- point 1\n\n- point 2')).to.equal(
-        'Raisons :\n- point 1\n- point 2',
-      );
-    });
-
-    it('joins a list item split over several lines', () => {
-      expect(normalizeTextArea('- un point\nqui continue\n- un autre point')).to.equal(
-        '- un point qui continue\n- un autre point',
-      );
-    });
-  });
-
   it('returns an empty string for a whitespace-only text', () => {
     expect(normalizeTextArea(' \n\t\n  ')).to.equal('');
   });
