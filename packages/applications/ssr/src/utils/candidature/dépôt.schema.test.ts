@@ -118,7 +118,7 @@ describe('Schéma dépôt', () => {
       });
     }
 
-    for (const champ of ['puissance', 'prixReference']) {
+    for (const champ of ['puissance', 'prixReference', 'evaluationCarboneSimplifiée']) {
       test(`${champ} doit être un nombre`, () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,

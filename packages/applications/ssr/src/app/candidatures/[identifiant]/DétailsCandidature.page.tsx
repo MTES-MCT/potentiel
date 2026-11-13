@@ -244,9 +244,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
             </FieldGroup>
             <FieldGroup name="Matériel et Technologie">
               <Field name="Evaluation carbone simplifiée">
-                {dépôt.evaluationCarboneSimplifiée
-                  ? `${dépôt.evaluationCarboneSimplifiée} kg eq CO2/kWc`
-                  : `non renseignée`}
+                {dépôt.evaluationCarboneSimplifiée} kg eq CO2/kWc
               </Field>
               <Field name="Fournisseurs">
                 <ListeFournisseurs
