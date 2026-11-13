@@ -152,7 +152,7 @@ export class AchèvementWorld {
     if (this.initierAchèvementFixture.aÉtéCréé && !result.estAchevé) {
       result = {
         ...result,
-        achèvementEnAttente: true,
+        ...this.initierAchèvementFixture.mapToExpected(),
       };
     }
 
