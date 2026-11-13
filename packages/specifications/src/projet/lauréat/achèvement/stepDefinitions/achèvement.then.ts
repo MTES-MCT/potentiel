@@ -52,11 +52,11 @@ Alors(
       );
 
       expect(achèvement.estAchevé).to.be.false;
+      expect(achèvement.achèvementEnAttente).to.be.true;
 
       mapToPlainObject(achèvement).should.be.deep.equal(
         mapToPlainObject(this.lauréatWorld.achèvementWorld.mapToExpected()),
       );
-      expect(achèvement.achèvementEnAttente).to.be.true;
     });
   },
 );

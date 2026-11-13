@@ -30,6 +30,7 @@ export type ConsulterAchèvementNonAchevéReadModel = {
   achèvementEnAttente: boolean;
 
   estAchevé: false;
+  initiéLe?: Option.Type<DateTime.ValueType>;
 };
 
 export type ConsulterAchèvementReadModel =
@@ -79,11 +80,13 @@ const mapToReadModel = ({
     ),
     aBénéficiéDuDélaiCDC2022: aBénéficiéDuDélaiCDC2022 ?? false,
   };
+
   if (!réel) {
     return {
       ...common,
-      achèvementEnAttente: !!initiation,
       estAchevé: false,
+      achèvementEnAttente: !!initiation,
+      initiéLe: initiation ? DateTime.convertirEnValueType(initiation.initiéLe) : Option.none,
     };
   }
 

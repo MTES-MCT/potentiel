@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { DateTime } from '@potentiel-domain/common';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface InitierAchèvement {
@@ -36,5 +38,12 @@ export class InitierAchèvementFixture
     this.aÉtéCréé = true;
 
     return this;
+  }
+
+  mapToExpected() {
+    return {
+      achèvementEnAttente: true,
+      initiéLe: DateTime.convertirEnValueType(this.initiéLe),
+    };
   }
 }
