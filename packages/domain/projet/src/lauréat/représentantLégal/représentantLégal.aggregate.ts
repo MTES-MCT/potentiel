@@ -356,7 +356,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
   }
 
   async supprimerDemandeChangement(options: SupprimerOptions) {
-    if (this.#demande) {
+    if (this.#demande?.statut.estDemandé()) {
       const event: ChangementReprésentantLégalSuppriméEvent = {
         type: 'ChangementReprésentantLégalSupprimé-V1',
         payload: {
