@@ -7,6 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
@@ -20,32 +21,29 @@ export type AccorderDemandeDélaiFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nombreDeMois, reponseSignee,dateDemande },
-)
-=>
-  withUtilisateur(async (utilisateur) =>
-{
-  await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
-    type: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-      dateAccordValue: new Date().toISOString(),
-      nombreDeMois,
-      réponseSignéeValue: reponseSignee,
-      rôleUtilisateurValue: utilisateur.rôle.nom,
-      dateDemandeValue: dateDemande,
-    },
-  });
+  { identifiantProjet, nombreDeMois, reponseSignee, dateDemande },
+) =>
+  withUtilisateur(async (utilisateur) => {
+    await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
+      type: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        dateAccordValue: new Date().toISOString(),
+        nombreDeMois,
+        réponseSignéeValue: reponseSignee,
+        rôleUtilisateurValue: utilisateur.rôle.nom,
+        dateDemandeValue: dateDemande,
+      },
+    });
 
-  return {
+    return {
       status: 'success',
       redirection: {
         url: Routes.Délai.détailsPourRedirection(identifiantProjet),
         message: `La demande de délai a bien été accordée`,
       },
     };
-}
-)
+  });
 
 export const accorderDemandeDélaiAction = formAction(action, schema);

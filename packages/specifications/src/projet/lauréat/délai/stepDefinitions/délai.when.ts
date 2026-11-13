@@ -58,27 +58,23 @@ Quand('la DREAL rejette le délai pour le projet lauréat', async function (this
 Quand(
   'la {dreal-dgec} accorde la demande de délai pour le projet lauréat',
   async function (this: PotentielWorld, rôle: 'dreal' | 'dgec') {
-    await accorderDemandeDélai.call(
-      this,
+    // on prend la première demande disponible
+    const motifDemande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next()
+      .value?.motif;
+    await accorderDemandeDélai.call(this, {
       rôle,
-      this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value?.motif ?? '',
-    );
+      motifDemande: motifDemande ?? '',
+    });
   },
 );
 
 Quand(
-  'la DGEC motifie le motif et accorde la demande de délai pour le projet lauréat avec :',
-  async function (this: PotentielWorld, table: DataTable) {
-    const exemple = table.rowsHash();
-    const rawAncienMotif = exemple['ancien motif'];
-    const rawNouveauMotif = exemple['motif'];
-    const { motif: ancienMotif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues({
-      motif: rawAncienMotif,
+  `la DGEC accorde le délai pour prolongation de phase d'essai`,
+  async function (this: PotentielWorld) {
+    await accorderDemandeDélai.call(this, {
+      rôle: 'dgec',
+      motifDemande: Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.formatter(),
     });
-    const { motif: nouveauMotif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues({
-      motif: rawNouveauMotif,
-    });
-    await accorderDemandeDélai.call(this, 'dgec', ancienMotif ?? '', nouveauMotif);
   },
 );
 
@@ -124,7 +120,7 @@ export async function demanderDélai(
     Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
   );
   if (!demande) {
-    throw new Error('Erreur lors de la création de la fixture !');
+    throw new Error('Erreur lors de la création de la fixture "demander délai" !');
   }
 
   try {
@@ -280,8 +276,7 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
 
 export async function accorderDemandeDélai(
   this: PotentielWorld,
-  rôle: Role.RawType,
-  motifDemande: string,
+  { motifDemande, rôle }: { rôle: Role.RawType; motifDemande: string },
 ) {
   try {
     const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
