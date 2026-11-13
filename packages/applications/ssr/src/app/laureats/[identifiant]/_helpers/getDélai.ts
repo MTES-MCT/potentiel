@@ -3,11 +3,11 @@ import { mediator } from 'mediateur';
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-export const getDemandeDélaiEnCoursInfos = async (
+export const getDemandesDélaiEnCoursInfos = async (
   identifiantProjet: IdentifiantProjet.RawType,
   emailUtilisateur: Email.RawType,
 ) => {
-  const demandeDélai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
+  const demandesDélai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
     type: 'Lauréat.Délai.Query.ListerDemandeDélai',
     data: {
       utilisateur: emailUtilisateur,
@@ -16,7 +16,7 @@ export const getDemandeDélaiEnCoursInfos = async (
     },
   });
 
-  return demandeDélai.items.length ? demandeDélai.items[0] : undefined;
+  return demandesDélai.items;
 };
 
 type GetDateDernièreDemandeDélai = (args: {

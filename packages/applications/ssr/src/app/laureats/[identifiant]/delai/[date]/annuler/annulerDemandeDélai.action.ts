@@ -11,9 +11,13 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateDemande: zod.string().min(1),
 });
 
-const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) =>
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  { identifiantProjet, dateDemande },
+) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Délai.AnnulerDemandeDélaiUseCase>({
       type: 'Lauréat.Délai.UseCase.AnnulerDemande',
@@ -21,6 +25,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateAnnulationValue: new Date().toISOString(),
+        dateDemandeValue: dateDemande,
       },
     });
 

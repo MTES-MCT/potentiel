@@ -2,7 +2,8 @@ import { Routes } from '@potentiel-applications/routes';
 import type { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { getDemandeDélaiEnCoursInfos } from './getDélai';
+import { getMotifDemandeDélaiLabel } from '../delai/_helpers/getMotifDemandeDélaiLabel';
+import { getDemandesDélaiEnCoursInfos } from './getDélai';
 import {
   getActionnaireInfos,
   getOptionalAbandon,
@@ -68,14 +69,14 @@ export const getDemandesEnCours = async ({
   }
 
   if (utilisateur.rôle.aLaPermission('délai.listerDemandes')) {
-    const délai = await getDemandeDélaiEnCoursInfos(
+    const délais = await getDemandesDélaiEnCoursInfos(
       identifiantProjet.formatter(),
       utilisateur.identifiantUtilisateur.email,
     );
 
-    if (délai) {
+    for (const délai of délais) {
       demandes.push({
-        text: 'Délai',
+        text: `${getMotifDemandeDélaiLabel(délai.motif.formatter())}`,
         href: Routes.Délai.détail(identifiantProjet.formatter(), délai.demandéLe.formatter()),
       });
     }

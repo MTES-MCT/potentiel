@@ -1,6 +1,6 @@
 import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 import {
@@ -64,9 +64,19 @@ EtantDonné(
 EtantDonné(
   'une demande de délai accordée pour le projet lauréat',
   async function (this: PotentielWorld) {
+    const motif = Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: motif.formatter(),
     });
-    await accorderDemandeDélai.call(this, Role.dreal.nom);
+    const autoritéCompétente = this.lauréatWorld.cahierDesCharges.getAutoritéCompétente({
+      domain: 'délai',
+      motif: motif,
+    });
+    await accorderDemandeDélai.call(this, {
+      rôle: autoritéCompétente,
+      ancienMotif: motif.formatter(),
+      nouveauMotif: motif.formatter(),
+    });
   },
 );

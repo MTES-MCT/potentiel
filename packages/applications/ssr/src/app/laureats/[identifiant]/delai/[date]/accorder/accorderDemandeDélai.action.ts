@@ -15,13 +15,14 @@ const schema = zod.object({
   nombreDeMois: zod.coerce.number().min(1),
   motif: zod.enum(Lauréat.Délai.MotifDemandeDélai.motifs),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  dateDemande: zod.string().min(1),
 });
 
 export type AccorderDemandeDélaiFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nombreDeMois, motif, reponseSignee },
+  { identifiantProjet, nombreDeMois, motif, reponseSignee, dateDemande },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
@@ -34,6 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (
         nombreDeMois,
         réponseSignéeValue: reponseSignee,
         rôleUtilisateurValue: utilisateur.rôle.nom,
+        dateDemandeValue: dateDemande,
       },
     });
 

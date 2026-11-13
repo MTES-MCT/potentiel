@@ -12,6 +12,7 @@ export type PasserEnInstructionDemandeDélaiCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     datePassageEnInstruction: DateTime.ValueType;
     rôleUtilisateur: Role.ValueType;
+    dateDemande: DateTime.ValueType;
   }
 >;
 
@@ -23,6 +24,7 @@ export const registerPasserEnInstructionDemandeDélaiCommand = (
     identifiantUtilisateur,
     datePassageEnInstruction,
     rôleUtilisateur,
+    dateDemande,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -30,6 +32,7 @@ export const registerPasserEnInstructionDemandeDélaiCommand = (
       identifiantUtilisateur,
       datePassageEnInstruction,
       rôleUtilisateur,
+      dateDemande,
     });
   };
   mediator.register('Lauréat.Délai.Command.PasserEnInstructionDemande', handler);

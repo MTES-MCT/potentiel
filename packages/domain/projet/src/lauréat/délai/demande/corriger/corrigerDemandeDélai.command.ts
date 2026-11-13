@@ -13,6 +13,7 @@ export type CorrigerDemandeDélaiCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
+    dateDemande: DateTime.ValueType;
     dateCorrection: DateTime.ValueType;
     nombreDeMois: number;
     raison: string;
@@ -30,6 +31,7 @@ export const registerCorrigerDemandeDélaiCommand = (
     nombreDeMois,
     raison,
     pièceJustificative,
+    dateDemande,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
     await projet.lauréat.délai.corrigerDemandeDélai({
@@ -38,6 +40,7 @@ export const registerCorrigerDemandeDélaiCommand = (
       nombreDeMois,
       raison,
       pièceJustificative,
+      dateDemande,
     });
   };
   mediator.register('Lauréat.Délai.Command.CorrigerDemandeDélai', handler);

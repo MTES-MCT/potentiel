@@ -11,4 +11,5 @@ export type AccorderDemandeDélaiOptions = {
   nombreDeMois: number;
   motif: MotifDemandeDélai.ValueType;
   rôleUtilisateur: Role.ValueType;
+  dateDemande: DateTime.ValueType;
 };

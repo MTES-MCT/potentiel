@@ -16,6 +16,7 @@ export type RejeterDemandeDélaiUseCase = Message<
     identifiantUtilisateurValue: string;
     réponseSignéeValue: { content: ReadableStream; format: string };
     rôleUtilisateurValue: string;
+    dateDemandeValue: string;
   }
 >;
 
@@ -26,10 +27,12 @@ export const registerRejeterDemandeDélaiUseCase = () => {
     identifiantUtilisateurValue,
     réponseSignéeValue: { format, content },
     rôleUtilisateurValue,
+    dateDemandeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const réponseSignée = DocumentDélai.demandeRejetée({
       identifiantProjet: identifiantProjet.formatter(),
       rejetéeLe: dateRejet.formatter(),
@@ -52,6 +55,7 @@ export const registerRejeterDemandeDélaiUseCase = () => {
         identifiantProjet,
         réponseSignée,
         rôleUtilisateur,
+        dateDemande,
       },
     });
   };

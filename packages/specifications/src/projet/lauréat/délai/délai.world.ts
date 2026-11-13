@@ -60,6 +60,7 @@ export class DélaiWorld {
 
   mapToExpected(
     statut: Lauréat.Délai.StatutDemandeDélai.ValueType,
+    motifDemande?: string,
   ): Lauréat.Délai.ConsulterDemandeDélaiReadModel {
     if (!this.#demanderDélaiFixture.aÉtéCréé) {
       throw new Error(`Aucune demande de délai n'a été créée dans DélaiWorld`);
@@ -71,27 +72,45 @@ export class DélaiWorld {
     if (!ao) {
       throw new Error(`Appel d'offre non trouvée dans DélaiWorld`);
     }
+
+    const demandes = this.#demanderDélaiFixture.demandes;
+    const accord = this.#accorderDemandeDélaiFixture;
+
+    const demande = accord.aÉtéCréé
+      ? demandes.get(
+          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(accord.ancienMotif).formatter(),
+        )
+      : motifDemande
+        ? demandes.get(
+            Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter(),
+          )
+        : demandes.values().next().value;
+
+    if (!demande) {
+      throw new Error(`Fixture demande non trouvée`);
+    }
+
     const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-      this.#demanderDélaiFixture.motif,
+      accord?.motif ?? demande.motif,
     );
 
     const autoritéCompétente = this.lauréatWorld.cahierDesCharges.getAutoritéCompétente({
       domain: 'délai',
-      motif,
+      motif: motif,
     });
 
     const expected: Lauréat.Délai.ConsulterDemandeDélaiReadModel = {
       statut,
       identifiantProjet,
-      demandéLe: DateTime.convertirEnValueType(this.#demanderDélaiFixture.demandéLe),
-      demandéPar: Email.convertirEnValueType(this.#demanderDélaiFixture.demandéPar),
-      nombreDeMois: this.#demanderDélaiFixture.nombreDeMois,
-      raison: this.#demanderDélaiFixture.raison,
+      demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
+      demandéPar: Email.convertirEnValueType(demande.demandéPar),
+      nombreDeMois: demande.nombreDeMois,
+      raison: demande.raison,
       motif,
       pièceJustificative: Lauréat.Délai.DocumentDélai.pièceJustificative({
         identifiantProjet: identifiantProjet.formatter(),
-        demandéLe: this.#demanderDélaiFixture.demandéLe,
-        pièceJustificative: { format: this.#demanderDélaiFixture.pièceJustificative.format },
+        demandéLe: demande.demandéLe,
+        pièceJustificative: { format: demande.pièceJustificative.format },
       }),
       autoritéCompétente: Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente),
       instruction: this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé
@@ -120,23 +139,23 @@ export class DélaiWorld {
           }
         : undefined,
 
-      accord: this.#accorderDemandeDélaiFixture.aÉtéCréé
+      accord: accord.aÉtéCréé
         ? {
-            accordéeLe: DateTime.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéeLe),
-            accordéePar: Email.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéePar),
-            nombreDeMois: this.#demanderDélaiFixture.nombreDeMois,
+            accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
+            accordéePar: Email.convertirEnValueType(accord.accordéePar),
+            nombreDeMois: demande.nombreDeMois,
             dateAchèvementPrévisionnelCalculée: motif.estProlongationPhaseEssai()
               ? Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
-                  this.#accorderDemandeDélaiFixture.dateAchèvementPrévisionnelActuelle,
+                  accord.dateAchèvementPrévisionnelActuelle,
                 ).dateTime
               : Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
-                  this.#accorderDemandeDélaiFixture.dateAchèvementPrévisionnelActuelle,
-                ).ajouterDélai(this.#demanderDélaiFixture.nombreDeMois).dateTime,
+                  accord.dateAchèvementPrévisionnelActuelle,
+                ).ajouterDélai(demande.nombreDeMois).dateTime,
             réponseSignée: Lauréat.Délai.DocumentDélai.demandeAccordée({
               identifiantProjet: identifiantProjet.formatter(),
-              accordéLe: this.#accorderDemandeDélaiFixture.accordéeLe,
+              accordéLe: accord.accordéeLe,
               réponseSignée: {
-                format: this.#accorderDemandeDélaiFixture.réponseSignée.format,
+                format: accord.réponseSignée.format,
               },
             }),
           }
@@ -148,12 +167,12 @@ export class DélaiWorld {
       expected.raison = this.corrigerDemandeDélaiFixture.raison;
       expected.pièceJustificative = Lauréat.Délai.DocumentDélai.pièceJustificative({
         identifiantProjet: identifiantProjet.formatter(),
-        demandéLe: this.#demanderDélaiFixture.demandéLe,
+        demandéLe: demande.demandéLe,
         pièceJustificative: this.#corrigerDemandeDélaiFixture.pièceJustificative
           ? {
               format: this.#corrigerDemandeDélaiFixture.pièceJustificative.format,
             }
-          : { format: this.#demanderDélaiFixture.pièceJustificative.format },
+          : { format: demande.pièceJustificative.format },
       });
     }
 

@@ -62,47 +62,53 @@ export default async function Page(props: IdentifiantParameter) {
         'délai',
       )) as AppelOffre.RèglesMiseÀJourPorteur['délai'];
 
-      const motifsDisponibles = isFeatureEnabled('delai-phase-essai')
+      const motifsProposésParLeCahierDesCharges = isFeatureEnabled('delai-phase-essai')
         ? règlesChangement.demande && Object.keys(règlesChangement.motifs)
         : ['prolongation-délai-achèvement'];
 
-      if (!motifsDisponibles?.length) {
+      if (!motifsProposésParLeCahierDesCharges?.length) {
         return notFound();
       }
 
-      const demandeEnCours = (
-        await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
-          type: 'Lauréat.Délai.Query.ListerDemandeDélai',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-            range: { startPosition: 0, endPosition: 1 },
-            utilisateur: utilisateur.identifiantUtilisateur.formatter(),
-            statuts: Lauréat.Délai.StatutDemandeDélai.statutsEnCours,
-          },
-        })
-      ).items[0];
+      const demandesEnCours = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
+        type: 'Lauréat.Délai.Query.ListerDemandeDélai',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          range: { startPosition: 0, endPosition: 1 },
+          utilisateur: utilisateur.identifiantUtilisateur.formatter(),
+          statuts: Lauréat.Délai.StatutDemandeDélai.statutsEnCours,
+        },
+      });
 
-      if (demandeEnCours) {
-        return (
-          <DemandeEnCoursPage
-            title="Demande de délai"
-            href={Routes.Délai.détail(
-              identifiantProjet.formatter(),
-              demandeEnCours.demandéLe.formatter(),
-            )}
-          />
-        );
-      }
+      const motifsDisponibles = motifsProposésParLeCahierDesCharges
+        ?.map((m) => Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(m))
+        .filter((motif) => !demandesEnCours.items.some((d) => d.motif.estÉgaleÀ(motif)))
+        .map((m) => m.motif);
 
-      return (
+      return motifsDisponibles.length ? (
         <DemanderDélaiPage
           identifiantProjet={identifiantProjet.formatter()}
           dateAchèvementPrévisionnelActuelle={mapToPlainObject(
             achèvement.dateAchèvementPrévisionnel,
           )}
-          motifsDisponibles={motifsDisponibles?.map(
-            (m) => Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(m).motif,
-          )}
+          motifsDisponibles={motifsDisponibles}
+        />
+      ) : (
+        <DemandeEnCoursPage
+          title="Demande de délai"
+          href={
+            demandesEnCours.items.length === 1
+              ? Routes.Délai.détail(
+                  identifiantProjet.formatter(),
+                  demandesEnCours.items[0].demandéLe.formatter(),
+                )
+              : Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })
+          }
+          hrefLabel={
+            demandesEnCours.items.length === 1
+              ? 'Voir ma demande de délai en cours'
+              : 'Voir mes demandes de délai en cours'
+          }
         />
       );
     }),
