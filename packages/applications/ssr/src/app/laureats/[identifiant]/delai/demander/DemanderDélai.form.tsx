@@ -92,7 +92,14 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
                 }))}
               />
             ) : (
-              <input type={'hidden'} value={motif} name="motif" />
+              <>
+                <input type={'hidden'} value={motif} name="motif" />
+                {motif && (
+                  <div className="font-semibold">
+                    Motif du délai : {getMotifDemandeDélaiLabel(motif)}
+                  </div>
+                )}
+              </>
             )}
             <div>
               <Input
