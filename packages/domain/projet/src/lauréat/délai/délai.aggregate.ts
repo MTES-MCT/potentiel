@@ -143,7 +143,6 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     if (!demandeActuelle) {
       throw new DemandeDeDélaiInexistanteError();
     }
-
     demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.annulé);
 
     const event: DemandeDélaiAnnuléeEvent = {
@@ -189,7 +188,6 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     if (!demandeActuelle) {
       throw new DemandeDeDélaiInexistanteError();
     }
-
     demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
     this.verifierInstructeur(demandeActuelle.motif, rôleUtilisateur);
 
@@ -221,11 +219,18 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       throw new DemandeDeDélaiInexistanteError();
     }
 
-    if (this.#demandes.values().find((v) => v.motif.estÉgaleÀ(motif))) {
-      throw new DélaiEnCoursErreur();
+    if (this.#demandes.size === 2) {
+      // le motif de la demande accordée ne peut être identique à celui de l'autre demande
+      const autreDemande = [...this.#demandes].find(
+        ([_, value]) => !dateDemande.estÉgaleÀ(DateTime.convertirEnValueType(value.demandéLe)),
+      );
+      if (autreDemande?.[1].motif.estÉgaleÀ(motif)) {
+        throw new DélaiEnCoursErreur();
+      }
     }
 
     demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
+
     this.verifierInstructeur(motif, rôleUtilisateur);
 
     const dateAchèvementPrévisionnelCalculée = motif.estProlongationPhaseEssai()

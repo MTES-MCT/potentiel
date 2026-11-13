@@ -58,11 +58,13 @@ Quand('la DREAL rejette le délai pour le projet lauréat', async function (this
 Quand(
   'la {dreal-dgec} accorde la demande de délai pour le projet lauréat',
   async function (this: PotentielWorld, rôle: 'dreal' | 'dgec') {
-    await accorderDemandeDélai.call(
-      this,
+    const motifDemande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next()
+      .value?.motif;
+    await accorderDemandeDélai.call(this, {
       rôle,
-      this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value?.motif ?? '',
-    );
+      ancienMotif: motifDemande ?? '',
+      nouveauMotif: motifDemande ?? '',
+    });
   },
 );
 
@@ -78,7 +80,11 @@ Quand(
     const { motif: nouveauMotif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues({
       motif: rawNouveauMotif,
     });
-    await accorderDemandeDélai.call(this, 'dgec', ancienMotif ?? '', nouveauMotif);
+    await accorderDemandeDélai.call(this, {
+      rôle: 'dgec',
+      ancienMotif: ancienMotif ?? '',
+      nouveauMotif: nouveauMotif ?? '',
+    });
   },
 );
 
@@ -124,7 +130,7 @@ export async function demanderDélai(
     Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
   );
   if (!demande) {
-    throw new Error('Erreur lors de la création de la fixture !');
+    throw new Error('Erreur lors de la création de la fixture "demander délai" !');
   }
 
   try {
@@ -280,17 +286,22 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
 
 export async function accorderDemandeDélai(
   this: PotentielWorld,
-  rôle: Role.RawType,
-  ancienMotif: string,
-  nouveauMotif?: string,
+  {
+    rôle,
+    ancienMotif, // permet de retrouver la demande correspondante
+    nouveauMotif, // la dgec peut modifier le motif lors de l'accord
+  }: { rôle: Role.RawType; ancienMotif: string; nouveauMotif: string },
 ) {
   try {
-    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
-      Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(ancienMotif).formatter(),
-    );
+    const demande = ancienMotif
+      ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
+          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(ancienMotif).formatter(),
+        )
+      : undefined;
 
-    const motif =
-      nouveauMotif ?? faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs);
+    const motif = nouveauMotif.length
+      ? nouveauMotif
+      : faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs);
 
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
