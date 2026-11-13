@@ -221,7 +221,9 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       throw new DemandeDeDélaiInexistanteError();
     }
 
-    //TODO : vérifier s'il n'y a pas une autre demande avec le même motif !
+    if (this.#demandes.values().find((v) => v.motif.estÉgaleÀ(motif))) {
+      throw new DélaiEnCoursErreur();
+    }
 
     demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
     this.verifierInstructeur(motif, rôleUtilisateur);

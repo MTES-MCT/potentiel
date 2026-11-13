@@ -20,7 +20,7 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
     Scénario: Impossible de rejeter le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
-
+@select
     Scénario: Impossible de rejeter le délai d'un projet lauréat si la demande a déjà été accordée
         Etant donné une demande de délai accordée pour le projet lauréat
         Quand la DREAL rejette le délai pour le projet lauréat

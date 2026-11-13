@@ -58,7 +58,27 @@ Quand('la DREAL rejette le délai pour le projet lauréat', async function (this
 Quand(
   'la {dreal-dgec} accorde la demande de délai pour le projet lauréat',
   async function (this: PotentielWorld, rôle: 'dreal' | 'dgec') {
-    await accorderDemandeDélai.call(this, rôle);
+    await accorderDemandeDélai.call(
+      this,
+      rôle,
+      this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value?.motif ?? '',
+    );
+  },
+);
+
+Quand(
+  'la DGEC motifie le motif et accorde la demande de délai pour le projet lauréat avec :',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+    const rawAncienMotif = exemple['ancien motif'];
+    const rawNouveauMotif = exemple['motif'];
+    const { motif: ancienMotif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues({
+      motif: rawAncienMotif,
+    });
+    const { motif: nouveauMotif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues({
+      motif: rawNouveauMotif,
+    });
+    await accorderDemandeDélai.call(this, 'dgec', ancienMotif ?? '', nouveauMotif);
   },
 );
 
@@ -258,20 +278,30 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
   }
 }
 
-export async function accorderDemandeDélai(this: PotentielWorld, rôle: Role.RawType) {
+export async function accorderDemandeDélai(
+  this: PotentielWorld,
+  rôle: Role.RawType,
+  ancienMotif: string,
+  nouveauMotif?: string,
+) {
   try {
-    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
-      .values()
-      .next().value;
+    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
+      Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(ancienMotif).formatter(),
+    );
+
+    const motif =
+      nouveauMotif ?? faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs);
+
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const { accordéeLe, accordéePar, réponseSignée, nombreDeMois } =
       this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.créer({
         nombreDeMois: demande?.nombreDeMois ?? faker.number.int({ min: 0, max: 24 }),
         dateAchèvementPrévisionnelActuelle:
-          this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture
-            .dateAchèvementPrévisionnel,
+          this.lauréatWorld.achèvementWorld.dateAchèvementPrévisionnelCalculée,
         accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+        ancienMotif: demande?.motif,
+        motif,
       });
 
     await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
@@ -280,8 +310,7 @@ export async function accorderDemandeDélai(this: PotentielWorld, rôle: Role.Ra
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: accordéePar,
         dateAccordValue: accordéeLe,
-        motifValue:
-          demande?.motif ?? faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs),
+        motifValue: motif,
         nombreDeMois,
         réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         rôleUtilisateurValue: rôle,

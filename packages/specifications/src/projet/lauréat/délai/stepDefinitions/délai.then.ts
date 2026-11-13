@@ -153,8 +153,9 @@ async function vérifierDemandeDélai(
     assert(Option.isSome(demandeEnCours), 'Demande de délai non trouvée !');
 
     const actual = mapToPlainObject(demandeEnCours);
-
-    const expected = mapToPlainObject(this.lauréatWorld.délaiWorld.mapToExpected(statut, motif));
+    const expected = mapToPlainObject(
+      this.lauréatWorld.délaiWorld.mapToExpected(statut, demandeFixture?.motif),
+    );
 
     actual.should.be.deep.equal(expected);
   });

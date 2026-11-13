@@ -43,23 +43,20 @@ Fonctionnalité: Demander un délai pour un projet lauréat
     Scénario: Impossible de demander un délai pour un projet si une demande de délai du même motif est en cours
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur demande un délai avec un motif identique à celui de la demande déjà en cours
-        Alors le porteur devrait être informé que "Une demande de délai est déjà en cours"      
+        Alors le porteur devrait être informé que "Une demande de délai est déjà en cours pour ce  motif"      
 
     Scénario: Impossible de demander un délai pour un projet si un délai pour le même motif est déjà en instruction
         Etant donné une demande de délai en instruction pour le projet lauréat
         Quand le porteur demande un délai avec un motif identique à celui de la demande déjà en cours
-        Alors le porteur devrait être informé que "Une demande de délai est déjà en cours"
+        Alors le porteur devrait être informé que "Une demande de délai est déjà en cours pour ce  motif"
 
     Scénario: Impossible de demander un délai pour un projet achevé
         Etant donné l'achèvement réel transmis pour le projet lauréat
         Quand le porteur demande un délai pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
-@select
     Scénario: Impossible de demander un délai pour un projet si le cahier des charges ne le permet pas
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | CRE4 - Sol |
             | période        | 10         |
         Quand le porteur demande un délai pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
-
-# TODO : La DGEC ne peut pas accorder une demande de délai d'achèvement s'il y a déjà une demande de délai d'achèvement en cours

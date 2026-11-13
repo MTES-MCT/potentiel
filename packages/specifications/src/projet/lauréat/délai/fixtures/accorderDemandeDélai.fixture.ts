@@ -12,6 +12,7 @@ interface AccorderDemandeDélai {
   readonly nombreDeMois: number;
   readonly dateAchèvementPrévisionnelActuelle: string;
   readonly motif: string;
+  readonly ancienMotif: string;
 }
 
 export class AccorderDemandeDélaiFixture
@@ -48,6 +49,12 @@ export class AccorderDemandeDélaiFixture
     return this.#motif;
   }
 
+  #ancienMotif!: string;
+
+  get ancienMotif(): string {
+    return this.#ancienMotif;
+  }
+
   #dateAchèvementPrévisionnelActuelle!: string;
 
   get dateAchèvementPrévisionnelActuelle(): string {
@@ -55,13 +62,15 @@ export class AccorderDemandeDélaiFixture
   }
 
   créer(partialData?: Partial<AccorderDemandeDélai>): Readonly<AccorderDemandeDélai> {
+    const fakeMotif = faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs);
     const fixture = {
       accordéeLe: faker.date.recent().toISOString(),
       accordéePar: faker.internet.email(),
       réponseSignée: faker.potentiel.document(),
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       dateAchèvementPrévisionnelActuelle: faker.date.recent().toISOString(),
-      motif: faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs),
+      motif: fakeMotif,
+      ancienMotif: fakeMotif,
       ...partialData,
     };
 
@@ -71,6 +80,7 @@ export class AccorderDemandeDélaiFixture
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#dateAchèvementPrévisionnelActuelle = fixture.dateAchèvementPrévisionnelActuelle;
     this.#motif = fixture.motif;
+    this.#ancienMotif = fixture.ancienMotif;
 
     this.aÉtéCréé = true;
 
