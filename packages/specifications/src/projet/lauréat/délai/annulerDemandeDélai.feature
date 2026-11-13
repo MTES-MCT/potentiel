@@ -17,6 +17,11 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                            |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
+    Scénario: Annuler la demande de délai en instruction d'un projet lauréat
+        Etant donné une demande de délai en instruction pour le projet lauréat
+        Quand le porteur annule la demande de délai pour le projet lauréat
+        Alors la demande de délai du projet lauréat devrait être annulée
+
     Scénario: Impossible d'annuler la demande de changement de puissance si la demande est inexistante
         Quand le porteur annule la demande de délai pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
