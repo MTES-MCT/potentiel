@@ -73,17 +73,26 @@ export class DélaiWorld {
       throw new Error(`Appel d'offre non trouvée dans DélaiWorld`);
     }
 
-    const demande = motifDemande
-      ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
-          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter(),
+    const demandes = this.#demanderDélaiFixture.demandes;
+    const accord = this.#accorderDemandeDélaiFixture;
+
+    const demande = accord.aÉtéCréé
+      ? demandes.get(
+          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(accord.ancienMotif).formatter(),
         )
-      : this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value;
+      : motifDemande
+        ? demandes.get(
+            Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter(),
+          )
+        : demandes.values().next().value;
 
     if (!demande) {
-      throw new Error(`Demande fixture inexistante`);
+      throw new Error(`Fixture demande non trouvée`);
     }
 
-    const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(demande.motif);
+    const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
+      accord?.motif ?? demande.motif,
+    );
 
     const autoritéCompétente = this.lauréatWorld.cahierDesCharges.getAutoritéCompétente({
       domain: 'délai',
@@ -130,23 +139,23 @@ export class DélaiWorld {
           }
         : undefined,
 
-      accord: this.#accorderDemandeDélaiFixture.aÉtéCréé
+      accord: accord.aÉtéCréé
         ? {
-            accordéeLe: DateTime.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéeLe),
-            accordéePar: Email.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéePar),
+            accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
+            accordéePar: Email.convertirEnValueType(accord.accordéePar),
             nombreDeMois: demande.nombreDeMois,
             dateAchèvementPrévisionnelCalculée: motif.estProlongationPhaseEssai()
               ? Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
-                  this.#accorderDemandeDélaiFixture.dateAchèvementPrévisionnelActuelle,
+                  accord.dateAchèvementPrévisionnelActuelle,
                 ).dateTime
               : Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
-                  this.#accorderDemandeDélaiFixture.dateAchèvementPrévisionnelActuelle,
+                  accord.dateAchèvementPrévisionnelActuelle,
                 ).ajouterDélai(demande.nombreDeMois).dateTime,
             réponseSignée: Lauréat.Délai.DocumentDélai.demandeAccordée({
               identifiantProjet: identifiantProjet.formatter(),
-              accordéLe: this.#accorderDemandeDélaiFixture.accordéeLe,
+              accordéLe: accord.accordéeLe,
               réponseSignée: {
-                format: this.#accorderDemandeDélaiFixture.réponseSignée.format,
+                format: accord.réponseSignée.format,
               },
             }),
           }

@@ -11,6 +11,7 @@ interface AccorderDemandeDélai {
   readonly accordéePar: string;
   readonly nombreDeMois: number;
   readonly dateAchèvementPrévisionnelActuelle: string;
+  readonly motifDemande: string;
 }
 
 export class AccorderDemandeDélaiFixture
@@ -47,6 +48,12 @@ export class AccorderDemandeDélaiFixture
     return this.#dateAchèvementPrévisionnelActuelle;
   }
 
+  #motifDemande!: string;
+
+  get motifDemande(): string {
+    return this.#motifDemande;
+  }
+
   créer(partialData?: Partial<AccorderDemandeDélai>): Readonly<AccorderDemandeDélai> {
     const fixture = {
       accordéeLe: faker.date.recent().toISOString(),
@@ -54,7 +61,7 @@ export class AccorderDemandeDélaiFixture
       réponseSignée: faker.potentiel.document(),
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       dateAchèvementPrévisionnelActuelle: faker.date.recent().toISOString(),
-      motif: faker.helpers.arrayElement(Lauréat.Délai.MotifDemandeDélai.motifs),
+      motifDemande: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
       ...partialData,
     };
 
@@ -63,6 +70,7 @@ export class AccorderDemandeDélaiFixture
     this.#réponseSignée = fixture.réponseSignée;
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#dateAchèvementPrévisionnelActuelle = fixture.dateAchèvementPrévisionnelActuelle;
+    this.#motifDemande = fixture.motifDemande;
 
     this.aÉtéCréé = true;
 
