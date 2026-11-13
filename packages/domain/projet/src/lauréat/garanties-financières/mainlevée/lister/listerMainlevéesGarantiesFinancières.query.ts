@@ -126,6 +126,11 @@ export const registerListerMainlevéesQuery = ({
             type: 'left',
           },
         ],
+        orderBy: {
+          dernièreMiseÀJour: {
+            date: 'descending',
+          },
+        },
       },
     );
 
