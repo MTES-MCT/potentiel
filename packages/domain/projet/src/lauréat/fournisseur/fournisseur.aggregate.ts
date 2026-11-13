@@ -26,7 +26,7 @@ export class FournisseurAggregate extends AbstractAggregate<
 > {
   #fournisseurs!: Array<Fournisseur.ValueType>;
 
-  #évaluationCarboneSimplifiée!: number | undefined;
+  #évaluationCarboneSimplifiée!: number;
 
   get évaluationCarboneSimplifiée() {
     return this.#évaluationCarboneSimplifiée;
@@ -232,7 +232,7 @@ export class FournisseurAggregate extends AbstractAggregate<
   private applyFournisseurImportéV1({
     payload: { évaluationCarboneSimplifiée, fournisseurs },
   }: FournisseurImportéEvent) {
-    this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
+    this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée ?? 0; // ???
     this.#fournisseurs = fournisseurs.map(Lauréat.Fournisseur.Fournisseur.convertirEnValueType);
   }
 
