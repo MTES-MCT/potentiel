@@ -13,8 +13,12 @@ export const getAutoritéCompétente = async (
   if (!cahierDesCharges) {
     throw new Error(`Le cahier des charges du projet ${identifiantProjet} est introuvable.`);
   }
-  return cahierDesCharges.getAutoritéCompétente({
-    domain: 'délai',
-    motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif),
-  });
+  try {
+    return cahierDesCharges.getAutoritéCompétente({
+      domain: 'délai',
+      motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif),
+    });
+  } catch {
+    return 'dreal';
+  }
 };
