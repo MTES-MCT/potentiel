@@ -2,7 +2,7 @@ import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
@@ -252,9 +252,6 @@ export async function accorderDemandeDélai(this: PotentielWorld, rôle: Role.Ra
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: accordéePar,
         dateAccordValue: accordéeLe,
-        motifValue:
-          this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif ??
-          Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif,
         nombreDeMois,
         réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         rôleUtilisateurValue: rôle,

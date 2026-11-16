@@ -2,7 +2,6 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -14,7 +13,6 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { ValidationErrors } from '@/utils/formAction';
-import { getMotifDemandeDélaiLabel } from '../../_helpers/getMotifDemandeDélaiLabel';
 import { InfoDateAchèvementPrévisionnelAprèsDélaiAccordé } from '../InfoDateAchèvementPrévisionnelAprèsDélaiAccordé';
 import {
   type AccorderDemandeDélaiFormKeys,
@@ -36,7 +34,6 @@ export const AccorderDemandeDélaiForm = ({
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
   motif,
-  motifsDisponibles,
 }: AccorderDemandeDélaiFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderDemandeDélaiFormKeys>
@@ -48,11 +45,10 @@ export const AccorderDemandeDélaiForm = ({
   );
 
   const [nouvelleDate, setNouvelleDate] = useState(dateActuelle.ajouterDélai(nombreDeMois));
-  const [nouveauMotif, setNouveauMotif] = useState<Lauréat.Délai.MotifDemandeDélai.RawType>(motif);
 
   const afficherNouvelleDateAchèvement =
     nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime) &&
-    nouveauMotif === 'prolongation-délai-achèvement';
+    motif === 'prolongation-délai-achèvement';
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
     const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);
@@ -90,29 +86,6 @@ export const AccorderDemandeDélaiForm = ({
               <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <div>
-                {motifsDisponibles.length > 1 ? (
-                  <Select
-                    state={validationErrors['motif'] ? 'error' : 'default'}
-                    stateRelatedMessage={validationErrors['motif']}
-                    id="motif"
-                    label="Motif de la demande de délai"
-                    className="w-fit"
-                    nativeSelectProps={{
-                      name: 'motif',
-                      required: true,
-                      value: nouveauMotif,
-                      onChange: (e) => setNouveauMotif(e.target.value),
-                      'aria-required': true,
-                    }}
-                    placeholder="Choisir un motif"
-                    options={Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
-                      value: motif,
-                      label: getMotifDemandeDélaiLabel(motif),
-                    }))}
-                  />
-                ) : (
-                  <input type={'hidden'} value={motifsDisponibles[0]} name="motif" />
-                )}
                 <Input
                   label="Durée du délai"
                   hintText="Veuillez saisir une durée de délai en mois, d'au minimum 1 mois"
@@ -154,7 +127,7 @@ export const AccorderDemandeDélaiForm = ({
                 url={Routes.Délai.téléchargerModèleRéponse({
                   identifiantProjet,
                   date: dateDemande,
-                  motif: nouveauMotif,
+                  motif,
                   estAccordé: true,
                 })}
                 format="docx"

@@ -7,6 +7,7 @@ import { useFormStatus } from 'react-dom';
 import { match, P } from 'ts-pattern';
 
 import type { FormState } from '@/utils/formAction';
+import { globalFormKeyError } from '@/utils/zod/globalFormKeyError';
 import { Link } from '../LinkNoPrefetch';
 import { FormAlertError } from './FormAlertError';
 
@@ -76,9 +77,11 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
     .with({ status: 'unknown-error' }, () => (
       <FormAlertError description="Une erreur est survenue" title="" />
     ))
-    .with({ status: 'validation-error' }, () => (
+    .with({ status: 'validation-error' }, ({ errors }) => (
       <FormAlertError
-        description="Erreur lors de la validation des données du formulaire"
+        description={
+          errors[globalFormKeyError] ?? 'Erreur lors de la validation des données du formulaire'
+        }
         title=""
       />
     ))
