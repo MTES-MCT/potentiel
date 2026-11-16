@@ -116,9 +116,7 @@ Alors(
         ? {
             domain: 'délai',
             motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-              this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.aÉtéCréé
-                ? this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.motif
-                : this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
+              this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
             ),
           }
         : {
