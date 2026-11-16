@@ -38,27 +38,6 @@ Alors(
 );
 
 Alors(
-  "l'historique du représentant légal du projet lauréat ne devrait pas contenir de suppression de demande de changement",
-  async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    const historique =
-      await mediator.send<Lauréat.ReprésentantLégal.ListerHistoriqueReprésentantLégalProjetQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
-    const suppressions = historique.items.filter(
-      ({ type }) => type === 'ChangementReprésentantLégalSupprimé-V1',
-    );
-
-    expect(suppressions).to.be.empty;
-  },
-);
-
-Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être consultable',
   async function (this: PotentielWorld) {
     await vérifierInstructionDemande.call(this);

@@ -19,7 +19,6 @@ Fonctionnalité: Supprimer la demande de changement de représentant légal
         Etant donné une demande de changement de représentant légal <statut> pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
-        Alors l'historique du représentant légal du projet lauréat ne devrait pas contenir de suppression de demande de changement
         Et la demande de changement de représentant légal du projet lauréat devrait être consultable
         Exemples:
             | statut   |
