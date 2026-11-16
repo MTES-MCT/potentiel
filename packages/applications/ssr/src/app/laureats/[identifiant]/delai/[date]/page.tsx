@@ -161,6 +161,10 @@ const mapToActions = ({
         return actions;
       }
 
+      if (rôle.aLaPermission('délai.annulerDemande')) {
+        actions.push('annuler');
+      }
+
       if (rôle.aLaPermission('délai.rejeterDemande') && estAutoritéCompétente) {
         actions.push('rejeter');
       }
