@@ -82,5 +82,10 @@
     "messagePrompt": false,
     "capitalizeTitle": true,
     "gitmojisUrl": "https://gitmoji.dev/api/gitmojis"
+  },
+  "overrides": {
+    "basic-ftp": "6.2.6",
+    "glob": "^14.0.4",
+    "minimatch": "^11.0.5"
   }
 }

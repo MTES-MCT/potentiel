@@ -12,7 +12,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { sync as globSync } from 'glob';
 import matter from 'gray-matter';
 import Handlebars from 'handlebars';
 import juice from 'juice';
@@ -82,7 +81,7 @@ const extractTemplates = (name: string, layout?: string) => {
   const definitionPath = path.join(srcDir, 'index.d.ts');
 
   // Find templates
-  const files = globSync('**/*.{hbs,md}', { cwd: srcDir, nodir: true });
+  const files = fs.globSync('**/*.{hbs,md}', { cwd: srcDir });
 
   if (files.length === 0) {
     console.log('No templates found in', srcDir);
