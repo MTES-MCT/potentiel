@@ -28,7 +28,7 @@
     }
   },
   "dependencies": {
-    "@oclif/core": "4.11.0",
+    "@oclif/core": "5.1.11",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/notifications": "*",
@@ -54,7 +54,7 @@
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
     "diff": "8.0.4",
-    "oclif": "4.23.0",
+    "oclif": "5.0.2",
     "tsx": "4.20.4"
   }
 }

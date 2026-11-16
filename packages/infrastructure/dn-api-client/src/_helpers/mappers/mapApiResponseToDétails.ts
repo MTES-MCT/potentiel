@@ -15,7 +15,9 @@ export const mapApiResponseToDétails = ({ champs }: MapApiResponseToDétails) =
         return prev;
       }
       if (curr.__typename === 'DateChamp') {
-        prev[curr.label] = curr.date;
+        if (curr.date !== null) {
+          prev[curr.label] = curr.date;
+        }
         return prev;
       }
       if (curr.__typename === 'RepetitionChamp') {
@@ -27,7 +29,9 @@ export const mapApiResponseToDétails = ({ champs }: MapApiResponseToDétails) =
               return;
             }
             if (champ.__typename === 'DateChamp') {
-              prev[label] = champ.date;
+              if (champ.date !== null) {
+                prev[label] = champ.date;
+              }
               return;
             }
             if (champ.stringValue) {

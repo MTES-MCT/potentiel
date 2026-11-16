@@ -9,10 +9,6 @@ const config: CodegenConfig = {
   generates: {
     './src/graphql/client.ts': {
       plugins: [
-        { add: { content: '//#region Types', placement: 'content' } },
-        'typescript',
-        { add: { content: '//#endregion\n', placement: 'content' } },
-
         { add: { content: '//#region Operations', placement: 'content' } },
         'typescript-operations',
         { add: { content: '//#endregion\n', placement: 'content' } },
@@ -23,6 +19,12 @@ const config: CodegenConfig = {
       ],
       config: {
         enumsAsTypes: true,
+        scalars: {
+          BigInt: 'string',
+          ISO8601Date: 'string',
+          ISO8601DateTime: 'string',
+          URL: 'string',
+        },
         // the default import, grapqhl-tag, results in an invalid ESM import.
         gqlImport: 'graphql-request#gql',
       },

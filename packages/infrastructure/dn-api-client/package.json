@@ -23,9 +23,9 @@
     "pizzip": "3.1.8"
   },
   "devDependencies": {
-    "@graphql-codegen/add": "6.0.0",
-    "@graphql-codegen/cli": "6.1.2",
-    "@graphql-codegen/typescript-graphql-request": "7.0.1",
+    "@graphql-codegen/add": "8.0.0",
+    "@graphql-codegen/cli": "8.0.0",
+    "@graphql-codegen/typescript-graphql-request": "8.0.2",
     "@potentiel-config/tsconfig": "*"
   }
 }
