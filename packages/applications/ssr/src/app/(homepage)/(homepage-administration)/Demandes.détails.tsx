@@ -14,37 +14,19 @@ export type DétailsDemandes = {
 
 export type DemandesDétailsProps = {
   autorité: 'dgec' | 'dreal';
-  avecNouvellesDemandes: DétailsDemandes[];
-  sansNouvellesDemandes: DétailsDemandes[];
+  demandes: DétailsDemandes[];
 };
 
-export const DemandesDétails = ({
-  autorité,
-  avecNouvellesDemandes,
-  sansNouvellesDemandes,
-}: DemandesDétailsProps) => (
+export const DemandesDétails = ({ autorité, demandes }: DemandesDétailsProps) => (
   <div className="flex flex-col gap-4">
-    {avecNouvellesDemandes.length ? (
-      <Notice
-        severity="info"
-        title=""
-        description="Une nouvelle demande est une demande datant de moins d'un mois."
-        className="w-fit"
-      />
-    ) : null}
+    <Notice
+      severity="info"
+      title=""
+      description="Une nouvelle demande est une demande datant de moins d'un mois."
+      className="w-fit"
+    />
     <div className="flex flex-row flex-wrap gap-2">
-      {avecNouvellesDemandes.map(({ domain, total, new: newCount }) => (
-        <DemandesParDomaine
-          key={domain}
-          domain={domain}
-          total={total}
-          new={newCount}
-          autorité={autorité}
-        />
-      ))}
-    </div>
-    <div className="flex flex-row flex-wrap gap-2">
-      {sansNouvellesDemandes.map(({ domain, total, new: newCount }) => (
+      {demandes.map(({ domain, total, new: newCount }) => (
         <DemandesParDomaine
           key={domain}
           domain={domain}

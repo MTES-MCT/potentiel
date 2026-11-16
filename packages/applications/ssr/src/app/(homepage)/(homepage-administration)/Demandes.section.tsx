@@ -21,8 +21,7 @@ export const DemandesSection = () =>
         autorité,
       );
 
-      const { avecNouvellesDemandes, sansNouvellesDemandes } =
-        await mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
+      const demandes = mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
 
       return (
         <Section
@@ -30,18 +29,12 @@ export const DemandesSection = () =>
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
         >
-          <DemandesDétails
-            avecNouvellesDemandes={avecNouvellesDemandes}
-            sansNouvellesDemandes={sansNouvellesDemandes}
-            autorité={autorité}
-          />
+          <DemandesDétails demandes={demandes} autorité={autorité} />
         </Section>
       );
     }),
     sectionTitle,
   );
 
-const mapDemandesToDemandesDétails = async (demandes: Array<NombreDemandesÀInstruire>) => ({
-  avecNouvellesDemandes: demandes.filter((demande) => demande.new > 0),
-  sansNouvellesDemandes: demandes.filter((demande) => demande.new === 0),
-});
+const mapDemandesToDemandesDétails = (demandes: Array<NombreDemandesÀInstruire>) =>
+  demandes.sort((a, b) => a.domain.localeCompare(b.domain));
