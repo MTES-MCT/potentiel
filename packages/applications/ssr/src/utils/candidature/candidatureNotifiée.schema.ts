@@ -64,9 +64,8 @@ export const modifierLauréatEtCandidatureSchéma = z
     laureat: partialLauréatSchema.optional(),
     doitRegenererAttestation: doitRegenererAttestationSchema,
   })
+  // sera utilisé comme une erreur global dans FormFeedback
   .refine((value) => value.laureat || value.candidature, {
-    // little hack to display this error for the entire form
-    path: ['identifiantProjet'],
     message: 'Le formulaire ne contient pas de modification',
   })
   .refine((value) => !value.candidature || value.doitRegenererAttestation !== undefined, {

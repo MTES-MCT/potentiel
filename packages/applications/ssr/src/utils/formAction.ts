@@ -16,6 +16,7 @@ import { cookies } from 'next/headers';
 import { CsrfError, verifyCsrfToken } from './csrf';
 import { TooManyRequestsError } from './withRateLimit';
 import { callbackURLSchema } from './zod/auth';
+import { globalFormKeyError } from './zod/globalFormKeyError';
 
 export type ActionResult = {
   successMessage: string;
@@ -29,7 +30,9 @@ export type ActionResult = {
   }>;
 };
 
-export type ValidationErrors<TKeys extends string = string> = Partial<Record<TKeys, string>>;
+export type ValidationErrors<TKeys extends string = string> = Partial<
+  Record<TKeys | typeof globalFormKeyError, string>
+>;
 
 type FormStateSuccess = {
   status: 'success' | undefined;
@@ -188,7 +191,7 @@ export const formAction =
 
       if (e instanceof zod.ZodError) {
         const errors = e.issues.reduce((acc, issue) => {
-          const path = issue.path.join('.');
+          const path = issue.path.length > 0 ? issue.path.join('.') : globalFormKeyError;
           acc[path] = issue.message.trim() ?? '';
           return acc;
         }, {} as ValidationErrors);
