@@ -12,9 +12,10 @@ import { FormAlertError } from './FormAlertError';
 
 export type FormFeedbackProps = {
   formState: FormState;
+  omitValidationErrorFeedback?: true;
 };
 
-export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
+export const FormFeedback: FC<FormFeedbackProps> = ({ formState, omitValidationErrorFeedback }) => {
   const { pending } = useFormStatus();
 
   if (pending) {
@@ -76,12 +77,16 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
     .with({ status: 'unknown-error' }, () => (
       <FormAlertError description="Une erreur est survenue" title="" />
     ))
-    .with({ status: 'validation-error' }, () => (
-      <FormAlertError
-        description="Erreur lors de la validation des données du formulaire"
-        title=""
-      />
-    ))
+    .with(
+      { status: 'validation-error' },
+      () =>
+        !omitValidationErrorFeedback && (
+          <FormAlertError
+            description="Erreur lors de la validation des données du formulaire"
+            title=""
+          />
+        ),
+    )
     .with({ status: 'csrf-error' }, () => (
       <FormAlertError
         description="L'intégrité des données n'a pas pu être vérifiée. Veuillez recharger la page et réessayer."

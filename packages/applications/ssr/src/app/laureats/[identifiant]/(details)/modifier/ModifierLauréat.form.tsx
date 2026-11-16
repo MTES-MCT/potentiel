@@ -68,6 +68,12 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
       )}
       <Form
         omitMandatoryFieldsLegend
+        /* 
+          Permet de ne pas afficher le message d'erreur de validation zod
+          Utile ici car validationErrors['identifiantProjet'] est un hack 
+          dans le cas où le formulaire est envoyé sans modification (cf refine de candidatureNotifiée.schema.ts)  
+        */
+        omitValidationErrorFeedback={validationErrors['identifiantProjet'] ? true : undefined}
         action={modifierLauréatAction}
         onValidationError={setValidationErrors}
         pendingModal={{
