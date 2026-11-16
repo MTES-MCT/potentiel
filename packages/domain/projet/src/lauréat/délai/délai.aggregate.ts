@@ -227,7 +227,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
         réponseSignée: { format: réponseSignée.format },
-        motif: motif.formatter(),
+        motifDemande: motif.formatter(),
       },
     };
 
