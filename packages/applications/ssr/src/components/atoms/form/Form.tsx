@@ -27,7 +27,6 @@ export type FormProps = {
   children: ReactNode;
   heading?: ReactNode;
   omitMandatoryFieldsLegend?: true;
-  omitValidationErrorFeedback?: true;
   pendingModal?: FormPendingModalProps;
   actionButtons?: FormActionButtonsProps;
   onValidationError?: (validationErrors: ValidationErrors) => void;
@@ -51,7 +50,6 @@ export const Form: FC<FormProps> = ({
   id,
   action,
   omitMandatoryFieldsLegend,
-  omitValidationErrorFeedback,
   onValidationError,
   children,
   heading,
@@ -149,7 +147,7 @@ export const Form: FC<FormProps> = ({
         />
       )}
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
-      <FormFeedback formState={state} omitValidationErrorFeedback={omitValidationErrorFeedback} />
+      <FormFeedback formState={state} />
 
       {pendingModal && (
         <FormPendingModal id={pendingModal.id} title={pendingModal.title}>

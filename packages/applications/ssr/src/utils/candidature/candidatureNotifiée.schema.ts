@@ -64,9 +64,12 @@ export const modifierLauréatEtCandidatureSchéma = z
     laureat: partialLauréatSchema.optional(),
     doitRegenererAttestation: doitRegenererAttestationSchema,
   })
+  /**
+   * Permet de vérifier que le lauréat ou la candidature a bien au moins
+   * une donnée modifiée. Si ce n'est pas le cas, alors le message d'erreur
+   * sera utilisé comme une erreur global dans FormFeedback (type : validation-error, key : errors[globalFormKeyError])
+   */
   .refine((value) => value.laureat || value.candidature, {
-    // little hack to display this error for the entire form
-    path: ['identifiantProjet'],
     message: 'Le formulaire ne contient pas de modification',
   })
   .refine((value) => !value.candidature || value.doitRegenererAttestation !== undefined, {

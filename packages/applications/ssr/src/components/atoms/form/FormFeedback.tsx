@@ -7,15 +7,15 @@ import { useFormStatus } from 'react-dom';
 import { match, P } from 'ts-pattern';
 
 import type { FormState } from '@/utils/formAction';
+import { globalFormKeyError } from '@/utils/zod/globalFormKeyError';
 import { Link } from '../LinkNoPrefetch';
 import { FormAlertError } from './FormAlertError';
 
 export type FormFeedbackProps = {
   formState: FormState;
-  omitValidationErrorFeedback?: true;
 };
 
-export const FormFeedback: FC<FormFeedbackProps> = ({ formState, omitValidationErrorFeedback }) => {
+export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
   const { pending } = useFormStatus();
 
   if (pending) {
@@ -77,16 +77,14 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, omitValidationE
     .with({ status: 'unknown-error' }, () => (
       <FormAlertError description="Une erreur est survenue" title="" />
     ))
-    .with(
-      { status: 'validation-error' },
-      () =>
-        !omitValidationErrorFeedback && (
-          <FormAlertError
-            description="Erreur lors de la validation des données du formulaire"
-            title=""
-          />
-        ),
-    )
+    .with({ status: 'validation-error' }, ({ errors }) => (
+      <FormAlertError
+        description={
+          errors[globalFormKeyError] ?? 'Erreur lors de la validation des données du formulaire'
+        }
+        title=""
+      />
+    ))
     .with({ status: 'csrf-error' }, () => (
       <FormAlertError
         description="L'intégrité des données n'a pas pu être vérifiée. Veuillez recharger la page et réessayer."
