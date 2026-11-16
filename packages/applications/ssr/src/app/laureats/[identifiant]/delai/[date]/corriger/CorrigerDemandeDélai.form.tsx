@@ -66,7 +66,7 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
         <div className="mb-2">Motif : {getMotifDemandeDélaiLabel(motif.motif)}</div>
         <div className="text-sm italic">
           Si vous souhaitez changer le motif de votre demande de délai, il faut annuler la demande
-          actuelle et en re-créer une nouvelle
+          actuelle et en re-créer une nouvelle.
         </div>
       </div>
       <div>
