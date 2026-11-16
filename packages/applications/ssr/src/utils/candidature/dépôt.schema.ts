@@ -220,7 +220,7 @@ export const dépôtBaseSchema = z.object({
   nomReprésentantLégal: requiredStringSchema,
   emailContact: requiredStringSchema.pipe(z.email()),
   puissanceALaPointe: booleanSchema.optional().default(false),
-  evaluationCarboneSimplifiée: optionalStrictlyPositiveNumberSchema,
+  evaluationCarboneSimplifiée: strictlyPositiveNumberSchema,
   actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
   technologie: z.enum(Candidature.TypeTechnologie.types),
   typeGarantiesFinancières: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)),

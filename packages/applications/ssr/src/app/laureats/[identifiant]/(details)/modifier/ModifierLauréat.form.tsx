@@ -289,7 +289,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               estEnCoursDeModification={
                 lauréat.evaluationCarboneSimplifiée.estEnCoursDeModification
               }
-              required={!!candidature.evaluationCarboneSimplifiée}
+              required
             />
           </FormRow>
           {candidature.noteTotale && (

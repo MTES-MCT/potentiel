@@ -12,6 +12,8 @@ import type * as TypeActionnariat from '../typeActionnariat.valueType.js';
 import type * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType.js';
 import type * as TypeTechnologie from '../typeTechnologie.valueType.js';
 
+// TODO ?
+
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
   statut: StatutCandidature.RawType;
@@ -41,7 +43,7 @@ type CandidatureImportéeEventPayload = {
   puissanceALaPointe: boolean;
   puissanceDuProjetInitial?: number;
   volumeRéservé?: boolean;
-  evaluationCarboneSimplifiée?: number;
+  evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.RawType;
   actionnariat?: TypeActionnariat.RawType;
   dateÉchéanceGf?: DateTime.RawType;
