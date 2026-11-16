@@ -18,7 +18,7 @@ export const délaiAccordéProjector = async ({
       miseÀJourLe: accordéLe,
       statut: Lauréat.Délai.StatutDemandeDélai.accordé.statut,
       demande: {
-        motif,
+        ...(motif && { motif }),
         accord: {
           réponseSignée: { format: payload.réponseSignée.format },
           accordéLe,
