@@ -51,6 +51,7 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
     <Form
       action={corrigerDemandeDélaiAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      className="w-full md:w-1/2"
       actionButtons={{
         submitLabel: 'Corriger',
         secondaryAction: {
@@ -61,12 +62,17 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={demandéLe.date} name="dateDemande" />
 
-      <div>Motif : {getMotifDemandeDélaiLabel(motif.motif)}</div>
+      <div>
+        <div className="mb-2">Motif : {getMotifDemandeDélaiLabel(motif.motif)}</div>
+        <div className="text-sm italic">
+          Si vous souhaitez changer le motif de votre demande de délai, il faut annuler la demande
+          actuelle et en re-créer une nouvelle
+        </div>
+      </div>
       <div>
         <Input
           label="Durée du délai"
           hintText="Veuillez saisir une durée de délai en mois, avec au minimum 1 mois"
-          className="w-full md:w-1/2"
           nativeInputProps={{
             min: '1',
             name: 'nombreDeMois',
@@ -93,7 +99,6 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
         textArea
         label="Raison"
         id="raison"
-        className="w-full md:w-1/2"
         hintText="Veuillez détailler les raisons de ce changement"
         nativeTextAreaProps={{
           name: 'raison',
