@@ -7,10 +7,21 @@ Fonctionnalité: Supprimer la demande de changement de représentant légal
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
-    Scénario: Le système supprime la demande de changement de représentant légal ainsi que la tâche planifiée d'instruction automatique d'un projet si celui-ci est abandonné
+    Scénario: Le système supprime la demande en cours de changement de représentant légal ainsi que la tâche planifiée d'instruction automatique d'un projet si celui-ci est abandonné
         Etant donné une demande de changement de représentant légal en cours
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable
         Et il n'y a pas de tâche "gestion automatique de la demande de changement de représentant légal" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" planifiée pour le projet lauréat
+
+    Plan du scénario: Le système ne supprime pas la demande de changement de représentant légal déjà instruite d'un projet si celui-ci est abandonné
+        Etant donné une demande de changement de représentant légal <statut> pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
+        Alors l'historique du représentant légal du projet lauréat ne devrait pas contenir de suppression de demande de changement
+        Et la demande de changement de représentant légal du projet lauréat devrait être consultable
+        Exemples:
+            | statut   |
+            | accordée |
+            | rejetée  |
