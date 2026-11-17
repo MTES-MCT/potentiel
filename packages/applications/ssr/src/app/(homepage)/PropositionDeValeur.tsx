@@ -17,8 +17,8 @@ export const PropositionDeValeur = () => (
             height={500}
           />
           <Heading1 className="m-0 p-0 font-semibold col-span-3 md:col-span-2 md:text-4xl md:leading-10">
-            La plateforme de suivi des projets éoliens et photovoltaïques lauréats des appels
-            d'offres de l'État.
+            Potentiel, la plateforme du ministère chargé de l'énergie pour les projets éoliens et
+            photovoltaïques lauréats aux appels d'offres en France.
           </Heading1>
         </div>
         <p className="text-lg font-medium leading-relaxed mt-4 text-justify">
