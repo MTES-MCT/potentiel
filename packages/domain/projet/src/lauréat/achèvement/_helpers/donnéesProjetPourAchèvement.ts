@@ -77,7 +77,7 @@ export type DonnéesProjetPourAchèvementReadModel = {
     tauxPrévisionnelACI?: number;
     tauxPrévisionnelACC?: number;
   };
-  évaluationCarboneSimplifiée?: number;
+  évaluationCarboneSimplifiée: number;
   typeDeTerrain?: TypeDeTerrainDImplantation;
   recours?: {
     dateDemande: DateTime.RawType;
@@ -89,6 +89,7 @@ export type DonnéesProjetPourAchèvementJoins = [
   LauréatEntity,
   CandidatureEntity,
   PuissanceEntity,
+  FournisseurEntity,
   LeftJoin<DétailCandidatureEntity>,
   LeftJoin<ActionnaireEntity>,
   LeftJoin<ProducteurEntity>,
@@ -96,7 +97,6 @@ export type DonnéesProjetPourAchèvementJoins = [
   LeftJoin<AccèsEntity>,
   LeftJoin<InstallationEntity>,
   LeftJoin<NatureDeLExploitationEntity>,
-  LeftJoin<FournisseurEntity>,
   LeftJoin<RaccordementEntity>,
 ];
 
@@ -113,6 +113,7 @@ export const getDonnéesProjetPourAchèvementJoin = ({
   { entity: 'lauréat', on: 'identifiantProjet', where: whereLauréat },
   { entity: 'candidature', on: 'identifiantProjet' },
   { entity: 'puissance', on: 'identifiantProjet' },
+  { entity: 'fournisseur', on: 'identifiantProjet' },
   { entity: 'détail-candidature', on: 'identifiantProjet', type: 'left' },
   { entity: 'actionnaire', on: 'identifiantProjet', type: 'left' },
   { entity: 'producteur', on: 'identifiantProjet', type: 'left' },
@@ -120,7 +121,6 @@ export const getDonnéesProjetPourAchèvementJoin = ({
   { entity: 'accès', on: 'identifiantProjet', type: 'left' },
   { entity: 'installation', on: 'identifiantProjet', type: 'left' },
   { entity: 'nature-de-l-exploitation', on: 'identifiantProjet', type: 'left' },
-  { entity: 'fournisseur', on: 'identifiantProjet', type: 'left' },
   { entity: 'raccordement', on: 'identifiantProjet', type: 'left' },
 ];
 
@@ -261,7 +261,7 @@ export const mapToDonnéesProjetPourAchèvementReadModel = ({
           tauxPrévisionnelACC: natureDeLExploitation.tauxPrévisionnelACC,
         }
       : undefined,
-    évaluationCarboneSimplifiée: fournisseur?.évaluationCarboneSimplifiée,
+    évaluationCarboneSimplifiée: fournisseur.évaluationCarboneSimplifiée,
     typeDeTerrain: détail?.pv?.typeTerrainImplantation,
   };
 };
