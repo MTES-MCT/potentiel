@@ -27,19 +27,19 @@ export const mapToDélaiTimelineItemProps = (
     )
     .with(
       {
-        type: 'DemandeDélaiAnnulée-V1',
+        type: P.union('DemandeDélaiAnnulée-V1', 'DemandeDélaiAnnulée-V2'),
       },
       mapToDemandeDélaiAnnuléeTimelineItemProps,
     )
     .with(
       {
-        type: 'DemandeDélaiPasséeEnInstruction-V1',
+        type: P.union('DemandeDélaiPasséeEnInstruction-V1', 'DemandeDélaiPasséeEnInstruction-V2'),
       },
       mapToDemandeDélaiPasséeEnInstructionTimelineItemProps,
     )
     .with(
       {
-        type: 'DemandeDélaiRejetée-V1',
+        type: P.union('DemandeDélaiRejetée-V1', 'DemandeDélaiRejetée-V2'),
       },
       mapToDemandeDélaiRejetéeTimelineItemProps,
     )
@@ -51,13 +51,13 @@ export const mapToDélaiTimelineItemProps = (
     )
     .with(
       {
-        type: 'DemandeDélaiCorrigée-V1',
+        type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2'),
       },
       mapToDemandeDélaiCorrigéeTimelineItemProps,
     )
     .with(
       {
-        type: 'DemandeDélaiSupprimée-V1',
+        type: P.union('DemandeDélaiSupprimée-V1', 'DemandeDélaiSupprimée-V2'),
       },
       mapToDemandeDélaiSuppriméeTimelineItemProps,
     )

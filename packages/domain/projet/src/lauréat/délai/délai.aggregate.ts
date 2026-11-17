@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
@@ -119,7 +119,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     });
 
     const event: DemandeDélaiCorrigéeEvent = {
-      type: 'DemandeDélaiCorrigée-V1',
+      type: 'DemandeDélaiCorrigée-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         corrigéeLe: dateCorrection.formatter(),
@@ -128,6 +128,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         nombreDeMois,
         raison,
         pièceJustificative: pièceJustificative ? { format: pièceJustificative.format } : undefined,
+        motifDemande: demandeActuelle.motif.formatter(),
       },
     };
 
@@ -146,12 +147,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.annulé);
 
     const event: DemandeDélaiAnnuléeEvent = {
-      type: 'DemandeDélaiAnnulée-V1',
+      type: 'DemandeDélaiAnnulée-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         annuléLe: dateAnnulation.formatter(),
         annuléPar: identifiantUtilisateur.formatter(),
         dateDemande: demandeActuelle.demandéLe,
+        motifDemande: demandeActuelle.motif.formatter(),
       },
     };
 
@@ -164,12 +166,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   }: SupprimerDemandeDélaiOptions) {
     this.#demandes.forEach(async (demande) => {
       const event: DemandeDélaiSuppriméeEvent = {
-        type: 'DemandeDélaiSupprimée-V1',
+        type: 'DemandeDélaiSupprimée-V2',
         payload: {
           identifiantProjet: this.identifiantProjet.formatter(),
           suppriméLe: dateSuppression.formatter(),
           suppriméPar: identifiantUtilisateur.formatter(),
           dateDemande: demande.demandéLe,
+          motifDemande: demande.motif.formatter(),
         },
       };
 
@@ -192,13 +195,14 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.verifierInstructeur(demandeActuelle.motif, rôleUtilisateur);
 
     const event: DemandeDélaiRejetéeEvent = {
-      type: 'DemandeDélaiRejetée-V1',
+      type: 'DemandeDélaiRejetée-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         dateDemande: demandeActuelle.demandéLe,
         réponseSignée: { format: réponseSignée.format },
         rejetéeLe: dateRejet.formatter(),
         rejetéePar: identifiantUtilisateur.formatter(),
+        motifDemande: demandeActuelle.motif.formatter(),
       },
     };
 
@@ -277,12 +281,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     const event: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent = {
-      type: 'DemandeDélaiPasséeEnInstruction-V1',
+      type: 'DemandeDélaiPasséeEnInstruction-V2',
       payload: {
         identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
         passéeEnInstructionLe: datePassageEnInstruction.formatter(),
         passéeEnInstructionPar: identifiantUtilisateur.formatter(),
         dateDemande: demandeActuelle.demandéLe,
+        motifDemande: demandeActuelle.motif.formatter(),
       },
     };
 
@@ -293,16 +298,32 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     match(event)
       .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandéV1.bind(this))
       .with({ type: 'DélaiDemandé-V2' }, this.applyDélaiDemandé.bind(this))
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigée.bind(this))
-      .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
       .with(
-        { type: 'DemandeDélaiPasséeEnInstruction-V1' },
+        { type: P.union('DemandeDélaiCorrigée-V1', 'DemandeDélaiCorrigée-V2') },
+        this.applyDemandeDélaiCorrigée.bind(this),
+      )
+      .with(
+        { type: P.union('DemandeDélaiAnnulée-V1', 'DemandeDélaiAnnulée-V2') },
+        this.applyDemandeDélaiAnnulée.bind(this),
+      )
+      .with(
+        {
+          type: P.union('DemandeDélaiPasséeEnInstruction-V1', 'DemandeDélaiPasséeEnInstruction-V2'),
+        },
         this.applyDemandeDélaiPasséeEnInstruction.bind(this),
       )
-      .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
-      .with({ type: 'DélaiAccordé-V1' }, this.applyDemandeDélaiAccordée.bind(this))
-      .with({ type: 'DélaiAccordé-V2' }, this.applyDemandeDélaiAccordée.bind(this))
-      .with({ type: 'DemandeDélaiSupprimée-V1' }, this.applyDemandeDélaiSupprimée.bind(this))
+      .with(
+        { type: P.union('DemandeDélaiRejetée-V1', 'DemandeDélaiRejetée-V2') },
+        this.applyDemandeDélaiRejetée.bind(this),
+      )
+      .with(
+        { type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2') },
+        this.applyDemandeDélaiAccordée.bind(this),
+      )
+      .with(
+        { type: P.union('DemandeDélaiSupprimée-V1', 'DemandeDélaiSupprimée-V2') },
+        this.applyDemandeDélaiSupprimée.bind(this),
+      )
       .exhaustive();
   }
 

@@ -30,7 +30,7 @@ export const mapToDélaiAccordéTimelineItemProps = (
           Durée : <span className="font-semibold">{nombreDeMois} mois</span>
         </div>
         <div>
-          Motif : <span className="font-semibold">{motifLabel.toLowerCase()}</span>
+          Motif de la demande : <span className="font-semibold">{motifLabel.toLowerCase()}</span>
         </div>
       </div>
     ),

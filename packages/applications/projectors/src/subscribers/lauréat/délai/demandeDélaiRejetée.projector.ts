@@ -3,7 +3,7 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 
 export const demandeDélaiRejetéeProjector = async ({
   payload: { identifiantProjet, dateDemande, rejetéeLe, rejetéePar, réponseSignée },
-}: Lauréat.Délai.DemandeDélaiRejetéeEvent) => {
+}: Lauréat.Délai.DemandeDélaiRejetéeEvent | Lauréat.Délai.DemandeDélaiRejetéeEventV1) => {
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${dateDemande}`,
     {

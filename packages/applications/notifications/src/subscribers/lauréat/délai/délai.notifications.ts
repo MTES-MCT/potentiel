@@ -19,13 +19,28 @@ export type Execute = Message<'System.Notification.Lauréat.Délai', Subscriptio
 export const registerDélaiNotifications = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: P.union('DélaiDemandé-V1', 'DélaiDemandé-V2') }, handleDélaiDemandé)
-      .with({ type: 'DemandeDélaiAnnulée-V1' }, handleDemandeDélaiAnnulée)
-      .with({ type: 'DemandeDélaiRejetée-V1' }, handleDemandeDélaiRejetée)
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, handleDemandeDélaiCorrigée)
-      .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, handleDemandeDélaiPasséeEnInstruction)
-      .with({ type: P.union('DélaiAccordé-V1', 'DélaiAccordé-V2') }, handleDemandeDélaiAccordée)
-      .with({ type: 'DemandeDélaiSupprimée-V1' }, () => Promise.resolve())
+      .with({ type: 'DélaiDemandé-V2' }, handleDélaiDemandé)
+      .with({ type: 'DemandeDélaiAnnulée-V2' }, handleDemandeDélaiAnnulée)
+      .with({ type: 'DemandeDélaiRejetée-V2' }, handleDemandeDélaiRejetée)
+      .with({ type: 'DemandeDélaiCorrigée-V2' }, handleDemandeDélaiCorrigée)
+      .with({ type: 'DemandeDélaiPasséeEnInstruction-V2' }, handleDemandeDélaiPasséeEnInstruction)
+      .with({ type: 'DélaiAccordé-V2' }, handleDemandeDélaiAccordée)
+      .with(
+        {
+          type: P.union(
+            'DemandeDélaiSupprimée-V1',
+            'DemandeDélaiSupprimée-V2',
+            'DélaiDemandé-V1',
+            'DemandeDélaiAnnulée-V1',
+            'DemandeDélaiCorrigée-V1',
+            'DemandeDélaiPasséeEnInstruction-V1',
+            'DemandeDélaiRejetée-V1',
+            'DélaiAccordé-V1',
+            'DélaiDemandé-V1',
+          ),
+        },
+        () => Promise.resolve(),
+      )
       .exhaustive();
 
   mediator.register('System.Notification.Lauréat.Délai', handler);

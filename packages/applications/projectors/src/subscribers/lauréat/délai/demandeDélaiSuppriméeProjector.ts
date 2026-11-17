@@ -3,7 +3,7 @@ import { removeProjection } from '@potentiel-infrastructure/pg-projection-write'
 
 export const demandeDélaiSuppriméeProjector = async ({
   payload: { identifiantProjet, dateDemande },
-}: Lauréat.Délai.DemandeDélaiSuppriméeEvent) => {
+}: Lauréat.Délai.DemandeDélaiSuppriméeEvent | Lauréat.Délai.DemandeDélaiSuppriméeEventV1) => {
   await removeProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${dateDemande}`,
   );

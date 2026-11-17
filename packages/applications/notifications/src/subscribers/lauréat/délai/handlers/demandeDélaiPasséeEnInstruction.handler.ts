@@ -3,6 +3,7 @@ import type { Lauréat } from '@potentiel-domain/projet';
 
 import { buildUrl, getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
+import { getMotifDélaiLabel } from '../helpers/getMotifDélaiLabel.js';
 
 export const handleDemandeDélaiPasséeEnInstruction = async ({
   payload,
@@ -22,6 +23,7 @@ export const handleDemandeDélaiPasséeEnInstruction = async ({
       appel_offre: appelOffre,
       période,
       url: buildUrl(Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)),
+      motif_demande: getMotifDélaiLabel(payload.motifDemande),
     },
   });
 };
