@@ -31,7 +31,6 @@ export const computeNombreTotalProjetAvecDossierRaccordementComplet = async (cyc
           INNER JOIN domain_views.projection dr ON dr.key like 'dossier-raccordement|%' and dr.value ->> 'identifiantProjet' = lau.value ->> 'identifiantProjet'
         WHERE
           lau.key LIKE 'lauréat|%'
-          AND dr.value ->> 'demandeComplèteRaccordement.transmiseLe' IS NOT NULL
           AND (
             dr.value ->> 'conventionDeRaccordementDirecte.dateSignature' IS NOT NULL
             OR (
