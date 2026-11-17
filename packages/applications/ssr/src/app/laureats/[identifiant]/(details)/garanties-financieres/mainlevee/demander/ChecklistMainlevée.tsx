@@ -56,45 +56,45 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
 }) => (
   <Notice
     severity="info"
-    title=""
+    title="Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel si votre
+        projet remplit toutes les conditions suivantes :"
     description={
-      <span className="p-3">
-        Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel si votre
-        projet remplit <span className="font-semibold">toutes</span> les conditions suivantes :
-        <span className="cursor-default my-2 ">
-          {Object.entries(prérequisMainlevée).map(([key, { label, action }]) => {
-            const complété = prérequis[key as keyof typeof prérequisMainlevée];
-            if (complété === undefined) {
-              return null;
-            }
-            return (
-              <span key={key} className="flex items-start gap-2">
-                <span>
-                  {complété ? (
-                    <SuccessPicto fontSize="medium" color="green-emeraude" />
-                  ) : (
-                    <ErrorPicto fontSize="medium" color="blue-ecume" />
-                  )}
-                </span>
+      <span>
+        {Object.entries(prérequisMainlevée).map(([key, { label, action }]) => {
+          const complété = prérequis[key as keyof typeof prérequisMainlevée];
 
-                <span className={clsx({ 'line-through': complété })}>{label}</span>
+          if (complété === undefined) {
+            return null;
+          }
 
-                {!complété && action && (
-                  <span>
-                    <Link
-                      href={`${action.lien(identifiantProjet)}?retour=${encodeURIComponent(
-                        Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet),
-                      )}`}
-                      className={fr.cx('fr-link', 'fr-link--icon-right')}
-                    >
-                      {action.label}
-                    </Link>
-                  </span>
+          return (
+            <span key={key}>
+              <br />
+              <span className="inline-flex align-middle">
+                {complété ? (
+                  <SuccessPicto fontSize="medium" color="green-emeraude" />
+                ) : (
+                  <ErrorPicto fontSize="medium" color="blue-ecume" />
                 )}
               </span>
-            );
-          })}
-        </span>
+
+              <span className={clsx({ 'line-through': complété }, 'ml-2')}>{label}</span>
+
+              {!complété && action && (
+                <span className="ml-2">
+                  <Link
+                    href={`${action.lien(identifiantProjet)}?retour=${encodeURIComponent(
+                      Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet),
+                    )}`}
+                    className={fr.cx('fr-link', 'fr-link--icon-right')}
+                  >
+                    {action.label}
+                  </Link>
+                </span>
+              )}
+            </span>
+          );
+        })}
       </span>
     }
   />
