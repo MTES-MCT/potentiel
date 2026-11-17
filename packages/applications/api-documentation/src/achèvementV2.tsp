@@ -50,7 +50,10 @@ namespace Achevement {
     numeroCre: string;
   
     /** Candidat */
-    nomCandidat: string;
+    contact: {
+      nom: string;
+      email: string;
+    };
   
     /** Date de notification lauréat */
     @format("date")
