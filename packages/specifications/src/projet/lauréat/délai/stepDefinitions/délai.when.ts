@@ -63,17 +63,23 @@ Quand(
       .value?.motif;
     await accorderDemandeDélai.call(this, {
       rôle,
-      motifDemande: motifDemande ?? '',
+      motifDemande: motifDemande,
     });
   },
 );
 
 Quand(
-  `la DGEC accorde le délai pour prolongation de phase d'essai`,
-  async function (this: PotentielWorld) {
+  'la {dreal-dgec} accorde la demande de délai pour le projet lauréat avec :',
+  async function (this: PotentielWorld, rôle: 'dreal' | 'dgec', table: DataTable) {
+    const exemple = table.rowsHash();
+    const { motif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple);
+    const motifDemande =
+      motif ??
+      this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value?.motif;
+
     await accorderDemandeDélai.call(this, {
-      rôle: 'dgec',
-      motifDemande: Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.formatter(),
+      rôle,
+      motifDemande: motifDemande,
     });
   },
 );
@@ -276,12 +282,14 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
 
 export async function accorderDemandeDélai(
   this: PotentielWorld,
-  { motifDemande, rôle }: { rôle: Role.RawType; motifDemande: string },
+  { motifDemande, rôle }: { rôle: Role.RawType; motifDemande?: string },
 ) {
   try {
-    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
-      Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter(),
-    );
+    const demande = motifDemande
+      ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
+          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter(),
+        )
+      : undefined;
 
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 

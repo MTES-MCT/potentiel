@@ -103,6 +103,22 @@ Alors('la demande de délai devrait être accordée', async function (this: Pote
 });
 
 Alors(
+  'la demande de délai devrait être accordée avec :',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+    const { motif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple);
+    return waitForExpect(async () => {
+      await vérifierDemandeDélai.call(
+        this,
+        this.candidatureWorld.importerCandidature.identifiantProjet,
+        Lauréat.Délai.StatutDemandeDélai.accordé,
+        motif,
+      );
+    });
+  },
+);
+
+Alors(
   /l'autorité instructrice de la demande de délai devrait être (.*)/,
   async function (this: PotentielWorld, autorité: string) {
     const demandeFixture = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
