@@ -55,7 +55,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
           <InfoBoxDemandeDélai motif={demande.motif.motif} />
           <DétailsDemandeDélai demande={demande} />
           <div>
-            <Heading2>Historique</Heading2>
+            <Heading2>Historique de la demande</Heading2>
             <Timeline items={historique} />
           </div>
         </>
