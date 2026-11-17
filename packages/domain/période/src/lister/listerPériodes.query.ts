@@ -6,7 +6,7 @@ import { type Joined, type List, type RangeOptions, Where } from '@potentiel-dom
 
 import { Période } from '../index.js';
 import type { PériodeEntity } from '../période.entity.js';
-import type { IdentifiantPériode } from '../période.js';
+import { type IdentifiantPériode, StatutPériode } from '../période.js';
 
 type CommonPériode = {
   identifiantPériode: IdentifiantPériode.ValueType;
@@ -63,7 +63,7 @@ export const registerListerPériodesQuery = ({ list }: ListerPériodesDependenci
       where: {
         identifiantPériode: Where.matchAny(identifiantsPériodes),
         appelOffre: Where.equal(appelOffre),
-        estNotifiée: Where.equal(estNotifiée),
+        ...(estNotifiée && { statut: Where.equal(StatutPériode.notifiée.formatter()) }),
       },
       orderBy: {
         notifiéeLe: 'descending',
@@ -91,7 +91,11 @@ const mapToReadModel = (
     période['appel-offre'].periodes.find((p) => p.id === identifiantPériode.période)?.typeImport ??
     'csv';
 
-  if (période.estNotifiée && période.notifiéeLe && période.notifiéePar) {
+  if (
+    StatutPériode.convertirEnValueType(période.statut).estNotifiée() &&
+    période.notifiéeLe &&
+    période.notifiéePar
+  ) {
     return {
       identifiantPériode,
       estNotifiée: true,

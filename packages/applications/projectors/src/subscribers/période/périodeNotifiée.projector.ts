@@ -1,4 +1,4 @@
-import type { Période } from '@potentiel-domain/periode';
+import { Période } from '@potentiel-domain/periode';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
@@ -14,7 +14,7 @@ export const périodeNotifiéeProjector = async (event: Période.PériodeNotifi�
   }
 
   await updateOneProjection<Période.PériodeEntity>(`période|${event.payload.identifiantPériode}`, {
-    estNotifiée: true,
+    statut: Période.StatutPériode.notifiée.formatter(),
     // On garde la date de notification originale si la période est déjà notifiée
     notifiéeLe: périodeToUpsert.notifiéeLe ?? event.payload.notifiéeLe,
     notifiéePar: périodeToUpsert.notifiéePar ?? event.payload.notifiéePar,

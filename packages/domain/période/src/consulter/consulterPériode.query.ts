@@ -5,18 +5,11 @@ import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Période } from '../index.js';
-import type { IdentifiantPériode, PériodeEntity } from '../période.js';
+import { type IdentifiantPériode, type PériodeEntity, StatutPériode } from '../période.js';
 
-export type ConsulterPériodeReadModel = PériodeNotifiée | PériodeNonNotifiée;
-
-type PériodeNonNotifiée = {
+export type ConsulterPériodeReadModel = {
   identifiantPériode: IdentifiantPériode.ValueType;
-  estNotifiée: false;
-};
-
-type PériodeNotifiée = {
-  identifiantPériode: IdentifiantPériode.ValueType;
-  estNotifiée: true;
+  statutPériode: Période.StatutPériode.ValueType;
 
   notifiéeLe?: DateTime.ValueType;
   notifiéePar?: Email.ValueType;
@@ -44,22 +37,9 @@ export const registerConsulterPériodeQuery = ({ find }: ConsulterPériodeDepend
   mediator.register('Période.Query.ConsulterPériode', handler);
 };
 
-export const mapToReadModel = (période: PériodeEntity): ConsulterPériodeReadModel => {
-  const identifiantPériode = Période.IdentifiantPériode.convertirEnValueType(
-    période.identifiantPériode,
-  );
-
-  if (période.estNotifiée && période.notifiéeLe && période.notifiéePar) {
-    return {
-      identifiantPériode,
-      estNotifiée: true,
-      notifiéeLe: DateTime.convertirEnValueType(période.notifiéeLe),
-      notifiéePar: Email.convertirEnValueType(période.notifiéePar),
-    };
-  }
-
-  return {
-    identifiantPériode,
-    estNotifiée: false,
-  };
-};
+export const mapToReadModel = (période: PériodeEntity): ConsulterPériodeReadModel => ({
+  identifiantPériode: Période.IdentifiantPériode.convertirEnValueType(période.identifiantPériode),
+  statutPériode: StatutPériode.convertirEnValueType(période.statut),
+  notifiéeLe: période.notifiéeLe ? DateTime.convertirEnValueType(période.notifiéeLe) : undefined,
+  notifiéePar: période.notifiéePar ? Email.convertirEnValueType(période.notifiéePar) : undefined,
+});

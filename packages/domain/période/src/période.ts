@@ -1,7 +1,10 @@
+/** biome-ignore-all assist/source/organizeImports: organized by hand for this index */
+
 import type {
   ConsulterPériodeQuery,
   ConsulterPériodeReadModel,
 } from './consulter/consulterPériode.query.js';
+import type { InitierImportPériodeUseCase } from './importer/initierImportPériode.usecase.js';
 import type {
   ListerPériodeItemReadModel,
   ListerPériodesQuery,
@@ -23,16 +26,18 @@ export type {
 };
 
 // UseCases
-export type PériodeUseCase = NotifierPériodeUseCase;
-export type { NotifierPériodeUseCase };
-
-// Events
-export type PériodeEvent = PériodeNotifiéeEvent;
+export type PériodeUseCase = NotifierPériodeUseCase | InitierImportPériodeUseCase;
+export type { InitierImportPériodeUseCase, NotifierPériodeUseCase, PériodeNotifiéeEvent };
 
 // Value types
 export * as IdentifiantPériode from './identifiantPériode.valueType.js';
+export * as StatutPériode from './statutPériode.valueType.js';
+
 // Entity
 export type * from './période.entity.js';
+
+// Events
+export { PériodeEvent } from './période.event.js';
+
 // Register
 export { registerPériodeQueries, registerPériodeUseCases } from './register.js';
-export type { PériodeNotifiéeEvent };

@@ -4,10 +4,11 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import * as IdentifiantPériode from './identifiantPériode.valueType.js';
+import type { ImportPériodeInitiéEvent } from './importer/initierImportPériode.event.js';
+import type { InitierImportPériodeOptions } from './importer/initierImportPériode.options.js';
 import type { PériodeNotifiéeEvent } from './notifier/notifierPériode.event.js';
 import type { NotifierPériodeOptions } from './notifier/notifierPériode.options.js';
-
-export type PériodeEvent = PériodeNotifiéeEvent;
+import type { PériodeEvent } from './période.event.js';
 
 export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'période'> {
   #identifiantLauréats: ReadonlyArray<IdentifiantProjet.ValueType> = [];
@@ -24,6 +25,34 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
   get identifiantÉliminés() {
     return this.#identifiantÉliminés;
   }
+
+  async initierImport({
+    initiéLe,
+    initiéPar,
+    instruction,
+    vérifierLesDonnéesSansImportRéel,
+  }: InitierImportPériodeOptions) {
+    // TODO : gérer cas où la période a déjà été importée / notifiée et on importe de nouveaux candidats
+    const event: ImportPériodeInitiéEvent = {
+      type: 'ImportPériodeInitié-V1',
+      payload: {
+        identifiantPériode: this.identifiantPériode.formatter(),
+        appelOffre: this.identifiantPériode.appelOffre,
+        période: this.identifiantPériode.période,
+        initiéLe: initiéLe.formatter(),
+        initiéPar: initiéPar.formatter(),
+        instruction: instruction.map(({ identifiantProjet, ...instruction }) => ({
+          identifiantProjet: identifiantProjet.formatter(),
+          ...instruction.formatter(),
+        })),
+        vérifierLesDonnéesSansImportRéel,
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  applyImportPériodeInitié(_: ImportPériodeInitiéEvent) {}
 
   async notifier({
     identifiantLauréats,
@@ -51,12 +80,6 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
     await this.publish(event);
   }
 
-  apply(event: PériodeEvent) {
-    match(event)
-      .with({ type: 'PériodeNotifiée-V1' }, this.applyPériodeNotifiée.bind(this))
-      .exhaustive();
-  }
-
   applyPériodeNotifiée({
     payload: { identifiantLauréats, identifiantÉliminés },
   }: PériodeNotifiéeEvent) {
@@ -66,5 +89,12 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
     this.#identifiantÉliminés = identifiantÉliminés.map((identifiantÉliminé) =>
       IdentifiantProjet.convertirEnValueType(identifiantÉliminé),
     );
+  }
+
+  apply(event: PériodeEvent) {
+    match(event)
+      .with({ type: 'PériodeNotifiée-V1' }, this.applyPériodeNotifiée.bind(this))
+      .with({ type: 'ImportPériodeInitié-V1' }, this.applyImportPériodeInitié.bind(this))
+      .exhaustive();
   }
 }

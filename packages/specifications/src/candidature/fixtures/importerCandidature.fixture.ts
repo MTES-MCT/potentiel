@@ -135,7 +135,7 @@ export class ImporterCandidatureFixture
 }
 
 // Pour l'import, il est impératif que le projet soit sur une période non legacy
-function getValidFakeIdentifiantProjet(
+export function getValidFakeIdentifiantProjet(
   props: Partial<PlainType<IdentifiantProjet.ValueType>>,
 ): IdentifiantProjet.ValueType {
   const identifiantProjet = faker.potentiel.identifiantProjet(props);

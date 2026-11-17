@@ -2,6 +2,7 @@ import type { DateTime, Email } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
 import type * as IdentifiantPériode from './identifiantPériode.valueType.js';
+import type { StatutPériode } from './période.js';
 
 export type PériodeEntity = Entity<
   'période',
@@ -9,7 +10,7 @@ export type PériodeEntity = Entity<
     identifiantPériode: IdentifiantPériode.RawType;
     appelOffre: string;
     période: string;
-    estNotifiée: boolean;
+    statut: StatutPériode.RawType;
 
     notifiéeLe?: DateTime.RawType;
     notifiéePar?: Email.RawType;

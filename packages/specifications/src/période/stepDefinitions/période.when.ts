@@ -7,12 +7,41 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import type { PotentielWorld } from '../../potentiel.world.js';
 
+Quand(/la DGEC initié l'import d'une période/, async function (this: PotentielWorld) {
+  await notifierPériode.call(this);
+});
+
 Quand(
   /.* DGEC validateur notifie la période d'un appel d'offres/,
   async function (this: PotentielWorld) {
     await notifierPériode.call(this);
   },
 );
+
+export async function initierImportPériode(this: PotentielWorld) {
+  try {
+    const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
+    const user = this.utilisateurWorld.dgecFixture.email;
+    const date = DateTime.now().formatter();
+
+    const { instruction } = this.périodeWorld.initierImportPériodeFixture.créer({
+      initiéPar: user,
+      initiéLe: date,
+    });
+
+    await mediator.send<Période.InitierImportPériodeUseCase>({
+      type: 'Période.UseCase.ImporterPériode',
+      data: {
+        identifiantPériodeValue: identifiantPériode,
+        initiéLeValue: date,
+        initiéParValue: user,
+        instructionValue: instruction,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
 
 export async function notifierPériode(this: PotentielWorld) {
   try {

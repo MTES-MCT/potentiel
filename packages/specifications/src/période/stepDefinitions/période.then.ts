@@ -19,14 +19,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { convertReadableStreamToString, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../potentiel.world.js';
 
-Alors(
-  `la période devrait être notifiée avec les lauréats et les éliminés`,
-  async function (this: PotentielWorld) {
-    await waitForExpect(
-      async () => await vérifierPériode.call(this, this.périodeWorld.identifiantPériode),
-    );
-  },
-);
+Alors(`la période devrait être consultable`, async function (this: PotentielWorld) {
+  await waitForExpect(
+    async () => await vérifierPériode.call(this, this.périodeWorld.identifiantPériode),
+  );
+});
 
 Alors(
   `les lauréats et éliminés devraient être consultables`,
@@ -221,7 +218,7 @@ async function vérifierLauréats(
     );
 
     assert(Option.isSome(période));
-    assert(période.estNotifiée);
+    assert(période.statutPériode.estNotifiée());
 
     const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
@@ -267,7 +264,7 @@ async function vérifierÉliminés(
   );
 
   assert(Option.isSome(période));
-  assert(période.estNotifiée);
+  assert(période.statutPériode.estNotifiée());
 
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
