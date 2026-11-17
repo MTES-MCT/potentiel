@@ -218,28 +218,19 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       throw new DemandeDeDélaiInexistanteError();
     }
 
-    if (this.#demandes.size === 2) {
-      // le motif de la demande accordée ne peut être identique à celui de l'autre demande
-      const autreDemande = [...this.#demandes].find(
-        ([_, value]) => !dateDemande.estÉgaleÀ(DateTime.convertirEnValueType(value.demandéLe)),
-      );
-      if (autreDemande?.[1].motif.estÉgaleÀ(motif)) {
-        throw new DélaiEnCoursErreur();
-      }
-    }
+    const motifDemande = demandeActuelle.motif;
 
     demandeActuelle.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
 
-    this.verifierInstructeur(motif, rôleUtilisateur);
+    this.verifierInstructeur(motifDemande, rôleUtilisateur);
 
-    const dateAchèvementPrévisionnelCalculée = this.#demande.motif.estProlongationPhaseEssai()
-      ? this.parent.achèvement.dateAchèvementPrévisionnel.formatter()
-      : await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
-          type: 'délai-accordé',
-          nombreDeMois,
-        });
-
-    const motif = this.#demande.motif;
+    const dateAchèvementPrévisionnelCalculée =
+      demandeActuelle.motif.estProlongationDélaiAchèvement()
+        ? await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
+            type: 'délai-accordé',
+            nombreDeMois,
+          })
+        : this.parent.achèvement.dateAchèvementPrévisionnel.formatter();
 
     const délaiAccordéEvent: DélaiAccordéEvent = {
       type: 'DélaiAccordé-V2',
@@ -251,13 +242,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
         réponseSignée: { format: réponseSignée.format },
-        motifDemande: motif.formatter(),
+        motifDemande: motifDemande.formatter(),
       },
     };
 
     await this.publish(délaiAccordéEvent);
 
-    if (motif.estProlongationDélaiAchèvement()) {
+    if (motifDemande.estProlongationDélaiAchèvement()) {
       await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
         type: 'délai-accordé',
         nombreDeMois,

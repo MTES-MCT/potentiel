@@ -64,19 +64,18 @@ EtantDonné(
 EtantDonné(
   'une demande de délai accordée pour le projet lauréat',
   async function (this: PotentielWorld) {
-    const motif = Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
+    const motifDemande = Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: motif.formatter(),
+      motif: motifDemande.formatter(),
     });
     const autoritéCompétente = this.lauréatWorld.cahierDesCharges.getAutoritéCompétente({
       domain: 'délai',
-      motif: motif,
+      motif: motifDemande,
     });
     await accorderDemandeDélai.call(this, {
       rôle: autoritéCompétente,
-      ancienMotif: motif.formatter(),
-      nouveauMotif: motif.formatter(),
+      motifDemande: motifDemande.formatter(),
     });
   },
 );

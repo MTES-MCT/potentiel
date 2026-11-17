@@ -76,23 +76,16 @@ export class DélaiWorld {
     const demandes = this.#demanderDélaiFixture.demandes;
     const accord = this.#accorderDemandeDélaiFixture;
 
-    const demande = accord.aÉtéCréé
-      ? demandes.get(
-          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(accord.ancienMotif).formatter(),
-        )
-      : motifDemande
-        ? demandes.get(
-            Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter(),
-          )
-        : demandes.values().next().value;
+    // on prend la demande ciblée par un motif, sinon la première demande disponible
+    const demande = motifDemande
+      ? demandes.get(Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter())
+      : demandes.values().next().value;
 
     if (!demande) {
-      throw new Error(`Fixture demande non trouvée`);
+      throw new Error(`Demande non trouvée dans DélaiWorld`);
     }
 
-    const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-      accord?.motif ?? demande.motif,
-    );
+    const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(demande.motif);
 
     const autoritéCompétente = this.lauréatWorld.cahierDesCharges.getAutoritéCompétente({
       domain: 'délai',
