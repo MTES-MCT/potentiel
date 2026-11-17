@@ -4,7 +4,7 @@ import { Heading3 } from '@/components/atoms/headings';
 import { Icon } from '@/components/atoms/Icon';
 
 export const Contexte = () => (
-  <section className="flex flex-col gap-6 mt-5 mb-10 xl:mx-auto xl:max-w-5xl px-2 lg:px-4">
+  <section className="flex flex-col mt-5 mb-10 xl:mx-auto xl:max-w-5xl px-2 lg:px-4">
     <h2 className="sr-only">Présentation de Potentiel et des appels d'offres</h2>
     <ContexteSection title="Objectif de la Programmation pluriannuelle de l'énergie (PPE)">
       <div className="flex flex-col gap-4 text-justify">
@@ -33,12 +33,12 @@ export const Contexte = () => (
           stratégie.
         </div>
         <div>
-          <Icon id="fr-icon-arrow-right-line" size="sm" />
+          <Icon id="fr-icon-arrow-right-line" size="sm" className="mr-1" />
           Concernant l’éolien terrestre, les objectifs de puissance installée sont fixés à 31 GW en
           2030, puis entre 35 et 40 GW à l’horizon 2035.
         </div>
         <div>
-          <Icon id="fr-icon-arrow-right-line" size="sm" />
+          <Icon id="fr-icon-arrow-right-line" size="sm" className="mr-1" />
           Pour le solaire photovoltaïque, la trajectoire retenue prévoit une capacité installée de
           48 GW en 2030 et comprise entre 55 et 80 GW en 2035. Les rythmes de déploiement pourront
           toutefois être ajustés en fonction de l’évolution prévisionnelle de la consommation
@@ -62,14 +62,14 @@ export const Contexte = () => (
           <div>On distingue deux grands mécanismes de soutien :</div>
           <ul className="flex flex-col gap-2">
             <li>
-              <Icon id="fr-icon-arrow-right-line" size="sm" />
+              <Icon id="fr-icon-arrow-right-line" size="sm" className="mr-1" />
               <span className="font-semibold">Les contrats d’obligation d’achat </span>: ils
               consistent en un rachat à un tarif fixe et défini à l'avance de l'intégralité de la
               production électrique injectée par un acheteur obligé qui est par la suite compensé
               par l’État.
             </li>
             <li>
-              <Icon id="fr-icon-arrow-right-line" size="sm" />
+              <Icon id="fr-icon-arrow-right-line" size="sm" className="mr-1" />
               <span className="font-semibold">Les contrats de complément de rémunération</span> : le
               producteur vend l’électricité produite directement sur le marché et perçoit ensuite un
               complément de rémunération qui compense la différence entre le prix du marché et un
@@ -93,14 +93,14 @@ export const Contexte = () => (
           <div>Deux modes d’attribution de ces contrats existent :</div>
           <ul className="flex flex-col gap-2">
             <li>
-              <Icon id="fr-icon-arrow-right-line" size="sm" />
+              <Icon id="fr-icon-arrow-right-line" size="sm" className="mr-1" />
               <span className="font-semibold">Guichet ouvert / arrêté tarifaire</span> : mécanisme
               administratif où le tarif ou l'aide est fixé à l'avance par l'État. Tout projet qui
               remplit les critères d'éligibilité administratifs et techniques est éligible au
               mécanisme de soutien
             </li>
             <li>
-              <Icon id="fr-icon-arrow-right-line" size="sm" />
+              <Icon id="fr-icon-arrow-right-line" size="sm" className="mr-1" />
               <span className="font-semibold">Appel d’offres</span> : procédure de mise en
               concurrence. Les candidats doivent soumettre une offre tarifaire. Seuls les dossiers
               les plus compétitifs et répondant le mieux aux critères fixés par l'État sont
@@ -161,7 +161,7 @@ export const Contexte = () => (
         </div>
       </div>
     </ContexteSection>
-    <ContexteSection title="Le rôle de Potentiel dans ce processus d'appels offres">
+    <ContexteSection title="Le rôle de Potentiel dans ce processus d'appels d'offres">
       {' '}
       <div className="flex flex-col gap-4 text-justify">
         <div>
@@ -177,7 +177,7 @@ export const Contexte = () => (
           désignés lauréats.
         </div>
         <div>
-          Une fois les projets retenus, Potentiel devient la plateforme de référence pour les
+          Une fois les projets retenus, Potentiel devient la plateforme de référence pour les{' '}
           <span className="font-semibold">
             échanges entre les porteurs de projets et l’administration
           </span>
@@ -205,15 +205,13 @@ export const Contexte = () => (
   </section>
 );
 
-const ContexteSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
-  return (
-    <div className="flex flex-col md:flex-row gap-4">
-      <Heading3 className={fr.cx('fr-accordion__title')}>
-        <div className="pl-4 py-3 bg-dsfr-background-actionLow-blueFrance-default text-dsfr-background-flat-blueFrance-default font-medium md:w-[200px] w-full">
-          {title}
-        </div>
-      </Heading3>
-      <div className="flex flex-col px-2 md:px-4 gap-4 text-justify">{children}</div>
-    </div>
-  );
-};
+const ContexteSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <div className="flex flex-col md:flex-row gap-4 mt-10">
+    <Heading3 className={fr.cx('fr-accordion__title')}>
+      <div className="pl-4 py-3 bg-dsfr-background-actionLow-blueFrance-default text-dsfr-background-flat-blueFrance-default font-medium md:w-[200px] w-full">
+        {title}
+      </div>
+    </Heading3>
+    <div className="flex flex-col px-2 md:px-4 gap-4 text-justify">{children}</div>
+  </div>
+);
