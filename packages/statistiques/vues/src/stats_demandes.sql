@@ -30,7 +30,7 @@ UNION
 --
 -- Délai
 SELECT VALUE->>'identifiantProjet' AS id,
-  (value->>'demande.motif') AS categorie,
+  'délai' AS categorie,
   CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
   CAST(VALUE->>'demande.accord.accordéLe' AS timestamp) AS accord,
   CAST(VALUE->>'demande.rejet.rejetéLe' AS timestamp) AS rejet,
