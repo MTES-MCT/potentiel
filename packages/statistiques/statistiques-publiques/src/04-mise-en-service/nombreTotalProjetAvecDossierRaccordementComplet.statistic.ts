@@ -32,7 +32,6 @@ export const computeNombreTotalProjetAvecDossierRaccordementComplet = async (cyc
         WHERE
           lau.key LIKE 'lauréat|%'
           AND dr.value ->> 'demandeComplèteRaccordement.transmiseLe' IS NOT NULL
-          AND dr.value ->> 'miseEnService.transmiseLe' IS NOT NULL
           AND (
             dr.value ->> 'conventionDeRaccordementDirecte.dateSignature' IS NOT NULL
             OR (
