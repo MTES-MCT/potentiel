@@ -7,17 +7,13 @@ import { Link } from '@/components/atoms/LinkNoPrefetch';
 import type { EnregistrerChangementProducteurFormProps } from './EnregistrerChangementProducteur.form';
 
 type InfoBoxProps = {
-  title: string;
   showAlerteGarantiesFinancières: boolean;
 };
 
-export const InfoBoxRévocationDesDroits = ({
-  title,
-  showAlerteGarantiesFinancières,
-}: InfoBoxProps) => (
+export const InfoBoxRévocationDesDroits = ({ showAlerteGarantiesFinancières }: InfoBoxProps) => (
   <Notice
     severity="info"
-    title={title}
+    title="Vous êtes sur le point de déclarer ce changement de producteur"
     description={
       <>
         <br />

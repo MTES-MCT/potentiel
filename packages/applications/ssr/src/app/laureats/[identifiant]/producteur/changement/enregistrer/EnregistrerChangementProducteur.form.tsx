@@ -91,7 +91,6 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
         title: 'Confirmer le changement de producteur',
         children: (
           <InfoBoxRévocationDesDroits
-            title="Vous êtes sur le point de déclarer ce changement de producteur"
             showAlerteGarantiesFinancières={showAlerteGarantiesFinancières}
           />
         ),
