@@ -30,8 +30,8 @@ export type DélaiAccordéEvent = DomainEvent<
     dateAchèvementPrévisionnelCalculée: DateTime.RawType;
     accordéLe: DateTime.RawType;
     accordéPar: Email.RawType;
-    dateDemande: DateTime.RawType;
     réponseSignée: { format: string };
-    motif: MotifDemandeDélai.RawType;
+    dateDemande: DateTime.RawType;
+    motifDemande: MotifDemandeDélai.RawType;
   }
 >;

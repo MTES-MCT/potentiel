@@ -11,7 +11,6 @@ interface AccorderDemandeDélai {
   readonly accordéePar: string;
   readonly nombreDeMois: number;
   readonly dateAchèvementPrévisionnelActuelle: string;
-  readonly motif: string;
 }
 
 export class AccorderDemandeDélaiFixture
@@ -42,12 +41,6 @@ export class AccorderDemandeDélaiFixture
     return this.#nombreDeMois;
   }
 
-  #motif!: string;
-
-  get motif(): string {
-    return this.#motif;
-  }
-
   #dateAchèvementPrévisionnelActuelle!: string;
 
   get dateAchèvementPrévisionnelActuelle(): string {
@@ -70,7 +63,6 @@ export class AccorderDemandeDélaiFixture
     this.#réponseSignée = fixture.réponseSignée;
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#dateAchèvementPrévisionnelActuelle = fixture.dateAchèvementPrévisionnelActuelle;
-    this.#motif = fixture.motif;
 
     this.aÉtéCréé = true;
 

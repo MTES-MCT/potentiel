@@ -65,17 +65,14 @@ export default async function Page(props: PageProps) {
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
       const règlesChangement = cahierDesCharges.getRèglesChangements('délai');
 
-      if (!règlesChangement.motifs) {
-        return notFound();
-      }
-
-      const motifsDisponibles = isFeatureEnabled('delai-phase-essai')
-        ? utilisateur.estDGEC()
-          ? Object.keys(règlesChangement.motifs)
-          : Object.entries(règlesChangement.motifs)
-              .filter(([, motif]) => motif?.autoritéCompétente === utilisateur.rôle.nom)
-              .map(([key]) => key)
-        : ['prolongation-délai-achèvement'];
+      const motifsDisponibles =
+        isFeatureEnabled('delai-phase-essai') && règlesChangement?.motifs
+          ? utilisateur.estDGEC()
+            ? Object.keys(règlesChangement.motifs)
+            : Object.entries(règlesChangement.motifs)
+                .filter(([, motif]) => motif?.autoritéCompétente === utilisateur.rôle.nom)
+                .map(([key]) => key)
+          : ['prolongation-délai-achèvement'];
 
       return (
         <DétailsDemandeDélaiPage
