@@ -5,6 +5,7 @@ export const mapToDonneesProjetPourAchevement = ({
   identifiantProjet,
   nomProjet,
   nomCandidat,
+  emailContact,
   dateNotification,
   sociétéMère,
   siren,
@@ -36,7 +37,11 @@ export const mapToDonneesProjetPourAchevement = ({
   famille: identifiantProjet.famille,
   nomProjet,
   numeroCre: identifiantProjet.numéroCRE,
-  nomCandidat,
+  contact: {
+    nom: nomCandidat,
+    email: emailContact,
+  },
+
   dateNotification: dateNotification.formatterDate(),
   societeMere: sociétéMère,
   identification: siren || siret ? { siren, siret } : undefined,
