@@ -239,7 +239,7 @@ namespace Achevement {
      * 
      * 🍀 Domaine Fournisseur 
     */
-    evaluationCarboneSimplifiee?: float32;
+    evaluationCarboneSimplifiee: float32;
   
     /** 
      * Type de terrain 
