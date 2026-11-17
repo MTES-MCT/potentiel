@@ -18,50 +18,48 @@ export const DemanderMainlevéePage = ({
 }: DemanderMainlevéePageProps) => (
   <ColumnPageTemplate
     heading={<Heading1>Demander la mainlevée des garanties financières</Heading1>}
-    leftColumn={{
-      children: (
-        <>
-          <div className="mb-6">
-            {prérequisComplétés ? (
-              <p>Êtes-vous sûr de vouloir demander la mainlevée des garanties financières ?</p>
-            ) : (
-              <ChecklistMainlevée identifiantProjet={identifiantProjet} prérequis={prérequis} />
-            )}
-          </div>
+    leftColumn={
+      <>
+        <div className="mb-6">
+          {prérequisComplétés ? (
+            <p>Êtes-vous sûr de vouloir demander la mainlevée des garanties financières ?</p>
+          ) : (
+            <ChecklistMainlevée identifiantProjet={identifiantProjet} prérequis={prérequis} />
+          )}
+        </div>
 
-          <DemanderMainlevéeForm
-            identifiantProjet={identifiantProjet}
-            motif={motif}
-            prérequisComplétés={prérequisComplétés}
-          />
-        </>
-      ),
-    }}
-    rightColumn={{
-      children:
-        prérequisComplétés && motif === 'projet-achevé' ? (
-          <Notice
-            severity="info"
-            title="Veuillez vérifier l’exactitude des pièces suivantes, déposées sur Potentiel :"
-            description={
-              <span className="flex flex-col gap-4">
-                <span className="ml-4 mt-2">
-                  <span>• L'attestation de conformité,</span>
-                  <br />
-                  <span>• Le rapport associé.</span>
-                </span>
-                <span>
-                  Ces documents seront vérifiés par les services de l’État en région afin
-                  d’instruire votre demande de mainlevée. Vous pouvez, au besoin, vous rendre sur{' '}
-                  <Link href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet)}>
-                    le formulaire dédié pour les modifier
-                  </Link>
-                  .
-                </span>
+        <DemanderMainlevéeForm
+          identifiantProjet={identifiantProjet}
+          motif={motif}
+          prérequisComplétés={prérequisComplétés}
+        />
+      </>
+    }
+    rightColumn={
+      prérequisComplétés &&
+      motif === 'projet-achevé' && (
+        <Notice
+          severity="info"
+          title="Veuillez vérifier l’exactitude des pièces suivantes, déposées sur Potentiel :"
+          description={
+            <span className="flex flex-col gap-4">
+              <span className="ml-4 mt-2">
+                <span>• L'attestation de conformité,</span>
+                <br />
+                <span>• Le rapport associé.</span>
               </span>
-            }
-          />
-        ) : null,
-    }}
+              <span>
+                Ces documents seront vérifiés par les services de l’État en région afin d’instruire
+                votre demande de mainlevée. Vous pouvez, au besoin, vous rendre sur{' '}
+                <Link href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet)}>
+                  le formulaire dédié pour les modifier
+                </Link>
+                .
+              </span>
+            </span>
+          }
+        />
+      )
+    }
   />
 );

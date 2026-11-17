@@ -55,6 +55,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
           type: 'back',
         },
       }}
+      className="w-full md:w-1/2"
     >
       <input
         name="identifiantProjet"
