@@ -1,5 +1,5 @@
 import { Heading1 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   ModifierSiteDeProductionForm,
   type ModifierSiteDeProductionFormProps,
@@ -11,8 +11,8 @@ export const ModifierSiteDeProductionPage: React.FC<ModifierSiteDeProductionPage
   lauréat,
   rôle,
 }) => (
-  <ColumnPageTemplate
-    heading={<Heading1>Modifier le site de production</Heading1>}
-    leftColumn={<ModifierSiteDeProductionForm lauréat={lauréat} rôle={rôle} />}
-  />
+  <PageTemplate>
+    <Heading1>Modifier le site de production</Heading1>
+    <ModifierSiteDeProductionForm lauréat={lauréat} rôle={rôle} />
+  </PageTemplate>
 );
