@@ -2,7 +2,6 @@
 
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
-import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useEffect, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -15,14 +14,18 @@ import {
   type EnregistrerChangementProducteurFormKeys,
   enregistrerChangementProducteurAction,
 } from './enregistrerChangementProducteur.action';
+import { InfoBoxRévocationDesDroits } from './InfoBoxProducteur';
 
 export type EnregistrerChangementProducteurFormProps =
-  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>;
+  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel> & {
+    showAlerteGarantiesFinancières: boolean;
+  };
 
 export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProducteurFormProps> = ({
   identifiantProjet,
   producteur: producteurInitialValue,
   numéroIdentification,
+  showAlerteGarantiesFinancières,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementProducteurFormKeys>
@@ -87,21 +90,10 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
       confirmSubmit={{
         title: 'Confirmer le changement de producteur',
         children: (
-          <Notice
+          <InfoBoxRévocationDesDroits
             title="Vous êtes sur le point de déclarer ce changement de producteur"
-            description={
-              <span>
-                <span className="mt-2 block">
-                  Dès la confirmation, vous perdrez immédiatement vos accès au projet et ne pourrez
-                  plus effectuer de modification.
-                </span>
-                <span>
-                  Si des garanties financières sont encore en cours sur ce projet, vous devrez
-                  adresser votre demande de mainlevée hors Potentiel directement à votre DREAL.
-                </span>
-              </span>
-            }
-          ></Notice>
+            showAlerteGarantiesFinancières={showAlerteGarantiesFinancières}
+          />
         ),
       }}
     >
@@ -164,7 +156,6 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           textArea
           label="Raison (optionnel)"
           id="raison"
-          className="lg:w-1/2"
           hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',

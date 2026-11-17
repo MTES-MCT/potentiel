@@ -6,19 +6,33 @@ import { Routes } from '@potentiel-applications/routes';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 import type { EnregistrerChangementProducteurFormProps } from './EnregistrerChangementProducteur.form';
 
-export const InfoBoxRévocationDesDroits: FC = () => (
+type InfoBoxProps = {
+  title: string;
+  showAlerteGarantiesFinancières: boolean;
+};
+
+export const InfoBoxRévocationDesDroits = ({
+  title,
+  showAlerteGarantiesFinancières,
+}: InfoBoxProps) => (
   <Notice
-    severity="warning"
-    title="Attention : révocation des droits sur le projet"
+    severity="info"
+    title={title}
     description={
       <>
         <br />
         <span>
-          Une fois ce changement confirmé, vous ne pourrez plus suivre ce projet sur Potentiel.
-          <br />
-          Tous les accès utilisateurs actuels seront retirés. <br /> Le nouveau producteur pourra
-          retrouver le projet dans la liste{' '}
+          En confirmant ce changement de producteur, vous perdrez immédiatement vos accès au projet
+          et ne pourrez plus effectuer de modification. <br />
+          Le nouveau producteur pourra récupérer le projet via l'onglet{' '}
           <Link href={Routes.Accès.réclamerProjet}>"Projets à réclamer"</Link>.
+          {showAlerteGarantiesFinancières && (
+            <>
+              <br />
+              Des garanties financières étant en cours sur ce projet, vous devrez adresser votre
+              demande de mainlevée hors Potentiel, directement à votre DREAL.
+            </>
+          )}
         </span>
       </>
     }

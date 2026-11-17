@@ -11,7 +11,6 @@ import {
 import {
   InfoBoxAprèsAchèvement,
   InfoBoxRenseignerOuCorrigerNuméroImmatriculation,
-  InfoBoxRévocationDesDroits,
 } from './InfoBoxProducteur';
 
 export type EnregistrerChangementProducteurPageProps = EnregistrerChangementProducteurFormProps;
@@ -20,18 +19,17 @@ export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProduc
   identifiantProjet,
   producteur,
   numéroIdentification,
+  showAlerteGarantiesFinancières,
 }) => (
   <ColumnPageTemplate
     heading={<Heading1>Changer de producteur</Heading1>}
     leftColumn={
-      <>
-        <InfoBoxRévocationDesDroits />
-        <EnregistrerChangementProducteurForm
-          identifiantProjet={identifiantProjet}
-          producteur={producteur}
-          numéroIdentification={numéroIdentification}
-        />
-      </>
+      <EnregistrerChangementProducteurForm
+        identifiantProjet={identifiantProjet}
+        producteur={producteur}
+        numéroIdentification={numéroIdentification}
+        showAlerteGarantiesFinancières={showAlerteGarantiesFinancières}
+      />
     }
     rightColumn={
       <>
