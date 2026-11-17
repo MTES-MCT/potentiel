@@ -45,6 +45,7 @@ export type DonnéesProjetPourAchèvementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   nomCandidat: string;
+  emailContact: string;
   dateNotification: DateTime.ValueType;
   sociétéMère: string;
   siren?: string;
@@ -170,6 +171,7 @@ export const mapToDonnéesProjetPourAchèvementReadModel = ({
     lauréat: { localité, nomProjet, notifiéLe, statut, cahierDesCharges, coordonnées },
     candidature: {
       nomCandidat,
+      emailContact,
       sociétéMère,
       prixReference,
       coefficientKChoisi,
@@ -199,6 +201,7 @@ export const mapToDonnéesProjetPourAchèvementReadModel = ({
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     nomProjet,
     nomCandidat,
+    emailContact,
     dateNotification: DateTime.convertirEnValueType(notifiéLe),
     sociétéMère: actionnaire?.actionnaire.nom ?? sociétéMère,
     siren: producteur?.numéroIdentification?.siren,
