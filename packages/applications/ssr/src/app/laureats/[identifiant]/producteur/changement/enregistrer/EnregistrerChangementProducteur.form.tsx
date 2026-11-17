@@ -2,6 +2,7 @@
 
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { type FC, useEffect, useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
@@ -82,6 +83,26 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
         secondaryAction: {
           type: 'back',
         },
+      }}
+      confirmSubmit={{
+        title: 'Confirmer le changement de producteur',
+        children: (
+          <Notice
+            title="Vous êtes sur le point de déclarer ce changement de producteur"
+            description={
+              <span>
+                <span className="mt-2 block">
+                  Dès la confirmation, vous perdrez immédiatement vos accès au projet et ne pourrez
+                  plus effectuer de modification.
+                </span>
+                <span>
+                  Si des garanties financières sont encore en cours sur ce projet, vous devrez
+                  adresser votre demande de mainlevée hors Potentiel directement à votre DREAL.
+                </span>
+              </span>
+            }
+          ></Notice>
+        ),
       }}
     >
       <input
