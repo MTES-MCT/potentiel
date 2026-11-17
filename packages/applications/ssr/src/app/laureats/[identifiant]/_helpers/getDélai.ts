@@ -12,7 +12,7 @@ export const getDemandesDélaiEnCoursInfos = async (
     data: {
       utilisateur: emailUtilisateur,
       identifiantProjet,
-      statuts: ['demandé'],
+      statuts: ['demandé', 'en-instruction'],
     },
   });
 
