@@ -20,7 +20,9 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   delaiRealisationTexte: 'trente (30) mois',
   miseÀJour: {
     changement: {
-      nomProjet: {},
+      nomProjet: {
+        informationEnregistrée: true,
+      },
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},

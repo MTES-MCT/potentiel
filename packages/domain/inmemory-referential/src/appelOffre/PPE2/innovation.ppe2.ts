@@ -67,7 +67,9 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   miseÀJour: {
     changement: {
-      nomProjet: {},
+      nomProjet: {
+        informationEnregistrée: true,
+      },
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},

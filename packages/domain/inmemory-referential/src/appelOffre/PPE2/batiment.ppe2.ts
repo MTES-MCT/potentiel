@@ -33,7 +33,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   },
   miseÀJour: {
     changement: {
-      nomProjet: {},
       natureDeLExploitation: {},
       siteDeProduction: {},
       puissance: {
@@ -79,7 +78,9 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 30,
   miseÀJour: {
     changement: {
-      nomProjet: {},
+      nomProjet: {
+        informationEnregistrée: true,
+      },
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},

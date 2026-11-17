@@ -21,7 +21,9 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
   miseÀJour: {
     changement: {
-      nomProjet: {},
+      nomProjet: {
+        informationEnregistrée: true,
+      },
       natureDeLExploitation: {},
       typologieInstallation: {},
       siteDeProduction: {},
@@ -309,7 +311,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     },
     {
       id: '5',
-      title: 'cinqième',
+      title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
