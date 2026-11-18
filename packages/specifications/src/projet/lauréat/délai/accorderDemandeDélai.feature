@@ -47,9 +47,8 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
 
     Scénario: Un délai pour prolongation de phase d'essai est accordé
         Etant donné une date d'achèvement prévisionnel pour le projet lauréat au "2024-05-01"
-        Et une demande de délai en cours pour le projet lauréat avec :
-            | motif                  | prolongation-phase-essai |
-            | durée du délai demandé | 1                        |
+        Et une demande de "prolongation de phase d'essai" en cours pour le projet lauréat avec :
+            | durée du délai demandé | 1 |
         Quand la DGEC accorde la demande de délai pour le projet lauréat
         Alors la demande de délai devrait être accordée
         Et la date d'achèvement prévisionnel du projet lauréat devrait être au "2024-05-01"
@@ -59,14 +58,10 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
     Scénario: La DGEC accorde une prolongation de phase d'essai pour un projet avec deux demandes de délai en cours
-        Etant donné une demande de délai en cours pour le projet lauréat avec :
-            | motif | prolongation-délai-achèvement |       
-        Et une demande de délai en cours pour le projet lauréat avec :
-            | motif | prolongation-phase-essai |     
-        Quand la DGEC accorde la demande de délai pour le projet lauréat avec :
-            | motif | prolongation-phase-essai | 
-        Alors la demande de délai devrait être accordée avec :
-            | motif | prolongation-phase-essai | 
+        Etant donné une demande de "prolongation de délai d'achèvement" en cours pour le projet lauréat
+        Et une demande de "prolongation de phase d'essai" en cours pour le projet lauréat
+        Quand la DGEC accorde la demande de "prolongation de phase d'essai" pour le projet lauréat
+        Alors la demande de "prolongation de phase d'essai" devrait être accordée
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL accorde la demande de délai pour le projet lauréat

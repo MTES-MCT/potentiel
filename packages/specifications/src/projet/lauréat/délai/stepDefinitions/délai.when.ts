@@ -27,15 +27,18 @@ Quand(
 );
 
 Quand(
-  'le porteur annule la demande de délai pour le projet lauréat',
+  'le porteur annule la demande de délai du projet lauréat',
   async function (this: PotentielWorld) {
     await annulerDemandeDélai.call(this);
   },
 );
 
-Quand('la DREAL rejette le délai pour le projet lauréat', async function (this: PotentielWorld) {
-  await rejeterDemandeDélai.call(this);
-});
+Quand(
+  'la DREAL rejette la demande de délai pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await rejeterDemandeDélai.call(this);
+  },
+);
 
 Quand(
   'la {dreal-dgec} accorde la demande de délai pour le projet lauréat',

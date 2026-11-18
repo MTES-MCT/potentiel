@@ -73,52 +73,34 @@ Alors(
   },
 );
 
-Alors(
-  `la demande de {string} devrait être annulée`,
-  async function (
-    this: PotentielWorld,
-    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
-  ) {
+Alors(`la demande de délai devrait être annulée`, async function (this: PotentielWorld) {
+  await vérifierDemandeDélai.call(
+    this,
+    this.candidatureWorld.importerCandidature.identifiantProjet,
+    Lauréat.Délai.StatutDemandeDélai.annulé,
+    "prolongation de délai d'achèvement",
+  );
+});
+
+Alors(`la demande de délai devrait être en instruction`, async function (this: PotentielWorld) {
+  await vérifierDemandeDélai.call(
+    this,
+    this.candidatureWorld.importerCandidature.identifiantProjet,
+    Lauréat.Délai.StatutDemandeDélai.enInstruction,
+    "prolongation de délai d'achèvement",
+  );
+});
+
+Alors('la demande de délai devrait être rejetée', async function (this: PotentielWorld) {
+  return waitForExpect(async () => {
     await vérifierDemandeDélai.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Lauréat.Délai.StatutDemandeDélai.annulé,
-      motif,
+      Lauréat.Délai.StatutDemandeDélai.rejeté,
+      "prolongation de délai d'achèvement",
     );
-  },
-);
-
-Alors(
-  `la demande de {string} devrait être en instruction`,
-  async function (
-    this: PotentielWorld,
-    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
-  ) {
-    await vérifierDemandeDélai.call(
-      this,
-      this.candidatureWorld.importerCandidature.identifiantProjet,
-      Lauréat.Délai.StatutDemandeDélai.enInstruction,
-      motif,
-    );
-  },
-);
-
-Alors(
-  'la demande de {string} devrait être rejetée',
-  async function (
-    this: PotentielWorld,
-    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
-  ) {
-    return waitForExpect(async () => {
-      await vérifierDemandeDélai.call(
-        this,
-        this.candidatureWorld.importerCandidature.identifiantProjet,
-        Lauréat.Délai.StatutDemandeDélai.rejeté,
-        motif,
-      );
-    });
-  },
-);
+  });
+});
 
 Alors(
   'la demande de {string} devrait être accordée',

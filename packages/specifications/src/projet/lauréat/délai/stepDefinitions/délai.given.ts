@@ -58,17 +58,11 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de {string} en instruction pour le projet lauréat',
-  async function (
-    this: PotentielWorld,
-    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
-  ) {
+  'une demande de délai en instruction pour le projet lauréat',
+  async function (this: PotentielWorld) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif:
-        motif === "prolongation de phase d'essai"
-          ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.formatter()
-          : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
     });
     await passerDemanderDélaiEnInstruction.call(this);
   },

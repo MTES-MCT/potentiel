@@ -9,7 +9,7 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
         Et un cahier des charges permettant la modification du projet
 
     Scénario: Une dreal passe en instruction la demande de délai d'un projet lauréat
-        Etant donné une demande de délai en cours pour le projet lauréat
+        Etant donné une demande de "prolongation de délai d'achèvement" en cours pour le projet lauréat
         Quand la dreal passe en instruction la demande de délai pour le projet lauréat
         Alors la demande de délai du projet lauréat devrait être en instruction
         Et un email a été envoyé au porteur avec :
@@ -18,7 +18,7 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*                 |
 
     Scénario: Un nouvel utilisateur dreal reprend l'instruction de la demande de délai du projet lauréat
-        Etant donné une demande de délai en instruction pour le projet lauréat
+        Etant donné une demande de "prolongation de délai d'achèvement" en instruction pour le projet lauréat
         Quand un nouvel utilisateur dreal passe en instruction la demande de délai pour le projet lauréat
         Alors la demande de délai du projet lauréat devrait être en instruction
 

@@ -1,5 +1,6 @@
 # language: fr
 @délai
+@select
 Fonctionnalité: Corriger la demande de délai d'un projet lauréat
 
     Contexte:
@@ -9,9 +10,9 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
         Et un cahier des charges permettant la modification du projet
 
     Scénario: Un porteur corrige sa demande de délai
-        Etant donné une demande de délai en cours pour le projet lauréat
+        Etant donné une demande de "prolongation de délai d'achèvement" en cours pour le projet lauréat
         Quand le porteur corrige la demande de délai pour le projet lauréat
-        Alors la demande corrigée de délai devrait être consultable
+        Alors la demande de "prolongation de délai d'achèvement" devrait être consultable
         Et un email a été envoyé à l'autorité instructrice avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Délai corrigé |
             | nom_projet | Du boulodrome de Marseille                             |
