@@ -55,7 +55,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
           <InfoBoxDemandeDélai motif={demande.motif.motif} />
           <DétailsDemandeDélai demande={demande} />
           <div>
-            <Heading2>Historique</Heading2>
+            <Heading2>Historique de la demande</Heading2>
             <Timeline items={historique} />
           </div>
         </>
@@ -103,6 +103,7 @@ const mapToActionComponents = ({
       <PasserEnInstructionDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         estUneReprise={actions.includes('reprendre-instruction')}
+        dateDemande={dateDemande.formatter()}
       />
     )}
     {actions.includes('accorder') && (
@@ -134,7 +135,10 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('annuler') && (
-      <AnnulerDemandeDélaiForm identifiantProjet={identifiantProjet.formatter()} />
+      <AnnulerDemandeDélaiForm
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+      />
     )}
   </ActionsList>
 );

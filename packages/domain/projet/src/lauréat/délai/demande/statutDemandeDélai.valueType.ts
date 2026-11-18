@@ -1,5 +1,7 @@
 import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
+import type { MotifDemandeDélai } from '../index.js';
+
 export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté', 'en-instruction'] as const;
 
 export type RawType = (typeof statuts)[number];
@@ -121,8 +123,10 @@ class DélaiDéjàRejetéError extends InvalidOperationError {
   }
 }
 
-class DélaiEnCoursErreur extends InvalidOperationError {
-  constructor() {
-    super(`Une demande de délai est déjà en cours`);
+export class DélaiEnCoursErreur extends InvalidOperationError {
+  constructor(motif?: MotifDemandeDélai.RawType) {
+    super(
+      `Une demande de ${motif === 'prolongation-phase-essai' ? "prolongation de phase d'essai" : motif === 'prolongation-délai-achèvement' ? "prolongation de délai d'achèvement" : 'délai'} est déjà en cours${!motif ? 'pour ce même motif' : ''}`,
+    );
   }
 }

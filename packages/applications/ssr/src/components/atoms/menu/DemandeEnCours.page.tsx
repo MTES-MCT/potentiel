@@ -6,15 +6,20 @@ import { Heading2 } from '../headings';
 type Props = {
   title: string;
   href: string;
+  hrefLabel?: string;
 };
 
-export const DemandeEnCoursPage = ({ title, href }: Props) => (
+export const DemandeEnCoursPage = ({
+  title,
+  href,
+  hrefLabel = 'Voir ma demande en cours',
+}: Props) => (
   <div className="flex flex-col gap-6 w-full lg:min-h-96">
-    <Heading2>Demande en cours</Heading2>
+    <Heading2>Demande(s) en cours</Heading2>
     <Notice
       severity="info"
       title={title}
-      description="Une demande étant déjà en cours, vous ne pouvez plus faire de demande ou enregistrer une modification. Si cette demande est obsolète, vous pouvez l'annuler."
+      description="Une ou plusieurs demandes étant déjà en cours, vous ne pouvez plus faire de demande ou enregistrer une modification. Si une demande est obsolète, vous pouvez l'annuler."
       className="lg:w-1/2"
     />
     <Button
@@ -23,7 +28,7 @@ export const DemandeEnCoursPage = ({ title, href }: Props) => (
         href,
       }}
     >
-      Voir la demande en cours
+      {hrefLabel}
     </Button>
   </div>
 );

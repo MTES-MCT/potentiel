@@ -10,6 +10,7 @@ export type AnnulerDemandeDélaiCommand = Message<
     dateAnnulation: DateTime.ValueType;
     identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    dateDemande: DateTime.ValueType;
   }
 >;
 
@@ -20,11 +21,13 @@ export const registerAnnulerDemandeDélaiCommand = (
     dateAnnulation,
     identifiantUtilisateur,
     identifiantProjet,
+    dateDemande,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
     await projet.lauréat.délai.annulerDemandeDélai({
       dateAnnulation,
       identifiantUtilisateur,
+      dateDemande,
     });
   };
   mediator.register('Lauréat.Délai.Command.AnnulerDemande', handler);

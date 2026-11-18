@@ -3,18 +3,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
 import { sendEmail } from '#sendEmail';
+import { getMotifDélaiLabel } from '../helpers/getMotifDélaiLabel.js';
 
-export const handleDélaiDemandé = async (
-  event: Lauréat.Délai.DélaiDemandéEvent | Lauréat.Délai.DélaiDemandéEventV1,
-) => {
+export const handleDélaiDemandé = async (event: Lauréat.Délai.DélaiDemandéEvent) => {
   const projet = await getLauréat(event.payload.identifiantProjet);
 
   const { appelOffre, période } = projet.identifiantProjet;
 
-  const motif =
-    event.type === 'DélaiDemandé-V2'
-      ? Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif)
-      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
+  const motif = Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(event.payload.motif);
 
   const recipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet: projet.identifiantProjet,
@@ -34,6 +30,7 @@ export const handleDélaiDemandé = async (
       url: buildUrl(
         Routes.Délai.détail(projet.identifiantProjet.formatter(), event.payload.demandéLe),
       ),
+      motif_demande: getMotifDélaiLabel(motif.formatter()),
     },
   });
 };

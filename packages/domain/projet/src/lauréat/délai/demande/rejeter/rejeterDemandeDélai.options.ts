@@ -8,4 +8,5 @@ export type RejeterDemandeDélaiOptions = {
   identifiantUtilisateur: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
   rôleUtilisateur: Role.ValueType;
+  dateDemande: DateTime.ValueType;
 };

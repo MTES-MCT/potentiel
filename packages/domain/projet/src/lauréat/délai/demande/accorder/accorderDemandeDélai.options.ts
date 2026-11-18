@@ -9,4 +9,5 @@ export type AccorderDemandeDélaiOptions = {
   réponseSignée: DocumentProjet.ValueType;
   nombreDeMois: number;
   rôleUtilisateur: Role.ValueType;
+  dateDemande: DateTime.ValueType;
 };

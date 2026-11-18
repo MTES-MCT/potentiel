@@ -12,14 +12,15 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  dateDemande: zod.string().min(1),
+  réponseSignée: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type RejeterDemandeDélaiFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee },
+  { identifiantProjet, réponseSignée, dateDemande },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Délai.RejeterDemandeDélaiUseCase>({
@@ -28,8 +29,9 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateRejetValue: new Date().toISOString(),
-        réponseSignéeValue: reponseSignee,
+        réponseSignéeValue: réponseSignée,
         rôleUtilisateurValue: utilisateur.rôle.nom,
+        dateDemandeValue: dateDemande,
       },
     });
 

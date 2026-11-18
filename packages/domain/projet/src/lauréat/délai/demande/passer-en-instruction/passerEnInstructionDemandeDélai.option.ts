@@ -5,4 +5,5 @@ export type PasserEnInstructionDemandeDélaiOptions = {
   identifiantUtilisateur: Email.ValueType;
   datePassageEnInstruction: DateTime.ValueType;
   rôleUtilisateur: Role.ValueType;
+  dateDemande: DateTime.ValueType;
 };

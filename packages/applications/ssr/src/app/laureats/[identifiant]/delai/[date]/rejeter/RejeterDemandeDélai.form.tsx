@@ -57,12 +57,13 @@ export const RejeterDemandeDélaiForm = ({
               <p className="mt-3">Êtes-vous sûr de vouloir rejeter la demande de délai ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
-                name="reponseSignee"
+                state={validationErrors['réponseSignée'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['réponseSignée']}
+                name="réponseSignée"
                 required
                 className="mb-4"
                 formats={['pdf']}

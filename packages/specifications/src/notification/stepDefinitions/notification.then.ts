@@ -9,6 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { sleep, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../potentiel.world.js';
+import { getMotifDemandeDélaiFromLabel } from '../helpers/getMotifDemandeDélaiFromLabel.js';
 
 export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   await waitForExpect(async () => {
@@ -90,6 +91,7 @@ Alors(
 Alors(
   `un email a été envoyé à l'autorité instructrice avec :`,
   async function (this: PotentielWorld, data: DataTable) {
+    const emailVariables = data.rowsHash();
     const { identifiantProjet } = this.lauréatWorld;
 
     const cdc = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
@@ -115,9 +117,9 @@ Alors(
       domain === 'délai'
         ? {
             domain: 'délai',
-            motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-              this.lauréatWorld.délaiWorld.demanderDélaiFixture.motif,
-            ),
+            motif:
+              getMotifDemandeDélaiFromLabel(emailVariables['motif_demande']) ??
+              Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement,
           }
         : {
             domain: 'abandon',

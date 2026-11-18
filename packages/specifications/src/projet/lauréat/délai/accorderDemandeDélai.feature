@@ -41,11 +41,9 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
             | sujet      | Potentiel - Du boulodrome de Bordeaux - Délai accordé |
             | nom_projet | Du boulodrome de Bordeaux                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
-
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée à la date du "2028-05-02" pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée à la date du "2028-06-02" pour le projet lauréat
         Et une tâche "rappel échéance achèvement à un mois" est planifiée à la date du "2028-07-02" pour le projet lauréat
-
 
     Scénario: Un délai pour prolongation de phase d'essai est accordé
         Etant donné une date d'achèvement prévisionnel pour le projet lauréat au "2024-05-01"
@@ -59,6 +57,16 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
             | sujet      | Potentiel - Du boulodrome de Bordeaux - Délai accordé |
             | nom_projet | Du boulodrome de Bordeaux                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
+
+    Scénario: La DGEC accorde une prolongation de phase d'essai pour un projet avec deux demandes de délai en cours
+        Etant donné une demande de délai en cours pour le projet lauréat avec :
+            | motif | prolongation-délai-achèvement |       
+        Et une demande de délai en cours pour le projet lauréat avec :
+            | motif | prolongation-phase-essai |     
+        Quand la DGEC accorde la demande de délai pour le projet lauréat avec :
+            | motif | prolongation-phase-essai | 
+        Alors la demande de délai devrait être accordée avec :
+            | motif | prolongation-phase-essai | 
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL accorde la demande de délai pour le projet lauréat
@@ -91,3 +99,5 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
             | motif | prolongation-phase-essai |
         Quand la DREAL accorde la demande de délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
+
+

@@ -7,11 +7,10 @@ export const délaiAccordéProjector = async ({
     accordéPar,
     accordéLe,
     nombreDeMois,
-    motifDemande,
     dateAchèvementPrévisionnelCalculée,
     ...payload
   },
-}: Lauréat.Délai.DélaiAccordéEvent) => {
+}: Lauréat.Délai.DélaiAccordéEvent | Lauréat.Délai.DélaiAccordéEventV1) => {
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${payload.dateDemande}`,
     {

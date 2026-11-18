@@ -4,7 +4,7 @@ subject: Potentiel - {{ nom_projet }} - Délai rejeté
 
 Madame, Monsieur,
 
-La demande de délai pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}** est **rejetée**.
+La demande de **{{ motif_demande }}** pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}** est **rejetée**.
 
 Afin de suivre votre dossier, nous vous invitons à vous connecter au site Potentiel en cliquant sur le lien ci-dessous :
 
