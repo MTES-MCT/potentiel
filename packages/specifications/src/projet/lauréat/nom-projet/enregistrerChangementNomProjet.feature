@@ -37,8 +37,8 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
         Quand un porteur enregistre un changement de nom du projet avec la même valeur
         Alors l'utilisateur devrait être informé que "Aucune modification n’a été apportée"
 
-    # Règle AO
     Scénario: Impossible d'enregistrer un changement de nom d'un projet lauréat si le CDC ne le permet pas
-        Etant donné le projet lauréat "Du boulodrome de Toulouse"
+        Etant donné le projet lauréat "Du boulodrome de Toulouse" avec :
+            | appel d'offres | PPE2 - Eolien |
         Quand un porteur enregistre un changement de nom du projet
         Alors l'utilisateur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
