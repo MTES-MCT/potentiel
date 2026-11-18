@@ -9,6 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { sleep, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../potentiel.world.js';
+import { getMotifDemandeDélaiFromLabel } from '../helpers/getMotifDemandeDélaiFromLabel.js';
 
 export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   await waitForExpect(async () => {
@@ -90,6 +91,7 @@ Alors(
 Alors(
   `un email a été envoyé à l'autorité instructrice avec :`,
   async function (this: PotentielWorld, data: DataTable) {
+    const emailVariables = data.rowsHash();
     const { identifiantProjet } = this.lauréatWorld;
 
     const cdc = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
@@ -111,25 +113,13 @@ Alors(
 
     assert(domain, "Domaine inconnu, l'autorité instructrice ne peut être déterminée");
 
-    if (domain === 'délai') {
-      if (!this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.size) {
-        throw new Error('Aucune demande de délai');
-      }
-      if (this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.size > 1) {
-        throw new Error(
-          "Plusieurs demandes de délai : il est impossible de définir l'autorité concernée. Utilise un step spécifique.",
-        );
-      }
-    }
-
     const autorité = cdc.getAutoritéCompétente(
       domain === 'délai'
         ? {
             domain: 'délai',
-            motif: Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(
-              this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value!
-                .motif,
-            ),
+            motif:
+              getMotifDemandeDélaiFromLabel(emailVariables['motif_demande']) ??
+              Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement,
           }
         : {
             domain: 'abandon',

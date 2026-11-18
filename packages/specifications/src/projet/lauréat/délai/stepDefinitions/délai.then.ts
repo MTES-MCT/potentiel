@@ -22,9 +22,7 @@ Alors(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { motif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple);
-    if (!motif) {
-      throw new Error('Motif à préciser exemple');
-    }
+
     await vérifierDemandeDélai.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,

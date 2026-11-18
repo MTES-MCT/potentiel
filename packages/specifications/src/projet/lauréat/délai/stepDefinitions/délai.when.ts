@@ -13,6 +13,7 @@ import type { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixt
 Quand('le porteur demande un délai pour le projet lauréat', async function (this: PotentielWorld) {
   await demanderDélai.call(this, {
     identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+    motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
   });
 });
 
@@ -39,6 +40,7 @@ Quand(
 
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
       ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
     });
   },
@@ -110,12 +112,9 @@ Quand(
 
 export async function demanderDélai(
   this: PotentielWorld,
-  partialFixture: Omit<CréerDemandeDélaiFixture, 'motif'> & {
-    motif?: CréerDemandeDélaiFixture['motif'];
-  },
+  partialFixture: CréerDemandeDélaiFixture,
 ) {
-  const motif =
-    partialFixture.motif ?? Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.motif;
+  const motif = partialFixture.motif;
 
   const demandes = this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer({
     ...partialFixture,

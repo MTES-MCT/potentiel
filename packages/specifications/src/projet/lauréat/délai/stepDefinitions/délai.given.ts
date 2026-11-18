@@ -16,6 +16,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
     });
   },
 );
@@ -26,6 +27,7 @@ EtantDonné(
     const exemple = table.rowsHash();
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
       ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
     });
   },
@@ -36,6 +38,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
     });
     await annulerDemandeDélai.call(this);
   },
@@ -46,6 +49,20 @@ EtantDonné(
   async function (this: PotentielWorld) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
+    });
+    await passerDemanderDélaiEnInstruction.call(this);
+  },
+);
+
+EtantDonné(
+  'une demande de délai en instruction pour le projet lauréat avec :',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+    await demanderDélai.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
+      ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
     });
     await passerDemanderDélaiEnInstruction.call(this);
   },
@@ -56,6 +73,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
     });
     await rejeterDemandeDélai.call(this);
   },
