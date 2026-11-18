@@ -69,15 +69,18 @@ export const getDemandesEnCours = async ({
   }
 
   if (utilisateur.rôle.aLaPermission('délai.listerDemandes')) {
-    const délais = await getDemandesDélaiEnCoursInfos(
+    const demandesDélai = await getDemandesDélaiEnCoursInfos(
       identifiantProjet.formatter(),
       utilisateur.identifiantUtilisateur.email,
     );
 
-    for (const délai of délais) {
+    for (const demandeDélai of demandesDélai) {
       demandes.push({
-        text: `${getMotifDemandeDélaiLabel(délai.motif.formatter())}`,
-        href: Routes.Délai.détail(identifiantProjet.formatter(), délai.demandéLe.formatter()),
+        text: `${getMotifDemandeDélaiLabel(demandeDélai.motif.formatter())}`,
+        href: Routes.Délai.détail(
+          identifiantProjet.formatter(),
+          demandeDélai.demandéLe.formatter(),
+        ),
       });
     }
   }
