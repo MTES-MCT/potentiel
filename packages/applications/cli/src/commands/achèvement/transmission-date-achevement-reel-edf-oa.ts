@@ -94,6 +94,9 @@ export class VérifierTransmissionDateAchèvementRéelEDFOACommand extends Comma
       getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
       list: listProjection,
       listHistory: listHistoryProjection,
+      getNombreDeGarantiesFinancièresÀInstruire: () => {
+        throw new Error('not implemented');
+      },
     });
 
     Lauréat.registerLauréatUseCases({

@@ -24,5 +24,7 @@ export const setupProjet = () => {
     listHistory: listHistoryProjection,
     getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
     getNombreDemandesÀInstruire: ProjetAdapter.getNombreDemandesÀInstruireAdapter,
+    getNombreDeGarantiesFinancièresÀInstruire:
+      ProjetAdapter.GarantiesFinancières.getNombreGarantiesFinancièresÀInstruireAdapter,
   });
 };

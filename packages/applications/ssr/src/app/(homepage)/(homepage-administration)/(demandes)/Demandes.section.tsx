@@ -7,6 +7,7 @@ import {
 import { Section } from '@/components/atoms/section/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/section/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getNombreDeGarantiesFinancièresÀInstruire } from '../_helpers/getNombreDeGarantiesFinancièresÀInstruire';
 import { DemandesDétails } from './Demandes.détails';
 
 const sectionTitle = 'Demandes à instruire';
@@ -16,10 +17,12 @@ export const DemandesSection = () =>
     withUtilisateur(async (utilisateur) => {
       const autorité = utilisateur.estDreal() ? 'dreal' : 'dgec';
 
-      const nombreDemandesÀInstruire = await getNombreDemandesÀInstruire(
-        utilisateur.identifiantUtilisateur.email,
-        autorité,
-      );
+      const [nombreDemandesÀInstruire, nombreGarantiesFinancièresÀInstruire] = await Promise.all([
+        getNombreDemandesÀInstruire(utilisateur.identifiantUtilisateur.email, autorité),
+        utilisateur.estDreal()
+          ? getNombreDeGarantiesFinancièresÀInstruire(utilisateur.identifiantUtilisateur.email)
+          : undefined,
+      ]);
 
       const demandes = mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
 
@@ -29,7 +32,11 @@ export const DemandesSection = () =>
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
         >
-          <DemandesDétails demandes={demandes} autorité={autorité} />
+          <DemandesDétails
+            demandes={demandes}
+            garantiesFinancières={nombreGarantiesFinancièresÀInstruire}
+            autorité={autorité}
+          />
         </Section>
       );
     }),

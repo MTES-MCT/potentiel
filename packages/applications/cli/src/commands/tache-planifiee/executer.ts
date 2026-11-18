@@ -47,6 +47,9 @@ export class Executer extends Command {
       getNombreDemandesÀInstruire: () => {
         throw new Error('not implemented');
       },
+      getNombreDeGarantiesFinancièresÀInstruire: () => {
+        throw new Error('not implemented');
+      },
     });
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
