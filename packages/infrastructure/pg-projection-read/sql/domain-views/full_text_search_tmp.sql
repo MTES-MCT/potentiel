@@ -8,9 +8,13 @@ where projection.value->>'identifiantProjet' is not null;
 select *
 from domain_views.search_config;
 
-refresh materialized view domain_views.search_projects;
+call domain_views.refresh_search_projects('PPE2 - Petit PV Bâtiment#1##27020678');
+
 select *
-from domain_views.search_projects;
+from domain_views.search_projects
+where id = 'PPE2 - Petit PV Bâtiment#1##27020678';
+
+call domain_views.refresh_search_projects();
 
 SELECT p.key,
   p.value

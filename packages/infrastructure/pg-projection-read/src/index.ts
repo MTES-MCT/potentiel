@@ -3,3 +3,4 @@ export { findProjection } from './findProjection.js';
 export { getWhereClause } from './getWhereClause.js';
 export { listHistoryProjection } from './listHistoryProjection.js';
 export { listProjection } from './listProjection.js';
+export { refreshAllIndex, refreshOneIndex } from './refreshIndex.js';

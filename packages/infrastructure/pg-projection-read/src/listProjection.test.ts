@@ -980,12 +980,13 @@ describe('listProjection', () => {
           }),
         );
       }
+      await executeQuery(`refresh materialized view domain_views.search_projects;`);
 
       const expected = {
         total: 1,
         items: [
           {
-            type: 't_puissance',
+            type: 'testsearch_puissance',
             identifiantProjet: '1',
             puissance: 4,
           },
@@ -997,10 +998,76 @@ describe('listProjection', () => {
       };
 
       const searchTerm = 'ipsum';
-      const actual = await listProjection<FakeProjection1>('t_puissance', { search: searchTerm });
+      const actual = await listProjection<FakeProjection1>('testsearch_puissance', {
+        search: searchTerm,
+      });
 
       actual.should.have.all.keys(Object.keys(expected));
       actual.items.should.have.deep.members(expected.items);
     });
+
+    // it.only('fuzzy search', async () => {
+    //   // empty previous projections
+    //   await executeQuery(`delete from domain_views.projection where key like 'testsearch_%';`);
+    //   await executeQuery(`delete from domain_views.search_config;`);
+
+    //   // configure search to index the "nomProjet from testsearch_lauréat"
+    //   await executeQuery(
+    //     `insert into domain_views.search_config values ($1, $2, 'A')`,
+    //     'testsearch_lauréat',
+    //     'nomProjet',
+    //   );
+    //   const testData = [
+    //     {
+    //       identifiantProjet: '1',
+    //       nomProjet: `Lorem ipsum dolor sit amet`,
+    //       puissance: 4,
+    //     },
+    //     {
+    //       identifiantProjet: '2',
+    //       nomProjet: `consectetur adipiscing elit dolor`,
+    //       puissance: 8,
+    //     },
+    //   ];
+    //   // insert data
+    //   for (const data of testData) {
+    //     await executeQuery(
+    //       `insert into domain_views.projection values ($1, $2)`,
+    //       `testsearch_puissance|${data.identifiantProjet}`,
+    //       flatten({ puissance: data.puissance, identifiantProjet: data.identifiantProjet }),
+    //     );
+    //     await executeQuery(
+    //       `insert into domain_views.projection values ($1, $2)`,
+    //       `testsearch_lauréat|${data.identifiantProjet}`,
+    //       flatten({
+    //         nomProjet: data.nomProjet,
+    //         identifiantProjet: data.identifiantProjet,
+    //         // field not used, simply to illustrate that only indexed fields are searchable
+    //         otherField: 'ipsum',
+    //       }),
+    //     );
+    //   }
+
+    //   const expected = {
+    //     total: 1,
+    //     items: [
+    //       {
+    //         type: 't_puissance',
+    //         identifiantProjet: '1',
+    //         puissance: 4,
+    //       },
+    //     ],
+    //     range: {
+    //       startPosition: 0,
+    //       endPosition: 1,
+    //     },
+    //   };
+
+    //   const searchTerm = 'ipsum';
+    //   const actual = await listProjection<FakeProjection1>('t_puissance', { search: searchTerm });
+
+    //   actual.should.have.all.keys(Object.keys(expected));
+    //   actual.items.should.have.deep.members(expected.items);
+    // });
   });
 });

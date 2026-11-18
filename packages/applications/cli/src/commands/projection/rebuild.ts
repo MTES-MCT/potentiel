@@ -8,6 +8,7 @@ import type {
   RebuildOneTriggered,
 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { rebuild, rebuildAll } from '@potentiel-infrastructure/pg-event-sourcing';
+import { refreshAllIndex } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { dbSchema } from '#helpers';
@@ -108,6 +109,10 @@ export class RebuildProjectionCommand extends Command {
         },
       };
       await rebuildAll(rebuildAllEvent, subscriber);
+      logger.info('Rebuild completed');
+      logger.info('Refreshing search index...');
+      await refreshAllIndex();
+      logger.info('Search index refreshed');
     }
   }
 }

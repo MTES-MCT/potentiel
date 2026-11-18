@@ -9,6 +9,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { killPool } from '@potentiel-libraries/pg-helpers';
 
 import { startSubscribers } from './index.js';
+import { indexingMiddleware } from './indexing.middleware.js';
 import { setupLogger } from './setupLogger.js';
 
 const main = async () => {
@@ -22,7 +23,7 @@ const main = async () => {
   // - regular sagas (that send commands)
   // - attestation saga (that uses queries)
   await bootstrap({
-    middlewares: [logMiddleware],
+    middlewares: [logMiddleware, indexingMiddleware],
   });
 
   const unsubscribe = await startSubscribers({});

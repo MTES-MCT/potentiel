@@ -1,4 +1,3 @@
-drop materialized view if exists domain_views.search_projects;
 DROP TABLE IF EXISTS domain_views.search_config;
 create table domain_views.search_config (
   projection_name varchar not null,
@@ -6,10 +5,12 @@ create table domain_views.search_config (
   weight char(1) NOT NULL,
   primary key (projection_name, key)
 );
+
 insert into domain_views.search_config
 values ('lauréat', 'nomProjet', 'A'),
   ('producteur', 'nom', 'B'),
-  ('lauréat', 'localité.commune', 'C');
+  ('lauréat', 'localité.commune', 'C'),
+  ('accès', 'utilisateursAyantAccès', 'B');
 
 
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
@@ -24,7 +25,17 @@ CREATE AGGREGATE tsvector_agg(tsvector) (
 );
 
 
-create materialized view domain_views.search_projects as
+
+DROP TABLE IF EXISTS domain_views.search_projects;
+create table domain_views.search_projects (
+  id text primary key,
+  search tsvector,
+  searchable_text text
+);
+
+
+CREATE OR REPLACE PROCEDURE domain_views.refresh_search_projects(p_id text DEFAULT NULL) LANGUAGE plpgsql AS $$ BEGIN
+insert into domain_views.search_projects
 select projection.value->>'identifiantProjet' as id,
   tsvector_agg(
     setweight(
@@ -47,10 +58,21 @@ from domain_views.search_config
     search_config.projection_name
   )
 where projection.value->>'identifiantProjet' is not null
-group by projection.value->>'identifiantProjet';
+  AND(
+    p_id IS NULL
+    OR projection.value->>'identifiantProjet' = p_id
+  )
+group by projection.value->>'identifiantProjet' ON CONFLICT (id) DO
+UPDATE
+SET search = EXCLUDED.search,
+  searchable_text = EXCLUDED.searchable_text;
+END;
+$$;
 
 CREATE INDEX idx_search_projects_fts ON domain_views.search_projects USING gin (search);
 
 CREATE INDEX idx_search_projects_fuzzy ON domain_views.search_projects USING gin (searchable_text gin_trgm_ops);
 
-GRANT SELECT ON domain_views.search_projects TO potentiel;
+GRANT SELECT,
+  INSERT,
+  UPDATE ON domain_views.search_projects TO potentiel;
