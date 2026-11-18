@@ -14,14 +14,18 @@ import {
   type EnregistrerChangementProducteurFormKeys,
   enregistrerChangementProducteurAction,
 } from './enregistrerChangementProducteur.action';
+import { InfoBoxRévocationDesDroits } from './InfoBoxProducteur';
 
 export type EnregistrerChangementProducteurFormProps =
-  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>;
+  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel> & {
+    showAlerteGarantiesFinancières: boolean;
+  };
 
 export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProducteurFormProps> = ({
   identifiantProjet,
   producteur: producteurInitialValue,
   numéroIdentification,
+  showAlerteGarantiesFinancières,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementProducteurFormKeys>
@@ -83,6 +87,14 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           type: 'back',
         },
       }}
+      confirmSubmit={{
+        title: 'Confirmer le changement de producteur',
+        children: (
+          <InfoBoxRévocationDesDroits
+            showAlerteGarantiesFinancières={showAlerteGarantiesFinancières}
+          />
+        ),
+      }}
     >
       <input
         name="identifiantProjet"
@@ -143,7 +155,6 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           textArea
           label="Raison (optionnel)"
           id="raison"
-          className="lg:w-1/2"
           hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',

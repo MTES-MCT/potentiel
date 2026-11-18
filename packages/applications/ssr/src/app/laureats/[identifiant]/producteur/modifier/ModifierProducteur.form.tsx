@@ -88,7 +88,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         title: 'Confirmer le changement de producteur',
         children: (
           <Notice
-            title="Vous êtes sur le point d’enregistrer ce changement de producteur"
+            title="Vous êtes sur le point de modifier ce producteur"
             description={
               <span>
                 <span className="mt-2 block">

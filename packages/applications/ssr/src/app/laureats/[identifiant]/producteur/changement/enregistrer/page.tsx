@@ -11,6 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getGarantiesFinancières } from '../../../_helpers';
 import { EnregistrerChangementProducteurPage } from './EnregistrerChangementProducteur.page';
 
 export const metadata: Metadata = { title: 'Changer le producteur' };
@@ -47,6 +48,8 @@ export default async function Page(props: IdentifiantParameter) {
         'producteur',
       );
 
+      const garantiesFinancières = await getGarantiesFinancières(identifiantProjet.formatter());
+
       return (
         <EnregistrerChangementProducteurPage
           identifiantProjet={mapToPlainObject(producteurActuel.identifiantProjet)}
@@ -56,6 +59,7 @@ export default async function Page(props: IdentifiantParameter) {
               ? mapToPlainObject(producteurActuel.numéroIdentification)
               : undefined
           }
+          showAlerteGarantiesFinancières={!!garantiesFinancières.actuelles}
         />
       );
     }),
