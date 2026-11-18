@@ -11,6 +11,7 @@ import {
   optionalStringArray,
   transformToOptionalEnumArray,
 } from '@/app/_helpers';
+import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import {
   DemandeDélaiListPage,
   type DemandeDélaiListPageProps,
@@ -19,6 +20,7 @@ import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getMotifDemandeDélaiLabel } from '../../[identifiant]/delai/_helpers/getMotifDemandeDélaiLabel';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
@@ -32,6 +34,7 @@ const paramsSchema = z.object({
   appelOffre: optionalStringArray,
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Délai.StatutDemandeDélai.statuts)),
   autorite: z.enum(Lauréat.Délai.AutoritéCompétente.autoritésCompétentes).optional(),
+  motif: z.enum(Lauréat.Délai.MotifDemandeDélai.motifs).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -40,7 +43,8 @@ export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut, autorite } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, statut, autorite, motif } =
+        paramsSchema.parse(searchParams);
 
       const changements = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
         type: 'Lauréat.Délai.Query.ListerDemandeDélai',
@@ -56,6 +60,7 @@ export default async function Page(props: PageProps) {
           appelOffre,
           nomProjet,
           autoritéCompétente: autorite,
+          motif,
         },
       });
 
@@ -85,7 +90,6 @@ export default async function Page(props: PageProps) {
           })),
           multiple: true,
         },
-
         {
           label: 'Autorité compétente',
           searchParamKey: 'autorite',
@@ -95,6 +99,17 @@ export default async function Page(props: PageProps) {
           })),
         },
       ];
+
+      if (isFeatureEnabled('delai-phase-essai')) {
+        filters.push({
+          label: 'Motif de la demande',
+          searchParamKey: 'motif',
+          options: Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
+            label: getMotifDemandeDélaiLabel(motif),
+            value: motif,
+          })),
+        });
+      }
 
       return <DemandeDélaiListPage list={mapToListProps(changements)} filters={filters} />;
     }),
