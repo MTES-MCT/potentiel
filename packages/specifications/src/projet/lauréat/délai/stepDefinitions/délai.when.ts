@@ -10,38 +10,18 @@ import { convertFixtureFileToReadableStream } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 import type { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture.js';
 
-Quand('le porteur demande un délai pour le projet lauréat', async function (this: PotentielWorld) {
-  await demanderDélai.call(this, {
-    identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-    motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
-  });
-});
-
 Quand(
-  'le porteur demande un délai avec un motif identique à celui de la demande déjà en cours',
-  async function (this: PotentielWorld) {
-    const motifDemandeEnCours = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
-      .keys()
-      .next().value;
-    if (!motifDemandeEnCours) {
-      throw new Error(`Pas de première demande en cours !`);
-    }
+  'le porteur demande une {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: motifDemandeEnCours,
-    });
-  },
-);
-
-Quand(
-  'le porteur demande un délai pour le projet lauréat avec :',
-  async function (this: PotentielWorld, table: DataTable) {
-    const exemple = table.rowsHash();
-
-    await demanderDélai.call(this, {
-      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
-      ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
+      motif:
+        motif === "prolongation de phase d'essai"
+          ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.formatter()
+          : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
     });
   },
 );
@@ -110,6 +90,7 @@ Quand(
   },
 );
 
+// viovio probablement factoriser le motif ?
 export async function demanderDélai(
   this: PotentielWorld,
   partialFixture: CréerDemandeDélaiFixture,
@@ -124,8 +105,9 @@ export async function demanderDélai(
   const demande = demandes.demandes.get(
     Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
   );
+
   if (!demande) {
-    throw new Error('Erreur lors de la création de la fixture "demander délai" !');
+    throw new Error('Erreur lors de la création de la fixture "demander délai"');
   }
 
   try {

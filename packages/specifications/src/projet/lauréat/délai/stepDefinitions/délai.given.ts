@@ -12,22 +12,35 @@ import {
 } from './délai.when.js';
 
 EtantDonné(
-  'une demande de délai en cours pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'une demande de {string} en cours pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
+      motif:
+        motif === "prolongation de phase d'essai"
+          ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.formatter()
+          : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
     });
   },
 );
 
 EtantDonné(
-  'une demande de délai en cours pour le projet lauréat avec :',
-  async function (this: PotentielWorld, table: DataTable) {
+  'une demande de {string} en cours pour le projet lauréat avec :',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+    table: DataTable,
+  ) {
     const exemple = table.rowsHash();
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
+      motif:
+        motif === "prolongation de phase d'essai"
+          ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.formatter()
+          : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
       ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
     });
   },
@@ -45,11 +58,17 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de délai en instruction pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'une demande de {string} en instruction pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
+      motif:
+        motif === "prolongation de phase d'essai"
+          ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai.formatter()
+          : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
     });
     await passerDemanderDélaiEnInstruction.call(this);
   },
