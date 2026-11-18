@@ -141,7 +141,7 @@ namespace Achevement {
      * 
      * 🍀 Domaine Délai
      * */
-    delaiAccordeEnMois?: uint8;
+    // delaiAccordeEnMois?: uint8;
   
     /** 
      * 
@@ -150,19 +150,19 @@ namespace Achevement {
      * 
      * Dates de recours - 🍀 Domaine Recours 
      **/
-    recours?: {
-      /** 
-       * Date du recours initial  
-       **/
-      @format("date")
-      dateDemande: string;
+    // recours?: {
+    //   /** 
+    //    * Date du recours initial  
+    //    **/
+    //   @format("date")
+    //   dateDemande: string;
   
-      /** 
-       * Date de décision du recours 
-       **/
-      @format("date")
-      dateAccord: string;
-    };
+    //   /** 
+    //    * Date de décision du recours 
+    //    **/
+    //   @format("date")
+    //   dateAccord: string;
+    // };
   
     /** 
      * PP a choisi d'appliquer le coefficient K, afin d'indexer le prix sur l'inflation - 🍀 Domaine Candidature 
