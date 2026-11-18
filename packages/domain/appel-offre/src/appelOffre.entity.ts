@@ -48,12 +48,15 @@ type Addendums = {
 };
 
 // Type des Garanties Financières
-export type TypeGarantiesFinancières =
-  | 'consignation'
-  | 'avec-date-échéance'
-  | 'six-mois-après-achèvement'
-  | 'type-inconnu'
-  | 'exemption';
+export const typesGarantiesFinancières = [
+  'consignation',
+  'avec-date-échéance',
+  'six-mois-après-achèvement',
+  'type-inconnu',
+  'exemption',
+] as const;
+
+export type TypeGarantiesFinancières = (typeof typesGarantiesFinancières)[number];
 
 // GF AO
 type GarantiesFinancièresAppelOffre = {

@@ -1,18 +1,13 @@
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import {
   InvalidOperationError,
   type PlainType,
   type ReadonlyValueType,
 } from '@potentiel-domain/core';
 
-export const types = [
-  'consignation',
-  'avec-date-échéance',
-  'six-mois-après-achèvement',
-  'type-inconnu',
-  'exemption',
-] as const;
+export const types = AppelOffre.typesGarantiesFinancières;
 
-export type RawType = (typeof types)[number];
+export type RawType = AppelOffre.TypeGarantiesFinancières;
 
 export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   type: Type;
