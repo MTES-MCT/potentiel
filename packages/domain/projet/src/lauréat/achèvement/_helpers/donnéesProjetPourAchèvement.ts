@@ -80,10 +80,6 @@ export type DonnéesProjetPourAchèvementReadModel = {
   };
   évaluationCarboneSimplifiée: number;
   typeDeTerrain?: TypeDeTerrainDImplantation;
-  recours?: {
-    dateDemande: DateTime.RawType;
-    dateAccord: DateTime.RawType;
-  };
 };
 
 export type DonnéesProjetPourAchèvementJoins = [
