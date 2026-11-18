@@ -56,6 +56,9 @@ export class NotifierGestionnaireRéseau extends Command {
       getNombreDemandesÀInstruire: () => {
         throw new Error('not implemented');
       },
+      getNombreDeGarantiesFinancièresÀInstruire: () => {
+        throw new Error('not implemented');
+      },
     });
 
     registerUtilisateurQueries({

@@ -705,6 +705,8 @@ const référencielPermissions = {
   'demandes-en-instruction': {
     query: {
       lister: 'Projet.Query.ConsulterNombreDemandesÀInstruire',
+      listerGfs:
+        'Lauréat.GarantiesFinancières.Query.ConsulterNombreDeGarantiesFinancièresÀInstruire',
     },
   },
 } as const;
@@ -1637,6 +1639,7 @@ const policies = {
     consulter: [
       référencielPermissions.nouveautés.query.lister,
       référencielPermissions['demandes-en-instruction'].query.lister,
+      référencielPermissions['demandes-en-instruction'].query.listerGfs,
     ],
   },
 } as const;
