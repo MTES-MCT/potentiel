@@ -68,14 +68,18 @@ export const getNavigationItemsBasedOnRole = async ({
   ];
 
   const autorité = rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined;
+  const estPorteur = rôle.estPorteur();
 
-  const toutesDemandesMenuLinks = getDemandesLinks({
-    estPorteur: rôle.estPorteur(),
+  const démarchesMenuLinks = getDemandesLinks({
+    estPorteur,
+    autorité,
+    keys: ['abandon', 'délai', 'recours'],
+  });
+  const modificationsMenuLinks = getDemandesLinks({
+    estPorteur,
     autorité,
     keys: [
-      'abandon',
       'actionnaire',
-      'délai',
       'dispositifDeStockage',
       'fournisseur',
       'installateur',
@@ -83,7 +87,6 @@ export const getNavigationItemsBasedOnRole = async ({
       'nomProjet',
       'puissance',
       'producteur',
-      'recours',
       'représentantLégal',
     ],
   });
@@ -93,7 +96,7 @@ export const getNavigationItemsBasedOnRole = async ({
       ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité)
       : [];
 
-  const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = toutesDemandesMenuLinks.map((menuItem) => {
+  const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = modificationsMenuLinks.map((menuItem) => {
     const demande = demandesÀInstruire.find((demande) => demande.domain === menuItem.domaine);
 
     return demande?.total
@@ -113,26 +116,6 @@ export const getNavigationItemsBasedOnRole = async ({
         }
       : menuItem;
   });
-
-  const garantiesFinancièresMenuLinks: Array<MenuItem> = [
-    {
-      label: 'Garanties financières à valider',
-      url: Routes.GarantiesFinancières.dépôt.lister(),
-      permission: 'garantiesFinancières.dépôt.lister',
-    },
-    {
-      label: 'Projets sans garanties financières',
-      url: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
-      permission: 'garantiesFinancières.enAttente.lister',
-    },
-    {
-      label: 'Demandes de mainlevée',
-      url: Routes.GarantiesFinancières.demandeMainlevée.lister({
-        statut: ['demandé', 'en-instruction'],
-      }),
-      permission: 'garantiesFinancières.mainlevée.lister',
-    },
-  ];
 
   const candidatureMenuLinks: Array<MenuItem> = [
     {
@@ -173,7 +156,7 @@ export const getNavigationItemsBasedOnRole = async ({
     {
       label: 'Corriger des références dossier',
       url: Routes.Raccordement.corrigerRéférencesDossier,
-      permission: rôle.estPorteur() ? false : 'raccordement.référence-dossier.modifier',
+      permission: estPorteur ? false : 'raccordement.référence-dossier.modifier',
     },
     {
       label: 'Gérer les gestionnaires de réseau',
@@ -235,13 +218,41 @@ export const getNavigationItemsBasedOnRole = async ({
       menuLinks: mapToMenuProps(projetMenuLinks, rôle),
     },
     {
-      text: 'Demandes',
-      menuLinks: mapToMenuProps(toutesDemandesMenuLinksÉtoffé, rôle),
+      text: estPorteur ? 'Mes Démarches' : 'Démarches',
+      menuLinks: [
+        ...mapToMenuProps(démarchesMenuLinks, rôle),
+        ...mapToMenuProps(
+          [
+            {
+              label: 'Garanties financières à valider',
+              url: Routes.GarantiesFinancières.dépôt.lister(),
+              permission: 'garantiesFinancières.dépôt.lister',
+            },
+            {
+              label: 'Projets sans garanties financières',
+              url: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
+              permission: 'garantiesFinancières.enAttente.lister',
+            },
+            {
+              label: 'Demandes de mainlevée',
+              url: Routes.GarantiesFinancières.demandeMainlevée.lister({
+                statut: ['demandé', 'en-instruction'],
+              }),
+              permission: 'garantiesFinancières.mainlevée.lister',
+            },
+          ],
+          rôle,
+        ),
+      ],
     },
     {
-      text: 'Garanties Financières',
-      menuLinks: mapToMenuProps(garantiesFinancièresMenuLinks, rôle),
+      text: estPorteur ? 'Mes Modifications de projets' : 'Modifications de projets',
+      menuLinks: mapToMenuProps(toutesDemandesMenuLinksÉtoffé, rôle),
     },
+    // {
+    //   text: 'Garanties Financières',
+    //   menuLinks: mapToMenuProps(garantiesFinancièresMenuLinks, rôle),
+    // },
     {
       text: 'Candidatures',
       menuLinks: mapToMenuProps(candidatureMenuLinks, rôle),
