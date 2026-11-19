@@ -121,7 +121,7 @@ export const getNavigationItemsBasedOnRole = async ({
       permission: 'garantiesFinancières.dépôt.lister',
     },
     {
-      label: 'Projets avec garanties financières en attente',
+      label: 'Projets sans garanties financières',
       url: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
       permission: 'garantiesFinancières.enAttente.lister',
     },

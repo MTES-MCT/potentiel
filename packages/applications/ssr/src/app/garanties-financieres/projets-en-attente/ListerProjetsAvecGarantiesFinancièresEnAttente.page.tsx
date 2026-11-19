@@ -11,7 +11,7 @@ import {
   type ListItemProjetAvecGarantiesFinancièresEnAttenteProps,
 } from './ListItemProjetAvecGarantiesFinancièresEnAttente';
 
-export type ListProjetsAvecGarantiesFinancièresEnAttenteProps = {
+export type ListerProjetsAvecGarantiesFinancièresEnAttenteProps = {
   list: {
     items: Array<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>;
     currentPage: number;
@@ -21,11 +21,11 @@ export type ListProjetsAvecGarantiesFinancièresEnAttenteProps = {
   filters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['filters'];
 };
 
-export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
-  ListProjetsAvecGarantiesFinancièresEnAttenteProps
+export const ListerProjetsAvecGarantiesFinancièresEnAttentePage: FC<
+  ListerProjetsAvecGarantiesFinancièresEnAttenteProps
 > = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => (
   <ListPageTemplate
-    heading="Projets en attente de garanties financières"
+    heading="Projets sans garanties financières"
     actions={[]}
     items={garantiesFinancières.map((gf) => ({
       ...gf,
