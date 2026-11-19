@@ -116,7 +116,7 @@ export const getNavigationItemsBasedOnRole = async ({
 
   const garantiesFinancièresMenuLinks: Array<MenuItem> = [
     {
-      label: 'Garanties financières à traiter',
+      label: 'Garanties financières à valider',
       url: Routes.GarantiesFinancières.dépôt.lister(),
       permission: 'garantiesFinancières.dépôt.lister',
     },
