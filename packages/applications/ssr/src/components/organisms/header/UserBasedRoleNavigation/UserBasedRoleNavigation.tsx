@@ -249,10 +249,6 @@ export const getNavigationItemsBasedOnRole = async ({
       text: estPorteur ? 'Mes Modifications de projets' : 'Modifications de projets',
       menuLinks: mapToMenuProps(toutesDemandesMenuLinksÉtoffé, rôle),
     },
-    // {
-    //   text: 'Garanties Financières',
-    //   menuLinks: mapToMenuProps(garantiesFinancièresMenuLinks, rôle),
-    // },
     {
       text: 'Candidatures',
       menuLinks: mapToMenuProps(candidatureMenuLinks, rôle),
