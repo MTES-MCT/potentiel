@@ -66,7 +66,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Et un dépôt de garanties financières
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif | projet-achevé |
-        Alors le porteur devrait être informé que "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation."
+        Alors le porteur devrait être informé que "Vous avez de nouvelles garanties financières à valider pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation."
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée
         Etant donné des garanties financières actuelles pour le projet lauréat

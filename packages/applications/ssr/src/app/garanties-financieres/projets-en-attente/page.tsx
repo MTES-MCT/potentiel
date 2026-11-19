@@ -18,8 +18,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
-  ListProjetsAvecGarantiesFinancièresEnAttentePage,
-  type ListProjetsAvecGarantiesFinancièresEnAttenteProps,
+  ListerProjetsAvecGarantiesFinancièresEnAttentePage,
+  type ListerProjetsAvecGarantiesFinancièresEnAttenteProps,
 } from './ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 import type { ListItemProjetAvecGarantiesFinancièresEnAttenteActions } from './ListItemProjetAvecGarantiesFinancièresEnAttente';
 
@@ -38,7 +38,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Garanties financières en attente',
+  title: 'Projets sans garanties financières',
 };
 
 export default async function Page(props: PageProps) {
@@ -118,7 +118,7 @@ export default async function Page(props: PageProps) {
       }
 
       return (
-        <ListProjetsAvecGarantiesFinancièresEnAttentePage
+        <ListerProjetsAvecGarantiesFinancièresEnAttentePage
           list={mapToListProps({
             list: projetsAvecGarantiesFinancièresEnAttente,
             role: utilisateur.rôle,
@@ -138,7 +138,7 @@ type MapToListProps = {
 const mapToListProps = ({
   list: { items, total, range },
   role,
-}: MapToListProps): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
+}: MapToListProps): ListerProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
   return {
     items: items.map((item) =>
       mapToPlainObject({

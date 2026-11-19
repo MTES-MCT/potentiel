@@ -27,7 +27,7 @@ export class AttestationConformitéManquanteError extends InvalidOperationError 
 export class DépôtDeGarantiesFinancièresÀSupprimerError extends InvalidOperationError {
   constructor() {
     super(
-      "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation.",
+      "Vous avez de nouvelles garanties financières à valider pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation.",
     );
   }
 }
