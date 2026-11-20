@@ -73,7 +73,7 @@ export const getNavigationItemsBasedOnRole = async ({
   const démarchesMenuLinks = getDemandesLinks({
     estPorteur,
     autorité,
-    keys: ['abandon', 'délai', 'recours'],
+    keys: ['abandon', 'délai', 'recours', 'garanties-financières'],
   });
   const modificationsMenuLinks = getDemandesLinks({
     estPorteur,
@@ -96,26 +96,25 @@ export const getNavigationItemsBasedOnRole = async ({
       ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité)
       : [];
 
-  const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = modificationsMenuLinks.map((menuItem) => {
-    const demande = demandesÀInstruire.find((demande) => demande.domain === menuItem.domaine);
+  for (const demande of demandesÀInstruire) {
+    const menuItem =
+      modificationsMenuLinks.find((menuItem) => demande.domain === menuItem.domaine) ??
+      démarchesMenuLinks.find((menuItem) => demande.domain === menuItem.domaine);
 
-    return demande?.total
-      ? {
-          ...menuItem,
-          label: (
-            <div className="flex flex-row items-center gap-6">
-              {menuItem.label}
-              <Badge
-                badgeContent={demande.total}
-                color="primary"
-                overlap="circular"
-                invisible={demande.total === 0}
-              />
-            </div>
-          ),
-        }
-      : menuItem;
-  });
+    if (menuItem && demande?.total) {
+      menuItem.label = (
+        <div className="flex flex-row items-center gap-6">
+          {menuItem.label}
+          <Badge
+            badgeContent={demande.total}
+            color="primary"
+            overlap="circular"
+            invisible={demande.total === 0}
+          />
+        </div>
+      );
+    }
+  }
 
   const candidatureMenuLinks: Array<MenuItem> = [
     {
@@ -198,56 +197,27 @@ export const getNavigationItemsBasedOnRole = async ({
   ];
 
   const menu: MainNavigationProps.Item[] = [
-    ...(rôle.aLaPermission('tableauDeBord.consulter')
-      ? mapToMenuProps(
-          [
-            {
-              label: 'Tableau de bord',
-              url: Routes.TableauDeBord.consulter(),
-              permission: 'tableauDeBord.consulter',
-            },
-          ],
-          rôle,
-        ).map((link) => ({
-          text: link.text,
-          linkProps: link.linkProps,
-        }))
-      : []),
+    ...mapToMenuProps(
+      [
+        {
+          label: 'Tableau de bord',
+          url: Routes.TableauDeBord.consulter(),
+          permission: 'tableauDeBord.consulter',
+        },
+      ],
+      rôle,
+    ),
     {
       text: 'Projets',
       menuLinks: mapToMenuProps(projetMenuLinks, rôle),
     },
     {
       text: estPorteur ? 'Mes Démarches' : 'Démarches',
-      menuLinks: [
-        ...mapToMenuProps(démarchesMenuLinks, rôle),
-        ...mapToMenuProps(
-          [
-            {
-              label: 'Garanties financières à valider',
-              url: Routes.GarantiesFinancières.dépôt.lister(),
-              permission: 'garantiesFinancières.dépôt.lister',
-            },
-            {
-              label: 'Projets sans garanties financières',
-              url: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
-              permission: 'garantiesFinancières.enAttente.lister',
-            },
-            {
-              label: 'Demandes de mainlevée',
-              url: Routes.GarantiesFinancières.demandeMainlevée.lister({
-                statut: ['demandé', 'en-instruction'],
-              }),
-              permission: 'garantiesFinancières.mainlevée.lister',
-            },
-          ],
-          rôle,
-        ),
-      ],
+      menuLinks: mapToMenuProps(démarchesMenuLinks, rôle),
     },
     {
       text: estPorteur ? 'Mes Modifications de projets' : 'Modifications de projets',
-      menuLinks: mapToMenuProps(toutesDemandesMenuLinksÉtoffé, rôle),
+      menuLinks: mapToMenuProps(modificationsMenuLinks, rôle),
     },
     {
       text: 'Candidatures',
