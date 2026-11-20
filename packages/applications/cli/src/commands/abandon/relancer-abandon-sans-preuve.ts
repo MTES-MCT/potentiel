@@ -42,6 +42,8 @@ export class Relancer extends Command {
       getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
       list: listProjection,
       listHistory: listHistoryProjection,
+      getNombreDeGarantiesFinancièresÀInstruire:
+        ProjetAdapter.GarantiesFinancières.getNombreGarantiesFinancièresÀInstruireAdapter,
     });
 
     Lauréat.registerLauréatUseCases({
