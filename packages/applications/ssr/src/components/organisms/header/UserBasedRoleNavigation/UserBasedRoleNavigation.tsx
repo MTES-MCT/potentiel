@@ -68,14 +68,18 @@ export const getNavigationItemsBasedOnRole = async ({
   ];
 
   const autorité = rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined;
+  const estPorteur = rôle.estPorteur();
 
-  const toutesDemandesMenuLinks = getDemandesLinks({
-    estPorteur: rôle.estPorteur(),
+  const démarchesMenuLinks = getDemandesLinks({
+    estPorteur,
+    autorité,
+    keys: ['abandon', 'délai', 'recours', 'garanties-financières'],
+  });
+  const modificationsMenuLinks = getDemandesLinks({
+    estPorteur,
     autorité,
     keys: [
-      'abandon',
       'actionnaire',
-      'délai',
       'dispositifDeStockage',
       'fournisseur',
       'installateur',
@@ -83,7 +87,6 @@ export const getNavigationItemsBasedOnRole = async ({
       'nomProjet',
       'puissance',
       'producteur',
-      'recours',
       'représentantLégal',
     ],
   });
@@ -93,46 +96,25 @@ export const getNavigationItemsBasedOnRole = async ({
       ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité)
       : [];
 
-  const toutesDemandesMenuLinksÉtoffé: Array<MenuItem> = toutesDemandesMenuLinks.map((menuItem) => {
-    const demande = demandesÀInstruire.find((demande) => demande.domain === menuItem.domaine);
+  for (const demande of demandesÀInstruire) {
+    const menuItem =
+      modificationsMenuLinks.find((menuItem) => demande.domain === menuItem.domaine) ??
+      démarchesMenuLinks.find((menuItem) => demande.domain === menuItem.domaine);
 
-    return demande?.total
-      ? {
-          ...menuItem,
-          label: (
-            <div className="flex flex-row items-center gap-6">
-              {menuItem.label}
-              <Badge
-                badgeContent={demande.total}
-                color="primary"
-                overlap="circular"
-                invisible={demande.total === 0}
-              />
-            </div>
-          ),
-        }
-      : menuItem;
-  });
-
-  const garantiesFinancièresMenuLinks: Array<MenuItem> = [
-    {
-      label: 'Garanties financières à valider',
-      url: Routes.GarantiesFinancières.dépôt.lister(),
-      permission: 'garantiesFinancières.dépôt.lister',
-    },
-    {
-      label: 'Projets sans garanties financières',
-      url: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
-      permission: 'garantiesFinancières.enAttente.lister',
-    },
-    {
-      label: 'Demandes de mainlevée',
-      url: Routes.GarantiesFinancières.demandeMainlevée.lister({
-        statut: ['demandé', 'en-instruction'],
-      }),
-      permission: 'garantiesFinancières.mainlevée.lister',
-    },
-  ];
+    if (menuItem && demande?.total) {
+      menuItem.label = (
+        <div className="flex flex-row items-center gap-6">
+          {menuItem.label}
+          <Badge
+            badgeContent={demande.total}
+            color="primary"
+            overlap="circular"
+            invisible={demande.total === 0}
+          />
+        </div>
+      );
+    }
+  }
 
   const candidatureMenuLinks: Array<MenuItem> = [
     {
@@ -173,7 +155,7 @@ export const getNavigationItemsBasedOnRole = async ({
     {
       label: 'Corriger des références dossier',
       url: Routes.Raccordement.corrigerRéférencesDossier,
-      permission: rôle.estPorteur() ? false : 'raccordement.référence-dossier.modifier',
+      permission: estPorteur ? false : 'raccordement.référence-dossier.modifier',
     },
     {
       label: 'Gérer les gestionnaires de réseau',
@@ -215,32 +197,27 @@ export const getNavigationItemsBasedOnRole = async ({
   ];
 
   const menu: MainNavigationProps.Item[] = [
-    ...(rôle.aLaPermission('tableauDeBord.consulter')
-      ? mapToMenuProps(
-          [
-            {
-              label: 'Tableau de bord',
-              url: Routes.TableauDeBord.consulter(),
-              permission: 'tableauDeBord.consulter',
-            },
-          ],
-          rôle,
-        ).map((link) => ({
-          text: link.text,
-          linkProps: link.linkProps,
-        }))
-      : []),
+    ...mapToMenuProps(
+      [
+        {
+          label: 'Tableau de bord',
+          url: Routes.TableauDeBord.consulter(),
+          permission: 'tableauDeBord.consulter',
+        },
+      ],
+      rôle,
+    ),
     {
       text: 'Projets',
       menuLinks: mapToMenuProps(projetMenuLinks, rôle),
     },
     {
-      text: 'Demandes',
-      menuLinks: mapToMenuProps(toutesDemandesMenuLinksÉtoffé, rôle),
+      text: estPorteur ? 'Mes Démarches' : 'Démarches',
+      menuLinks: mapToMenuProps(démarchesMenuLinks, rôle),
     },
     {
-      text: 'Garanties Financières',
-      menuLinks: mapToMenuProps(garantiesFinancièresMenuLinks, rôle),
+      text: estPorteur ? 'Mes Modifications de projets' : 'Modifications de projets',
+      menuLinks: mapToMenuProps(modificationsMenuLinks, rôle),
     },
     {
       text: 'Candidatures',
