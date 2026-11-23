@@ -56,17 +56,25 @@ const action: FormAction<FormState, typeof schema> = async (
     await vérifierInstructions({ appelOffres: appelOffre, période: periode, instructions });
 
     await mediator.send<Période.InitierImportPériodeUseCase>({
-      type: 'Période.UseCase.ImporterPériode',
+      type: 'Période.UseCase.InitierImportPériode',
       data: {
         identifiantPériodeValue: `${appelOffre}#${periode}`,
         initiéLeValue: DateTime.now().formatter(),
         initiéParValue: utilisateur.identifiantUtilisateur.formatter(),
-        instructionValue: instructions.map(({ numeroDossierDN, ...instruction }) => ({
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(
-            `${appelOffre}#${periode}#${famille}#${numeroDossierDN}`,
-          ).formatter(),
-          ...instruction,
-        })),
+        instructionValue: instructions.map(
+          ({ numeroDossierDN, statut, motifElimination, note, volumeReserve }) => ({
+            identifiantProjet: IdentifiantProjet.bind({
+              appelOffre,
+              période: String(periode),
+              famille: '',
+              numéroCRE: String(numeroDossierDN),
+            }).formatter(),
+            statut,
+            motifÉlimination: motifElimination,
+            noteTotale: note,
+            volumeRéservé: volumeReserve,
+          }),
+        ),
         ...(test && { vérifierLesDonnéesSansImportRéel: true }),
       },
     });
@@ -74,7 +82,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       result: {
-        successMessage: `Vous avez le temps de faire couler un café dans l'attente de l'import des candidatures`,
+        successMessage: `Import en cours : ${instructions.map((i) => i.volumeReserve).join(', ')}`,
         link: {
           url: Routes.Candidature.lister({
             appelOffre,

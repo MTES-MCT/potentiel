@@ -41,3 +41,6 @@ export { PériodeEvent } from './période.event.js';
 
 // Register
 export { registerPériodeQueries, registerPériodeUseCases } from './register.js';
+
+// Port
+export * from './port/récupérerProjetsPériode.port.js';

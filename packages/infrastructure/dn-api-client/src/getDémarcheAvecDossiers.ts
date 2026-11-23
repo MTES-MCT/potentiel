@@ -1,4 +1,4 @@
-import { Option } from '@potentiel-libraries/monads';
+import type { Candidature } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
@@ -60,34 +60,53 @@ const fetchAllDossiers = async (démarcheId: number) => {
 };
 
 type GetDémarcheAvecDossiersProps = { démarcheId: number; dossiersIds?: number[] };
+type DépôtValide = Array<{
+  numeroDN: number;
+  dépôt: Candidature.Dépôt.RawType;
+  détails: Record<string, string>;
+}>;
+type DépôtInvalide = Array<{
+  numeroDN: number;
+}>;
 
 export const getDémarcheAvecDossiers = async ({
   dossiersIds,
   démarcheId,
-}: GetDémarcheAvecDossiersProps) => {
+}: GetDémarcheAvecDossiersProps): Promise<{
+  dépôtsValides: DépôtValide;
+  dépôtsInvalides: DépôtInvalide;
+}> => {
   const logger = getLogger('dn-api-client');
+  const dépôtsValides: DépôtValide = [];
+  const dépôtsInvalides: DépôtInvalide = [];
+
   try {
     const { dossiers } = dossiersIds
       ? await fetchDossiers(dossiersIds)
       : await fetchAllDossiers(démarcheId);
 
-    return dossiers
-      .filter((dossier) => !!dossier)
-      .map((dossier) => {
-        const { champs } = dossier;
+    for (const dossier of dossiers.filter((dossier) => !!dossier)) {
+      const { champs, number: numéroCRE } = dossier;
 
-        return {
-          numeroDN: dossier.number,
-          dépôt: mapApiResponseToDépôt({ champs }),
+      const dépôt = mapApiResponseToDépôt({ champs });
+
+      if (!dépôt.valide) {
+        dépôtsInvalides.push({ numeroDN: numéroCRE });
+        logger.error(`Dépôt dossier ${numéroCRE} invalide`, { error: dépôt.erreurs });
+      } else {
+        dépôtsValides.push({
+          dépôt: dépôt.dépôt,
           détails: mapApiResponseToDétails({ champs }),
-        };
-      });
+          numeroDN: numéroCRE,
+        });
+      }
+    }
   } catch (e) {
     logger.error('Impossible de lire les dossiers de la démarche', {
       démarcheId,
       errorMessage: e instanceof Error ? e.message : 'unknown',
       errorData: e,
     });
-    return Option.none;
   }
+  return { dépôtsInvalides, dépôtsValides };
 };

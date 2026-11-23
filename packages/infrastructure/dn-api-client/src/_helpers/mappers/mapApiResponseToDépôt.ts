@@ -1,3 +1,5 @@
+import { match, P } from 'ts-pattern';
+
 import type { Candidature } from '@potentiel-domain/projet';
 
 import { createDossierAccessor, type GetDossierQuery } from '../../graphql/index.js';
@@ -50,9 +52,11 @@ type MapApiResponseToDépôt = {
   champs: GetDossierQuery['dossier']['champs'];
 };
 
-export const mapApiResponseToDépôt = ({
-  champs,
-}: MapApiResponseToDépôt): DeepPartial<Candidature.Dépôt.RawType> => {
+type Result =
+  | { valide: true; dépôt: Candidature.Dépôt.RawType }
+  | { valide: false; erreurs: string[] };
+
+export const mapApiResponseToDépôt = ({ champs }: MapApiResponseToDépôt): Result => {
   const accessor = createDossierAccessor(champs, colonnes);
   const accessorAutorisation = createDossierAccessor(champs, {
     numéro: "Numéro de l'autorisation",
@@ -91,104 +95,185 @@ export const mapApiResponseToDépôt = ({
     longitude: 'Longitude du barycentre',
   } satisfies Record<keyof Candidature.Dépôt.RawType['coordonnées'], string>);
 
-  const typeGarantiesFinancières = getTypeGarantiesFinancières(
-    accessor,
+  const clésDépôt = [
+    'nomProjet',
+    'nomCandidat',
+    'emailContact',
+    'sociétéMère',
+    'nomReprésentantLégal',
+    'prixReference',
+    'localité',
+    'coordonnées',
+    'historiqueAbandon',
+    'puissance',
+    'puissanceALaPointe',
+    'puissanceDeSite',
+    'puissanceDuProjetInitial',
+    'coefficientKChoisi',
+    'evaluationCarboneSimplifiée',
+    'technologie',
+    'actionnariat',
     'typeGarantiesFinancières',
-  );
+    'dateÉchéanceGf',
+    'attestationConstitutionGf',
+    'dateConstitutionGf',
+    'territoireProjet',
+    'fournisseurs',
+    'typologieInstallation',
+    'obligationDeSolarisation',
+    'autorisation',
+    'installateur',
+    'dispositifDeStockage',
+    'natureDeLExploitation',
+    'raccordements',
+    'numéroIdentification',
+  ] as const satisfies readonly (keyof Candidature.Dépôt.RawType)[];
 
-  const dateConstitutionGarantiesFinancières = getDateConstitutionGarantiesFinancières(champs);
+  const erreurs: string[] = [];
+  const dépôt: DeepPartial<Candidature.Dépôt.RawType> = {};
 
-  const dateÉchéanceGarantiesFinancieres = getDateÉchéanceGarantiesFinancières({
-    typeGarantiesFinancières,
-    dateConstitutionGarantiesFinancières,
-    dateÉchéanceGarantiesFinancières: accessor.getDateValue('dateÉchéanceGf'),
-  });
+  for (const clé of clésDépôt) {
+    match(clé)
+      .with(
+        P.union('nomCandidat', 'nomCandidat', 'emailContact', 'nomProjet', 'nomReprésentantLégal'),
+        (clé) => {
+          const valeur = accessor.getStringValue(clé);
+          if (!valeur) {
+            erreurs.push(`Le champ ${clé} est requis`);
+          }
+          dépôt[clé] = valeur;
+        },
+      )
+      .with(P.union('installateur', 'sociétéMère'), (clé) => {
+        const valeur = accessor.getStringValue(clé);
+        if (valeur) {
+          dépôt[clé] = valeur;
+        }
+      })
+      .with(P.union('prixReference', 'evaluationCarboneSimplifiée'), (clé) => {
+        const valeur = accessor.getNumberValue(clé);
+        if (!valeur) {
+          erreurs.push(`Le champ ${clé} est requis`);
+        }
+        dépôt[clé] = valeur;
+      })
+      .with(P.union('puissanceDeSite', 'puissanceDuProjetInitial'), (clé) => {
+        const valeur = accessor.getNumberValue(clé);
+        if (valeur) {
+          dépôt[clé] = valeur;
+        }
+        dépôt[clé] = valeur;
+      })
+      .with(P.union('coefficientKChoisi'), (clé) => {
+        const valeur = accessor.getBooleanValue(clé);
+        if (!valeur) {
+          erreurs.push(`Le champ ${clé} est requis`);
+        }
+        dépôt[clé] = valeur;
+      })
+      .with(P.union('obligationDeSolarisation'), (clé) => {
+        const valeur = accessor.getBooleanValue(clé);
+        if (!valeur) {
+          dépôt[clé] = valeur;
+        }
+      })
+      .with(P.union('puissanceALaPointe', 'territoireProjet'), (clé) => {
+        dépôt[clé] = undefined;
+      })
+      .with('autorisation', () => {
+        dépôt['autorisation'] = getAutorisation({
+          accessor: accessorAutorisation,
+          nomChampDate: 'date',
+          nomChampNuméro: 'numéro',
+        });
+      })
+      .with('coordonnées', () => {
+        dépôt['coordonnées'] = getCoordonnées({
+          accessor: accessorCoordonnées,
+          nomChampLatitude: 'latitude',
+          nomChampLongitude: 'longitude',
+        });
+      })
+      .with('dateConstitutionGf', () => {
+        dépôt['dateConstitutionGf'] = getDateConstitutionGarantiesFinancières(champs);
+      })
+      .with('dateÉchéanceGf', () => {
+        dépôt['dateÉchéanceGf'] = getDateÉchéanceGarantiesFinancières({
+          dateConstitutionGarantiesFinancières: getDateConstitutionGarantiesFinancières(champs),
+          typeGarantiesFinancières: getTypeGarantiesFinancières(
+            accessor,
+            'typeGarantiesFinancières',
+          ),
+        });
+      })
+      .with('dispositifDeStockage', () => {
+        dépôt['dispositifDeStockage'] = getDispositifDeStockage({
+          accessor: accessorDispositifDeStockage,
+          nomChampsInstallation: 'installationAvecDispositifDeStockage',
+          nomChampCapacité: 'capacitéDuDispositifDeStockageEnKWh',
+          nomChampPuissance: 'puissanceDuDispositifDeStockageEnKW',
+        });
+      })
+      .with('fournisseurs', () => {
+        dépôt['fournisseurs'] = getFournisseurs(champs);
+      })
+      .with('historiqueAbandon', () => {
+        dépôt['historiqueAbandon'] =
+          getHistoriqueAbandon(accessor, 'historiqueAbandon') ?? 'première-candidature';
+      })
+      .with('localité', () => {
+        dépôt['localité'] = getLocalité(accessor, 'localité');
+      })
+      .with('natureDeLExploitation', () => {
+        dépôt['natureDeLExploitation'] = getNatureDeLExploitation({
+          accessor: accessorNatureDeLExploitation,
+          nomChampTauxPrévisionnelACI: 'tauxPrévisionnelACI',
+          nomChampTauxPrévisionnelACC: 'tauxPrévisionnelACC',
+        });
+      })
+      .with('numéroIdentification', () => {
+        dépôt['numéroIdentification'] = getNuméroIdentification({
+          accessor: accessorNuméroIdentification,
+          nomChampsNuméroSIREN: 'numéroSIREN',
+          nomChampsNuméroSIRET: 'numéroSIRET',
+          nomProjet: accessor.getStringValue('nomProjet'),
+        });
+      })
+      .with('puissance', () => {
+        dépôt['puissance'] = getPuissanceInstallée({
+          accessor: accessorPuissance,
+          nomChampPuissanceInstallée: 'puissanceInstallée',
+          nomChampPuissanceInstalléeP: 'puissanceInstalléeP',
+        });
+      })
+      .with('raccordements', () => {
+        dépôt['raccordements'] = getRaccordements(champs);
+      })
+      .with('technologie', () => {
+        dépôt['technologie'] = getTechnologie(accessor, 'technologie');
+      })
+      .with('actionnariat', () => {
+        dépôt['actionnariat'] = getTypeActionnariat({
+          accessor: accessorTypeActionnariat,
+          nomChampFinancementCollectif: 'financementCollectif',
+          nomChampGouvernancePartagée: 'gouvernancePartagée',
+        });
+      })
+      .with('typeGarantiesFinancières', () => {
+        const raw = getTypeGarantiesFinancières(accessor, 'typeGarantiesFinancières');
+        dépôt['typeGarantiesFinancières'] =
+          raw === 'garantie-bancaire' ? 'avec-date-échéance' : raw;
+      })
+      .with('typologieInstallation', () => {
+        dépôt['typologieInstallation'] = getTypologieInstallation(champs);
+      })
+      .with('attestationConstitutionGf', () => {
+        dépôt['attestationConstitutionGf'] = undefined;
+      })
+      .exhaustive();
+  }
 
-  const nomProjet = accessor.getStringValue('nomProjet');
-
-  return {
-    //  1. Renseignements administratifs
-    nomCandidat: accessor.getStringValue('nomCandidat'),
-    sociétéMère: accessor.getStringValue('sociétéMère'),
-    nomReprésentantLégal: accessor.getStringValue('nomReprésentantLégal'),
-    emailContact: accessor.getStringValue('emailContact'),
-
-    //  2. Identification du projet
-    nomProjet,
-    puissance: getPuissanceInstallée({
-      accessor: accessorPuissance,
-      nomChampPuissanceInstallée: 'puissanceInstallée',
-      nomChampPuissanceInstalléeP: 'puissanceInstalléeP',
-    }),
-    puissanceDeSite: accessor.getNumberValue('puissanceDeSite'),
-    puissanceDuProjetInitial: accessor.getNumberValue('puissanceDuProjetInitial'),
-    prixReference: accessor.getNumberValue('prixReference'),
-    evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
-
-    typeGarantiesFinancières:
-      typeGarantiesFinancières === 'garantie-bancaire'
-        ? 'avec-date-échéance'
-        : typeGarantiesFinancières,
-    dateConstitutionGf: dateConstitutionGarantiesFinancières,
-    dateÉchéanceGf: dateÉchéanceGarantiesFinancieres,
-
-    historiqueAbandon:
-      getHistoriqueAbandon(accessor, 'historiqueAbandon') ?? 'première-candidature',
-
-    obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
-    coefficientKChoisi: accessor.getBooleanValue('coefficientKChoisi'),
-
-    localité: getLocalité(accessor, 'localité'),
-
-    dispositifDeStockage: getDispositifDeStockage({
-      accessor: accessorDispositifDeStockage,
-      nomChampsInstallation: 'installationAvecDispositifDeStockage',
-      nomChampCapacité: 'capacitéDuDispositifDeStockageEnKWh',
-      nomChampPuissance: 'puissanceDuDispositifDeStockageEnKW',
-    }),
-
-    installateur: accessor.getStringValue('installateur'),
-
-    natureDeLExploitation: getNatureDeLExploitation({
-      accessor: accessorNatureDeLExploitation,
-      nomChampTauxPrévisionnelACI: 'tauxPrévisionnelACI',
-      nomChampTauxPrévisionnelACC: 'tauxPrévisionnelACC',
-    }),
-
-    autorisation: getAutorisation({
-      accessor: accessorAutorisation,
-      nomChampNuméro: 'numéro',
-      nomChampDate: 'date',
-    }),
-
-    typologieInstallation: getTypologieInstallation(champs),
-
-    fournisseurs: getFournisseurs(champs),
-
-    actionnariat: getTypeActionnariat({
-      accessor: accessorTypeActionnariat,
-      nomChampFinancementCollectif: 'financementCollectif',
-      nomChampGouvernancePartagée: 'gouvernancePartagée',
-    }),
-
-    raccordements: getRaccordements(champs),
-
-    coordonnées: getCoordonnées({
-      accessor: accessorCoordonnées,
-      nomChampLatitude: 'latitude',
-      nomChampLongitude: 'longitude',
-    }),
-
-    numéroIdentification: getNuméroIdentification({
-      accessor: accessorNuméroIdentification,
-      nomChampsNuméroSIREN: 'numéroSIREN',
-      nomChampsNuméroSIRET: 'numéroSIRET',
-      nomProjet,
-    }),
-
-    // Non disponibles sur Démarche Numérique
-    puissanceALaPointe: undefined,
-    territoireProjet: undefined,
-    technologie: getTechnologie(accessor, 'technologie'),
-  };
+  return erreurs.length
+    ? { valide: false, erreurs }
+    : { valide: true, dépôt: dépôt as Candidature.Dépôt.RawType };
 };

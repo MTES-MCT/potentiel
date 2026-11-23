@@ -30,7 +30,7 @@ export async function initierImportPériode(this: PotentielWorld) {
     });
 
     await mediator.send<Période.InitierImportPériodeUseCase>({
-      type: 'Période.UseCase.ImporterPériode',
+      type: 'Période.UseCase.InitierImportPériode',
       data: {
         identifiantPériodeValue: identifiantPériode,
         initiéLeValue: date,

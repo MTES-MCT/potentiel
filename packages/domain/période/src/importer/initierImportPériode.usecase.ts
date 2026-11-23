@@ -7,7 +7,7 @@ import * as IdentifiantPériode from '../identifiantPériode.valueType.js';
 import type { InitierImportPériodeCommand } from './initierImportPériode.command.js';
 
 export type InitierImportPériodeUseCase = Message<
-  'Période.UseCase.ImporterPériode',
+  'Période.UseCase.InitierImportPériode',
   {
     identifiantPériodeValue: IdentifiantPériode.RawType;
     initiéLeValue: DateTime.RawType;
@@ -28,19 +28,21 @@ export const registerInitierImportPériodeUseCase = () => {
   }) => {
     const identifiantPériode = IdentifiantPériode.convertirEnValueType(identifiantPériodeValue);
 
+    const instruction = instructionValue.map((projet) => ({
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.identifiantProjet),
+      ...Candidature.Instruction.convertirEnValueType(projet),
+    }));
+
     await mediator.send<InitierImportPériodeCommand>({
       type: 'Période.Command.InitierImportPériode',
       data: {
         identifiantPériode,
         initiéLe: DateTime.convertirEnValueType(initiéLeValue),
         initiéPar: Email.convertirEnValueType(initiéParValue),
-        instruction: instructionValue.map((projet) => ({
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.identifiantProjet),
-          ...Candidature.Instruction.convertirEnValueType(projet),
-        })),
+        instruction,
       },
     });
   };
 
-  mediator.register('Période.UseCase.ImporterPériode', handler);
+  mediator.register('Période.UseCase.InitierImportPériode', handler);
 };

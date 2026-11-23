@@ -614,9 +614,11 @@ const référencielPermissions = {
     },
     usecase: {
       notifier: 'Période.UseCase.NotifierPériode',
+      initierImport: 'Période.UseCase.InitierImportPériode',
     },
     command: {
       notifier: 'Période.Command.NotifierPériode',
+      initierImport: 'Période.Command.InitierImportPériode',
     },
   },
   document: {
@@ -1080,6 +1082,10 @@ const policies = {
       référencielPermissions.éliminé.command.notifier,
       référencielPermissions.candidature.usecase.notifier,
       référencielPermissions.candidature.command.notifier,
+    ],
+    initierImport: [
+      référencielPermissions.période.usecase.initierImport,
+      référencielPermissions.période.command.initierImport,
     ],
   },
   représentantLégal: {
@@ -1875,6 +1881,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
 const dgecPolicies: ReadonlyArray<Policy> = [
   ...adminPolicies,
+
+  // Période
+  'période.initierImport',
 
   // Abandon
   'abandon.accorder',

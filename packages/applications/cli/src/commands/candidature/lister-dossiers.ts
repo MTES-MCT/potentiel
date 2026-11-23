@@ -30,7 +30,13 @@ export class ListerDossiersCandidatureCommand extends Command {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
       const dossiers = await getDémarcheAvecDossiers({ démarcheId: args.démarche });
-      console.log(dossiers);
+      console.log(
+        dossiers.dépôtsValides.map((d) => ({
+          numéroDN: d.numeroDN,
+          dépôt: d.dépôt,
+          détail: d.détails,
+        })),
+      );
 
       if (Option.isNone(dossiers)) {
         throw new Error(`La démarche ${args.démarche} est introuvable`);
@@ -46,7 +52,7 @@ export class ListerDossiersCandidatureCommand extends Command {
           période: args.période,
         });
 
-        const data = dossiers.map((dossier) => {
+        const data = dossiers.dépôtsValides.map((dossier) => {
           const statut = faker.helpers.arrayElement(['retenu', 'éliminé']);
           return {
             numeroDossierDN: dossier.numeroDN,
@@ -66,6 +72,12 @@ export class ListerDossiersCandidatureCommand extends Command {
 
         await writeFile('instruction-dn-cre.csv', csv);
         console.log("Fichier d'instruction créé: instruction-ds-cre.csv");
+        if (dossiers.dépôtsInvalides.length) {
+          console.log(
+            " ❌ Dépôts invalides, donc absents du fichier d'instruction : ",
+            dossiers.dépôtsInvalides.map((d) => d.numeroDN).join(', '),
+          );
+        }
       }
     } catch (e) {
       console.log(e);

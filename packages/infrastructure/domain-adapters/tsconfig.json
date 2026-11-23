@@ -12,6 +12,9 @@
       "path": "../../domain/projet"
     },
     {
+      "path": "../../domain/période"
+    },
+    {
       "path": "../../domain/réseau"
     },
     {
