@@ -7,10 +7,7 @@ import z from 'zod';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import {
-  getScopeProjetUtilisateurAdapter,
-  ProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { getScopeProjetUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import {
   countProjection,
   findProjection,
@@ -70,8 +67,6 @@ export class VérifierDonnéesAchèvementCommand extends Command {
       getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
       list: listProjection,
       listHistory: listHistoryProjection,
-      getNombreDeGarantiesFinancièresÀInstruire:
-        ProjetAdapter.GarantiesFinancières.getNombreGarantiesFinancièresÀInstruireAdapter,
     });
   }
 

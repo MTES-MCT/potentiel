@@ -50,9 +50,6 @@ export class NotifierCandidatures extends Command {
       getNombreDemandesÀInstruire: () => {
         throw new Error('not implemented');
       },
-      getNombreDeGarantiesFinancièresÀInstruire: () => {
-        throw new Error('not implemented');
-      },
     });
 
     registerUtilisateurUseCases({

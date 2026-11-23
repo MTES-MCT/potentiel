@@ -1,9 +1,16 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { type Count, Where } from '@potentiel-domain/entity';
+import type { Région } from '@potentiel-domain/utilisateur';
 
 import type { GetScopeProjetUtilisateur } from '../../index.js';
-import type { GetNombreDeGarantiesFinancièresÀInstruirePort } from './port/getNombreDeGarantiesFinancièresÀInstruire.port.js';
+import { StatutLauréat } from '../index.js';
+import type { LauréatEntity } from '../lauréat.entity.js';
+import type { GarantiesFinancièresEntity } from './garantiesFinancières.entity.js';
+import type { MainlevéeGarantiesFinancièresEntity } from './mainlevée/mainlevéeGarantiesFinancières.entity.js';
+import * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType.js';
+import * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType.js';
 
 type Volumétrie = {
   total: number;
@@ -26,12 +33,26 @@ export type ConsulterNombreDeGarantiesFinancièresÀInstruireQuery = Message<
 
 export type ConsulterNombreDeGarantiesFinancièresÀInstruireDependencies = {
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
-  getNombreDeGarantiesFinancièresÀInstruire: GetNombreDeGarantiesFinancièresÀInstruirePort;
+  count: Count;
 };
+
+type JoinLauréatProps = {
+  régions: ReadonlyArray<Région.RawType>;
+  statut?: StatutLauréat.RawType;
+};
+
+const joinLauréat = ({ régions, statut }: JoinLauréatProps) => ({
+  entity: 'lauréat' as const,
+  on: 'identifiantProjet' as const,
+  where: {
+    localité: { région: Where.matchAny(régions) },
+    statut: Where.equal(statut),
+  },
+});
 
 export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
   getScopeProjetUtilisateur,
-  getNombreDeGarantiesFinancièresÀInstruire,
+  count,
 }: ConsulterNombreDeGarantiesFinancièresÀInstruireDependencies) => {
   const handler: MessageHandler<ConsulterNombreDeGarantiesFinancièresÀInstruireQuery> = async ({
     utilisateur,
@@ -54,12 +75,55 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
       };
     }
 
-    const nombreDemandes = await getNombreDeGarantiesFinancièresÀInstruire(
-      DateTime.now().retirerNombreDeMois(1).formatter(),
-      scope.régions,
-    );
+    const régions = scope.régions;
+    const ilYAUnMois = DateTime.now().retirerNombreDeMois(1).formatter();
 
-    return nombreDemandes;
+    const [
+      projetEnAttenteTotal,
+      dépôtsTotal,
+      dépôtsNew,
+      demandeMainlevéeTotal,
+      demandeMainlevéeNew,
+    ] = await Promise.all([
+      count<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
+        where: {
+          statut: Where.matchAny([
+            StatutGarantiesFinancières.nonDéposé.statut,
+            StatutGarantiesFinancières.échu.statut,
+          ]),
+          enAttente: { motif: Where.notEqualNull() },
+          dépôt: { soumisLe: Where.equalNull() },
+        },
+        join: joinLauréat({ régions, statut: StatutLauréat.actif.statut }),
+      }),
+      count<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
+        where: { dépôt: { soumisLe: Where.notEqualNull() } },
+        join: joinLauréat({ régions }),
+      }),
+      count<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
+        where: { dépôt: { soumisLe: Where.greaterOrEqual(ilYAUnMois) } },
+        join: joinLauréat({ régions }),
+      }),
+      count<MainlevéeGarantiesFinancièresEntity, LauréatEntity>('mainlevee-garanties-financieres', {
+        where: {
+          statut: Where.matchAny(StatutMainlevéeGarantiesFinancières.statutsEnCours),
+        },
+        join: joinLauréat({ régions }),
+      }),
+      count<MainlevéeGarantiesFinancièresEntity, LauréatEntity>('mainlevee-garanties-financieres', {
+        where: {
+          statut: Where.matchAny(StatutMainlevéeGarantiesFinancières.statutsEnCours),
+          demande: { demandéeLe: Where.greaterOrEqual(ilYAUnMois) },
+        },
+        join: joinLauréat({ régions }),
+      }),
+    ]);
+
+    return {
+      projetEnAttente: { total: projetEnAttenteTotal },
+      dépôts: { total: dépôtsTotal, new: dépôtsNew },
+      demandeMainlevée: { total: demandeMainlevéeTotal, new: demandeMainlevéeNew },
+    };
   };
 
   mediator.register(

@@ -60,10 +60,6 @@ export class RendreStreamAchèvementCohérentCommand extends Command {
       getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
       list: listProjection,
       listHistory: listHistoryProjection,
-
-      getNombreDeGarantiesFinancièresÀInstruire: () => {
-        throw new Error('not implemented');
-      },
     });
   }
 
