@@ -1,9 +1,9 @@
-import { OperationRejectedError } from '@potentiel-domain/core';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { auth } from '.';
+import { impersonateCookieOptions } from './constants';
 import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
 import { parseCookie } from './helpers/parseCookie';
 import { getLastUsedProvider } from './providers/getLastUsedProvider';
@@ -51,7 +51,9 @@ const getImpersonatedUtilisateur = async ({
   utilisateur,
 }: GetImpersonatedUtilisateurProps): Promise<PotentielUtilisateur | undefined> => {
   const cookie = headers.get('cookie');
-  const impersonateEmail = decodeURIComponent(parseCookie(cookie, 'x-potentiel-impersonate') ?? '');
+  const impersonateEmail = decodeURIComponent(
+    parseCookie(cookie, impersonateCookieOptions.name) ?? '',
+  );
 
   if (!impersonateEmail) {
     return undefined;

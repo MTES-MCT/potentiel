@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 
 import { authClient } from '@/auth/client';
+import { impersonateCookieOptions } from '@/auth/constants';
 
 type SignOutRedirectProps = {
   callbackUrl: string | undefined;
@@ -14,7 +15,7 @@ export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
       return;
     }
 
-    void window.cookieStore.delete('x-potentiel-impersonate');
+    void window.cookieStore.delete(impersonateCookieOptions);
 
     if (data?.user) {
       authClient.signOut().then(() => {

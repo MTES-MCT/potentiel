@@ -9,16 +9,17 @@ import { useState } from 'react';
 
 import type { PlainType } from '@potentiel-domain/core';
 
+import { impersonateCookieOptions } from '@/auth/constants';
 import type { PotentielUtilisateur } from '@/auth/utilisateur';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { createDropDownMenu, type DropDownMenuItem } from '@/components/molecules/DropDownMenu';
 
 const impersonateUser = (email: string) => {
-  window.cookieStore.set({ name: 'x-potentiel-impersonate', value: email, path: '/' });
+  window.cookieStore.set({ ...impersonateCookieOptions, value: email });
   window.location.reload();
 };
 const clearImpersonatedUser = () => {
-  window.cookieStore.delete({ name: 'x-potentiel-impersonate', path: '/' });
+  window.cookieStore.delete(impersonateCookieOptions);
   window.location.reload();
 };
 
