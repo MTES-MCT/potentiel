@@ -4,6 +4,8 @@ import { Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import type { CréerPorteurOptions } from './créer/créerPorteur.options.js';
+import type { FiltresUtilisateurDéfinisEvent } from './définir-filtres/définirFiltresUtilisateur.event.js';
+import type { DéfinirFiltresUtilisateurOptions } from './définir-filtres/définirFiltresUtilisateur.options.js';
 import type { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
 import type { DésactiverOptions } from './désactiver/désactiverUtilisateur.options.js';
 import {
@@ -16,8 +18,8 @@ import {
 import type { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
 import type { InviterPorteurOptions } from './inviter/inviterPorteur.options.js';
 import type { InviterOptions } from './inviter/inviterUtilisateur.options.js';
-import type { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
-import type { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options.js';
+import type { RôleUtilisateurModifiéEvent } from './modifier-rôle/modifierRôleUtilisateur.event.js';
+import type { ModifierRôleOptions } from './modifier-rôle/modifierRôleUtilisateur.options.js';
 import type { RéactiverOptions } from './réactiver/réactiverUtilisateur.options.js';
 import {
   DésactivationPropreCompteError,
@@ -185,6 +187,31 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     await this.publish(event);
   }
 
+  async définirFiltres({ définiLe, filtres }: DéfinirFiltresUtilisateurOptions) {
+    if (!this.exists || !this.#utilisateur) {
+      throw new UtilisateurInconnuError();
+    }
+
+    if (!this.#actif) {
+      throw new UtilisateurNonActifError();
+    }
+
+    if (!this.#utilisateur.rôle.estAdministration()) {
+      throw new Error('Interdit hors administration');
+    }
+
+    const event: FiltresUtilisateurDéfinisEvent = {
+      type: 'FiltresUtilisateurDéfinis-V1',
+      payload: {
+        définiLe: définiLe.formatter(),
+        identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+        filtres,
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: UtilisateurEvent) {
     match(event)
       .with({ type: 'PorteurInvité-V1' }, this.applyPorteurInvité.bind(this))
@@ -195,6 +222,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       .with({ type: 'RôleUtilisateurModifié-V1' }, this.applyRôleUtilisateurModifié.bind(this))
       .with({ type: 'AccèsProjetRetiré-V1' }, () => {})
       .with({ type: 'ProjetRéclamé-V1' }, () => {})
+      .with({ type: 'FiltresUtilisateurDéfinis-V1' }, () => {})
       .exhaustive();
   }
 

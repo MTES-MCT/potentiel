@@ -16,8 +16,8 @@ import type {
   ListerUtilisateursQuery,
   ListerUtilisateursReadModel,
 } from './lister/listerUtilisateurs.query.js';
-import type { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
-import type { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase.js';
+import type { RôleUtilisateurModifiéEvent } from './modifier-rôle/modifierRôleUtilisateur.event.js';
+import type { ModifierRôleUtilisateurUseCase } from './modifier-rôle/modifierRôleUtilisateur.usecase.js';
 import type { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event.js';
 import type { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase.js';
 import type {

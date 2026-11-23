@@ -5,6 +5,8 @@ import {
   registerConsulterUtilisateurQuery,
 } from './consulter/consulterUtilisateur.query.js';
 import { registerCréerPorteurCommand } from './créer/créerPorteur.command.js';
+import { registerDéfinirFiltresCommand } from './définir-filtres/définirFiltresUtilisateur.command.js';
+import { registerDéfinirFiltresUseCase } from './définir-filtres/définirFiltresUtilisateur.usecase.js';
 import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command.js';
 import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase.js';
 import { registerInviterPorteurCommand } from './inviter/inviterPorteur.command.js';
@@ -15,8 +17,8 @@ import {
   type ListerUtilisateursDependencies,
   registerListerUtilisateursQuery,
 } from './lister/listerUtilisateurs.query.js';
-import { registerModifierRôleCommand } from './modifierRôle/modifierRôleUtilisateur.command.js';
-import { registerModifierRôleUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase.js';
+import { registerModifierRôleCommand } from './modifier-rôle/modifierRôleUtilisateur.command.js';
+import { registerModifierRôleUseCase } from './modifier-rôle/modifierRôleUtilisateur.usecase.js';
 import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command.js';
 import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase.js';
 import {
@@ -55,4 +57,7 @@ export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurComman
   registerModifierRôleCommand(loadAggregate);
 
   registerCréerPorteurCommand(loadAggregate);
+
+  registerDéfinirFiltresUseCase();
+  registerDéfinirFiltresCommand(loadAggregate);
 };

@@ -1,6 +1,7 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
+import type { Filters } from './filters.types.js';
 import type { Région, Zone } from './index.js';
 
 type Common = {
@@ -18,11 +19,13 @@ type UtilisateurDgecValidateur = {
   rôle: 'dgec-validateur';
   fonction: string;
   nomComplet: string;
+  filters?: Filters;
 };
 
 type UtilisateurDreal = {
   rôle: 'dreal';
   région: Région.RawType;
+  filters?: Filters;
 };
 
 type UtilisateurGestionnaireRéseau = {

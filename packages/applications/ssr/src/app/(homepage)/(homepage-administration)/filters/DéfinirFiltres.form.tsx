@@ -1,37 +1,72 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import Input from '@codegouvfr/react-dsfr/Input';
-import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import { type FC, useState } from 'react';
 
-import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { MultipleSelect } from '@/components/molecules/MultipleSelect';
 import type { ValidationErrors } from '@/utils/formAction';
 import { type DéfinirFiltresFormKeys, définirFiltresAction } from './définirFiltres';
 
+type Filter = Record<string, string>;
+
 export type DéfinirFiltresFormProps = {
-  identifiantProjet: IdentifiantProjet.RawType;
+  userFilters?: Filter;
 };
 
-export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ identifiantProjet }) => {
+export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DéfinirFiltresFormKeys>
   >({});
+  const [techno, setTechnologie] = useState<string[]>(
+    Candidature.TypeTechnologie.types.map((t) => t),
+  );
 
   // Département
   // technologie
   // Afficher les filtres comme sur les demandes
+
+  // type
+  // const filters: ListFilterItem<SearchParams>[] = [
+  // ];
+  const filters = [
+    {
+      label: 'Technologie',
+      inputName: 'technologie',
+      options: Candidature.TypeTechnologie.types.map((techno) => ({
+        label: techno,
+        value: techno,
+      })),
+    },
+  ];
+
   return (
     <>
-      <Tooltip title="Définir mes filtres">
-        <Button iconId="ri-equalizer-3-fill" onClick={() => setIsOpen(true)}>
-          ""
-        </Button>
-      </Tooltip>
-
+      <Button
+        iconId="ri-equalizer-3-fill"
+        priority="tertiary no outline"
+        title="Définir mes filtres"
+        onClick={() => setIsOpen(true)}
+      />
+      {/* Afficher les filtres comme ailleurs dans l'app
+      {userFilter?.length > 0 && (
+        <ul className="flex flex-row flex-wrap gap-1">
+          {tagFilters.map(({ searchParamKey, label, value, affects }) => (
+            <li key={`tagFilter-${searchParamKey}-${value}`}>
+              <Tag>{label}</Tag>
+            </li>
+          ))}
+          créer un comportement pour la suppression
+          {tagFilters?.length > 1 && (
+            <li key="tagFilter-delete">
+              <DeleteEveryFilterButton onDelete={onDelete} />
+            </li>
+          )}
+        </ul>
+      )} */}
       <ModalWithForm
         id="définir-filtres-form"
         title=""
@@ -44,25 +79,28 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ identifiantP
           action: définirFiltresAction,
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
-            <>
-              <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
-
+            <div className="h-[200px]">
               <div className="flex flex-col gap-5">
-                <div>
-                  <Input
-                    nativeInputProps={{
-                      name: 'identifiantUtilisateurInvité',
-                      required: true,
-                      type: 'email',
-                      'aria-required': true,
-                    }}
-                    label="Courrier électronique de la personne habilitée à suivre ce projet"
-                    state={validationErrors['identifiantUtilisateurInvité'] ? 'error' : 'default'}
-                    stateRelatedMessage={validationErrors['identifiantUtilisateurInvité']}
-                  />
-                </div>
+                {filters.map((filter) => (
+                  <>
+                    <MultipleSelect
+                      key={`filter-${filter.label}`}
+                      noSearch
+                      noSelectAll
+                      label={filter.label}
+                      options={filter.options}
+                      disabled={false}
+                      selected={techno}
+                      onChange={(value) => {
+                        console.log('viovio value', value);
+                        setTechnologie(value);
+                      }}
+                    />
+                    <input type="hidden" name={filter.inputName} value={techno} />
+                  </>
+                ))}
               </div>
-            </>
+            </div>
           ),
         }}
       />

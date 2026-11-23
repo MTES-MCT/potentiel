@@ -25,7 +25,7 @@ export const DemandesSection = () =>
       ]);
 
       const demandes = mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
-
+      
       return (
         <Section
           title={utilisateur.estDreal() ? 'À instruire' : commonSectionTitle}

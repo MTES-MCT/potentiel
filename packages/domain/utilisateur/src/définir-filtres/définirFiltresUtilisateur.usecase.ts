@@ -1,0 +1,38 @@
+import { type Message, type MessageHandler, mediator } from 'mediateur';
+
+import { DateTime, Email } from '@potentiel-domain/common';
+
+import type { Filters } from '../filters.types.js';
+import type { DéfinirFiltresUtilisateurCommand } from './définirFiltresUtilisateur.command.js';
+
+// value type pour les filtres ?
+export type DéfinirFiltresUtilisateurUseCase = Message<
+  'Utilisateur.UseCase.DéfinirFiltresUtilisateur',
+  {
+    identifiantUtilisateurValue: string;
+    filtresValue: Filters;
+    définiLeValue: string;
+  }
+>;
+
+export const registerDéfinirFiltresUseCase = () => {
+  const runner: MessageHandler<DéfinirFiltresUtilisateurUseCase> = async ({
+    identifiantUtilisateurValue,
+    filtresValue,
+    définiLeValue,
+  }) => {
+    const définiLe = DateTime.convertirEnValueType(définiLeValue);
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+
+    await mediator.send<DéfinirFiltresUtilisateurCommand>({
+      type: 'Utilisateur.Command.DéfinirFiltresUtilisateur',
+      data: {
+        identifiantUtilisateur,
+        filtres: filtresValue,
+        définiLe,
+      },
+    });
+  };
+
+  mediator.register('Utilisateur.UseCase.DéfinirFiltresUtilisateur', runner);
+};

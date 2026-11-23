@@ -1,13 +1,14 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { DomainEvent } from '@potentiel-domain/core';
 
+import type { FiltresUtilisateurDéfinisEvent } from './définir-filtres/définirFiltresUtilisateur.event.js';
 import type { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
 import type { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
 import type {
   UtilisateurInvitéEvent,
   UtilisateurInvitéEventV1,
 } from './inviter/inviterUtilisateur.event.js';
-import type { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
+import type { RôleUtilisateurModifiéEvent } from './modifier-rôle/modifierRôleUtilisateur.event.js';
 import type { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event.js';
 
 /**
@@ -46,4 +47,5 @@ export type UtilisateurEvent =
   | UtilisateurRéactivéEvent
   | RôleUtilisateurModifiéEvent
   | AccèsProjetRetiréEvent
-  | ProjetRéclaméEvent;
+  | ProjetRéclaméEvent
+  | FiltresUtilisateurDéfinisEvent;
