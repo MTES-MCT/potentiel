@@ -174,9 +174,14 @@ export class DélaiWorld {
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
     const délaiMap: FieldToExempleMapper<CréerDemandeDélaiFixture> = {
-      motif: ['motif'],
       nombreDeMois: ['durée du délai demandé', mapNumber],
     };
     return mapToExemple(exemple, délaiMap);
+  }
+
+  getMotifFromLabel(motif: "prolongation de phase d'essai" | "prolongation de délai d'achèvement") {
+    return motif === "prolongation de phase d'essai"
+      ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai
+      : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
   }
 }

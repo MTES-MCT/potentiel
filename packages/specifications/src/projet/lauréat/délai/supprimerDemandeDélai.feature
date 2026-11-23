@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@select
 Fonctionnalité: Supprimer la demande de délai
 
     Contexte:
@@ -9,7 +8,7 @@ Fonctionnalité: Supprimer la demande de délai
         Et la dreal "Dreal du sud" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
-    Scénario: Accorder un abandon annule la demande de délai en cours d'un projet lauréat
+    Scénario: Accorder un abandon supprime la demande de délai en cours d'un projet lauréat
         Etant donné une demande de "prolongation de délai d'achèvement" en cours pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la dgec accorde la demande d'abandon pour le projet lauréat
