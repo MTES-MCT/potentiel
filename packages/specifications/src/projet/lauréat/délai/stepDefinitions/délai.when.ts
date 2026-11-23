@@ -1,4 +1,4 @@
-import { type DataTable, When as Quand } from '@cucumber/cucumber';
+import { When as Quand } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
@@ -27,22 +27,32 @@ Quand(
 );
 
 Quand(
-  'le porteur annule la demande de délai du projet lauréat',
-  async function (this: PotentielWorld) {
+  'le porteur annule la demande de {string} du projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await annulerDemandeDélai.call(this);
   },
 );
 
 Quand(
-  'la DREAL rejette la demande de délai pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'la DREAL rejette la demande de {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await rejeterDemandeDélai.call(this);
   },
 );
 
 Quand(
-  'la {dreal-dgec} accorde la demande de délai pour le projet lauréat',
-  async function (this: PotentielWorld, rôle: 'dreal' | 'dgec') {
+  'la {dreal-dgec} accorde la demande de {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    rôle: 'dreal' | 'dgec',
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     // on prend la première demande disponible
     const motifDemande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next()
       .value?.motif;
@@ -54,24 +64,26 @@ Quand(
 );
 
 Quand(
-  'la {dreal-dgec} accorde la demande de délai pour le projet lauréat avec :',
-  async function (this: PotentielWorld, rôle: 'dreal' | 'dgec', table: DataTable) {
-    const exemple = table.rowsHash();
-    const { motif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple);
-    const motifDemande =
-      motif ??
-      this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value?.motif;
-
+  'la {dreal-dgec} accorde la demande de {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    rôle: 'dreal' | 'dgec',
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await accorderDemandeDélai.call(this, {
       rôle,
-      motifDemande: motifDemande,
+      motifDemande: motif,
     });
   },
 );
 
 Quand(
-  /(.*) passe en instruction la demande de délai pour le projet lauréat/,
-  async function (this: PotentielWorld, utilisateur: string) {
+  /(.*) passe en instruction la demande de {string} pour le projet lauréat/,
+  async function (
+    this: PotentielWorld,
+    utilisateur: string,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await passerDemanderDélaiEnInstruction.call(
       this,
       utilisateur.includes('un nouvel utilisateur dreal') ? true : undefined,
@@ -80,15 +92,21 @@ Quand(
 );
 
 Quand(
-  'le porteur corrige la demande de délai pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'le porteur corrige la demande de {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await corrigerDemandeDélai.call(this);
   },
 );
 
 Quand(
-  'le porteur corrige la demande de délai pour le projet lauréat avec les mêmes valeurs',
-  async function (this: PotentielWorld) {
+  'le porteur corrige la demande de {string} pour le projet lauréat avec les mêmes valeurs',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await corrigerDemandeDélai.call(this, true);
   },
 );
