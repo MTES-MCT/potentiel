@@ -44,3 +44,6 @@ export { registerPériodeQueries, registerPériodeUseCases } from './register.js
 
 // Port
 export * from './port/récupérerProjetsPériode.port.js';
+
+// Saga
+export * as PériodeSaga from './saga/période.saga.js';

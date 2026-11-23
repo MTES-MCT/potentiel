@@ -8,7 +8,7 @@ import {
 import { Option } from '@potentiel-libraries/monads';
 
 import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter.js';
-import { cleanDétailCandidatureKeys } from './helpers/cleanDétailCandidatureKeys.js';
+import { cleanDétailCandidatureKeys } from '../période/helpers/cleanDétailCandidatureKeys.js';
 
 export const récupérerCandidaturesÀImporterAdapter: Période.RécupérerCandidaturesÀImporterPort =
   async (instruction) => {
