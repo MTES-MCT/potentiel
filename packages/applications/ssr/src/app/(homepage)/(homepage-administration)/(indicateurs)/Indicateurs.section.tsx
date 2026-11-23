@@ -11,9 +11,6 @@ const sectionTitle = 'Indicateurs';
 export const IndicateursSection = () =>
   SectionWithErrorHandling(
     withUtilisateur(async (utilisateur) => {
-      /**
-       * Duplication d'appel permise car on a le cache en place
-       */
       const garantiesFinancières = await getNombreDeGarantiesFinancièresÀInstruire(
         utilisateur.identifiantUtilisateur.email,
       );
