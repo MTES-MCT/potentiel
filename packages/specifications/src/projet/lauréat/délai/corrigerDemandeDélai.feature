@@ -32,7 +32,7 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
         Quand le porteur corrige la demande de "prolongation de délai d'achèvement" pour le projet lauréat
         Alors le porteur devrait être informé que "Aucune demande de délai n'est en cours"
 
-    Scénario: Impossible de corriger le délai d'un projet lauréat si aucune modification n'est transmise
+    Scénario: Impossible de corriger le délai d'un projet lauréat si aucune modification n'est apportée
         Etant donné une demande de "prolongation de délai d'achèvement" en cours pour le projet lauréat
         Quand le porteur corrige la demande de "prolongation de délai d'achèvement" pour le projet lauréat avec les mêmes valeurs
         Alors le porteur devrait être informé que "Aucune modification n’a été apportée"

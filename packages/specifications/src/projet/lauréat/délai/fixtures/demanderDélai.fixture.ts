@@ -36,15 +36,18 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
     return this.#demandes.get(motif)?.pièceJustificative;
   }
 
-  getDemandeOrThrow(motif: Lauréat.Délai.MotifDemandeDélai.RawType): Demande {
+  getDemande(motif: Lauréat.Délai.MotifDemandeDélai.RawType): Demande | undefined {
     const demande = this.#demandes.get(motif);
 
     if (!demande) {
-      throw new Error(
-        `Aucune demande de délai avec ce motif n'a été créée dans demanderDélai fixture`,
-      );
+      return undefined;
     }
+
     return demande;
+  }
+
+  getDemandéLe(motif: Lauréat.Délai.MotifDemandeDélai.RawType): string | undefined {
+    return this.#demandes.get(motif)?.demandéLe;
   }
 
   getDemandéPar(motif: Lauréat.Délai.MotifDemandeDélai.RawType): string | undefined {

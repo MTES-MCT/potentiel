@@ -149,7 +149,7 @@ export async function corrigerDemandeDélai(
   avecLesMêmesValeurs?: true,
 ) {
   try {
-    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandeOrThrow(motif);
+    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemande(motif);
 
     if (avecLesMêmesValeurs && !demande) {
       throw new Error('Demande actuelle non trouvée');
@@ -162,15 +162,15 @@ export async function corrigerDemandeDélai(
         avecLesMêmesValeurs
           ? {
               corrigéePar: this.utilisateurWorld.porteurFixture.email,
-              nombreDeMois: demande.nombreDeMois,
-              raison: demande.raison,
+              nombreDeMois: demande!.nombreDeMois,
+              raison: demande!.raison,
               // Quand un document n'est pas changé, on transmet undefined au usecase
               pièceJustificative: undefined,
             }
           : {
               corrigéePar: this.utilisateurWorld.porteurFixture.email,
               // dans le processus de correction, le use case attend que le format du nouveau document soit le même que l'original
-              pièceJustificative: faker.potentiel.document(demande.pièceJustificative?.format),
+              pièceJustificative: faker.potentiel.document(demande!.pièceJustificative?.format),
             },
       );
 
@@ -289,7 +289,7 @@ export async function accorderDemandeDélai(
   { motif, rôle }: { motif: Lauréat.Délai.MotifDemandeDélai.RawType; rôle: Role.RawType },
 ) {
   try {
-    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandeOrThrow(motif);
+    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandéLe(motif);
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const { accordéeLe, accordéePar, réponseSignée, nombreDeMois } =
