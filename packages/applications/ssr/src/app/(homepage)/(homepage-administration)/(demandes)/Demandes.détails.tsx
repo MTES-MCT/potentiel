@@ -73,7 +73,7 @@ type GarantiesFinancièresTile = Omit<DemandeTileProps, 'total' | 'new'> & {
 
 const garantiesFinancièresTiles: GarantiesFinancièresTile[] = [
   {
-    key: 'dépôts',
+    key: 'dépôt',
     titre: 'Garanties financières',
     ariaLabel: 'Voir les demandes de garanties financières',
     href: Routes.GarantiesFinancières.dépôt.lister(),

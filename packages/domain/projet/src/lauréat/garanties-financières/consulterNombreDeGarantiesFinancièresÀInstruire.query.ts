@@ -1,6 +1,6 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import { type DateTime, Email } from '@potentiel-domain/common';
 import { type Count, Where } from '@potentiel-domain/entity';
 import type { Région } from '@potentiel-domain/utilisateur';
 
@@ -18,8 +18,8 @@ type Volumétrie = {
 };
 
 export type ConsulterNombreDeGarantiesFinancièresÀInstruireReadModel = {
-  projetEnAttente: Pick<Volumétrie, 'total'>;
-  dépôts: Volumétrie;
+  projetEnAttente: Volumétrie;
+  dépôt: Volumétrie;
   demandeMainlevée: Volumétrie;
 };
 
@@ -27,6 +27,7 @@ export type ConsulterNombreDeGarantiesFinancièresÀInstruireQuery = Message<
   'Lauréat.GarantiesFinancières.Query.ConsulterNombreDeGarantiesFinancièresÀInstruire',
   {
     utilisateur: string;
+    date: DateTime.RawType;
   },
   ConsulterNombreDeGarantiesFinancièresÀInstruireReadModel
 >;
@@ -56,17 +57,19 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
 }: ConsulterNombreDeGarantiesFinancièresÀInstruireDependencies) => {
   const handler: MessageHandler<ConsulterNombreDeGarantiesFinancièresÀInstruireQuery> = async ({
     utilisateur,
+    date,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     if (!scope.régions?.length) {
       return {
-        dépôts: {
+        dépôt: {
           total: 0,
           new: 0,
         },
         projetEnAttente: {
           total: 0,
+          new: 0,
         },
         demandeMainlevée: {
           total: 0,
@@ -76,7 +79,6 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
     }
 
     const régions = scope.régions;
-    const ilYAUnMois = DateTime.now().retirerNombreDeMois(1).formatter();
 
     const [
       projetEnAttenteTotal,
@@ -101,7 +103,7 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
         join: joinLauréat({ régions }),
       }),
       count<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
-        where: { dépôt: { soumisLe: Where.greaterOrEqual(ilYAUnMois) } },
+        where: { dépôt: { soumisLe: Where.greaterOrEqual(date) } },
         join: joinLauréat({ régions }),
       }),
       count<MainlevéeGarantiesFinancièresEntity, LauréatEntity>('mainlevee-garanties-financieres', {
@@ -113,15 +115,15 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
       count<MainlevéeGarantiesFinancièresEntity, LauréatEntity>('mainlevee-garanties-financieres', {
         where: {
           statut: Where.matchAny(StatutMainlevéeGarantiesFinancières.statutsEnCours),
-          demande: { demandéeLe: Where.greaterOrEqual(ilYAUnMois) },
+          demande: { demandéeLe: Where.greaterOrEqual(date) },
         },
         join: joinLauréat({ régions }),
       }),
     ]);
 
     return {
-      projetEnAttente: { total: projetEnAttenteTotal },
-      dépôts: { total: dépôtsTotal, new: dépôtsNew },
+      projetEnAttente: { total: projetEnAttenteTotal, new: 0 },
+      dépôt: { total: dépôtsTotal, new: dépôtsNew },
       demandeMainlevée: { total: demandeMainlevéeTotal, new: demandeMainlevéeNew },
     };
   };

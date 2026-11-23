@@ -11,7 +11,6 @@ import { NouveautésSection } from './(nouveautés)/Nouveautés.section';
 export type HomePageAdministrationProps = {
   utilisateur: PotentielUtilisateur;
 };
-
 export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationProps) => (
   <PageTemplate
     banner={
@@ -19,7 +18,7 @@ export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationPr
     }
   >
     <div className="flex flex-col gap-6">
-      <AlerteNouveauté />
+      <AlerteNouveauté utilisateur={utilisateur} />
       <NouveautésSection />
       <DemandesSection />
       {utilisateur.estDreal() && <IndicateursSection />}
@@ -27,10 +26,13 @@ export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationPr
   </PageTemplate>
 );
 
-const AlerteNouveauté = () => (
+type AlerteNouveautéProps = {
+  utilisateur: PotentielUtilisateur;
+};
+const AlerteNouveauté = ({ utilisateur }: AlerteNouveautéProps) => (
   <Notice
     title="Votre page d'accueil fait peau neuve !"
     severity="info"
-    description="Retrouvez-y les actualités de Potentiel, des indicateurs clés ainsi que vos prochaines actions listées par catégorie. N'hésitez pas à nous contacter pour nous partager vos retours !"
+    description={`Retrouvez-y les actualités de Potentiel${utilisateur.estDreal() ? ', des indicateurs clés ' : ''} ainsi que vos prochaines actions listées par catégorie. N'hésitez pas à nous contacter pour nous partager vos retours !`}
   />
 );

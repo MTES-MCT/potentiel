@@ -702,7 +702,7 @@ const référencielPermissions = {
       lister: 'Nouveautés.Query.ListerNouveautés',
     },
   },
-  'demandes-en-instruction': {
+  demandes: {
     query: {
       lister: 'Projet.Query.ConsulterNombreDemandesÀInstruire',
       listerGfs:
@@ -1638,8 +1638,8 @@ const policies = {
   tableauDeBord: {
     consulter: [
       référencielPermissions.nouveautés.query.lister,
-      référencielPermissions['demandes-en-instruction'].query.lister,
-      référencielPermissions['demandes-en-instruction'].query.listerGfs,
+      référencielPermissions['demandes'].query.lister,
+      référencielPermissions['demandes'].query.listerGfs,
     ],
   },
 } as const;
