@@ -1,9 +1,9 @@
 import { headers } from 'next/headers';
 
 import { AuthenticationError } from '@potentiel-applications/bootstrap';
-import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 import { getSessionUser } from '@/auth/getSessionUser';
+import type { PotentielUtilisateur } from '@/auth/utilisateur';
 
 export async function withUtilisateur<TResult>(
   action: (Utilisateur: PotentielUtilisateur) => Promise<TResult>,

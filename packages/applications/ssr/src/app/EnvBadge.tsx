@@ -1,6 +1,6 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
-import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
+import type { PotentielUtilisateur } from '@/auth/utilisateur';
 
 type EnvBadgeProps = {
   utilisateur: PotentielUtilisateur | undefined;

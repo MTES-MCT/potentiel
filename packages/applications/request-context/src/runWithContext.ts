@@ -1,10 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { type PotentielUtilisateur, requestContextStorage } from './request-context.js';
+import { requestContextStorage } from './request-context.js';
 
-type GetUtilisateur = (props: { headers: Headers }) => Promise<PotentielUtilisateur | undefined>;
+type GetUtilisateur = (props: { headers: Headers }) => Promise<Utilisateur.ValueType | undefined>;
 
 type RunWithAuthContextProps = {
   req: IncomingMessage;

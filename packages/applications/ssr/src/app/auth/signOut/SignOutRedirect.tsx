@@ -13,6 +13,9 @@ export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
     if (isPending) {
       return;
     }
+
+    void window.cookieStore.delete('x-potentiel-impersonate');
+
     if (data?.user) {
       authClient.signOut().then(() => {
         window.location.href = callbackUrl ?? '/';
