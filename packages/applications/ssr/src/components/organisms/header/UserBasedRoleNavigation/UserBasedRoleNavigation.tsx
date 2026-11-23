@@ -208,15 +208,15 @@ export const getNavigationItemsBasedOnRole = async ({
       rôle,
     ),
     {
-      text: 'Projets',
+      text: estPorteur ? 'Mes projets' : 'Projets',
       menuLinks: mapToMenuProps(projetMenuLinks, rôle),
     },
     {
-      text: estPorteur ? 'Mes Démarches' : 'Démarches',
+      text: estPorteur ? 'Mes démarches' : 'Démarches',
       menuLinks: mapToMenuProps(démarchesMenuLinks, rôle),
     },
     {
-      text: estPorteur ? 'Mes Modifications de projets' : 'Modifications de projets',
+      text: estPorteur ? 'Mes modifications de projets' : 'Modifications de projets',
       menuLinks: mapToMenuProps(modificationsMenuLinks, rôle),
     },
     {
