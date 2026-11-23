@@ -1,15 +1,17 @@
 import type { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import type { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
-import Badge from '@mui/material/Badge';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
+import type { Lauréat } from '@potentiel-domain/projet';
 import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getNombreDemandesÀInstruire } from '@/app/_helpers/getNombreDemandesÀInstruire';
+import { getNombreDeGarantiesFinancièresÀInstruire } from '@/app/(homepage)/(homepage-administration)/_helpers/getNombreDeGarantiesFinancièresÀInstruire';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
 import { getDemandesLinks } from './getDemandesLinks';
+import { MenuItemLabelWithBadge } from './MenuItemLabelWithBadge';
 
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
@@ -96,23 +98,21 @@ export const getNavigationItemsBasedOnRole = async ({
       ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité)
       : [];
 
-  for (const demande of demandesÀInstruire) {
-    const menuItem =
-      modificationsMenuLinks.find((menuItem) => demande.domain === menuItem.domaine) ??
-      démarchesMenuLinks.find((menuItem) => demande.domain === menuItem.domaine);
+  const demandesGarantiesFinancièresÀInstruire:
+    | Lauréat.GarantiesFinancières.ConsulterNombreDeGarantiesFinancièresÀInstruireReadModel
+    | undefined =
+    showNombreDemande && autorité === 'dreal'
+      ? await getNombreDeGarantiesFinancièresÀInstruire(identifiantUtilisateur.email)
+      : undefined;
 
-    if (menuItem && demande?.total) {
-      menuItem.label = (
-        <div className="flex flex-row items-center gap-6">
-          {menuItem.label}
-          <Badge
-            badgeContent={demande.total}
-            color="primary"
-            overlap="circular"
-            invisible={demande.total === 0}
-          />
-        </div>
-      );
+  for (const menuItem of [...démarchesMenuLinks, ...modificationsMenuLinks]) {
+    const total =
+      menuItem.domaine === 'garanties-financières'
+        ? demandesGarantiesFinancièresÀInstruire?.[menuItem.type].total
+        : demandesÀInstruire.find((demande) => demande.domain === menuItem.domaine)?.total;
+
+    if (total) {
+      menuItem.label = <MenuItemLabelWithBadge title={menuItem.label} badgeContent={total} />;
     }
   }
 

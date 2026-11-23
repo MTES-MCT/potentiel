@@ -1,9 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import type { MenuItem } from './UserBasedRoleNavigation';
 
-type DemandeKey = AppelOffre.DomainesConcernésParMiseÀJour | 'garanties-financières';
+type TypeDeGarantiesFinancièresÀInstruire =
+  keyof Lauréat.GarantiesFinancières.ConsulterNombreDeGarantiesFinancièresÀInstruireReadModel;
 
 type GetDemandesLinksProps = {
   estPorteur: boolean;
@@ -11,9 +13,11 @@ type GetDemandesLinksProps = {
   keys: DemandeMenuItem['domaine'][];
 };
 
-export type DemandeMenuItem = MenuItem & {
-  domaine: DemandeKey;
-};
+export type DemandeMenuItem = MenuItem &
+  (
+    | { domaine: AppelOffre.DomainesConcernésParMiseÀJour }
+    | { domaine: 'garanties-financières'; type: TypeDeGarantiesFinancièresÀInstruire }
+  );
 
 export const getDemandesLinks = ({ estPorteur, autorité, keys }: GetDemandesLinksProps) => {
   const demandes: DemandeMenuItem[] = [
@@ -114,6 +118,7 @@ export const getDemandesLinks = ({ estPorteur, autorité, keys }: GetDemandesLin
 
     {
       domaine: 'garanties-financières',
+      type: 'dépôt',
       label: 'Garanties financières à valider',
       url: Routes.GarantiesFinancières.dépôt.lister(),
       permission: 'garantiesFinancières.dépôt.lister',
@@ -121,6 +126,7 @@ export const getDemandesLinks = ({ estPorteur, autorité, keys }: GetDemandesLin
 
     {
       domaine: 'garanties-financières',
+      type: 'projetEnAttente',
       label: 'Projets sans garanties financières',
       url: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
       permission: 'garantiesFinancières.enAttente.lister',
@@ -128,6 +134,7 @@ export const getDemandesLinks = ({ estPorteur, autorité, keys }: GetDemandesLin
 
     {
       domaine: 'garanties-financières',
+      type: 'demandeMainlevée',
       label: 'Demandes de mainlevée',
       url: Routes.GarantiesFinancières.demandeMainlevée.lister({
         statut: ['demandé', 'en-instruction'],
