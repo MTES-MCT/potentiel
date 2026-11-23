@@ -3,6 +3,8 @@ import type {
   ConsulterUtilisateurReadModel,
   RécupérerUtilisateurPort,
 } from './consulter/consulterUtilisateur.query.js';
+import type { FiltresUtilisateurDéfinisEvent } from './définir-filtres/définirFiltresUtilisateur.event.js';
+import type { DéfinirFiltresUtilisateurUseCase } from './définir-filtres/définirFiltresUtilisateur.usecase.js';
 import type { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
 import type { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase.js';
 import type { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
@@ -45,7 +47,9 @@ export type UtilisateurUseCase =
   | InviterPorteurUseCase
   | DésactiverUtilisateurUseCase
   | RéactiverUtilisateurUseCase
-  | ModifierRôleUtilisateurUseCase;
+  | ModifierRôleUtilisateurUseCase
+  | DéfinirFiltresUtilisateurUseCase
+  | DéfinirFiltresUtilisateurUseCase;
 
 // Register
 export * from './register.js';
@@ -59,7 +63,9 @@ export type { UtilisateurEvent } from './utilisateur.event.js';
 // readmodel
 export type {
   ConsulterUtilisateurReadModel,
+  DéfinirFiltresUtilisateurUseCase,
   DésactiverUtilisateurUseCase,
+  FiltresUtilisateurDéfinisEvent,
   InviterPorteurUseCase,
   InviterUtilisateurUseCase,
   ListerUtilisateursReadModel,

@@ -196,8 +196,6 @@ export const formAction =
           return acc;
         }, {} as ValidationErrors);
 
-        console.log('viovio', errors);
-
         return {
           status: 'validation-error',
           errors,

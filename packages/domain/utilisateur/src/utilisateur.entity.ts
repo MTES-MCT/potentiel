@@ -9,6 +9,7 @@ type Common = {
   invitéLe: DateTime.RawType;
   invitéPar: Email.RawType;
   désactivé?: true;
+  filtres?: Filters;
 };
 
 type UtilisateurGénérique = {
@@ -19,13 +20,11 @@ type UtilisateurDgecValidateur = {
   rôle: 'dgec-validateur';
   fonction: string;
   nomComplet: string;
-  filters?: Filters;
 };
 
 type UtilisateurDreal = {
   rôle: 'dreal';
   région: Région.RawType;
-  filters?: Filters;
 };
 
 type UtilisateurGestionnaireRéseau = {

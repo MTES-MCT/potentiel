@@ -1,8 +1,11 @@
 'use server';
+import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
+import type { DéfinirFiltresUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -18,15 +21,14 @@ const action: FormAction<FormState, typeof schema> = async (_, { technologie }) 
     console.log(technologie);
     console.log(utilisateur);
 
-    // await mediator.send<DéfinirFiltresUseCase>({
-    //   type: 'Utilisateur.UseCase.DéfinirFiltres',
-    //   data: {
-    //     identifiantsProjetValues: [identifiantProjet],
-    //     identifiantUtilisateurValue: identifiantUtilisateurInvité,
-    //     invitéLeValue: DateTime.now().formatter(),
-    //     invitéParValue: utilisateur.identifiantUtilisateur.formatter(),
-    //   },
-    // });
+    await mediator.send<DéfinirFiltresUtilisateurUseCase>({
+      type: 'Utilisateur.UseCase.DéfinirFiltresUtilisateur',
+      data: {
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        définiLeValue: DateTime.now().formatter(),
+        filtresValue: { technologie },
+      },
+    });
 
     return {
       status: 'success',

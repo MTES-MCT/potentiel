@@ -4,6 +4,7 @@ import { match } from 'ts-pattern';
 import type { UtilisateurEvent } from '@potentiel-domain/utilisateur';
 import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { filtresUtilisateurDéfinisProjector } from './filtresUtilisateurDéfinis.projector.js';
 import { porteurInvitéProjector } from './porteurInvité.projector.js';
 import { rôleUtilisateurModifiéProjector } from './rôleUtilisateurModifié.projector.js';
 import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector.js';
@@ -26,6 +27,7 @@ export const register = () => {
       .with({ type: 'UtilisateurDésactivé-V1' }, utilisateurDésactivéProjector)
       .with({ type: 'UtilisateurRéactivé-V1' }, utilisateurRéactivéProjector)
       .with({ type: 'RôleUtilisateurModifié-V1' }, rôleUtilisateurModifiéProjector)
+      .with({ type: 'FiltresUtilisateurDéfinis-V1' }, filtresUtilisateurDéfinisProjector)
       // Deprecated events
       .with({ type: 'AccèsProjetRetiré-V1' }, async () => {})
       .with({ type: 'ProjetRéclamé-V1' }, async () => {})

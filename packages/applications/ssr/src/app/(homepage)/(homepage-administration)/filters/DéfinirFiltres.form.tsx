@@ -8,7 +8,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { MultipleSelect } from '@/components/molecules/MultipleSelect';
 import type { ValidationErrors } from '@/utils/formAction';
-import { type DéfinirFiltresFormKeys, définirFiltresAction } from './définirFiltres';
+import { type DéfinirFiltresFormKeys, définirFiltresAction } from './définirFiltres.action';
 
 type Filter = Record<string, string>;
 
@@ -82,7 +82,7 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = () => {
             <div className="h-[200px]">
               <div className="flex flex-col gap-5">
                 {filters.map((filter) => (
-                  <>
+                  <div key={filter.inputName}>
                     <MultipleSelect
                       key={`filter-${filter.label}`}
                       noSearch
@@ -92,12 +92,11 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = () => {
                       disabled={false}
                       selected={techno}
                       onChange={(value) => {
-                        console.log('viovio value', value);
                         setTechnologie(value);
                       }}
                     />
                     <input type="hidden" name={filter.inputName} value={techno} />
-                  </>
+                  </div>
                 ))}
               </div>
             </div>
