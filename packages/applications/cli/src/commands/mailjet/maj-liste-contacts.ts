@@ -17,7 +17,7 @@ const envSchema = z.object({
 
 export class MiseÀJourListeContactsMailjetCommand extends Command {
   static description =
-    `Compare le nombre de contacts d'une liste Mailjet avec le nombre d'utilisateurs Potentiel`;
+    `Met à jour les contacts d'une liste Mailjet à partir des utilisateurs Potentiel`;
 
   static flags = {
     listId: Flags.integer({
