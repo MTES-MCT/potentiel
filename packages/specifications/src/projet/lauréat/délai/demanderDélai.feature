@@ -30,8 +30,8 @@ Fonctionnalité: Demander un délai pour un projet lauréat
     Plan du scénario: Un porteur peut déposer une seconde demande de délai si le motif est différent de celui de la première demande de délai
         Etant donné une demande de <première demande> en cours pour le projet lauréat
         Quand le porteur demande une <seconde demande> pour le projet lauréat
-        Alors la demande de <première demande> en cours devrait être consultable
-        Et  la demande de <seconde demande> en cours devrait être consultable
+        Alors la demande de <première demande> devrait être consultable
+        Et  la demande de <seconde demande> devrait être consultable
 
         Exemples:
             | première demande                     | seconde demande                      |

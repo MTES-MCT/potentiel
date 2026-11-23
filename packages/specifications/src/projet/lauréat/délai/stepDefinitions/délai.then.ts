@@ -1,5 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -11,21 +11,6 @@ import type { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(
   'la demande de {string} devrait être consultable',
-  async function (
-    this: PotentielWorld,
-    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
-  ) {
-    await vérifierDemandeDélai.call(
-      this,
-      this.candidatureWorld.importerCandidature.identifiantProjet,
-      Lauréat.Délai.StatutDemandeDélai.demandé,
-      motif,
-    );
-  },
-);
-
-Alors(
-  'la demande de {string} en cours devrait être consultable',
   async function (
     this: PotentielWorld,
     motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
@@ -129,34 +114,6 @@ Alors(
   },
 );
 
-// viovio : ça devrait être dans la consultation
-Alors(
-  /l'autorité instructrice de la demande de délai devrait être (.*)/,
-  async function (this: PotentielWorld, autorité: string) {
-    const demandeFixture = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
-      .values()
-      .next().value;
-
-    if (!demandeFixture) {
-      throw new Error('Demande fixture inexistante');
-    }
-    const demandeEnCours = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
-      type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-      data: {
-        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-        demandéLe: demandeFixture.demandéLe,
-      },
-    });
-    assert(Option.isSome(demandeEnCours), 'Demande de délai non trouvée !');
-    const expected = autorité.includes('DGEC')
-      ? Lauréat.Délai.AutoritéCompétente.dgec
-      : Lauréat.Délai.AutoritéCompétente.dreal;
-    expect(demandeEnCours.autoritéCompétente?.autoritéCompétente).to.equal(
-      expected.autoritéCompétente,
-    );
-  },
-);
-
 async function vérifierDemandeDélai(
   this: PotentielWorld,
   identifiantProjet: string,
@@ -164,20 +121,15 @@ async function vérifierDemandeDélai(
   motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
 ) {
   return waitForExpect(async () => {
-    const motifVT =
-      motif === "prolongation de phase d'essai"
-        ? Lauréat.Délai.MotifDemandeDélai.prolongationPhaseEssai
-        : Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement;
-
-    const demandeFixture = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
-      motifVT.formatter(),
+    const demandeFixture = this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandeOrThrow(
+      this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
     );
 
     const demandeEnCours = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
       data: {
         identifiantProjet,
-        demandéLe: demandeFixture?.demandéLe ?? '',
+        demandéLe: demandeFixture.demandéLe,
       },
     });
 
