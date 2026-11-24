@@ -70,6 +70,7 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
           return (
             <span key={key}>
               <br />
+              <br />
               <span className="inline-flex align-middle">
                 {complété ? (
                   <SuccessPicto fontSize="medium" color="green-emeraude" />
@@ -81,7 +82,8 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
               <span className={clsx({ 'line-through': complété }, 'ml-2')}>{label}</span>
 
               {!complété && action && (
-                <span className="ml-2">
+                <>
+                  <br />
                   <Link
                     href={`${action.lien(identifiantProjet)}?retour=${encodeURIComponent(
                       Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet),
@@ -90,7 +92,7 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
                   >
                     {action.label}
                   </Link>
-                </span>
+                </>
               )}
             </span>
           );

@@ -15,22 +15,23 @@ export const InfoBoxRévocationDesDroits = ({ showAlerteGarantiesFinancières }:
     severity="info"
     title="Vous êtes sur le point de déclarer ce changement de producteur"
     description={
-      <>
-        <br />
+      <span className="flex gap-4">
+        <br /> <br />
         <span>
-          En confirmant ce changement de producteur, vous perdrez immédiatement vos accès au projet
-          et ne pourrez plus effectuer de modification. <br />
+          En confirmant ce changement de producteur,{' '}
+          <span className="font-semibold">vous perdrez immédiatement vos accès au projet</span>
+          et ne pourrez plus effectuer de modification. <br /> <br />
           Le nouveau producteur pourra récupérer le projet via l'onglet{' '}
           <Link href={Routes.Accès.réclamerProjet}>"Projets à réclamer"</Link>.
           {showAlerteGarantiesFinancières && (
             <>
-              <br />
+              <br /> <br />
               Des garanties financières étant en cours sur ce projet, vous devrez adresser votre
               demande de mainlevée hors Potentiel, directement à votre DREAL.
             </>
           )}
         </span>
-      </>
+      </span>
     }
   />
 );
