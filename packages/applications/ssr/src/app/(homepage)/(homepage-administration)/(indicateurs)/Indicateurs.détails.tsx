@@ -10,7 +10,7 @@ export type IndicateursDétailsProps = {
 export const IndicateursDétails = ({ garantiesFinancières }: IndicateursDétailsProps) => (
   <div className="flex flex-row flex-wrap gap-2">
     <IndicateurTile
-      titre="Garanties financières en attente"
+      titre="Projets sans garanties financières"
       href={Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' })}
       total={garantiesFinancières.projetEnAttente.total}
     />
