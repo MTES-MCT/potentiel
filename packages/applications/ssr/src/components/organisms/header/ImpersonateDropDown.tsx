@@ -15,7 +15,10 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { createDropDownMenu, type DropDownMenuItem } from '@/components/molecules/DropDownMenu';
 
 const impersonateUser = (email: string) => {
-  window.cookieStore.set({ ...impersonateCookieOptions, value: email });
+  // Forcer le domaine
+  const localPart = email.split('@')[0];
+  const domain = '@test.test';
+  window.cookieStore.set({ ...impersonateCookieOptions, value: localPart + domain });
   window.location.reload();
 };
 const clearImpersonatedUser = () => {
@@ -27,6 +30,7 @@ const utilisateursPrédéfinis = [
   'ademe@test.test',
   'admin@test.test',
   'ao@test.test',
+  'autre-porteur@test.test',
   'caissedesdepots@test.test',
   'cocontractant@test.test',
   'cocontractant+mayotte@test.test',
@@ -132,8 +136,10 @@ export const ImpersonateDropDown = ({
                   autoComplete: 'email',
                   name: 'impersonateEmail',
                   required: true,
-                  type: 'email',
+                  placeholder: 'troisieme-porteur',
                 }}
+                hintText="Seul le domaine @test.test peut être utilisé"
+                addon={<span className="flex items-center">@test.test</span>}
               />
             ) : (
               <input type="hidden" value={emailSélectionné} name="impersonateEmail" />
