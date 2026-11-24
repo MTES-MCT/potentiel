@@ -51,12 +51,10 @@ export const handleImportPériodeInitié = async (
       identifiantPériode: IdentifiantPériode.convertirEnValueType(identifiantPériode),
       importéLe: DateTime.now(),
       importéPar: Email.convertirEnValueType(initiéPar),
-      projetsEnErreur: dossiers.dossiersInvalides
-        .concat(errors)
-        .map((p) => ({
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(p.identifiantProjet),
-          motif: p.error,
-        })),
+      projetsEnErreur: dossiers.dossiersInvalides.concat(errors).map((p) => ({
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(p.identifiantProjet),
+        motif: p.error,
+      })),
     },
   });
 };
