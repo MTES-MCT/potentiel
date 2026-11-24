@@ -68,7 +68,7 @@ const mapDomaineToLabel: Record<AppelOffre.DomainesConcernésParMiseÀJourAvecIn
 };
 
 type GarantiesFinancièresTile = Omit<DemandeTileProps, 'total' | 'new'> & {
-  key: Exclude<keyof NombreGarantiesFinancièresÀInstruire, 'projetEnAttente'>;
+  key: keyof NombreGarantiesFinancièresÀInstruire;
 };
 
 const garantiesFinancièresTiles: GarantiesFinancièresTile[] = [
@@ -85,5 +85,12 @@ const garantiesFinancièresTiles: GarantiesFinancièresTile[] = [
     href: Routes.GarantiesFinancières.demandeMainlevée.lister({
       statut: ['demandé', 'en-instruction'],
     }),
+  },
+  {
+    key: 'projetEnAttente',
+    titre: 'Projets sans garanties financières',
+    ariaLabel: 'Voir les projets sans garanties financières',
+    href: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
+    nEstPasÀInstruire: true,
   },
 ];

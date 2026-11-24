@@ -10,7 +10,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getNombreDeGarantiesFinancièresÀInstruire } from '../_helpers/getNombreDeGarantiesFinancièresÀInstruire';
 import { DemandesDétails } from './Demandes.détails';
 
-const sectionTitle = 'Demandes à instruire';
+const commonSectionTitle = 'Demandes à instruire';
 
 export const DemandesSection = () =>
   SectionWithErrorHandling(
@@ -28,7 +28,7 @@ export const DemandesSection = () =>
 
       return (
         <Section
-          title={sectionTitle}
+          title={utilisateur.estDreal() ? 'À instruire' : commonSectionTitle}
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
         >
@@ -40,7 +40,7 @@ export const DemandesSection = () =>
         </Section>
       );
     }),
-    sectionTitle,
+    commonSectionTitle,
   );
 
 const mapDemandesToDemandesDétails = (demandes: Array<NombreDemandesÀInstruire>) =>
