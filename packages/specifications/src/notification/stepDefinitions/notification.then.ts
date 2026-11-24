@@ -89,6 +89,13 @@ Alors(
 );
 
 Alors(
+  "un email a été envoyé à l'utilisateur dgec avec :",
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.dgecFixture.email, data);
+  },
+);
+
+Alors(
   `un email a été envoyé à l'autorité instructrice avec :`,
   async function (this: PotentielWorld, data: DataTable) {
     const emailVariables = data.rowsHash();

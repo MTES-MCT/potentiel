@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Période } from '@potentiel-domain/periode';
 
-import { InitierImportPériodeFixture } from './fixtures/initierImportPériode.fixture.js';
+import { ImporterPériodeFixture } from './fixtures/importerPériode.fixture.js';
 import { NotifierPériodeFixture } from './fixtures/notifierPériode.fixture.js';
 
 export class PériodeWorld {
@@ -10,12 +10,12 @@ export class PériodeWorld {
     return this.#identifiantPériode;
   }
 
-  #initierImportPériodeFixture: InitierImportPériodeFixture;
+  #importerPériodeFixture: ImporterPériodeFixture;
 
   #notifierPériodeFixture: NotifierPériodeFixture;
 
-  get initierImportPériodeFixture() {
-    return this.#initierImportPériodeFixture;
+  get importerPériodeFixture() {
+    return this.#importerPériodeFixture;
   }
 
   get notifierPériodeFixture() {
@@ -25,19 +25,21 @@ export class PériodeWorld {
   constructor() {
     this.#identifiantPériode = Période.IdentifiantPériode.convertirEnValueType('PPE2 - Eolien#1');
     this.#notifierPériodeFixture = new NotifierPériodeFixture();
-    this.#initierImportPériodeFixture = new InitierImportPériodeFixture();
+    this.#importerPériodeFixture = new ImporterPériodeFixture();
   }
 
   mapToExpected(
     identifiantPériode: Période.IdentifiantPériode.ValueType,
   ): Période.ConsulterPériodeReadModel {
-    if (!this.#notifierPériodeFixture.aÉtéCréé && !this.#initierImportPériodeFixture.aÉtéCréé) {
+    if (!this.#notifierPériodeFixture.aÉtéCréé && !this.#importerPériodeFixture.aÉtéCréé) {
       throw new Error(`Aucune période n'a été créée dans PériodeWorld`);
     }
 
     const statutPériode = this.#notifierPériodeFixture.aÉtéCréé
       ? Période.StatutPériode.notifiée
-      : Période.StatutPériode.importInitié;
+      : this.#importerPériodeFixture.aÉtéCréé
+        ? Période.StatutPériode.importée
+        : Période.StatutPériode.enAttenteDImport;
 
     const expected: Période.ConsulterPériodeReadModel = {
       identifiantPériode,

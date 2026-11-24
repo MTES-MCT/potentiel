@@ -69,6 +69,20 @@ Alors(
 );
 
 Alors(
+  'les candidatures de la période importée devraient être consultables',
+  async function (this: PotentielWorld) {
+    for (const expected of this.périodeWorld.importerPériodeFixture.candidatsImportés) {
+      const actual = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
+        data: { identifiantProjet: expected.identifiant },
+      });
+
+      assert(Option.isSome(actual), `Aucune candidature consultable pour ${expected.identifiant}`);
+    }
+  },
+);
+
+Alors(
   'les candidatures de la période notifiée devraient être notifiées',
   async function (this: PotentielWorld) {
     const { identifiantPériode } = this.périodeWorld;

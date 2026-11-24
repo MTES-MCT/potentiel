@@ -14,7 +14,7 @@ export const périodeImportéeProjector = async (event: Période.PériodeImport�
   }
 
   await updateOneProjection<Période.PériodeEntity>(`période|${event.payload.identifiantPériode}`, {
-    statut: Période.StatutPériode.notifiée.formatter(),
+    statut: Période.StatutPériode.importée.formatter(),
     importéeLe: event.payload.importéLe,
     importéePar: event.payload.importéPar,
     // on liste les projets non importés du dernier import

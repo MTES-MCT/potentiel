@@ -8,7 +8,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import type { PotentielWorld } from '../../potentiel.world.js';
 
 Quand(/la DGEC initié l'import d'une période/, async function (this: PotentielWorld) {
-  await notifierPériode.call(this);
+  await importerPériode.call(this);
 });
 
 Quand(
@@ -17,31 +17,6 @@ Quand(
     await notifierPériode.call(this);
   },
 );
-
-export async function initierImportPériode(this: PotentielWorld) {
-  try {
-    const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
-    const user = this.utilisateurWorld.dgecFixture.email;
-    const date = DateTime.now().formatter();
-
-    const { instruction } = this.périodeWorld.initierImportPériodeFixture.créer({
-      initiéPar: user,
-      initiéLe: date,
-    });
-
-    await mediator.send<Période.InitierImportPériodeUseCase>({
-      type: 'Période.UseCase.InitierImportPériode',
-      data: {
-        identifiantPériodeValue: identifiantPériode,
-        initiéLeValue: date,
-        initiéParValue: user,
-        instructionValue: instruction,
-      },
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
-}
 
 export async function notifierPériode(this: PotentielWorld) {
   try {
@@ -72,6 +47,32 @@ export async function notifierPériode(this: PotentielWorld) {
         identifiantCandidatureValues: tousProjets.map((projet) =>
           IdentifiantProjet.bind(projet).formatter(),
         ),
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function importerPériode(this: PotentielWorld) {
+  try {
+    const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
+
+    const { candidatsImportés, importéeLe, importéePar } =
+      this.périodeWorld.importerPériodeFixture.créer({
+        importéePar: this.utilisateurWorld.dgecFixture.email,
+      });
+
+    await mediator.send<Période.InitierImportPériodeUseCase>({
+      type: 'Période.UseCase.InitierImportPériode',
+      data: {
+        identifiantPériodeValue: identifiantPériode,
+        initiéLeValue: DateTime.convertirEnValueType(importéeLe).formatter(),
+        initiéParValue: importéePar,
+        instructionValue: candidatsImportés.map((candidat) => ({
+          identifiantProjet: candidat.identifiant,
+          ...candidat.instruction,
+        })),
       },
     });
   } catch (error) {
