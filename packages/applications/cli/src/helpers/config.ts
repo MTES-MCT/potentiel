@@ -25,6 +25,11 @@ export const sentrySchema = z.object({
   SENTRY_CRONS: z.url(),
 });
 
+export const mailjetSchema = z.object({
+  MJ_APIKEY_PUBLIC: z.string(),
+  MJ_APIKEY_PRIVATE: z.string(),
+});
+
 export const loggerSchema = z.object({
   LOGGER_LEVEL: z.enum(['error', 'warn', 'info', 'debug']),
 });
