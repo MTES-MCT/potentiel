@@ -138,8 +138,7 @@ export const ImpersonateDropDown = ({
                   required: true,
                   placeholder: 'troisieme-porteur',
                 }}
-                hintText="Seul le domaine @test.test peut être utilisé"
-                addon={<span className="flex items-center">@test.test</span>}
+                hintText="Seul le domaine @test.test peut être utilisé, ajouté automatiquement"
               />
             ) : (
               <input type="hidden" value={emailSélectionné} name="impersonateEmail" />
