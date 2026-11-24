@@ -5,7 +5,6 @@ import type { PotentielUtilisateur } from '@potentiel-applications/request-conte
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { DemandesSection } from './(demandes)/Demandes.section';
-import { IndicateursSection } from './(indicateurs)/Indicateurs.section';
 import { NouveautésSection } from './(nouveautés)/Nouveautés.section';
 
 export type HomePageAdministrationProps = {
@@ -21,7 +20,6 @@ export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationPr
       <AlerteNouveauté utilisateur={utilisateur} />
       <NouveautésSection />
       <DemandesSection />
-      {utilisateur.estDreal() && <IndicateursSection />}
     </div>
   </PageTemplate>
 );
