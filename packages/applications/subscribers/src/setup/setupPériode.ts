@@ -17,14 +17,19 @@ export const setupPériode: SetupPériode = ({ récupérerCandidaturesÀImporter
   PériodeProjector.register();
   période.addSubscription<PériodeProjector.SubscriptionEvent, PériodeProjector.Execute>({
     name: 'projector',
-    eventType: ['PériodeNotifiée-V1', 'RebuildTriggered'],
+    eventType: [
+      'ImportPériodeInitié-V1',
+      'PériodeImportée-V1',
+      'PériodeNotifiée-V1',
+      'RebuildTriggered',
+    ],
     messageType: 'System.Projector.Période',
   });
 
   PériodeNotification.register();
   période.addSubscription<PériodeNotification.SubscriptionEvent, PériodeNotification.Execute>({
     name: 'notifications',
-    eventType: ['PériodeNotifiée-V1'],
+    eventType: ['PériodeNotifiée-V1', 'PériodeImportée-V1'],
     messageType: 'System.Notification.Période',
   });
 

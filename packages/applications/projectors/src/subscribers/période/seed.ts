@@ -27,6 +27,7 @@ export const seedPériodes = async () => {
         appelOffre: appelOffre.id,
         période: période.id,
         statut: Période.StatutPériode.enAttenteDImport.formatter(),
+        projetsEnErreur: [],
       });
     }
   }

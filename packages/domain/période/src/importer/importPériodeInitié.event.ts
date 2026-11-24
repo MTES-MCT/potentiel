@@ -9,9 +9,6 @@ export type ImportPériodeInitiéEvent = DomainEvent<
   {
     identifiantPériode: IdentifiantPériode.RawType;
 
-    appelOffre: string;
-    période: string;
-
     initiéLe: DateTime.RawType;
     initiéPar: Email.RawType;
 

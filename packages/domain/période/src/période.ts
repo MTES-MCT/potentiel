@@ -26,6 +26,9 @@ export type {
 };
 
 // UseCases
+export type { ImporterPériodeCommand } from './importer/importerPériode.command.js';
+
+// UseCases
 export type PériodeUseCase = NotifierPériodeUseCase | InitierImportPériodeUseCase;
 export type { InitierImportPériodeUseCase, NotifierPériodeUseCase, PériodeNotifiéeEvent };
 
@@ -38,6 +41,8 @@ export type * from './période.entity.js';
 
 // Events
 export { PériodeEvent } from './période.event.js';
+export type { ImportPériodeInitiéEvent } from './importer/importPériodeInitié.event.js';
+export type { PériodeImportéeEvent } from './importer/périodeImportée.event.js';
 
 // Register
 export { registerPériodeQueries, registerPériodeUseCases } from './register.js';

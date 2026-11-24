@@ -5,6 +5,7 @@ import {
   type ConsulterPériodeDependencies,
   registerConsulterPériodeQuery,
 } from './consulter/consulterPériode.query.js';
+import { registerImporterPériodeCommand } from './importer/importerPériode.command.js';
 import { registerInitierImportPériodeCommand } from './importer/initierImportPériode.command.js';
 import { registerInitierImportPériodeUseCase } from './importer/initierImportPériode.usecase.js';
 import {
@@ -34,4 +35,5 @@ export const registerPériodeUseCases = ({
   registerNotifierPériodeCommand(loadAggregate, getProjetAggregateRoot);
   registerInitierImportPériodeUseCase();
   registerInitierImportPériodeCommand(loadAggregate);
+  registerImporterPériodeCommand(loadAggregate);
 };

@@ -1,13 +1,15 @@
 import { mediator } from 'mediateur';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import type { ImportPériodeInitiéEvent } from '../../importer/initierImportPériode.event.js';
+import type { Période } from '../../index.js';
 import type { RécupérerCandidaturesÀImporterPort } from '../../port/index.js';
+import { IdentifiantPériode, type ImportPériodeInitiéEvent } from '../../période.js';
 
 export const handleImportPériodeInitié = async (
-  { payload: { initiéLe, initiéPar, instruction } }: ImportPériodeInitiéEvent,
+  { payload: { initiéLe, initiéPar, instruction, identifiantPériode } }: ImportPériodeInitiéEvent,
   récupérerCandidaturesÀImporter: RécupérerCandidaturesÀImporterPort,
 ) => {
   const typeImport: AppelOffre.Periode['typeImport'] = 'démarche-numérique';
@@ -43,5 +45,18 @@ export const handleImportPériodeInitié = async (
     }
   }
 
-  // finaliser l'import de la période : période.importer > publie un event PériodeImportée
+  await mediator.send<Période.ImporterPériodeCommand>({
+    type: 'Période.Command.ImporterPériode',
+    data: {
+      identifiantPériode: IdentifiantPériode.convertirEnValueType(identifiantPériode),
+      importéLe: DateTime.now(),
+      importéPar: Email.convertirEnValueType(initiéPar),
+      projetsEnErreur: dossiers.dossiersInvalides
+        .concat(errors)
+        .map((p) => ({
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(p.identifiantProjet),
+          motif: p.error,
+        })),
+    },
+  });
 };

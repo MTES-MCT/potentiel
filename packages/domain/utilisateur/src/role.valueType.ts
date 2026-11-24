@@ -619,6 +619,7 @@ const référencielPermissions = {
     command: {
       notifier: 'Période.Command.NotifierPériode',
       initierImport: 'Période.Command.InitierImportPériode',
+      importer: 'Période.Command.ImporterPériode',
     },
   },
   document: {
@@ -1087,6 +1088,7 @@ const policies = {
       référencielPermissions.période.usecase.initierImport,
       référencielPermissions.période.command.initierImport,
     ],
+    importer: [référencielPermissions.période.command.importer],
   },
   représentantLégal: {
     consulter: [référencielPermissions.lauréat.représentantLégal.query.consulter],
@@ -1884,6 +1886,7 @@ const dgecPolicies: ReadonlyArray<Policy> = [
 
   // Période
   'période.initierImport',
+  'période.importer',
 
   // Abandon
   'abandon.accorder',

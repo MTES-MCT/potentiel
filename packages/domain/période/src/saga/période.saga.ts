@@ -1,8 +1,8 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import type { ImportPériodeInitiéEvent } from '../importer/initierImportPériode.event.js';
 import type { RécupérerCandidaturesÀImporterPort } from '../port/récupérerProjetsPériode.port.js';
+import type { ImportPériodeInitiéEvent } from '../période.js';
 import { handleImportPériodeInitié } from './handlers/index.js';
 
 export type SubscriptionEvent = ImportPériodeInitiéEvent;
