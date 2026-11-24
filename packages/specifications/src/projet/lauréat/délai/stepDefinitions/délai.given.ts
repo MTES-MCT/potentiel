@@ -115,3 +115,25 @@ EtantDonné(
     });
   },
 );
+
+EtantDonné(
+  'une demande de {string} accordée pour le projet lauréat avec :',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
+    const motifVT = this.lauréatWorld.délaiWorld.getMotifFromLabel(motif);
+    await demanderDélai.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      motif: motifVT.formatter(),
+    });
+    const autoritéCompétente = this.lauréatWorld.cahierDesCharges.getAutoritéCompétente({
+      domain: 'délai',
+      motif: motifVT,
+    });
+    await accorderDemandeDélai.call(this, {
+      rôle: autoritéCompétente,
+      motif: motifVT.formatter(),
+    });
+  },
+);

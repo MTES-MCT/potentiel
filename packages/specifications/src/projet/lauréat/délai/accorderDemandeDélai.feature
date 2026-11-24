@@ -66,22 +66,28 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL accorde la demande de "prolongation de délai d'achèvement" pour le projet lauréat avec :
-            | date demande | 2024-05-01 |
+            | date de la demande | 2024-05-01 |
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été accordée
-        Etant donné une demande de "prolongation de délai d'achèvement" accordée pour le projet lauréat
-        Quand la DREAL accorde la demande de "prolongation de délai d'achèvement" pour le projet lauréat
+        Etant donné une demande de "prolongation de délai d'achèvement" accordée pour le projet lauréat avec :
+            | date de la demande | 2024-05-01 |
+        Quand la DREAL accorde la demande de "prolongation de délai d'achèvement" pour le projet lauréat avec :
+            | date de la demande | 2024-05-01 |
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été annulée
-        Etant donné une demande de "prolongation de délai d'achèvement" annulée pour le projet lauréat
-        Quand la DREAL accorde la demande de "prolongation de délai d'achèvement" pour le projet lauréat
+        Etant donné une demande de "prolongation de délai d'achèvement" annulée pour le projet lauréat avec :
+            | date de la demande | 2024-05-01 |
+        Quand la DREAL accorde la demande de "prolongation de délai d'achèvement" pour le projet lauréat avec :
+            | date de la demande | 2024-05-01 |
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été rejetée
-        Etant donné une demande de "prolongation de délai d'achèvement" rejetée pour le projet lauréat
-        Quand la DREAL accorde la demande de "prolongation de délai d'achèvement" pour le projet lauréat
+        Etant donné une demande de "prolongation de délai d'achèvement" rejetée pour le projet lauréat avec :
+            | date de la demande | 2024-05-01 |
+        Quand la DREAL accorde la demande de "prolongation de délai d'achèvement" pour le projet lauréat avec :
+            | date de la demande | 2024-05-01 |
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat dont l'autorité compétente est la dgec pour un utilisateur DREAL

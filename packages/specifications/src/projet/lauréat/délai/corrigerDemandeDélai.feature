@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@select
 Fonctionnalité: Corriger la demande de délai d'un projet lauréat
 
     Contexte:

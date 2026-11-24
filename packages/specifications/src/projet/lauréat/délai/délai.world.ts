@@ -2,7 +2,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { type FieldToExempleMapper, mapNumber, mapToExemple } from '#helpers';
+import { type FieldToExempleMapper, mapDateTime, mapNumber, mapToExemple } from '#helpers';
 import type { LauréatWorld } from '../lauréat.world.js';
 import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture.js';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture.js';
@@ -175,6 +175,7 @@ export class DélaiWorld {
   mapExempleToFixtureValues(exemple: Record<string, string>) {
     const délaiMap: FieldToExempleMapper<CréerDemandeDélaiFixture> = {
       nombreDeMois: ['durée du délai demandé', mapNumber],
+      demandéLe: ['date de la demande', mapDateTime],
     };
     return mapToExemple(exemple, délaiMap);
   }

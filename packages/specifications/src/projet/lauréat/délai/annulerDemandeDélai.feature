@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@select
 Fonctionnalité: Annuler la demande de délai d'un projet lauréat
 
     Contexte:
