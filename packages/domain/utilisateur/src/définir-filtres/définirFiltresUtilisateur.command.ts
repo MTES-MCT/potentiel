@@ -3,8 +3,8 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { LoadAggregate } from '@potentiel-domain/core';
 
-import type { Filters } from '../filters.types.js';
 import { UtilisateurAggregate } from '../utilisateur.aggregate.js';
+import type { Filters } from '../utilisateur.valueType.js';
 
 export type DéfinirFiltresUtilisateurCommand = Message<
   'Utilisateur.Command.DéfinirFiltresUtilisateur',

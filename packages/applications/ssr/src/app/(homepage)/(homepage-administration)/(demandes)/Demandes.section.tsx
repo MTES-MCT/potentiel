@@ -25,12 +25,13 @@ export const DemandesSection = () =>
       ]);
 
       const demandes = mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
-      
+
       return (
         <Section
           title={utilisateur.estDreal() ? 'À instruire' : commonSectionTitle}
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
+          filters={utilisateur.filtres}
         >
           <DemandesDétails
             demandes={demandes}

@@ -1,28 +1,28 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
+import Tag from '@codegouvfr/react-dsfr/Tag';
 import { type FC, useState } from 'react';
 
 import { Candidature } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { MultipleSelect } from '@/components/molecules/MultipleSelect';
 import type { ValidationErrors } from '@/utils/formAction';
 import { type DéfinirFiltresFormKeys, définirFiltresAction } from './définirFiltres.action';
 
-type Filter = Record<string, string>;
-
 export type DéfinirFiltresFormProps = {
-  userFilters?: Filter;
+  userFilters?: Utilisateur.Filters;
 };
 
-export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = () => {
+export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DéfinirFiltresFormKeys>
   >({});
   const [techno, setTechnologie] = useState<string[]>(
-    Candidature.TypeTechnologie.types.map((t) => t),
+    userFilters?.technologie || Candidature.TypeTechnologie.types.map((t) => t),
   );
 
   // Département
@@ -36,9 +36,9 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = () => {
     {
       label: 'Technologie',
       inputName: 'technologie',
-      options: Candidature.TypeTechnologie.types.map((techno) => ({
-        label: techno,
-        value: techno,
+      options: Candidature.TypeTechnologie.types.map((technologie) => ({
+        label: technologie,
+        value: technologie,
       })),
     },
   ];
@@ -50,23 +50,17 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = () => {
         priority="tertiary no outline"
         title="Définir mes filtres"
         onClick={() => setIsOpen(true)}
+        size="small"
       />
-      {/* Afficher les filtres comme ailleurs dans l'app
-      {userFilter?.length > 0 && (
+      {userFilters && (
         <ul className="flex flex-row flex-wrap gap-1">
-          {tagFilters.map(({ searchParamKey, label, value, affects }) => (
-            <li key={`tagFilter-${searchParamKey}-${value}`}>
-              <Tag>{label}</Tag>
+          {userFilters.technologie.map((value) => (
+            <li key={`tagFilter-${value}`}>
+              <Tag>{value}</Tag>
             </li>
           ))}
-          créer un comportement pour la suppression
-          {tagFilters?.length > 1 && (
-            <li key="tagFilter-delete">
-              <DeleteEveryFilterButton onDelete={onDelete} />
-            </li>
-          )}
         </ul>
-      )} */}
+      )}
       <ModalWithForm
         id="définir-filtres-form"
         title=""
@@ -82,21 +76,19 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = () => {
             <div className="h-[200px]">
               <div className="flex flex-col gap-5">
                 {filters.map((filter) => (
-                  <div key={filter.inputName}>
-                    <MultipleSelect
-                      key={`filter-${filter.label}`}
-                      noSearch
-                      noSelectAll
-                      label={filter.label}
-                      options={filter.options}
-                      disabled={false}
-                      selected={techno}
-                      onChange={(value) => {
-                        setTechnologie(value);
-                      }}
-                    />
-                    <input type="hidden" name={filter.inputName} value={techno} />
-                  </div>
+                  <MultipleSelect
+                    key={`filter-${filter.label}`}
+                    noSelectAll
+                    noSearch
+                    label={filter.label}
+                    options={filter.options}
+                    disabled={false}
+                    selected={techno}
+                    onChange={(value) => {
+                      setTechnologie(value);
+                    }}
+                    formName={filter.inputName}
+                  />
                 ))}
               </div>
             </div>

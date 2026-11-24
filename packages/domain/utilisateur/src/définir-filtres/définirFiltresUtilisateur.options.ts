@@ -1,6 +1,6 @@
 import type { DateTime } from '@potentiel-domain/common';
 
-import type { Filters } from '../filters.types.js';
+import type { Filters } from '../utilisateur.valueType.js';
 
 export type DéfinirFiltresUtilisateurOptions = {
   définiLe: DateTime.ValueType;

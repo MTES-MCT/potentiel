@@ -6,9 +6,11 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { Utilisateur } from '../index.js';
 import type { UtilisateurEntity } from '../utilisateur.entity.js';
+import type { Filters } from '../utilisateur.valueType.js';
 
 export type TrouverUtilisateurReadModel = Utilisateur.ValueType & {
   désactivé?: true;
+  filtres?: Filters;
 };
 
 export type TrouverUtilisateurQuery = Message<
@@ -41,4 +43,5 @@ export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDepe
 export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisateurReadModel => ({
   ...Utilisateur.convertirEnValueType(utilisateur),
   désactivé: utilisateur.désactivé,
+  filtres: utilisateur.filtres,
 });

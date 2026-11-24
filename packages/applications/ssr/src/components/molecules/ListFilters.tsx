@@ -51,7 +51,6 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
           return multiple ? (
             <MultipleSelect
               key={`filter-${searchParamKey}`}
-              noSearch
               noSelectAll
               label={label}
               options={options}

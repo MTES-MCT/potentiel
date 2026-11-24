@@ -18,9 +18,6 @@ export type DéfinirFiltresFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { technologie }) =>
   withUtilisateur(async (utilisateur) => {
-    console.log(technologie);
-    console.log(utilisateur);
-
     await mediator.send<DéfinirFiltresUtilisateurUseCase>({
       type: 'Utilisateur.UseCase.DéfinirFiltresUtilisateur',
       data: {

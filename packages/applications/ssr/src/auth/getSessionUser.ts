@@ -98,6 +98,7 @@ type GetUtilisateurProps = {
 
 const getUtilisateur = async ({ email, nom, accountUrl }: GetUtilisateurProps) => {
   const utilisateur = await getUtilisateurFromEmail(email);
+
   if (Option.isSome(utilisateur)) {
     if (utilisateur.désactivé) {
       throw new OperationRejectedError(`Forbidden`);

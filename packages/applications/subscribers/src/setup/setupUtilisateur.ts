@@ -18,6 +18,7 @@ export const setupUtilisateur = () => {
         'UtilisateurDésactivé-V1',
         'UtilisateurRéactivé-V1',
         'RôleUtilisateurModifié-V1',
+        'FiltresUtilisateurDéfinis-V1',
       ],
       messageType: 'System.Projector.Utilisateur',
     },

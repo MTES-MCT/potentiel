@@ -16,6 +16,7 @@ export type MultipleSelectProps = Omit<MultipleSelectPopoverProps, 'id'> & {
   label: string;
   options: Array<Option>;
   disabled: boolean;
+  formName?: string;
 };
 
 export const MultipleSelect: React.FC<MultipleSelectProps> = ({
@@ -27,6 +28,7 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
   noSelectAll,
   onChange,
   disabled,
+  formName,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -106,6 +108,8 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
             : 'Sélectionner une option'}
         </button>
       )}
+      {formName &&
+        selected.map((value) => <input key={value} type="hidden" name={formName} value={value} />)}
       {open && (
         <MultipleSelectPopover
           id={popoverId}
