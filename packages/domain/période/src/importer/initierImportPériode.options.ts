@@ -10,5 +10,4 @@ export type InitierImportPériodeOptions = {
   instruction: Array<
     { identifiantProjet: IdentifiantProjet.ValueType } & Candidature.Instruction.ValueType
   >;
-  vérifierLesDonnéesSansImportRéel?: true;
 };

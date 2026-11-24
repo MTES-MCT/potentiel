@@ -23,7 +23,6 @@ const schema = zod.object({
   periode: zod.string(),
   famille: zod.string().optional(),
   fichierInstruction: singleDocument({ acceptedFileTypes: ['text/csv'] }),
-  test: zod.stringbool().optional(),
 });
 
 export type ImporterCandidaturesParDémarcheNumériqueFormKeys = keyof zod.infer<typeof schema>;
@@ -37,7 +36,7 @@ const instructionCsvSchema = zod.object({
 });
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { appelOffre, periode, fichierInstruction, famille, test },
+  { appelOffre, periode, fichierInstruction },
 ) =>
   withUtilisateur(async (utilisateur) => {
     const { parsedData: instructions } = await ImportCSV.fromCSV(
@@ -75,14 +74,13 @@ const action: FormAction<FormState, typeof schema> = async (
             volumeRéservé: volumeReserve,
           }),
         ),
-        ...(test && { vérifierLesDonnéesSansImportRéel: true }),
       },
     });
 
     return {
       status: 'success',
       result: {
-        successMessage: `Import en cours : ${instructions.map((i) => i.volumeReserve).join(', ')}`,
+        successMessage: `L'import peut prendre quelques minutes, veuillez patienter avant de consulter la liste des candidatures`,
         link: {
           url: Routes.Candidature.lister({
             appelOffre,

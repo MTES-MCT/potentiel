@@ -17,7 +17,5 @@ export type ImportPériodeInitiéEvent = DomainEvent<
         identifiantProjet: IdentifiantProjet.RawType;
       } & Candidature.Instruction.RawType
     >;
-
-    vérifierLesDonnéesSansImportRéel?: true;
   }
 >;

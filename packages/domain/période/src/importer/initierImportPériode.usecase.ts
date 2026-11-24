@@ -15,7 +15,6 @@ export type InitierImportPériodeUseCase = Message<
     instructionValue: Array<
       { identifiantProjet: IdentifiantProjet.RawType } & Candidature.Instruction.RawType
     >;
-    vérifierLesDonnéesSansImportRéel?: true;
   }
 >;
 

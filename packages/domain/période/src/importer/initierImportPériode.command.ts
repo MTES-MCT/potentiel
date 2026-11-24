@@ -16,7 +16,6 @@ export type InitierImportPériodeCommand = Message<
     instruction: Array<
       { identifiantProjet: IdentifiantProjet.ValueType } & Candidature.Instruction.ValueType
     >;
-    vérifierLesDonnéesSansImportRéel?: true;
   }
 >;
 
@@ -26,7 +25,6 @@ export const registerInitierImportPériodeCommand = (loadAggregate: LoadAggregat
     initiéLe,
     initiéPar,
     instruction,
-    vérifierLesDonnéesSansImportRéel,
   }) => {
     const période = await loadAggregate(
       PériodeAggregate,
@@ -39,7 +37,6 @@ export const registerInitierImportPériodeCommand = (loadAggregate: LoadAggregat
       initiéPar,
       instruction,
       identifiantPériode,
-      vérifierLesDonnéesSansImportRéel,
     });
   };
 

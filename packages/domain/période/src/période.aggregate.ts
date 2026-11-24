@@ -28,12 +28,7 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
     return this.#identifiantÉliminés;
   }
 
-  async initierImport({
-    initiéLe,
-    initiéPar,
-    instruction,
-    vérifierLesDonnéesSansImportRéel,
-  }: InitierImportPériodeOptions) {
+  async initierImport({ initiéLe, initiéPar, instruction }: InitierImportPériodeOptions) {
     // TODO : gérer cas où la période a déjà été importée / notifiée et on importe de nouveaux candidats
     const event: ImportPériodeInitiéEvent = {
       type: 'ImportPériodeInitié-V1',
@@ -45,7 +40,6 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
           identifiantProjet: identifiantProjet.formatter(),
           ...instruction.formatter(),
         })),
-        vérifierLesDonnéesSansImportRéel,
       },
     };
 
