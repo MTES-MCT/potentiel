@@ -1,5 +1,3 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
-
 import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 import { Heading1 } from '@/components/atoms/headings';
@@ -17,20 +15,8 @@ export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationPr
     }
   >
     <div className="flex flex-col gap-6">
-      <AlerteNouveauté utilisateur={utilisateur} />
       <NouveautésSection />
       <DemandesSection />
     </div>
   </PageTemplate>
-);
-
-type AlerteNouveautéProps = {
-  utilisateur: PotentielUtilisateur;
-};
-const AlerteNouveauté = ({ utilisateur }: AlerteNouveautéProps) => (
-  <Notice
-    title="Votre page d'accueil fait peau neuve !"
-    severity="info"
-    description={`Retrouvez-y les actualités de Potentiel${utilisateur.estDreal() ? ', des indicateurs clés ' : ''} ainsi que vos prochaines actions listées par catégorie. N'hésitez pas à nous contacter pour nous partager vos retours !`}
-  />
 );
