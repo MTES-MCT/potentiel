@@ -4,13 +4,13 @@ import type { PotentielUtilisateur } from '@potentiel-applications/request-conte
 
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { DemandesSection } from './Demandes.section';
-import { NouveautésSection } from './Nouveautés.section';
+import { DemandesSection } from './(demandes)/Demandes.section';
+import { IndicateursSection } from './(indicateurs)/Indicateurs.section';
+import { NouveautésSection } from './(nouveautés)/Nouveautés.section';
 
 export type HomePageAdministrationProps = {
   utilisateur: PotentielUtilisateur;
 };
-
 export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationProps) => (
   <PageTemplate
     banner={
@@ -18,17 +18,21 @@ export const HomePageAdministration = ({ utilisateur }: HomePageAdministrationPr
     }
   >
     <div className="flex flex-col gap-6">
-      <AlerteNouveauté />
+      <AlerteNouveauté utilisateur={utilisateur} />
       <NouveautésSection />
       <DemandesSection />
+      {utilisateur.estDreal() && <IndicateursSection />}
     </div>
   </PageTemplate>
 );
 
-const AlerteNouveauté = () => (
+type AlerteNouveautéProps = {
+  utilisateur: PotentielUtilisateur;
+};
+const AlerteNouveauté = ({ utilisateur }: AlerteNouveautéProps) => (
   <Notice
     title="Votre page d'accueil fait peau neuve !"
     severity="info"
-    description="Retrouvez-y les actualités de Potentiel, ainsi que vos prochaines actions listées par catégorie. N'hésitez pas à nous contacter pour nous partager vos retours !"
+    description={`Retrouvez-y les actualités de Potentiel${utilisateur.estDreal() ? ', des indicateurs clés ' : ''} ainsi que vos prochaines actions listées par catégorie. N'hésitez pas à nous contacter pour nous partager vos retours !`}
   />
 );

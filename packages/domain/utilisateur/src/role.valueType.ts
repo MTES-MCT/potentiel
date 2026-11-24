@@ -702,9 +702,11 @@ const référencielPermissions = {
       lister: 'Nouveautés.Query.ListerNouveautés',
     },
   },
-  'demandes-en-instruction': {
+  demandes: {
     query: {
       lister: 'Projet.Query.ConsulterNombreDemandesÀInstruire',
+      listerGfs:
+        'Lauréat.GarantiesFinancières.Query.ConsulterNombreDeGarantiesFinancièresÀInstruire',
     },
   },
 } as const;
@@ -1636,7 +1638,8 @@ const policies = {
   tableauDeBord: {
     consulter: [
       référencielPermissions.nouveautés.query.lister,
-      référencielPermissions['demandes-en-instruction'].query.lister,
+      référencielPermissions['demandes'].query.lister,
+      référencielPermissions['demandes'].query.listerGfs,
     ],
   },
 } as const;

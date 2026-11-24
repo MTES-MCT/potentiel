@@ -46,20 +46,17 @@ export const getNombreDemandesÀInstruireAdapter: GetNombreDemandesÀInstruire =
   ${
     régions?.length
       ? `
-  AND (
-    EXISTS (
-      SELECT 1 FROM domain_views.projection laur
-      WHERE laur.key LIKE 'lauréat|%'
-        AND laur.value->>'identifiantProjet' = p.value->>'identifiantProjet'
-        AND laur.value->>'localité.région' = ANY($4)
-    )
-    OR EXISTS (
-      SELECT 1 FROM domain_views.projection cand
-      WHERE cand.key LIKE 'candidature|%'
-        AND cand.value->>'identifiantProjet' = p.value->>'identifiantProjet'
-        AND cand.value->>'statut' = 'éliminé'
-        AND cand.value->>'localité.région' = ANY($4)
-    )
+  AND EXISTS (
+    SELECT 1 FROM domain_views.projection laur
+    WHERE laur.key LIKE 'lauréat|%'
+      AND laur.value->>'identifiantProjet' = p.value->>'identifiantProjet'
+      AND laur.value->>'localité.région' = ANY($4)
+    UNION ALL
+    SELECT 1 FROM domain_views.projection cand
+    WHERE cand.key LIKE 'candidature|%'
+      AND cand.value->>'identifiantProjet' = p.value->>'identifiantProjet'
+      AND cand.value->>'statut' = 'éliminé'
+      AND cand.value->>'localité.région' = ANY($4)
   )`
       : ''
   }

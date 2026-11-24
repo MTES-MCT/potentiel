@@ -5,6 +5,10 @@ import {
   registerGarantiesFinancièresActuellesUseCases,
 } from './actuelles/garantiesFinancièresActuelles.register.js';
 import {
+  type ConsulterNombreDeGarantiesFinancièresÀInstruireDependencies,
+  registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery,
+} from './consulterNombreDeGarantiesFinancièresÀInstruire.query.js';
+import {
   type DépôtGarantiesFinancièresQueryDependencies,
   type DépôtGarantiesFinancièresUseCasesDependencies,
   registerDépôtGarantiesFinancièresQueries,
@@ -20,7 +24,8 @@ import {
 
 export type GarantiesFinancièresQueryDependencies = GarantiesFinancièresActuellesQueryDependencies &
   DépôtGarantiesFinancièresQueryDependencies &
-  MainlevéeGarantiesFinancièresQueryDependencies;
+  MainlevéeGarantiesFinancièresQueryDependencies &
+  ConsulterNombreDeGarantiesFinancièresÀInstruireDependencies;
 
 export type GarantiesFinancièresUseCasesDependencies =
   | GarantiesFinancièresActuellesUseCasesDependencies
@@ -42,4 +47,5 @@ export const registerGarantiesFinancièresQueries = (
   registerDépôtGarantiesFinancièresQueries(dependencies);
   registerMainlevéeGarantiesFinancièresQueries(dependencies);
   registerGarantiesFinancièresEnAttenteQueries(dependencies);
+  registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery(dependencies);
 };
