@@ -63,6 +63,16 @@ export const ImpersonateDropDown = ({
 
   const menuItems: (DropDownMenuItem & { condition?: boolean })[] = [
     {
+      iconId: 'ri-user-line',
+      label: 'Accéder à mon compte',
+      onClick: () => {
+        if (utilisateur.accountUrl) {
+          window.location.href = utilisateur.accountUrl;
+        }
+      },
+      condition: !!utilisateur.accountUrl && !utilisateur.isImpersonated,
+    },
+    {
       iconId: 'fr-icon-more-line',
       label: "Changer d'utilisateur de test",
       onClick: modal.open,
@@ -87,7 +97,7 @@ export const ImpersonateDropDown = ({
     },
     {
       iconId: 'fr-icon-close-line',
-      label: `Revenir à l'utilisateur authentifié`,
+      label: `Arrêter l'impersonation`,
       onClick: clearImpersonatedUser,
       condition: !!utilisateur.isImpersonated,
     },
@@ -111,6 +121,7 @@ export const ImpersonateDropDown = ({
         <modal.Component title="Changer d'utilisateur">
           <form
             onSubmit={(ev) => {
+              ev.preventDefault();
               const formData = new FormData(ev.target);
               const email = formData.get('impersonateEmail') as string;
               impersonateUser(email);
