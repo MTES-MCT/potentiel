@@ -8,11 +8,11 @@ export const getLocalité = <T extends Record<string, string>, TName extends str
     accessor.getAdresse(nom) ?? {};
 
   return {
-    adresse1: cleanupInput(streetAddress) ?? '',
-    département: cleanupInput(departmentName) ?? '',
-    région: cleanupInput(regionName) ?? '',
-    commune: cleanupInput(cityName) ?? '',
-    codePostal: cleanupInput(postalCode) ?? '',
+    adresse1: cleanupInput(streetAddress),
+    département: cleanupInput(departmentName),
+    région: cleanupInput(regionName),
+    commune: cleanupInput(cityName),
+    codePostal: cleanupInput(postalCode),
   };
 };
 

@@ -52,7 +52,7 @@ export class ListerDossiersCandidatureCommand extends Command {
           période: args.période,
         });
 
-        const data = dossiers.dépôtsValides.map((dossier) => {
+        const data = [...dossiers.dépôtsValides, ...dossiers.dépôtsInvalides].map((dossier) => {
           const statut = faker.helpers.arrayElement(['retenu', 'éliminé']);
           return {
             numeroDossierDN: dossier.numeroDN,
@@ -61,12 +61,15 @@ export class ListerDossiersCandidatureCommand extends Command {
               statut === 'éliminé' ? faker.lorem.words({ min: 8, max: 16 }) : undefined,
             note: faker.number.int({ min: 10, max: 100 }).toString(),
             volumeReserve: hasVolumeRéservé
-              ? faker.helpers.arrayElement(['oui', 'non'])
+              ? statut === 'éliminé'
+                ? 'non'
+                : faker.helpers.arrayElement(['oui', 'non'])
               : undefined,
           };
         });
+
         const csv = await ExportCSV.toCSV({
-          data,
+          data: data,
           fields: ['numeroDossierDN', 'statut', 'motifElimination', 'note', 'volumeReserve'],
         });
 
@@ -74,7 +77,7 @@ export class ListerDossiersCandidatureCommand extends Command {
         console.log("Fichier d'instruction créé: instruction-ds-cre.csv");
         if (dossiers.dépôtsInvalides.length) {
           console.log(
-            " ❌ Dépôts invalides, donc absents du fichier d'instruction : ",
+            `🚨 Le fichier contient ${dossiers.dépôtsInvalides.length} dépôts invalides : `,
             dossiers.dépôtsInvalides.map((d) => d.numeroDN).join(', '),
           );
         }

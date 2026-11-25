@@ -132,6 +132,21 @@ export const mapApiResponseToDépôt = ({ champs }: MapApiResponseToDépôt): Re
   const erreurs: string[] = [];
   const dépôt: DeepPartial<Candidature.Dépôt.RawType> = {};
 
+  const typeGarantiesFinancières = getTypeGarantiesFinancières(
+    accessor,
+    'typeGarantiesFinancières',
+  );
+
+  const dateConstitutionGarantiesFinancières = getDateConstitutionGarantiesFinancières(champs);
+
+  const dateÉchéanceGarantiesFinancieres = getDateÉchéanceGarantiesFinancières({
+    typeGarantiesFinancières,
+    dateConstitutionGarantiesFinancières,
+    dateÉchéanceGarantiesFinancières: accessor.getDateValue('dateÉchéanceGf'),
+  });
+
+  const nomProjet = accessor.getStringValue('nomProjet');
+
   for (const clé of clésDépôt) {
     match(clé)
       .with(
@@ -145,10 +160,7 @@ export const mapApiResponseToDépôt = ({ champs }: MapApiResponseToDépôt): Re
         },
       )
       .with(P.union('installateur', 'sociétéMère'), (clé) => {
-        const valeur = accessor.getStringValue(clé);
-        if (valeur) {
-          dépôt[clé] = valeur;
-        }
+        dépôt[clé] = accessor.getStringValue(clé);
       })
       .with(P.union('prixReference', 'evaluationCarboneSimplifiée'), (clé) => {
         const valeur = accessor.getNumberValue(clé);
@@ -158,24 +170,10 @@ export const mapApiResponseToDépôt = ({ champs }: MapApiResponseToDépôt): Re
         dépôt[clé] = valeur;
       })
       .with(P.union('puissanceDeSite', 'puissanceDuProjetInitial'), (clé) => {
-        const valeur = accessor.getNumberValue(clé);
-        if (valeur) {
-          dépôt[clé] = valeur;
-        }
-        dépôt[clé] = valeur;
+        dépôt[clé] = accessor.getNumberValue(clé);
       })
-      .with(P.union('coefficientKChoisi'), (clé) => {
-        const valeur = accessor.getBooleanValue(clé);
-        if (!valeur) {
-          erreurs.push(`Le champ ${clé} est requis`);
-        }
-        dépôt[clé] = valeur;
-      })
-      .with(P.union('obligationDeSolarisation'), (clé) => {
-        const valeur = accessor.getBooleanValue(clé);
-        if (!valeur) {
-          dépôt[clé] = valeur;
-        }
+      .with(P.union('obligationDeSolarisation', 'coefficientKChoisi'), (clé) => {
+        dépôt[clé] = accessor.getBooleanValue(clé);
       })
       .with(P.union('puissanceALaPointe', 'territoireProjet'), (clé) => {
         dépôt[clé] = undefined;
@@ -195,16 +193,10 @@ export const mapApiResponseToDépôt = ({ champs }: MapApiResponseToDépôt): Re
         });
       })
       .with('dateConstitutionGf', () => {
-        dépôt['dateConstitutionGf'] = getDateConstitutionGarantiesFinancières(champs);
+        dépôt['dateConstitutionGf'] = dateConstitutionGarantiesFinancières;
       })
       .with('dateÉchéanceGf', () => {
-        dépôt['dateÉchéanceGf'] = getDateÉchéanceGarantiesFinancières({
-          dateConstitutionGarantiesFinancières: getDateConstitutionGarantiesFinancières(champs),
-          typeGarantiesFinancières: getTypeGarantiesFinancières(
-            accessor,
-            'typeGarantiesFinancières',
-          ),
-        });
+        dépôt['dateÉchéanceGf'] = dateÉchéanceGarantiesFinancieres;
       })
       .with('dispositifDeStockage', () => {
         dépôt['dispositifDeStockage'] = getDispositifDeStockage({
@@ -236,7 +228,7 @@ export const mapApiResponseToDépôt = ({ champs }: MapApiResponseToDépôt): Re
           accessor: accessorNuméroIdentification,
           nomChampsNuméroSIREN: 'numéroSIREN',
           nomChampsNuméroSIRET: 'numéroSIRET',
-          nomProjet: accessor.getStringValue('nomProjet'),
+          nomProjet,
         });
       })
       .with('puissance', () => {
@@ -260,7 +252,7 @@ export const mapApiResponseToDépôt = ({ champs }: MapApiResponseToDépôt): Re
         });
       })
       .with('typeGarantiesFinancières', () => {
-        const raw = getTypeGarantiesFinancières(accessor, 'typeGarantiesFinancières');
+        const raw = typeGarantiesFinancières;
         dépôt['typeGarantiesFinancières'] =
           raw === 'garantie-bancaire' ? 'avec-date-échéance' : raw;
       })
