@@ -29,7 +29,6 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
   }
 
   async initierImport({ initiéLe, initiéPar, instruction }: InitierImportPériodeOptions) {
-    // TODO : gérer cas où la période a déjà été importée / notifiée et on importe de nouveaux candidats
     const event: ImportPériodeInitiéEvent = {
       type: 'ImportPériodeInitié-V1',
       payload: {

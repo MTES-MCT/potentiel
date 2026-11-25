@@ -19,6 +19,6 @@ export async function mockRécupérerCandidaturesÀImporter(
       identifiantProjet: candidat.identifiant,
     })),
     dossiersInvalides: [],
-    démarcheId: String(faker.number),
+    démarcheId: String(faker.number.int()),
   };
 }

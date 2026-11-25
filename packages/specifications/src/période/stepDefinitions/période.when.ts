@@ -7,7 +7,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import type { PotentielWorld } from '../../potentiel.world.js';
 
-Quand(/la DGEC initié l'import d'une période/, async function (this: PotentielWorld) {
+Quand(/la DGEC initie l'import d'une période/, async function (this: PotentielWorld) {
   await importerPériode.call(this);
 });
 

@@ -94,11 +94,7 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-const vérifierInstructions = async ({
-  appelOffres,
-  période,
-  instructions,
-}: {
+type VérifierInstructionsProps = {
   appelOffres: string;
   période: string;
   instructions: ReadonlyArray<{
@@ -108,7 +104,13 @@ const vérifierInstructions = async ({
     motifElimination?: string | undefined;
     volumeReserve?: boolean | undefined;
   }>;
-}) => {
+};
+
+const vérifierInstructions = async ({
+  appelOffres,
+  période,
+  instructions,
+}: VérifierInstructionsProps) => {
   const errors: ActionResult['errors'] = [];
 
   const détailAppelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
