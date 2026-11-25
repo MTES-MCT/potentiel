@@ -34,15 +34,7 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters 
         onClick={() => setIsOpen(true)}
         size="small"
       />
-      {userFilters && (
-        <ul className="flex flex-row flex-wrap gap-1">
-          {userFilters.technologie.map((value) => (
-            <li key={`tagFilter-${value}`}>
-              <Tag>{value}</Tag>
-            </li>
-          ))}
-        </ul>
-      )}
+      {userFilters && <TagsList userFilters={userFilters} />}
       <ModalWithForm
         id="définir-filtres-form"
         title=""
@@ -82,3 +74,15 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters 
     </>
   );
 };
+
+const TagsList = ({ userFilters }: { userFilters: Filtres.Type }) => (
+  <ul className="flex flex-row flex-wrap gap-1">
+    {Object.entries(userFilters).map(([key, values]) =>
+      values.map((value) => (
+        <li key={`tagFilter-${key}-${value}`}>
+          <Tag>{key} : {value}</Tag>
+        </li>
+      )),
+    )}
+  </ul>
+);

@@ -28,7 +28,7 @@ export const DemandesSection = () =>
           title={sectionTitle}
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
-          filters={utilisateur.filtres}
+          filters={{ userFilters: utilisateur.filtres }}
         >
           <DemandesDétails demandes={demandes} autorité={autorité} />
         </Section>

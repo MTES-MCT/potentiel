@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import type React from 'react';
 import type { ComponentProps } from 'react';
 
-import type { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Filtres } from '@potentiel-domain/utilisateur';
 
 import { Heading3 } from '@/components/atoms/headings';
 import { DéfinirFiltresForm } from './filters/DéfinirFiltres.form';
@@ -10,7 +10,7 @@ import { DéfinirFiltresForm } from './filters/DéfinirFiltres.form';
 type SectionProps = ComponentProps<'section'> & {
   title: string;
   children: React.ReactNode;
-  filters?: Utilisateur.Filters;
+  filters?: { userFilters: Filtres.Type | undefined };
   picto?: React.ReactNode;
   icon?: React.ReactNode;
 };
@@ -28,7 +28,7 @@ export const Section = ({ title, children, picto, className = '', filters }: Sec
         {picto && <span>{picto}</span>}
         {title}
       </Heading3>
-      {filters && <DéfinirFiltresForm userFilters={filters} />}
+      {filters && <DéfinirFiltresForm userFilters={filters.userFilters} />}
     </div>
     {children}
   </section>
