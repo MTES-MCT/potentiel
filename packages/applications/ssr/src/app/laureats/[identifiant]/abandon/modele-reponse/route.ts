@@ -87,7 +87,7 @@ export const GET = async (
           referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
           status: abandon.statut.statut,
           enCopies: getEnCopies(lauréat.localité.région),
-          afficherParagrapheMainleveeGarantiesFinancieres: avecMainlevée ? 'yes' : '',
+          avecAccordMainlevee: avecMainlevée ? 'yes' : '',
           dateConstitutionGarantiesFinancieres: garantiesFinancières.actuelles?.garantiesFinancières
             .constitution?.date
             ? formatDateForDocument(

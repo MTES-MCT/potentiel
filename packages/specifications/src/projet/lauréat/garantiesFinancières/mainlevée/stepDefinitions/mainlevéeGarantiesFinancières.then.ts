@@ -79,29 +79,31 @@ Alors(
 );
 
 async function vérifierMainlevéeEnCours(this: PotentielWorld) {
-  const expected = mapToPlainObject(
-    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected(),
-  );
-  const { identifiantProjet } = this.lauréatWorld;
-  const actualReadModel =
-    await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
-      type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
-
-  assert(Option.isSome(actualReadModel));
-  const actual = mapToPlainObject(actualReadModel);
-
-  expect(actual).to.deep.equal(expected, 'Le readmodel ne correspond pas au modèle attendu');
-
-  if (actualReadModel.accord?.courrierAccord) {
-    await expectFileContent(
-      actualReadModel.accord.courrierAccord,
-      actualReadModel.demande
-        ? this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord
-        : this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
+  return waitForExpect(async () => {
+    const expected = mapToPlainObject(
+      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected(),
     );
-  }
+    const { identifiantProjet } = this.lauréatWorld;
+    const actualReadModel =
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    assert(Option.isSome(actualReadModel));
+    const actual = mapToPlainObject(actualReadModel);
+
+    expect(actual).to.deep.equal(expected, 'Le readmodel ne correspond pas au modèle attendu');
+
+    if (actualReadModel.accord?.courrierAccord) {
+      await expectFileContent(
+        actualReadModel.accord.courrierAccord,
+        actualReadModel.demande
+          ? this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord
+          : this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
+      );
+    }
+  });
 }

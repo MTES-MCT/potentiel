@@ -20,7 +20,7 @@ export type ModèleRéponseAbandon = ModèleRéponse & {
 
     enCopies: Array<string>;
 
-    afficherParagrapheMainleveeGarantiesFinancieres: 'yes' | '';
+    avecAccordMainlevee: 'yes' | '';
     dateConstitutionGarantiesFinancieres: string;
   };
 };
