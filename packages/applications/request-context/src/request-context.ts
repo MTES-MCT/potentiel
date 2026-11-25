@@ -2,15 +2,10 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
-export type PotentielUtilisateur = Utilisateur.ValueType & {
-  nom?: string;
-  accountUrl?: string;
-};
-
 export type RequestContext = {
   correlationId: string;
   app?: 'web' | 'subscribers' | 'cli' | 'api';
-  utilisateur?: PotentielUtilisateur;
+  utilisateur?: Utilisateur.ValueType;
   url?: string;
 };
 

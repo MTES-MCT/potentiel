@@ -1,5 +1,4 @@
-import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
-
+import type { PotentielUtilisateur } from '@/auth/utilisateur';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { DemandesSection } from './(demandes)/Demandes.section';

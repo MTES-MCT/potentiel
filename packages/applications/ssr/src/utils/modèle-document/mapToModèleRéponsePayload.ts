@@ -2,12 +2,12 @@ import {
   formatDateForDocument,
   type ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { PlainType } from '@potentiel-domain/core';
 import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 
+import type { PotentielUtilisateur } from '@/auth/utilisateur';
 import { formatBoolean } from './formatBoolean';
 import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';
 

@@ -1,6 +1,7 @@
 import type { LastLoginMethodOptions } from 'better-auth/plugins';
 
 import { auth } from '..';
+import { parseCookie } from '../helpers/parseCookie';
 import type { AuthProvider } from './authProvider';
 
 export const getLastUsedProvider = ({ headers }: { headers: Headers }) => {
@@ -11,11 +12,7 @@ export const getLastUsedProvider = ({ headers }: { headers: Headers }) => {
 
   const options = lastLoginMethodPlugin.options as LastLoginMethodOptions;
   const cookieName = options?.cookieName ?? 'better-auth.last_used_login_method';
-  const lastUsedProvider = headers
-    .get('cookie')
-    ?.split(';')
-    .find((cookie) => cookie.trim().startsWith(`${cookieName}=`))
-    ?.split('=')[1];
+  const lastUsedProvider = parseCookie(headers.get('cookie'), cookieName);
 
   return lastUsedProvider as AuthProvider;
 };

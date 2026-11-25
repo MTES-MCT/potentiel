@@ -4,10 +4,12 @@ import { mediator } from 'mediateur';
 import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
 import type { Lauréat } from '@potentiel-domain/projet';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getSessionUser } from '@/auth/getSessionUser';
+import { ImpersonateDropDown } from './ImpersonateDropDown';
 
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = await getSessionUser({ headers: await headers() });
@@ -16,7 +18,11 @@ export async function UserHeaderQuickAccessItem() {
     return (
       <>
         <TâcheHeaderQuickAccessItem utilisateur={utilisateur} />
-        {utilisateur.accountUrl ? (
+        {(utilisateur.isImpersonated || utilisateur.rôle.estAdmin()) &&
+        process.env.APPLICATION_STAGE !== 'production' &&
+        process.env.APPLICATION_STAGE !== 'demo' ? (
+          <ImpersonateDropDown utilisateur={mapToPlainObject(utilisateur)} />
+        ) : utilisateur.accountUrl ? (
           <HeaderQuickAccessItem
             quickAccessItem={{
               iconId: 'ri-user-line',

@@ -130,6 +130,7 @@ npm run start
    - dreal-occ@test.test
    - dreal-aura@test.test
    - porteur@test.test
+   - autre-porteur@test.test
    - ademe@test.test
    - ao@test.test
    - cocontractant@test.test (Métropole)

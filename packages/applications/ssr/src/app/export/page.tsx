@@ -2,11 +2,11 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import * as z from 'zod';
 
-import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { Routes } from '@potentiel-applications/routes';
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
+import type { PotentielUtilisateur } from '@/auth/utilisateur';
 import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
