@@ -1,15 +1,14 @@
 import type { DateTime, Email } from '@potentiel-domain/common';
 import type { Entity } from '@potentiel-domain/entity';
 
-import type { Région, Zone } from './index.js';
-import type { Filters } from './utilisateur.valueType.js';
+import type { Filtres, Région, Zone } from './index.js';
 
 type Common = {
   identifiantUtilisateur: Email.RawType;
   invitéLe: DateTime.RawType;
   invitéPar: Email.RawType;
   désactivé?: true;
-  filtres?: Filters;
+  filtres?: Filtres.Type;
 };
 
 type UtilisateurGénérique = {
