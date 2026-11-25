@@ -28,6 +28,7 @@ import {
   ModificationPropreRoleRefuséeError,
   ModificationRolePorteurRefuséeError,
   PorteurInvitéSansProjetError,
+  RôleSansFiltres,
   UtilisateurDéjàActifError,
   UtilisateurDéjàExistantError,
   UtilisateurInconnuError,
@@ -187,7 +188,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     await this.publish(event);
   }
 
-  async définirFiltres({ définiLe, filtres }: DéfinirFiltresUtilisateurOptions) {
+  async définirFiltres({ définisLe, filtres }: DéfinirFiltresUtilisateurOptions) {
     if (!this.exists || !this.#utilisateur) {
       throw new UtilisateurInconnuError();
     }
@@ -197,13 +198,13 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     }
 
     if (!this.#utilisateur.rôle.estAdministration()) {
-      throw new Error('Interdit hors administration');
+      throw new RôleSansFiltres();
     }
 
     const event: FiltresUtilisateurDéfinisEvent = {
       type: 'FiltresUtilisateurDéfinis-V1',
       payload: {
-        définiLe: définiLe.formatter(),
+        définisLe: définisLe.formatter(),
         identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
         filtres,
       },

@@ -4,6 +4,7 @@ import { CocontractantFixture } from './fixtures/cocontractant.fixture.js';
 import { CREFixture } from './fixtures/cre.fixture.js';
 import { DGECFixture } from './fixtures/dgec.fixture.js';
 import { DREALFixture } from './fixtures/dreal.fixture.js';
+import { DéfinirFiltresUtilisateurFixture } from './fixtures/définirFiltres.fixture.js';
 import { GRDFixture } from './fixtures/grd.fixture.js';
 import {
   InviterUtilisateurFixture,
@@ -75,6 +76,12 @@ export class UtilisateurWorld {
     return this.#modifierRôleUtilisateur;
   }
 
+  #définirFiltresUtilisateur: DéfinirFiltresUtilisateurFixture;
+
+  get définirFiltresUtilisateur() {
+    return this.#définirFiltresUtilisateur;
+  }
+
   constructor(private readonly potentielWorld: PotentielWorld) {
     this.#porteurFixture = new PorteurFixture('porteur-projet');
     this.#validateurFixture = new ValidateurFixture('dgec-validateur');
@@ -86,6 +93,7 @@ export class UtilisateurWorld {
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
     this.#inviterPorteur = new InviterPorteurFixture();
     this.#modifierRôleUtilisateur = new ModifierRôleUtilisateurFixture();
+    this.#définirFiltresUtilisateur = new DéfinirFiltresUtilisateurFixture();
   }
 
   récupérerEmailSelonRôle(role: string): string {

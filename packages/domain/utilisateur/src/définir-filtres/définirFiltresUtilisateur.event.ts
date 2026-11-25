@@ -7,7 +7,7 @@ export type FiltresUtilisateurDéfinisEvent = DomainEvent<
   'FiltresUtilisateurDéfinis-V1',
   {
     identifiantUtilisateur: Email.RawType;
-    définiLe: DateTime.RawType;
+    définisLe: DateTime.RawType;
     filtres: Type;
   }
 >;

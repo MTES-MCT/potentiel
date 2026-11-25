@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import type { Accès } from '@potentiel-domain/projet';
 import {
+  type DéfinirFiltresUtilisateurUseCase,
   type DésactiverUtilisateurUseCase,
   type InviterPorteurUseCase,
   type InviterUtilisateurUseCase,
@@ -245,6 +246,33 @@ Quand(
   },
 );
 
+Quand(
+  `la {dreal-dgec} définit ses filtres utilisateur`,
+  async function (this: PotentielWorld, rôle: 'dreal' | 'dgec') {
+    await définirFiltresUtilisateur.call(this, {
+      email:
+        rôle === 'dreal'
+          ? this.utilisateurWorld.drealFixture.email
+          : this.utilisateurWorld.dgecFixture.email,
+    });
+  },
+);
+
+Quand(
+  `l'utilisateur désactivé définit ses filtres utilisateur`,
+  async function (this: PotentielWorld) {
+    await définirFiltresUtilisateur.call(this, {
+      email: this.utilisateurWorld.inviterUtilisateur.email,
+    });
+  },
+);
+
+Quand(`le porteur définit ses filtres utilisateur`, async function (this: PotentielWorld) {
+  await définirFiltresUtilisateur.call(this, {
+    email: this.utilisateurWorld.porteurFixture.email,
+  });
+});
+
 type InviterPorteurProps = {
   identifiantsProjet: string[];
   identifiantUtilisateur: string;
@@ -382,6 +410,33 @@ export async function modifierRôleUtilisateur(
         identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
         fonctionValue: fonction,
         nomCompletValue: nomComplet,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+type DéfinirFiltresUtilisateurProps = { email: string };
+export async function définirFiltresUtilisateur(
+  this: PotentielWorld,
+  props: DéfinirFiltresUtilisateurProps,
+) {
+  const {
+    email: identifiantUtilisateur,
+    définisLe,
+    filtres,
+  } = this.utilisateurWorld.définirFiltresUtilisateur.créer({
+    ...props,
+  });
+
+  try {
+    await mediator.send<DéfinirFiltresUtilisateurUseCase>({
+      type: 'Utilisateur.UseCase.DéfinirFiltresUtilisateur',
+      data: {
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        définisLeValue: définisLe,
+        filtresValue: filtres,
       },
     });
   } catch (error) {

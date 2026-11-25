@@ -22,7 +22,7 @@ const action: FormAction<FormState, typeof schema> = async (_, filtres) =>
       type: 'Utilisateur.UseCase.DéfinirFiltresUtilisateur',
       data: {
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        définiLeValue: DateTime.now().formatter(),
+        définisLeValue: DateTime.now().formatter(),
         filtresValue: filtres,
       },
     });

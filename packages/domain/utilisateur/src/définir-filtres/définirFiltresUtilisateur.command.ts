@@ -10,7 +10,7 @@ export type DéfinirFiltresUtilisateurCommand = Message<
   'Utilisateur.Command.DéfinirFiltresUtilisateur',
   {
     identifiantUtilisateur: Email.ValueType;
-    définiLe: DateTime.ValueType;
+    définisLe: DateTime.ValueType;
     filtres: Type;
   }
 >;
@@ -19,7 +19,7 @@ export const registerDéfinirFiltresCommand = (loadAggregate: LoadAggregate) => 
   const handler: MessageHandler<DéfinirFiltresUtilisateurCommand> = async ({
     identifiantUtilisateur,
     filtres,
-    définiLe,
+    définisLe,
   }) => {
     const utilisateur = await loadAggregate(
       UtilisateurAggregate,
@@ -29,7 +29,7 @@ export const registerDéfinirFiltresCommand = (loadAggregate: LoadAggregate) => 
 
     await utilisateur.définirFiltres({
       filtres,
-      définiLe,
+      définisLe,
     });
   };
   mediator.register('Utilisateur.Command.DéfinirFiltresUtilisateur', handler);

@@ -10,7 +10,7 @@ export type DéfinirFiltresUtilisateurUseCase = Message<
   {
     identifiantUtilisateurValue: string;
     filtresValue: Type;
-    définiLeValue: string;
+    définisLeValue: string;
   }
 >;
 
@@ -18,9 +18,9 @@ export const registerDéfinirFiltresUseCase = () => {
   const runner: MessageHandler<DéfinirFiltresUtilisateurUseCase> = async ({
     identifiantUtilisateurValue,
     filtresValue,
-    définiLeValue,
+    définisLeValue,
   }) => {
-    const définiLe = DateTime.convertirEnValueType(définiLeValue);
+    const définisLe = DateTime.convertirEnValueType(définisLeValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     await mediator.send<DéfinirFiltresUtilisateurCommand>({
@@ -28,7 +28,7 @@ export const registerDéfinirFiltresUseCase = () => {
       data: {
         identifiantUtilisateur,
         filtres: filtresValue,
-        définiLe,
+        définisLe,
       },
     });
   };
