@@ -63,6 +63,7 @@ const getImpersonatedUtilisateur = async ({
   const stage = process.env.APPLICATION_STAGE;
   if (
     stage === 'production' ||
+    stage === 'demo' ||
     !utilisateur.rôle.estAdmin() ||
     !impersonateEmail.endsWith('@test.test')
   ) {

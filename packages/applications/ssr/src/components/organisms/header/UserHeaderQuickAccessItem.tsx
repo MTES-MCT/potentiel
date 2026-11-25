@@ -19,7 +19,8 @@ export async function UserHeaderQuickAccessItem() {
       <>
         <TâcheHeaderQuickAccessItem utilisateur={utilisateur} />
         {(utilisateur.isImpersonated || utilisateur.rôle.estAdmin()) &&
-        process.env.APPLICATION_STAGE !== 'production' ? (
+        process.env.APPLICATION_STAGE !== 'production' &&
+        process.env.APPLICATION_STAGE !== 'demo' ? (
           <ImpersonateDropDown utilisateur={mapToPlainObject(utilisateur)} />
         ) : utilisateur.accountUrl ? (
           <HeaderQuickAccessItem
