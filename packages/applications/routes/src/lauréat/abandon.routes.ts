@@ -16,13 +16,14 @@ export const détail = (identifiantProjet: string, demandéLe: string) =>
 export const demander = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon/demander`;
 
+type TéléchargerModèleRéponseProps = {
+  identifiantProjet: string;
+  accorderMainlevéeGarantiesFinancières?: true;
+};
 export const téléchargerModèleRéponse = ({
   identifiantProjet,
   accorderMainlevéeGarantiesFinancières,
-}: {
-  identifiantProjet: string;
-  accorderMainlevéeGarantiesFinancières?: true;
-}) =>
+}: TéléchargerModèleRéponseProps) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse${accorderMainlevéeGarantiesFinancières ? '?mainlevee=true' : ''}`;
 
 export const détailRedirection = (identifiantProjet: string) =>
