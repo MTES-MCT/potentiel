@@ -12,7 +12,6 @@ import {
   getLauréatSansAbandon,
   vérifierQueLeCahierDesChargesPermetUnChangement,
 } from '@/app/_helpers';
-import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import type { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -62,8 +61,8 @@ export default async function Page(props: IdentifiantParameter) {
         'délai',
       )) as AppelOffre.RèglesMiseÀJourPorteur['délai'];
 
-      const motifsProposésParLeCahierDesCharges = isFeatureEnabled('delai-phase-essai')
-        ? règlesChangement.demande && Object.keys(règlesChangement.motifs)
+      const motifsProposésParLeCahierDesCharges = règlesChangement.demande
+        ? Object.keys(règlesChangement.motifs)
         : ['prolongation-délai-achèvement'];
 
       if (!motifsProposésParLeCahierDesCharges?.length) {

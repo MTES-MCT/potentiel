@@ -11,7 +11,6 @@ import {
   optionalStringArray,
   transformToOptionalEnumArray,
 } from '@/app/_helpers';
-import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import {
   DemandeDélaiListPage,
   type DemandeDélaiListPageProps,
@@ -98,18 +97,15 @@ export default async function Page(props: PageProps) {
             value: autorité,
           })),
         },
-      ];
-
-      if (isFeatureEnabled('delai-phase-essai')) {
-        filters.push({
+        {
           label: 'Motif de la demande',
           searchParamKey: 'motif',
           options: Lauréat.Délai.MotifDemandeDélai.motifs.map((motif) => ({
             label: getMotifDemandeDélaiLabel(motif),
             value: motif,
           })),
-        });
-      }
+        },
+      ];
 
       return <DemandeDélaiListPage list={mapToListProps(changements)} filters={filters} />;
     }),
