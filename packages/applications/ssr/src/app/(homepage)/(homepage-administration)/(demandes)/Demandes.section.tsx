@@ -31,7 +31,7 @@ export const DemandesSection = () =>
           title={utilisateur.estDreal() ? 'À instruire' : commonSectionTitle}
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
-          filters={utilisateur.filtres}
+          filters={{ userFilters: utilisateur.filtres }}
         >
           <DemandesDétails
             demandes={demandes}
