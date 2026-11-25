@@ -6,12 +6,13 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { type DéfinirFiltresUtilisateurUseCase, Filtres } from '@potentiel-domain/utilisateur';
 
+import { transformToEnumArray } from '@/app/_helpers/transformToEnumArray';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  technologie: zod.array(zod.enum(Filtres.technologie)),
-  cycle: zod.array(zod.enum(Filtres.cycle)),
+  technologie: transformToEnumArray(zod.enum(Filtres.technologie)),
+  cycle: transformToEnumArray(zod.enum(Filtres.cycle)),
 });
 
 export type DéfinirFiltresFormKeys = keyof zod.infer<typeof schema>;
