@@ -11,7 +11,6 @@ import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -65,14 +64,13 @@ export default async function Page(props: PageProps) {
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
       const règlesChangement = cahierDesCharges.getRèglesChangements('délai');
 
-      const motifsDisponibles =
-        isFeatureEnabled('delai-phase-essai') && règlesChangement?.motifs
-          ? utilisateur.estDGEC()
-            ? Object.keys(règlesChangement.motifs)
-            : Object.entries(règlesChangement.motifs)
-                .filter(([, motif]) => motif?.autoritéCompétente === utilisateur.rôle.nom)
-                .map(([key]) => key)
-          : ['prolongation-délai-achèvement'];
+      const motifsDisponibles = règlesChangement?.motifs
+        ? utilisateur.estDGEC()
+          ? Object.keys(règlesChangement.motifs)
+          : Object.entries(règlesChangement.motifs)
+              .filter(([, motif]) => motif?.autoritéCompétente === utilisateur.rôle.nom)
+              .map(([key]) => key)
+        : ['prolongation-délai-achèvement'];
 
       return (
         <DétailsDemandeDélaiPage
