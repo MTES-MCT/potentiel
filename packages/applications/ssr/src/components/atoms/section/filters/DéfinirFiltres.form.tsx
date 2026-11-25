@@ -56,7 +56,6 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters 
               {filtersList.map((filter) => (
                 <MultipleSelect
                   key={`filter-${filter.label}`}
-                  noSelectAll
                   noSearch
                   label={filter.label}
                   options={filter.options}
