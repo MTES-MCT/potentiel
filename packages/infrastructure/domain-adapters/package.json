@@ -12,6 +12,7 @@
   "dependencies": {
     "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/projet": "*",
+    "@potentiel-domain/periode": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",

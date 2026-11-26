@@ -1,12 +1,7 @@
-import type { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import {
-  type DeepPartial,
-  mapApiResponseToDépôt,
-  mapApiResponseToFichiers,
-} from './_helpers/index.js';
+import { mapApiResponseToDépôt, mapApiResponseToFichiers } from './_helpers/index.js';
 import { getDémarcheNumériqueApiClient } from './graphql/index.js';
 
 export type Dossier = Awaited<ReturnType<typeof getDossier>>;
@@ -26,14 +21,24 @@ export const getDossier = async (dossierNumber: number) => {
       logger.warn(`Aucun fichier GF trouvé pour le dossier ${dossierNumber}`);
     }
 
-    return {
-      dépôt: {
-        ...mapApiResponseToDépôt({
-          champs,
-        }),
-      } satisfies DeepPartial<Candidature.Dépôt.RawType>,
-      fichiers,
-    };
+    const dépôt = mapApiResponseToDépôt({ champs });
+
+    if (dépôt.valide) {
+      return {
+        dépôt: {
+          ...mapApiResponseToDépôt({
+            champs,
+          }),
+        },
+        fichiers,
+      };
+    } else {
+      logger.warn('Dépôt invalide', {
+        dossierNumber,
+        errorMessage: 'unknown',
+      });
+      return Option.none;
+    }
   } catch (e) {
     logger.warn('Impossible de lire le dossier', {
       dossierNumber,

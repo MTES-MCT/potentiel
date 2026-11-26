@@ -30,7 +30,13 @@ export class ListerDossiersCandidatureCommand extends Command {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
       const dossiers = await getDémarcheAvecDossiers({ démarcheId: args.démarche });
-      console.log(dossiers);
+      console.log(
+        dossiers.dépôtsValides.map((d) => ({
+          numéroDN: d.numeroDN,
+          dépôt: d.dépôt,
+          détail: d.détails,
+        })),
+      );
 
       if (Option.isNone(dossiers)) {
         throw new Error(`La démarche ${args.démarche} est introuvable`);
@@ -46,7 +52,7 @@ export class ListerDossiersCandidatureCommand extends Command {
           période: args.période,
         });
 
-        const data = dossiers.map((dossier) => {
+        const data = [...dossiers.dépôtsValides, ...dossiers.dépôtsInvalides].map((dossier) => {
           const statut = faker.helpers.arrayElement(['retenu', 'éliminé']);
           return {
             numeroDossierDN: dossier.numeroDN,
@@ -55,17 +61,26 @@ export class ListerDossiersCandidatureCommand extends Command {
               statut === 'éliminé' ? faker.lorem.words({ min: 8, max: 16 }) : undefined,
             note: faker.number.int({ min: 10, max: 100 }).toString(),
             volumeReserve: hasVolumeRéservé
-              ? faker.helpers.arrayElement(['oui', 'non'])
+              ? statut === 'éliminé'
+                ? 'non'
+                : faker.helpers.arrayElement(['oui', 'non'])
               : undefined,
           };
         });
+
         const csv = await ExportCSV.toCSV({
-          data,
+          data: data,
           fields: ['numeroDossierDN', 'statut', 'motifElimination', 'note', 'volumeReserve'],
         });
 
         await writeFile('instruction-dn-cre.csv', csv);
         console.log("Fichier d'instruction créé: instruction-ds-cre.csv");
+        if (dossiers.dépôtsInvalides.length) {
+          console.log(
+            `🚨 Le fichier contient ${dossiers.dépôtsInvalides.length} dépôts invalides : `,
+            dossiers.dépôtsInvalides.map((d) => d.numeroDN).join(', '),
+          );
+        }
       }
     } catch (e) {
       console.log(e);

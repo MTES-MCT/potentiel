@@ -1,4 +1,4 @@
-import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { ProjetAdapter, PériodeAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
 import { mergeSubscriptionSetup } from './createSubscriptionSetup.js';
@@ -12,6 +12,7 @@ const defaultDependencies = {
   récupérerGRDParVille,
   récupererConstitutionGarantiesFinancières:
     ProjetAdapter.récupererConstitutionGarantiesFinancièresAdapter,
+  récupérerCandidaturesÀImporter: PériodeAdapter.récupérerCandidaturesÀImporterAdapter,
 };
 
 export type SetupSubscribersProps = {
@@ -27,7 +28,9 @@ export const setupSubscribers = ({ dependencies }: SetupSubscribersProps) => {
   const historique = setupHistorique();
   const projet = setupProjet(allDependencies);
   const utilisateur = setupUtilisateur();
-  const période = setupPériode();
+  const période = setupPériode({
+    récupérerCandidaturesÀImporter: allDependencies.récupérerCandidaturesÀImporter,
+  });
   const réseau = setupRéseau();
 
   return mergeSubscriptionSetup(historique, projet, utilisateur, période, réseau);

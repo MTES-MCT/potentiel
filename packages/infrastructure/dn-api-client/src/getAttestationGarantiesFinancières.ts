@@ -21,9 +21,14 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
       return Option.none;
     }
 
+    if (!dossier.dépôt.valide) {
+      logger.warn(`Dépôt dossier ${dossierNumber} invalide`);
+      return Option.none;
+    }
+
     const {
       dépôt: { dateConstitutionGf: dateConstitution },
-    } = dossier;
+    } = dossier.dépôt;
 
     if (!dateConstitution) {
       logger.warn(

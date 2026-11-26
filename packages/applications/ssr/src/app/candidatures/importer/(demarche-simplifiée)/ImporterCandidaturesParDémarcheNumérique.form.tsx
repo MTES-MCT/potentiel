@@ -1,6 +1,5 @@
 'use client';
 
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Table from '@codegouvfr/react-dsfr/Table';
 import { type FC, useState } from 'react';
@@ -16,12 +15,11 @@ import {
 export type ImporterCandidaturesParDémarcheNumériqueFormProps = {
   appelOffre: string;
   période: string;
-  nbMaxDeProjetsImportésALaFois?: number;
 };
 
 export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
   ImporterCandidaturesParDémarcheNumériqueFormProps
-> = ({ appelOffre, période, nbMaxDeProjetsImportésALaFois }) => {
+> = ({ appelOffre, période }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ImporterCandidaturesParDémarcheNumériqueFormKeys>
   >({});
@@ -33,19 +31,6 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
         l'appel d'offres <span className="font-semibold">{appelOffre}</span> depuis{' '}
         <span className="font-semibold">Démarche Numérique</span>.
       </div>
-      {nbMaxDeProjetsImportésALaFois && (
-        <Notice
-          severity="warning"
-          className="mb-4"
-          title="Limite temporaire des fichiers d'instruction"
-          description={`
-            Pour éviter les erreurs de latence dues au temps de réponse de l'API utilisée pour le dépôt des candidature, 
-            une limite a été fixée à ${nbMaxDeProjetsImportésALaFois} dossiers par import. 
-            Si votre liste de candidats dépasse cette limite, nous vous invitons à scinder votre fichier et à réaliser plusieurs imports. 
-            Une solution sera apportée très prochainement pour permettre l'import des candidats en un seul fichier. 
-            Veuillez nous excuser pour la gène occasionnée.`}
-        ></Notice>
-      )}
       <div className="flex flex-col items-start lg:flex-row gap-6">
         <Form
           action={importerCandidaturesParDémarcheNumériqueAction}
@@ -70,19 +55,6 @@ export const ImporterCandidaturesParDémarcheNumériqueForm: FC<
             formats={['csv']}
             state={validationErrors['fichierInstruction'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['fichierInstruction']}
-          />
-          <Checkbox
-            id="test"
-            options={[
-              {
-                label: 'Vérifier que les données sont correctes, sans import réel',
-                nativeInputProps: {
-                  name: 'test',
-                  value: 'true',
-                  defaultChecked: true,
-                },
-              },
-            ]}
           />
         </Form>
         <Notice

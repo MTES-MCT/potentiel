@@ -22,6 +22,7 @@ import { waitForExpect } from '#helpers';
 import {
   createSendEmailTestAdapter,
   mockRécupererGarantiesFinancières,
+  mockRécupérerCandidaturesÀImporter,
   mockRécupérerGRDParVilleAdapter,
 } from './_mocks/index.js';
 import { resetBucket } from './helpers/resetBucket.js';
@@ -86,6 +87,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
     dependencies: {
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
       récupererConstitutionGarantiesFinancières: mockRécupererGarantiesFinancières.bind(this),
+      récupérerCandidaturesÀImporter: mockRécupérerCandidaturesÀImporter.bind(this),
     },
   });
 

@@ -1,8 +1,14 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
+import { faker } from '@faker-js/faker';
 
+import {
+  créerDépôt,
+  getValidFakeIdentifiantProjet,
+} from '../../candidature/fixtures/importerCandidature.fixture.js';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
 import type { PotentielWorld } from '../../potentiel.world.js';
+import type { CandidatAvecInstruction } from '../fixtures/importerPériode.fixture.js';
 import type { Candidat } from '../fixtures/notifierPériode.fixture.js';
 import { notifierPériode } from './période.when.js';
 
@@ -94,6 +100,28 @@ const candidats = [
     emailContact: 'porteur6@test.test',
   },
 ] satisfies Candidat[];
+
+EtantDonné(`une période avec des candidats à importer`, async function (this: PotentielWorld) {
+  const candidats: CandidatAvecInstruction[] = [];
+  for (let i = 0; i < faker.number.int({ min: 1, max: 10 }); i++) {
+    const identifiantProjet = getValidFakeIdentifiantProjet({
+      appelOffre: 'PPE2 - Eolien',
+      période: '1',
+    });
+
+    const dépôt = créerDépôt(identifiantProjet);
+
+    candidats.push({
+      dépôt,
+      identifiant: identifiantProjet.formatter(),
+      instruction: {
+        statut: faker.helpers.arrayElement(['classé', 'éliminé']),
+        noteTotale: faker.number.int({ min: 0, max: 100 }),
+      },
+    });
+  }
+  this.périodeWorld.importerPériodeFixture.ajouterCandidatsÀImporter(candidats);
+});
 
 EtantDonné(`une période avec des candidats importés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);

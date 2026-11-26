@@ -12,21 +12,18 @@ type ImporterCandidaturesPageProps = {
   importMultipleAOEtPeriodesPossible: boolean;
   estUnReimport: boolean;
   afficherAlerteLimiteImport?: true;
-  nbMaxDeProjetsImportésALaFois?: number;
 };
 
 export const ImporterCandidaturesPage: FC<ImporterCandidaturesPageProps> = ({
   périodes,
   importMultipleAOEtPeriodesPossible,
   estUnReimport,
-  nbMaxDeProjetsImportésALaFois,
 }) => (
   <PageTemplate banner={<Heading1>Importer des candidats</Heading1>}>
     <ImporterCandidaturesForm
       périodes={périodes}
       importMultipleAOEtPeriodesPossible={importMultipleAOEtPeriodesPossible}
       estUnReimport={estUnReimport}
-      nbMaxDeProjetsImportésALaFois={nbMaxDeProjetsImportésALaFois}
     />
   </PageTemplate>
 );
