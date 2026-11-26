@@ -20,7 +20,7 @@ export const DemandesSection = () =>
       const autorité = utilisateur.estDreal() ? 'dreal' : 'dgec';
 
       const [nombreDemandesÀInstruire, nombreGarantiesFinancièresÀInstruire] = await Promise.all([
-        getNombreDemandesÀInstruire(utilisateur.identifiantUtilisateur.email, autorité),
+        getNombreDemandesÀInstruire(utilisateur.identifiantUtilisateur.email, autorité, utilisateur.filtres),
         utilisateur.estDreal()
           ? getNombreDeGarantiesFinancièresÀInstruire(utilisateur.identifiantUtilisateur.email)
           : undefined,

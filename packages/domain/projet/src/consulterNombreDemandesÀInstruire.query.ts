@@ -2,6 +2,7 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
+import type { FiltersType } from '@potentiel-domain/utilisateur';
 
 import type { GetNombreDemandesÀInstruire } from './getNombreDemandesÀInstruire.port.js';
 import type { GetScopeProjetUtilisateur } from './getScopeProjetUtilisateur.port.js';
@@ -19,6 +20,7 @@ export type ConsulterNombreDemandesÀInstruireQuery = Message<
     utilisateur: Email.RawType;
     appelOffre?: Array<string>;
     autoritéCompétente: AutoritéCompétente.RawType;
+    filtres?: FiltersType;
   },
   ConsulterNombreDemandesÀInstruireReadModel
 >;
@@ -35,6 +37,7 @@ export const registerConsulterNombreDemandesÀInstruireQuery = ({
   const handler: MessageHandler<ConsulterNombreDemandesÀInstruireQuery> = async ({
     autoritéCompétente,
     utilisateur,
+    filtres,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -42,6 +45,7 @@ export const registerConsulterNombreDemandesÀInstruireQuery = ({
       autoritéCompétente,
       DateTime.now().retirerNombreDeMois(1).formatter(),
       scope.régions,
+      filtres,
     );
 
     return nombreDemandes;

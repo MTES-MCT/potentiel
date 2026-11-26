@@ -3,6 +3,7 @@ import { cache } from 'react';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import type { ConsulterNombreDemandesÀInstruireQuery } from '@potentiel-domain/projet';
+import type { FiltersType } from '@potentiel-domain/utilisateur';
 
 export type NombreDemandesÀInstruire = {
   domain: AppelOffre.DomainesConcernésParMiseÀJourAvecInstruction;
@@ -11,12 +12,17 @@ export type NombreDemandesÀInstruire = {
 };
 
 export const getNombreDemandesÀInstruire = cache(
-  async (utilisateur: string, rôle: 'dreal' | 'dgec'): Promise<Array<NombreDemandesÀInstruire>> => {
+  async (
+    utilisateur: string,
+    rôle: 'dreal' | 'dgec',
+    filtres?: FiltersType,
+  ): Promise<Array<NombreDemandesÀInstruire>> => {
     const demandes = await mediator.send<ConsulterNombreDemandesÀInstruireQuery>({
       type: 'Projet.Query.ConsulterNombreDemandesÀInstruire',
       data: {
         utilisateur,
         autoritéCompétente: rôle,
+        filtres,
       },
     });
 
