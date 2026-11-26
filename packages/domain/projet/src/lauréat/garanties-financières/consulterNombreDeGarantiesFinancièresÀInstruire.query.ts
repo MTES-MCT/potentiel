@@ -4,6 +4,7 @@ import { type DateTime, Email } from '@potentiel-domain/common';
 import { type Count, Where } from '@potentiel-domain/entity';
 import type { Région, UserFiltersType } from '@potentiel-domain/utilisateur';
 
+import type { CandidatureEntity } from '../../candidature/candidature.entity.js';
 import type { GetScopeProjetUtilisateur } from '../../index.js';
 import { StatutLauréat } from '../index.js';
 import type { LauréatEntity } from '../lauréat.entity.js';
@@ -54,14 +55,19 @@ const joinLauréat = ({ régions, statut, cycle }: JoinLauréatProps) => ({
   },
 });
 
-// const joinLauréat = ({ régions, statut }: JoinLauréatProps) => ({
-//   entity: 'lauréat' as const,
-//   on: 'identifiantProjet' as const,
-//   where: {
-//     localité: { région: Where.matchAny(régions) },
-//     statut: Where.equal(statut),
-//   },
-// });
+type JoinCandidatureProps = {
+  technologie?: UserFiltersType['technologie'];
+};
+
+const joinCandidature = ({ technologie }: JoinCandidatureProps) => ({
+  entity: 'candidature' as const,
+  on: 'identifiantProjet' as const,
+  where: {
+    technologieCalculée: Where.matchAny(technologie),
+  },
+});
+
+type JoinedEntities = [LauréatEntity, CandidatureEntity];
 
 export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
   getScopeProjetUtilisateur,
@@ -70,6 +76,7 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
   const handler: MessageHandler<ConsulterNombreDeGarantiesFinancièresÀInstruireQuery> = async ({
     utilisateur,
     date,
+    userFilters,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -99,7 +106,7 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
       demandeMainlevéeTotal,
       demandeMainlevéeNew,
     ] = await Promise.all([
-      count<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
+      count<GarantiesFinancièresEntity, JoinedEntities>('garanties-financieres', {
         where: {
           statut: Where.matchAny([
             StatutGarantiesFinancières.nonDéposé.statut,
@@ -108,29 +115,50 @@ export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
           enAttente: { motif: Where.notEqualNull() },
           dépôt: { soumisLe: Where.equalNull() },
         },
-        join: joinLauréat({ régions, statut: StatutLauréat.actif.statut }),
+        join: [
+          joinLauréat({ régions, statut: StatutLauréat.actif.statut, cycle: userFilters?.cycle }),
+          joinCandidature({ technologie: userFilters?.technologie }),
+        ],
       }),
-      count<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
+      count<GarantiesFinancièresEntity, JoinedEntities>('garanties-financieres', {
         where: { dépôt: { soumisLe: Where.notEqualNull() } },
-        join: joinLauréat({ régions }),
+        join: [
+          joinLauréat({ régions }),
+          joinCandidature({ technologie: userFilters?.technologie }),
+        ],
       }),
-      count<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
+      count<GarantiesFinancièresEntity, JoinedEntities>('garanties-financieres', {
         where: { dépôt: { soumisLe: Where.greaterOrEqual(date) } },
-        join: joinLauréat({ régions }),
+        join: [
+          joinLauréat({ régions, cycle: userFilters?.cycle }),
+          joinCandidature({ technologie: userFilters?.technologie }),
+        ],
       }),
-      count<MainlevéeGarantiesFinancièresEntity, LauréatEntity>('mainlevee-garanties-financieres', {
-        where: {
-          statut: Where.matchAny(StatutMainlevéeGarantiesFinancières.statutsEnCours),
+      count<MainlevéeGarantiesFinancièresEntity, JoinedEntities>(
+        'mainlevee-garanties-financieres',
+        {
+          where: {
+            statut: Where.matchAny(StatutMainlevéeGarantiesFinancières.statutsEnCours),
+          },
+          join: [
+            joinLauréat({ régions, cycle: userFilters?.cycle }),
+            joinCandidature({ technologie: userFilters?.technologie }),
+          ],
         },
-        join: joinLauréat({ régions }),
-      }),
-      count<MainlevéeGarantiesFinancièresEntity, LauréatEntity>('mainlevee-garanties-financieres', {
-        where: {
-          statut: Where.matchAny(StatutMainlevéeGarantiesFinancières.statutsEnCours),
-          demande: { demandéeLe: Where.greaterOrEqual(date) },
+      ),
+      count<MainlevéeGarantiesFinancièresEntity, JoinedEntities>(
+        'mainlevee-garanties-financieres',
+        {
+          where: {
+            statut: Where.matchAny(StatutMainlevéeGarantiesFinancières.statutsEnCours),
+            demande: { demandéeLe: Where.greaterOrEqual(date) },
+          },
+          join: [
+            joinLauréat({ régions, cycle: userFilters?.cycle }),
+            joinCandidature({ technologie: userFilters?.technologie }),
+          ],
         },
-        join: joinLauréat({ régions }),
-      }),
+      ),
     ]);
 
     return {
