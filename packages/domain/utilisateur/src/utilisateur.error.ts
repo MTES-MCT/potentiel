@@ -114,3 +114,9 @@ export class ModificationMêmesValeursError extends InvalidOperationError {
     super(`L'utilisateur a déjà ce rôle ou les mêmes attributs`);
   }
 }
+
+export class RôleSansFiltres extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de définir des filtres utilisateur pour un utilisateur ayant ce rôle`);
+  }
+}

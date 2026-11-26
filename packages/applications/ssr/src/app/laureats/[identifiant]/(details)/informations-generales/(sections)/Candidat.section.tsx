@@ -11,6 +11,7 @@ type CandidatSectionProps = {
 };
 
 const sectionTitle = 'Candidat';
+
 export const CandidatSection = ({ identifiantProjet }: CandidatSectionProps) =>
   SectionWithErrorHandling(
     withUtilisateur(async () => {

@@ -52,7 +52,6 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             <MultipleSelect
               key={`filter-${searchParamKey}`}
               noSearch
-              noSelectAll
               label={label}
               options={options}
               selected={activeFilters}

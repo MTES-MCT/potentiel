@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { Email } from '@potentiel-domain/common';
 import type { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { Région, Zone } from './index.js';
+import { type FiltersType, Région, Zone } from './index.js';
 import * as Role from './role.valueType.js';
 import {
   FonctionManquanteError,
@@ -15,20 +15,25 @@ import {
 
 type CommonValueType = {
   identifiantUtilisateur: Email.ValueType;
+  filtres?: FiltersType;
 };
+
 type DgecValidateurValueType = CommonValueType & {
   rôle: typeof Role.dgecValidateur;
   nomComplet: string;
   fonction: string;
 };
+
 type DrealValueType = CommonValueType & {
   rôle: typeof Role.dreal;
   région: Région.ValueType;
 };
+
 type GrdValueType = CommonValueType & {
   rôle: typeof Role.grd;
   identifiantGestionnaireRéseau: string;
 };
+
 type CocontractantValueType = CommonValueType & {
   rôle: typeof Role.cocontractant;
   zone: Zone.ValueType;

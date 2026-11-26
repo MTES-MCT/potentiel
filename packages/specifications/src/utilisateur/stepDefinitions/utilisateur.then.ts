@@ -93,3 +93,21 @@ Alors("l'utilisateur devrait être modifié", async function (this: PotentielWor
     expect(actual).to.deep.equal(expected);
   });
 });
+
+Alors('les filtres utilisateur devraient être consultables', async function (this: PotentielWorld) {
+  await waitForExpect(async () => {
+    const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
+      type: 'System.Utilisateur.Query.TrouverUtilisateur',
+      data: {
+        identifiantUtilisateur: this.utilisateurWorld.définirFiltresUtilisateur.email,
+      },
+    });
+
+    assert(Option.isSome(utilisateur), 'Utilisateur non trouvé');
+
+    const actual = mapToPlainObject(utilisateur.filtres);
+    const expected = mapToPlainObject(this.utilisateurWorld.définirFiltresUtilisateur.filtres);
+
+    expect(actual).to.deep.equal(expected);
+  });
+});

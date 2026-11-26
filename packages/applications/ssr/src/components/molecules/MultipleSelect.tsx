@@ -1,7 +1,6 @@
 'use client';
 
 import { fr } from '@codegouvfr/react-dsfr';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import clsx from 'clsx';
 import { useId, useRef, useState } from 'react';
@@ -16,6 +15,7 @@ export type MultipleSelectProps = Omit<MultipleSelectPopoverProps, 'id'> & {
   label: string;
   options: Array<Option>;
   disabled: boolean;
+  formName?: string;
 };
 
 export const MultipleSelect: React.FC<MultipleSelectProps> = ({
@@ -24,9 +24,9 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
   options,
   selected,
   noSearch,
-  noSelectAll,
   onChange,
   disabled,
+  formName,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -106,6 +106,8 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
             : 'Sélectionner une option'}
         </button>
       )}
+      {formName &&
+        selected.map((value) => <input key={value} type="hidden" name={formName} value={value} />)}
       {open && (
         <MultipleSelectPopover
           id={popoverId}
@@ -113,7 +115,6 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
           selected={selected}
           onChange={onChange}
           noSearch={noSearch}
-          noSelectAll={noSelectAll}
         />
       )}
     </fieldset>
@@ -126,7 +127,6 @@ type MultipleSelectPopoverProps = {
   selected: string[];
   onChange: (selected: Array<string>) => void;
   noSearch?: true;
-  noSelectAll?: true;
 };
 
 const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
@@ -135,14 +135,11 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
   selected,
   onChange,
   noSearch,
-  noSelectAll,
 }) => {
   const [filterText, setFilterText] = useState<string>('');
   const visibleOptions = filterText
     ? options.filter((o) => o.label.toLowerCase().includes(filterText.toLowerCase()))
     : options;
-
-  const someVisibleSelected = visibleOptions.some((o) => selected.includes(o.value));
 
   const toggleOption = (value: string) => {
     if (selected.includes(value)) {
@@ -154,34 +151,12 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
     onChange([...selected, value]);
   };
 
-  const toggleSelectAllVisible = () => {
-    if (someVisibleSelected) {
-      const newSelected = selected.filter((v) => !visibleOptions.some((o) => o.value === v));
-      onChange(newSelected);
-      return;
-    }
-
-    const toAdd = visibleOptions.map((o) => o.value).filter((v) => !selected.includes(v));
-    onChange([...selected, ...toAdd]);
-  };
-
   return (
     <div
       id={id}
       className="flex flex-col align-center gap-4 fr-mt-1 p-4 shadow-lg rounded-b-sm absolute bg-theme-white z-10 w-full"
       role="presentation"
     >
-      {!noSelectAll && (
-        <div className="flex justify-center fr-p-1">
-          <Button
-            className="fr-btn--tertiary fr-btn"
-            onClick={toggleSelectAllVisible}
-            iconId={someVisibleSelected ? 'fr-icon-close-circle-line' : 'fr-icon-check-line'}
-          >
-            {someVisibleSelected ? 'Tout désélectionner' : 'Tout sélectionner'}
-          </Button>
-        </div>
-      )}
       {!noSearch && (
         <div className="fr-p-1">
           <Input

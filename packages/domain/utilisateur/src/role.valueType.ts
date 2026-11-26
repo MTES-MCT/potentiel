@@ -677,6 +677,7 @@ const référencielPermissions = {
       désactiver: 'Utilisateur.Command.DésactiverUtilisateur',
       réactiver: 'Utilisateur.Command.RéactiverUtilisateur',
       modifierRôle: 'Utilisateur.Command.ModifierRôleUtilisateur',
+      définirFiltres: 'Utilisateur.Command.DéfinirFiltresUtilisateur',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
@@ -684,6 +685,7 @@ const référencielPermissions = {
       désactiver: 'Utilisateur.UseCase.DésactiverUtilisateur',
       réactiver: 'Utilisateur.UseCase.RéactiverUtilisateur',
       modifierRôle: 'Utilisateur.UseCase.ModifierRôleUtilisateur',
+      définirFiltres: 'Utilisateur.UseCase.DéfinirFiltresUtilisateur',
     },
   },
   tâche: {
@@ -1560,6 +1562,10 @@ const policies = {
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.réseau.gestionnaire.query.lister,
     ],
+    définirFiltres: [
+      référencielPermissions.utilisateur.command.définirFiltres,
+      référencielPermissions.utilisateur.usecase.définirFiltres,
+    ],
   },
   cahierDesCharges: {
     consulter: [référencielPermissions.lauréat.cahierDesCharges.query.consulter],
@@ -1925,6 +1931,7 @@ const dgecPolicies: ReadonlyArray<Policy> = [
 
   // Tableau de bord
   'tableauDeBord.consulter',
+  'utilisateur.définirFiltres',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -2170,6 +2177,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Tableau de bord
   'tableauDeBord.consulter',
+  'utilisateur.définirFiltres',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

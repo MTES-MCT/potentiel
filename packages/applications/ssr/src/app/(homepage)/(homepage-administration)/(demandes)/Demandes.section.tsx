@@ -1,5 +1,7 @@
 import Contract from '@codegouvfr/react-dsfr/picto/Contract';
 
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+
 import {
   getNombreDemandesÀInstruire,
   type NombreDemandesÀInstruire,
@@ -26,11 +28,19 @@ export const DemandesSection = () =>
 
       const demandes = mapDemandesToDemandesDétails(nombreDemandesÀInstruire);
 
+      const allFilters = {
+        technologie: AppelOffre.technologies.map((t) => t),
+        cycle: AppelOffre.cycles.map((t) => t),
+      };
+
       return (
         <Section
           title={utilisateur.estDreal() ? 'À instruire' : commonSectionTitle}
           picto={<Contract color="yellow-moutarde" fontSize="large" />}
           className="border-none"
+          filters={{
+            userFilters: utilisateur.filtres ?? allFilters,
+          }}
         >
           <DemandesDétails
             demandes={demandes}

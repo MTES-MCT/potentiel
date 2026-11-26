@@ -4,11 +4,13 @@ import { Email } from '@potentiel-domain/common';
 import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
+import type { FiltersType } from '../filters.types.js';
 import { Utilisateur } from '../index.js';
 import type { UtilisateurEntity } from '../utilisateur.entity.js';
 
 export type TrouverUtilisateurReadModel = Utilisateur.ValueType & {
   désactivé?: true;
+  filtres?: FiltersType;
 };
 
 export type TrouverUtilisateurQuery = Message<
@@ -41,4 +43,5 @@ export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDepe
 export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisateurReadModel => ({
   ...Utilisateur.convertirEnValueType(utilisateur),
   désactivé: utilisateur.désactivé,
+  filtres: utilisateur.filtres,
 });
