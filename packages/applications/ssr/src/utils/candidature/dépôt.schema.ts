@@ -265,23 +265,32 @@ export const dépôtBaseSchema = z.object({
     .optional(),
 });
 
+type GfSchemaOutput = Pick<
+  z.output<typeof dépôtBaseSchema>,
+  'typeGarantiesFinancières' | 'dateÉchéanceGf'
+>;
+export const garantiesFinancièresRefinement = (
+  data: GfSchemaOutput,
+  ctx: z.RefinementCtx<GfSchemaOutput>,
+) => {
+  const typeGF = data.typeGarantiesFinancières;
+  if (typeGF === 'avec-date-échéance' && !data.dateÉchéanceGf) {
+    ctx.addIssue({
+      code: 'custom',
+      message: `La date d'échéance des garanties financières est requise lorsque le type est "avec date d'échéance"`,
+      path: ['dateÉchéanceGf'],
+    });
+  }
+
+  if (typeGF !== 'avec-date-échéance' && data.dateÉchéanceGf) {
+    ctx.addIssue({
+      code: 'custom',
+      message: `La date d'échéance des garanties financières ne doit pas être complétée lorsque le type n'est pas "avec date d'échéance"`,
+      path: ['dateÉchéanceGf'],
+    });
+  }
+};
+
 export const dépôtSchema = dépôtBaseSchema
   // Garanties financières et date d'échéance
-  .superRefine((data, ctx) => {
-    const typeGF = data.typeGarantiesFinancières;
-    if (typeGF === 'avec-date-échéance' && !data.dateÉchéanceGf) {
-      ctx.addIssue({
-        code: 'custom',
-        message: `La date d'échéance des garanties financières est requise lorsque le type est "avec date d'échéance"`,
-        path: ['dateÉchéanceGf'],
-      });
-    }
-
-    if (typeGF !== 'avec-date-échéance' && data.dateÉchéanceGf) {
-      ctx.addIssue({
-        code: 'custom',
-        message: `La date d'échéance des garanties financières ne doit pas être complétée lorsque le type n'est pas "avec date d'échéance"`,
-        path: ['dateÉchéanceGf'],
-      });
-    }
-  });
+  .superRefine(garantiesFinancièresRefinement);

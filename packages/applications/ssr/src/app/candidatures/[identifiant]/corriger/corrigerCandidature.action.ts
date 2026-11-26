@@ -17,6 +17,8 @@ import {
 import {
   coordonnéesSchema,
   dateDAutorisationSchema,
+  dépôtBaseSchema,
+  garantiesFinancièresRefinement,
   numéroDAutorisationSchema,
   siretSchema,
 } from '@/utils/candidature/dépôt.schema';
@@ -25,7 +27,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type CorrigerCandidaturesState = FormState;
 
-const schema = dépôtSchema
+const schema = dépôtBaseSchema
   .omit({
     autorisation: true,
     localité: true,
@@ -50,7 +52,8 @@ const schema = dépôtSchema
       .optional(),
     siret: siretSchema,
   })
-  .extend(dépôtSchema.shape.localité.shape);
+  .extend(dépôtSchema.shape.localité.shape)
+  .superRefine(garantiesFinancièresRefinement);
 
 export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
 
