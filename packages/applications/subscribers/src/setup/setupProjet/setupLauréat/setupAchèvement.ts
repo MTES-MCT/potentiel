@@ -1,4 +1,4 @@
-import { AchèvementNotification } from '@potentiel-applications/notifications';
+import { AchèvementNotification } from '@potentiel-applications/notifications-email';
 import { AchèvementProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';

@@ -1,4 +1,4 @@
-import { LauréatNotification } from '@potentiel-applications/notifications';
+import { LauréatNotification } from '@potentiel-applications/notifications-email';
 import { type HistoriqueProjector, LauréatProjector } from '@potentiel-applications/projectors';
 import type { Lauréat } from '@potentiel-domain/projet';
 

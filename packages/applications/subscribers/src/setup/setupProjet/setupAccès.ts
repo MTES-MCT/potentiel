@@ -1,4 +1,4 @@
-import { AccèsNotification } from '@potentiel-applications/notifications';
+import { AccèsNotification } from '@potentiel-applications/notifications-email';
 import { AccèsProjector } from '@potentiel-applications/projectors';
 import type { UtilisateurSaga } from '@potentiel-domain/utilisateur';
 

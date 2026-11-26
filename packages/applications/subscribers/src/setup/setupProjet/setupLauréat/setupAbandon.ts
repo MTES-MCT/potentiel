@@ -1,4 +1,4 @@
-import { AbandonNotification } from '@potentiel-applications/notifications';
+import { AbandonNotification } from '@potentiel-applications/notifications-email';
 import { AbandonProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 import type { Lauréat } from '@potentiel-domain/projet';
 

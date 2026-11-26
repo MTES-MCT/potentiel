@@ -83,7 +83,7 @@
       "path": "../document-builder"
     },
     {
-      "path": "../notifications"
+      "path": "../notifications-email"
     },
     {
       "path": "../request-context"

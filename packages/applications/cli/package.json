@@ -31,7 +31,7 @@
     "@oclif/core": "5.1.11",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
-    "@potentiel-applications/notifications": "*",
+    "@potentiel-applications/notifications-email": "*",
     "@potentiel-applications/subscribers": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/projet": "*",

@@ -1,4 +1,4 @@
-import { TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
+import { TâchePlanifiéeNotification } from '@potentiel-applications/notifications-email';
 import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
 import type { Lauréat } from '@potentiel-domain/projet';
 

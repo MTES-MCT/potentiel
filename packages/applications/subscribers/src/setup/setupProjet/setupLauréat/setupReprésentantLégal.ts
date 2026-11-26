@@ -1,4 +1,4 @@
-import { ReprésentantLégalNotification } from '@potentiel-applications/notifications';
+import { ReprésentantLégalNotification } from '@potentiel-applications/notifications-email';
 import {
   type HistoriqueProjector,
   ReprésentantLégalProjector,

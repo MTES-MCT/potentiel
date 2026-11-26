@@ -1,6 +1,9 @@
 import { type Middleware, mediator } from 'mediateur';
 
-import { type EnvoyerNotificationCommand, render } from '@potentiel-applications/notifications';
+import {
+  type EnvoyerNotificationCommand,
+  render,
+} from '@potentiel-applications/notifications-email';
 import { sendEmail } from '@potentiel-infrastructure/email';
 
 import type { PotentielWorld } from '../potentiel.world.js';

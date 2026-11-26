@@ -1,4 +1,4 @@
-import { PuissanceNotification } from '@potentiel-applications/notifications';
+import { PuissanceNotification } from '@potentiel-applications/notifications-email';
 import { type HistoriqueProjector, PuissanceProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';

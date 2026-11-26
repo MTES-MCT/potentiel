@@ -144,7 +144,7 @@ packages/infrastructure/dn-api-client/src/graphql/client.ts
 packages/applications/api-documentation/src/generated/
 
 # Generated Email templates
-packages/applications/notifications/src/templates/**/index.d.ts
+packages/applications/notifications-email/src/templates/**/index.d.ts
 
 # Claude
 CLAUDE.md

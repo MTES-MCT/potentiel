@@ -1,6 +1,6 @@
 import type { GenericEndpointContext } from 'better-auth';
 
-import type { SendEmail } from '@potentiel-applications/notifications';
+import type { SendEmail } from '@potentiel-applications/notifications-email';
 import { Routes } from '@potentiel-applications/routes';
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';

@@ -1,4 +1,4 @@
-import { PowerPurchaseAgreementNotification } from '@potentiel-applications/notifications';
+import { PowerPurchaseAgreementNotification } from '@potentiel-applications/notifications-email';
 import {
   type HistoriqueProjector,
   PowerPurchaseAgreementProjector,

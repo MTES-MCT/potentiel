@@ -1,6 +1,6 @@
 {
-  "name": "@potentiel-applications/notifications",
-  "description": "Potentiel notifications",
+  "name": "@potentiel-applications/notifications-email",
+  "description": "Potentiel email notifications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
