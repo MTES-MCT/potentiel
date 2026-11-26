@@ -1,7 +1,10 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
+import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-
+import {
+  créerDépôt,
+  getValidFakeIdentifiantProjet,
+} from '../../candidature/fixtures/importerCandidature.fixture.js';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
 import type { PotentielWorld } from '../../potentiel.world.js';
@@ -99,106 +102,24 @@ const candidats = [
 ] satisfies Candidat[];
 
 EtantDonné(`une période avec des candidats à importer`, async function (this: PotentielWorld) {
-  const candidats = [
-    {
-      dépôt: {
-        nomProjet: 'lauréat-1',
-        nomCandidat: 'lauréat-1',
-        emailContact: 'porteur1@test.test',
-        sociétéMère: 'BonneMère-1',
-        nomReprésentantLégal: 'RL-1',
-        prixReference: 78,
-        localité: {
-          adresse1: 'adresse 1',
-          codePostal: '75019',
-          commune: 'Paris',
-          département: 'Paris',
-          région: 'Île-de-France',
-          adresse2: '',
-        },
-        historiqueAbandon: 'première-candidature',
-        puissance: 10,
-        puissanceALaPointe: false,
-        evaluationCarboneSimplifiée: 700,
-        technologie: 'eolien',
-        typeGarantiesFinancières: 'six-mois-après-achèvement',
-        territoireProjet: '',
-        fournisseurs: [],
-        actionnariat: undefined,
-        attestationConstitutionGf: undefined,
-        autorisation: undefined,
-        coefficientKChoisi: undefined,
-        coordonnées: undefined,
-        dateConstitutionGf: undefined,
-        dateÉchéanceGf: undefined,
-        dispositifDeStockage: undefined,
-        installateur: undefined,
-        natureDeLExploitation: undefined,
-        numéroIdentification: undefined,
-        obligationDeSolarisation: undefined,
-        puissanceDeSite: undefined,
-        puissanceDuProjetInitial: undefined,
-        raccordements: undefined,
-        typologieInstallation: [],
+  const candidats: CandidatAvecInstruction[] = [];
+  for (let i = 0; i < faker.number.int({ min: 1, max: 10 }); i++) {
+    const identifiantProjet = getValidFakeIdentifiantProjet({
+      appelOffre: 'PPE2 - Eolien',
+      période: '1',
+    });
+
+    const dépôt = créerDépôt(identifiantProjet);
+
+    candidats.push({
+      dépôt,
+      identifiant: identifiantProjet.formatter(),
+      instruction: {
+        statut: faker.helpers.arrayElement(['classé', 'éliminé']),
+        noteTotale: faker.number.int({ min: 0, max: 100 }),
       },
-      identifiant: IdentifiantProjet.bind({
-        appelOffre: 'PPE2 - Eolien',
-        période: '1',
-        numéroCRE: 'test-1',
-        famille: '',
-      }).formatter(),
-      instruction: { statut: 'classé', noteTotale: 17 },
-    },
-    {
-      dépôt: {
-        nomProjet: 'éliminé-2',
-        nomCandidat: 'éliminé-2',
-        emailContact: 'porteur1@test.test',
-        sociétéMère: 'BonneMère-1',
-        nomReprésentantLégal: 'RL-1',
-        prixReference: 200,
-        localité: {
-          adresse1: 'adresse 1',
-          codePostal: '75019',
-          commune: 'Paris',
-          département: 'Paris',
-          région: 'Île-de-France',
-          adresse2: '',
-        },
-        historiqueAbandon: 'première-candidature',
-        puissance: 10,
-        puissanceALaPointe: false,
-        evaluationCarboneSimplifiée: 900,
-        technologie: 'eolien',
-        territoireProjet: '',
-        fournisseurs: [],
-        actionnariat: undefined,
-        attestationConstitutionGf: undefined,
-        autorisation: undefined,
-        coefficientKChoisi: undefined,
-        coordonnées: undefined,
-        dateConstitutionGf: undefined,
-        dateÉchéanceGf: undefined,
-        dispositifDeStockage: undefined,
-        installateur: undefined,
-        natureDeLExploitation: undefined,
-        numéroIdentification: undefined,
-        obligationDeSolarisation: undefined,
-        puissanceDeSite: undefined,
-        puissanceDuProjetInitial: undefined,
-        raccordements: undefined,
-        typeGarantiesFinancières: undefined,
-        typologieInstallation: [],
-      },
-      identifiant: IdentifiantProjet.bind({
-        appelOffre: 'PPE2 - Eolien',
-        période: '1',
-        numéroCRE: 'test-2',
-        famille: '',
-      }).formatter(),
-      instruction: { statut: 'éliminé', noteTotale: 9 },
-    },
-  ] satisfies CandidatAvecInstruction[];
+    });
+  }
   this.périodeWorld.importerPériodeFixture.ajouterCandidatsÀImporter(candidats);
 });
 
