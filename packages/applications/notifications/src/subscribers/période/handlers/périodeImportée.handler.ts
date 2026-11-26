@@ -1,3 +1,4 @@
+import { Routes } from '@potentiel-applications/routes';
 import { Période } from '@potentiel-domain/periode';
 
 import { buildUrl } from '#helpers';
@@ -15,7 +16,7 @@ export const handlePériodeImportée = async ({
       appel_offre: appelOffre,
       période: période,
       date_import: new Date(importéLe).toLocaleDateString('fr-FR'),
-      url: buildUrl(''),
+      url: buildUrl(Routes.Période.lister({ appelOffre, statut: 'a-notifier' })),
     },
   });
 };
