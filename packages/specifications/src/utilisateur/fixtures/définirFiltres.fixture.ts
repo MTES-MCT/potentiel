@@ -2,14 +2,14 @@ import { faker } from '@faker-js/faker';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import type { FiltersType } from '@potentiel-domain/utilisateur';
+import type { UserFiltersType } from '@potentiel-domain/utilisateur';
 
 import type { Fixture } from '../../fixture.js';
 
 interface DéfinirFiltresUtilisateur {
   readonly email: string;
   readonly définisLe: string;
-  readonly filtres: FiltersType;
+  readonly filtres: UserFiltersType;
 }
 
 export type DéfinirFiltresUtilisateurProps = Partial<Readonly<DéfinirFiltresUtilisateur>>;
@@ -33,8 +33,8 @@ export class DéfinirFiltresUtilisateurFixture
     return this.#définisLe;
   }
 
-  #filtres!: FiltersType;
-  get filtres(): FiltersType {
+  #filtres!: UserFiltersType;
+  get filtres(): UserFiltersType {
     return this.#filtres;
   }
 

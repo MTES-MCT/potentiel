@@ -4,10 +4,10 @@ import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
-import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Role, UserFiltersType, Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { getNombreDemandesÀInstruire } from '@/app/_helpers/getNombreDemandesÀInstruire';
 import { getNombreDeGarantiesFinancièresÀInstruire } from '@/app/(homepage)/(homepage-administration)/_helpers/getNombreDeGarantiesFinancièresÀInstruire';
+import { getNombreDemandesÀInstruire } from '@/app/_helpers/getNombreDemandesÀInstruire';
 import { getSessionUser } from '@/auth/getSessionUser';
 import { NavLinks } from '../NavLinks';
 import { getDemandesLinks } from './getDemandesLinks';
@@ -17,7 +17,11 @@ export async function UserBasedRoleNavigation() {
   const utilisateur = await getSessionUser({ headers: await headers() });
 
   const navigationItems = utilisateur
-    ? await getNavigationItemsBasedOnRole({ utilisateur, showNombreDemande: true })
+    ? await getNavigationItemsBasedOnRole({
+        utilisateur,
+        showNombreDemande: true,
+        userFilters: utilisateur.filtres,
+      })
     : [];
 
   return <NavLinks items={navigationItems} />;
@@ -48,11 +52,13 @@ const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuPro
 type GetNavigationItemsBasedOnRoleProps = {
   utilisateur: Utilisateur.ValueType;
   showNombreDemande: boolean;
+  userFilters?: UserFiltersType;
 };
 
 export const getNavigationItemsBasedOnRole = async ({
   utilisateur,
   showNombreDemande,
+  userFilters,
 }: GetNavigationItemsBasedOnRoleProps) => {
   const { rôle, identifiantUtilisateur } = utilisateur;
 
@@ -95,14 +101,14 @@ export const getNavigationItemsBasedOnRole = async ({
 
   const demandesÀInstruire =
     showNombreDemande && autorité
-      ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité)
+      ? await getNombreDemandesÀInstruire(identifiantUtilisateur.email, autorité, userFilters)
       : [];
 
   const demandesGarantiesFinancièresÀInstruire:
     | Lauréat.GarantiesFinancières.ConsulterNombreDeGarantiesFinancièresÀInstruireReadModel
     | undefined =
     showNombreDemande && autorité === 'dreal'
-      ? await getNombreDeGarantiesFinancièresÀInstruire(identifiantUtilisateur.email)
+      ? await getNombreDeGarantiesFinancièresÀInstruire(identifiantUtilisateur.email, userFilters)
       : undefined;
 
   for (const menuItem of [...démarchesMenuLinks, ...modificationsMenuLinks]) {

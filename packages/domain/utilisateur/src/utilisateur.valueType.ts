@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { Email } from '@potentiel-domain/common';
 import type { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { type FiltersType, Région, Zone } from './index.js';
+import { Région, type UserFiltersType, Zone } from './index.js';
 import * as Role from './role.valueType.js';
 import {
   FonctionManquanteError,
@@ -15,7 +15,7 @@ import {
 
 type CommonValueType = {
   identifiantUtilisateur: Email.ValueType;
-  filtres?: FiltersType;
+  filtres?: UserFiltersType;
 };
 
 type DgecValidateurValueType = CommonValueType & {

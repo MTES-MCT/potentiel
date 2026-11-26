@@ -6,7 +6,7 @@ import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import { type FC, useState } from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import type { FiltersType } from '@potentiel-domain/utilisateur';
+import type { UserFiltersType } from '@potentiel-domain/utilisateur';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { MultipleSelect } from '@/components/molecules/MultipleSelect';
@@ -14,13 +14,13 @@ import { définirFiltresAction } from './définirFiltres.action';
 import { filtersList } from './filtersList';
 
 export type DéfinirFiltresFormProps = {
-  userFilters: FiltersType;
+  userFilters: UserFiltersType;
 };
 
 export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [filters, setFilters] = useState<FiltersType>(
+  const [filters, setFilters] = useState<UserFiltersType>(
     userFilters ?? {
       technologie: AppelOffre.technologies.map((t) => t),
       cycle: AppelOffre.cycles.map((t) => t),
@@ -86,7 +86,7 @@ const FiltresTooltip = () => (
   />
 );
 
-const TagsList = ({ userFilters }: { userFilters: FiltersType }) => (
+const TagsList = ({ userFilters }: { userFilters: UserFiltersType }) => (
   <ul className="flex flex-row flex-wrap gap-1">
     {Object.entries(userFilters).map(([key, values]) =>
       values.map((value) => (

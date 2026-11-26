@@ -2,7 +2,7 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { type DateTime, Email } from '@potentiel-domain/common';
 import { type Count, Where } from '@potentiel-domain/entity';
-import type { Région } from '@potentiel-domain/utilisateur';
+import type { Région, UserFiltersType } from '@potentiel-domain/utilisateur';
 
 import type { GetScopeProjetUtilisateur } from '../../index.js';
 import { StatutLauréat } from '../index.js';
@@ -28,6 +28,7 @@ export type ConsulterNombreDeGarantiesFinancièresÀInstruireQuery = Message<
   {
     utilisateur: string;
     date: DateTime.RawType;
+    userFilters?: UserFiltersType;
   },
   ConsulterNombreDeGarantiesFinancièresÀInstruireReadModel
 >;
@@ -40,16 +41,27 @@ export type ConsulterNombreDeGarantiesFinancièresÀInstruireDependencies = {
 type JoinLauréatProps = {
   régions: ReadonlyArray<Région.RawType>;
   statut?: StatutLauréat.RawType;
+  cycle?: UserFiltersType['cycle'];
 };
 
-const joinLauréat = ({ régions, statut }: JoinLauréatProps) => ({
+const joinLauréat = ({ régions, statut, cycle }: JoinLauréatProps) => ({
   entity: 'lauréat' as const,
   on: 'identifiantProjet' as const,
   where: {
     localité: { région: Where.matchAny(régions) },
     statut: Where.equal(statut),
+    appelOffre: Where.like(`ANY(${cycle})`),
   },
 });
+
+// const joinLauréat = ({ régions, statut }: JoinLauréatProps) => ({
+//   entity: 'lauréat' as const,
+//   on: 'identifiantProjet' as const,
+//   where: {
+//     localité: { région: Where.matchAny(régions) },
+//     statut: Where.equal(statut),
+//   },
+// });
 
 export const registerConsulterNombreDeGarantiesFinancièresÀInstruireQuery = ({
   getScopeProjetUtilisateur,

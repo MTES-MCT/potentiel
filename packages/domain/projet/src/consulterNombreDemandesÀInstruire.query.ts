@@ -2,7 +2,7 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import type { FiltersType } from '@potentiel-domain/utilisateur';
+import type { UserFiltersType } from '@potentiel-domain/utilisateur';
 
 import type { GetNombreDemandesÀInstruire } from './getNombreDemandesÀInstruire.port.js';
 import type { GetScopeProjetUtilisateur } from './getScopeProjetUtilisateur.port.js';
@@ -20,7 +20,7 @@ export type ConsulterNombreDemandesÀInstruireQuery = Message<
     utilisateur: Email.RawType;
     appelOffre?: Array<string>;
     autoritéCompétente: AutoritéCompétente.RawType;
-    filtres?: FiltersType;
+    filtres?: UserFiltersType;
   },
   ConsulterNombreDemandesÀInstruireReadModel
 >;
