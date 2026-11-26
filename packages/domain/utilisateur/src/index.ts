@@ -27,7 +27,7 @@ import type {
   TrouverUtilisateurReadModel,
 } from './trouver/trouverUtilisateur.query.js';
 
-export * as Filtres from './filters.types.js';
+export * from './filters.types.js';
 export * as Role from './role.valueType.js';
 export * as Région from './région.valueType.js';
 export { AccèsFonctionnalitéRefuséError } from './utilisateur.error.js';

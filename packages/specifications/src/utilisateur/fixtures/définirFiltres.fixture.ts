@@ -1,14 +1,15 @@
 import { faker } from '@faker-js/faker';
 
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import { Filtres } from '@potentiel-domain/utilisateur';
+import type { FiltersType } from '@potentiel-domain/utilisateur';
 
 import type { Fixture } from '../../fixture.js';
 
 interface DéfinirFiltresUtilisateur {
   readonly email: string;
   readonly définisLe: string;
-  readonly filtres: Filtres.Type;
+  readonly filtres: FiltersType;
 }
 
 export type DéfinirFiltresUtilisateurProps = Partial<Readonly<DéfinirFiltresUtilisateur>>;
@@ -32,8 +33,8 @@ export class DéfinirFiltresUtilisateurFixture
     return this.#définisLe;
   }
 
-  #filtres!: Filtres.Type;
-  get filtres(): Filtres.Type {
+  #filtres!: FiltersType;
+  get filtres(): FiltersType {
     return this.#filtres;
   }
 
@@ -41,8 +42,8 @@ export class DéfinirFiltresUtilisateurFixture
     const fixture: DéfinirFiltresUtilisateur = {
       email: faker.internet.email(),
       filtres: {
-        technologie: [faker.helpers.arrayElement(Filtres.technologie)],
-        cycle: [faker.helpers.arrayElement(Filtres.cycle)],
+        technologie: [faker.helpers.arrayElement(AppelOffre.technologies)],
+        cycle: [faker.helpers.arrayElement(AppelOffre.cycles)],
       },
       définisLe: DateTime.now().formatter(),
       ...partialFixture,

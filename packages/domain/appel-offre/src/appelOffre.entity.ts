@@ -226,6 +226,10 @@ export type CahierDesChargesModifié = {
 // Technologies
 export const technologies = ['pv', 'eolien', 'hydraulique'] as const;
 export type Technologie = (typeof technologies)[number];
+
+export const cycles = ['CRE4', 'PPE2'] as const;
+export type Cycle = (typeof cycles)[number];
+
 export type UnitéPuissance = 'MW' | 'MWc';
 
 export type AutoritéCompétente = 'dreal' | 'dgec';
@@ -383,7 +387,7 @@ export type Territoire = (typeof territoires)[number];
 export type AppelOffreReadModel = {
   id: string;
   typeAppelOffre: AppelOffreTypes;
-  cycleAppelOffre: 'CRE4' | 'PPE2';
+  cycleAppelOffre: Cycle;
   title: string;
   shortTitle: string;
   launchDate: string;

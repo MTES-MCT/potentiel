@@ -4,13 +4,13 @@ import { Email } from '@potentiel-domain/common';
 import type { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import type { Type } from '../filters.types.js';
+import type { FiltersType } from '../filters.types.js';
 import { Utilisateur } from '../index.js';
 import type { UtilisateurEntity } from '../utilisateur.entity.js';
 
 export type TrouverUtilisateurReadModel = Utilisateur.ValueType & {
   désactivé?: true;
-  filtres?: Type;
+  filtres?: FiltersType;
 };
 
 export type TrouverUtilisateurQuery = Message<

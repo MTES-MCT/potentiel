@@ -3,16 +3,17 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import { type DéfinirFiltresUtilisateurUseCase, Filtres } from '@potentiel-domain/utilisateur';
+import type { DéfinirFiltresUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 
 import { transformToEnumArray } from '@/app/_helpers/transformToEnumArray';
 import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  technologie: transformToEnumArray(zod.enum(Filtres.technologie)),
-  cycle: transformToEnumArray(zod.enum(Filtres.cycle)),
+  technologie: transformToEnumArray(zod.enum(AppelOffre.technologies)),
+  cycle: transformToEnumArray(zod.enum(AppelOffre.cycles)),
 });
 
 export type DéfinirFiltresFormKeys = keyof zod.infer<typeof schema>;

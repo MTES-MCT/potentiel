@@ -5,7 +5,8 @@ import Tag from '@codegouvfr/react-dsfr/Tag';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 import { type FC, useState } from 'react';
 
-import { Filtres } from '@potentiel-domain/utilisateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { FiltersType } from '@potentiel-domain/utilisateur';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { MultipleSelect } from '@/components/molecules/MultipleSelect';
@@ -13,16 +14,16 @@ import { définirFiltresAction } from './définirFiltres.action';
 import { filtersList } from './filtersList';
 
 export type DéfinirFiltresFormProps = {
-  userFilters?: Filtres.Type;
+  userFilters: FiltersType;
 };
 
 export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [filters, setFilters] = useState<Filtres.Type>(
+  const [filters, setFilters] = useState<FiltersType>(
     userFilters ?? {
-      technologie: Filtres.technologie.map((t) => t),
-      cycle: Filtres.cycle.map((t) => t),
+      technologie: AppelOffre.technologies.map((t) => t),
+      cycle: AppelOffre.cycles.map((t) => t),
     },
   );
 
@@ -44,7 +45,7 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters 
         form={{
           omitMandatoryFieldsLegend: true,
           heading: (
-            <div>
+            <div className="flex flex-row gap-4">
               <span>Définir mes filtres</span>
               <FiltresTooltip />
             </div>
@@ -80,12 +81,12 @@ export const DéfinirFiltresForm: FC<DéfinirFiltresFormProps> = ({ userFilters 
 
 const FiltresTooltip = () => (
   <Tooltip
-    kind="click"
+    kind="hover"
     title="Les filtres seront appliqués sur votre tableau de bord ainsi que les différentes listes de démarches ou de modifications."
   />
 );
 
-const TagsList = ({ userFilters }: { userFilters: Filtres.Type }) => (
+const TagsList = ({ userFilters }: { userFilters: FiltersType }) => (
   <ul className="flex flex-row flex-wrap gap-1">
     {Object.entries(userFilters).map(([key, values]) =>
       values.map((value) => (

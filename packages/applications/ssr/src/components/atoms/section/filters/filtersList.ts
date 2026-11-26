@@ -1,4 +1,4 @@
-import { Filtres } from '@potentiel-domain/utilisateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import type { DéfinirFiltresFormKeys } from './définirFiltres.action';
 
@@ -15,7 +15,7 @@ export const filtersList: ListFilterItem<DéfinirFiltresFormKeys>[] = [
   {
     label: 'Technologie',
     inputName: 'technologie',
-    options: Filtres.technologie.map((t) => ({
+    options: AppelOffre.technologies.map((t) => ({
       label: t,
       value: t,
     })),
@@ -23,7 +23,7 @@ export const filtersList: ListFilterItem<DéfinirFiltresFormKeys>[] = [
   {
     label: 'Cycle',
     inputName: 'cycle',
-    options: Filtres.cycle.map((c) => ({
+    options: AppelOffre.cycles.map((c) => ({
       label: c,
       value: c,
     })),

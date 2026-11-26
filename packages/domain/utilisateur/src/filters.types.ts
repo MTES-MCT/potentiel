@@ -1,7 +1,6 @@
-export const technologie = ['pv', 'eolien', 'hydraulique'] as const;
-export const cycle = ['PPE2', 'CRE4'] as const;
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export type Type = {
-  technologie: (typeof technologie)[number][];
-  cycle: (typeof cycle)[number][];
+export type FiltersType = {
+  technologie: AppelOffre.Technologie[];
+  cycle: AppelOffre.Cycle[];
 };

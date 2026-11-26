@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import type React from 'react';
 import type { ComponentProps } from 'react';
 
-import type { Filtres } from '@potentiel-domain/utilisateur';
+import type { FiltersType } from '@potentiel-domain/utilisateur';
 
 import { Heading3 } from '@/components/atoms/headings';
 import { DéfinirFiltresForm } from './filters/DéfinirFiltres.form';
@@ -10,7 +10,7 @@ import { DéfinirFiltresForm } from './filters/DéfinirFiltres.form';
 type SectionProps = ComponentProps<'section'> & {
   title: string;
   children: React.ReactNode;
-  filters?: { userFilters: Filtres.Type | undefined };
+  filters?: { userFilters: FiltersType };
   picto?: React.ReactNode;
   icon?: React.ReactNode;
 };

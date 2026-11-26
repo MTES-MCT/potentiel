@@ -2,14 +2,14 @@ import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import type { Type } from '../filters.types.js';
+import type { FiltersType } from '../filters.types.js';
 import type { DéfinirFiltresUtilisateurCommand } from './définirFiltresUtilisateur.command.js';
 
 export type DéfinirFiltresUtilisateurUseCase = Message<
   'Utilisateur.UseCase.DéfinirFiltresUtilisateur',
   {
     identifiantUtilisateurValue: string;
-    filtresValue: Type;
+    filtresValue: FiltersType;
     définisLeValue: string;
   }
 >;
