@@ -6,7 +6,7 @@
     "includes": [
       "**",
       "!**/potentiel-keycloak",
-      "!packages/applications/notifications/src/templates/layouts/email.layout.html"
+      "!packages/applications/notifications-email/src/templates/layouts/email.layout.html"
     ]
   },
   "formatter": {

@@ -1,7 +1,10 @@
 import { magicLink } from 'better-auth/plugins';
 import { mediator } from 'mediateur';
 
-import type { EnvoyerNotificationCommand, SendEmail } from '@potentiel-applications/notifications';
+import type {
+  EnvoyerNotificationCommand,
+  SendEmail,
+} from '@potentiel-applications/notifications-email';
 
 import { getUtilisateurFromEmail } from '../../getUtilisateurFromEmail';
 import type { ProfilAuthentification } from '../../profilAuthentification';

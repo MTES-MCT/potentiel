@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import { before, beforeEach, describe, mock, test } from 'node:test';
 
-import type { SendEmail } from '@potentiel-applications/notifications';
+import type { SendEmail } from '@potentiel-applications/notifications-email';
 import { Routes } from '@potentiel-applications/routes';
 import { type TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/utilisateur';
 

@@ -1,4 +1,4 @@
-import { ActionnaireNotification } from '@potentiel-applications/notifications';
+import { ActionnaireNotification } from '@potentiel-applications/notifications-email';
 import { ActionnaireProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';

@@ -1,5 +1,5 @@
 import { AttestationSaga } from '@potentiel-applications/document-builder';
-import { CandidatureNotification } from '@potentiel-applications/notifications';
+import { CandidatureNotification } from '@potentiel-applications/notifications-email';
 import { CandidatureProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 import type { ProjetSaga } from '@potentiel-domain/projet';
 

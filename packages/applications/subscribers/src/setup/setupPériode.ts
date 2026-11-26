@@ -1,4 +1,4 @@
-import { PériodeNotification } from '@potentiel-applications/notifications';
+import { PériodeNotification } from '@potentiel-applications/notifications-email';
 import { PériodeProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from './createSubscriptionSetup.js';

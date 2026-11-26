@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
     '@potentiel-applications/api-documentation',
     '@potentiel-applications/bootstrap',
     '@potentiel-applications/document-builder',
-    '@potentiel-applications/notifications',
+    '@potentiel-applications/notifications-email',
     '@potentiel-applications/request-context',
     '@potentiel-applications/routes',
     '@potentiel-domain/appel-offre',

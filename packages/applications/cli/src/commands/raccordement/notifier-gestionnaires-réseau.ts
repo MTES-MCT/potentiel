@@ -5,7 +5,7 @@ import z from 'zod';
 import {
   type EnvoyerNotificationCommand,
   registerNotificationsCommands,
-} from '@potentiel-applications/notifications';
+} from '@potentiel-applications/notifications-email';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { type Lauréat, registerProjetQueries } from '@potentiel-domain/projet';

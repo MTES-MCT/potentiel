@@ -9,7 +9,7 @@
       "path": "../applications/bootstrap"
     },
     {
-      "path": "../applications/notifications"
+      "path": "../applications/notifications-email"
     },
     {
       "path": "../applications/subscribers"

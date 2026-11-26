@@ -1,4 +1,4 @@
-import { InstallationNotification } from '@potentiel-applications/notifications';
+import { InstallationNotification } from '@potentiel-applications/notifications-email';
 import {
   type HistoriqueProjector,
   InstallationProjector,

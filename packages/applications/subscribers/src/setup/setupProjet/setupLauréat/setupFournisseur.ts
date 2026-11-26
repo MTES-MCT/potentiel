@@ -1,4 +1,4 @@
-import { FournisseurNotification } from '@potentiel-applications/notifications';
+import { FournisseurNotification } from '@potentiel-applications/notifications-email';
 import { FournisseurProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';

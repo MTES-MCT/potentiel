@@ -1,4 +1,4 @@
-import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
+import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications-email';
 import {
   GarantiesFinancièreProjector,
   type HistoriqueProjector,

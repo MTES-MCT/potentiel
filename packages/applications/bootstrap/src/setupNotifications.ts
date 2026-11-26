@@ -1,7 +1,7 @@
 import {
   registerNotificationsCommands,
   type SendEmailPort,
-} from '@potentiel-applications/notifications';
+} from '@potentiel-applications/notifications-email';
 
 export type SetupNotificationsDependencies = {
   sendEmail: SendEmailPort;
