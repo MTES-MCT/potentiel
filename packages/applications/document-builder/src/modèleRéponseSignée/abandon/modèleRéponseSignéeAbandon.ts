@@ -18,8 +18,6 @@ export type ModèleRéponseAbandon = ModèleRéponse & {
     dateDemandeConfirmation: string;
     dateConfirmation: string;
 
-    enCopies: Array<string>;
-
     avecAccordMainlevee: 'yes' | '';
     dateConstitutionGarantiesFinancieres: string;
   };

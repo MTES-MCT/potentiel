@@ -18,5 +18,6 @@ export type ModèleRéponse = {
     communeProjet: string;
     unitePuissance: string;
     dateNotification: string;
+    enCopies?: string;
   };
 };

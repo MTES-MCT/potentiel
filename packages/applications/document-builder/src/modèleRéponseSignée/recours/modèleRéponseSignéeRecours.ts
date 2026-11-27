@@ -20,7 +20,6 @@ export type ModèleRéponseRecours = ModèleRéponse & {
     paragraphePrixReference: string;
     affichageParagrapheECScible: 'yes' | '';
     affichageParagrapheECSplafond: 'yes' | '';
-    unitePuissance: string;
     eolien: 'yes' | '';
     AOInnovation: 'yes' | '';
     soumisGF: 'yes' | '';

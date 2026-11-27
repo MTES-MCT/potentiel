@@ -42,9 +42,9 @@ import {
 } from './recours/modèleRéponseSignéeRecours.js';
 
 export type ModèleRéponseParType =
+  | ModèleMiseEnDemeure
   | ModèleRéponseAbandon
   | ModèleRéponseRecours
-  | ModèleMiseEnDemeure
   | ModèleRéponseMainlevée
   | ModèleRéponseActionnaire
   | ModèleRéponsePuissance

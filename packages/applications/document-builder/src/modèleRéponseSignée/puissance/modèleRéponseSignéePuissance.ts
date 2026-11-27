@@ -13,7 +13,5 @@ export type ModèleRéponsePuissance = ModèleRéponse & {
     estAccordé: boolean;
     dateDemande: string;
     justificationDemande: string;
-
-    enCopies: Array<string>;
   };
 };
