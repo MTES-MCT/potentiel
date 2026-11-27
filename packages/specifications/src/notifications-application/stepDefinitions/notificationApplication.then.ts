@@ -32,3 +32,20 @@ Alors(
     });
   },
 );
+
+Alors(
+  `aucune notification application n'a été ajoutée pour la dreal`,
+  async function (this: PotentielWorld) {
+    const identifiantUtilisateur = this.utilisateurWorld.drealFixture.email;
+
+    await waitForExpect(async () => {
+      const { items } =
+        await mediator.send<NotificationApplication.ListerNotificationsApplicationQuery>({
+          type: 'NotificationApplication.Query.ListerNotificationsApplication',
+          data: { identifiantUtilisateur },
+        });
+
+      expect(items.length).to.be.equal(0);
+    });
+  },
+);
