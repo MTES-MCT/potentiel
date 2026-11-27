@@ -20,7 +20,7 @@ export type ListerUtilisateursQuery = Message<
   'Utilisateur.Query.ListerUtilisateurs',
   {
     range?: RangeOptions;
-    roles?: Array<string>;
+    roles?: Array<Role.RawType>;
     identifiantGestionnaireRéseau?: string;
     région?: string;
     zones?: Array<string>;

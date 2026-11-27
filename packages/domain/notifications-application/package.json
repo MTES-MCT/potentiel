@@ -1,0 +1,25 @@
+{
+  "name": "@potentiel-domain/notifications-application",
+  "description": "Domain pour les notifications de l'application",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/entity": "*",
+    "@potentiel-domain/utilisateur": "*",
+    "@potentiel-domain/projet": "*",
+    "@potentiel-libraries/monads": "*",
+    "mediateur": "0.3.0",
+    "ts-pattern": "5.7.0"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}

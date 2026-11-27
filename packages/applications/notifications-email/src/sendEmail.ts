@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import type { EnvoyerNotificationCommand } from './envoyerNotification.command.js';
+import type { EnvoyerNotificationEmailCommand } from './envoyerNotificationEmail.command.js';
 import type { TemplateDefinitions } from './templates/emails/index.js';
 
 export type Recipient = string;
@@ -14,7 +14,7 @@ export type EmailPayload = TemplateDefinitions & {
 export type SendEmail = (email: EmailPayload) => Promise<void>;
 
 export const sendEmail: SendEmail = (data) =>
-  mediator.send<EnvoyerNotificationCommand>({
-    type: 'System.Notification.Envoyer',
+  mediator.send<EnvoyerNotificationEmailCommand>({
+    type: 'System.NotificationEmail.Envoyer',
     data,
   });

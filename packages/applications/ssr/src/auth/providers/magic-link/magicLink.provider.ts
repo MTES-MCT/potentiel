@@ -2,7 +2,7 @@ import { magicLink } from 'better-auth/plugins';
 import { mediator } from 'mediateur';
 
 import type {
-  EnvoyerNotificationCommand,
+  EnvoyerNotificationEmailCommand,
   SendEmail,
 } from '@potentiel-applications/notifications-email';
 
@@ -17,7 +17,10 @@ type Props = {
 /** Custom Magic Link plugin to add the providerId and setup dependencies */
 export const customMagicLink = ({ profils }: Props) => {
   const sendEmail: SendEmail = async (data) => {
-    await mediator.send<EnvoyerNotificationCommand>({ type: 'System.Notification.Envoyer', data });
+    await mediator.send<EnvoyerNotificationEmailCommand>({
+      type: 'System.NotificationEmail.Envoyer',
+      data,
+    });
   };
 
   return magicLink({

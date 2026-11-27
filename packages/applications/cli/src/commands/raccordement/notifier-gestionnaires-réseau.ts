@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 import z from 'zod';
 
 import {
-  type EnvoyerNotificationCommand,
-  registerNotificationsCommands,
+  type EnvoyerNotificationEmailCommand,
+  registerNotificationsEmailCommands,
 } from '@potentiel-applications/notifications-email';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
@@ -39,7 +39,7 @@ export class NotifierGestionnaireRéseau extends Command {
   async init() {
     envSchema.parse(process.env);
 
-    registerNotificationsCommands({ sendEmail });
+    registerNotificationsEmailCommands({ sendEmail });
     registerRéseauQueries({
       list: listProjection,
       find: findProjection,
@@ -114,8 +114,8 @@ export class NotifierGestionnaireRéseau extends Command {
         logger.warn(`No recipient found for ${gestionnaire.raisonSociale} (${codeEIC})`);
         continue;
       }
-      await mediator.send<EnvoyerNotificationCommand>({
-        type: 'System.Notification.Envoyer',
+      await mediator.send<EnvoyerNotificationEmailCommand>({
+        type: 'System.NotificationEmail.Envoyer',
         data: {
           key: 'lauréat/raccordement/dossiers_en_attente',
           recipients: recipients.map(({ email }) => email),

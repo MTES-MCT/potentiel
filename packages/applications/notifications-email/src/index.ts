@@ -1,8 +1,11 @@
 // Accès
 
 // Notifications
-export type { EnvoyerNotificationCommand, SendEmailPort } from './envoyerNotification.command.js';
-export { registerNotificationsCommands } from './register.js';
+export type {
+  EnvoyerNotificationEmailCommand,
+  SendEmailPort,
+} from './envoyerNotificationEmail.command.js';
+export { registerNotificationsEmailCommands } from './register.js';
 export type { EmailPayload, SendEmail } from './sendEmail.js';
 export { sendEmail } from './sendEmail.js';
 export * as AccèsNotification from './subscribers/accès/accès.notifications.js';
