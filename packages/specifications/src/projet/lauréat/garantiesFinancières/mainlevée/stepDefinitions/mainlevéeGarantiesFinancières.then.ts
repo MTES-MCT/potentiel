@@ -10,41 +10,14 @@ import { expectFileContent, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../../../../potentiel.world.js';
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable`,
+  /la .*mainlevée des garanties financières devrait être consultable$/,
   async function (this: PotentielWorld) {
-    const expected = mapToPlainObject(
-      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected(),
-    );
-    const { identifiantProjet } = this.lauréatWorld;
-    const actualReadModel =
-      await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
-    assert(Option.isSome(actualReadModel));
-    const actual = mapToPlainObject(actualReadModel);
-
-    expect(actual).to.deep.equal(
-      expected,
-      'Le modèle retourné ne correspond pas au modèle attendu',
-    );
-
-    if (actualReadModel.accord?.courrierAccord) {
-      await expectFileContent(
-        actualReadModel.accord.courrierAccord,
-        actualReadModel.demande
-          ? this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord
-          : this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
-      );
-    }
+    await vérifierMainlevéeEnCours.bind(this);
   },
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières ne devrait plus être consultable`,
+  `la demande de mainlevée des garanties financières ne devrait plus être consultable`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -63,7 +36,7 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées`,
+  `la demande de mainlevée des garanties financières devrait être consultable dans l'historique des mainlevées rejetées`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
@@ -97,3 +70,33 @@ Alors(
     });
   },
 );
+
+async function vérifierMainlevéeEnCours(this: PotentielWorld) {
+  return waitForExpect(async () => {
+    const expected = mapToPlainObject(
+      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected(),
+    );
+    const { identifiantProjet } = this.lauréatWorld;
+    const actualReadModel =
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    assert(Option.isSome(actualReadModel));
+    const actual = mapToPlainObject(actualReadModel);
+
+    expect(actual).to.deep.equal(expected, 'Le readmodel ne correspond pas au modèle attendu');
+
+    if (actualReadModel.accord?.courrierAccord) {
+      await expectFileContent(
+        actualReadModel.accord.courrierAccord,
+        actualReadModel.demande
+          ? this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorderDemande.courrierAccord
+          : this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
+      );
+    }
+  });
+}

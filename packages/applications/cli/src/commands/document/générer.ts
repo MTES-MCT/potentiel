@@ -4,6 +4,7 @@ import { Stream } from 'node:stream';
 
 import type { Faker } from '@faker-js/faker';
 import { Command, Flags } from '@oclif/core';
+import { match } from 'ts-pattern';
 
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
@@ -27,7 +28,7 @@ export default class GénérerDocument extends Command {
 
   static override flags = {
     type: Flags.option({ options: [...types] })({ required: true }),
-    logo: Flags.string(),
+    logo: Flags.string({ default: 'logo_gouvernement' }),
   };
 
   protected async init() {
@@ -57,10 +58,7 @@ export default class GénérerDocument extends Command {
   }
 }
 
-function getData(
-  type: TypeDocument,
-  faker: Faker,
-): ModèleRéponseSignée.GénérerModèleRéponseOptions {
+function getData(type: TypeDocument, faker: Faker): ModèleRéponseSignée.ModèleRéponseParType {
   const appelOffre = faker.helpers.arrayElement(appelsOffreData);
   const common = {
     suiviPar: faker.person.fullName(), // user qui édite le document
@@ -83,157 +81,162 @@ function getData(
     dateDemande: faker.date.recent().toLocaleDateString('fr-FR'),
     justificationDemande: '',
     dateNotification: new Date().toLocaleDateString('fr-FR'),
-    enCopies: ['DREAL concernée', 'CRE'],
+    enCopies: 'DREAL concernée ; CRE',
   };
-  switch (type) {
-    case 'abandon':
-      return {
-        type,
-        data: {
-          ...common,
-          status: 'accordé',
-          aprèsConfirmation: true,
-          referenceParagrapheAbandon:
-            appelOffre.donnéesCourriersRéponse.texteEngagementRéalisationEtModalitésAbandon
-              ?.référenceParagraphe ?? '!!!MANQUANT!!!',
-          contenuParagrapheAbandon:
-            appelOffre.donnéesCourriersRéponse.texteEngagementRéalisationEtModalitésAbandon
-              ?.dispositions ?? '!!!MANQUANT!!!',
-          dateDemandeConfirmation: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateConfirmation: faker.date.recent().toLocaleDateString('fr-FR'),
-          afficherParagrapheMainleveeGarantiesFinancieres: '',
-          dateConstitutionGarantiesFinancieres: '',
-        },
-      };
-    case 'recours':
-      return {
-        type,
-        data: {
-          ...common,
-          status: '',
-          prixReference: '',
-          evaluationCarbone: '',
-          isFinancementParticipatif: 'yes' as const,
-          isInvestissementParticipatif: 'yes' as const,
-          isEngagementParticipatif: 'yes' as const,
-          engagementFournitureDePuissanceAlaPointe: 'yes' as const,
-          nonInstruit: 'yes' as const,
-          motifsElimination: '',
-          tarifOuPrimeRetenue: '',
-          paragraphePrixReference: '',
-          affichageParagrapheECScible: 'yes' as const,
-          affichageParagrapheECSplafond: '',
-          unitePuissance: '',
-          eolien: 'yes' as const,
-          AOInnovation: 'yes' as const,
-          soumisGF: 'yes' as const,
-          renvoiSoumisAuxGarantiesFinancieres: '',
-          renvoiDemandeCompleteRaccordement: '',
-          renvoiRetraitDesignationGarantieFinancieres: '',
-          paragrapheDelaiDerogatoire: '',
-          paragrapheAttestationConformite: '',
-          paragrapheEngagementIPFPGPFC: '',
-          renvoiModification: '',
-          delaiRealisationTexte: '',
-          isFinancementCollectif: 'yes' as const,
-          isGouvernancePartagée: 'yes' as const,
-        },
-      };
-    case 'mainlevée':
-      return {
-        type,
-        data: {
-          ...common,
-          adresseProjet: common.adresseCandidat,
-          emailProjet: common.email,
 
-          contactDreal: '',
-          dateCourrier: '',
-          referenceProjet: '',
-          dateConstitutionGarantiesFinancières: '',
-          estMotifAchèvement: true,
-          dateTransmissionAuCocontractant: '',
-          estMotifAbandon: false,
-          dateAbandonAccordé: '',
-          estAccordée: true,
-          dateMainlevée: '',
-          cahierDesChargesReference: '',
-        },
-      };
-    case 'mise-en-demeure':
-      return {
-        type,
-        data: {
-          ...common,
-          referenceProjet: common.refPotentiel,
-          adresseProjet: common.adresseCandidat,
-          emailProjet: common.email,
-          dateMiseEnDemeure: '',
-          contactDreal: '',
-          dateLancementAppelOffre: '',
-          adresseCompleteProjet: '',
-          puissanceProjet: common.puissance,
-          paragrapheGF: '',
-          garantieFinanciereEnMois: '',
-          dateFinGarantieFinanciere: '',
-          dateLimiteDepotGF: '',
-          cahierDesChargesReference: '',
-        },
-      };
-    case 'actionnaire':
-      return {
-        type,
-        data: {
-          ...common,
-          nouvelActionnaire: faker.person.fullName(),
-          referenceParagrapheActionnaire:
-            appelOffre.donnéesCourriersRéponse.texteChangementDActionnariat?.référenceParagraphe ??
-            '!!!MANQUANT!!!',
-          contenuParagrapheActionnaire:
-            appelOffre.donnéesCourriersRéponse.texteChangementDActionnariat?.dispositions ??
-            '!!!MANQUANT!!!',
-          estAccordé: true,
-          enCopies: [],
-        },
-      };
-    case 'puissance':
-      return {
-        type,
-        data: {
-          ...common,
-          puissanceInitiale: faker.number.float({ fractionDigits: 3 }).toString(),
-          nouvellePuissance: faker.number.float({ fractionDigits: 3 }).toString(),
-          puissanceActuelle: faker.number.float({ fractionDigits: 3 }).toString(),
-          referenceParagraphePuissance:
-            appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.référenceParagraphe ??
-            '!!!MANQUANT!!!',
-          contenuParagraphePuissance:
-            appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.dispositions ??
-            '!!!MANQUANT!!!',
-          estAccordé: true,
-        },
-      };
-    case 'délai-achèvement':
-      return {
-        type,
-        data: {
-          ...common,
-          référenceParagrapheAchèvement:
-            appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.référenceParagraphe ??
-            '!!!MANQUANT!!!',
-          contenuParagrapheAchèvement:
-            appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.dispositions ??
-            '!!!MANQUANT!!!',
-          dateLimiteAchèvementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateAchèvementDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
-          dateLimiteAchèvementActuelle: faker.date.recent().toLocaleDateString('fr-FR'),
+  return match(type)
+    .returnType<ModèleRéponseSignée.ModèleRéponseParType>()
+    .with('abandon', (type) => ({
+      type,
+      data: {
+        ...common,
+        status: 'accordé',
+        aprèsConfirmation: true,
+        referenceParagrapheAbandon:
+          appelOffre.donnéesCourriersRéponse.texteEngagementRéalisationEtModalitésAbandon
+            ?.référenceParagraphe ?? '!!!MANQUANT!!!',
+        contenuParagrapheAbandon:
+          appelOffre.donnéesCourriersRéponse.texteEngagementRéalisationEtModalitésAbandon
+            ?.dispositions ?? '!!!MANQUANT!!!',
+        dateDemandeConfirmation: faker.date.recent().toLocaleDateString('fr-FR'),
+        dateConfirmation: faker.date.recent().toLocaleDateString('fr-FR'),
+        avecAccordMainlevee: '',
+        dateConstitutionGarantiesFinancieres: '',
+      },
+    }))
+    .with('recours', (type) => ({
+      type,
+      data: {
+        ...common,
+        status: '',
+        prixReference: '',
+        evaluationCarbone: '',
+        isFinancementParticipatif: 'yes' as const,
+        isInvestissementParticipatif: 'yes' as const,
+        isEngagementParticipatif: 'yes' as const,
+        engagementFournitureDePuissanceAlaPointe: 'yes' as const,
+        nonInstruit: 'yes' as const,
+        motifsElimination: '',
+        tarifOuPrimeRetenue: '',
+        paragraphePrixReference: '',
+        affichageParagrapheECScible: 'yes' as const,
+        affichageParagrapheECSplafond: '',
+        unitePuissance: '',
+        eolien: 'yes' as const,
+        AOInnovation: 'yes' as const,
+        soumisGF: 'yes' as const,
+        renvoiSoumisAuxGarantiesFinancieres: '',
+        renvoiDemandeCompleteRaccordement: '',
+        renvoiRetraitDesignationGarantieFinancieres: '',
+        paragrapheDelaiDerogatoire: '',
+        paragrapheAttestationConformite: '',
+        paragrapheEngagementIPFPGPFC: '',
+        renvoiModification: '',
+        delaiRealisationTexte: '',
+        isFinancementCollectif: 'yes' as const,
+        isGouvernancePartagée: 'yes' as const,
+      },
+    }))
+    .with('mainlevée', (type) => ({
+      type,
+      data: {
+        ...common,
+        adresseProjet: common.adresseCandidat,
+        emailProjet: common.email,
 
-          nombreDeMoisDemandé: faker.number.int(),
+        contactDreal: '',
+        dateCourrier: '',
+        referenceProjet: '',
+        dateConstitutionGarantiesFinancières: '',
+        estMotifAchèvement: true,
+        dateTransmissionAuCocontractant: '',
+        estMotifAbandon: false,
+        dateAbandonAccordé: '',
+        estAccordée: true,
+        dateMainlevée: '',
+        cahierDesChargesReference: '',
+      },
+    }))
+    .with('mise-en-demeure', (type) => ({
+      type,
+      data: {
+        ...common,
+        referenceProjet: common.refPotentiel,
+        adresseProjet: common.adresseCandidat,
+        emailProjet: common.email,
+        dateMiseEnDemeure: '',
+        contactDreal: '',
+        dateLancementAppelOffre: '',
+        adresseCompleteProjet: '',
+        puissanceProjet: common.puissance,
+        paragrapheGF: '',
+        garantieFinanciereEnMois: '',
+        dateFinGarantieFinanciere: '',
+        dateLimiteDepotGF: '',
+        cahierDesChargesReference: '',
+      },
+    }))
+    .with('actionnaire', (type) => ({
+      type,
+      data: {
+        ...common,
+        nouvelActionnaire: faker.person.fullName(),
+        referenceParagrapheActionnaire:
+          appelOffre.donnéesCourriersRéponse.texteChangementDActionnariat?.référenceParagraphe ??
+          '!!!MANQUANT!!!',
+        contenuParagrapheActionnaire:
+          appelOffre.donnéesCourriersRéponse.texteChangementDActionnariat?.dispositions ??
+          '!!!MANQUANT!!!',
+        estAccordé: true,
+      },
+    }))
+    .with('puissance', (type) => ({
+      type,
+      data: {
+        ...common,
+        puissanceInitiale: faker.number.float({ fractionDigits: 3 }).toString(),
+        nouvellePuissance: faker.number.float({ fractionDigits: 3 }).toString(),
+        puissanceActuelle: faker.number.float({ fractionDigits: 3 }).toString(),
+        referenceParagraphePuissance:
+          appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.référenceParagraphe ??
+          '!!!MANQUANT!!!',
+        contenuParagraphePuissance:
+          appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.dispositions ??
+          '!!!MANQUANT!!!',
+        estAccordé: true,
+      },
+    }))
+    .with('délai-achèvement', (type) => ({
+      type,
+      data: {
+        ...common,
+        référenceParagrapheAchèvement:
+          appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.référenceParagraphe ??
+          '!!!MANQUANT!!!',
+        contenuParagrapheAchèvement:
+          appelOffre.donnéesCourriersRéponse.texteDélaiDAchèvement?.dispositions ??
+          '!!!MANQUANT!!!',
+        dateLimiteAchèvementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
+        dateAchèvementDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
+        dateLimiteAchèvementActuelle: faker.date.recent().toLocaleDateString('fr-FR'),
 
-          enCopies: [],
-        },
-      };
-    default:
-      throw new Error('Modèle non supporté');
-  }
+        nombreDeMoisDemandé: faker.number.int(),
+      },
+    }))
+    .with('délai-essais', (type) => ({
+      type,
+      data: {
+        ...common,
+        dateDemande: faker.date.recent().toLocaleDateString('fr-FR'),
+        justificationDemande: '',
+        nombreDeMoisDemandé: faker.number.int(),
+        référenceTexteDélaiPhaseEssai:
+          appelOffre.donnéesCourriersRéponse.texteDélaiPhaseEssai?.référenceParagraphe ??
+          '!!!MANQUANT!!!',
+        contenuTexteDélaiPhaseEssai:
+          appelOffre.donnéesCourriersRéponse.texteDélaiPhaseEssai?.dispositions ?? '!!!MANQUANT!!!',
+        estAccordé: 'yes',
+      },
+    }))
+    .exhaustive();
 }

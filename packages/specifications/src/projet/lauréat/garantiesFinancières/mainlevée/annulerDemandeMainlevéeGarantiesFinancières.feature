@@ -15,7 +15,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |
             | date annulation | 2014-05-28        |
-        Alors une demande de mainlevée de garanties financières ne devrait plus être consultable
+        Alors la demande de mainlevée des garanties financières ne devrait plus être consultable
         Et un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée annulée |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                            |
@@ -27,7 +27,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |
             | date annulation | 2014-05-28        |
-        Alors une demande de mainlevée de garanties financières ne devrait plus être consultable
+        Alors la demande de mainlevée des garanties financières ne devrait plus être consultable
         Et un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée annulée |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                            |

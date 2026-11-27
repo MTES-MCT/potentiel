@@ -7,7 +7,6 @@ import { type Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain
 import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { isFeatureEnabled } from '@/app/_helpers/getFeatureFlag';
 import {
   DétailsAbandonPage,
   type DétailsAbandonPageProps,
@@ -81,7 +80,6 @@ export default async function Page(props: PageProps) {
         : [];
 
       const mainlevéeGarantiesFinancièresPossible =
-        isFeatureEnabled('accorder-abandon-avec-mainlevee') &&
         utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.accorder') &&
         garantiesFinancières.actuelles?.garantiesFinancières !== undefined &&
         !garantiesFinancières.actuelles?.garantiesFinancières.estÉchu() &&

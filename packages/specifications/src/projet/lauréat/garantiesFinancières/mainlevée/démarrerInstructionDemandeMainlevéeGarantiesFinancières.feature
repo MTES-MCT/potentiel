@@ -14,7 +14,7 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-abandonné |
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières
-        Alors une demande de mainlevée de garanties financières devrait être consultable
+        Alors la demande de mainlevée des garanties financières devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée en instruction |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres             |
@@ -25,7 +25,7 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-achevé |
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières
-        Alors une demande de mainlevée de garanties financières devrait être consultable
+        Alors la demande de mainlevée des garanties financières devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée en instruction |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres             |

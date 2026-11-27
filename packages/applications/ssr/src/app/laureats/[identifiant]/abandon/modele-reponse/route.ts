@@ -87,13 +87,10 @@ export const GET = async (
           referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
           status: abandon.statut.statut,
           enCopies: getEnCopies(lauréat.localité.région),
-          afficherParagrapheMainleveeGarantiesFinancieres: avecMainlevée ? 'yes' : '',
-          dateConstitutionGarantiesFinancieres: garantiesFinancières.actuelles?.garantiesFinancières
-            .constitution?.date
-            ? formatDateForDocument(
-                garantiesFinancières.actuelles?.garantiesFinancières.constitution?.date.date,
-              )
-            : '',
+          avecAccordMainlevee: avecMainlevée ? 'yes' : '',
+          dateConstitutionGarantiesFinancieres: formatDateForDocument(
+            garantiesFinancières.actuelles?.garantiesFinancières.constitution?.date.date,
+          ),
         },
       });
 
