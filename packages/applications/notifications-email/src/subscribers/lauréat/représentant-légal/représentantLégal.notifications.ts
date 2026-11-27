@@ -15,7 +15,10 @@ import {
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent;
 
-export type Execute = Message<'System.Notification.Lauréat.ReprésentantLégal', SubscriptionEvent>;
+export type Execute = Message<
+  'System.NotificationEmail.Lauréat.ReprésentantLégal',
+  SubscriptionEvent
+>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
@@ -51,5 +54,5 @@ export const register = () => {
       )
       .exhaustive();
 
-  mediator.register('System.Notification.Lauréat.ReprésentantLégal', handler);
+  mediator.register('System.NotificationEmail.Lauréat.ReprésentantLégal', handler);
 };

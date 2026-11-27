@@ -18,6 +18,9 @@
       "path": "../domain/core"
     },
     {
+      "path": "../domain/notifications-application"
+    },
+    {
       "path": "../domain/période"
     },
     {

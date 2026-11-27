@@ -30,6 +30,9 @@
       "path": "../../domain/utilisateur"
     },
     {
+      "path": "../../domain/notifications-application"
+    },
+    {
       "path": "../../infrastructure/domain-adapters"
     },
     {

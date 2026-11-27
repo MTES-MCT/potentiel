@@ -1,11 +1,11 @@
 import { mediator } from 'mediateur';
 
-import type { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import type { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 
 import type { Recipient } from '#sendEmail';
 
 type ListerRecipientsProps = {
-  roles: Array<string>;
+  roles: Array<Role.RawType>;
   identifiantGestionnaireRéseau?: string;
   région?: string;
   zones?: Array<string>;

@@ -5,7 +5,10 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import type { EmailPayload } from '#sendEmail';
 import { render } from './templates/render.js';
 
-export type EnvoyerNotificationCommand = Message<'System.Notification.Envoyer', EmailPayload>;
+export type EnvoyerNotificationEmailCommand = Message<
+  'System.NotificationEmail.Envoyer',
+  EmailPayload
+>;
 
 export type SendEmailPort = (options: {
   recipients: string[];
@@ -13,16 +16,16 @@ export type SendEmailPort = (options: {
   content: string;
 }) => Promise<void>;
 
-export type RegisterEnvoyerNotificationCommandDependencies = {
+export type RegisterEnvoyerNotificationEmailCommandDependencies = {
   sendEmail: SendEmailPort;
 };
 
-export const registerEnvoyerNotificationCommand = ({
+export const registerEnvoyerNotificationEmailCommand = ({
   sendEmail,
-}: RegisterEnvoyerNotificationCommandDependencies) => {
-  const handler: MessageHandler<EnvoyerNotificationCommand> = async (props) => {
+}: RegisterEnvoyerNotificationEmailCommandDependencies) => {
+  const handler: MessageHandler<EnvoyerNotificationEmailCommand> = async (props) => {
     const { recipients } = props;
-    const logger = getLogger('System.Notification.Envoyer');
+    const logger = getLogger('System.NotificationEmail.Envoyer');
 
     if (recipients.length === 0) {
       logger.warn('No recipients provided, skipping email sending', props);
@@ -37,5 +40,5 @@ export const registerEnvoyerNotificationCommand = ({
       recipients,
     });
   };
-  mediator.register('System.Notification.Envoyer', handler);
+  mediator.register('System.NotificationEmail.Envoyer', handler);
 };

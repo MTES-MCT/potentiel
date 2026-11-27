@@ -3,6 +3,7 @@ import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
 import { mergeSubscriptionSetup } from './createSubscriptionSetup.js';
 import { setupHistorique } from './setupHistorique.js';
+import { setupNotificationApplication } from './setupNotificationApplication.js';
 import { setupProjet } from './setupProjet/index.js';
 import { setupPériode } from './setupPériode.js';
 import { setupRéseau } from './setupRéseau.js';
@@ -29,6 +30,14 @@ export const setupSubscribers = ({ dependencies }: SetupSubscribersProps) => {
   const utilisateur = setupUtilisateur();
   const période = setupPériode();
   const réseau = setupRéseau();
+  const notificationApplication = setupNotificationApplication();
 
-  return mergeSubscriptionSetup(historique, projet, utilisateur, période, réseau);
+  return mergeSubscriptionSetup(
+    historique,
+    projet,
+    utilisateur,
+    période,
+    réseau,
+    notificationApplication,
+  );
 };

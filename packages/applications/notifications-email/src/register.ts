@@ -1,10 +1,13 @@
 import {
-  type RegisterEnvoyerNotificationCommandDependencies,
-  registerEnvoyerNotificationCommand,
-} from './envoyerNotification.command.js';
+  type RegisterEnvoyerNotificationEmailCommandDependencies,
+  registerEnvoyerNotificationEmailCommand,
+} from './envoyerNotificationEmail.command.js';
 
-export type RegisterNotificationDependencies = RegisterEnvoyerNotificationCommandDependencies;
+export type RegisterNotificationsEmailDependencies =
+  RegisterEnvoyerNotificationEmailCommandDependencies;
 
-export const registerNotificationsCommands = (deps: RegisterNotificationDependencies) => {
-  registerEnvoyerNotificationCommand(deps);
+export const registerNotificationsEmailCommands = (
+  deps: RegisterNotificationsEmailDependencies,
+) => {
+  registerEnvoyerNotificationEmailCommand(deps);
 };

@@ -122,7 +122,7 @@ Alors(
     await waitForExpect(async () => {
       for (const candidat of candidats) {
         const identifiantProjet = IdentifiantProjet.bind(candidat);
-        this.notificationWorld.vérifierNotification(
+        this.notificationEmailWorld.vérifierNotificationEmail(
           candidat.emailContact,
           `Potentiel - Résultats pour le projet ${candidat.nomProjet} (${candidat.périodeTitle} période de l'appel d'offres ${candidat.appelOffre})`,
           {
@@ -151,7 +151,7 @@ Alors(
       expect(partenaires.items).to.have.length.greaterThan(0);
 
       for (const { email } of partenaires.items) {
-        this.notificationWorld.vérifierNotification(
+        this.notificationEmailWorld.vérifierNotificationEmail(
           email,
           `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
         );
@@ -177,7 +177,7 @@ Alors(
       expect(administration.items).to.have.length.greaterThan(0);
 
       for (const { email } of administration.items) {
-        this.notificationWorld.vérifierNotification(
+        this.notificationEmailWorld.vérifierNotificationEmail(
           email,
           `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
         );

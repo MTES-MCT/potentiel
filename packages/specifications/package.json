@@ -21,6 +21,7 @@
     "@potentiel-applications/notifications-email": "*",
     "@potentiel-applications/subscribers": "*",
     "@potentiel-domain/core": "*",
+    "@potentiel-domain/notifications-application": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/domain-adapters": "*",

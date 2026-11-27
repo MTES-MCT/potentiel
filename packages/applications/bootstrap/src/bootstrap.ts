@@ -6,7 +6,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { setupAppelOffre } from './setupAppelOffre.js';
 import { setupDocumentProjet } from './setupDocumentProjet.js';
-import { setupNotifications } from './setupNotifications.js';
+import { setupNotificationsApplication } from './setupNotificationsApplication.js';
+import { setupNotificationsEmail } from './setupNotificationsEmail.js';
 import { setupNouveautés } from './setupNouveautés.js';
 import { setupProjet } from './setupProjet.js';
 import { setupPériode } from './setupPériode.js';
@@ -34,7 +35,7 @@ export const bootstrap = async ({
   setupStatistiqueUtilisation({
     ajouterStatistiqueUtilisation: StatistiquesAdapter.ajouterStatistique,
   });
-  setupNotifications({ sendEmail: dependencies.sendEmail });
+  setupNotificationsEmail({ sendEmail: dependencies.sendEmail });
   setupUtilisateur();
   setupAppelOffre();
   setupDocumentProjet();
@@ -42,6 +43,7 @@ export const bootstrap = async ({
   setupProjet();
   setupRéseau();
   setupNouveautés();
+  setupNotificationsApplication();
 
   getLogger().info('Application bootstrapped');
 };

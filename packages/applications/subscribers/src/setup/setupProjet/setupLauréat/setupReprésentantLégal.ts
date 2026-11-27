@@ -3,6 +3,7 @@ import {
   type HistoriqueProjector,
   ReprésentantLégalProjector,
 } from '@potentiel-applications/projectors';
+import type { NotificationApplication } from '@potentiel-domain/notifications-application';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
@@ -48,7 +49,16 @@ export const setupReprésentantLégal = () => {
       'ChangementReprésentantLégalRejeté-V1',
       'ChangementReprésentantLégalEnregistré-V1',
     ],
-    messageType: 'System.Notification.Lauréat.ReprésentantLégal',
+    messageType: 'System.NotificationEmail.Lauréat.ReprésentantLégal',
+  });
+
+  représentantLégal.addSubscription<
+    NotificationApplication.Saga.SubscriptionEvent,
+    NotificationApplication.Saga.Execute
+  >({
+    name: 'notification-application-saga',
+    eventType: ['ChangementReprésentantLégalEnregistré-V1'],
+    messageType: 'System.NotificationApplication.Saga.Execute',
   });
 
   représentantLégal.addSubscription<

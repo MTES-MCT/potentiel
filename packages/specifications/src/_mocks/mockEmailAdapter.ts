@@ -1,7 +1,7 @@
 import { type Middleware, mediator } from 'mediateur';
 
 import {
-  type EnvoyerNotificationCommand,
+  type EnvoyerNotificationEmailCommand,
   render,
 } from '@potentiel-applications/notifications-email';
 import { sendEmail } from '@potentiel-infrastructure/email';
@@ -14,11 +14,11 @@ export function createSendEmailTestAdapter(this: PotentielWorld) {
   // sendEmail ne recoit pas les variables du template, mais le html de l'email.
   // On écoute donc les appels à EnvoyerNotificationCommand pour vérifier les variables.
   const middleware: Middleware = async (message, next) => {
-    const emailMessage = message as EnvoyerNotificationCommand;
+    const emailMessage = message as EnvoyerNotificationEmailCommand;
     const { subject } = render(emailMessage.data);
     const { recipients, values } = emailMessage.data;
 
-    this.notificationWorld.ajouterNotification({
+    this.notificationEmailWorld.ajouterNotificationEmail({
       subject: subject ?? 'pas de sujet',
       recipients: recipients.map((recipient) =>
         typeof recipient === 'string' ? { email: recipient } : recipient,
@@ -28,7 +28,7 @@ export function createSendEmailTestAdapter(this: PotentielWorld) {
     await next();
   };
 
-  const messageType: EnvoyerNotificationCommand['type'] = 'System.Notification.Envoyer';
+  const messageType: EnvoyerNotificationEmailCommand['type'] = 'System.NotificationEmail.Envoyer';
   mediator.use({ messageType, middlewares: [middleware] });
 
   return emailsEnabled
