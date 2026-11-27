@@ -5,6 +5,8 @@ import { Readable } from 'node:stream';
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
 
+import { getLogger } from '@potentiel-libraries/monitoring';
+
 import { assets } from '../assets.js';
 import {
   type ModèleRéponseAbandon,
@@ -39,7 +41,7 @@ import {
   modèleRéponseRecoursFileName,
 } from './recours/modèleRéponseSignéeRecours.js';
 
-export type GénérerModèleRéponseOptions = { logo?: string } & (
+export type ModèleRéponseParType =
   | ModèleRéponseAbandon
   | ModèleRéponseRecours
   | ModèleMiseEnDemeure
@@ -47,8 +49,9 @@ export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseActionnaire
   | ModèleRéponsePuissance
   | ModèleRéponseDélaiAchèvement
-  | ModèleRéponseDélaiEssais
-);
+  | ModèleRéponseDélaiEssais;
+
+export type GénérerModèleRéponseOptions = ModèleRéponseParType & { logo: string };
 
 export type GénérerModèleRéponsePort = (
   options: GénérerModèleRéponseOptions,
@@ -70,12 +73,15 @@ export const générerModèleRéponseAdapter: GénérerModèleRéponsePort = asy
 
   doc.render(data);
 
-  if (logo) {
-    const logoFilePath = path.resolve(assets.imagesFolderPath, `${logo}.png`);
-    try {
-      const imageContents = fs.readFileSync(logoFilePath, 'binary');
-      zip.file('word/media/image1.png', imageContents, { binary: true });
-    } catch {}
+  const logoFilePath = path.resolve(assets.imagesFolderPath, `${logo}.png`);
+  try {
+    const imageContents = fs.readFileSync(logoFilePath, 'binary');
+    zip.file('word/media/image1.png', imageContents, { binary: true });
+  } catch (error) {
+    getLogger('DocumentBuilder.ModèleRéponseSignée').warn(
+      `Logo introuvable, le logo par défaut du template est conservé`,
+      { logo, logoFilePath, type, error },
+    );
   }
 
   const buf = doc.getZip().generate({

@@ -45,11 +45,11 @@ const mapToModèleRéponsePayload = ({
   famille,
   utilisateur,
   unitéPuissance,
-}: MapToModèlePayloadProps): ModèleRéponseSignée.ModèleRéponse & { logo?: string } => {
+}: MapToModèlePayloadProps): ModèleRéponseSignée.ModèleRéponse & { logo: string } => {
   const régionDreal = utilisateur.estDreal() ? utilisateur.région.formatter() : undefined;
 
   return {
-    logo: régionDreal,
+    logo: régionDreal ?? 'logo_gouvernement',
     data: {
       adresseCandidat: [
         localité.adresse1,

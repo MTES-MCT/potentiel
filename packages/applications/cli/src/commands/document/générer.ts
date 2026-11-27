@@ -27,7 +27,7 @@ export default class GénérerDocument extends Command {
 
   static override flags = {
     type: Flags.option({ options: [...types] })({ required: true }),
-    logo: Flags.string(),
+    logo: Flags.string({ default: 'logo_gouvernement' }),
   };
 
   protected async init() {
@@ -60,7 +60,7 @@ export default class GénérerDocument extends Command {
 function getData(
   type: TypeDocument,
   faker: Faker,
-): ModèleRéponseSignée.GénérerModèleRéponseOptions {
+): ModèleRéponseSignée.ModèleRéponseParType {
   const appelOffre = faker.helpers.arrayElement(appelsOffreData);
   const common = {
     suiviPar: faker.person.fullName(), // user qui édite le document
