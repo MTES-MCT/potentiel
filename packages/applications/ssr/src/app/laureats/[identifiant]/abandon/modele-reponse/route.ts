@@ -88,12 +88,9 @@ export const GET = async (
           status: abandon.statut.statut,
           enCopies: getEnCopies(lauréat.localité.région),
           avecAccordMainlevee: avecMainlevée ? 'yes' : '',
-          dateConstitutionGarantiesFinancieres: garantiesFinancières.actuelles?.garantiesFinancières
-            .constitution?.date
-            ? formatDateForDocument(
-                garantiesFinancières.actuelles?.garantiesFinancières.constitution?.date.date,
-              )
-            : '',
+          dateConstitutionGarantiesFinancieres: formatDateForDocument(
+            garantiesFinancières.actuelles?.garantiesFinancières.constitution?.date.date,
+          ),
         },
       });
 
