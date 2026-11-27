@@ -7,6 +7,10 @@ Fonctionnalité: Ajouter une notification application suite à une information e
       | appel d'offres | PPE2 - Petit PV Bâtiment |
     Et la dreal "Dreal du sud" associée à la région du projet
 
-  Scénario: Ajouter une notification application suite à un changement de fournisseur enregistré
+  @select
+  Scénario: Ajouter une notification application suite à un changement de représentant légal enregistré
     Quand le porteur enregistre un changement de représentant légal le '2026-11-26'
-    Alors une notification devrait être consultable dans l'application
+    Alors une notification application a été ajoutée pour la dreal avec :
+      | domaine         | représentant-légal |
+      | date changement | 2026-11-26         |
+

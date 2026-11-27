@@ -12,6 +12,9 @@
       "path": "../../domain/inmemory-referential"
     },
     {
+      "path": "../../domain/notifications-application"
+    },
+    {
       "path": "../../domain/projet"
     },
     {

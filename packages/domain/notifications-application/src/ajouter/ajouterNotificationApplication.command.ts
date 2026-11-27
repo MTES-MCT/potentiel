@@ -8,7 +8,7 @@ import { NotificationApplicationAggregate } from '../notificationApplication.agg
 import type { NotificationApplicationAjoutéeEvent } from '../notificationApplication.event.js';
 
 export type AjouterNotificationApplicationCommand = Message<
-  'NotificationApplication.Command.AjouterNotificationApplication',
+  'NotificationApplication.Command.Ajouter',
   {
     identifiantUtilisateur: Email.ValueType;
     domaine: NotificationApplicationAjoutéeEvent['payload']['domaine'];
@@ -37,5 +37,5 @@ export const registerAjouterNotificationApplicationCommand = (loadAggregate: Loa
     });
   };
 
-  mediator.register('NotificationApplication.Command.AjouterNotificationApplication', handler);
+  mediator.register('NotificationApplication.Command.Ajouter', handler);
 };

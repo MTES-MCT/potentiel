@@ -11,7 +11,7 @@ type EmailItem = {
   values: Record<string, TemplateValue>;
 };
 
-export class NotificationWorld {
+export class NotificationEmailWorld {
   #notifications: {
     subject: string;
     values: Record<string, TemplateValue>;
@@ -19,7 +19,7 @@ export class NotificationWorld {
     checked?: true;
   }[] = [];
 
-  ajouterNotification(notif: EmailItem) {
+  ajouterNotificationEmail(notif: EmailItem) {
     for (const recipient of notif.recipients) {
       this.#notifications.push({
         ...notif,
@@ -28,7 +28,11 @@ export class NotificationWorld {
     }
   }
 
-  vérifierNotification(emailValue: string, sujet?: string, variables?: Record<string, string>) {
+  vérifierNotificationEmail(
+    emailValue: string,
+    sujet?: string,
+    variables?: Record<string, string>,
+  ) {
     const logger = getLogger('NotificationWorld');
     const email = Email.convertirEnValueType(emailValue);
 
@@ -106,17 +110,17 @@ export class NotificationWorld {
     notif.checked = true;
   }
 
-  resetNotifications() {
+  resetNotificationsEmail() {
     this.#notifications = [];
   }
 
-  vérifierAucunEmailEnvoyé(emailValue: string) {
+  vérifierAucuneNotificationEmailEnvoyée(emailValue: string) {
     const email = Email.convertirEnValueType(emailValue);
     const notif = this.#notifications.find((notif) => notif.email.estÉgaleÀ(email));
     expect(notif, `Des emails ont été envoyés`).to.be.undefined;
   }
 
-  vérifierToutesNotificationsPointées() {
+  vérifierToutesNotificationsEmailPointées() {
     expect(
       this.#notifications
         .filter((notif) => !notif.checked)

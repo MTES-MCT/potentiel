@@ -18,7 +18,7 @@ export function createSendEmailTestAdapter(this: PotentielWorld) {
     const { subject } = render(emailMessage.data);
     const { recipients, values } = emailMessage.data;
 
-    this.notificationWorld.ajouterNotification({
+    this.notificationEmailWorld.ajouterNotificationEmail({
       subject: subject ?? 'pas de sujet',
       recipients: recipients.map((recipient) =>
         typeof recipient === 'string' ? { email: recipient } : recipient,

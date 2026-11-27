@@ -16,6 +16,7 @@
     "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/projectors": "*",
     "@potentiel-applications/notifications-email": "*",
+    "@potentiel-domain/notifications-application": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/ore-client": "*",

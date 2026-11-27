@@ -2,7 +2,8 @@ import { type IWorldOptions, World } from '@cucumber/cucumber';
 
 import { CandidatureWorld } from './candidature/candidature.world.js';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world.js';
-import { NotificationWorld } from './notification/notification.world.js';
+import { NotificationApplicationWorld } from './notifications-application/notificationApplication.world.js';
+import { NotificationEmailWorld } from './notifications-email/notificationEmail.world.js';
 import { AccèsWorld } from './projet/accès/accès.world.js';
 import { LauréatWorld } from './projet/lauréat/lauréat.world.js';
 import { ÉliminéWorld } from './projet/éliminé/éliminé.world.js';
@@ -66,10 +67,16 @@ export class PotentielWorld extends World {
     return this.#accèsWorld;
   }
 
-  #notificationWorld!: NotificationWorld;
+  #notificationEmailWorld!: NotificationEmailWorld;
 
-  get notificationWorld() {
-    return this.#notificationWorld;
+  get notificationEmailWorld() {
+    return this.#notificationEmailWorld;
+  }
+
+  #notificationApplicationWorld!: NotificationApplicationWorld;
+
+  get notificationApplicationWorld() {
+    return this.#notificationApplicationWorld;
   }
 
   #error!: Error;
@@ -101,6 +108,7 @@ export class PotentielWorld extends World {
     this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();
     this.#accèsWorld = new AccèsWorld();
     this.#utilisateurWorld = new UtilisateurWorld(this);
-    this.#notificationWorld = new NotificationWorld();
+    this.#notificationEmailWorld = new NotificationEmailWorld();
+    this.#notificationApplicationWorld = new NotificationApplicationWorld(this);
   }
 }

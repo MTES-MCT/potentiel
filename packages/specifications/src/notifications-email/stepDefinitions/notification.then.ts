@@ -15,13 +15,13 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
   await waitForExpect(async () => {
     const exemple = data.rowsHash();
     const { sujet, ...variables } = exemple;
-    this.notificationWorld.vérifierNotification(email, sujet, variables);
+    this.notificationEmailWorld.vérifierNotificationEmail(email, sujet, variables);
   });
 }
 
 export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: string) {
   await sleep(500);
-  this.notificationWorld.vérifierAucunEmailEnvoyé(email);
+  this.notificationEmailWorld.vérifierAucuneNotificationEmailEnvoyée(email);
 }
 
 Alors(
@@ -143,7 +143,7 @@ Alors(
 
 Alors(/^aucun .*email n'a été envoyé$/, async function (this: PotentielWorld) {
   await sleep(200);
-  this.notificationWorld.vérifierToutesNotificationsPointées();
+  this.notificationEmailWorld.vérifierToutesNotificationsEmailPointées();
 });
 
 Alors(

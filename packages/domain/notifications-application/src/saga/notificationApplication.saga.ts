@@ -37,12 +37,12 @@ const notificationApplicationAjoutéeHandler = async ({
   });
 
   if (!dreals.items.length) {
-    throw new Error(`Aucun utilisateur DREAL rattaché à la région ${projet.localité.région}`);
+    return;
   }
 
   for (const dreal of dreals.items) {
     await mediator.send<AjouterNotificationApplicationCommand>({
-      type: 'NotificationApplication.Command.AjouterNotificationApplication',
+      type: 'NotificationApplication.Command.Ajouter',
       data: {
         domaine: 'représentant-légal',
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),

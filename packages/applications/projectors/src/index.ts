@@ -16,6 +16,7 @@ export * as ProducteurProjector from './subscribers/lauréat/producteur/index.js
 export * as PuissanceProjector from './subscribers/lauréat/puissance/index.js';
 export * as RaccordementProjector from './subscribers/lauréat/raccordement/index.js';
 export * as ReprésentantLégalProjector from './subscribers/lauréat/représentant-légal/index.js';
+export * as NotificationApplicationProjector from './subscribers/notification-application/index.js';
 export * as PériodeProjector from './subscribers/période/index.js';
 export { seedPériodes } from './subscribers/période/seed.js';
 export * as GestionnaireRéseauProjector from './subscribers/réseau/gestionnaire-réseau/index.js';

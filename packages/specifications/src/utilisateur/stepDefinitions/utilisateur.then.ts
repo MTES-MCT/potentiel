@@ -10,7 +10,7 @@ import type {
 import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
-import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notification.then.js';
+import { vérifierEmailEnvoyé } from '../../notifications-email/stepDefinitions/notification.then.js';
 import type { PotentielWorld } from '../../potentiel.world.js';
 
 Alors(

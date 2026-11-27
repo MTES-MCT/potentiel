@@ -105,7 +105,7 @@ AfterStep(async function (this: PotentielWorld, { result, pickle, pickleStep }) 
 
   const lastContextStep = pickle.steps.filter((step) => step.type === 'Context').pop();
   if (pickleStep.id === lastContextStep?.id) {
-    this.notificationWorld.resetNotifications();
+    this.notificationEmailWorld.resetNotificationsEmail();
   }
 });
 

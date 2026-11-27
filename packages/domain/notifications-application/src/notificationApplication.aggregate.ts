@@ -30,7 +30,11 @@ export class NotificationApplicationAggregate extends AbstractAggregate<
     return Email.convertirEnValueType(this.aggregateId.split('|')[1]);
   }
 
-  async ajouter({ domaine, identifiantProjet, dateChangement }: AjouterNotificationApplicationOptions) {
+  async ajouter({
+    domaine,
+    identifiantProjet,
+    dateChangement,
+  }: AjouterNotificationApplicationOptions) {
     const payload: NotificationApplicationAjoutéeEvent['payload'] = {
       domaine,
       identifiantProjet: identifiantProjet.formatter(),

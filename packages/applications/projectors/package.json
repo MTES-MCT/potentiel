@@ -12,6 +12,7 @@
   "dependencies": {
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/inmemory-referential": "*",
+    "@potentiel-domain/notifications-application": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
