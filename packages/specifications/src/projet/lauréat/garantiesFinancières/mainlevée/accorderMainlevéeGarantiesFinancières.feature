@@ -15,7 +15,7 @@ Fonctionnalité: Accorder l'abandon et la mainlevée des garanties financières 
     Scénario: Un utilisateur Dreal accorde la mainlevée avec l'abandon du projet
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL accorde la mainlevée des garanties financières avec l'abandon
-        Alors la mainlevée des garanties financières devrait être accordée
+        Alors la mainlevée des garanties financières devrait être consultable
         Et les garanties financières actuelles du projet sont levées
         Et un email a été envoyé au porteur avec :
             | sujet                           | Potentiel - Du boulodrome de Marseille - Demande d'abandon accordée |

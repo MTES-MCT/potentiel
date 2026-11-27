@@ -14,7 +14,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-abandonné |
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
-        Alors une demande de mainlevée de garanties financières devrait être consultable
+        Alors la demande de mainlevée des garanties financières devrait être consultable
         Et les garanties financières actuelles du projet sont levées
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée accordée |
@@ -26,7 +26,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-achevé |
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
-        Alors une demande de mainlevée de garanties financières devrait être consultable
+        Alors la demande de mainlevée des garanties financières devrait être consultable
         Et les garanties financières actuelles du projet sont levées
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée accordée |
@@ -36,7 +36,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Et une demande de mainlevée pour des garanties financières échues
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
-        Alors une demande de mainlevée de garanties financières devrait être consultable
+        Alors la demande de mainlevée des garanties financières devrait être consultable
         Et les garanties financières ne devraient plus être attendues pour le projet lauréat
         Et les garanties financières actuelles du projet sont levées
 

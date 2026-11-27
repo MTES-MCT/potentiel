@@ -10,21 +10,14 @@ import { expectFileContent, waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../../../../potentiel.world.js';
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable`,
+  /la .*mainlevée des garanties financières devrait être consultable$/,
   async function (this: PotentielWorld) {
     await vérifierMainlevéeEnCours.bind(this);
   },
 );
 
 Alors(
-  `la mainlevée des garanties financières devrait être accordée`,
-  async function (this: PotentielWorld) {
-    await vérifierMainlevéeEnCours.bind(this);
-  },
-);
-
-Alors(
-  `une demande de mainlevée de garanties financières ne devrait plus être consultable`,
+  `la demande de mainlevée des garanties financières ne devrait plus être consultable`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -43,7 +36,7 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées`,
+  `la demande de mainlevée des garanties financières devrait être consultable dans l'historique des mainlevées rejetées`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
