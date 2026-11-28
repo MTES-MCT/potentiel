@@ -8,6 +8,7 @@ import { AbstractFixture } from '../../../../fixture.js';
 export type CréerDemandeDélaiFixture = Partial<Readonly<DemanderDélai>> & {
   identifiantProjet: string;
   motif: string;
+  demandéLe?: string;
   nombreDeMois?: number;
 };
 
@@ -19,6 +20,7 @@ type Demande = {
   readonly pièceJustificative: PièceJustificative;
   readonly motif: string;
 };
+
 interface DemanderDélai {
   readonly demandes: Map<Lauréat.Délai.MotifDemandeDélai.RawType, Demande>;
 }
@@ -34,6 +36,26 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
     motif: Lauréat.Délai.MotifDemandeDélai.RawType,
   ): PièceJustificative | undefined {
     return this.#demandes.get(motif)?.pièceJustificative;
+  }
+
+  getDemandeOrThrow(motif: Lauréat.Délai.MotifDemandeDélai.RawType): Demande {
+    const demande = this.#demandes.get(motif);
+
+    if (!demande) {
+      throw new Error("La demande n'a pas été créée dans DemanderFixture");
+    }
+
+    return demande;
+  }
+
+  getDemande(motif: Lauréat.Délai.MotifDemandeDélai.RawType): Demande | undefined {
+    const demande = this.#demandes.get(motif);
+
+    if (!demande) {
+      return undefined;
+    }
+
+    return demande;
   }
 
   getDemandéLe(motif: Lauréat.Délai.MotifDemandeDélai.RawType): string | undefined {

@@ -1,4 +1,4 @@
-import { type DataTable, When as Quand } from '@cucumber/cucumber';
+import { When as Quand } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
@@ -10,106 +10,102 @@ import { convertFixtureFileToReadableStream } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 import type { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture.js';
 
-Quand('le porteur demande un délai pour le projet lauréat', async function (this: PotentielWorld) {
-  await demanderDélai.call(this, {
-    identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-    motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
-  });
-});
-
 Quand(
-  'le porteur demande un délai avec un motif identique à celui de la demande déjà en cours',
-  async function (this: PotentielWorld) {
-    const motifDemandeEnCours = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
-      .keys()
-      .next().value;
-    if (!motifDemandeEnCours) {
-      throw new Error(`Pas de première demande en cours !`);
-    }
+  'le porteur demande une {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: motifDemandeEnCours,
+      motif: this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
     });
   },
 );
 
 Quand(
-  'le porteur demande un délai pour le projet lauréat avec :',
-  async function (this: PotentielWorld, table: DataTable) {
-    const exemple = table.rowsHash();
-
-    await demanderDélai.call(this, {
-      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-      motif: Lauréat.Délai.MotifDemandeDélai.prolongationDélaiAchèvement.formatter(),
-      ...this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple),
-    });
+  'le porteur annule la demande de {string} du projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
+    await annulerDemandeDélai.call(
+      this,
+      this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
+    );
   },
 );
 
 Quand(
-  'le porteur annule la demande de délai pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    await annulerDemandeDélai.call(this);
+  'la DREAL rejette la demande de {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
+    await rejeterDemandeDélai.call(
+      this,
+      this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
+    );
   },
 );
 
-Quand('la DREAL rejette le délai pour le projet lauréat', async function (this: PotentielWorld) {
-  await rejeterDemandeDélai.call(this);
-});
-
 Quand(
-  'la {dreal-dgec} accorde la demande de délai pour le projet lauréat',
-  async function (this: PotentielWorld, rôle: 'dreal' | 'dgec') {
-    // on prend la première demande disponible
-    const motifDemande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next()
-      .value?.motif;
+  'la {dreal-dgec} accorde la demande de {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    rôle: 'dreal' | 'dgec',
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await accorderDemandeDélai.call(this, {
       rôle,
-      motifDemande: motifDemande,
+      motif: this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
     });
   },
 );
 
 Quand(
-  'la {dreal-dgec} accorde la demande de délai pour le projet lauréat avec :',
-  async function (this: PotentielWorld, rôle: 'dreal' | 'dgec', table: DataTable) {
-    const exemple = table.rowsHash();
-    const { motif } = this.lauréatWorld.délaiWorld.mapExempleToFixtureValues(exemple);
-    const motifDemande =
-      motif ??
-      this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value?.motif;
-
-    await accorderDemandeDélai.call(this, {
-      rôle,
-      motifDemande: motifDemande,
-    });
-  },
-);
-
-Quand(
-  /(.*) passe en instruction la demande de délai pour le projet lauréat/,
-  async function (this: PotentielWorld, utilisateur: string) {
+  /(.*) passe en instruction la demande de {string} pour le projet lauréat/,
+  async function (
+    this: PotentielWorld,
+    utilisateur: string,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
     await passerDemanderDélaiEnInstruction.call(
       this,
+      this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
       utilisateur.includes('un nouvel utilisateur dreal') ? true : undefined,
     );
   },
 );
 
 Quand(
-  'le porteur corrige la demande de délai pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    await corrigerDemandeDélai.call(this);
+  'le porteur corrige la demande de {string} pour le projet lauréat',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
+    await corrigerDemandeDélai.call(
+      this,
+      this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
+    );
   },
 );
 
 Quand(
-  'le porteur corrige la demande de délai pour le projet lauréat avec les mêmes valeurs',
-  async function (this: PotentielWorld) {
-    await corrigerDemandeDélai.call(this, true);
+  'le porteur corrige la demande de {string} pour le projet lauréat avec les mêmes valeurs',
+  async function (
+    this: PotentielWorld,
+    motif: "prolongation de délai d'achèvement" | "prolongation de phase d'essai",
+  ) {
+    await corrigerDemandeDélai.call(
+      this,
+      this.lauréatWorld.délaiWorld.getMotifFromLabel(motif).formatter(),
+      true,
+    );
   },
 );
 
+// viovio probablement factoriser le motif ?
 export async function demanderDélai(
   this: PotentielWorld,
   partialFixture: CréerDemandeDélaiFixture,
@@ -124,8 +120,9 @@ export async function demanderDélai(
   const demande = demandes.demandes.get(
     Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motif).formatter(),
   );
+
   if (!demande) {
-    throw new Error('Erreur lors de la création de la fixture "demander délai" !');
+    throw new Error('Erreur lors de la création de la fixture "demander délai"');
   }
 
   try {
@@ -136,8 +133,8 @@ export async function demanderDélai(
         nombreDeMoisValue: demande.nombreDeMois,
         raisonValue: demande.raison,
         pièceJustificativeValue: convertFixtureFileToReadableStream(demande.pièceJustificative),
-        dateDemandeValue: demande.demandéLe,
         identifiantUtilisateurValue: demande.demandéPar,
+        dateDemandeValue: demande.demandéLe,
         motifValue: demande.motif,
       },
     });
@@ -146,11 +143,13 @@ export async function demanderDélai(
   }
 }
 
-export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesValeurs?: true) {
+export async function corrigerDemandeDélai(
+  this: PotentielWorld,
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType,
+  avecLesMêmesValeurs?: true,
+) {
   try {
-    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes
-      .values()
-      .next().value;
+    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemande(motif);
 
     if (avecLesMêmesValeurs && !demande) {
       throw new Error('Demande actuelle non trouvée');
@@ -171,8 +170,7 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
           : {
               corrigéePar: this.utilisateurWorld.porteurFixture.email,
               // dans le processus de correction, le use case attend que le format du nouveau document soit le même que l'original
-              // ce edge case est peut-être à revoir...
-              pièceJustificative: faker.potentiel.document(demande?.pièceJustificative?.format),
+              pièceJustificative: faker.potentiel.document(demande!.pièceJustificative?.format),
             },
       );
 
@@ -195,7 +193,10 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
   }
 }
 
-export async function annulerDemandeDélai(this: PotentielWorld) {
+export async function annulerDemandeDélai(
+  this: PotentielWorld,
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType,
+) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
@@ -210,8 +211,7 @@ export async function annulerDemandeDélai(this: PotentielWorld) {
         identifiantUtilisateurValue: annuléePar,
         identifiantProjetValue: identifiantProjet,
         dateDemandeValue:
-          this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value
-            ?.demandéLe ?? DateTime.now().formatter(),
+          this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandeOrThrow(motif).demandéLe,
       },
     });
   } catch (error) {
@@ -219,7 +219,11 @@ export async function annulerDemandeDélai(this: PotentielWorld) {
   }
 }
 
-export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, nouvelleDreal?: true) {
+export async function passerDemanderDélaiEnInstruction(
+  this: PotentielWorld,
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType,
+  nouvelleDreal?: true,
+) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
     const régionDreal = this.utilisateurWorld.drealFixture.région;
@@ -243,8 +247,7 @@ export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, no
         datePassageEnInstructionValue: passéeEnInstructionLe,
         rôleUtilisateurValue: Role.dreal.nom,
         dateDemandeValue:
-          this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value
-            ?.demandéLe ?? DateTime.now().formatter(),
+          this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandeOrThrow(motif).demandéLe,
       },
     });
   } catch (error) {
@@ -252,7 +255,10 @@ export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, no
   }
 }
 
-export async function rejeterDemandeDélai(this: PotentielWorld) {
+export async function rejeterDemandeDélai(
+  this: PotentielWorld,
+  motif: Lauréat.Délai.MotifDemandeDélai.RawType,
+) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
@@ -270,8 +276,7 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
         identifiantProjetValue: identifiantProjet,
         rôleUtilisateurValue: Role.dreal.nom,
         dateDemandeValue:
-          this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.values().next().value
-            ?.demandéLe ?? DateTime.now().formatter(),
+          this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandeOrThrow(motif).demandéLe,
       },
     });
   } catch (error) {
@@ -281,24 +286,19 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
 
 export async function accorderDemandeDélai(
   this: PotentielWorld,
-  { motifDemande, rôle }: { rôle: Role.RawType; motifDemande?: string },
+  { motif, rôle }: { motif: Lauréat.Délai.MotifDemandeDélai.RawType; rôle: Role.RawType },
 ) {
   try {
-    const demande = motifDemande
-      ? this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandes.get(
-          Lauréat.Délai.MotifDemandeDélai.convertirEnValueType(motifDemande).formatter(),
-        )
-      : undefined;
-
+    const demande = this.lauréatWorld.délaiWorld.demanderDélaiFixture.getDemandéLe(motif);
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const { accordéeLe, accordéePar, réponseSignée, nombreDeMois } =
       this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.créer({
-        nombreDeMois: demande?.nombreDeMois ?? faker.number.int({ min: 0, max: 24 }),
+        nombreDeMois: demande.nombreDeMois,
         dateAchèvementPrévisionnelActuelle:
           this.lauréatWorld.achèvementWorld.dateAchèvementPrévisionnelCalculée,
         accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
-        motifDemande,
+        motifDemande: motif,
       });
 
     await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
