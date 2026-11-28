@@ -14,3 +14,6 @@ export const modifierAttestationConformité = (identifiantProjet: string) =>
 
 export const modifierAchèvement = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/achevement/modifier`;
+
+export const initierAchèvement = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/achevement/initier`;
